@@ -62,27 +62,36 @@
             {
               "id": "beat-frequency",
               "label": "拍頻率"
+            },
+            {
+              "id": "average-frequency",
+              "label": "平均載波頻率"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 從相近頻率關係開始"
+              "label": "1. 從相近頻率關係開始",
+              "template": "使用 $f_{beat} = |f_2 - f_1|$ 作為包絡速率，使用 $f_{avg} = \\dfrac{f_1 + f_2}{2}$ 作為其下方更快的載波。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入設定中的來源對"
+              "label": "2. 代入設定中的來源對",
+              "template": "$f_{beat} = |{{frequencyBValue}} - {{frequencyAValue}}| = {{frequencyDifferenceValue}}\\,\\mathrm{Hz}$ 和 $f_{avg} = \\dfrac{ {{frequencyAValue}} + {{frequencyBValue}} }{2} = {{averageFrequencyValue}}\\,\\mathrm{Hz}$。"
             },
             {
               "id": "compute",
-              "label": "3. 解讀脈衝速率"
+              "label": "3. 解讀脈衝速率",
+              "template": "因此包絡在 ${{beatFrequencyValue}}\\,\\mathrm{Hz}$、{{beatPeriodClause}} 處重複，而較快的振盪仍集中在 ${{averageFrequencyValue}}\\,\\mathrm{Hz}$ 上。"
             }
           ],
           "resultLabel": "拍頻與載波結果",
+          "resultTemplate": "$f_{beat} = {{beatFrequencyValue}}\\,\\mathrm{Hz}, \\quad f_{avg} = {{averageFrequencyValue}}\\,\\mathrm{Hz}$",
           "applyAction": {
             "label": "顯示慢脈衝",
             "observationHint": "位移軌跡快速地週期性變動，而封包圖則揭示了一個較為緩慢的拍頻節奏。"
-          }
+          },
+          "interpretationTemplate": "{{beatInterpretation}}"
         },
         {
           "id": "current-envelope-strength",
@@ -92,27 +101,48 @@
             {
               "id": "amplitude",
               "label": "來源振幅"
+            },
+            {
+              "id": "time",
+              "label": "目前時間"
+            },
+            {
+              "id": "frequency-difference",
+              "label": "頻率差"
+            },
+            {
+              "id": "envelope-amplitude",
+              "label": "包絡幅度"
+            },
+            {
+              "id": "loudness-cue",
+              "label": "響度提示"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用有界包絡關係"
+              "label": "1. 使用有界包絡關係",
+              "template": "對於相等的源振幅，此實驗台使用 $A_{env} = 2A\\left|\\cos\\!\\left(\\pi \\Delta f\\, t\\right)\\right|$ 和標準化響度提示，其縮放比例類似於 $\\left(\\dfrac{A_{env}}{2A}\\right)^2$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入設定值"
+              "label": "2. 代入設定值",
+              "template": "$A_{env} = 2({{amplitudeValue}})\\left|\\cos\\!\\left(\\pi({{frequencyDifferenceValue}})({{timeValue}})\\right)\\right| = {{envelopeAmplitudeValue}}\\,\\mathrm{m}$。"
             },
             {
               "id": "compute",
-              "label": "3. 解讀音量提示"
+              "label": "3. 解讀音量提示",
+              "template": "此包絡是此處最大可能值的 {{envelopeRatioValue}}，因此有界響度提示是 ${{loudnessCueValue}}$，即使兩個來源幅度都沒有自行改變。"
             }
           ],
           "resultLabel": "包絡狀態結果",
+          "resultTemplate": "$A_{env} = {{envelopeAmplitudeValue}}\\,\\mathrm{m}, \\quad I_{cue} = {{loudnessCueValue}}$",
           "applyAction": {
             "label": "開啟封包圖",
             "observationHint": "使用相同設定的檢視時間，觀察結果在大音量脈衝和靜默間交替出現，而不改變來源振幅。"
-          }
+          },
+          "interpretationTemplate": "{{loudnessInterpretation}}"
         }
       ]
     },
@@ -267,6 +297,82 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "疊加兩個附近的聲音頻率，觀察快速載波位於較慢的包絡內，並將節拍率與一張緊湊的實驗台上的頻率差聯繫起來。",
+    "whyItMatters": "節拍是音樂家調整樂器的方式，也是波幹擾變得可聽見的方式，因此讀取包絡使疊加感覺像是您可以聽到和測量的東西。",
+    "keyTakeaway": "拍頻取決於兩個來源頻率之間的差異，而不是它們的平均振幅或平均頻率本身。"
+  },
+  "v2": {
+    "intuition": "節拍並不是新的低頻源。它們是當兩個附近的頻率在增強和消除之間漂移時出現的緩慢的響亮-柔和包絡。",
+    "whyItMatters": "這可以讓您調音樂器，透過耳朵讀取乾擾模式，並將節拍率與您仍然聽到的更快音調分開。",
+    "equationSnapshot": {
+      "title": "信封與承運人快照",
+      "note": "保持兩個時間尺度分開：頻率差設定慢拍包絡，而平均頻率設定其中較快的載波。"
+    },
+    "startSetup": {
+      "note": "以接近一致的方式開始，以便在更改來源對之前很容易看到慢速包絡。"
+    },
+    "guidedSteps": [
+      {
+        "id": "hear-the-envelope",
+        "title": "聽到信封",
+        "goal": "將緩慢的響亮脈衝與其內部較快的振盪分開。",
+        "doThis": "從接近一致開始，包絡線精靈打開，然後將位移圖與包絡線圖進行比較。",
+        "notice": "快速合奏持續振盪，而包絡在其周圍膨脹和褪色。",
+        "explain": "節拍是透過疊加創建的包絡。來源穩定；組合波的大小會發生變化，因為它們的相位會漂移或不對齊。"
+      },
+      {
+        "id": "tune-the-difference",
+        "title": "調整差異",
+        "goal": "請參閱節拍率對頻率分割的反應，而不是對幅度的反應。",
+        "doThis": "將源 B 頻率移離源 A 更遠，同時保持源幅度固定。",
+        "notice": "更寬的分割使得包絡脈衝更快，即使源幅度沒有改變。",
+        "explain": "拍頻為 |f2 - f1|。振幅會改變包絡的高度，但兩個頻率之間的差異決定了包絡的重複速度。"
+      },
+      {
+        "id": "remove-the-beats",
+        "title": "刪除節拍",
+        "goal": "確認當頻率差變為零時會發生什麼事。",
+        "doThis": "應用無節拍，或調整兩個來源頻率直到它們完全匹配。",
+        "notice": "單獨的慢脈衝消失，但合成的脈衝不必消失。",
+        "explain": "相同的頻率使 |f2 - f1|等於零。在此設定中，由於振幅相等，兩個來源組合成一個穩定頻率的運動，而不是節拍包絡。"
+      },
+      {
+        "id": "separate-beat-from-carrier",
+        "title": "與載體分離的節拍",
+        "goal": "保持相同的節拍率，同時改變更快的載波頻率。",
+        "doThis": "將相同節拍、較高載波與相同節拍、較低載波進行比較，並保持差異標註可見。",
+        "notice": "大聲-柔和包絡可以以相同的速率脈動，而內部擺動則變得更快或更慢。",
+        "explain": "平均頻率控制載波；頻率差控制包絡。好的節拍解釋會分別命名兩個部分。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "節拍是圍繞著較快合成波的慢速包絡，而不是上下調節音量的單獨來源。",
+        "拍頻由頻率差 |f2 - f1| 設定。",
+        "載波頻率遵循兩個源頻率的平均值，因此相同的節拍率可以位於更高或更低的音調上。"
+      ],
+      "misconception": "如果兩個音調產生節拍，則每個音調必須改變自己的響度。",
+      "freePlayPrompt": "嘗試在不觸及源振幅的情況下使拍脈衝速度提高兩倍，然後解釋哪些內容髮生了變化，哪些內容保持不變。",
+      "nextConcepts": [
+        {
+          "slug": "wave-interference",
+          "title": "波幹擾",
+          "reasonLabel": "將相同的疊加想法擴展到空間干涉圖樣"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "駐波",
+          "reasonLabel": "利用乾擾建構固定節點和波腹"
+        },
+        {
+          "slug": "doppler-effect",
+          "title": "多普勒效應",
+          "reasonLabel": "將節拍變化與運動引起的音調變化進行比較"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "beats-sources",
@@ -310,22 +416,325 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "位移",
+      "primaryGraphIds": [
+        "位移",
+        "信封"
+      ],
+      "primaryControlIds": [
+        "頻率A",
+        "頻率B"
+      ],
+      "primaryPresetIds": [
+        "幾乎一致",
+        "無節拍",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "starterExploreTasks": [
+        "使用包絡圖計算一個響亮-輕柔週期，同時兩條源跡線保持穩定的幅度。",
+        "擴大頻率分割，然後將差異標註與拍頻讀數進行比較。",
+        "應用無節拍並解釋為什麼匹配頻率可以消除脈衝而不關閉任一來源。"
+      ]
+    },
     "controls": [
       {
         "id": "amplitude",
-        "label": "來源振幅"
+        "label": "來源振幅",
+        "description": "在不改變拍頻的情況下縮放來源運動和最大可能的包絡。"
       },
       {
         "id": "frequencyA",
-        "label": "來源A頻率"
+        "label": "來源A頻率",
+        "description": "設定第一個來源定時，以便您可以調整載波和節拍差。"
       },
       {
         "id": "frequencyB",
-        "label": "來源B頻率"
+        "label": "來源B頻率",
+        "description": "設定第二源時序。將其與來源 A 匹配可以消除節拍，同時擴大分割速度以加快包絡速度。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "near-unison",
+        "label": "幾乎一致",
+        "description": "兩個接近的頻率創造一個緩慢、明顯的包絡。"
+      },
+      {
+        "id": "slow-pulses",
+        "label": "慢脈衝",
+        "description": "較小的頻率分割使得大聲-柔和循環易於追蹤。"
+      },
+      {
+        "id": "no-beats",
+        "label": "沒有節拍",
+        "description": "相同的頻率消除了單獨的包絡脈衝。"
+      },
+      {
+        "id": "same-beat-higher-carrier",
+        "label": "相同的節拍，更高的載波",
+        "description": "源對保持 0.3 Hz 的分割，而平均頻率較高。"
+      },
+      {
+        "id": "same-beat-lower-carrier",
+        "label": "相同的節拍，較低的載波",
+        "description": "源對保持相同的 0.3 Hz 分割，但降低了平均頻率。"
+      },
+      {
+        "id": "wide-split",
+        "label": "寬裂",
+        "description": "較大的差異足以使包絡速度加快，以至於簡單的一拍聆聽影像開始感覺擁擠。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "envelopeGuide",
+        "label": "信封指南",
+        "shortDescription": "顯示包裹較快結果軌跡的慢速上限和下限。",
+        "whatToNotice": [
+          "快速振盪繼續在慢速包絡線內運行，而不是變成單獨的第三波。"
+        ],
+        "whyItMatters": "它使載體和節拍包絡在一個誠實的疊加中作為兩個角色可見。",
+        "relatedControls": [
+          "振幅",
+          "頻率A",
+          "頻率B"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "信封"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "頻率A",
+          "頻率B"
+        ]
+      },
+      {
+        "id": "loudnessCue",
+        "label": "聽眾提示",
+        "shortDescription": "顯示隨包絡上升和下降的有限響度提示，而不是單獨與任一源一起上升和下降。",
+        "whatToNotice": [
+          "即使兩個源幅度保持固定，強弱脈衝也會改變。"
+        ],
+        "whyItMatters": "它將聆聽想法與疊加聯繫起來，而不假裝該頁面是一個完整的音頻分析器。",
+        "relatedControls": [
+          "振幅",
+          "頻率A",
+          "頻率B"
+        ],
+        "relatedGraphTabs": [
+          "信封"
+        ],
+        "relatedEquationVariables": [
+          "振幅"
+        ]
+      },
+      {
+        "id": "differenceGuide",
+        "label": "頻差標註",
+        "shortDescription": "在重新調整兩個來源時保持 $|f_2-f_1|$ 和節拍速率可見。",
+        "whatToNotice": [
+          "即使平均載波保持相似，較大的頻率分割也會加速包絡。"
+        ],
+        "whyItMatters": "它使拍頻與實際源差異相關，而不是與平均音高提示相關。",
+        "relatedControls": [
+          "頻率A",
+          "頻率B"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "信封"
+        ],
+        "relatedEquationVariables": [
+          "頻率A",
+          "頻率B"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "源運動與合成運動",
+      "xLabel": "時間（秒）",
+      "yLabel": "位移（公尺）",
+      "description": "顯示兩條源跡線及其總和，以便您可以看到較慢拍包絡內的快速載波。"
+    },
+    {
+      "id": "envelope",
+      "label": "包絡與響度提示",
+      "xLabel": "時間（秒）",
+      "yLabel": "標準化提示",
+      "description": "顯示慢速包絡比和有界響度提示，因此節拍速率可以與較快的載波分開。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。目標是在同一個疊加台上分離快速載波、慢速包絡和響度提示。",
+    "items": [
+      {
+        "id": "beats-notice-fast-inside-slow",
+        "text": "請注意，快速振盪永遠不會消失。節拍是包裹在更快的載體上的包絡的緩慢增長和消失。",
+        "tryThis": "從近一致開始並在查看包絡圖之前觀察產生的軌跡。",
+        "whyItMatters": "它可以防止大聲-柔和脈衝被誤認為是單獨的低頻源。",
+        "relatedControls": [
+          "頻率A",
+          "頻率B"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "信封"
+        ],
+        "relatedOverlays": [
+          "信封指南"
+        ],
+        "relatedEquationVariables": [
+          "頻率A",
+          "頻率B"
+        ]
+      },
+      {
+        "id": "beats-notice-equal-frequencies",
+        "text": "請注意，配對兩個來源頻率會刪除單獨的拍頻包絡。所得產物仍能強烈振盪，但不再膨脹褪色。",
+        "tryThis": "從接近一致移動到無節拍，並觀察包絡圖變平為穩定值。",
+        "whyItMatters": "拍頻來自差值，因此使差值為零可以消除拍頻週期。",
+        "relatedControls": [
+          "頻率A",
+          "頻率B"
+        ],
+        "relatedGraphTabs": [
+          "信封",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "差異指南"
+        ],
+        "relatedEquationVariables": [
+          "頻率A",
+          "頻率B"
+        ]
+      },
+      {
+        "id": "beats-notice-difference-graph",
+        "text": "請注意，增加 $|f_2-f_1|$ 會直接加速包絡。載波可以保持在相似的範圍內，而節拍率變化很大。",
+        "tryThis": "開啟包絡圖，擴大分割，並比較響度提示上升和下降的速度。",
+        "whyItMatters": "它將脈衝速率與實際頻率差連結起來。",
+        "relatedControls": [
+          "頻率A",
+          "頻率B"
+        ],
+        "relatedGraphTabs": [
+          "信封"
+        ],
+        "relatedOverlays": [
+          "差異指南",
+          "響度提示"
+        ],
+        "relatedEquationVariables": [
+          "頻率A",
+          "頻率B"
+        ]
+      },
+      {
+        "id": "beats-notice-compare",
+        "text": "請注意哪種設定保持相同的節拍速率，但更改了更快的載波。即使平均頻率變化，匹配頻率差也能實現這一點。",
+        "tryThis": "使用比較模式將相同節拍、較高載波放在相同節拍、較低載波旁邊，並一起讀取位移行。",
+        "whyItMatters": "比較模式可以更輕鬆地將節拍率與平均音高或載波提示分開。",
+        "relatedControls": [
+          "頻率A",
+          "頻率B"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "信封"
+        ],
+        "relatedOverlays": [
+          "差異指南",
+          "信封指南"
+        ],
+        "relatedEquationVariables": [
+          "頻率A",
+          "頻率B"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "預測運動的哪一部分會改變：快速載波、慢速包絡或兩者。",
+    "items": [
+      {
+        "id": "beats-predict-equalize",
+        "prompt": "兩個來源很接近，但不相等。如果將它們調整到完全相同的頻率，同時保持幅度固定，會發生什麼？",
+        "scenarioLabel": "均衡兩個頻率",
+        "changeLabel": "頻率匹配",
+        "choices": [
+          {
+            "id": "a",
+            "label": "單獨的拍包絡應該會消失，留下一個穩定的合成頻率。"
+          },
+          {
+            "id": "b",
+            "label": "節拍應該會變得越來越慢，但永遠不會完全消失。"
+          },
+          {
+            "id": "c",
+            "label": "響度提示應該完全消失，因為匹配的頻率總是會抵消聲音。"
+          }
+        ],
+        "explanation": "當$f_1=f_2$時，頻率差為零，因此沒有單獨的拍包絡。這兩個源作為一個穩定頻率合成而增強，而不是脈衝輸入和輸出。",
+        "observationHint": "當兩個源頻率匹配時，觀察包絡圖停止脈衝。"
+      },
+      {
+        "id": "beats-predict-wider-split",
+        "prompt": "保持振幅固定，但將兩個頻率移得更遠。緩慢的大聲-輕柔循環會發生什麼？",
+        "scenarioLabel": "擴大頻率分割",
+        "changeLabel": "頻率差",
+        "choices": [
+          {
+            "id": "a",
+            "label": "由於頻率差較大，拍包絡脈衝應該會更快。"
+          },
+          {
+            "id": "b",
+            "label": "節拍包絡應保持不變，因為幅度沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "節拍包絡線應該減慢，因為每個源現在都有更多的能量。"
+          }
+        ],
+        "explanation": "拍頻遵循 $|f_2-f_1|$，因此即使振幅保持固定，加寬分割也會直接加速包絡。",
+        "observationHint": "將接近一致的較慢脈衝與較寬分割預設中較快的脈衝進行比較。"
+      },
+      {
+        "id": "beats-predict-same-difference",
+        "prompt": "情況 A 使用 $1.3\\,\\mathrm{Hz}$ 和 $1.6\\,\\mathrm{Hz}$。情況 B 均降低為 $0.7\\,\\mathrm{Hz}$ 和 $1.0\\,\\mathrm{Hz}$。應該改變什麼？",
+        "scenarioLabel": "同時降低兩個頻率",
+        "changeLabel": "平均頻率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "節拍率保持不變，但由於平均頻率較低，載波下降速度更快。"
+          },
+          {
+            "id": "b",
+            "label": "節拍率下降，因為兩個單獨的頻率都較低。"
+          },
+          {
+            "id": "c",
+            "label": "拍率和載波都保持相同，因為頻率分割相同。"
+          }
+        ],
+        "explanation": "兩種情況保持相同的 $0.3\\,\\mathrm{Hz}$ 差異，因此節拍率保持相同。同時降低兩個頻率會降低平均載波，而不會改變包絡率。",
+        "observationHint": "稍後使用比較模式來確認匹配的 $\\Delta f$ 保持脈衝速率，同時內部擺動減慢。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的緊湊實驗台將拍率與載波頻率和源幅度分開。",
     "items": [
       {
         "id": "beats-ch-slow-pulses",
@@ -355,7 +764,8 @@
           {
             "label": "這樣拍頻週期應接近 $5\\,\\mathrm{s}$。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       },
       {
         "id": "beats-ch-same-beat-lower-carrier",
@@ -363,7 +773,8 @@
         "prompt": "進入比較模式，讓 設定 B 保持與 設定 A 相同的拍頻，同時明顯降低平均載波頻率。",
         "successMessage": "兩個設定現在有相同的拍頻，因為它們共享同一個頻率差；但 設定 B 會以較低的平均頻率承載這個包絡。",
         "setup": {
-          "note": "先複製較高載波的設定，然後只修改 設定 B，直到脈衝速度相同而內層振動明顯變慢。"
+          "note": "先複製較高載波的設定，然後只修改 設定 B，直到脈衝速度相同而內層振動明顯變慢。",
+          "interactionMode": "比較"
         },
         "hints": [
           "要配對拍頻，就要配對頻率差，而不是平均頻率。",
@@ -388,8 +799,51 @@
           {
             "label": "把 設定 B 降到較低的平均載波頻率。"
           }
-        ]
+        ],
+        "style": "參數匹配"
+      },
+      {
+        "id": "beats-ch-remove-envelope-without-muting",
+        "title": "刪除節拍而不靜音",
+        "prompt": "接近一致地開始，使大聲-柔和的節拍消失，同時保持源幅度接近基線。",
+        "successMessage": "您透過匹配兩個來源頻率刪除了單獨的節拍。源仍在驅動；頻率差為零。",
+        "setup": {
+          "note": "使用差異標註和包絡圖；不要透過縮小幅度來解決它。"
+        },
+        "hints": [
+          "目標是接近零的頻率差，而不是較小的幅度。",
+          "將源 A 和源 B 置於相同頻率，然後檢查振幅是否保持在 0.12 m 附近。"
+        ],
+        "checks": [
+          {
+            "label": "保持包絡圖開啟。"
+          },
+          {
+            "label": "保持頻差標註開啟。"
+          },
+          {
+            "label": "將來源幅度保持在基線附近。"
+          },
+          {
+            "label": "將拍頻降至零。"
+          },
+          {
+            "label": "使兩個源頻率匹配。"
+          }
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "節拍 |開放模型實驗室",
+    "description": "了解兩個附近的頻率如何產生節拍、為什麼節拍頻率遵循源之間的差異，以及振幅包絡如何與聲音感知相關。",
+    "keywords": [
+      "節拍",
+      "拍頻",
+      "疊加",
+      "聲音幹擾",
+      "幅度包絡"
     ]
   }
 }

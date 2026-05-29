@@ -71,22 +71,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始從邊界規則出發"
+              "label": "1. 開始從邊界規則出發",
+              "template": "對於目前的 {{boundaryLabelValue}}，請使用 ${{wavelengthRelation}}$ 和 ${{frequencyRelation}}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入活躍的管子"
+              "label": "2. 代入活躍的管子",
+              "template": "這裡選擇的模式是{{resonanceLabelValue}}和{{harmonicLabelValue}}，所以${{substitutionLine}}$與$L = {{lengthValue}}\\,\\mathrm{m}$和$v = {{waveSpeedValue}}\\,\\mathrm{m/s}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算允許的共振"
+              "label": "3. 計算允許的共振",
+              "template": "給出 $\\lambda = {{wavelengthValue}}\\,\\mathrm{m}$ 和 $f = {{frequencyValue}}\\,\\mathrm{Hz}$，{{harmonicSeriesValue}} 為邊界。"
             }
           ],
           "resultLabel": "當前的共振要求",
+          "resultTemplate": "$\\lambda = {{wavelengthValue}}\\,\\mathrm{m}, \\quad f = {{frequencyValue}}\\,\\mathrm{Hz}$",
           "applyAction": {
             "label": "顯示封閉管第三諧波",
             "observationHint": "封閉一端使牆壁保持靜止，因此下一個允許的封閉管模式跳到第三諧波而不是第二。"
-          }
+          },
+          "interpretationTemplate": "{{resonanceInterpretation}}"
         },
         {
           "id": "probe-motion-vs-pressure",
@@ -100,27 +105,36 @@
             {
               "id": "amplitude",
               "label": "參考振幅"
+            },
+            {
+              "id": "time",
+              "label": "時間"
             }
           ],
           "steps": [
             {
               "id": "envelopes",
-              "label": "1. 閱讀區域性封包"
+              "label": "1. 閱讀區域性封包",
+              "template": "在此探測中，包裹運動包絡為 $A_p = {{probeEnvelopeValue}}\\,\\mathrm{m}$，壓力包絡提示為 $P_p = {{probePressureEnvelopeValue}}$。"
             },
             {
               "id": "instant",
-              "label": "2. 閱讀當前時間切片"
+              "label": "2. 閱讀當前時間切片",
+              "template": "在 $t = {{timeValue}}\\,\\mathrm{s}$ 處，包裹位移為 $y = {{probeDisplacementValue}}\\,\\mathrm{m}$，壓力提示為 ${{probePressureValue}}$。"
             },
             {
               "id": "classify",
-              "label": "3. 分類探針角色"
+              "label": "3. 分類探針角色",
+              "template": "探頭靠近位移 {{probeRegionLabelValue}} 和壓力 {{probePressureRegionLabelValue}}，因此兩個視圖應該看起來互補而不是相同。"
             }
           ],
           "resultLabel": "當前探針狀態",
+          "resultTemplate": "$y(x_p,t) = {{probeDisplacementValue}}\\,\\mathrm{m}, \\quad p_{cue}(x_p,t) = {{probePressureValue}}$",
           "applyAction": {
             "label": "移動到封閉端",
             "observationHint": "在封閉牆壁處，包運動消失，但壓力訊號最強。"
-          }
+          },
+          "interpretationTemplate": "{{pressureInterpretation}}"
         }
       ]
     },
@@ -275,6 +289,75 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "比較一個緊湊空氣柱上的開放式和封閉式管道邊界條件，以便駐波形狀、缺失偶次諧波、探頭運動和壓力提示保持與相同的共振狀態相關。",
+    "whyItMatters": "氣柱共鳴解釋了為什麼長笛、風琴管和瓶子會選擇特定的音符，因此邊界規則是您可以看到的管子和您可以聽到的音高之間的橋樑。",
+    "keyTakeaway": "開放端的行為類似位移波腹和壓力波節，而封閉端的行為類似位移波腹和壓力波腹。"
+  },
+  "v2": {
+    "intuition": "管道不能平等地接受每種聲波。空氣柱保持與其末端相適應的駐波模式：開放端呼吸，封閉的牆壁保持靜止，壓力則起到補充作用。",
+    "whyItMatters": "一旦您可以閱讀這些最終規則，開管諧波、閉管奇次諧波和較低的閉管基波都來自同一張圖片，而不是單獨的公式。",
+    "equationSnapshot": {
+      "title": "管道邊界快照",
+      "note": "先讀取結束條件，然後選擇波長系列。開開管採用半波計數；閉口管使用奇數四分之一波計數。"
+    },
+    "startSetup": {
+      "note": "從開放管基礎開始，以便在關閉一堵牆之前可以看到兩個呼吸端。"
+    },
+    "guidedSteps": [
+      {
+        "id": "mark-the-end-rules",
+        "title": "標記結束規則",
+        "goal": "告訴哪一端可以自由移動，哪一端被迫靜止。",
+        "doThis": "從開啟邊界覆蓋開始，然後切換關閉左端，同時觀察管端和位移形狀圖。",
+        "notice": "張開的嘴巴是位移波腹，但封閉的牆壁成為位移節點。",
+        "explain": "最終條件是選擇駐波的限制。露天可以移動，所以位移量大；牆壁阻擋了包裹的移動，因此位移必須降至零。"
+      },
+      {
+        "id": "read-the-harmonic-family",
+        "title": "閱讀調和族",
+        "goal": "將邊界規則連接到允許的波長和頻率梯。",
+        "doThis": "保持長度固定，打開諧波梯，並將打開的管子與關閉打開的三次諧波預設進行比較。",
+        "notice": "開管可以步進通過每個諧波，而閉開管可以跳過 1 次、3 次、5 次和更高的奇次諧波。",
+        "explain": "閉口管道必須在一端安裝節點，在另一端安裝波腹。此幾何形狀接受奇數四分之一波長模式，因此偶次諧波族缺失。"
+      },
+      {
+        "id": "separate-pressure-and-motion",
+        "title": "分離壓力與運動",
+        "goal": "使用探針來了解為什麼位移節點和壓力波腹不是同一件事。",
+        "doThis": "打開壓力引導，將探頭移到封閉的牆壁上，然後將探頭運動圖與壓力提示進行比較。",
+        "notice": "在封閉的牆壁附近，包裹運動軌跡變平，而壓力提示保持強勁。",
+        "explain": "位移描述包裹運動；壓力描述了壓縮和稀疏。在駐聲波中，它們是互補的，因此壓力可以在包裹運動受到限制的地方達到峰值。"
+      },
+      {
+        "id": "predict-the-lower-fundamental",
+        "title": "預測較低的基本面",
+        "goal": "使用相同的邊界規則來決定哪一個管的第一諧振較低。",
+        "doThis": "比較相同長度的開-開和閉-開基波，然後讀取階梯中的波長和頻率值。",
+        "notice": "對於相同的管長，封閉一端會使基波波長更長，基波頻率較低。",
+        "explain": "開-開基波適合管內的半個波長，而閉-開基波適合管內四分之一波長。允許波長越長意味著在聲速不變的情況下諧振頻率越低。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "開口端是位移波腹和壓力波節；封閉壁是位移節點和壓力波腹。",
+        "開開管道允許每個整數諧波，而閉開管道保留奇數諧波系列。",
+        "在相同長度下，關閉一端會降低基波，因為允許的波長會變長。"
+      ],
+      "misconception": "不要因為空氣可以離開而將開放端稱為位移節點；自由移動的嘴是位移最大的地方。",
+      "freePlayPrompt": "嘗試透過僅更改邊界類型來匹配較低頻率，然後在使用方程式之前使用波長解釋結果。",
+      "nextConcepts": [
+        {
+          "slug": "damping-resonance",
+          "reasonLabel": "驅動響應"
+        },
+        {
+          "slug": "standing-waves",
+          "reasonLabel": "傳回節點幾何"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "open-open-displacement",
@@ -329,39 +412,446 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "形狀",
+      "primaryGraphIds": [
+        "形狀",
+        "梯子",
+        "位移"
+      ],
+      "primaryControlIds": [
+        "已關閉結束",
+        "共振訂單",
+        "長度",
+        "探針X"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "概念標籤",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "starterExploreTasks": [
+        "從開管基礎開始，指出管口處的兩個位移波腹。",
+        "閉合一端而不改變長度，然後使用諧波梯比較新的基頻。",
+        "將探頭移到封閉的牆上，並解釋為什麼包裹運動消失而壓力提示變得最強。"
+      ]
+    },
     "controls": [
       {
         "id": "length",
-        "label": "管長"
+        "label": "管長",
+        "description": "改變空氣柱的共振長度，進而改變適合的波長。"
       },
       {
         "id": "resonanceOrder",
-        "label": "共振順序"
+        "label": "共振順序",
+        "description": "選擇顯示哪一個允許的模式。在閉口管中，階數逐步穿過奇諧波族。"
       },
       {
         "id": "probeX",
-        "label": "探測器位置"
+        "label": "探測器位置",
+        "description": "沿著管子移動即時地塊探針，以便您可以測試節點、波腹和邊界行為。"
       },
       {
         "id": "amplitude",
-        "label": "參考振幅"
+        "label": "參考振幅",
+        "description": "縮放包裹運動和壓力提示的大小，而不更改允許的共振族。"
+      },
+      {
+        "id": "closedEnd",
+        "label": "關閉左端",
+        "description": "在同一管上的開-開和閉-開邊界條件之間切換。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "open-open-fundamental",
+        "label": "開管基本原理",
+        "description": "兩端都會呼吸，因此管子適合半個波長。"
+      },
+      {
+        "id": "open-open-second",
+        "label": "開管二次諧波",
+        "description": "出現中心位移節點，而兩端仍呼吸。"
+      },
+      {
+        "id": "closed-open-fundamental",
+        "label": "閉管基本原理",
+        "description": "牆壁保持靜止，而張開的嘴巴變成移動端。"
+      },
+      {
+        "id": "closed-open-third",
+        "label": "閉管三次諧波",
+        "description": "下一個閉管共振跳至奇數三次諧波。"
+      },
+      {
+        "id": "closed-end-pressure",
+        "label": "牆上的探針",
+        "description": "探頭幾乎位於壓力最強且包裹運動最小的封閉牆壁上。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "boundaryRules",
+        "label": "邊界規則",
+        "shortDescription": "標記目前管端如何約束包裹運動和壓力變化。",
+        "whatToNotice": [
+          "在開放端，包裹運動很大，壓力變化很小。在封閉壁處，包裹運動為零且壓力波動最強。"
+        ],
+        "whyItMatters": "它將允許的諧波族與物理最終條件而不是記憶的公式聯繫起來。",
+        "relatedControls": [
+          "已關閉結束",
+          "長度",
+          "共振訂單"
+        ],
+        "relatedGraphTabs": [
+          "形狀",
+          "梯子"
+        ],
+        "relatedEquationVariables": [
+          "邊界",
+          "長度",
+          "共振訂單"
+        ]
+      },
+      {
+        "id": "motionNodes",
+        "label": "地塊節點與波腹",
+        "shortDescription": "顯示地塊在目前駐波模式中保持靜止的位置以及擺動最大的位置。",
+        "whatToNotice": [
+          "即使實際地塊位移隨時間變化，節點和波腹仍保持在駐波模式中的固定位置。"
+        ],
+        "whyItMatters": "它將空間共振模式與一個凍結的運動瞬間分開。",
+        "relatedControls": [
+          "共振訂單",
+          "探針X",
+          "長度"
+        ],
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "共振訂單",
+          "探針X",
+          "長度"
+        ]
+      },
+      {
+        "id": "pressureGuides",
+        "label": "壓力補充",
+        "shortDescription": "將互補的壓力節點和壓力波腹模式加入同一管。",
+        "whatToNotice": [
+          "壓力與包裹運動互換角色：其中一個最小，另一個通常最強。"
+        ],
+        "whyItMatters": "它保持位移和壓力連接，而不假裝它們在同一位置達到峰值。",
+        "relatedControls": [
+          "已關閉結束",
+          "探針X",
+          "共振訂單"
+        ],
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "邊界",
+          "探針X",
+          "共振訂單"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "shape",
+      "label": "位移形狀",
+      "xLabel": "在管內的位置 (m)",
+      "yLabel": "簽署的包裹轉移規模（公尺）",
+      "description": "顯示沿管的駐波形狀，以便您可以看到當前邊界條件下包裹運動必須為零或最大的位置。"
+    },
+    {
+      "id": "displacement",
+      "label": "探頭運動",
+      "xLabel": "時間（秒）",
+      "yLabel": "包裹位移（公尺）",
+      "description": "及時追蹤一個選定的地塊及其本地包絡線，因此節點給出平坦的軌跡，而波腹給出最大的運動。"
+    },
+    {
+      "id": "ladder",
+      "label": "允許的諧波",
+      "xLabel": "共振順序",
+      "yLabel": "頻率 (Hz)",
+      "description": "顯示電流管允許的諧振頻率，使閉開管的缺失偶次諧波易於查看。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每一個都指向管子或圖像上已經可見的真實邊界條件效應。",
+    "items": [
+      {
+        "id": "air-column-notice-open-ends",
+        "text": "請注意，開口端是空氣移動最自由的位置，因此它是位移波腹，而不是卡住點。",
+        "tryThis": "在移動探針之前，保留邊界覆蓋並將張開的嘴與內部節點進行比較。",
+        "whyItMatters": "在您考慮諧波之前，它將管口與正確的位移規則連結起來。",
+        "relatedGraphTabs": [
+          "形狀"
+        ],
+        "relatedOverlays": [
+          "邊界規則"
+        ]
+      },
+      {
+        "id": "air-column-notice-closed-toggle",
+        "text": "請注意，關閉一端會改變整個諧波族，而不僅僅是同一模式上的標籤。",
+        "tryThis": "保持管長固定，打開牆壁，然後觀察諧波梯落入僅奇數的閉管模式。",
+        "whyItMatters": "邊界條件先決定哪些波長可以適合。",
+        "relatedControls": [
+          "已關閉結束"
+        ],
+        "relatedGraphTabs": [
+          "梯子",
+          "形狀"
+        ],
+        "relatedOverlays": [
+          "邊界規則"
+        ]
+      },
+      {
+        "id": "air-column-notice-shape-link",
+        "text": "請注意，懸停在位移形狀圖上會將即時探頭移動到管中的相同位置。",
+        "tryThis": "將滑鼠懸停在封閉的牆壁附近，然後將滑鼠懸停在張開的嘴附近，並比較探針運動圖。",
+        "whyItMatters": "圖像和管子是同一駐波模式的兩個視圖。",
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedControls": [
+          "探針X"
+        ]
+      },
+      {
+        "id": "air-column-notice-pressure",
+        "text": "請注意，壓力引導線與包裹運動引導線交換角色：包裹運動最小時壓力最強，包裹運動最大時壓力最弱。",
+        "tryThis": "打開壓力導向器並將封閉的牆壁或張開的嘴巴與包裹運動標記進行比較。",
+        "whyItMatters": "位移圖和壓力圖從互補角度描述了相同的共振。",
+        "relatedOverlays": [
+          "壓力指南",
+          "運動節點"
+        ],
+        "relatedGraphTabs": [
+          "形狀"
+        ]
+      },
+      {
+        "id": "air-column-notice-ladder",
+        "text": "請注意，諧波階梯會跳過閉口管中的偶次諧波。",
+        "tryThis": "保持長度固定，並在梯形圖保持開啟狀態時比較開-開與閉-開。",
+        "whyItMatters": "缺少的偶數模式是結束條件的直接結果。",
+        "relatedControls": [
+          "已關閉結束",
+          "共振訂單"
+        ],
+        "relatedGraphTabs": [
+          "梯子"
+        ]
+      },
+      {
+        "id": "air-column-notice-inspect",
+        "text": "請注意，時間軌道改變了瞬時包裹運動，但形狀圖保持空間狀態，因為它代表允許的站立模式，而不是一個凍結幀。",
+        "tryThis": "暫停，單步執行一次，然後將管中的變化與形狀圖上保持固定的變化進行比較。",
+        "whyItMatters": "它將共振模式與此模式內的瞬時振盪分開。",
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ]
+      },
+      {
+        "id": "air-column-notice-compare",
+        "text": "注意哪一種設定在相同長度下允許的頻率較低。此設定是允許的波長系列較長的設定。",
+        "tryThis": "將開口管複製到 A 和 B 中，然後在設定 B 中封閉一端，並在讀取方程式之前比較諧波梯。",
+        "whyItMatters": "比較模式使開放式與封閉式共振位移可見，而無需隱藏共享管長度。",
+        "relatedControls": [
+          "已關閉結束",
+          "長度",
+          "共振訂單"
+        ],
+        "relatedGraphTabs": [
+          "梯子"
+        ],
+        "relatedOverlays": [
+          "邊界規則"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "首先預測邊界條件結果，然後在同一管上進行測試。",
     "items": [
       {
         "id": "air-column-predict-close-end",
-        "changeLabel": "邊界型別"
+        "prompt": "管長保持固定，您可以關閉開放管的一端，同時保持基本共振。必鬚髮生什麼？",
+        "scenarioLabel": "關閉一端",
+        "changeLabel": "邊界型別",
+        "choices": [
+          {
+            "id": "a",
+            "label": "允許的波長加倍，基頻減半。"
+          },
+          {
+            "id": "b",
+            "label": "允許的波長保持不變，因為管長沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "僅壓力提示發生變化。包裹運動模式應保持相同。"
+          }
+        ],
+        "explanation": "開-開基波適合管子的半個波長，但閉-開基波只適合四分之一波長。對於相同的管長，這使得允許的波長更長，基頻更低。",
+        "observationHint": "觀察梯子下降到較低的基礎，同時封閉的牆壁變成運動節點。"
       },
       {
         "id": "air-column-predict-wall-probe",
-        "changeLabel": "探測器位置"
+        "prompt": "在一個封閉的開口管中，將探頭滑到封閉的牆壁上。探頭運動圖和那裡的壓力提示會發生什麼變化？",
+        "scenarioLabel": "牆上的探針",
+        "changeLabel": "探測器位置",
+        "choices": [
+          {
+            "id": "a",
+            "label": "當壓力提示變得最強時，探頭運動圖應該會崩潰到接近零。"
+          },
+          {
+            "id": "b",
+            "label": "運動和壓力都應該消失，因為牆壁阻擋了空氣。"
+          },
+          {
+            "id": "c",
+            "label": "探頭運動圖應該加倍，因為反射會疊加在牆上。"
+          }
+        ],
+        "explanation": "封閉壁是位移節點和壓力波腹。包裹無法穿過牆壁，但壓縮和稀疏在那裡堆積得最為強烈。",
+        "observationHint": "使用壓力引導疊加來確認壓力提示在包裹運動塌陷處達到峰值。"
       },
       {
         "id": "air-column-predict-next-closed-mode",
-        "changeLabel": "共振順序"
+        "prompt": "閉口管已經具備了基礎。您可以在不改變管長的情況下將共振階數從 1 提高到 2。下一個允許的模式必須是什麼？",
+        "scenarioLabel": "提升閉管模式",
+        "changeLabel": "共振順序",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電子管應跳至三次諧波，波長較短，頻率較高。"
+          },
+          {
+            "id": "b",
+            "label": "管子應該會移動到二次諧波，因為每個諧振階次都會增加下一個整數諧波。"
+          },
+          {
+            "id": "c",
+            "label": "波長應該會變得更長，因為現在有更多的節點。"
+          }
+        ],
+        "explanation": "閉口管會跳過偶次諧波。在基波之後，下一個允許的模式是三次諧波，因此波長縮短且頻率升高。",
+        "observationHint": "諧波梯直接從第一諧波族跳到第三諧波族。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用管、疊加層和圖像將開放與封閉邊界規則轉變為緊湊的共振任務。",
+    "items": [
+      {
+        "id": "acr-ch-closed-end-stillness",
+        "title": "封閉的靜止",
+        "prompt": "從閉管三次諧波開始，將探頭移動到封閉的牆壁上，以便包裹運動幾乎消失，同時壓力提示保持強勁。",
+        "successMessage": "您找到了閉壁位移節點。即使壓力波動仍然很大，包裹仍保持靜止。",
+        "setup": {
+          "note": "移動探頭時一起使用邊界和壓力疊加。"
+        },
+        "hints": [
+          "封閉壁是位移節點，而不是壓力節點。",
+          "這個任務是關於信封的，而不是一個幸運的瞬間。將探頭保持在整個週期內運動保持微小的位置。"
+        ],
+        "checks": [
+          {
+            "label": "開啟位移形狀圖。"
+          },
+          {
+            "label": "保持邊界覆蓋可見。"
+          },
+          {
+            "label": "開啟壓力導板。"
+          },
+          {
+            "label": "使包裹運動包絡線小於 $0.015\\,\\mathrm{m}$。"
+          },
+          {
+            "label": "保持壓力包絡線高於 $0.09$。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "acr-ch-open-vs-closed-second-mode",
+        "title": "相同的滑塊，不同的諧波族",
+        "prompt": "進入比較模式，將兩個設定保持相同的管長度和相同的諧振階滑桿設定 2，然後將設定 B 設為閉開管，以便設定 A 落在第二諧波上，而設定 B 落在較低頻率的第三諧波上。",
+        "successMessage": "您在兩個不同的邊界條件上匹配了相同的滑桿值。開管保持二次諧波，而閉管開管則轉移到奇數三次諧波和較低的允許頻率。",
+        "setup": {
+          "note": "將開管二次諧波克隆到 A 和 B，然後僅編輯設定 B。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "請勿變更 A 和 B 之間的管長或共振級滑桿。",
+          "閉開管保持相同的滑桿設定，但由於缺少偶次諧波而改變了諧波倍數。"
+        ],
+        "checks": [
+          {
+            "label": "切換到比較模式並編輯設定 B。"
+          },
+          {
+            "label": "保持諧波梯形圖打開。"
+          },
+          {
+            "label": "將設定 A 保持在參考管長度上。"
+          },
+          {
+            "label": "使設定 B 保持相同的管長。"
+          },
+          {
+            "label": "將設定 A 保持為共振順序設定 2。"
+          },
+          {
+            "label": "將設定 B 保持在相同的共振階次設定上。"
+          },
+          {
+            "label": "設定 A 應保留在第二諧波族上。"
+          },
+          {
+            "label": "設定 B 應轉向奇數 3 次諧波族。"
+          },
+          {
+            "label": "設定 A 應位於 $28.3\\,\\mathrm{Hz}$ 附近。"
+          },
+          {
+            "label": "設定 B 應落在 $21.3\\,\\mathrm{Hz}$ 附近。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "空氣柱中的共振/打開和關閉的管道|開放模型實驗室",
+    "description": "具有開放和封閉管道邊界條件、駐波模式、諧波階梯、壓力/位移提示、預測提示和挑戰檢查的交互式氣柱共振。",
+    "keywords": [
+      "氣柱共振",
+      "開管",
+      "封閉管道",
+      "管中的駐波",
+      "諧波",
+      "聲學"
     ]
   }
 }

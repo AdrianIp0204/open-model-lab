@@ -63,27 +63,36 @@
             {
               "id": "frequency",
               "label": "來源頻率"
+            },
+            {
+              "id": "vacuum-wavelength",
+              "label": "真空波長"
             }
           ],
           "steps": [
             {
               "id": "convert",
-              "label": "1. 轉換控制"
+              "label": "1. 轉換控制",
+              "template": "目前設定對應於$\\lambda_0 = {{vacuumWavelengthValue}}$。"
             },
             {
               "id": "classify",
-              "label": "2. 閱讀譜線標籤"
+              "label": "2. 閱讀譜線標籤",
+              "template": "此波長位於 {{bandLabelValue}}，因此目前標示為 {{lightLabelValue}}。"
             },
             {
               "id": "frequency",
-              "label": "3. 將波長連線到時間"
+              "label": "3. 將波長連線到時間",
+              "template": "使用$f = c / \\lambda_0$，實際源頻率為{{frequencyValue}}。"
             }
           ],
           "resultLabel": "當前譜線狀態",
+          "resultTemplate": "頻帶：{{bandLabelValue}}、lambda_0 = {{vacuumWavelengthValue}}、f = {{frequencyValue}}",
           "applyAction": {
             "label": "跳至紫光",
             "observationHint": "指標在可見範圍內僅微移動，但頻率仍顯著上升。"
-          }
+          },
+          "interpretationTemplate": "{{spectrumInterpretation}}"
         },
         {
           "id": "medium-wavelength-delay",
@@ -97,27 +106,40 @@
             {
               "id": "probe-cycles",
               "label": "探測器間距"
+            },
+            {
+              "id": "vacuum-wavelength-medium",
+              "label": "真空波長"
+            },
+            {
+              "id": "medium-wavelength",
+              "label": "中波長"
             }
           ],
           "steps": [
             {
               "id": "medium",
-              "label": "1. 縮短波長"
+              "label": "1. 縮短波長",
+              "template": "中波長為 $\\lambda_m = \\lambda_0 / n = {{mediumWavelengthValue}}$。"
             },
             {
               "id": "distance",
-              "label": "2. 將探針間距轉換為路徑長度"
+              "label": "2. 將探針間距轉換為路徑長度",
+              "template": "探頭距離 {{probeCyclesValue}} 波長，因此目前路徑長度為 {{probeDistanceValue}}。"
             },
             {
               "id": "delay",
-              "label": "3. 將路徑轉換為延遲"
+              "label": "3. 將路徑轉換為延遲",
+              "template": "由於波以 {{phaseVelocityValue}} 傳播，因此源到探頭的延遲為 {{travelDelayValue}}，而源頻率保持為 {{frequencyValue}}。"
             }
           ],
           "resultLabel": "當前介質狀態",
+          "resultTemplate": "lambda_m = {{mediumWavelengthValue}}，x_p = {{probeDistanceValue}}，增量 t = {{travelDelayValue}}",
           "applyAction": {
             "label": "顯示玻璃中的綠光",
             "observationHint": "可見標籤仍為綠色，但介質中波長和速度都縮小。"
-          }
+          },
+          "interpretationTemplate": "{{mediumInterpretation}}"
         }
       ]
     },
@@ -250,7 +272,8 @@
     },
     "graphSummary": {
       "paragraphs": [
-        "實時光與譜檢查"
+        "探測場圖顯示下游某一點的電場和磁場值，因此它們的匹配振盪保持可見。源-探針圖比較源和下游探針處的相同電場。",
+        "顯示空間圖保持緊湊的電磁波草圖可見，而上面的頻譜軌承載了真實的頻帶排序。"
       ]
     }
   },
@@ -269,6 +292,79 @@
         "title": "將此光引入光學"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "光是一種電磁波；可見顏色來自其波長和頻率，而介質改變速度和波長而不改變源時序。",
+    "whyItMatters": "這是從電磁波到光學的橋樑：它解釋了為什麼顏色、折射率和波長變化屬於一個一致的光故事。",
+    "keyTakeaway": "可見光只是電磁波譜的一小部分。"
+  },
+  "v2": {
+    "intuition": "光是一種電磁波，可見顏色是我們的眼睛可以偵測到的波族的一小部分。",
+    "whyItMatters": "一旦波長、頻率和介質折射率保持聯繫，後來的光學思想（如折射、色散和偏振）就像同一波模型的延伸。",
+    "equationSnapshot": {
+      "note": "從真空波長開始設定源頻率，然後僅在相同的光進入材料後才使用介質方程式。"
+    },
+    "guidedSteps": [
+      {
+        "id": "place-visible-light",
+        "title": "放置可見光",
+        "goal": "將可見光定位為更大電磁頻譜內的狹窄視窗。",
+        "doThis": "從空氣中的綠光開始，然後跳至微波並回到紫光，同時觀察光譜軌道。",
+        "notice": "標記可以移動到可見條帶之外很遠，而場對草圖仍然是電磁波。",
+        "explain": "可見光不是一種單獨的波；它是一種波。它是人眼可以偵測到的小波長範圍。"
+      },
+      {
+        "id": "connect-color-frequency",
+        "title": "將顏色與頻率連結起來",
+        "goal": "使用波長控制將顏色變化與頻率讀數關聯起來。",
+        "doThis": "在紅色、綠色和紫色預設之間切換，並將真空波長與來源頻率進行比較。",
+        "notice": "向紫色移動會縮短波長並提高頻率；向紅色移動則相反。",
+        "explain": "對於真空中的相同光，$f = c / \\lambda_0$，因此波長和頻率沿相反方向移動。"
+      },
+      {
+        "id": "separate-medium-from-color",
+        "title": "將媒材與顏色分開",
+        "goal": "了解為什麼進入玻璃會改變速度和介質內波長，但不會改變源頻率。",
+        "doThis": "套用綠色玻璃預設，然後將中等連結與未更改的頻率和可見標籤進行比較。",
+        "notice": "波速和$\\lambda_m$一起縮小，而頻率和綠色標識保持固定。",
+        "explain": "邊界不會改變源發出週期的頻率；介質改變相速度，因此波長會隨之調整。"
+      },
+      {
+        "id": "explain-the-transfer",
+        "title": "解釋一下轉賬",
+        "goal": "同時使用光譜、介質和探頭讀數，而不會混淆傳播延遲和顏色變化。",
+        "doThis": "嘗試紅外線，然後回到綠色玻璃並在開始挑戰之前回答快速檢查。",
+        "notice": "不可見波段仍保留電磁波草圖，探頭延遲屬於穿越空間。",
+        "explain": "完整的解釋包括頻段、源頻率、介質波長、延遲是否為傳播效應。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "可見光是電磁波譜內的一個窄波長視窗。",
+        "在可見光視窗內，較短的真空波長意味著較高的源頻率。",
+        "介質會改變光速和介質內波長，而源頻率保持固定。",
+        "探頭延遲是一種穿越空間效應，而不是電場和磁場之間的滯後。"
+      ],
+      "misconception": "不要將玻璃內的較短波長視為新顏色；顏色標識遵循不變的來源頻率。",
+      "freePlayPrompt": "建造兩個看起來綠色的設定：一個在空氣中，一個在玻璃中。在比較之前預測哪些讀數應該匹配，哪些讀數應該改變。",
+      "nextConcepts": [
+        {
+          "slug": "polarization",
+          "title": "極化",
+          "reasonLabel": "使用橫向場對的想法來推理方向。"
+        },
+        {
+          "slug": "diffraction",
+          "title": "衍射",
+          "reasonLabel": "將波長思考引入波傳播。"
+        },
+        {
+          "slug": "refraction-snells-law",
+          "title": "折射/斯涅耳定律",
+          "reasonLabel": "使用介質的速度變化來解釋邊界處的彎曲。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -320,45 +416,432 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "空間概況",
+      "primaryGraphIds": [
+        "空間概況",
+        "探測場",
+        "來源探針"
+      ],
+      "primaryControlIds": [
+        "log波長",
+        "中等索引",
+        "探測週期"
+      ],
+      "primaryPresetIds": [
+        "可見-綠色",
+        "綠色玻璃",
+        "紅外線熱"
+      ],
+      "starterExploreTasks": [
+        "從綠燈開始，然後跳至紅外線並觀察標記離開可見窗口，同時 E/B 場對繼續運行。",
+        "在玻璃中塗上綠色並在讀數卡上比較頻率、速度和介質內波長。",
+        "移動探頭間距並將傳播延遲與來源的顏色或波段識別分開。"
+      ]
+    },
     "controls": [
       {
         "id": "fieldAmplitude",
-        "label": "場強"
+        "label": "場強",
+        "description": "縮放顯示的 E 和 B 高度。"
       },
       {
         "id": "logWavelength",
-        "label": "對數波長"
+        "label": "對數波長",
+        "description": "在對數波長軸上從伽瑪射線轉移到電波。"
       },
       {
         "id": "mediumIndex",
-        "label": "介質折射率"
+        "label": "介質折射率",
+        "description": "提高或降低折射率。"
       },
       {
         "id": "probeCycles",
-        "label": "探測器間距"
+        "label": "探測器間距",
+        "description": "將探頭放置在光源選定數量的介質內波長處。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "visible-green",
+        "label": "空氣中的綠色",
+        "description": "可見綠色基線。"
+      },
+      {
+        "id": "visible-violet",
+        "label": "空氣中的紫羅蘭色",
+        "description": "轉移到可見光的短波長邊緣。"
+      },
+      {
+        "id": "visible-red",
+        "label": "空氣中呈紅色",
+        "description": "轉移到可見光的長波長邊緣。"
+      },
+      {
+        "id": "green-glass",
+        "label": "玻璃中的綠色",
+        "description": "保留相同的可見標籤，但提高 n。"
+      },
+      {
+        "id": "infrared-heat",
+        "label": "紅外線",
+        "description": "移至可見紅色之外。"
+      },
+      {
+        "id": "microwave-link",
+        "label": "微波爐",
+        "description": "跳至更長的波長。"
+      },
+      {
+        "id": "xray-link",
+        "label": "X 射線",
+        "description": "跳得遠遠超出可見紫羅蘭色。"
       }
     ],
     "overlays": [
       {
         "id": "probeDelay",
-        "label": "探測延遲"
+        "label": "探測延遲",
+        "shortDescription": "以目前介質波長為單位標記探頭，並將此間距轉換為行進延遲。",
+        "whatToNotice": [
+          "源和探頭在兩個位置顯示相同的波，間隔通過介質的傳播時間。"
+        ],
+        "whyItMatters": "它將傳播延遲與 E 和 B 失步的錯誤想法區分開來。",
+        "relatedControls": [
+          "探測週期",
+          "中等索引"
+        ],
+        "relatedGraphTabs": [
+          "來源探針"
+        ],
+        "relatedEquationVariables": [
+          "探測週期",
+          "中等索引"
+        ]
+      },
+      {
+        "id": "visibleWindow",
+        "label": "可見窗口",
+        "shortDescription": "在完整電磁頻譜內建構微小的可見切片。",
+        "whatToNotice": [
+          "大部分光譜軌位於可見光之外。"
+        ],
+        "whyItMatters": "它使可見色直覺與整個電磁系列保持聯繫。",
+        "relatedControls": [
+          "log波長"
+        ],
+        "relatedGraphTabs": [
+          "空間概況"
+        ],
+        "relatedEquationVariables": [
+          "log波長"
+        ]
+      },
+      {
+        "id": "mediumCompression",
+        "label": "中等鏈接",
+        "shortDescription": "顯示相同的光如何在密度較大的介質中保持其頻率但波長較短。",
+        "whatToNotice": [
+          "改變 n 會同時改變速度和介質內波長，而頻率和頻譜標籤保持固定。"
+        ],
+        "whyItMatters": "這是從光譜語言到折射率光學的乾淨橋樑。",
+        "relatedControls": [
+          "中等索引"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針"
+        ],
+        "relatedEquationVariables": [
+          "中等索引"
+        ]
+      },
+      {
+        "id": "fieldTriad",
+        "label": "場三合會",
+        "shortDescription": "一起顯示電方向、磁方向和傳播方向。",
+        "whatToNotice": [
+          "改變波段或介質並不能阻止電磁波。"
+        ],
+        "whyItMatters": "它使即時故事保持可見，同時頁面介紹顏色和光學。",
+        "relatedControls": [
+          "場振幅"
+        ],
+        "relatedGraphTabs": [
+          "探測場"
+        ],
+        "relatedEquationVariables": [
+          "場振幅"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "probe-fields",
+      "label": "探測場對",
+      "xLabel": "顯示時間（秒）",
+      "yLabel": "顯示欄位值",
+      "description": "顯示同一探測點處的電磁值，因此它們的同步振盪保持可見。"
+    },
+    {
+      "id": "source-probe",
+      "label": "源與探頭電場",
+      "xLabel": "顯示時間（秒）",
+      "yLabel": "電場",
+      "description": "在同一時間軸上顯示源電場和下游探針場，因此探針位移被解讀為穿過空間的行進延遲。"
+    },
+    {
+      "id": "space-profile",
+      "label": "顯示空間場草圖",
+      "xLabel": "顯示位置",
+      "yLabel": "顯示欄位值",
+      "description": "保持一幅緊湊的電磁波草圖可見，而上面的軌道承載真實的頻譜排序。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每一個都連結頻譜軌道、波形草圖和同一即時狀態的讀數。",
+    "items": [
+      {
+        "id": "light-notice-visible",
+        "text": "可見光只是全光譜軌道上的一條窄帶。在該帶內稍微移動會改變波長和頻率，但大部分軌道位於人類視野之外。",
+        "tryThis": "從綠燈跳到微波預設，然後回到紫羅蘭色。",
+        "whyItMatters": "它將顏色置於較大的電磁頻譜內。",
+        "relatedControls": [
+          "log波長"
+        ],
+        "relatedGraphTabs": [
+          "空間概況"
+        ],
+        "relatedOverlays": [
+          "可見窗口"
+        ]
+      },
+      {
+        "id": "light-notice-medium",
+        "text": "提高介質折射率會縮短介質內波長並降低速度，但來源頻率和可見標籤保持不變。",
+        "tryThis": "保持標記為綠色，然後升高 n 並將媒體連結與讀數卡進行比較。",
+        "whyItMatters": "這是後來使折射變得有意義的關鍵步驟。",
+        "relatedControls": [
+          "中等索引"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針"
+        ],
+        "relatedOverlays": [
+          "中等壓縮",
+          "探針延遲"
+        ],
+        "relatedEquationVariables": [
+          "中等索引"
+        ]
+      },
+      {
+        "id": "light-notice-nonvisible",
+        "text": "離開可見視窗會消除顏色提示，但波長、頻率、電場和磁場仍然描述同一種電磁波。",
+        "tryThis": "繼續觀察 X 射線或紫外線，注意場對不會消失。",
+        "whyItMatters": "它可以防止光被視為只有眼睛可以看到的東西。",
+        "relatedControls": [
+          "log波長"
+        ],
+        "relatedGraphTabs": [
+          "空間概況"
+        ],
+        "relatedOverlays": [
+          "可見窗口",
+          "場三元組"
+        ]
+      },
+      {
+        "id": "light-notice-compare",
+        "text": "當一種設定更改源波長而另一種設定僅更改介質時，比較模式效果最佳。然後您可以將光譜變化與介質變化分開。",
+        "tryThis": "在空氣中將設定 A 保持為綠色，在玻璃中將設定 B 切換為綠色，然後與空氣中的紅色進行比較。",
+        "whyItMatters": "它可以阻止顏色相關差異和折射率差異融合到一個想法中。",
+        "relatedControls": [
+          "log波長",
+          "中等索引",
+          "探測週期"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針",
+          "空間概況"
+        ],
+        "relatedOverlays": [
+          "可見窗口",
+          "中等壓縮",
+          "探針延遲"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用之前預測頻譜或中等結果。一次改變一個原因。",
     "items": [
       {
         "id": "light-pred-violet",
-        "changeLabel": "對數波長"
+        "prompt": "從空氣中的綠光開始，然後轉向紫光，同時保持介質不變。應該一起改變什麼？",
+        "scenarioLabel": "往紫羅蘭方向移動",
+        "changeLabel": "對數波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "波長變短，頻率升高，可見提示朝紫色移動。"
+          },
+          {
+            "id": "b",
+            "label": "只有場振幅會變化，因為該波段仍是可見光。"
+          },
+          {
+            "id": "c",
+            "label": "頻率保持不變，因為所有可見光都是一個波段。"
+          }
+        ],
+        "explanation": "在可見光視窗內，向紫色移動意味著更短的真空波長和更高的頻率。",
+        "observationHint": "當頻率標籤上升時，觀察可見條帶內標記的移動。"
       },
       {
         "id": "light-pred-glass",
-        "changeLabel": "介質折射率"
+        "prompt": "保持光源為綠光，但提高從空氣到玻璃的介質指數。應該進行哪些改變？",
+        "scenarioLabel": "提高中等指數",
+        "changeLabel": "介質折射率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "速度和介質內波長下降，但頻率和可見標籤保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "可見顏色向藍色轉變，因為介質中的波長變短。"
+          },
+          {
+            "id": "c",
+            "label": "頻率下降，因為光現在傳播得更慢。"
+          }
+        ],
+        "explanation": "較大的折射率會降低速度並縮短介質內波長，但光源仍會發射相同的振盪速率，因此可見標籤保持綠色。",
+        "observationHint": "比較頻率和顏色標籤未改變的媒體連結。"
       },
       {
         "id": "light-pred-infrared",
-        "changeLabel": "對數波長"
+        "prompt": "將標記從可見綠色移至紅外線。該頁面接下來應該告訴您什麼？",
+        "scenarioLabel": "轉換為紅外線",
+        "changeLabel": "對數波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "波長變長，頻率下降，可見顏色提示消失。"
+          },
+          {
+            "id": "b",
+            "label": "該頁面仍將其稱為綠色，因為紅外線位於紅色旁邊。"
+          },
+          {
+            "id": "c",
+            "label": "磁場消失，因為紅外線不是電磁光。"
+          }
+        ],
+        "explanation": "紅外線位於可見紅光之外，波長較長且頻率較低。顏色提示消失，但電磁波草圖仍然有效。",
+        "observationHint": "觀察標記離開可見窗口，同時保留即時草圖。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用頻譜軌和場對實驗台將顏色、來源頻率、介質速度和傳播延遲分開。",
+    "items": [
+      {
+        "id": "light-ch-infrared-still-em-wave",
+        "title": "保持可見，保持波浪",
+        "prompt": "將光源移至紅外線可見紅色之外，同時保持場對可見且可見視窗覆蓋打開。",
+        "successMessage": "標記已離開可見條帶，但電磁場對仍在運作。紅外線不屬於人類可見的顏色，也不屬於電磁波的範疇。",
+        "setup": {
+          "note": "改變波長/波段標識，而不是場幅度。當波浪草圖保持活動狀態時，可見的顏色提示應該會消失。"
+        },
+        "hints": [
+          "轉向可見紅色以外的較長波長，或套用紅外線預設。",
+          "使用可見視窗覆蓋來檢查標記是否位於人類可見條帶之外，同時場三重軸保持開啟狀態。"
+        ],
+        "checks": [
+          {
+            "label": "保持顯示空間欄位草圖開啟。"
+          },
+          {
+            "label": "保持可見視窗覆蓋開啟。"
+          },
+          {
+            "label": "保持場三重軸疊加。"
+          },
+          {
+            "label": "移至可見紅光之外，進入紅外光。"
+          },
+          {
+            "label": "使真空波長比可見紅色更長。"
+          },
+          {
+            "label": "不要透過改變磁場幅度來解決它。"
+          }
+        ],
+        "style": "參數匹配"
+      },
+      {
+        "id": "light-ch-green-glass-frequency-fixed",
+        "title": "綠色進入玻璃",
+        "prompt": "進入比較模式，設定 A 為空氣中的綠光，並設定 B 為玻璃中的相同綠光光源。保持源頻率匹配，同時 B 中速度和介質內波長下降。",
+        "successMessage": "設定 B 與玻璃中的綠光光源相同：頻率與設定 A 保持匹配，而 v 和 lambda_m 因介質折射率較大而縮小。",
+        "setup": {
+          "note": "將兩個設定保持在綠色光源波長上；僅將設定 B 介質折射率變更為玻璃。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "將兩個設定保留在 537 nm 左右的綠色波長處。",
+          "僅將設定 B 介質指數提高到 1.52 左右，然後檢查兩個來源頻率範圍是否仍符合。"
+        ],
+        "checks": [
+          {
+            "label": "切換到比較模式並編輯設定 B。"
+          },
+          {
+            "label": "保持來源探針圖開啟。"
+          },
+          {
+            "label": "將設定 A 保持在空氣中。"
+          },
+          {
+            "label": "將設定 B 放入玻璃中。"
+          },
+          {
+            "label": "將設定 B 保持在相同的綠光光源波長上。"
+          },
+          {
+            "label": "設定頻率保持在綠色來源範圍內。"
+          },
+          {
+            "label": "設定 B 頻率保持與相同的綠色光源相符。"
+          },
+          {
+            "label": "設定 B 速度下降至約 0.66c。"
+          },
+          {
+            "label": "設定 B 介質內波長縮短至約 353 nm。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "光作為電磁波 |開放模型實驗室",
+    "description": "透過直接連接到光學的緊湊型光譜和波實驗室，將電磁波與可見光、波長、頻率和更廣泛的光譜連接起來。",
+    "keywords": [
+      "光電磁波",
+      "電磁波譜",
+      "可見光波長",
+      "頻率和顏色",
+      "光學橋"
     ]
   }
 }

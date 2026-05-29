@@ -50,31 +50,45 @@
             {
               "id": "voltage",
               "label": "電池電壓"
+            },
+            {
+              "id": "resistanceA",
+              "label": "負載A電阻"
+            },
+            {
+              "id": "resistanceB",
+              "label": "負載B電阻"
             }
           ],
           "steps": [
             {
               "id": "topology-rule",
-              "label": "1. 先寫出目前拓樸規則"
+              "label": "1. 先寫出目前拓樸規則",
+              "template": "此設定使用 {{topologyLabelValue}}，因此 ${{equivalentRuleValue}}$。"
             },
             {
               "id": "substitute-values",
-              "label": "2. 代入目前負載數值"
+              "label": "2. 代入目前負載數值",
+              "template": "與 $R_A = {{resistanceAValue}}$ 和 $R_B = {{resistanceBValue}}$、${{equivalentSubstitutionValue}}$，所以 $R_{\\text{eq}} = {{equivalentResistanceValue}}$。"
             },
             {
               "id": "whole-circuit-ohms-law",
-              "label": "3. 對整個電路使用歐姆定律"
+              "label": "3. 對整個電路使用歐姆定律",
+              "template": "$I_{\\text{total}} = \\dfrac{V}{R_{\\text{eq}}} = \\dfrac{{voltageValue}}{ {{equivalentResistanceValue}} }$。"
             },
             {
               "id": "current-result",
-              "label": "4. 算出總電流"
+              "label": "4. 算出總電流",
+              "template": "這給了$I_{\\text{total}} = {{totalCurrentValue}}$。"
             }
           ],
           "resultLabel": "等效電阻與總電流",
+          "resultTemplate": "$R_{\\text{eq}} = {{equivalentResistanceValue}}, \\quad I_{\\text{total}} = {{totalCurrentValue}}$",
           "applyAction": {
             "label": "顯示相同燈泡的並聯案例",
             "observationHint": "同一對負載改成並聯後，每個負載都直接承受整個電池電壓，而總電流會上升。"
-          }
+          },
+          "interpretationTemplate": "{{arrangementInterpretation}}"
         },
         {
           "id": "load-b-rate-and-brightness",
@@ -84,31 +98,45 @@
             {
               "id": "voltage",
               "label": "電池電壓"
+            },
+            {
+              "id": "time",
+              "label": "已用時間"
+            },
+            {
+              "id": "resistanceB",
+              "label": "負載B電阻"
             }
           ],
           "steps": [
             {
               "id": "branch-rule",
-              "label": "1. 先寫出目前支路規則"
+              "label": "1. 先寫出目前支路規則",
+              "template": "${{branchCurrentRuleValue}}$ 和 ${{branchVoltageRuleValue}}$。"
             },
             {
               "id": "substitute-live-values",
-              "label": "2. 代入目前電路數值"
+              "label": "2. 代入目前電路數值",
+              "template": "${{branchCurrentSubstitutionValue}}$，所以 $I_B = {{branchBCurrentValue}}$ 和 ${{branchVoltageSubstitutionValue}}$，所以 $V_B = {{branchBVoltageValue}}$。"
             },
             {
               "id": "power-step",
-              "label": "3. 由功率連到亮度"
+              "label": "3. 由功率連到亮度",
+              "template": "$P_B = I_B V_B = {{branchBCurrentValue}} \\times {{branchBVoltageValue}} = {{branchBPowerValue}}$。"
             },
             {
               "id": "charge-step",
-              "label": "4. 用檢查時間求透過的電荷"
+              "label": "4. 用檢查時間求透過的電荷",
+              "template": "$Q_B = I_B t = {{branchBCurrentValue}} \\times {{timeValue}} = {{branchBChargeValue}}$。"
             }
           ],
           "resultLabel": "負載 B 的功率與電荷",
+          "resultTemplate": "$P_B = {{branchBPowerValue}}, \\quad Q_B = {{branchBChargeValue}}$",
           "applyAction": {
             "label": "顯示不等值並聯負載",
             "observationHint": "在並聯中，負載 B 雖然也拿到完整電壓，但因電阻較大，所以電流、功率與電荷計數都增長得較慢。"
-          }
+          },
+          "interpretationTemplate": "{{branchBBehaviorInterpretation}}"
         }
       ]
     },
@@ -291,67 +319,661 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "在一個迴路和兩個分支之間切換相同的兩個負載，然後追蹤電流、電壓、亮度和電荷流如何在不更換電池的情況下重新組織。",
+    "whyItMatters": "串聯和並聯電路解釋了為什麼即使在相同的電池和負載仍然存在的情況下，一次接線更改也會使燈泡變暗、分支電流分裂或整個設備消耗更多電流。",
+    "keyTakeaway": "系列為每個負載提供相同的電流並共享電池電壓；並聯為每個分支提供相同的電壓，並讓分支電流加回一起。"
+  },
+  "v2": {
+    "intuition": "串聯和並聯是接線故事，而不僅僅是公式選擇。將相同的兩個負載放在一條路徑上，它們必須共用一個電流；將它們放在兩個分支上，每個分支都有自己的穿過電池的路徑。",
+    "whyItMatters": "一旦路徑結構清晰，燈泡亮度、分支電流、電壓共享、電荷計數器和等效電阻都變得可預測，而不是記住電路規則清單。",
+    "equationSnapshot": {
+      "note": "首先選擇拓撲，找到電池的等效電阻，然後使用歐姆定律將該一位負載連接到總電流，然後再讀取支路電壓和功率。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-series-path",
+        "title": "讀取系列路徑",
+        "goal": "在與分支電路進行比較之前，了解為什麼一個環路會強制使用一個共享電流。",
+        "doThis": "從等系列對開始，電流、電壓標籤和亮度指南可見。一起讀取電池電壓、兩個相等的負載值、總電流以及兩個負載電壓標籤。",
+        "notice": "相同的電流到達負載 A 和負載 B，因為只有一條路徑，而電池電壓則分攤到兩個相等的負載上。",
+        "explain": "系列意味著負載端對端地位於一個迴路中。它們的電阻會增加，較大的等效電阻會限制總電流，各個電壓降必須加回電池電壓。"
+      },
+      {
+        "id": "switch-to-parallel-branches",
+        "title": "切換到平行分支",
+        "goal": "僅在接線拓撲發生變化後比較相同的電池和相同的兩個負載。",
+        "doThis": "加載相等的並聯對，打開節點指南，並將支路電壓圖與您剛剛讀到的串聯情況進行比較。",
+        "notice": "現在，兩個負載與電池一樣跨越相同的兩個節點，因此每個分支都保持完整的電池電壓，並且總電流上升。",
+        "explain": "並聯並不代表電池變得更強。這意味著同一個源有兩條路徑來驅動，這降低了等效電阻並使支路電流增加到更大的總數。"
+      },
+      {
+        "id": "unbalance-a-series-divider",
+        "title": "串聯分壓器不平衡",
+        "goal": "使用一個共享電流來預測哪個串聯負載承受更大的壓降。",
+        "doThis": "負載 不等系列負載。將電路保持在一個迴路中，並將琥珀色和藍色電壓標籤與共享電流標籤進行比較。",
+        "notice": "負載 B 的電阻較大，因此即使流經兩個負載的電流相同，其電壓降也較大。",
+        "explain": "對於串聯負載，電流很常見，電壓降遵循 V = IR。較大的電阻不會在一個迴路中拉出更多的電流；它佔用了可用電壓的更大份額。"
+      },
+      {
+        "id": "trace-parallel-current-and-power",
+        "title": "追蹤支路電流和功率",
+        "goal": "解釋為什麼並聯分支可以共享電壓但仍承載不同的電流和亮度等級。",
+        "doThis": "負載不等並聯對，保持節點引導和亮度引導打開，然後在開始挑戰之前比較分支電流和負載功率圖。",
+        "notice": "兩個分支都保持滿電池電壓，但較低電阻的分支需要更多的電流和功率，而較高電阻的分支充電計數器前進得更慢。",
+        "explain": "並行規則以相等的支路電壓開始。然後，歐姆定律賦予每個分支自己的電流，電源將這些電流-電壓對與亮度連接起來。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "串聯電路只有一條路徑，因此相同的電流通過每個負載。",
+        "串聯負載共用電電源電壓，共用電流時電阻越大，壓降越大。",
+        "並聯分支連接在相同的兩個節點上，因此每個分支都保持完整的電池電壓。",
+        "並聯支路電流取決於支路電阻並在源端加回一起。",
+        "燈泡亮度跟隨功率變化，因此即使電池和負載不變，拓撲也可以改變亮度。"
+      ],
+      "misconception": "不要說電流被第一個負載用完或電池將額外的電壓送到並聯分支。首先追蹤路徑結構，然後追蹤電流、電壓和功率。",
+      "freePlayPrompt": "在切換佈置之前，預測下一次變更是否會影響共享電流、共享電壓、等效電阻、分支功率或同時影響多個。",
+      "nextConcepts": [
+        {
+          "slug": "kirchhoff-loop-and-junction-rules",
+          "title": "基爾霍夫環路與連接規則",
+          "reasonLabel": "寫出分支方程"
+        },
+        {
+          "slug": "equivalent-resistance",
+          "title": "等效電阻",
+          "reasonLabel": "減少源所看到的負載的混合電路"
+        },
+        {
+          "slug": "power-energy-circuits",
+          "title": "電路中的功率與能量",
+          "reasonLabel": "將電流和電壓讀數連接到亮度和能量傳輸"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "series-equivalent",
-      "label": "串聯等效電阻"
+      "label": "串聯等效電阻",
+      "meaning": "一個串聯迴路使電阻直接相加。"
     },
     {
       "id": "parallel-equivalent",
-      "label": "並聯等效電阻"
+      "label": "並聯等效電阻",
+      "meaning": "兩個並聯支路降低了電池的一號負載。"
     },
     {
       "id": "ohms-law-total",
-      "label": "全路徑歐姆定律"
+      "label": "全路徑歐姆定律",
+      "meaning": "電池電流取決於電池電壓和完整配置的等效電阻。"
     },
     {
       "id": "series-current",
-      "label": "串聯中的相同電流"
+      "label": "串聯中的相同電流",
+      "meaning": "穩定的串聯迴路到處承載一個電流。"
     },
     {
-      "id": "load-power"
+      "id": "load-power",
+      "label": "負載功率",
+      "meaning": "功率設定能量傳輸速率並解釋此有界模型中的相對亮度。"
     },
     {
       "id": "charge-flow",
-      "label": "透過量"
+      "label": "透過量",
+      "meaning": "在固定電流下，穿過分支的電荷量隨時間線性增長。"
+    },
+    {
+      "id": "parallel-current",
+      "label": "並聯電流分流",
+      "meaning": "支路電流在結點處加回一起。"
+    },
+    {
+      "id": "resistor-voltage",
+      "label": "負載電壓關係",
+      "meaning": "一個負載上的電壓取決於通過該負載的電流和負載電阻。"
     }
   ],
   "variableLinks": [
     {
       "id": "voltage",
-      "label": "電池電壓"
+      "label": "電池電壓",
+      "description": "改變電池的推動力而不改變負載佈置本身。"
+    },
+    {
+      "id": "resistanceA",
+      "label": "負載A電阻",
+      "description": "改變琥珀色負載、電池的總負載以及電流或電壓的共享方式。"
+    },
+    {
+      "id": "resistanceB",
+      "label": "負載B電阻",
+      "description": "更改藍色負載並使串聯共享和並聯拆分之間的對比易於閱讀。"
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "分支電流",
+      "primaryGraphIds": [
+        "分支電流",
+        "分支電壓",
+        "負載功率"
+      ],
+      "primaryControlIds": [
+        "平行模式",
+        "電阻A",
+        "電阻B",
+        "電壓"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ]
+    },
     "controls": [
       {
         "id": "voltage",
-        "label": "電池電壓"
+        "label": "電池電壓",
+        "description": "升高或降低兩種佈置的電池推動力。"
+      },
+      {
+        "id": "resistanceA",
+        "label": "負載A電阻",
+        "description": "設定單串聯路徑或上部並聯支路中的琥珀色負載。"
+      },
+      {
+        "id": "resistanceB",
+        "label": "負載B電阻",
+        "description": "設定藍色負載並使分支電流和亮度差異可見。"
+      },
+      {
+        "id": "parallelMode",
+        "label": "使用平行分支",
+        "description": "關閉保持一系列循環。 On 為同一電池提供兩個獨立的分支。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "equal-series-pair",
+        "label": "等系列對",
+        "description": "一個迴路中的兩個相等負載使共享電流邏輯易於查看。"
+      },
+      {
+        "id": "equal-parallel-pair",
+        "label": "等平行對",
+        "description": "現在，相同的兩個相等負載直接跨接同一電池。"
+      },
+      {
+        "id": "series-unequal-loads",
+        "label": "不等系列負載",
+        "description": "相同的電流流過兩個負載，因此電阻越大，壓降越大。"
+      },
+      {
+        "id": "parallel-unequal-loads",
+        "label": "不等平行對",
+        "description": "兩個分支保持相同的電池電壓，但電阻較低的分支會拉動更多電流和功率。"
+      },
+      {
+        "id": "low-voltage-parallel",
+        "label": "低壓並聯",
+        "description": "相同的相等分支保持並聯，但由於電池電壓較小而變暗。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentFlow",
+        "label": "電流",
+        "shortDescription": "在舞台上顯示即時電流箭頭和充電計數器。",
+        "whatToNotice": [
+          "串聯在各處保持一個電流，而並聯將電流分成兩個速率，然後加在一起。"
+        ],
+        "whyItMatters": "電流變成可見的流量而不是斷開的數字。",
+        "relatedControls": [
+          "電壓",
+          "電阻A",
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻A",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "voltageLabels",
+        "label": "電壓標籤",
+        "shortDescription": "標示電池電壓和每個負載的帶電電壓。",
+        "whatToNotice": [
+          "串聯使負載電壓累加到電池電壓，而並聯使兩個負載電壓固定在電池上。"
+        ],
+        "whyItMatters": "電壓不再像是獨立的規則，而是成為每個負載上階段可見的差異。",
+        "relatedControls": [
+          "電壓",
+          "電阻A",
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電壓"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻A",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "nodeGuide",
+        "label": "節點指南",
+        "shortDescription": "標記共享節點，解釋為什麼並行分支保持相同的電壓。",
+        "whatToNotice": [
+          "兩個並聯分支連接相同的頂部和底部節點，因此它們必須共享相同的分支電壓。"
+        ],
+        "whyItMatters": "節點語言使並行的相等支路電壓感覺是不可避免的而不是神秘的。",
+        "relatedControls": [
+          "平行模式",
+          "電阻A",
+          "電阻B"
+        ],
+        "relatedGraphTabs": [
+          "分支電壓"
+        ],
+        "relatedEquationVariables": [
+          "電阻A",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "brightnessGuide",
+        "label": "亮度指南",
+        "shortDescription": "顯示即時電源徽章，以便負載亮度故事保持與相同的電路狀態相關。",
+        "whatToNotice": [
+          "亮度隨功率變化，而不僅隨電阻變化。"
+        ],
+        "whyItMatters": "透過將燈泡直接連接到每個負載中的電源，可以保持燈泡的直覺。",
+        "relatedControls": [
+          "電壓",
+          "電阻A",
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "負載功率"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻A",
+          "電阻B"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "branch-current",
+      "label": "支路電流與負載 B",
+      "xLabel": "負載B電阻（歐姆）",
+      "yLabel": "電流（A）",
+      "description": "僅掃描負載 B，同時電池電壓、負載 A 和佈置保持固定。串聯時，所有三個電流線一起移動，因為一個迴路電流通過兩個負載。同時，負載 A 保持固定，而負載 B 和總電流響應變化的藍色支路電阻。"
+    },
+    {
+      "id": "branch-voltage",
+      "label": "負載電壓與負載 B",
+      "xLabel": "負載B電阻（歐姆）",
+      "yLabel": "負載或支路兩端的電壓 (V)",
+      "description": "僅掃描負載 B，同時電池電壓和負載 A 保持固定。串聯時，兩個負載電壓進行權衡，但仍會增加電池電壓，而並聯時，兩個支路電壓仍固定在電池上。"
+    },
+    {
+      "id": "load-power",
+      "label": "負載功率與負載 B",
+      "xLabel": "負載B電阻（歐姆）",
+      "yLabel": "功率（W）",
+      "description": "在這個有界模型中，亮度遵循功率。掃描負載 B，看看改變電阻如何改變串聯和並聯負載傳輸能量更快的情況。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "將每個提示用作一項小型調查。改變一件事，然後將舞台顯示的內容與圖像顯示的內容連結起來。",
     "items": [
       {
-        "id": "spc-notice-compare"
-      },
-      {
-        "id": "spc-notice-compare"
-      },
-      {
-        "id": "spc-notice-compare"
-      },
-      {
-        "id": "spc-notice-compare"
-      },
-      {
-        "id": "spc-notice-compare"
+        "id": "spc-notice-compare",
+        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
+        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
+        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流",
+          "分支電壓",
+          "負載功率"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤",
+          "亮度指南"
+        ]
       },
       {
         "id": "spc-notice-compare",
         "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
-        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。"
+        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
+        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流",
+          "分支電壓",
+          "負載功率"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤",
+          "亮度指南"
+        ]
+      },
+      {
+        "id": "spc-notice-compare",
+        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
+        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
+        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流",
+          "分支電壓",
+          "負載功率"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤",
+          "亮度指南"
+        ]
+      },
+      {
+        "id": "spc-notice-compare",
+        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
+        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
+        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流",
+          "分支電壓",
+          "負載功率"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤",
+          "亮度指南"
+        ]
+      },
+      {
+        "id": "spc-notice-compare",
+        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
+        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
+        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流",
+          "分支電壓",
+          "負載功率"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤",
+          "亮度指南"
+        ]
+      },
+      {
+        "id": "spc-notice-compare",
+        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
+        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
+        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流",
+          "分支電壓",
+          "負載功率"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤",
+          "亮度指南"
+        ]
+      },
+      {
+        "id": "spc-notice-topology-toggle",
+        "text": "從串聯切換到並聯不會使電池變得更強。它改變了路徑結構，從而改變了電池的等效電阻。",
+        "tryThis": "僅切換排列，同時相等的對保持在 12 V 和 6 歐姆加 6 歐姆。即使電池標籤沒有移動，也要觀察 R_eq 和 I_total 的跳躍。",
+        "whyItMatters": "這使得並聯燈泡更亮的原因變得誠實：電池不變，但總負載更小。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流",
+          "分支電壓"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "節點指南"
+        ]
+      },
+      {
+        "id": "spc-notice-current-graph",
+        "text": "在支路電流圖上，串聯各處保持一個電流，而並聯則讓負載 B 自行變化，使總電流跟隨支路之和。",
+        "tryThis": "開啟分支電流圖，保持在 12 V，然後只拖曳負載 B。同時，琥珀色分支線保持固定，而藍色和青色線移動。",
+        "whyItMatters": "目前的分割變成了你可以直接閱讀的東西，而不是作為一個獨立的規則來記憶。",
+        "relatedControls": [
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電流"
+        ],
+        "relatedOverlays": [
+          "電流流量"
+        ],
+        "relatedEquationVariables": [
+          "電阻B"
+        ]
+      },
+      {
+        "id": "spc-notice-voltage-graph",
+        "text": "在支路電壓圖上，並聯支路保持在電池值，因為兩個負載連接在相同的兩個節點上。串聯時，兩個負載電壓會相互抵消，但仍會增加電池電壓。",
+        "tryThis": "比較不等串聯和不等並聯預設。串聯線透過電阻將電池分開，而並聯線位於相同的高度。",
+        "whyItMatters": "一旦共享節點圖片和圖像一致，並聯的等支路電壓就不再感覺神秘。",
+        "relatedControls": [
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "分支電壓"
+        ],
+        "relatedOverlays": [
+          "電壓標籤",
+          "節點指南"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "spc-notice-power-graph",
+        "text": "負載功率圖是亮度的故事。這種佈置決定了負載是否共享相同的電流或相同的電壓，因此電阻本身並不能預測亮度。",
+        "tryThis": "保持負載 A 為 4 歐姆並掃描負載 B。同時，藍色負載隨著 R_B 上升而變暗。串聯時，藍色負載會變得更亮，因為相同的環路電流流經兩個負載。",
+        "whyItMatters": "這使得燈泡的直覺與功率相關，而不是與斷章取義的一個變數相關。",
+        "relatedControls": [
+          "電阻A",
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "負載功率"
+        ],
+        "relatedOverlays": [
+          "亮度指南"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻A",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "spc-notice-time-charge",
+        "text": "電荷計數器顯示電流的時間結果。串聯時，兩個計數器同時上升；並行地，電流較大的分支累積電荷的速度更快。",
+        "tryThis": "模式 [[]] q_b. 模式",
+        "whyItMatters": "它將當前規則與基於時間的結果連接起來，而無需引入單獨的隱藏模型。",
+        "relatedControls": [
+          "平行模式",
+          "電阻B"
+        ],
+        "relatedGraphTabs": [
+          "分支電流"
+        ],
+        "relatedOverlays": [
+          "電流流量"
+        ],
+        "relatedEquationVariables": [
+          "電阻B"
+        ]
       }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在更改佈置或負載之前進行預測。每個場景一次都會改變一個想法，因此您可以追蹤電流、電壓和亮度必鬚髮生的情況。",
+    "items": [
+      {
+        "id": "spc-pred-switch-to-parallel",
+        "prompt": "電路以相等的串聯對開始：12 V、6 歐姆和 6 歐姆在一個迴路中。如果僅更改為並行，哪項陳述一定是正確的？",
+        "scenarioLabel": "切換到並行",
+        "changeLabel": "安排",
+        "choices": [
+          {
+            "id": "a",
+            "label": "等效電阻下降，總電流上升，每個負載維持滿 12V。"
+          },
+          {
+            "id": "b",
+            "label": "等效電阻保持在 12 歐姆，但每個分支獲得一半的電池電壓。"
+          },
+          {
+            "id": "c",
+            "label": "總電流下降，因為電荷現在有更多的分量需要穿過。"
+          }
+        ],
+        "explanation": "將相同的兩個負載並聯會降低電池的等效電阻。電池沒有變化，因此總電流上升，每個分支仍然跨越整個電池電壓。",
+        "observationHint": "電池標籤保持固定，而兩個分支電壓標籤均處於滿電池值且總電流標記跳躍。"
+      },
+      {
+        "id": "spc-pred-raise-rb-series",
+        "prompt": "在 VIN = 12 V 且 R_A = 4 歐姆的串聯模式下，如果 R_B 從 4 歐姆增加到 12 歐姆，會發生什麼情況？",
+        "scenarioLabel": "增加串聯負載B",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "環路電流下降，負載 B 佔據了更大的電池電壓份額。"
+          },
+          {
+            "id": "b",
+            "label": "環路電流保持固定，但負載 A 佔據較大的電壓份額，因為它是第一個。"
+          },
+          {
+            "id": "c",
+            "label": "環路電流上升，因為更大的電阻現在儲存更多電荷。"
+          }
+        ],
+        "explanation": "提高一個串聯電阻會提高等效電阻，因此相同的電池驅動更少的環路電流。當流經兩個負載的電流相同時，電阻越大，壓降越大。",
+        "observationHint": "電流標記縮小，藍色電壓標籤增加，支路電壓圖向負載 B 傾斜。"
+      },
+      {
+        "id": "spc-pred-raise-rb-parallel",
+        "prompt": "在 V = 12 V 且 R_A = 4 歐姆的並聯模式下，如果 R_B 從 4 歐姆增加到 12 歐姆，會發生什麼情況？",
+        "scenarioLabel": "並聯增加負載 B",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "負載 B 電流和功率下降，而負載 A 保持相同的支路電壓和電流。"
+          },
+          {
+            "id": "b",
+            "label": "兩個分支電流都會上升，因為藍色分支現在更難穿過。"
+          },
+          {
+            "id": "c",
+            "label": "負載 B 電壓降至 12 V 以下，因為分支不再共用相同的節點。"
+          }
+        ],
+        "explanation": "每個分支並行地保持完整的電池電壓。僅提高 R_B 僅降低藍色分支電流和功率，而琥珀色分支仍由其自身不變的電阻設定。",
+        "observationHint": "琥珀色分支保持不變，而藍色電流、功率和充電速率均縮小。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的雙負載電路來達到支路電流和支路電壓目標。檢查來自即時階段，因此拓撲規則與您實際看到的內容保持聯繫。",
+    "items": [
+      {
+        "id": "spc-ch-blue-branch-full-voltage",
+        "title": "給負載 B 提供滿電池電壓",
+        "prompt": "從不等串聯負載開始，重新佈線電路，使負載 B 保持完整的電池電壓，同時其支路電流保持在 1 A 左右。",
+        "successMessage": "您將不等對重建為真正的平行情況。藍色分支現在保持完整的電源電壓，而其自身較大的電阻仍然限制其電流。",
+        "setup": {
+          "note": "重新連接不相等線對時，請同時使用支路電壓圖和節點指南。"
+        },
+        "hints": [
+          "維持 4 歐姆和 12 歐姆負載不變。目標來自改變安排，而不是阻力。",
+          "如果負載 B 確實跨越與電池相同的兩個節點，則其電壓應保持在滿電池值。"
+        ],
+        "targets": [
+          {
+            "label": "將電阻a維持在3.8歐姆和4.2歐姆之間。"
+          },
+          {
+            "label": "將電阻 b 保持在 11.8 歐姆和 12.2 歐姆之間。"
+          },
+          {
+            "label": "將支路電壓保持在 11.8 V 和 12.2 V 之間。"
+          },
+          {
+            "label": "將支路電流保持在 0.95 A 和 1.05 A 之間。"
+          },
+          {
+            "label": "將總電流保持在 3.9 A 和 4.1 A 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "串聯和並聯電路|開放模型實驗室",
+    "description": "透過一個有界雙負載電路、引導覆蓋、預測提示、即時工作範例和更強的概念快速測試，了解串聯和並聯電路中的電流、電壓、電荷流和亮度有何不同。",
+    "keywords": [
+      "串聯和並聯電路",
+      "電流和電壓",
+      "等效電阻",
+      "分支電流",
+      "燈泡亮度"
     ]
   }
 }

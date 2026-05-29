@@ -26,8 +26,10 @@
   "sections": {
     "explanation": {
       "paragraphs": [
-        "振動能量是您已經熟悉的簡單諧振運動，但從系統儲存和釋放的能量角度來看。在理想的模型中，質量不會失去總能量；它一直在動能和彈性位能之間交換能量。",
-        "這種交換最易於信任時，運動、條形圖和影像保持鎖定狀態。這裡的目標是看到為什麼轉折點是純位能的瞬間，為什麼平衡點是動能的最大值，以及振幅和彈性係數如何設定總能量的標度。"
+        "振盪能量是透過能量儲存位置觀察到的簡諧振動。在理想模型中，總能量保持恆定，但隨著運動的持續而改變形式。",
+        "當質量遠離平衡時，彈簧會拉伸或壓縮，並將大部分能量儲存為位能。當質量達到平衡時，彈簧拉伸最小，運動攜帶大部分能量作為動能。",
+        "舞台、能量條和圖像都顯示同一時刻。在轉折點，質量停止，因此動能為零，彈簧保持全部的總能量。在平衡交叉處，速度最大，因此動能最大，彈簧位能最小。",
+        "一次只使用一個想法的控制項。振幅設定轉折點和總能量尺度，彈簧常數改變能量尺度和循環速率，質量改變時間，相位僅在循環開始處改變。"
       ]
     },
     "keyIdeas": [
@@ -63,27 +65,40 @@
             {
               "id": "displacement",
               "label": "當前位移"
+            },
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "velocity",
+              "label": "目前速度"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 寫出兩個能量關係式"
+              "label": "1. 寫出兩個能量關係式",
+              "template": "在同一瞬間使用 $K = \\tfrac{1}{2}mv^2$ 和 $U = \\tfrac{1}{2}kx^2$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入實時值"
+              "label": "2. 代入實時值",
+              "template": "$K = \\tfrac{1}{2}({{massValue}})({{velocityValue}})^2$ 和 $U = \\tfrac{1}{2}({{springConstantValue}})({{displacementValue}})^2$。"
             },
             {
               "id": "compute",
-              "label": "3. 比較兩部分"
+              "label": "3. 比較兩部分",
+              "template": "給出 $K = {{kineticValue}}\\,\\mathrm{J}$ 和 $U = {{potentialValue}}\\,\\mathrm{J}$，因此總數仍為 $E = {{totalEnergyValue}}\\,\\mathrm{J}$。"
             }
           ],
           "resultLabel": "此瞬間的能量",
+          "resultTemplate": "$K = {{kineticValue}}\\,\\mathrm{J},\\; U = {{potentialValue}}\\,\\mathrm{J},\\; E = {{totalEnergyValue}}\\,\\mathrm{J}$",
           "applyAction": {
             "label": "顯示平衡爆發",
             "observationHint": "在平衡點，動能條填滿，位能條收縮，速度圖達到極值。"
-          }
+          },
+          "interpretationTemplate": "{{energySplitInterpretation}}"
         },
         {
           "id": "total-energy-scale",
@@ -102,22 +117,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用總能量關係式"
+              "label": "1. 使用總能量關係式",
+              "template": "對於理想的 SHM，$E = \\tfrac{1}{2}kA^2$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前比例值"
+              "label": "2. 代入當前比例值",
+              "template": "$E = \\tfrac{1}{2}({{springConstantValue}})({{amplitudeValue}})^2$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算儲存的能量"
+              "label": "3. 計算儲存的能量",
+              "template": "振盪器儲存 $E = {{totalEnergyValue}}\\,\\mathrm{J}$，並且該總數在運動重新分配時保持固定。"
             }
           ],
           "resultLabel": "總儲存能量",
+          "resultTemplate": "$E = {{totalEnergyValue}}\\,\\mathrm{J}$",
           "applyAction": {
             "label": "顯示大弧度",
             "observationHint": "轉折點移向外側，總能量線上升，因為總能量隨著 $A^2$ 增加而增加。"
-          }
+          },
+          "interpretationTemplate": "{{totalEnergyInterpretation}}"
         }
       ]
     },
@@ -256,6 +276,95 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "觀察彈簧質量振盪器在運動和彈簧拉伸之間傳遞相同的總能量，而不是將圖像視為單獨的公式表。",
+    "whyItMatters": "能量是從簡諧運動到駐波、阻尼和共振的乾淨橋樑：它告訴您什麼改變了儲存的總量以及什麼僅在循環開始時改變。",
+    "keyTakeaway": "在轉折點，能量儲存在彈簧中，在平衡狀態下，能量由運動攜帶，並且總能量在理想的 SHM 中保持固定。"
+  },
+  "v2": {
+    "intuition": "跟隨一個振盪器並在每一時刻問一個問題：能量是處於運動狀態、彈簧拉伸狀態還是在兩者之間共享？",
+    "whyItMatters": "這個能量視圖解釋了為什麼振幅和剛度會改變振盪器儲存的量，而質量和相位主要會改變定時或起始位置。",
+    "equationSnapshot": {
+      "title": "能量切換快照",
+      "note": "將動能、彈簧勢和總能量放在一起，以便條形圖和圖像讀起來就像一種即時狀態。"
+    },
+    "startSetup": {
+      "note": "在平衡點和轉折點之間開始，因此動能和彈簧位能立即可見。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-energy-split",
+        "title": "讀取能量分裂",
+        "goal": "在更改任何控制項之前連接移動質量、能量條和能量圖。",
+        "doThis": "從混合能量開始，保持能量平衡圖打開，並觀察動能和位能柱的交易大小幾秒鐘。",
+        "notice": "兩個彩色能量部分在質量移動的同時發生變化，而總能量線保持平坦。",
+        "explain": "理想的 SHM 可以節省總機械能。此運動不會產生或破壞能量；它在動能和彈簧位能之間交換相同的總和。",
+        "inlineCheck": {
+          "title": "檢查中心交叉口"
+        }
+      },
+      {
+        "id": "compare-equilibrium-and-turning-points",
+        "title": "比較關鍵時刻",
+        "goal": "同時使用能量、位置和速度將平衡交叉點與轉折點分開。",
+        "doThis": "在平衡爆發和轉折點之間切換，或擦洗到每個瞬間，同時保持速度和能量提示可見。",
+        "notice": "平衡時，動力棒達到峰值，彈簧勢棒幾乎消失；在轉折點，速度崩潰，位能達到總和。",
+        "explain": "能量形式取決於循環的瞬間。位移控制彈簧位能，而速度控制動能。",
+        "inlineCheck": {
+          "title": "命名轉折點能量"
+        }
+      },
+      {
+        "id": "change-the-energy-scale",
+        "title": "更改能量等級",
+        "goal": "查看哪些控制項會變更儲存的總能量，而不是僅沿同一週期移動振盪器。",
+        "doThis": "提高振幅，然後嘗試剛性彈簧，並比較平坦的總能量線每次的變化。",
+        "notice": "更大的振幅和更大的彈簧常數都會提高總能量線；振幅具有平方效應，因此更寬的擺動是強大的。",
+        "explain": "理想 SHM 的總能量為 E = 1/2 k A^2。儲存的總數由彈簧剛度和振幅設定，而不是由循環開始的位置設定。",
+        "inlineCheck": {
+          "title": "預測更廣泛的波動"
+        }
+      },
+      {
+        "id": "separate-timing-from-energy",
+        "title": "將計時與能量分開",
+        "goal": "解釋為什麼質量和相位可以改變你首先看到的東西而不改變總能量尺度。",
+        "doThis": "在固定振幅和彈簧常數的情況下增加質量，然後更改相位並將能量圖與速度圖進行比較。",
+        "notice": "較重的質量會延長時間，而總能量線保持在原位；相移動能和位能之間的起始分裂。",
+        "explain": "品質出現在時序關係中，相位選擇起點。當振幅和彈簧常數不變時，E = 1/2 k A^2 都不會改變。",
+        "inlineCheck": {
+          "title": "使用品質檢查點"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "動能和彈簧位能交換位置，而總機械能在理想 SHM 中保持固定。",
+        "平衡交叉主要是動能態；轉捩點是彈簧位能狀態。",
+        "振幅和彈簧常數透過 E = 1/2 k A^2 設定儲存的總數。",
+        "質量改變時間，相位改變起始分裂，但當 A 和 k 保持固定時，兩者都不會改變總能量。"
+      ],
+      "misconception": "不要說振盪器在轉折點停止時沒有能量。能量已進入春季伸展。",
+      "freePlayPrompt": "創建兩個具有相同振幅但不同質量的設定，然後解釋為什麼它們的時間會改變，而平坦的總能量線保持固定。",
+      "nextConcepts": [
+        {
+          "slug": "damping-resonance",
+          "title": "阻尼/共振",
+          "reasonLabel": "觀察能量的離開或積累"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "駐波",
+          "reasonLabel": "從一個振盪器切換到多種模式"
+        },
+        {
+          "slug": "wave-interference",
+          "title": "波幹擾",
+          "reasonLabel": "在波形圖案中使用相位"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "energy-displacement",
@@ -310,6 +419,25 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "能量",
+      "primaryGraphIds": [
+        "能量",
+        "速度"
+      ],
+      "primaryControlIds": [
+        "振幅",
+        "彈簧常數",
+        "階段"
+      ],
+      "primaryPresetIds": [
+        "基線混合",
+        "平衡爆發",
+        "轉折點",
+        "寬弧",
+        "硬彈簧"
+      ]
+    },
     "controls": [
       {
         "id": "amplitude",
@@ -331,6 +459,415 @@
         "label": "相位",
         "description": "改變週期中的起始位置，但不改變總能量本身。"
       }
+    ],
+    "presets": [
+      {
+        "id": "baseline-mix",
+        "label": "混合開始",
+        "description": "在平衡點和轉折點之間開始，因此兩種能量類型立即可見。"
+      },
+      {
+        "id": "equilibrium-burst",
+        "label": "平衡開始",
+        "description": "從平衡狀態開始，此時速度和動能最大。"
+      },
+      {
+        "id": "turning-point",
+        "label": "轉捩點開始",
+        "description": "從運動的邊緣開始，彈簧在此保留所有能量。"
+      },
+      {
+        "id": "wide-arc",
+        "label": "振幅較大",
+        "description": "增加振幅，使轉折點向外移動，總能量急劇上升。"
+      },
+      {
+        "id": "stiff-spring",
+        "label": "較硬的彈簧",
+        "description": "保持相似的振幅，但提高彈簧剛度，因此能量規模和循環率都會增加。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "equilibriumLine",
+        "label": "平衡線",
+        "shortDescription": "標示彈簧拉伸最小的零位移位置。",
+        "whatToNotice": [
+          "在理想模型中，當質量穿過這條線時，動能條達到峰值。"
+        ],
+        "whyItMatters": "它錨定了能量平衡最強烈地轉向動能的時刻。",
+        "relatedControls": [
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "能量",
+          "位移",
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "階段"
+        ]
+      },
+      {
+        "id": "turningPoints",
+        "label": "轉捩點標記",
+        "shortDescription": "標記振盪器必須反轉方向的左右轉折點。",
+        "whatToNotice": [
+          "在這些標記處，質量停止，動能降至零，並且彈簧保持全部總能量。"
+        ],
+        "whyItMatters": "轉捩點是最清楚地看到能量完全儲存在春天的地方。",
+        "relatedControls": [
+          "振幅",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "能量",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "階段"
+        ]
+      },
+      {
+        "id": "energyBars",
+        "label": "能量棒",
+        "shortDescription": "顯示動能和位能如何共享一個固定的總量。",
+        "whatToNotice": [
+          "兩個條形交換高度，而理想模型中的總高度保持不變。"
+        ],
+        "whyItMatters": "它使能量交換在舞台上可見，而不僅僅是在圖像上。",
+        "relatedControls": [
+          "振幅",
+          "彈簧常數",
+          "質量",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "能量"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "彈簧常數",
+          "質量"
+        ]
+      },
+      {
+        "id": "velocityVector",
+        "label": "速度向量",
+        "shortDescription": "說明為何動能在接近平衡時最大。",
+        "whatToNotice": [
+          "較長的速度箭頭與較高的動能條相符。"
+        ],
+        "whyItMatters": "它使速度和動能之間的連結保持可見。",
+        "relatedControls": [
+          "階段",
+          "質量",
+          "彈簧常數"
+        ],
+        "relatedGraphTabs": [
+          "速度",
+          "能量"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "階段"
+        ]
+      },
+      {
+        "id": "motionTrail",
+        "label": "運動軌跡",
+        "shortDescription": "留下一條短跡，以便您可以判斷振盪器徘徊的位置。",
+        "whatToNotice": [
+          "運動在轉折點附近徘徊，因為那裡的速度最小。"
+        ],
+        "whyItMatters": "它可以幫助您將質量花費時間的地方與能量所在的地方聯繫起來。",
+        "relatedControls": [
+          "振幅",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "能量"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "階段"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "energy",
+      "label": "能量平衡",
+      "xLabel": "時間（秒）",
+      "yLabel": "能量（J）",
+      "description": "動能和位能交換位置，而總量在理想模型中保持平穩。"
+    },
+    {
+      "id": "displacement",
+      "label": "隨時間的位移",
+      "xLabel": "時間（秒）",
+      "yLabel": "位移（公尺）",
+      "description": "高峰標誌著轉折點，而零交叉則標誌著平衡。"
+    },
+    {
+      "id": "velocity",
+      "label": "隨時間變化的速度",
+      "xLabel": "時間（秒）",
+      "yLabel": "速度（公尺/秒）",
+      "description": "速度在平衡時最大，在轉折點降至零。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每個提示都會連接質量的位置、移動的速度以及能量的儲存位置。",
+    "items": [
+      {
+        "id": "energy-notice-equilibrium",
+        "text": "質量在達到平衡時速度最快，因此動能條在那裡最高。",
+        "tryThis": "應用平衡開始，然後將中心交叉點與速度圖的峰值進行比較。",
+        "whyItMatters": "它將位置與能量儲存分開。中心是運動攜帶能量最強的地方。",
+        "relatedControls": [
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "能量",
+          "速度"
+        ],
+        "relatedOverlays": [
+          "平衡線",
+          "能量棒",
+          "速度向量"
+        ]
+      },
+      {
+        "id": "energy-notice-turning",
+        "text": "在轉折點，質量暫停，但總能量線保持平坦。",
+        "tryThis": "凍結 $+A$ 或 $-A$ 附近的運動，並將轉折點標記與位能峰值進行比較。",
+        "whyItMatters": "這表示能量已轉移到彈簧而不是消失。",
+        "relatedGraphTabs": [
+          "能量",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "轉折點",
+          "能量棒"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "彈簧常數"
+        ]
+      },
+      {
+        "id": "energy-notice-amplitude",
+        "text": "增加振幅使總能量線升高的速度快於將轉折點向外移動的速度。",
+        "tryThis": "增加振幅並比較總能量線相對於更寬的擺動上升了多少。",
+        "whyItMatters": "因為 $E \\propto A^2$，振幅對儲存能量的改變比乍看之下更強烈。",
+        "relatedControls": [
+          "振幅"
+        ],
+        "relatedGraphTabs": [
+          "能量",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "轉折點",
+          "能量棒"
+        ],
+        "relatedEquationVariables": [
+          "振幅"
+        ]
+      },
+      {
+        "id": "energy-notice-spring",
+        "text": "即使振幅保持不變，較硬的彈簧也會提高能量等級並縮短週期。",
+        "tryThis": "保持振幅固定，然後增加彈簧常數，並將總能量線與速度峰值的間距進行比較。",
+        "whyItMatters": "相同的控制會改變儲存的能量數量以及能量交換的速度。",
+        "relatedControls": [
+          "彈簧常數",
+          "質量"
+        ],
+        "relatedGraphTabs": [
+          "能量",
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "彈簧常數",
+          "質量"
+        ]
+      },
+      {
+        "id": "energy-notice-inspect",
+        "text": "當您暫停並擦洗時，舞台、能量條和圖像標記都描述同一時刻。",
+        "tryThis": "暫停，單步執行一次，並追蹤長條圖和品質一起更新時標記如何移動。",
+        "whyItMatters": "它使能量圖成為即時運動的讀數，而不是單獨的表面。",
+        "relatedGraphTabs": [
+          "能量",
+          "位移",
+          "速度"
+        ],
+        "relatedOverlays": [
+          "能量棒",
+          "轉折點"
+        ]
+      },
+      {
+        "id": "energy-notice-compare",
+        "text": "具有較高平坦總能量線的設定可以儲存更多能量，即使兩個質量在相似時刻交叉平衡。",
+        "tryThis": "克隆設定，然後僅更改設定 B 中的振幅或彈簧常數，並觀察總能量線分開。",
+        "whyItMatters": "比較模式清楚地顯示哪些變化會改變儲存的能量，哪些變化只會改變起點。",
+        "relatedControls": [
+          "振幅",
+          "彈簧常數"
+        ],
+        "relatedGraphTabs": [
+          "能量"
+        ],
+        "relatedOverlays": [
+          "能量棒",
+          "轉折點"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在移動控制之前預測能量分配或能量比例應如何變化，然後在即時振盪器上進行測試。",
+    "items": [
+      {
+        "id": "energy-predict-amplitude",
+        "prompt": "如果振幅加倍而 $k$ 保持不變，轉折點和總能量會發生什麼？",
+        "scenarioLabel": "雙振幅",
+        "choices": [
+          {
+            "id": "a",
+            "label": "轉折點的距離加倍，總能量增加四倍。"
+          },
+          {
+            "id": "b",
+            "label": "轉折點保持固定，總能量僅加倍。"
+          },
+          {
+            "id": "c",
+            "label": "總能量保持不變，因為彈簧仍然拉回。"
+          }
+        ],
+        "explanation": "振幅 , 能量 [[]], 振幅 能量 [[]]",
+        "observationHint": "轉折點分散開來，但平坦的總能量線上升得更強勁。"
+      },
+      {
+        "id": "energy-predict-phase",
+        "prompt": "如果您在平衡狀態而不是在轉折點啟動相同的振盪器，那麼在那一刻一定是正確的？",
+        "scenarioLabel": "從平衡開始",
+        "choices": [
+          {
+            "id": "a",
+            "label": "位能最小，動能最大。"
+          },
+          {
+            "id": "b",
+            "label": "兩個能量都為零，因為質量穿過中心。"
+          },
+          {
+            "id": "c",
+            "label": "位能最大，因為彈簧正在穿過其自然長度。"
+          }
+        ],
+        "explanation": "平衡時位移為零，因此彈簧幾乎不儲存位能。相同的總能量主要以動能的形式攜帶。",
+        "observationHint": "當質量達到平衡時，能量條幾乎完全擺動至動能。"
+      },
+      {
+        "id": "energy-predict-mass",
+        "prompt": "如果質量增加而振幅和彈簧常數保持固定，理想模型中首先發生什麼變化？",
+        "scenarioLabel": "增加質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "總能量不變，但週期變長。"
+          },
+          {
+            "id": "b",
+            "label": "總能量立即上升，因為較重的質量會儲存更多的彈簧能量。"
+          },
+          {
+            "id": "c",
+            "label": "總能量和週期保持完全相同。"
+          }
+        ],
+        "explanation": "[[]], 能量 振幅",
+        "observationHint": "平坦的總能量線保持在同一位置，而運動及時減慢。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用即時能量圖和檢查時間控制將振盪器轉換為小型能量目標任務。",
+    "items": [
+      {
+        "id": "oe-ch-equal-split",
+        "title": "一半動能，一半電位",
+        "prompt": "從混合開始，在動能和位能幾乎相等的時刻暫停。保持能量圖打開，以便保持平衡。",
+        "successMessage": "您發現了一種狀態，其中振盪器在運動和彈簧拉伸之間幾乎均勻地共享其總能量。",
+        "setup": {
+          "note": "從混合能量情況開始，然後擦洗直到兩種顏色的能量痕跡幾乎匹配。"
+        },
+        "hints": [
+          "這不會在平衡或轉折點發生。看看這些極端之間的情況。",
+          "使用檢查模式，使舞台、長條圖和圖像標記全部保持在同一時刻。"
+        ],
+        "checks": [
+          {
+            "label": "開啟能量圖。"
+          },
+          {
+            "label": "保持能量條可見。"
+          },
+          {
+            "label": "暫停進入檢查模式。"
+          },
+          {
+            "label": "使動勢間隙小於 $0.2\\,\\mathrm{J}$。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "oe-ch-build-five-joules",
+        "title": "達到約 5 J",
+        "prompt": "從混合啟動基線開始，將儲存的能量提高到大約 $5\\,\\mathrm{J}$，而不使振盪器重於大約 $1.2\\,\\mathrm{kg}$。",
+        "successMessage": "您透過改變彈簧或擺動來增加能量尺度，而不是透過將效果隱藏在較重的質量內。",
+        "setup": {
+          "note": "調整振幅或彈簧剛度時，使用能量圖作為目標讀數。"
+        },
+        "hints": [
+          "總能量隨著振幅和彈簧常數的增加而增加。",
+          "質量改變時間，但它並不會直接設定理想的總能量規模。"
+        ],
+        "checks": [
+          {
+            "label": "保持能量圖處於活動狀態。"
+          },
+          {
+            "label": "將質量保持在 $0.8$ 和 $1.2\\,\\mathrm{kg}$ 之間。"
+          },
+          {
+            "label": "將總能量帶入 $4.8$ 至 $5.3\\,\\mathrm{J}$ 視窗。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "振盪能量",
+    "description": "簡諧振動中的交互能量，具有即時動能和位能、轉折點和圖像連結運動。",
+    "keywords": [
+      "振盪能量",
+      "簡諧振動能量",
+      "動能與位能",
+      "實體模擬"
     ]
   }
 }

@@ -63,22 +63,27 @@
           "steps": [
             {
               "id": "read-mixture",
-              "label": "1. 閱讀當前成分"
+              "label": "1. 閱讀當前成分",
+              "template": "實驗台目前有酸量{{acidAmountValue}}、鹼量{{baseAmountValue}}、緩衝液量{{bufferAmountValue}}和水量{{waterVolumeValue}}。"
             },
             {
               "id": "read-neutralization",
-              "label": "2. 分離直接中和與剩餘推力"
+              "label": "2. 分離直接中和與剩餘推力",
+              "template": "直接中和已處理約 {{neutralizedAmountValue}} 單位，因此剩餘的推力必須被緩衝液吸收或顯示在 pH 試紙上。"
             },
             {
               "id": "read-reserve",
-              "label": "3. 閱讀儲備和pH一起"
+              "label": "3. 閱讀儲備和pH一起",
+              "template": "緩衝液仍有大約 {{bufferRemainingValue}} 單位的儲備，pH 值接近 {{pHValue}}。"
             }
           ],
           "resultLabel": "當前緩衝液回應",
+          "resultTemplate": "$\\mathrm{pH} \\approx {{pHValue}}$ 有預留 $\\approx {{bufferRemainingValue}}$",
           "applyAction": {
             "label": "應用緩衝脈衝",
             "observationHint": "觀察儲備條下降，同時pH試紙的移動遠不及相同未緩衝酸脈衝。"
-          }
+          },
+          "interpretationTemplate": "{{bufferInterpretation}}"
         }
       ]
     },
@@ -110,7 +115,11 @@
             "label": "pH試紙不再正確測量。"
           }
         ],
-        "explanation": "儲備物條形圖使隱藏的化學反應變得清晰：緩衝液正在被使用以抵抗更大的pH移動。"
+        "explanation": "儲備物條形圖使隱藏的化學反應變得清晰：緩衝液正在被使用以抵抗更大的pH移動。",
+        "selectedWrongExplanations": {
+          "b": "穩定的 pH 值可以隱藏緩衝液儲備的消耗。",
+          "c": "當緩衝液化學成分改變時，試紙條仍可正確測量。"
+        }
       },
       {
         "id": "bn-qt-dilution-vs-neutralization",
@@ -129,7 +138,11 @@
             "label": "開啟儲備覆蓋層而不改變混合物。"
           }
         ],
-        "explanation": "中和來自酸和鹼直接相互抵消，而不是透過擴散相同混合物到更多水中。"
+        "explanation": "中和來自酸和鹼直接相互抵消，而不是透過擴散相同混合物到更多水中。",
+        "selectedWrongExplanations": {
+          "a": "加水是稀釋，不是酸鹼中和。",
+          "c": "顯示疊加不會改變化學性質。"
+        }
       }
     ]
   },
@@ -160,6 +173,10 @@
         "description": "開啟一個接近中性的混合物，仍具有緩衝空間。"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "了解緩衝液如何透過消耗儲備來抵抗 pH 波動，以及這與用鹼中和或簡單地用水稀釋有何不同。",
+    "keyTakeaway": "穩定的 pH 值可以隱藏活性化學物質：中和會用鹼抵消酸，稀釋會傳播相同的不平衡，並且緩衝液會花費儲備來抵抗較大的 pH 變化。"
   },
   "equations": [
     {
@@ -196,6 +213,18 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "用這個步驟把模擬、圖像和概念連接起來。",
+      "primaryGraphIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "概念標籤"
+      ],
+      "primaryControlIds": [
+        "酸量",
+        "緩衝量"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "acid-amount",
@@ -217,12 +246,230 @@
     "presets": [
       {
         "id": "buffered-acid-pulse",
-        "label": "帶有緩衝液的酸脈衝"
+        "label": "帶有緩衝液的酸脈衝",
+        "description": "相同的酸推動與儲備可用，因此儲備在 pH 值變化很大之前下降。"
       },
       {
         "id": "neutralized-with-reserve",
-        "label": "透過緩衝液中和"
+        "label": "透過緩衝液中和",
+        "description": "一種接近中性的混合物，仍然具有可用於以後推送的緩衝儲備。"
+      },
+      {
+        "id": "unbuffered-acid-pulse",
+        "label": "無緩衝酸性脈衝",
+        "description": "同樣的酸推，沒有緩衝儲備，因此 pH 值變化更劇烈。"
       }
+    ],
+    "overlays": [
+      {
+        "id": "characterMix",
+        "label": "酸鹼棒",
+        "shortDescription": "在 pH 條旁顯示目前的酸側和鹼側條。",
+        "whatToNotice": [
+          "即使儲備條顯示緩衝液正在吸收真正的推動力，pH 值仍可保持在中性附近。"
+        ],
+        "whyItMatters": "它將 pH 讀數與混合物中發生的情況聯繫起來，而不是將 pH 視為獨立的數字。",
+        "relatedControls": [
+          "酸量",
+          "基本金額",
+          "緩衝區數量"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "酸量",
+          "基本金額"
+        ]
+      },
+      {
+        "id": "phScale",
+        "label": "pH 試紙",
+        "shortDescription": "使用儲備液時，保持即時 pH 標記可見。",
+        "whatToNotice": [
+          "微小的 pH 變化並不總是意味著微小的化學變化。同時檢查儲備欄。"
+        ],
+        "whyItMatters": "它可以幫助您與緩衝液一起讀取 pH 值，而不是作為獨立的標籤。",
+        "relatedControls": [
+          "酸量",
+          "基本金額",
+          "水量"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "酸量",
+          "基本金額",
+          "水量"
+        ]
+      },
+      {
+        "id": "bufferReserve",
+        "label": "緩衝區預留欄",
+        "shortDescription": "顯示仍有多少可用緩衝容量。",
+        "whatToNotice": [
+          "在 pH 值發生大幅變化之前，儲備量可能會大幅下降。"
+        ],
+        "whyItMatters": "它使緩衝區的隱藏操作可見。",
+        "relatedControls": [
+          "緩衝區數量",
+          "酸量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "緩衝量",
+          "酸量"
+        ]
+      },
+      {
+        "id": "particleMotion",
+        "label": "粒子運動",
+        "shortDescription": "在讀數更新時保持混合物移動。",
+        "whatToNotice": [
+          "幾乎穩定的 pH 值並不表示混合物已停止反應或混合。"
+        ],
+        "whyItMatters": "它讓長凳感覺像是一個活躍的化學系統，而不是一個冰凍的顯示器。",
+        "relatedControls": [
+          "酸量",
+          "基本金額"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "酸量",
+          "基本金額"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "ph-vs-acid",
+      "label": "pH 值與添加的酸",
+      "xLabel": "酸量",
+      "yLabel": "pH 值"
+    },
+    {
+      "id": "buffer-remaining-vs-acid",
+      "label": "緩衝液儲備與添加的酸",
+      "xLabel": "酸量",
+      "yLabel": "緩衝區保留"
+    }
+  ],
+  "noticePrompts": {
+    "title": "預留工作時要注意什麼",
+    "intro": "保持 pH 條和儲備條可見，然後一次更改一個對照。",
+    "items": [
+      {
+        "id": "bn-notice-reserve-before-ph",
+        "text": "在緩衝情況下，儲備條通常會在 pH 試紙移動很遠之前下降。",
+        "tryThis": "從緩衝酸脈衝開始，稍微增加酸量，並在 pH 急劇變化之前觀察儲備量下降。",
+        "whyItMatters": "這是最明顯的跡象，表明緩衝液正在吸收變化而不是凍結混合物。",
+        "relatedControls": [
+          "酸量",
+          "緩衝區數量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "緩衝區保留",
+          "酸鹼度"
+        ]
+      },
+      {
+        "id": "bn-notice-dilution-vs-neutralization",
+        "text": "添加水可以軟化 pH 值變化，但它不會像添加相反的一面那樣中和酸和鹼。",
+        "tryThis": "首先改變水量，然後添加更多的鹼並比較哪個動作實際改變了中和量。",
+        "whyItMatters": "它可以幫助您區分稀釋、中和和緩衝，而不是將它們視為相同概念。",
+        "relatedControls": [
+          "水量",
+          "基本金額"
+        ],
+        "relatedOverlays": [
+          "角色混合",
+          "緩衝區保留"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測第一個可見的變化",
+    "intro": "在應用變更之前，請決定儲備液、pH 值或兩者是否應先回應。",
+    "items": [
+      {
+        "id": "bn-pred-buffered-pulse",
+        "prompt": "從緩衝酸脈衝開始，如果在仍有儲備的情況下添加更多的酸，首先應該注意什麼？",
+        "scenarioLabel": "酸小幅增加，仍有可用儲備",
+        "changeLabel": "稍微增加酸量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "儲量明顯下降，而 pH 值僅略有變化。"
+          },
+          {
+            "id": "b",
+            "label": "pH 值立即劇烈波動，但儲備量不變。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為緩衝液停止了化學反應。"
+          }
+        ],
+        "explanation": "只要還有儲備，緩衝液就會吸收一些添加的酸。因此，儲量首先下降，而 pH 值的變化比無緩衝情況下的變化小。",
+        "observationHint": "酸增加後，一起觀察儲備條、pH 條和圖像。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "誠實地使用儲備欄。保持 pH 值接近中性，同時使酸的推力可見，而不是透過簡單地稀釋所有物質來解決問題。",
+    "items": [
+      {
+        "id": "bn-ch-hold-near-neutral-under-acid-pulse",
+        "title": "在酸脈衝期間保持 pH 值接近中性",
+        "prompt": "從無緩衝的酸脈衝開始，添加足夠的緩衝液儲備，使 pH 值接近中性，同時保持酸和鹼的量在適當的位置，而不需要依賴大量額外的水。",
+        "successMessage": "您使用緩衝液儲備來抵抗酸脈衝，同時保持相同的化學推力和可見儲備。保留條顯示緩衝區正在工作，而不是使混合物神奇地保持不變。",
+        "setup": {
+          "note": "將酸脈衝保持在適當的位置。增加緩衝液儲備，直到 pH 接近中性並保留一些儲備；不要用額外的水沖洗混合物。"
+        },
+        "targets": [
+          {
+            "label": "將酸量保持在 6 到 6.4 之間。"
+          },
+          {
+            "label": "將基本量維持在 3 到 3.8 之間。"
+          },
+          {
+            "label": "將水量維持在 1 到 1.5 之間。"
+          },
+          {
+            "label": "將緩衝區量維持在 2.2 和 4.2 之間。"
+          },
+          {
+            "label": "將 pH 值保持在 6.5 至 7.5 之間。"
+          },
+          {
+            "label": "保持緩衝區剩餘在 0.3 到 3.4 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "緩衝液與中和",
+    "description": "探討緩衝液、中和，以及為什麼穩定的 pH 值並不意味著即時溶液實驗台上的化學成分不變。",
+    "keywords": [
+      "緩衝區",
+      "中和",
+      "pH 值",
+      "化學",
+      "酸鹼"
     ]
   }
 }

@@ -67,22 +67,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別關係"
+              "label": "1. 識別關係",
+              "template": "若要獲得相同的發射和著陸高度，請使用 $R = \\dfrac{v_0^2\\sin(2\\theta)}{g}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 替換當前的發射值"
+              "label": "2. 替換當前的發射值",
+              "template": "$R = \\dfrac{({{speedValue}})^2\\sin(2\\cdot {{angleValue}}^\\circ)}{{gravityValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算範圍"
+              "label": "3. 計算範圍",
+              "template": "使用 $\\sin(2\\theta) = {{sinDoubleAngleValue}}$，預測範圍變成 $R = {{rangeValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "預測範圍",
+          "resultTemplate": "$R = {{rangeValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "套用地球拋射",
             "observationHint": "把舞台上的射程標記和計算結果互相比較，並留意圖表如何沿用同一組發射設定。"
-          }
+          },
+          "interpretationTemplate": "{{rangeInterpretation}}"
         },
         {
           "id": "current-velocity-components",
@@ -100,27 +105,36 @@
             {
               "id": "gravity",
               "label": "重力"
+            },
+            {
+              "id": "time",
+              "label": "時間"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別分量關係"
+              "label": "1. 識別分量關係",
+              "template": "使用 $v_x = v_0\\cos(\\theta)$ 和 $v_y = v_0\\sin(\\theta) - gt$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前值"
+              "label": "2. 代入當前值",
+              "template": "$v_x = {{speedValue}}\\cos({{angleValue}}^\\circ)$ 和 $v_y = {{speedValue}}\\sin({{angleValue}}^\\circ) - {{gravityValue}}\\cdot {{timeValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算每個分量"
+              "label": "3. 計算每個分量",
+              "template": "給出 $v_x = {{vxValue}}\\,\\mathrm{m/s}$ 和 $v_y = {{vyValue}}\\,\\mathrm{m/s}$。"
             }
           ],
           "resultLabel": "當前速度分量",
+          "resultTemplate": "$v_x = {{vxValue}}\\,\\mathrm{m/s}, \\quad v_y = {{vyValue}}\\,\\mathrm{m/s}$",
           "applyAction": {
             "label": "套用低角度拋射",
             "observationHint": "水平分量保持不變，而垂直分量在飛行上升和下降時改變符號。"
-          }
+          },
+          "interpretationTemplate": "{{velocityInterpretation}}"
         }
       ]
     },
@@ -279,6 +293,95 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "發射一枚彈，並將同一飛行解讀為兩種運動：穩定的水平運動加上重力形成的垂直運動。",
+    "whyItMatters": "這個組件視圖解釋了為什麼發射角度、速度和重力會權衡射程、高度和飛行時間，而不是透過猜測來改變整個弧線。",
+    "keyTakeaway": "發射後，水平運動保持均勻，而重力僅改變垂直分量。"
+  },
+  "v2": {
+    "intuition": "當您將一個彎曲的飛行分成兩個相連的故事時，拋射運動變得可預測：水平運動保持穩定，垂直運動重力向下彎曲。",
+    "whyItMatters": "相同的組件分割可讓您解釋瞄準、運動弧線、噴泉和軌道發射直覺，而無需將彎曲路徑視為神秘的單一運動。",
+    "equationSnapshot": {
+      "title": "組件運動快照",
+      "note": "使用 x(t) 表示穩定的橫向部分，使用 y(t) 表示重力彎曲的垂直部分，然後將它們的組合連接到極差公式。"
+    },
+    "startSetup": {
+      "note": "從平衡的地球發射開始，在打開更密集的支撐之前，軌跡、頂點和著陸標記可見。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-component-split",
+        "title": "先用弧線瞄準",
+        "goal": "拖曳啟動向量。",
+        "doThis": "從地球拍攝開始。較低的發射角度；比較頂點和範圍。",
+        "notice": "較低的角度可提供更高的側向速度，但飛行時間較短，因此著陸標記僅在這兩種效果平衡時才會移動。",
+        "explain": "範圍是水平速度乘以通話時間。舞台展示結果；圖像和方程式解釋了為什麼陡峭並不意味著更遠。",
+        "inlineCheck": {
+          "title": "預測分裂"
+        }
+      },
+      {
+        "id": "watch-gravity-bend-vertical-motion",
+        "title": "觀看重力彎曲垂直運動",
+        "goal": "將重力變化與重力保持不變的部分分開。",
+        "doThis": "切換到速度圖，讓地球鏡頭運行，並跟隨 v_x 和 v_y 進行同一次飛行。",
+        "notice": "水平速度保持平坦，而垂直速度向下傾斜，過零度並變成負值。",
+        "explain": "重力垂直作用，因此每秒都會改變 v_y，但在此理想模型中不會產生橫向加速度。",
+        "inlineCheck": {
+          "title": "檢查頂點提示"
+        }
+      },
+      {
+        "id": "compare-angle-tradeoffs",
+        "title": "比較角度權衡",
+        "goal": "使用發射角度作為高度、通話時間和水平範圍之間的權衡。",
+        "doThis": "嘗試淺弧預設，然後將角度提高到陡峭發射，同時觀察頂點和範圍標記。",
+        "notice": "更陡的發射可以爬得更高並在空中停留更長時間，但角度太大會放棄水平速度並會縮短著陸範圍。",
+        "explain": "範圍來自水平速度乘以空中時間。角度同時變化，因此高度和範圍並不總是一起增加。",
+        "inlineCheck": {
+          "title": "修正陡角神話"
+        }
+      },
+      {
+        "id": "judge-a-launch-from-evidence",
+        "title": "從證據判斷發射",
+        "goal": "在嘗試瞄準挑戰之前，先使用圖像、標記和方程式。",
+        "doThis": "將地球射擊與月球跳躍進行比較，然後打開挑戰並調整更平坦的遠距離射擊，同時保持頂點在射程內。",
+        "notice": "較低的重力可以在不改變所選發射組件的情況下延長飛行時間，並且成功的目標必須同時滿足射程和高度證據。",
+        "explain": "強烈的彈體解釋首先命名組件分裂，然後使用重力和時間來證明觀察到的射程、頂點和速度圖的合理性。",
+        "inlineCheck": {
+          "title": "你能使用證據嗎？"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "拋射體可以建模為重力作用下的水平運動和垂直運動。",
+        "拖曳關閉後，水平速度保持恆定，而垂直速度穩定向下變化。",
+        "在頂點，垂直速度瞬間為零，但水平運動繼續。",
+        "射程取決於水平速度和飛行時間，因此更陡的發射並不會自動更遠。"
+      ],
+      "misconception": "不要將彎曲路徑視為一種通用運動或假設彈體停在頂部；只有垂直分量在那裡達到零。",
+      "freePlayPrompt": "建構兩次射程相似但峰值高度不同的發射，然後使用水平速度和通話時間解釋匹配情況。",
+      "nextConcepts": [
+        {
+          "slug": "momentum-impulse",
+          "title": "動量與衝動",
+          "reasonLabel": "將啟動變化與衝動和動量連結起來。"
+        },
+        {
+          "slug": "vectors-components",
+          "title": "向量與組件",
+          "reasonLabel": "檢查飛行後的組件分割。"
+        },
+        {
+          "slug": "gravitational-fields",
+          "title": "重力場",
+          "reasonLabel": "以即時圖片取代常數 g。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "x-position",
@@ -319,6 +422,29 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "組件",
+      "primaryGraphIds": [
+        "組件",
+        "軌跡",
+        "速度"
+      ],
+      "primaryControlIds": [
+        "速度",
+        "角度",
+        "重力"
+      ],
+      "primaryPresetIds": [
+        "地球射擊",
+        "淺弧",
+        "月跳"
+      ],
+      "starterExploreTasks": [
+        "從地球拍攝和分量圖開始，然後追蹤速度箭頭如何分解為穩定的橫向運動和變化的垂直運動。",
+        "切換到軌跡圖，將發射角度拖低，然後將範圍標記與頂點標記進行比較，然後猜測哪個鏡頭走得更遠。",
+        "在不改變發射速度的情況下應用月球跳躍，然後解釋為什麼水平分量看起來很熟悉，而飛行時間和範圍向外延伸。"
+      ]
+    },
     "controls": [
       {
         "id": "speed",
@@ -359,18 +485,46 @@
         "label": "速度向量",
         "shortDescription": "顯示拋體此刻的瞬時速度。",
         "whatToNotice": [
-          "重力讓路徑彎曲時，速度向量也會逐步向下傾。"
+          "箭頭總是與軌跡相切。",
+          "它向下傾斜，因為重力在飛行過程中改變了垂直分量。"
         ],
-        "whyItMatters": "它把發射設定和正在飛行的拋體直接連在一起。"
+        "whyItMatters": "它把發射設定和正在飛行的拋體直接連在一起。",
+        "relatedControls": [
+          "速度",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "軌跡",
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "角度"
+        ]
       },
       {
         "id": "componentVectors",
         "label": "分量向量",
         "shortDescription": "把發射速度拆成水平和垂直兩部分。",
         "whatToNotice": [
-          "水平部分維持穩定，而垂直部分會在重力下持續改變。"
+          "水平分量在理想模型中保持不變。",
+          "垂直分量在頂點縮小至零，然後指向下方。"
         ],
-        "whyItMatters": "它讓二維運動模型更容易和螢幕上的實際飛行對照。"
+        "whyItMatters": "它讓二維運動模型更容易和螢幕上的實際飛行對照。",
+        "relatedControls": [
+          "速度",
+          "角度",
+          "重力"
+        ],
+        "relatedGraphTabs": [
+          "組件",
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "角度",
+          "重力"
+        ]
       },
       {
         "id": "apexMarker",
@@ -379,7 +533,20 @@
         "whatToNotice": [
           "當你改變角度、速度或重力時，最高點會跟著移動。"
         ],
-        "whyItMatters": "它把「拋體到底升到多高」直接顯示出來。"
+        "whyItMatters": "它把「拋體到底升到多高」直接顯示出來。",
+        "relatedControls": [
+          "速度",
+          "角度",
+          "重力"
+        ],
+        "relatedGraphTabs": [
+          "軌跡"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "角度",
+          "重力"
+        ]
       },
       {
         "id": "rangeMarker",
@@ -388,7 +555,20 @@
         "whatToNotice": [
           "當發射速度或飛行時間增加時，射程通常會變長。"
         ],
-        "whyItMatters": "它把發射設定和覆蓋距離直接連起來。"
+        "whyItMatters": "它把發射設定和覆蓋距離直接連起來。",
+        "relatedControls": [
+          "速度",
+          "角度",
+          "重力"
+        ],
+        "relatedGraphTabs": [
+          "軌跡"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "角度",
+          "重力"
+        ]
       }
     ]
   },
@@ -423,37 +603,103 @@
         "id": "pm-notice-components",
         "text": "留意：水平和垂直運動雖然屬於同一次發射，但它們的變化方式並不一樣。",
         "tryThis": "保持同樣的發射速度，觀察在重力把路徑彎下來時，水平運動仍然穩定，而垂直運動在不斷變化。",
-        "whyItMatters": "一旦不再把整段飛行看成神秘的一條曲線，拋體運動就會容易得多。"
+        "whyItMatters": "一旦不再把整段飛行看成神秘的一條曲線，拋體運動就會容易得多。",
+        "relatedControls": [
+          "速度",
+          "角度",
+          "重力"
+        ],
+        "relatedGraphTabs": [
+          "組件",
+          "速度"
+        ],
+        "relatedOverlays": [
+          "組件向量"
+        ]
       },
       {
         "id": "pm-notice-trajectory-link",
         "text": "留意：軌跡圖和舞台展示的是同一條路徑，只是換了表示方式。",
         "tryThis": "懸停或拖曳軌跡圖，觀察拋體如何移動到舞台中的對應位置。",
-        "whyItMatters": "它讓圖表不再只是附加説明，而是同一段飛行的空間描述。"
+        "whyItMatters": "它讓圖表不再只是附加説明，而是同一段飛行的空間描述。",
+        "relatedGraphTabs": [
+          "軌跡"
+        ],
+        "relatedOverlays": [
+          "頂點標記",
+          "範圍標記"
+        ]
       },
       {
         "id": "pm-notice-angle-change",
         "text": "留意：改變發射角，是在把同一個初速度重新分配到高度和前進距離之間。",
         "tryThis": "提高發射角，觀察最高點上升，但當角度過陡時，水平射程不再繼續改善。",
-        "whyItMatters": "它能直接反駁「角度越陡就一定飛得越遠」這個常見誤解。"
+        "whyItMatters": "它能直接反駁「角度越陡就一定飛得越遠」這個常見誤解。",
+        "relatedControls": [
+          "角度",
+          "速度"
+        ],
+        "relatedGraphTabs": [
+          "軌跡",
+          "組件"
+        ],
+        "relatedOverlays": [
+          "頂點標記",
+          "範圍標記"
+        ],
+        "relatedEquationVariables": [
+          "角度",
+          "速度"
+        ]
       },
       {
         "id": "pm-notice-apex-inspection",
         "text": "留意：拋體達到最高點時，是垂直速度降到零，而不是水平運動停止。",
         "tryThis": "在弧線頂部附近暫停並拖曳時間，再把最高點標記和速度圖上的垂直分量一起看。",
-        "whyItMatters": "最高點只是在説垂直分量發生了什麼；拋體仍然繼續向前飛。"
+        "whyItMatters": "最高點只是在説垂直分量發生了什麼；拋體仍然繼續向前飛。",
+        "relatedGraphTabs": [
+          "速度",
+          "軌跡"
+        ],
+        "relatedOverlays": [
+          "頂點標記",
+          "組件向量"
+        ]
       },
       {
         "id": "pm-notice-velocity-graph",
         "text": "留意：$v_x$ 保持穩定，而 $v_y$ 會在重力作用下線性改變。",
         "tryThis": "切到速度分量圖，看水平線保持平坦，而垂直線則持續向下傾。",
-        "whyItMatters": "這正是路徑會彎曲、但其中一個方向仍保持均勻運動的原因。"
+        "whyItMatters": "這正是路徑會彎曲、但其中一個方向仍保持均勻運動的原因。",
+        "relatedGraphTabs": [
+          "速度"
+        ],
+        "relatedOverlays": [
+          "速度向量",
+          "組件向量"
+        ],
+        "relatedEquationVariables": [
+          "重力",
+          "速度",
+          "角度"
+        ]
       },
       {
         "id": "pm-notice-compare",
         "text": "留意：當速度固定而角度改變時，設定 A 和 設定 B 會以不同方式交換高度與射程。",
         "tryThis": "讓 A 和 B 保持同樣的發射速度，只改一邊的角度，再比較最高點與落點標記。",
-        "whyItMatters": "比較模式能在不改變整體刻度的情況下，把角度取捨直接攤開。"
+        "whyItMatters": "比較模式能在不改變整體刻度的情況下，把角度取捨直接攤開。",
+        "relatedControls": [
+          "速度",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "軌跡"
+        ],
+        "relatedOverlays": [
+          "頂點標記",
+          "範圍標記"
+        ]
       }
     ]
   },
@@ -521,6 +767,14 @@
           "稍微降低角度，常常能在不浪費太多向上速度的情況下把射程往外推。",
           "如果最高點超出目標區間，代表你把太多發射速度分去垂直方向了。"
         ],
+        "checks": [
+          {
+            "label": "將重力保持與地球相似，以便任務測試角度、速度、高度和範圍，而不是低重力飛行時間。"
+          },
+          {
+            "label": "保持水平發射組件足夠堅固以拉伸著陸點。"
+          }
+        ],
         "targets": [
           {
             "label": "讓射程落在 $35$ 到 $38\\,\\mathrm{m}$。"
@@ -528,7 +782,8 @@
           {
             "label": "把最高高度控制在 $7$ 到 $10\\,\\mathrm{m}$。"
           }
-        ]
+        ],
+        "style": "目標設定"
       },
       {
         "id": "pm-ch-apex-freeze",
@@ -542,6 +797,14 @@
           "最高點通常在速度圖上比在軌跡圖上更容易找。",
           "你要找的是垂直速度為零，同時高度仍接近最大值，而不是總速度為零。"
         ],
+        "checks": [
+          {
+            "label": "在地球拍攝頂點時間附近檢查，而不是在發射或著陸框架處檢查。"
+          },
+          {
+            "label": "使弧頂部的水平速度保持非零。"
+          }
+        ],
         "targets": [
           {
             "label": "把 $v_y$ 拉近到 $0\\,\\mathrm{m/s}$。"
@@ -549,8 +812,74 @@
           {
             "label": "讓拋體高度維持在 $8.0$ 到 $8.6\\,\\mathrm{m}$。"
           }
-        ]
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "pm-ch-complementary-angle-compare",
+        "title": "相同範圍，不同高度",
+        "prompt": "開啟比較模式並以相同的速度建造兩次地球重力發射：設定 A 接近 30 度，設定 B 接近 60 度。使它們的範圍匹配，同時頂點高度和播放時間明顯分開。",
+        "successMessage": "您隔離了互補角度權衡：相等的速度和地球重力可以提供匹配的範圍，但更陡的鏡頭通過放棄水平速度來購買高度和飛行時間。",
+        "setup": {
+          "note": "在兩種設定中保持速度和重力相符；改變角度，這樣比較的是組件分裂，而不是不同的發射能量。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "補角具有相同的 sin(2θ)，因此當速度和重力匹配時，30 度和 60 度可以落在相同的範圍內。",
+          "更陡峭的設定應該爬得更高並在空中停留更長時間，即使它著陸的距離大致相同。"
+        ],
+        "checks": [
+          {
+            "label": "設定 A 應落在共用互補角度範圍附近。"
+          },
+          {
+            "label": "設定 B 應該落在基本上相同的範圍內。"
+          },
+          {
+            "label": "設定 A 應保持足夠低以顯示淺層權衡。"
+          },
+          {
+            "label": "設定 B 應該比設定 A 爬得更高。"
+          },
+          {
+            "label": "設定 A 的通話時間應該較短。"
+          },
+          {
+            "label": "設定 B 應該有更長的通話時間。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "保持設定 A 發射速度接近 18 m/s。"
+          },
+          {
+            "label": "保持設定 B 發射速度接近 18 m/s。"
+          },
+          {
+            "label": "保持設定 A 受地球重力影響。"
+          },
+          {
+            "label": "保持裝置 B 受地球重力影響。"
+          },
+          {
+            "label": "使設定 A 接近 30 度的淺互補發射。"
+          },
+          {
+            "label": "將設定 B 設定為接近 60 度的陡峭互補發射。"
+          }
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "抛射運動",
+    "description": "互動式彈丸運動，具有即時軌跡圖、向量疊加以及對發射速度、角度和重力的清晰控制。",
+    "keywords": [
+      "拋射運動",
+      "軌跡",
+      "力学",
+      "實體模擬"
     ]
   }
 }

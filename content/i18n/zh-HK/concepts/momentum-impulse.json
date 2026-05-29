@@ -67,22 +67,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 辨認關係"
+              "label": "1. 辨認關係",
+              "template": "對目前檢查時刻的購物車使用 $p = mv$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入即時數值"
+              "label": "2. 代入即時數值",
+              "template": "$p = {{massValue}}\\cdot {{velocityValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算動量"
+              "label": "3. 計算動量",
+              "template": "這給了$p = {{momentumValue}}\\,\\mathrm{kg\\,m/s}$。"
             }
           ],
           "resultLabel": "目前動量",
+          "resultTemplate": "$p = {{momentumValue}}\\,\\mathrm{kg\\,m/s}$",
           "applyAction": {
             "label": "套用短而有力的推力",
             "observationHint": "一起觀察動量圖、小車速度箭頭和動量條；它們應該都在描述同一個時刻。"
-          }
+          },
+          "interpretationTemplate": "{{momentumInterpretation}}"
         },
         {
           "id": "pulse-impulse",
@@ -105,22 +110,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 從衝量-動量定理開始"
+              "label": "1. 從衝量-動量定理開始",
+              "template": "使用 $J = F\\Delta t$ 和 $p_f = p_i + J$ 作為此恆定脈衝。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前脈衝"
+              "label": "2. 代入目前脈衝",
+              "template": "$J = {{forceValue}}\\cdot {{pulseDurationValue}}$ 和 $p_f = {{initialMomentumValue}} + J$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算預測最終動量"
+              "label": "3. 計算預測最終動量",
+              "template": "所以$J = {{impulseValue}}\\,\\mathrm{N\\,s}$和$p_f = {{finalMomentumValue}}\\,\\mathrm{kg\\,m/s}$。"
             }
           ],
           "resultLabel": "衝量與最終動量",
+          "resultTemplate": "$J = {{impulseValue}}\\,\\mathrm{N\\,s}, \\quad p_f = {{finalMomentumValue}}\\,\\mathrm{kg\\,m/s}$",
           "applyAction": {
             "label": "套用長而溫和的推力",
             "observationHint": "比較較寬的力脈衝，並檢查動量圖和衝量圖是否出現相同的最終跳變。"
-          }
+          },
+          "interpretationTemplate": "{{impulseInterpretation}}"
         }
       ]
     },
@@ -275,6 +285,74 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "用定時力脈衝推動一輛小車，觀察動量、脈衝和力-時間區域與相同的運動、讀數和圖像保持聯繫。",
+    "whyItMatters": "脈衝將力歷史記錄轉換為精確的動量變化，因此您可以預測推動力將改變運動的力度、持續時間和方向。",
+    "keyTakeaway": "動量是質量乘以速度，衝量是有符號的力-時間面積；即使脈衝形狀發生變化，匹配該面積也能匹配動量變化。"
+  },
+  "v2": {
+    "intuition": "透過一個力脈衝觀察一輛小車，以便動量變化和力-時間區域保持與同一個移動物體連結在一起。",
+    "whyItMatters": "脈衝是從力歷史到動量變化的持久橋樑，因此這張長凳需要感覺像一個因果鏈，而不是兩個公式。",
+    "guidedSteps": [
+      {
+        "id": "read-one-force-pulse",
+        "title": "讀取一個力脈衝",
+        "goal": "將力脈衝視為改變小車動量的區域。",
+        "doThis": "從短-硬-推預設開始，保持力圖可見，並擦洗一個完整脈衝。",
+        "notice": "力-時間圖建構了一個有限區域，而動量讀數在相同的時間間隔內發生變化。",
+        "explain": "衝量是隨時間累積的力，因此力圖下方的面積與改變動量的量相同。"
+      },
+      {
+        "id": "compare-two-equal-impulses",
+        "title": "比較兩個相等的脈衝",
+        "goal": "了解為什麼不同的力形狀仍然可以實現相同的動量變化。",
+        "doThis": "在短暫用力推和長時輕推預設之間切換，並比較每個脈衝留下的最終動量。",
+        "notice": "一個脈衝更高更短，另一個脈衝更低更寬，但最終的動量變化可以匹配。",
+        "explain": "力與時間的細節可能會有所不同，但總面積保持不變，因此相等的衝量會產生相等的動量變化。"
+      },
+      {
+        "id": "change-mass-not-impulse",
+        "title": "改變質量，而不是脈衝",
+        "goal": "透過讓購物車更重，將動量變化與速度變化分開。",
+        "doThis": "應用重車預設並將產生的速度變化與早期的脈衝情況進行比較。",
+        "notice": "當小車質量較大時，同一種脈衝可以產生較小的速度變化。",
+        "explain": "衝動直接改變動量。由此產生的速度變化也取決於質量，因為 p = mv。"
+      },
+      {
+        "id": "build-a-matching-impulse",
+        "title": "建立匹配的衝動",
+        "goal": "同時使用力量和持續時間來實現目標動量變化，而不是單獨追逐力量高度。",
+        "doThis": "開始挑戰並發出更低、更長的脈衝，但仍接近與短期強力推動相同的最終動量。",
+        "notice": "試圖看起來不同，但脈衝讀數和最終動量仍然可以在同一頻帶內結束。",
+        "explain": "這是作為設計規則的衝量動量定理：對於同一個起始車，保持符號區域固定並且動量變化保持固定。",
+        "inlineCheck": {
+          "title": "你能保留該區域嗎？"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "動量結合了質量、速度和方向。",
+        "脈衝是力-時間圖下的帶符號面積。",
+        "即使力脈衝具有不同的形狀，相等的脈衝也會產生相同的動量變化。",
+        "較重的購物車可以透過較小的速度變化獲得相同的動量變化。"
+      ],
+      "misconception": "更大的力自動意味著更大的最終動量變化，即使脈衝要短得多。",
+      "freePlayPrompt": "建立一個較低、較長的脈衝和一個較高、較短的脈衝，它們落在相同的最終動量帶中，然後嘗試制動脈衝並解釋符號變化。",
+      "nextConcepts": [
+        {
+          "slug": "conservation-of-momentum",
+          "title": "動量守恆",
+          "reasonLabel": "將脈衝帶入多物體運動"
+        },
+        {
+          "slug": "collisions",
+          "title": "碰撞",
+          "reasonLabel": "在撞擊過程中使用動量變化"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "momentum",
@@ -315,23 +393,426 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "力",
+      "primaryGraphIds": [
+        "力",
+        "衝動",
+        "勢頭"
+      ],
+      "primaryControlIds": [
+        "力",
+        "脈衝持續時間",
+        "質量"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "概念標籤",
+        "重型小車",
+        "煞車脈衝"
+      ],
+      "starterExploreTasks": [
+        "從短的硬推動開始並讀取力時間區域：高的窄脈衝仍然可以具有有限的脈衝。",
+        "切換到長輕推並比較衝量圖和最終動量圖；峰值力下降，但更寬的脈衝保持幾乎相同$J = \\Delta p$。",
+        "施加煞車脈衝並一起觀察力箭頭、脈衝圖和動量條：符號面積現在為負值，因此最終動量下降。"
+      ]
+    },
     "controls": [
       {
         "id": "mass",
-        "label": "質量"
+        "label": "質量",
+        "description": "改變小車的質量並比較相同的脈衝如何使速度變小或變大。"
       },
       {
         "id": "initialVelocity",
-        "label": "初始速度"
+        "label": "初始速度",
+        "description": "在脈衝開始之前設定小車的起始方向和起始動量。"
       },
       {
         "id": "force",
-        "label": "力"
+        "label": "力",
+        "description": "設定脈衝的高度和符號。正向的力量向右推；負向力向左推。"
       },
       {
         "id": "pulseDuration",
-        "label": "脈衝持續時間"
+        "label": "脈衝持續時間",
+        "description": "設定力保持的時間長度。即使力較小，較長的脈衝也可以產生較大的脈衝。"
       }
+    ],
+    "presets": [
+      {
+        "id": "short-hard-push",
+        "label": "短硬推",
+        "description": "一個高而窄的脈衝，其脈衝與長的輕柔推動相同。"
+      },
+      {
+        "id": "long-gentle-push",
+        "label": "長輕推",
+        "description": "更低、更寬的脈衝，具有與短時強力推動相同的脈衝。"
+      },
+      {
+        "id": "heavy-cart",
+        "label": "重型小車",
+        "description": "較重的小車上的脈衝相同，因此動量變化相同，但速度變化較小。"
+      },
+      {
+        "id": "braking-pulse",
+        "label": "煞車脈衝",
+        "description": "向左脈衝可以減少小車向右的動量，甚至可以使其反轉。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "forceArrow",
+        "label": "力箭頭",
+        "shortDescription": "顯示脈衝啟動時力的方向和大小。",
+        "whatToNotice": [
+          "箭頭僅在陰影脈衝視窗期間運作。在此之前和之後，車子都會滑行。",
+          "反轉箭頭會改變衝量和動量變化的符號。"
+        ],
+        "whyItMatters": "衝動是有符號的，所以方向和大小一樣重要。",
+        "relatedControls": [
+          "力"
+        ],
+        "relatedGraphTabs": [
+          "力",
+          "衝動"
+        ],
+        "relatedEquationVariables": [
+          "力"
+        ]
+      },
+      {
+        "id": "pulseWindow",
+        "label": "脈衝視窗",
+        "shortDescription": "使力開啟時的時間間隔變暗。",
+        "whatToNotice": [
+          "陰影區域標示時間，而不是軌道上的位置。",
+          "如果符號面積匹配，較寬的脈衝可以提供與較高脈衝相同的脈衝。"
+        ],
+        "whyItMatters": "它可以幫助您將脈衝解讀為力乘以時間。",
+        "relatedControls": [
+          "脈衝持續時間"
+        ],
+        "relatedGraphTabs": [
+          "力",
+          "衝動"
+        ],
+        "relatedEquationVariables": [
+          "力",
+          "持續時間"
+        ]
+      },
+      {
+        "id": "momentumBars",
+        "label": "動量條",
+        "shortDescription": "在一個帶符號的刻度上比較初始、當前和最終動量。",
+        "whatToNotice": [
+          "當前柱僅在施加力時發生變化，然後保持固定。",
+          "從 $p_i$ 到 $p_f$ 的間隙與總累積脈衝相符。"
+        ],
+        "whyItMatters": "這些條使 $J = \\Delta p$ 在與運動相同的舞台上可見。",
+        "relatedControls": [
+          "質量",
+          "初速"
+        ],
+        "relatedGraphTabs": [
+          "勢頭",
+          "衝動"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "初速"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "force",
+      "label": "力與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "力 (N)",
+      "description": "顯示脈衝的符號、高度和持續時間，因此圖像下方的區域代表脈衝。"
+    },
+    {
+      "id": "momentum",
+      "label": "動量與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "動量 (kg m/s)",
+      "description": "顯示動量在脈衝之前和之後保持恆定，並且僅在力作用時發生變化。"
+    },
+    {
+      "id": "impulse",
+      "label": "衝量與動量變化",
+      "xLabel": "時間（秒）",
+      "yLabel": "脈衝/增量 p",
+      "description": "顯示累積的衝量以及動量的變化，以便您可以直接比較兩者。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "在一次更改一個控制項時使用這些提示。將賽道上發生的情況與力、衝量和動量圖相匹配。",
+    "items": [
+      {
+        "id": "mi-notice-area-link",
+        "text": "請注意，力脈衝的帶符號面積與動量變化的量相同。",
+        "tryThis": "一起觀察力脈衝和累積脈衝圖，然後比較動量圖上的最終偏移。",
+        "whyItMatters": "這是一個連接的視覺循環中的脈衝動量定理。",
+        "relatedControls": [
+          "力",
+          "脈衝持續時間"
+        ],
+        "relatedGraphTabs": [
+          "力",
+          "衝動",
+          "勢頭"
+        ],
+        "relatedOverlays": [
+          "脈衝視窗",
+          "動量條"
+        ],
+        "relatedEquationVariables": [
+          "力",
+          "持續時間"
+        ]
+      },
+      {
+        "id": "mi-notice-force-only-during-pulse",
+        "text": "請注意，動量僅在力脈衝實際開啟時才會改變。",
+        "tryThis": "在脈衝之前、期間和之後暫停。動量圖應該是平坦的，變化，然後再次平坦。",
+        "whyItMatters": "它將持續的運動與目前正在變化的動量分開。",
+        "relatedGraphTabs": [
+          "勢頭",
+          "力"
+        ],
+        "relatedOverlays": [
+          "力箭頭",
+          "脈衝視窗"
+        ]
+      },
+      {
+        "id": "mi-notice-equal-impulse",
+        "text": "請注意，較低的較寬脈衝可以與較高的較窄脈衝以相同的最終動量結束。",
+        "tryThis": "比較短的用力推和長的輕推。即使最終動量匹配，力圖看起來也不同。",
+        "whyItMatters": "它打破了只有力大小才重要的錯誤。",
+        "relatedControls": [
+          "力",
+          "脈衝持續時間"
+        ],
+        "relatedGraphTabs": [
+          "力",
+          "勢頭",
+          "衝動"
+        ],
+        "relatedOverlays": [
+          "脈衝視窗",
+          "動量條"
+        ]
+      },
+      {
+        "id": "mi-notice-duration-change",
+        "text": "請注意，即使力高度保持固定，增加脈衝持續時間也會加寬力-時間區域。",
+        "tryThis": "在不改變力的情況下延長脈衝。圖像變得更寬，最終動量移動得更遠。",
+        "whyItMatters": "衝量取決於時間，就像它取決於力一樣。",
+        "relatedControls": [
+          "脈衝持續時間",
+          "力"
+        ],
+        "relatedGraphTabs": [
+          "力",
+          "衝動"
+        ],
+        "relatedOverlays": [
+          "脈衝視窗"
+        ],
+        "relatedEquationVariables": [
+          "力",
+          "持續時間"
+        ]
+      },
+      {
+        "id": "mi-notice-mass",
+        "text": "請注意，對於相同的脈衝，質量對速度響應的變化大於動量變化。",
+        "tryThis": "保持脈衝相同，並比較輕型小車和重型小車。動量變化匹配，但重型車的速度變化較小。",
+        "whyItMatters": "它有助於將 $\\Delta p$ 與 $\\Delta v$ 分開，學生經常將其合併。",
+        "relatedControls": [
+          "質量",
+          "力",
+          "脈衝持續時間"
+        ],
+        "relatedGraphTabs": [
+          "勢頭",
+          "衝動"
+        ],
+        "relatedOverlays": [
+          "動量條"
+        ],
+        "relatedEquationVariables": [
+          "質量"
+        ]
+      },
+      {
+        "id": "mi-notice-impulse-graph",
+        "text": "請注意，當力脈衝結束時，脈衝圖恰好停止上升。",
+        "tryThis": "在脈衝末端附近擦洗，並將時間遊標與陰影脈衝視窗進行比較。",
+        "whyItMatters": "累積衝量是一個運行總量，而不是持續作用的力。",
+        "relatedGraphTabs": [
+          "力",
+          "衝動"
+        ],
+        "relatedOverlays": [
+          "脈衝視窗"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測脈搏",
+    "intro": "在運行脈衝之前預測它會做什麼。然後根據力、衝量和動量圖像檢查舞台。",
+    "items": [
+      {
+        "id": "mi-predict-equal-impulse",
+        "prompt": "如果您在同一個 $1\\,\\mathrm{kg}$ 購物車上從短時用力推送切換到長時輕柔推送，哪些內容應該保持不變？",
+        "scenarioLabel": "長柔和的等脈衝脈衝",
+        "changeLabel": "相同的脈衝，不同的形狀",
+        "choices": [
+          {
+            "id": "a",
+            "label": "儘管力圖變得更低更寬，但最終動量變化保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "最終動量必須變小，因為峰值力更小。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何改變，因為力和時間總是完全抵消。"
+          }
+        ],
+        "explanation": "兩個預設都具有相同的有符號力-時間區域，因此即使脈衝形狀不同，它們也會向同一個購物車提供相同的脈衝和相同的動量變化。",
+        "observationHint": "比較脈衝圖的結尾、動量圖以及長柔和脈衝後的最終動量條。"
+      },
+      {
+        "id": "mi-predict-heavy-cart",
+        "prompt": "如果在相同的短硬脈衝作用時質量增加，舞台和圖像上應該發生什麼變化？",
+        "scenarioLabel": "具有相同脈衝的重型小車",
+        "changeLabel": "較大的質量，相同的衝力",
+        "choices": [
+          {
+            "id": "a",
+            "label": "動量變化保持不變，但小車的速度變化較小。"
+          },
+          {
+            "id": "b",
+            "label": "由於小車較重，衝力會自動變小。"
+          },
+          {
+            "id": "c",
+            "label": "力圖必須變高才能維持動量圖的真實性。"
+          }
+        ],
+        "explanation": "力-時間面積不變，因此衝量和動量變化也不變。較重的購物車會將相同的 $\\Delta p$ 變成較小的 $\\Delta v$。",
+        "observationHint": "觀察動量圖上升相同的量，而購物車的速度變化較小。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用力和持續時間控製作為區域匹配工具：圖像形狀可能會改變，但最終動量應證明脈衝是否匹配。",
+    "items": [
+      {
+        "id": "mi-ch-match-final-momentum-with-gentler-pulse",
+        "title": "用較溫和的脈衝來匹配動量",
+        "prompt": "從短的強力推動開始，建立一個更低、更長的向右脈衝，該脈衝仍然提供幾乎相同的衝動和最終動量。",
+        "successMessage": "您在沒有複製力高度的情況下匹配了脈衝。較低、較長的脈衝落在相同的最終動量帶中，因為帶符號的力-時間面積幾乎不變。",
+        "setup": {
+          "note": "同時使用力和脈衝持續時間滑桿。目標不是一個高大的力量；它與最終的動量相匹配。"
+        },
+        "hints": [
+          "基線脈衝約為 $1.2\\,\\mathrm{N\\,s}$，因此降低力意味著您需要更長的脈衝。",
+          "$1.5\\,\\mathrm{N}$ 附近的力和 $0.8\\,\\mathrm{s}$ 附近的持續時間應使該區域保持緊密。",
+          "檢查最終動量條，而不僅僅是力圖的峰值高度。"
+        ],
+        "checks": [
+          {
+            "label": "保留原來的一公斤小車，以便比較隔離力-時間區域。"
+          },
+          {
+            "label": "保持與短線強力推動相同的起始動力。"
+          },
+          {
+            "label": "將帶符號的力-時間面積與基線脈衝進行配對。"
+          },
+          {
+            "label": "使 $\\Delta p$ 與匹配的衝量一致，而不是僅與力高度一致。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將力降低到大約 $1.5\\,\\mathrm{N}$。"
+          },
+          {
+            "label": "將脈衝持續時間延長至約 $0.8\\,\\mathrm{s}$。"
+          },
+          {
+            "label": "將總脈衝保持在 $1.1$ 和 $1.3\\,\\mathrm{N\\,s}$ 之間。"
+          },
+          {
+            "label": "最終動量落在 $1.6$ 和 $1.8\\,\\mathrm{kg\\,m/s}$ 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "mi-ch-brake-with-negative-impulse",
+        "title": "負脈衝制動",
+        "prompt": "讓向右移動的小車接收到向左的脈衝，然後解釋負力-時間區域如何減少最終動量。",
+        "successMessage": "您使用衝量作為有符號量：向左的力箭頭來建立負面積，因此只有當其啟動動量大於煞車衝量時，小車才會保持移動。",
+        "setup": {
+          "note": "保持力圖和動量條可見，這樣衝量的符號就不會被隱藏。"
+        },
+        "hints": [
+          "負向力使脈衝圖在脈衝期間向下階躍。",
+          "即使小車開始時向右移動，最終動量也應低於初始動量。"
+        ],
+        "checks": [
+          {
+            "label": "保持小車最初以煞車預設的起始動量向右移動。"
+          },
+          {
+            "label": "使帶符號的衝量成為力圖下方的強向左區域。"
+          },
+          {
+            "label": "將負衝量與動量的負變化相匹配。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "在 $-1.5\\,\\mathrm{N}$ 下方使用向左的力。"
+          },
+          {
+            "label": "使動量變化為負。"
+          },
+          {
+            "label": "將煞車脈衝持續時間保持在 $0.5\\,\\mathrm{s}$ 附近。"
+          },
+          {
+            "label": "煞車後僅留下較小的正最終動量。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "description": "互動式動量和脈衝課程，包括定時力脈衝、連結動量圖、比較模式、預測提示和概念快速測試。",
+    "keywords": [
+      "勢頭",
+      "衝動",
+      "力隨時間的變化",
+      "衝量動量定理",
+      "實體模擬"
     ]
   }
 }

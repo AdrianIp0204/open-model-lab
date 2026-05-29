@@ -55,49 +55,95 @@
           "id": "current-output-state",
           "title": "當前傳輸輸出",
           "prompt": "對於當前的工作台狀態，什麼輸出離開偏振器，以及多少來源強度達到檢測器？",
+          "variables": [
+            {
+              "id": "input-state",
+              "label": "輸入狀態"
+            },
+            {
+              "id": "input-angle",
+              "label": "輸入角度"
+            },
+            {
+              "id": "polarizer-angle",
+              "label": "偏光鏡角度"
+            },
+            {
+              "id": "delta-angle",
+              "label": "相對角度"
+            }
+          ],
           "steps": [
             {
               "id": "read-state",
-              "label": "1. 閱讀實時狀態"
+              "label": "1. 閱讀實時狀態",
+              "template": "輸入為 {{inputStateValue}}，偏振器軸設定為 {{polarizerAngleValue}}，因此實驗台將透射視為方向匹配問題。"
             },
             {
               "id": "project-field",
-              "label": "2. 只保留軸對齊的部分"
+              "label": "2. 只保留軸對齊的部分",
+              "template": "{{projectionStepText}} 給出的傳輸場幅度為 {{transmittedFieldValue}}。"
             },
             {
               "id": "detector",
-              "label": "3. 輸入檢測器和輸出軸"
+              "label": "3. 輸入檢測器和輸出軸",
+              "template": "偵測器接收輸入強度的 {{transmittedIntensityPercentValue}}，輸出沿著 {{outputAngleValue}} 線性偏振。"
             }
           ],
           "resultLabel": "當前傳輸輸出",
+          "resultTemplate": "$E_{out} = {{transmittedFieldValue}}, \\quad I/I_0 = {{transmittedIntensityValue}}, \\quad \\theta_{out} = {{outputAngleValue}}$",
           "applyAction": {
             "label": "顯示半功率投影",
             "observationHint": "在45度的不匹配中，場只保留餘弦投影，檢測器接近半功率。"
-          }
+          },
+          "interpretationTemplate": "{{outputInterpretation}}"
         },
         {
           "id": "current-blocked-share",
           "title": "當前被阻塞的比例",
           "prompt": "對於當前的工作台狀態，有多少波被阻塞了，這揭示了什麼關於偏振的資訊？",
+          "variables": [
+            {
+              "id": "output-state",
+              "label": "輸出狀態"
+            },
+            {
+              "id": "blocked-field",
+              "label": "被封鎖的欄位元件"
+            },
+            {
+              "id": "blocked-share",
+              "label": "阻塞強度分數"
+            },
+            {
+              "id": "blocked-angle",
+              "label": "方向受阻"
+            }
+          ],
           "steps": [
             {
               "id": "separate-components",
-              "label": "1. 識別拒絕的部分"
+              "label": "1. 識別拒絕的部分",
+              "template": "{{blockedStepText}}"
             },
             {
               "id": "compare-shares",
-              "label": "2. 比較傳輸和被阻塞的強度"
+              "label": "2. 比較傳輸和被阻塞的強度",
+              "template": "現在 {{transmittedIntensityPercentValue}} 已傳輸，{{blockedIntensityPercentValue}} 已被阻止。"
             },
             {
               "id": "name-output",
-              "label": "3. 設定新的輸出狀態"
+              "label": "3. 設定新的輸出狀態",
+              "template": "過濾光器後，剩餘的光是 {{outputStateValue}}，因此軸已從傳入的可能性中選擇了一個橫向方向。"
             }
           ],
           "resultLabel": "當前被阻塞的比例",
+          "resultTemplate": "$E_\\perp = {{blockedFieldValue}}, \\quad I_{blocked}/I_0 = {{blockedIntensityValue}}$",
           "applyAction": {
             "label": "顯示未偏振的輸入",
             "observationHint": "即使軸角度改變，檢測器分數仍然接近一半，因為輸入不再開始具有一個預期的方向。"
-          }
+          },
+          "interpretationTemplate": "{{blockedInterpretation}}"
         }
       ]
     },
@@ -249,6 +295,10 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用一個緊湊的偏振器實驗台來了解偏振作為橫波的方向故事，角度不匹配如何設定透射光，以及為什麼一個理想的偏振器使非偏振光以一個選定的軸出現。",
+    "keyTakeaway": "偏振是橫波的一種取向特性，而不是一種單獨的強度控制。"
+  },
   "equations": [
     {
       "id": "field-projection",
@@ -294,34 +344,338 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "功率分配",
+      "primaryGraphIds": [
+        "功率分配",
+        "場投影"
+      ],
+      "primaryControlIds": [
+        "輸入角度",
+        "偏光鏡角度"
+      ],
+      "primaryPresetIds": []
+    },
+    "controls": [
+      {
+        "id": "inputAmplitude",
+        "label": "輸入幅度",
+        "description": "縮放傳入場高度而不更改方向幾何形狀。"
+      },
+      {
+        "id": "inputAngle",
+        "label": "輸入角度",
+        "description": "旋轉入射線偏振方向。"
+      },
+      {
+        "id": "polarizerAngle",
+        "label": "偏光鏡角度",
+        "description": "旋轉理想偏振片的透射軸。"
+      },
+      {
+        "id": "unpolarized",
+        "label": "非極化輸入",
+        "description": "從一個固定輸入方向切換到沒有首選軸的混合橫向輸入。"
+      }
+    ],
     "presets": [
       {
         "id": "unpolarized-half",
         "label": "基準線偏振",
         "description": "一個與偏振軸部分錯開的線偏振入射波，使通過與阻擋的分量都清晰可見。"
+      },
+      {
+        "id": "baseline-linear",
+        "label": "基線線性",
+        "description": "部分未對準的線性輸入，因此透射和阻擋的分量都保持可見。"
+      },
+      {
+        "id": "aligned-pass",
+        "label": "對齊通過",
+        "description": "輸入和軸匹配，因此探測器保持明亮。"
+      },
+      {
+        "id": "half-power-linear",
+        "label": "半功率",
+        "description": "45 度失配使檢測器上的強度減半。"
+      },
+      {
+        "id": "crossed-dark",
+        "label": "交叉軸",
+        "description": "90 度失配幾乎完全抑制了透射強度。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "transverseGuide",
+        "label": "橫斷面",
+        "shortDescription": "將波束方向與側向場方向分開。",
+        "whatToNotice": [
+          "光束仍然向右傳播，而偏振存在於垂直橫截面中。"
+        ],
+        "whyItMatters": "它將波傳播與波方向分開。",
+        "relatedControls": [
+          "輸入角度",
+          "偏光鏡角度"
+        ],
+        "relatedGraphTabs": [
+          "場投影"
+        ],
+        "relatedEquationVariables": [
+          "輸入角度"
+        ]
+      },
+      {
+        "id": "projectionGuide",
+        "label": "投影指南",
+        "shortDescription": "顯示保留的軸平行分量和被阻擋的垂直分量。",
+        "whatToNotice": [
+          "旋轉相對角度會改變沿軸的磁場大小；它本身不會轉動光束。"
+        ],
+        "whyItMatters": "它將馬呂斯定律重新轉化為可見的幾何形狀。",
+        "relatedControls": [
+          "輸入角度",
+          "偏光鏡角度",
+          "非偏振"
+        ],
+        "relatedGraphTabs": [
+          "場投影",
+          "功率分配"
+        ],
+        "relatedEquationVariables": [
+          "輸入角度",
+          "偏光鏡角度"
+        ]
+      },
+      {
+        "id": "intensityGuide",
+        "label": "探測器分裂",
+        "shortDescription": "在偵測器旁邊顯示傳輸和封鎖的共用。",
+        "whatToNotice": [
+          "對於線性輸入，亮度遵循方向匹配。對於非偏振第一遍，檢測器平均保持在接近一半的水平。"
+        ],
+        "whyItMatters": "它有助於比較對齊、交叉和非極化的情況，而不會混淆它們。",
+        "relatedControls": [
+          "輸入振幅",
+          "偏光鏡角度",
+          "非偏振"
+        ],
+        "relatedGraphTabs": [
+          "功率分配"
+        ],
+        "relatedEquationVariables": [
+          "輸入振幅",
+          "偏光鏡角度"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "power-split",
+      "label": "功率分配與偏振器角度",
+      "xLabel": "偏光角度（度數）",
+      "yLabel": "相對強度",
+      "description": "掃描偏振片軸以比較同一響應曲線上的透射和阻擋強度分數。"
+    },
+    {
+      "id": "field-projection",
+      "label": "場投影與偏振片角度",
+      "xLabel": "偏光角度（度數）",
+      "yLabel": "場分數",
+      "description": "顯示了偏振片旋轉時軸對齊和垂直場分量如何權衡。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "請記住一個問題：有多少視場位於偏光軸上？",
     "items": [
       {
         "id": "polarization-notice-aligned",
-        "tryThis": "由基準線偏振開始，然後旋轉偏振軸，直到它與入射角度對齊。"
-      },
-      {
-        "id": "polarization-notice-compare"
-      },
-      {
-        "id": "polarization-notice-compare"
+        "text": "當輸入和軸對齊時，幾乎整個場已經指向軸，因此探測器保持明亮。",
+        "tryThis": "由基準線偏振開始，然後旋轉偏振軸，直到它與入射角度對齊。",
+        "whyItMatters": "偏光器保留現有組件；它不會從無到有創造出東西。",
+        "relatedControls": [
+          "輸入角度",
+          "偏光鏡角度"
+        ],
+        "relatedGraphTabs": [
+          "功率分配",
+          "場投影"
+        ],
+        "relatedOverlays": [
+          "投影指南",
+          "強度指南"
+        ]
       },
       {
         "id": "polarization-notice-compare",
         "text": "比較模式在其中一個設定只改變相對角度，而另一個設定把入射態由線偏振改成非偏振時最有力。",
-        "tryThis": "把設定 A 保持在「半功率」，先把設定 B 切換到「非偏振的第一輪通過」。"
+        "tryThis": "把設定 A 保持在「半功率」，先把設定 B 切換到「非偏振的第一輪通過」。",
+        "whyItMatters": "這將餘弦投影故事與半強度平均故事區分開來。",
+        "relatedControls": [
+          "輸入角度",
+          "偏光鏡角度",
+          "非偏振"
+        ],
+        "relatedGraphTabs": [
+          "功率分配",
+          "場投影"
+        ],
+        "relatedOverlays": [
+          "投影指南",
+          "強度指南"
+        ]
+      },
+      {
+        "id": "polarization-notice-compare",
+        "text": "比較模式在其中一個設定只改變相對角度，而另一個設定把入射態由線偏振改成非偏振時最有力。",
+        "tryThis": "把設定 A 保持在「半功率」，先把設定 B 切換到「非偏振的第一輪通過」。",
+        "whyItMatters": "這將餘弦投影故事與半強度平均故事區分開來。",
+        "relatedControls": [
+          "輸入角度",
+          "偏光鏡角度",
+          "非偏振"
+        ],
+        "relatedGraphTabs": [
+          "功率分配",
+          "場投影"
+        ],
+        "relatedOverlays": [
+          "投影指南",
+          "強度指南"
+        ]
+      },
+      {
+        "id": "polarization-notice-compare",
+        "text": "比較模式在其中一個設定只改變相對角度，而另一個設定把入射態由線偏振改成非偏振時最有力。",
+        "tryThis": "把設定 A 保持在「半功率」，先把設定 B 切換到「非偏振的第一輪通過」。",
+        "whyItMatters": "這將餘弦投影故事與半強度平均故事區分開來。",
+        "relatedControls": [
+          "輸入角度",
+          "偏光鏡角度",
+          "非偏振"
+        ],
+        "relatedGraphTabs": [
+          "功率分配",
+          "場投影"
+        ],
+        "relatedOverlays": [
+          "投影指南",
+          "強度指南"
+        ]
+      },
+      {
+        "id": "polarization-notice-crossed",
+        "text": "對於交叉軸，光束方向不變，但軸平行分量幾乎為零，因此偵測器變暗。",
+        "tryThis": "使用交叉軸預設並將偵測器標記與投影標註進行比較。",
+        "whyItMatters": "它將零透射率與方向失配聯繫起來，而不是與光束停止或彎曲聯繫起來。",
+        "relatedControls": [
+          "偏光鏡角度"
+        ],
+        "relatedGraphTabs": [
+          "功率分配",
+          "場投影"
+        ],
+        "relatedOverlays": [
+          "投影指南",
+          "強度指南"
+        ]
+      },
+      {
+        "id": "polarization-notice-unpolarized",
+        "text": "切換到非極化輸入會刪除單一起始方向。理想的第一偏振片仍然會產生線性偏振輸出，但探測器的平均強度保持在接近一半的水平。",
+        "tryThis": "開啟非偏振輸入並將軸旋轉多個角度。",
+        "whyItMatters": "它將混合輸入狀態與濾波器創建的線性偏振輸出分開。",
+        "relatedControls": [
+          "非偏振",
+          "偏光鏡角度"
+        ],
+        "relatedGraphTabs": [
+          "功率分配"
+        ],
+        "relatedOverlays": [
+          "投影指南",
+          "強度指南"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測方向結果。詢問什麼元件位於軸上以及這對探測器亮度意味著什麼。",
+    "items": [
+      {
+        "id": "polarization-pred-crossed",
+        "prompt": "從對齊通道開始，將偏振片旋轉到遠離輸入 90 度。探測器應該發生什麼事？",
+        "scenarioLabel": "旋轉到交叉軸",
+        "changeLabel": "偏光鏡角度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "偵測器應該幾乎變暗，因為輸入沿新軸幾乎沒有分量。"
+          },
+          {
+            "id": "b",
+            "label": "探測器應保持相同的亮度，因為輸入幅度沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "光束應向新軸彎曲，同時保持相同的偵測器分數。"
+          }
+        ],
+        "explanation": "在 90° 失配時，理想的線性輸入在軸上的投影為零，因此傳輸強度崩潰。",
+        "observationHint": "觀察阻塞成分隨著偵測器下降而增加。"
+      },
+      {
+        "id": "polarization-pred-half-power",
+        "prompt": "保持輸入線性，但旋轉軸直到失配達到 45 度。應出現哪個檢測器結果？",
+        "scenarioLabel": "旋轉至 45 度",
+        "changeLabel": "相對角度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "偵測器應讀取約一半的入射強度，因為 cos 平方 45 度是二分之一。"
+          },
+          {
+            "id": "b",
+            "label": "偵測器讀數應為零，因為任何不匹配都會阻擋光束。"
+          },
+          {
+            "id": "c",
+            "label": "探測器應保持完全明亮，因為輸出始終跟隨軸。"
+          }
+        ],
+        "explanation": "在 45° 時，E_out = E_0 cos 45° 且 I_out = I_0 cos^2 45° = I_0/2。",
+        "observationHint": "場投影下降至約 0.707，而偵測器則穩定在 0.5 附近。"
+      },
+      {
+        "id": "polarization-pred-unpolarized",
+        "prompt": "將輸入從一個固定的線性方向切換為非偏振光束，同時保持軸不變。在這個理想的第一偏振片實驗台上應該保持什麼？",
+        "scenarioLabel": "切換到非極化輸入",
+        "changeLabel": "輸入狀態",
+        "choices": [
+          {
+            "id": "a",
+            "label": "偵測器應穩定在接近一半的強度，且輸出應沿軸保持偏振。"
+          },
+          {
+            "id": "b",
+            "label": "探測器應完全變暗，因為輸入不再具有單一角度。"
+          },
+          {
+            "id": "c",
+            "label": "輸出應保持非偏振，因為一個偏振器無法創建方向。"
+          }
+        ],
+        "explanation": "一個理想的第一偏振片可從非偏振光束產生線性偏振輸出，但平均只有一半的強度可以通過。",
+        "observationHint": "旋轉軸並注意輸出軸發生變化，但平均傳輸分數保持在接近一半的水平。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的緊湊實驗台進行小型偏振搜索，而不是單獨的工作表。",
     "items": [
       {
         "id": "pol-ch-half-power",
@@ -342,8 +696,42 @@
           {
             "label": "把相對角度保持在 42° 到 48° 之間。"
           }
-        ]
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "pol-ch-unpolarized-half",
+        "title": "創造半亮的第一偏振片",
+        "prompt": "從交叉軸開始，將實驗台切換到非偏振首次通過情況，仍使探測器亮度接近一半。",
+        "successMessage": "您將交叉線性情況轉變為非偏振第一偏振片情況。檢測器回到一半附近是因為輸入狀態發生了變化，而不是因為軸重新對齊。",
+        "setup": {
+          "note": "更改輸入狀態而不是追逐對齊。"
+        },
+        "hints": [
+          "關鍵移動未旋轉迴對齊狀態。",
+          "混合輸入狀態仍然可以透過一個理想的偏振片提供大約一半的強度。"
+        ],
+        "targets": [
+          {
+            "label": "開啟非極化輸入狀態。"
+          },
+          {
+            "label": "將偵測器分數保持在 0.48 和 0.52 之間。"
+          }
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "極化 |開放模型實驗室",
+    "description": "透過一個緊湊的偏振器實驗台、即時場投影、探測器讀數和波動光學鏈接，將偏振作為橫波方向的故事來學習。",
+    "keywords": [
+      "極化",
+      "偏光鏡",
+      "橫波",
+      "馬呂斯定律",
+      "波動光學"
     ]
   }
 }

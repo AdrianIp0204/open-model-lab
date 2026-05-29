@@ -1,5 +1,6 @@
 {
   "title": "內阻與端電壓",
+  "shortTitle": "內阻",
   "summary": "把一個非理想電源和一個負載留在畫面上，讓電動勢、內部壓降、端電壓、電流和浪費功率都連回同一個單迴路電路。",
   "highlights": [
     "電動勢",
@@ -8,12 +9,684 @@
   ],
   "topic": "電路",
   "subtopic": "非理想電源行為",
+  "recommendedNext": [
+    {
+      "slug": "power-energy-circuits",
+      "reasonLabel": "比較穩定負載功率"
+    },
+    {
+      "slug": "kirchhoff-loop-and-junction-rules",
+      "reasonLabel": "寫入循環餘額"
+    }
+  ],
   "sections": {
     "explanation": {
       "paragraphs": [
         "真實電源可以用理想電動勢加上一個小內阻來近似。負載電流越大，內阻上的壓降越明顯，所以端電壓會低於電動勢。",
         "這個模型把負載、內阻、電流和功率放在同一條迴路中。它的目的不是建立完整電池化學模型，而是讓你看見為甚麼重負載會令可用端電壓下降。"
       ]
+    },
+    "keyIdeas": [
+      "電流取決於總迴路電阻 E / (R + r)，而不只取決於負載電阻。",
+      "端電壓是實際到達負載的電壓，因此在負載下，它是 V_terminal = E - I r。",
+      "電流越大表示內部電壓降越大，電源內部浪費的功率也越大。"
+    ],
+    "commonMisconception": {
+      "myth": "如果電池標示為 12 V，則無論連接到什麼負載，負載都必須始終接收 12 V 電壓。",
+      "correction": [
+        "12 V 標籤是電動勢，不一定是負載下的端電壓。",
+        "一旦電流流過內部電阻，一些電動勢就會在電源內部丟失，並且負載會看到較小的端電壓。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時工作範例",
+      "intro": "使用螢幕上的確切來源和負載。相同的電動勢、內阻和負載電阻驅動即時環路、讀數卡片和下面的響應圖。",
+      "items": [
+        {
+          "id": "current-and-terminal-voltage",
+          "title": "負載下的電流和端電壓",
+          "prompt": "對於目前的非理想電源和負載，流過的電流是多少，負載實際接收到的端電壓是多少？",
+          "variables": [
+            {
+              "id": "emf",
+              "label": "源電動勢"
+            },
+            {
+              "id": "internalResistance",
+              "label": "內阻"
+            },
+            {
+              "id": "loadResistance",
+              "label": "負載電阻"
+            }
+          ],
+          "steps": [
+            {
+              "id": "build-total-resistance",
+              "label": "1. 建構全環路電阻",
+              "template": "$R_{\\text{total}} = R + r = {{loadResistanceValue}} + {{internalResistanceValue}}$。"
+            },
+            {
+              "id": "solve-current",
+              "label": "2. 使用全環電流規則",
+              "template": "$I = \\dfrac{E}{R + r} = \\dfrac{{emfValue}}{ {{loadResistanceValue}} + {{internalResistanceValue}} } = {{currentValue}}$。"
+            },
+            {
+              "id": "solve-terminal-voltage",
+              "label": "3.如實讀取負載電壓",
+              "template": "$V_{\\text{terminal}} = IR = {{currentValue}} \\times {{loadResistanceValue}} = {{terminalVoltageValue}}$。"
+            },
+            {
+              "id": "check-source-drop",
+              "label": "4. 檢查內部壓降",
+              "template": "源在其內部丟失了 $I r = {{currentValue}} \\times {{internalResistanceValue}} = {{internalDropValue}}$，因此 $E - I r = {{terminalVoltageValue}}$。"
+            }
+          ],
+          "resultLabel": "電流與端電壓",
+          "resultTemplate": "$I = {{currentValue}}, \\quad V_{\\text{terminal}} = {{terminalVoltageValue}}$",
+          "applyAction": {
+            "label": "顯示重載",
+            "observationHint": "較大的電流使內部壓降明顯，因此端電壓遠低於電動勢。"
+          },
+          "interpretationTemplate": "{{terminalInterpretation}}"
+        },
+        {
+          "id": "power-delivered-vs-lost",
+          "title": "傳輸至負載的功率與電源內部損耗的功率",
+          "prompt": "對於電流源和負載，有多少功率到達負載以及源內部浪費了多少功率？",
+          "variables": [
+            {
+              "id": "current",
+              "label": "迴路電流"
+            },
+            {
+              "id": "loadResistance",
+              "label": "負載電阻"
+            },
+            {
+              "id": "internalResistance",
+              "label": "內阻"
+            }
+          ],
+          "steps": [
+            {
+              "id": "load-power-rule",
+              "label": "1. 寫出傳遞功率規則",
+              "template": "$P_{\\text{load}} = I^2 R = ({{currentValue}})^2 \\times {{loadResistanceValue}}$。"
+            },
+            {
+              "id": "internal-power-rule",
+              "label": "2. 寫出內部損失規則",
+              "template": "$P_{\\text{internal}} = I^2 r = ({{currentValue}})^2 \\times {{internalResistanceValue}}$。"
+            },
+            {
+              "id": "power-results",
+              "label": "3. 讀取兩個功率值",
+              "template": "給出 $P_{\\text{load}} = {{loadPowerValue}}$ 和 $P_{\\text{internal}} = {{internalPowerValue}}$。"
+            },
+            {
+              "id": "efficiency-check",
+              "label": "4. 比較交付的分數",
+              "template": "在此設定中，負載的電源功率約為 {{efficiencyPercentValue}}。"
+            }
+          ],
+          "resultLabel": "傳遞功率與內部損耗",
+          "resultTemplate": "$P_{\\text{load}} = {{loadPowerValue}}, \\quad P_{\\text{internal}} = {{internalPowerValue}}$",
+          "applyAction": {
+            "label": "顯示低 R 參考",
+            "observationHint": "當 r 非常小時，內部損耗條縮小，端電壓上升到接近電動勢。"
+          },
+          "interpretationTemplate": "{{powerInterpretation}}"
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "為什麼負載大時電流會變大，但端電壓會變小？",
+      "prediction": "在檢查負載掃描之前，確定電流變化或內部壓力降是更重要的因果步驟。",
+      "answer": "重負載會降低總迴路電阻，因此電流會上升。但較大的電流也會使內部壓降 I r 變大，進而拉低階電壓。",
+      "explanation": "相同的電流在這裡有兩個作用：它透過增加傳遞的電流來幫助負載，但它也會透過增加內部電壓損耗來損害電源。這就是為什麼非理想來源很重要。"
     }
+  },
+  "quickTest": {
+    "title": "快速測試",
+    "intro": "來自即時非理想來源的答案，而不是來自理想電池快捷方式的答案。",
+    "questions": [
+      {
+        "id": "ir-qt-terminal-vs-emf",
+        "prompt": "當源具有非零內阻且有電流流動時，哪一種說法最好？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "端子電壓小於電動勢，因為電源內部損失了一些電壓。"
+          },
+          {
+            "id": "b",
+            "label": "端子電壓必須等於電動勢，因為兩者均以伏特為單位測量。"
+          },
+          {
+            "id": "c",
+            "label": "端子電壓大於電動勢，因為負載添加了自己的電壓。"
+          }
+        ],
+        "explanation": "內阻會產生實際的內部壓降 I r，因此負載看到的電動勢小於負載下的電動勢。",
+        "selectedWrongExplanations": {
+          "b": "一旦內部電阻很重要，它們是相關的，但並不相同。",
+          "c": "負載消耗端電壓。它不會產生額外的電電源電壓。"
+        },
+        "showMeAction": {
+          "label": "顯示有損源",
+          "observationHint": "將電動勢晶片與同一迴路上的端電壓晶片進行比較。"
+        }
+      },
+      {
+        "id": "ir-qt-heavy-load",
+        "prompt": "為什麼負載越重，電流越大，但同時端電壓越小？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為較重的負載總是會直接降低源內部的電動勢。"
+          },
+          {
+            "id": "b",
+            "label": "因為電流越大，內部壓降也越大，從而拉低端電壓。"
+          },
+          {
+            "id": "c",
+            "label": "因為每個電路中的端電壓和電流必須始終沿相反方向移動。"
+          }
+        ],
+        "explanation": "負載先改變電流。然後，相同的電流會改變內部電壓降的大小。",
+        "selectedWrongExplanations": {
+          "a": "Emf 是此處的來源屬性。負載不會直接改變它。",
+          "c": "這並非普遍規則。這是這個實驗台上的非理想來源機制。"
+        },
+        "showMeAction": {
+          "label": "顯示重載",
+          "observationHint": "觀察電流箭頭和內部壓降晶片一起上升。"
+        }
+      },
+      {
+        "id": "ir-qt-ideal-limit",
+        "prompt": "哪一種設定比較像理想來源？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "內阻較大的一個，因為它在源內部儲存了更多的電壓。"
+          },
+          {
+            "id": "b",
+            "label": "只要電動勢相同，兩者的行為就相同。"
+          },
+          {
+            "id": "c",
+            "label": "內阻較小的一種，因為端電壓更接近電動勢，內部損耗較小。"
+          }
+        ],
+        "explanation": "較小的內阻意味著電源內部的電壓損失和功率浪費較少，因此電源的表現更接近理想極限。",
+        "selectedWrongExplanations": {
+          "a": "在來源內儲存更多損失與理想行為相反。",
+          "b": "如果源的內阻不同，則相等的電動勢並不會使源表現相同。"
+        },
+        "showMeAction": {
+          "label": "顯示近乎理想的來源",
+          "observationHint": "在低 r 情況下，端電壓和電動勢線索幾乎一致。"
+        }
+      },
+      {
+        "id": "ir-qt-power-loss",
+        "prompt": "功率圖上的內部損耗曲線代表什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電源產生額外的電力來幫助負載。"
+          },
+          {
+            "id": "b",
+            "label": "由於電流流過內部電阻，因此電源內部的熱量被浪費。"
+          },
+          {
+            "id": "c",
+            "label": "稍後將返回電源的負載功率部分。"
+          }
+        ],
+        "explanation": "內部電阻浪費了源本身內部的一些源功率，因此並非所有源功率都到達負載。",
+        "selectedWrongExplanations": {
+          "a": "此曲線是損失，而不是獎勵。",
+          "c": "此圖顯示了來源內部的耗散，而不是未來的返迴路徑。"
+        },
+        "showMeAction": {
+          "label": "顯示功率分配",
+          "observationHint": "當電源必須透過其自身的內阻推動更大的電流時，損耗條會增加。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示同一頂線上有一個具有電動勢的電池和一個內部電阻器，後面是一個外部負載電阻器和一個返迴路徑。滑塊設定電動勢、內阻和負載電阻。",
+        "疊加層可以顯示電流、電壓標籤、負載和源內部之間的功率分配以及理想源參考提示。讀數卡和兩個圖像均從同一單循環源負載模型更新。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "終端響應圖掃描負載電阻並顯示終端電壓以及一個電壓刻度上的內部壓降。功率分配圖使用相同的掃描來比較輸送到負載的功率與電源內部損耗的功率。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "即時來源檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "終端電壓檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "保持源現實主義故事的動人"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "透過將電動勢、內阻、電流、端電壓和浪費的功率保持在一個可見的環路上，預測實際電池或電源在負載下如何下降。",
+    "keyTakeaway": "電流取決於總迴路電阻 E / (R + r)，而不只取決於負載電阻。"
+  },
+  "equations": [
+    {
+      "id": "loop-current",
+      "label": "具有內阻的環路電流",
+      "meaning": "電流由負載和電源的電動勢和總迴路電阻決定。"
+    },
+    {
+      "id": "terminal-voltage",
+      "label": "端子電壓",
+      "meaning": "端子電壓是從電動勢中取得內部壓降後負載剩餘的電壓。"
+    },
+    {
+      "id": "load-power",
+      "label": "傳送到負載的功率",
+      "meaning": "這是實際到達外部負載的有用功率。"
+    },
+    {
+      "id": "internal-power",
+      "label": "電源內部斷電",
+      "meaning": "非零內阻會浪費一些電源供應器作為內部加熱。"
+    },
+    {
+      "id": "ideal-limit",
+      "label": "理想源限制",
+      "meaning": "如果內阻消失，端電壓接近電動勢，電源表現理想。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "emf",
+      "label": "源電動勢",
+      "description": "設定內部壓降消除之前的理想源升壓。"
+    },
+    {
+      "id": "internalResistance",
+      "label": "內阻",
+      "description": "改變電流流動時源內部損失的電壓和功率。"
+    },
+    {
+      "id": "loadResistance",
+      "label": "負載電阻",
+      "description": "更改負載消耗的電流，從而更改內部壓降和傳遞的功率。"
+    }
+  ],
+  "simulation": {
+    "ui": {
+      "initialGraphId": "終端響應",
+      "primaryGraphIds": [
+        "終端響應"
+      ],
+      "primaryControlIds": [
+        "內部電阻",
+        "負載電阻"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "starterExploreTasks": [
+        "在接觸負載之前，打開近理想源預設並將電動勢與端電壓進行比較。",
+        "切換到重負載有損源預設，並觀察電流上升時內部壓降的成長。",
+        "在確定源的表現是否接近理想極限之前，先比較負載功率和內部損耗條。"
+      ]
+    },
+    "controls": [
+      {
+        "id": "emf",
+        "label": "源電動勢",
+        "description": "設定消除任何內部損耗之前的理想源上升。"
+      },
+      {
+        "id": "internalResistance",
+        "label": "內阻 r",
+        "description": "較大的內阻會使源在其內部損失更多的電壓和更多的功率。"
+      },
+      {
+        "id": "loadResistance",
+        "label": "負載電阻 R",
+        "description": "較重的負載會拉動更多電流，從而增加內部電壓損耗。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "near-ideal-source",
+        "label": "近乎理想的來源",
+        "description": "非常小的內阻使端電壓保持接近電動勢。"
+      },
+      {
+        "id": "lossy-source",
+        "label": "有損源",
+        "description": "明顯不理想的電源供應器在其內部會損失明顯的電壓塊。"
+      },
+      {
+        "id": "heavy-load-lossy-source",
+        "label": "有損源上的重負載",
+        "description": "小負載電阻會拉動較大電流，並使端子壓降特別明顯。"
+      },
+      {
+        "id": "light-load-reference",
+        "label": "輕載參考",
+        "description": "較輕的負載使電流保持較小，因此端電壓更接近電動勢。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentFlow",
+        "label": "電流",
+        "shortDescription": "顯示目前負載下的即時迴路電流。",
+        "whatToNotice": [
+          "較重的負載會拉動更多的電流，而更大的電流正是加深內部壓降的原因。"
+        ],
+        "whyItMatters": "它使端電壓損耗與負載消耗的電流一致。",
+        "relatedControls": [
+          "負載電阻",
+          "內部電阻"
+        ],
+        "relatedGraphTabs": [
+          "終端響應"
+        ],
+        "relatedEquationVariables": [
+          "負載電阻",
+          "內部電阻"
+        ]
+      },
+      {
+        "id": "voltageLabels",
+        "label": "電壓標籤",
+        "shortDescription": "標示電動勢、內部壓降、到達負載的端電壓。",
+        "whatToNotice": [
+          "一旦有非零電流流動，電動勢就與端電壓不同。"
+        ],
+        "whyItMatters": "它使源現實主義可見，而不是將其作為理想電池公式下的修正註釋。",
+        "relatedControls": [
+          "電動勢",
+          "內部電阻",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "終端響應"
+        ],
+        "relatedEquationVariables": [
+          "電動勢",
+          "內部電阻",
+          "負載電阻"
+        ]
+      },
+      {
+        "id": "powerSplit",
+        "label": "功率分配",
+        "shortDescription": "顯示有多少電源功率到達負載以及電源內部浪費了多少電源。",
+        "whatToNotice": [
+          "較大的內阻可能會浪費驚人數量的相同源功率。"
+        ],
+        "whyItMatters": "它將有用的輸送功率與源內的內部加熱分開。",
+        "relatedControls": [
+          "內部電阻",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "功率分配"
+        ],
+        "relatedEquationVariables": [
+          "內部電阻",
+          "負載電阻"
+        ]
+      },
+      {
+        "id": "idealReference",
+        "label": "理想來源參考",
+        "shortDescription": "顯示端電壓等於電動勢的理想極限。",
+        "whatToNotice": [
+          "當內阻很小或負載電流很小時，端電壓接近電動勢。"
+        ],
+        "whyItMatters": "它保留理想源模型作為有用的參考，而不是假裝它一直是錯誤的。",
+        "relatedControls": [
+          "電動勢",
+          "內部電阻",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "終端響應"
+        ],
+        "relatedEquationVariables": [
+          "電動勢",
+          "內部電阻"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "terminal-response",
+      "label": "端子電壓與內部壓降與負載電阻",
+      "xLabel": "負載電阻R（歐姆）",
+      "yLabel": "電壓（V）",
+      "description": "隨著負載變化，端電壓和內部壓降共享一個電壓範圍，因此非理想源行為一目了然。"
+    },
+    {
+      "id": "power-split",
+      "label": "負載功率與內部損耗與負載電阻",
+      "xLabel": "負載電阻R（歐姆）",
+      "yLabel": "功率（W）",
+      "description": "使用相同的負載掃描來比較輸送到負載的有用功率與電源內部浪費的功率。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用相同的單環路非理想電源將電流、電壓損失和浪費的電力保持在一層樓中。",
+    "items": [
+      {
+        "id": "ir-notice-terminal-not-emf",
+        "text": "在負載下，端電壓小於電動勢，因為部分電源電壓上升消耗在內部電阻上。",
+        "tryThis": "比較具有相同負載的近理想源和有損源預設。",
+        "whyItMatters": "這是這個概念存在的核心實在論修正。",
+        "relatedControls": [
+          "內部電阻",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "終端響應"
+        ],
+        "relatedOverlays": [
+          "電壓標籤",
+          "理想參考"
+        ]
+      },
+      {
+        "id": "ir-notice-heavy-load",
+        "text": "較重的負載可以使電流變大，同時端電壓變小，因為較大的電流會加深內部壓降。",
+        "tryThis": "在重載和輕載預設之間移動，而不更改源電動勢。",
+        "whyItMatters": "它可以防止電流增加和端電壓減少感覺矛盾。",
+        "relatedControls": [
+          "負載電阻",
+          "內部電阻"
+        ],
+        "relatedGraphTabs": [
+          "終端響應"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤"
+        ]
+      },
+      {
+        "id": "ir-notice-power-loss",
+        "text": "電源供應器不僅為負載供電。當 r 非零時，它的一些功率總是在來源內部損失。",
+        "tryThis": "提高內阻並比較相同負載電阻下的兩條功率曲線。",
+        "whyItMatters": "它將內阻從僅電壓校正轉變為能源和效率故事。",
+        "relatedControls": [
+          "內部電阻",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "功率分配"
+        ],
+        "relatedOverlays": [
+          "功率分配"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測非理想來源響應。",
+    "items": [
+      {
+        "id": "ir-pred-heavier-load",
+        "prompt": "如果相同的非理想源連接到較重的負載，哪種說法最好？",
+        "scenarioLabel": "負載較重",
+        "changeLabel": "負載電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電流上升，內部壓降上升，端電壓下降。"
+          },
+          {
+            "id": "b",
+            "label": "電流上升，因此端電壓也必須上升。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為電動勢是固定源屬性。"
+          }
+        ],
+        "explanation": "較重的負載會降低總迴路電阻，因此電流會上升。同樣更大的電流使 I r 更大，從而降低端電壓。",
+        "observationHint": "一起觀察電流箭頭和內部滴晶片。"
+      },
+      {
+        "id": "ir-pred-larger-r",
+        "prompt": "如果源內阻增加而電動勢和負載保持固定，會發生什麼？",
+        "scenarioLabel": "增加內阻",
+        "changeLabel": "內阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電流下降，端電壓下降，內部損耗份額變得更加重要。"
+          },
+          {
+            "id": "b",
+            "label": "端電壓升高是因為電源本身保持了更多電壓。"
+          },
+          {
+            "id": "c",
+            "label": "僅效率改變。電流和電壓保持固定。"
+          }
+        ],
+        "explanation": "較大的內阻會增加總迴路電阻，進而減少電流。較弱的電流仍然會產生不小的內部壓降，因此端電壓和傳輸功率都會下降。",
+        "observationHint": "比較相同負載下的近乎理想和有損預設。"
+      },
+      {
+        "id": "ir-pred-ideal-limit",
+        "prompt": "在理想源極限 r -> 0 中會發生什麼事？",
+        "scenarioLabel": "理想源限制",
+        "changeLabel": "來源現實主義",
+        "choices": [
+          {
+            "id": "a",
+            "label": "端電壓接近電動勢，內部損耗功率接近零。"
+          },
+          {
+            "id": "b",
+            "label": "電流消失，因為電源沒有剩餘電阻來驅動迴路。"
+          },
+          {
+            "id": "c",
+            "label": "負載功率也必須消失，因為電源變得太理想。"
+          }
+        ],
+        "explanation": "由於幾乎沒有內阻，電源內部幾乎不浪費任何電壓或功率，因此負載幾乎看到完整的電動勢。",
+        "observationHint": "在將低 r 情況與有損情況進行比較時，請使用理想的參考提示。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "對緊湊的現實主義目標使用相同的單環非理想源。",
+    "items": [
+      {
+        "id": "ir-ch-heavy-load-terminal-drop",
+        "title": "重型端子跌落",
+        "prompt": "從有損源開始，僅更改負載，直到源驅動約 2 A 且端電壓降至接近 6 V。",
+        "successMessage": "您建構了較重負載的情況，其中較大的電流使內部壓降足夠大，足以將端電壓拉至電動勢以下。",
+        "setup": {
+          "note": "維持電動勢和內阻固定。只有負載應該移動。"
+        },
+        "hints": [
+          "負載較重意味著負載電阻較小，而不是較大。",
+          "對於這個有損源，尋找使 I r 約為 6 V 的負載電阻，因此剩餘的端電壓也約為 6 V。"
+        ],
+        "targets": [
+          {
+            "label": "使較重負載電流降落在 $3.0\\,\\mathrm{A}$ 附近。"
+          },
+          {
+            "label": "保持端子電壓在 5.9 V 和 6.1 V 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "ir-ch-near-ideal",
+        "title": "恢復接近理想的來源",
+        "prompt": "從有損源開始，僅減少內阻，直到內部損耗低於 1 W 且端電壓高於 10 V。",
+        "successMessage": "您將電源推至接近理想極限：內部損耗變小，端電壓爬回電動勢附近。",
+        "setup": {
+          "note": "保留電動勢和負載。只有內部阻力應該移動。"
+        },
+        "hints": [
+          "目標是減少電源內部浪費的功率，而不是改變負載。",
+          "隨著 r 變小，端電壓向電動勢方向上升；對於有損源負載，接近理想的設定可以將內部功率推至 1 W 以下。"
+        ],
+        "targets": [
+          {
+            "label": "將內部功率保持在 0 W 到 1 W 之間。"
+          },
+          {
+            "label": "將端子電壓保持在 10 V 和 12.1 V 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "內阻與端電壓 |開放式模型實驗室",
+    "description": "透過一個有界非理想源和負載模擬，了解內阻如何改變終端電壓、電流和功率損耗。",
+    "keywords": [
+      "內阻",
+      "端電壓",
+      "電動勢",
+      "非理想來源",
+      "電路仿真"
+    ]
   }
 }

@@ -55,22 +55,27 @@
           "steps": [
             {
               "id": "read-amount",
-              "label": "1. 閱讀溶質的量"
+              "label": "1. 閱讀溶質的量",
+              "template": "燒杯目前容納 {{soluteAmountValue}} 單位的溶質。"
             },
             {
               "id": "read-volume",
-              "label": "2. 閱讀液體的量"
+              "label": "2. 閱讀液體的量",
+              "template": "相同的溶質透過 {{solventVolumeValue}} 單位的溶劑擴散。"
             },
             {
               "id": "read-concentration",
-              "label": "3. 一起讀取濃度和密度提示"
+              "label": "3. 一起讀取濃度和密度提示",
+              "template": "濃度約為 {{concentrationValue}}，燒杯中可見顆粒大致為 {{particleCountValue}}。"
             }
           ],
           "resultLabel": "當前濃度",
+          "resultTemplate": "$c \\approx {{concentrationValue}}$",
           "applyAction": {
             "label": "應用稀釋情況",
             "observationHint": "溶質的量保持固定，而粒子檢視在更大的體積中擴散。"
-          }
+          },
+          "interpretationTemplate": "{{dilutionInterpretation}}"
         }
       ]
     },
@@ -102,7 +107,11 @@
             "label": "任何使燒杯看起來更滿的變化。"
           }
         ],
-        "explanation": "稀釋是關於改變相同溶質周圍液體量的特定過程。"
+        "explanation": "稀釋是關於改變相同溶質周圍液體量的特定過程。",
+        "selectedWrongExplanations": {
+          "b": "去除溶質會改變溶質的量；稀釋使溶質量保持固定並增加溶劑。",
+          "c": "看起來更飽滿是不夠的。稀釋是指濃度改變，因為體積增加而溶質保持不變。"
+        }
       },
       {
         "id": "cd-qt-solute-vs-solvent",
@@ -121,19 +130,25 @@
             "label": "保持兩個值相同。"
           }
         ],
-        "explanation": "加入溶質改變了溶解物質的量，而不是它被擴散到的液體量。"
+        "explanation": "加入溶質改變了溶解物質的量，而不是它被擴散到的液體量。",
+        "selectedWrongExplanations": {
+          "a": "當溶質保持固定時，添加溶劑會降低濃度；這就是稀釋機制。",
+          "c": "維持兩個值固定不會改變濃度。"
+        }
       }
     ]
   },
   "accessibility": {
     "simulationDescription": {
       "paragraphs": [
-        "模擬顯示一個含有溶解粒子、濃度讀數以及控制溶質量和溶劑體積的燒杯。"
+        "此模擬顯示了一個裝有溶解顆粒的燒杯、濃度讀數以及溶質量和溶劑體積的控制。",
+        "疊加層可協助學習者比較存在的溶質量及其擴散的液體量。"
       ]
     },
     "graphSummary": {
       "paragraphs": [
-        "一張圖表顯示了隨著溶劑體積增加濃度如何變化，另一張則顯示了隨著溶質量增加濃度如何變化。"
+        "一張圖顯示濃度如何隨溶劑體積變化，第二張圖則顯示濃度如何隨溶質量變化。",
+        "比較這兩張圖有助於區分稀釋與簡單添加更多溶質。"
       ]
     }
   },
@@ -148,8 +163,68 @@
         "id": "diluted-same-solute",
         "label": "不失去溶質進行稀釋",
         "description": "在同一種溶質量中加入更多液體並比較新的濃度。"
+      },
+      {
+        "id": "more-solute-same-volume",
+        "label": "固定體積下更多溶質",
+        "description": "打開分子更改箱，這樣添加溶質就不會與稀釋混淆。"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "使用一個燒杯來區分添加溶劑時濃度的變化和添加更多溶質時濃度的變化。",
+    "keyTakeaway": "濃度是指多少液體中有多少溶質。"
+  },
+  "v2": {
+    "intuition": "使用一個燒杯將添加溶劑時發生的變化與添加更多溶質時發生的變化分開。",
+    "whyItMatters": "這是稀釋、溶液準備和後來的均衡思想背後的基本濃度故事，因此分子與分母的交易需要可見。",
+    "guidedSteps": [
+      {
+        "id": "read-one-crowded-beaker",
+        "title": "稀釋一個擁擠的燒杯",
+        "goal": "使用單一擁擠的燒杯來讀取濃度，即溶質量與液體體積之間的比率。",
+        "doThis": "從擁擠燒杯預設開始，保持量與體積指南可見，然後提高溶劑體積，同時溶質量保持固定。",
+        "notice": "液位上升，顆粒擴散，濃度下降，儘管溶質讀數保持在相同的量附近。",
+        "explain": "稀釋會改變比例的體積方面。溶質並沒有消失；它透過更多的液體分佈。"
+      },
+      {
+        "id": "dilute-without-removing-solute",
+        "title": "稀釋而不除去溶質",
+        "goal": "了解為什麼即使溶質量保持不變，添加溶劑也會降低濃度。",
+        "doThis": "施加稀釋的相同溶質預設，然後添加更多溶劑而不改變溶質量。",
+        "notice": "儘管溶質的量沒有變化，燒杯看起來不那麼擁擠，濃度圖也下降了。",
+        "explain": "稀釋會改變分母。相同的溶質擴散到更多的液體中，因此濃度下降。"
+      },
+      {
+        "id": "raise-solute-at-fixed-volume",
+        "title": "以固定體積升高溶質",
+        "goal": "將添加溶質與添加溶劑分開，這樣兩種濃度變化就不會模糊在一起。",
+        "doThis": "切換到更多溶質相同體積預設並增加溶質量，同時液體體積保持固定。",
+        "notice": "現在濃度上升，因為分子而不是分母正在成長。",
+        "explain": "只有當您能夠說出變化的數量時，您才能理解濃度變化：溶質更多、液體更多，或兩者兼而有之。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "濃度將存在的溶質量與可用液體量進行比較。",
+        "添加溶劑可以降低濃度而不去除任何溶質。",
+        "以固定體積添加溶質會提高濃度，原因與稀釋降低濃度的原因不同。"
+      ],
+      "misconception": "稀釋是指溶質消失或離開燒杯。",
+      "freePlayPrompt": "建立兩條不同的路線以達到相同的濃度：一種透過添加溶質，另一種透過改變溶劑體積。",
+      "nextConcepts": [
+        {
+          "slug": "solubility-and-saturation",
+          "title": "溶解度與飽和度",
+          "reasonLabel": "查看濃度何時達到容量限制"
+        },
+        {
+          "slug": "acid-base-ph-intuition",
+          "title": "酸鹼 / pH 直覺",
+          "reasonLabel": "將濃度概念引入酸強度和 pH 值"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -176,6 +251,27 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "用這個步驟把模擬、圖像和概念連接起來。",
+      "primaryGraphIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "溶劑體積",
+        "溶質量"
+      ],
+      "primaryPresetIds": [
+        "擁擠燒杯",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "starterExploreTasks": [
+        "從擁擠的燒杯開始，增加溶劑體積而不接觸溶質量：顆粒散開，濃度下降。",
+        "切換到更多溶質，相同體積，並觀察溶質圖因相反原因而上升：分子發生變化，而不是體積。",
+        "使用比較模式建立兩個濃度相同但溶質量不同的燒杯；濃度匹配是比率匹配，而不是粒子計數匹配。"
+      ]
+    },
     "controls": [
       {
         "id": "solute-amount",
@@ -189,16 +285,230 @@
     "presets": [
       {
         "id": "crowded-beaker",
-        "label": "擁擠的燒杯"
+        "label": "擁擠的燒杯",
+        "description": "將大量溶質裝入較小的溶劑體積中。"
+      },
+      {
+        "id": "diluted-same-solute",
+        "label": "稀釋的相同溶質",
+        "description": "相同的溶質量會擴散到更多的液體中，因此濃度較低。"
+      },
+      {
+        "id": "more-solute-same-volume",
+        "label": "更多溶質，相同體積",
+        "description": "在相同液體體積中添加更多溶質會導致更高的濃度。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "densityCue",
+        "label": "密度提示",
+        "shortDescription": "顯示相同溶質在不同體積中看起來有多擁擠。",
+        "whatToNotice": [
+          "當溶質量保持不變時，添加更多溶劑會使顆粒看起來更分散。"
+        ],
+        "whyItMatters": "它將濃度值與溶解顆粒的實際擁擠程度連結起來。",
+        "relatedControls": [
+          "溶質量",
+          "溶劑體積"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "溶質量",
+          "溶劑體積"
+        ]
+      },
+      {
+        "id": "amountVolumeGuide",
+        "label": "金額-體積指南",
+        "shortDescription": "保持溶質量和溶劑體積並排可見。",
+        "whatToNotice": [
+          "添加溶劑和添加溶質都可以改變濃度，但它們改變混合物的不同部分。"
+        ],
+        "whyItMatters": "它可以幫助您了解為什麼稀釋意味著改變體積，而不是改變溶質的量。",
+        "relatedControls": [
+          "溶質量",
+          "溶劑體積"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "溶質量",
+          "溶劑體積"
+        ]
+      },
+      {
+        "id": "particleMotion",
+        "label": "粒子運動",
+        "shortDescription": "保持燒杯內顆粒漂移可見。",
+        "whatToNotice": [
+          "即使濃度讀數穩定，粒子仍在移動。"
+        ],
+        "whyItMatters": "它讓燒杯感覺像是動態混合物而不是靜態圖片。",
+        "relatedControls": [
+          "溶質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "溶質量"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "concentration-vs-solvent",
+      "label": "濃度與溶劑體積",
+      "xLabel": "溶劑體積",
+      "yLabel": "濃度"
+    },
+    {
+      "id": "concentration-vs-solute",
+      "label": "濃度與溶質量",
+      "xLabel": "溶質量",
+      "yLabel": "濃度"
+    }
+  ],
+  "noticePrompts": {
+    "title": "在燒杯中要注意什麼",
+    "intro": "將燒杯、量-體積指南和濃度圖放在一起可見。",
+    "items": [
+      {
+        "id": "cd-notice-dilution",
+        "text": "增加溶劑體積，同時維持溶質量固定。濃度應該會下降，因為相同的顆粒會擴散到更多的液體中。",
+        "relatedControls": [
+          "溶劑體積"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "密度提示",
+          "金額交易量指南"
+        ],
+        "relatedEquationVariables": [
+          "溶劑體積"
+        ]
+      },
+      {
+        "id": "cd-notice-more-solute",
+        "text": "增加溶質量，同時保持溶劑體積固定。濃度升高是因為相同量的液體中溶解了更多的物質。",
+        "relatedControls": [
+          "溶質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "密度提示",
+          "粒子運動"
+        ],
+        "relatedEquationVariables": [
+          "溶質量"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "稀釋前預測",
+    "intro": "在添加溶劑或溶質之前預測濃度。",
+    "items": [
+      {
+        "id": "cd-predict-dilution",
+        "prompt": "如果溶劑體積增加而溶質量保持固定，濃度會發生什麼變化？",
+        "scenarioLabel": "僅添加溶劑",
+        "choices": [
+          {
+            "id": "a",
+            "label": "濃度應該會下降，因為相同的溶質現在擴散到更多的液體。"
+          },
+          {
+            "id": "b",
+            "label": "濃度應該會上升，因為燒杯已滿。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何事物應該改變。"
+          }
+        ],
+        "explanation": "稀釋會降低濃度，因為相同的溶質會擴散到更大體積的液體中。",
+        "observationHint": "觀察濃度讀數下降，而粒子視圖看起來更分散。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰：稀釋而不流失溶質",
+    "intro": "誠實地使用稀釋：透過添加溶劑來降低濃度，而不是悄悄地改變為不同的溶質量。",
     "items": [
       {
         "id": "cd-ch-dilute-without-losing-solute",
-        "title": "不失去溶質進行稀釋"
+        "title": "不失去溶質進行稀釋",
+        "prompt": "從擁擠的燒杯開始，使其濃度明顯降低，同時保持溶質量接近起始值。",
+        "successMessage": "您稀釋了混合物，而沒有切換到不同的溶質情況。濃度下降是因為相同的溶解物質佔據了更多的液體。",
+        "targets": [
+          {
+            "label": "將溶質量保持在 10.5 和 11.5 之間。"
+          },
+          {
+            "label": "將溶劑體積保持在 1.8 和 2.6 之間。"
+          },
+          {
+            "label": "將濃度維持在 3.6 和 5.6 之間。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "cd-ch-same-concentration-different-amounts",
+        "title": "相同濃度，不同量",
+        "prompt": "開啟比較模式。將設定 A 保留為稀釋的相同溶質燒杯，然後調整設定 B 以使用更少的溶質和液體，同時達到相同的濃度。",
+        "successMessage": "您在沒有匹配顆粒計數的情況下匹配了濃度：儘管設定 B 包含的溶質總體較少，但兩個燒杯的溶質體積比大致相同。",
+        "setup": {
+          "note": "匹配 n/V 比率。設定 B 可以使用 1.5 個體積單位中的 5 個溶質單位來達到與設定 A 相同的濃度。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "設定 A 從 2.4 個體積單位中的 8 個溶質單位開始，因此其濃度約為每體積 3.33。",
+          "嘗試使用 5 個溶質單位和 1.5 個體積單位的設定 B。燒杯中顆粒較少，但比例幾乎相同。"
+        ],
+        "targets": [
+          {
+            "label": "保持設定 A 的稀釋相同溶質量。"
+          },
+          {
+            "label": "保持設定 A 濃度接近稀釋參考值。"
+          },
+          {
+            "label": "在設定 B 中使用明顯較少的溶質。"
+          },
+          {
+            "label": "在設定 B 中也使用較少的液體。"
+          },
+          {
+            "label": "將設定 B 與相同濃度帶相符。"
+          },
+          {
+            "label": "設定 B 所含的粒子明顯少於設定 A。"
+          }
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "濃縮與稀釋",
+    "description": "探索濃度、稀釋以及在即時化學燒杯中添加溶質和添加溶劑之間的差異。",
+    "keywords": [
+      "濃度",
+      "稀釋",
+      "化學",
+      "解決方案"
     ]
   }
 }

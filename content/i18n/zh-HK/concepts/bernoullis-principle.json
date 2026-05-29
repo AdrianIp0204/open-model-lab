@@ -78,26 +78,32 @@
           "steps": [
             {
               "id": "continuity",
-              "label": "1. 用連續方程求喉部速度"
+              "label": "1. 用連續方程求喉部速度",
+              "template": "目前區域給出$v_A = {{entrySpeedValue}}\\,\\mathrm{m/s}$和$v_B = {{throatSpeedValue}}\\,\\mathrm{m/s}$，因此喉嚨的速度是A段的{{speedRatioValue}}倍。"
             },
             {
               "id": "dynamic",
-              "label": "2. 閱讀由速度驅動的壓力分額"
+              "label": "2. 閱讀由速度驅動的壓力分額",
+              "template": "從 A 部分移動到喉部 B 將大約 ${{dynamicPressureDropValue}}\\,\\mathrm{kPa}$ 的靜壓轉移到動力學項。"
             },
             {
               "id": "height",
-              "label": "3. 包含高度項"
+              "label": "3. 包含高度項",
+              "template": "將喉嚨提升 ${{throatHeightValue}}\\,\\mathrm{m}$ 會花費另一個 ${{heightPressureDropValue}}\\,\\mathrm{kPa}$ 的高度。"
             },
             {
               "id": "result",
-              "label": "4. 閱讀剩餘的靜態壓力"
+              "label": "4. 閱讀剩餘的靜態壓力",
+              "template": "因此喉部壓力為 $P_B = {{throatPressureValue}}\\,\\mathrm{kPa}$，總壓降為 ${{pressureDropValue}}\\,\\mathrm{kPa}$。 {{pressureInterpretationText}}"
             }
           ],
           "resultLabel": "當前喉部狀態",
+          "resultTemplate": "$v_B = {{throatSpeedValue}}\\,\\mathrm{m/s}, \\quad P_B = {{throatPressureValue}}\\,\\mathrm{kPa}$",
           "applyAction": {
             "label": "顯示基準喉部",
             "observationHint": "保留壓力計與速度箭頭，觀察抬高的喉部如何同時跑得更快、壓力更低。"
-          }
+          },
+          "interpretationTemplate": "{{pressureInterpretationText}}"
         },
         {
           "id": "level-vs-raised-throat",
@@ -111,27 +117,36 @@
             {
               "id": "throatArea",
               "label": "喉部截面"
+            },
+            {
+              "id": "throatHeight",
+              "label": "電流喉嚨上升"
             }
           ],
           "steps": [
             {
               "id": "keep-speed",
-              "label": "1. 保持相同的連續方程條件"
+              "label": "1. 保持相同的連續方程條件",
+              "template": "使用相同的 $Q$、$A_A$ 和 $A_B$，速度故事保持不變：$v_B$ 仍然是 ${{throatSpeedValue}}\\,\\mathrm{m/s}$。"
             },
             {
               "id": "remove-height",
-              "label": "2. 只移除高度項"
+              "label": "2. 只移除高度項",
+              "template": "降低喉嚨會消除${{heightPressureDropValue}}\\,\\mathrm{kPa}$當前的高度貢獻。"
             },
             {
               "id": "compare",
-              "label": "3. 閱讀恢復的喉部壓力"
+              "label": "3. 閱讀恢復的喉部壓力",
+              "template": "因此，如果同一喉部與 A 部分齊平，它會從 ${{throatPressureValue}}\\,\\mathrm{kPa}$ 上升到大約 ${{levelThroatPressureValue}}\\,\\mathrm{kPa}$。 {{heightInterpretationText}}"
             }
           ],
           "resultLabel": "喉部靜壓平衡",
+          "resultTemplate": "$P_{B,\\mathrm{level}} = {{levelThroatPressureValue}}\\,\\mathrm{kPa}$",
           "applyAction": {
             "label": "校正喉部",
             "observationHint": "速度提示保持相似，但喉部壓力計上升因為高度項消失了。"
-          }
+          },
+          "interpretationTemplate": "{{heightInterpretationText}}"
         }
       ]
     },
@@ -164,6 +179,10 @@
           }
         ],
         "explanation": "連續方程令較小的喉部在相同 $Q$ 下流得更快；伯努利方程則表示，同一份能量預算中留給靜壓的部分會變少。",
+        "selectedWrongExplanations": {
+          "b": "相同的流量不等於相同的速度。較小的面積迫使較大的喉部速度，伯努利將速度上升轉換為較低的靜壓份額。",
+          "c": "在此穩定不可壓縮模型中，縮小喉部不會減慢流體速度。連續性要求相同的流速通過較小的區域，因此速度升高。"
+        },
         "showMeAction": {
           "label": "顯示基準文丘裡管",
           "observationHint": "喉部速度箭頭更長且喉部壓力計比 A 部分低。"
@@ -187,6 +206,10 @@
           }
         ],
         "explanation": "隨著相同的速度，額外的下降來自$\\rho g y$項。更高的喉部在 B 部分留下較少靜壓。",
+        "selectedWrongExplanations": {
+          "a": "抬高喉嚨不會產生額外的進入壓力。它在重力高度上花費了相同的伯努利預算的一部分，而在喉嚨處留下了更少的靜壓力。",
+          "c": "連續性仍然與速度相關，因為相同的穩定流通過兩個部分。新的壓降來自增加的高度項，而不是來自關閉連續性。"
+        },
         "showMeAction": {
           "label": "抬高喉部",
           "observationHint": "能量條顯示高度佔比更大而喉部壓力計下降。"
@@ -210,6 +233,10 @@
           }
         ],
         "explanation": "這兩個概念在同一模型中各司其職。連續方程告訴你哪一段會變快或變慢；伯努利原理則告訴你在同一個狀態下，壓力會如何回應。",
+        "selectedWrongExplanations": {
+          "a": "伯努利不會取代流量簿記。在讀取壓力交易之前，區域仍然透過連續性控制速度變化。",
+          "b": "即使壓力發生變化，連續性也適用於相同的穩定不可壓縮流。這是喉嚨速度首先改變的原因。"
+        },
         "showMeAction": {
           "label": "比較窄喉和寬喉",
           "observationHint": "開啟比較模式並僅擴大設定 B 的喉部。"
@@ -247,6 +274,77 @@
         "title": "將其帶到流體分支"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "跟隨一根穩定的理想流量管道，看看壓力、速度和高度如何在相同的伯努利預算內進行交易，同時連續性保持流量故事的真實性。",
+    "keyTakeaway": "對於此理想流動台中的一條穩定不可壓縮流線，$P + \\tfrac{1}{2}\\rho v^2 + \\rho g y$ 從 A 段到喉部 B 幾乎保持恆定。"
+  },
+  "v2": {
+    "intuition": "使用一根管道作為能量預算：當同一股水流加速或爬升時，靜壓是可以讓路的部分。",
+    "whyItMatters": "這種預算觀點使伯努利不會成為「快流意味著低壓」的模糊口號，並且準確地顯示了連續性、高度和壓力何時相互聯繫。",
+    "equationSnapshot": {
+      "note": "首先使用連續性來獲得兩個速度，然後使用伯努利在壓力、動能和高度項之間分配相同的預算。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-bernoulli-budget",
+        "title": "閱讀一份預算",
+        "goal": "將 A 段和 B 段視為相同穩態流能量預算的兩個快照。",
+        "doThis": "載入基線文丘里管並保持連續性橋、速度箭頭、壓力表和能量條可見。",
+        "notice": "兩個部分的流速相同，但較窄的凸起喉部顯示出較長的速度箭頭、高度共享和較低的壓力表。",
+        "explain": "伯努利將一種流線狀態與另一種流線狀態進行比較：壓力、動能和高度項交易份額，而在此理想模型中總數幾乎保持不變。"
+      },
+      {
+        "id": "spend-pressure-on-speed",
+        "title": "在速度上施加壓力",
+        "goal": "在讀取壓力變化之前，使用連續性來預測較小喉部的作用。",
+        "doThis": "將「喉部面積」拖曳得較小，然後一起觀察「截面速度與喉部面積」和「壓力與喉部面積」圖。",
+        "notice": "隨著 B 處面積的縮小，在相同 Q 的情況下，喉部速度會上升，喉部壓力表會下降。",
+        "explain": "區域變化首先設定速度變化。然後，伯努利透過將較少的預算留作喉部的靜壓力來解釋更大的動力學項。"
+      },
+      {
+        "id": "add-the-height-share",
+        "title": "增加高度",
+        "goal": "將壓力降中的高度貢獻與速度貢獻分開。",
+        "doThis": "將水平文丘里管與凸起喉管進行比較，同時保持面積和流速固定。",
+        "notice": "速度箭頭保持相似，但壓力-高度圖和能量條顯示喉部壓力隨著高度份額的增加而下降。",
+        "explain": "揚起喉嚨不需要新的連續性故事。它增加了一個更大的 rhog y 項，因此如果相同的伯努利總數守恆，則靜壓必須進一步下降。"
+      },
+      {
+        "id": "recover-pressure-by-widening",
+        "title": "恢復壓力",
+        "goal": "僅在匹配設定中加寬喉部來檢查因果鏈。",
+        "doThis": "從基線文丘里管開啟比較模式，保留設定 A，僅加寬設定 B 的喉嚨。",
+        "notice": "設定 B 保持相同的入口壓力和流量，但其較寬的喉部運轉速度較慢並恢復靜壓。",
+        "explain": "這是伯努利故事的反面：連續性降低了喉嚨速度，動能份額縮小，更多相同的預算可以保留為靜態壓力。",
+        "setup": {
+          "interactionMode": "比較"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "在伯努利解釋壓力變化之前，連續性設定入口和喉部區域的喉部速度。",
+        "較快的喉部會在單位體積的動能上花費較多相同的預算，因此喉部靜壓會下降。",
+        "升高的喉嚨會在高度上花費額外的份額，即使速度故事不變，這也可以降低喉嚨壓力。",
+        "加寬喉部可逆轉速度交換，並且可以在相同的理想流量模型中恢復壓力。"
+      ],
+      "misconception": "伯努利意味著任何快速流動都會自動產生低壓。",
+      "nextConcepts": [
+        {
+          "slug": "buoyancy-and-archimedes-principle",
+          "reasonLabel": "流體壓力差"
+        },
+        {
+          "slug": "pressure-and-hydrostatic-pressure",
+          "reasonLabel": "回顧靜壓"
+        },
+        {
+          "slug": "continuity-equation",
+          "reasonLabel": "重新訪問速度鏈接"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -298,26 +396,42 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "概念標籤",
+      "primaryGraphIds": [
+        "概念標籤",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "喉嚨區域"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "entryPressure",
-        "label": "截面 A 的壓力"
+        "label": "截面 A 的壓力",
+        "description": "設定 A 部分的靜壓。"
       },
       {
         "id": "flowRate",
-        "label": "體積流量率"
+        "label": "體積流量率",
+        "description": "改變每秒流過管道的流體量。"
       },
       {
         "id": "entryArea",
-        "label": "入口截面A"
+        "label": "入口截面A",
+        "description": "調整較寬的輸入部分。"
       },
       {
         "id": "throatArea",
-        "label": "喉部截面"
+        "label": "喉部截面",
+        "description": "調整喉部寬度。喉部可以相對於入口部分變窄、匹配或變寬。"
       },
       {
         "id": "throatHeight",
-        "label": "喉部上升"
+        "label": "喉部上升",
+        "description": "相對於 A 部分升高或降低喉部。"
       }
     ],
     "presets": [
@@ -325,41 +439,361 @@
         "id": "baseline-venturi",
         "label": "基準文氏管",
         "description": "較窄而抬高的喉部，讓速度項與高度項都清楚可見。"
+      },
+      {
+        "id": "level-venturi",
+        "label": "液位文丘里管",
+        "description": "維持相同的縮小範圍，但刪除高度項。"
+      },
+      {
+        "id": "wide-throat",
+        "label": "寬喉嚨",
+        "description": "不太顯著的收縮保持相同的入口狀態，但恢復更多的喉部壓力。"
+      },
+      {
+        "id": "uniform-pipe",
+        "label": "統一管道",
+        "description": "匹配區域使連續速度對比保持較小。"
+      },
+      {
+        "id": "raised-throat",
+        "label": "喉嚨抬起",
+        "description": "保持狹窄的喉嚨，但將其抬高，因此高度項更重要。"
+      },
+      {
+        "id": "gentle-flow",
+        "label": "輕柔的流動",
+        "description": "較慢的水流可減弱速度驅動的壓力降。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "continuityBridge",
+        "label": "連續性橋",
+        "shortDescription": "標記 A 部分和 B 部分，並在兩者上附加相同的 $Q$。",
+        "whatToNotice": [
+          "即使兩個部分的速度不同，相同的流速標籤仍然貼在兩個部分上。"
+        ],
+        "whyItMatters": "它提醒您伯努利正在響應連續定義的速度變化，而不是任意的速度變化。",
+        "relatedControls": [
+          "流量",
+          "入口區域",
+          "喉嚨區域"
+        ]
+      },
+      {
+        "id": "speedArrows",
+        "label": "速度箭頭",
+        "shortDescription": "直接在管道上顯示 A 截面和喉部速度。",
+        "whatToNotice": [
+          "較窄的喉部獲得較長的速度箭頭，因為相同的 $Q$ 必須通過較小的區域。"
+        ],
+        "whyItMatters": "在您解釋壓力變化之前，它顯示了故事的連續性部分。",
+        "relatedControls": [
+          "流量",
+          "入口區域",
+          "喉嚨區域"
+        ]
+      },
+      {
+        "id": "pressureGauges",
+        "label": "壓力表",
+        "shortDescription": "並排顯示入口和喉部靜壓。",
+        "whatToNotice": [
+          "喉部壓力表可以更低，因為部分相同的總量顯示為速度和高度而不是靜壓。"
+        ],
+        "whyItMatters": "它使壓力交易在同一管道上可見。",
+        "relatedControls": [
+          "條目壓力",
+          "喉嚨區域",
+          "喉嚨高度",
+          "流量"
+        ]
+      },
+      {
+        "id": "energyBars",
+        "label": "伯努利預算條",
+        "shortDescription": "顯示壓力、動力學和高度項如何在 A 部分和 B 部分共享相同的總和。",
+        "whatToNotice": [
+          "喉部可以獲得動能和高度份額，同時失去靜壓份額，整體保持幾乎相同。"
+        ],
+        "whyItMatters": "它顯示伯努利是術語之間的交易，而不是記住的口號。",
+        "relatedControls": [
+          "條目壓力",
+          "流量",
+          "喉嚨區域",
+          "喉嚨高度"
+        ]
+      },
+      {
+        "id": "flowSlices",
+        "label": "同時切片",
+        "shortDescription": "顯示 A 部分和 B 部分的等時間流體切片。",
+        "whatToNotice": [
+          "相同的短時間片段在較快的喉部延伸得更遠，同時仍代表相同的流速。"
+        ],
+        "whyItMatters": "它將伯努利頁面重新連接到早期的連續性圖片。",
+        "relatedControls": [
+          "流量",
+          "喉嚨區域"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "speed-throat-area",
+      "label": "截面速度與喉部面積",
+      "xLabel": "喉部面積 A_B (m^2)",
+      "yLabel": "速度（公尺/秒）",
+      "description": "改變喉部面積，同時保持入口狀態固定。首先讀取連續性速度變化。"
+    },
+    {
+      "id": "pressure-throat-area",
+      "label": "壓力與喉部面積",
+      "xLabel": "喉部面積 A_B (m^2)",
+      "yLabel": "壓力 (kPa)",
+      "description": "當喉部變窄時，喉部壓力會下降，因為更多的相同總量處於動力學項中。"
+    },
+    {
+      "id": "pressure-flow-rate",
+      "label": "壓力與流量",
+      "xLabel": "流量 Q (m^3/s)",
+      "yLabel": "壓力 (kPa)",
+      "description": "使用相同的幾何形狀增加 $Q$。更快的喉部通常意味著更大的壓力降。"
+    },
+    {
+      "id": "pressure-throat-height",
+      "label": "壓力與喉部高度",
+      "xLabel": "喉部上升增量 y (m)",
+      "yLabel": "壓力 (kPa)",
+      "description": "以相同的速度和麵積抬起喉嚨。喉部壓力線性下降，因為高度項隨 $\\Delta y$ 而增長。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次更改一件事，以便箭頭、儀表、能量條和圖像都講述相同的壓力-速度-高度故事。",
     "items": [
       {
-        "id": "continuity-bernoulli-bridge"
-      },
-      {
-        "id": "continuity-bernoulli-bridge"
-      },
-      {
-        "id": "continuity-bernoulli-bridge"
+        "id": "continuity-bernoulli-bridge",
+        "text": "使用比較模式保持相同的入口壓力和流量，然後僅加寬設定 B 的喉部。連續性解釋了為什麼喉部速度在 B 處下降，伯努利解釋了為什麼喉部壓力在那裡恢復。",
+        "tryThis": "由基準文氏管開始，開啟比較模式，讓設定 A 保持不變，只把設定 B 的喉部加寬，直到壓力差變得明顯。",
+        "relatedControls": [
+          "喉嚨區域",
+          "流量",
+          "條目壓力"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "連續性橋",
+          "速度箭頭",
+          "壓力表",
+          "能量棒"
+        ],
+        "relatedEquationVariables": [
+          "喉嚨區域",
+          "流量"
+        ]
       },
       {
         "id": "continuity-bernoulli-bridge",
-        "tryThis": "由基準文氏管開始，開啟比較模式，讓設定 A 保持不變，只把設定 B 的喉部加寬，直到壓力差變得明顯。"
+        "text": "使用比較模式保持相同的入口壓力和流量，然後僅加寬設定 B 的喉部。連續性解釋了為什麼喉部速度在 B 處下降，伯努利解釋了為什麼喉部壓力在那裡恢復。",
+        "tryThis": "由基準文氏管開始，開啟比較模式，讓設定 A 保持不變，只把設定 B 的喉部加寬，直到壓力差變得明顯。",
+        "relatedControls": [
+          "喉嚨區域",
+          "流量",
+          "條目壓力"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "連續性橋",
+          "速度箭頭",
+          "壓力表",
+          "能量棒"
+        ],
+        "relatedEquationVariables": [
+          "喉嚨區域",
+          "流量"
+        ]
+      },
+      {
+        "id": "continuity-bernoulli-bridge",
+        "text": "使用比較模式保持相同的入口壓力和流量，然後僅加寬設定 B 的喉部。連續性解釋了為什麼喉部速度在 B 處下降，伯努利解釋了為什麼喉部壓力在那裡恢復。",
+        "tryThis": "由基準文氏管開始，開啟比較模式，讓設定 A 保持不變，只把設定 B 的喉部加寬，直到壓力差變得明顯。",
+        "relatedControls": [
+          "喉嚨區域",
+          "流量",
+          "條目壓力"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "連續性橋",
+          "速度箭頭",
+          "壓力表",
+          "能量棒"
+        ],
+        "relatedEquationVariables": [
+          "喉嚨區域",
+          "流量"
+        ]
+      },
+      {
+        "id": "continuity-bernoulli-bridge",
+        "text": "使用比較模式保持相同的入口壓力和流量，然後僅加寬設定 B 的喉部。連續性解釋了為什麼喉部速度在 B 處下降，伯努利解釋了為什麼喉部壓力在那裡恢復。",
+        "tryThis": "由基準文氏管開始，開啟比較模式，讓設定 A 保持不變，只把設定 B 的喉部加寬，直到壓力差變得明顯。",
+        "relatedControls": [
+          "喉嚨區域",
+          "流量",
+          "條目壓力"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "連續性橋",
+          "速度箭頭",
+          "壓力表",
+          "能量棒"
+        ],
+        "relatedEquationVariables": [
+          "喉嚨區域",
+          "流量"
+        ]
+      },
+      {
+        "id": "narrow-throat-lower-pressure",
+        "text": "使喉嚨變小。相同的 $Q$ 保持附著在兩個部分上，喉部速度箭頭增大，並且喉部壓力表下降，因為更多的總量與那裡的動力學項相關。",
+        "relatedControls": [
+          "喉嚨區域"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "連續性橋",
+          "速度箭頭",
+          "壓力表"
+        ],
+        "relatedEquationVariables": [
+          "喉嚨區域"
+        ]
+      },
+      {
+        "id": "raised-throat-extra-drop",
+        "text": "抬起喉嚨，同時保持區域不變。速度圖幾乎沒有變化，但喉規進一步下降，因為高度項現在佔據了更大的份額。",
+        "relatedControls": [
+          "喉嚨高度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "壓力表",
+          "能量棒"
+        ],
+        "relatedEquationVariables": [
+          "喉嚨高度"
+        ]
+      },
+      {
+        "id": "flow-rate-pressure-drop",
+        "text": "開啟壓力-流量圖像。隨著$Q$上升，兩個部分移動得更快，但更快的喉部失去更多的靜壓，因此壓降增加。",
+        "relatedControls": [
+          "流量"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "速度箭頭",
+          "壓力表"
+        ],
+        "relatedEquationVariables": [
+          "流量"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測壓力變化。保持連續性和伯努利在同一個因果鏈中。",
     "items": [
       {
         "id": "bp-predict-narrower-throat",
         "prompt": "由基準文氏管開始，在保持相同入口壓力、流量和喉部高度的情況下，把喉部變窄。會發生甚麼？",
-        "changeLabel": "喉部截面"
+        "scenarioLabel": "較小的喉部面積",
+        "changeLabel": "喉部截面",
+        "choices": [
+          {
+            "id": "a",
+            "label": "喉部速度上升，喉部靜壓下降。"
+          },
+          {
+            "id": "b",
+            "label": "喉部速度保持不變，因為相同的流體在移動。"
+          },
+          {
+            "id": "c",
+            "label": "由於流體受到擠壓，喉部壓力升高。"
+          }
+        ],
+        "explanation": "連續性使較小的喉嚨更快。在伯努利中，速度越大，喉部靜壓力的總壓力就越小。",
+        "observationHint": "喉部速度箭頭變長，而喉部壓力表和壓力面積圖則向下移動。"
       },
       {
         "id": "bp-predict-raised-throat",
-        "changeLabel": "喉部上升"
+        "prompt": "從水平文丘里管開始，升高喉部，同時保持相同的面積、入口壓力和流速。接下來會發生什麼變化？",
+        "scenarioLabel": "較高的喉嚨",
+        "changeLabel": "喉部上升",
+        "choices": [
+          {
+            "id": "a",
+            "label": "儘管速度故事幾乎沒有變化，但喉嚨壓力進一步下降。"
+          },
+          {
+            "id": "b",
+            "label": "喉部壓力升高，因為喉部現在較高。"
+          },
+          {
+            "id": "c",
+            "label": "僅入口壓力改變。"
+          }
+        ],
+        "explanation": "在相同的 $Q$ 和區域下，連續性使速度幾乎保持不變。更高的喉嚨仍然增加了更大的$ ho g y$ 術語，因此喉嚨壓力下降。",
+        "observationHint": "壓力-高度圖和能量條顯示高度份額不斷增長，而速度箭頭保持相似。"
       },
       {
         "id": "bp-predict-wider-throat",
         "prompt": "由基準文氏管開始，在保持相同入口壓力、流量和高度的情況下，把喉部加寬。會發生甚麼？",
-        "changeLabel": "喉部截面"
+        "scenarioLabel": "喉嚨較寬",
+        "changeLabel": "喉部截面",
+        "choices": [
+          {
+            "id": "a",
+            "label": "喉部速度下降，喉部壓力恢復向上。"
+          },
+          {
+            "id": "b",
+            "label": "由於管道較大，喉部速度會升高。"
+          },
+          {
+            "id": "c",
+            "label": "由於幾何形狀發生變化，伯努利預算消失了。"
+          }
+        ],
+        "explanation": "對於相同的$Q$，較寬的喉部會降低喉部速度，因此動力學項中的總壓力較少，而更多的壓力可以保留為靜壓力。",
+        "observationHint": "喉部速度箭頭縮短，喉部壓力表上升。"
       }
     ]
   },
@@ -397,7 +831,8 @@
           {
             "label": "把喉部壓力調到接近 27.1 kPa。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       },
       {
         "id": "bp-ch-wider-b-recovers-pressure",
@@ -405,7 +840,8 @@
         "prompt": "由「基準文氏管」開始，切換到比較模式，讓設定 A 保持不變，調整設定 B，令它在保持相同入口壓力和流量的同時，只靠加寬喉部來恢復喉部壓力。",
         "successMessage": "你建立了比較對照。設定 B 保持相同的入口狀態，但因喉部更寬、流速更慢，所以喉部壓力回升。",
         "setup": {
-          "note": "設定 A 保持為基準的狹窄喉部；只修改設定 B。"
+          "note": "設定 A 保持為基準的狹窄喉部；只修改設定 B。",
+          "interactionMode": "比較"
         },
         "checks": [
           {
@@ -435,8 +871,20 @@
           {
             "label": "讓設定 B 的喉部流速降到接近 2 m/s。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "伯努利原理 |開放模型實驗室",
+    "description": "透過緊湊的流管模擬學習伯努利原理，該模擬在一個有界連續性加伯努利實驗台上保持壓力、速度和高度。",
+    "keywords": [
+      "伯努利原理",
+      "壓力速度高度流體流量",
+      "連續性與伯努利",
+      "文丘里管壓降",
+      "伯努利開放式模型實驗室"
     ]
   }
 }

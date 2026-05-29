@@ -59,22 +59,27 @@
           "steps": [
             {
               "id": "read-attempt-rate",
-              "label": "1. 説明粒子相撞的頻率"
+              "label": "1. 説明粒子相撞的頻率",
+              "template": "在目前溫度和濃度下，盒子每秒進行大約 {{attemptRateValue}} 次碰撞嘗試。"
             },
             {
               "id": "read-success-share",
-              "label": "2. 説明其中有多少次真正跨越障礙"
+              "label": "2. 説明其中有多少次真正跨越障礙",
+              "template": "這些碰撞中只有大約 {{successPercentValue}}% 能夠清除有效障礙。"
             },
             {
               "id": "convert-to-rate",
-              "label": "3. 將其轉換為反應速率"
+              "label": "3. 將其轉換為反應速率",
+              "template": "每秒大約留下 {{successfulCollisionRateValue}} 次成功碰撞，以及約 {{unsuccessfulCollisionRateValue}} 次不成功碰撞。"
             }
           ],
           "resultLabel": "當前的成功碰撞率",
+          "resultTemplate": "$\\text{rate} \\approx {{successfulCollisionRateValue}}\\text{ successful collisions/s}$",
           "applyAction": {
             "label": "應用一個擁擠但冷的案例",
             "observationHint": "盒子很快就變得很忙，但是成功的比例仍然有限，因為許多擊中並不能清障。"
-          }
+          },
+          "interpretationTemplate": "{{collisionInterpretation}}"
         },
         {
           "id": "lower-the-barrier-without-heating",
@@ -93,22 +98,27 @@
           "steps": [
             {
               "id": "read-barrier",
-              "label": "1. 開始於所述的障礙"
+              "label": "1. 開始於所述的障礙",
+              "template": "目前閾值是$E_a = {{activationEnergyValue}}$，催化劑是{{catalystStateValue}}。"
             },
             {
               "id": "read-effective-barrier",
-              "label": "2. 閱讀相同粒子能量下的有效障礙"
+              "label": "2. 閱讀相同粒子能量下的有效障礙",
+              "template": "這使得有效勢壘約為 {{effectiveActivationEnergyValue}}，而平均粒子能量保持在 {{averageEnergyValue}} 左右。"
             },
             {
               "id": "read-new-success-share",
-              "label": "3. 閱讀成功故事中的變化"
+              "label": "3. 閱讀成功故事中的變化",
+              "template": "碰撞嘗試主要與溫度和濃度有關，但成功比例改為約 {{successPercentValue}}%。"
             }
           ],
           "resultLabel": "當前障礙的故事",
+          "resultTemplate": "$E_{\\text{eff}} = {{effectiveActivationEnergyValue}}, \\quad \\text{success} \\approx {{successPercentValue}}\\%$",
           "applyAction": {
             "label": "應用催化後的閾值情況",
             "observationHint": "這裡的粒子並不太熱。速率上升的原因是障礙更容易被跨越，而不是因為盒子變得更擁擠。"
-          }
+          },
+          "interpretationTemplate": "{{catalystInterpretation}}"
         }
       ]
     },
@@ -169,6 +179,7 @@
         ],
         "explanation": "加熱不會消除障礙，但它確實讓更多碰撞的能量足夠跨越它。",
         "selectedWrongExplanations": {
+          "a": "注意力不是唯一的因素。溫度會改變運動線索和障礙清除分數。",
           "c": "加熱幫助粒子更經常地跨越障礙，但並不會使障礙消失。"
         },
         "showMeAction": {
@@ -195,6 +206,7 @@
         ],
         "explanation": "催化劑改變了能量障礙的故事，而不必改變擁擠程度或重新繪製盒子。",
         "selectedWrongExplanations": {
+          "a": "粒子數量不必改變，催化劑就能提供幫助。",
           "b": "催化劑的存在不必改變粒子數量就能促進反應。"
         },
         "showMeAction": {
@@ -249,6 +261,57 @@
     "whyItMatters": "反應速率變得更容易信任時，碰撞故事仍然保持可見。此模組保持一個粒子盒子、一個活化能障礙和一個實時速率讀數一起顯示，因此溫度、濃度和障礙都與同一原因-效果工作台緊密相關。",
     "keyTakeaway": "反應速率取決於成功碰撞，而不僅僅是粒子相撞的頻率。"
   },
+  "v2": {
+    "intuition": "分別觀察碰撞嘗試和成功碰撞，以便速率變化有明顯的原因。",
+    "whyItMatters": "溫度、濃度和催化劑都會影響速率，但它們不會全部改變碰撞故事的同一部分。",
+    "equationSnapshot": {
+      "title": "嘗試×成功",
+      "note": "保持嘗試率、閾值故事和催化劑快捷方式一起可見。"
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-attempts-from-success",
+        "title": "將嘗試與成功分開",
+        "goal": "預測費率變化是否來自更多會議、更成功的點擊，或兩者兼而有之。",
+        "doThis": "將基線混合物與擁擠但涼爽的設定進行比較，同時保持碰撞脈衝可見。",
+        "notice": "擁擠會創造更多的嘗試，但成功的分享仍然取決於碰撞是否清除了能量閾值。",
+        "explain": "反應率遵循成功碰撞，因此總碰撞和成功分數必須被解讀為兩個相互關聯的部分。"
+      },
+      {
+        "id": "raise-temperature-with-same-crowding",
+        "title": "升高溫度",
+        "goal": "使用相同的混合物來了解為什麼加熱變化比粒子繁忙度變化更大。",
+        "doThis": "開啟較熱的設定並將速率-溫度圖與能量提示進行比較。",
+        "notice": "加熱使粒子碰撞更加劇烈，因此更大的份額可以清除閾值。",
+        "explain": "溫度影響碰撞能量和運動，這就是為什麼即使不添加粒子，加熱也可以增加成功碰撞的原因。"
+      },
+      {
+        "id": "lower-the-barrier",
+        "title": "降低障礙",
+        "goal": "將催化劑解釋為閾值變化而不是隱藏的溫度升高。",
+        "doThis": "開啟催化閾值設定並比較更改濃度之前的成功溫度圖。",
+        "notice": "成功碰撞比例上升是因為勢壘較低，而不是因為粒子必須先變得更熱。",
+        "explain": "催化劑改變路徑和活化閾值，因此相同的粒子能量可以產生更成功的碰撞。"
+      },
+      {
+        "id": "check-what-you-can-explain",
+        "title": "檢查你所知道的",
+        "goal": "使用速率聲明來證明您可以將嘗試、能量和催化劑效應分開。",
+        "doThis": "選擇最能測試聲明的設定，然後在閱讀總結之前使用快速檢查或迷你挑戰。",
+        "notice": "完整的答案會列出更改的部分：碰撞嘗試、成功分數或激活閾值。",
+        "explain": "如果你能指出改變的控制項、圖像和碰撞提示，速率解釋就不再是死記硬背的口號。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "只有當足夠多的碰撞嘗試通過閾值時，更多的碰撞嘗試才有意義。",
+        "加熱改變了能量故事以及粒子運動。",
+        "催化劑透過降低有效勢壘來提高成功率。"
+      ],
+      "misconception": "不要將每次碰撞都視為反應；分別讀取嘗試次數和成功率。",
+      "freePlayPrompt": "透過擁擠使一個設定更快，透過催化使另一個設定更快，然後解釋碰撞故事的哪一部分發生了變化。"
+    }
+  },
   "equations": [
     {
       "id": "rate-story",
@@ -289,6 +352,31 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "速率-溫度",
+      "primaryGraphIds": [
+        "速率-溫度",
+        "成功-溫度",
+        "速率-濃度"
+      ],
+      "primaryControlIds": [
+        "溫度",
+        "濃度",
+        "活化能",
+        "催化劑"
+      ],
+      "primaryPresetIds": [
+        "基線",
+        "概念標籤",
+        "概念標籤",
+        "催化閾值"
+      ],
+      "starterExploreTasks": [
+        "從基線混合物開始，將所有碰撞嘗試與成功碰撞進行比較：反應速率不僅僅是盒子看起來有多忙。",
+        "切換到熱並稀釋並觀察成功的分數圖：當更多的命中清除閾值時，較少的粒子仍然可以更快地反應。",
+        "應用催化閾值並保持溫度穩定；速率變化是因為有效勢壘下降，而不是因為粒子變熱。"
+      ]
+    },
     "controls": [
       {
         "id": "temperature",
@@ -341,7 +429,17 @@
         "whatToNotice": [
           "即使未看圖表，升溫也會先令粒子運動變得更猛烈。"
         ],
-        "whyItMatters": "它讓溫度故事保持視覺化，而不是變成隱藏引數。"
+        "whyItMatters": "它讓溫度故事保持視覺化，而不是變成隱藏引數。",
+        "relatedControls": [
+          "溫度"
+        ],
+        "relatedGraphTabs": [
+          "速率-溫度",
+          "成功-溫度"
+        ],
+        "relatedEquationVariables": [
+          "溫度"
+        ]
       },
       {
         "id": "thresholdGate",
@@ -350,7 +448,18 @@
         "whatToNotice": [
           "即使盒子未必特別擁擠，成功比例也可以明顯改變。"
         ],
-        "whyItMatters": "它把是否有足夠能量成功反應，從碰撞數量中分開。"
+        "whyItMatters": "它把是否有足夠能量成功反應，從碰撞數量中分開。",
+        "relatedControls": [
+          "活化能量",
+          "催化劑"
+        ],
+        "relatedGraphTabs": [
+          "成功-溫度"
+        ],
+        "relatedEquationVariables": [
+          "活化能",
+          "催化劑"
+        ]
       },
       {
         "id": "successfulCollisions",
@@ -359,7 +468,19 @@
         "whatToNotice": [
           "琥珀色的全部碰撞很忙，不代表珊瑚色的成功碰撞也同樣多。"
         ],
-        "whyItMatters": "它讓「更多碰撞」與「更多反應」之間的差別變得無法忽略。"
+        "whyItMatters": "它讓「更多碰撞」與「更多反應」之間的差別變得無法忽略。",
+        "relatedControls": [
+          "溫度",
+          "濃度"
+        ],
+        "relatedGraphTabs": [
+          "速率-溫度",
+          "速率-濃度"
+        ],
+        "relatedEquationVariables": [
+          "溫度",
+          "濃度"
+        ]
       }
     ]
   },
@@ -393,15 +514,39 @@
       {
         "id": "rr-notice-crowding-vs-success",
         "text": "琥珀色的全部碰撞提示可以升得很快，但珊瑚色的成功碰撞未必同步大增；更多碰撞不等於更多反應。",
-        "whyItMatters": "濃度主要增加的是機會，而不是保證成功。"
+        "whyItMatters": "濃度主要增加的是機會，而不是保證成功。",
+        "relatedControls": [
+          "濃度"
+        ],
+        "relatedGraphTabs": [
+          "速率-濃度"
+        ],
+        "relatedOverlays": [
+          "成功碰撞"
+        ]
       },
       {
         "id": "rr-notice-threshold",
-        "text": "留意閾值提示：加熱之所以有效，是因為更多碰撞能跨越障礙，而不只是因為粒子更常互撞。"
+        "text": "留意閾值提示：加熱之所以有效，是因為更多碰撞能跨越障礙，而不只是因為粒子更常互撞。",
+        "relatedControls": [
+          "溫度",
+          "活化能量"
+        ],
+        "relatedOverlays": [
+          "閾值門"
+        ]
       },
       {
         "id": "rr-notice-catalyst",
-        "text": "催化劑改變的是障礙故事，而不是把粒子直接加熱；成功比例可以上升，即使運動提示幾乎沒有大變。"
+        "text": "催化劑改變的是障礙故事，而不是把粒子直接加熱；成功比例可以上升，即使運動提示幾乎沒有大變。",
+        "relatedControls": [
+          "催化劑",
+          "活化能量"
+        ],
+        "relatedOverlays": [
+          "能量提示",
+          "閾值門"
+        ]
       }
     ]
   },
@@ -471,24 +616,86 @@
           "把濃度保持在接近基準值的位置，不要靠塞進更多粒子來完成任務。",
           "溫度和能量障礙的設定，是這裡最乾淨的成功率提升方式。"
         ],
+        "checks": [
+          {
+            "label": "保持總碰撞嘗試率適中，而不是擠滿盒子。"
+          },
+          {
+            "label": "提高平均粒子能量足以解釋更強的成功率。"
+          },
+          {
+            "label": "留下可見的不成功碰撞群體，因此成功仍然意味著清除閾值。"
+          }
+        ],
         "targets": [
           {
-            "label": "把濃度維持在 0.9 到 1.15 之間"
+            "label": "保持適度的濃度，介於 0.9 到 1.15 之間。"
           },
           {
-            "label": "把混合物加熱到 $4.1$ 至 $4.5$ 的範圍"
+            "label": "將成功碰撞率提高到 12 到 15 之間。"
           },
           {
-            "label": "把原本的活化閾值維持在接近 $2.8$"
-          },
-          {
-            "label": "把成功碰撞率提升到 12 到 15"
-          },
-          {
-            "label": "把成功比例提高到 48% 至 62%"
+            "label": "提高成功率，介於 48% 到 62% 之間。"
           }
-        ]
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "rrct-ch-catalyst-not-heat",
+        "title": "催化劑，而非熱量",
+        "prompt": "使用催化劑來提高成功故事，同時將溫度保持在基線附近。證明屏障發生了變化，而不是假裝粒子變得更熱。",
+        "successMessage": "您將混合物保持在接近相同的溫度，並使用催化劑來降低有效屏障。成功分數的上升是由於屏障原因，而不是加熱原因。",
+        "setup": {
+          "note": "保持溫度接近基線。乾淨的舉動是降低催化劑的有效屏障。"
+        },
+        "hints": [
+          "不要透過加熱來解決這個問題。溫度應保持在基線值附近。",
+          "原始活化閾值可以保持在 $2.8$ 附近，而催化劑會降低有效閾值。"
+        ],
+        "checks": [
+          {
+            "label": "將平均粒子能量保持在基線帶內，證明這不是加熱解決方案。"
+          },
+          {
+            "label": "保持適度的碰撞嘗試，這樣催化劑的故事就不會被擁擠所掩蓋。"
+          },
+          {
+            "label": "保持一些不成功的碰撞可見：催化劑降低了屏障，它不會使每次碰撞都發生反應。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "保持溫度接近基線，介於 $3.0$ 和 $3.2$ 之間。"
+          },
+          {
+            "label": "保持適度的濃度，介於 $1.25$ 和 $1.45$ 之間。"
+          },
+          {
+            "label": "將規定的活化閾值保持在 $2.8$ 附近。"
+          },
+          {
+            "label": "將有效勢壘降低到催化帶中，約 $2.0$。"
+          },
+          {
+            "label": "將成功份額提升到大約一半成功範圍。"
+          },
+          {
+            "label": "無需加熱即可達到很高的成功碰撞率。"
+          }
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "反應速率/碰撞理論",
+    "description": "探索溫度、濃度、活化閾值和催化劑如何透過即時化學實驗台上的成功碰撞來重塑反應速率。",
+    "keywords": [
+      "反應速度",
+      "碰撞理論",
+      "活化能",
+      "催化劑",
+      "化學"
     ]
   }
 }

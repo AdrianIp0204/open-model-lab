@@ -75,26 +75,32 @@
           "steps": [
             {
               "id": "wire-positions",
-              "label": "1. 將兩根導線放置在共享軸上"
+              "label": "1. 將兩根導線放置在共享軸上",
+              "template": "對稱放置，$x_A = -s/2 = {{sourceAXValue}}\\,\\mathrm{m}$ 和 $x_B = +s/2 = {{sourceBXValue}}\\,\\mathrm{m}$。"
             },
             {
               "id": "probe-vectors",
-              "label": "2. 建立導線至探針的位置向量"
+              "label": "2. 建立導線至探針的位置向量",
+              "template": "$\\vec{r}_A = ({{rAxValue}}, {{rAyValue}})$ 與 $|\\vec{r}_A| = {{rAValue}}$，$\\vec{r}_B = ({{rBxValue}}, {{rByValue}})$ 與 $|\\vec{r}_B| = {{rBValue}}$。"
             },
             {
               "id": "wire-fields",
-              "label": "3. 評估每個切向磁場貢獻"
+              "label": "3. 評估每個切向磁場貢獻",
+              "template": "$\\vec{B}_A = I_A(-\\Delta y_A, \\Delta x_A)/r_A^2 = ({{bAxValue}}, {{bAyValue}})$ 和 $\\vec{B}_B = I_B(-\\Delta y_B, \\Delta x_B)/r_B^2 = ({{bBxValue}}, {{bByValue}})$。"
             },
             {
               "id": "add-fields",
-              "label": "4. 將向量在同一探針點相加"
+              "label": "4. 將向量在同一探針點相加",
+              "template": "$\\vec{B}_{\\text{net}} = \\vec{B}_A + \\vec{B}_B = ({{fieldXValue}}, {{fieldYValue}})$，所以$|\\vec{B}| = {{fieldMagnitudeValue}}$。"
             }
           ],
           "resultLabel": "淨磁場",
+          "resultTemplate": "$\\vec{B}_{\\text{net}} = ({{fieldXValue}}, {{fieldYValue}}), \\quad |\\vec{B}| = {{fieldMagnitudeValue}}$",
           "applyAction": {
             "label": "顯示相反電流的浮力",
             "observationHint": "在中點以上，相反的電流方向可以抵消側向的部分而向上部分相加。"
-          }
+          },
+          "interpretationTemplate": "{{fieldInterpretation}}"
         },
         {
           "id": "current-source-comparison",
@@ -121,22 +127,27 @@
           "steps": [
             {
               "id": "sense",
-              "label": "1. 從電流方向判斷旋轉方向"
+              "label": "1. 從電流方向判斷旋轉方向",
+              "template": "導線 A 為 {{sourceADirectionValue}}，導線 B 為 {{sourceBDirectionValue}}，因此每個貢獻都必須與其局部圓形磁力線相切。"
             },
             {
               "id": "magnitudes",
-              "label": "2. 比較貢獻大小"
+              "label": "2. 比較貢獻大小",
+              "template": "$|\\vec{B}_A| = {{sourceAContributionMagnitudeValue}}$ 和 $|\\vec{B}_B| = {{sourceBContributionMagnitudeValue}}$，因此較大的局部貢獻應該更強烈地彎曲淨場。"
             },
             {
               "id": "net-direction",
-              "label": "3. 從向量和讀出最終的淨方向"
+              "label": "3. 從向量和讀出最終的淨方向",
+              "template": "對於 $\\vec{B}_{\\text{net}} = ({{fieldXValue}}, {{fieldYValue}})$，探頭視場角約為 $\\theta_B = {{fieldAngleValue}}^\\circ$。"
             }
           ],
           "resultLabel": "貢獻比較",
+          "resultTemplate": "$|\\vec{B}_A| = {{sourceAContributionMagnitudeValue}}, \\quad |\\vec{B}_B| = {{sourceBContributionMagnitudeValue}}, \\quad \\theta_B = {{fieldAngleValue}}^\\circ$",
           "applyAction": {
             "label": "顯示相同電流的中點抵消",
             "observationHint": "在等量同向電流之間的中點，兩條切線方向正好相反，淨場消失。"
-          }
+          },
+          "interpretationTemplate": "{{circulationInterpretation}}"
         }
       ]
     },
@@ -197,6 +208,7 @@
         ],
         "explanation": "在共享軸上的中點處，幾何學上完全對稱。每根導線在同一方向貢獻等大的切線場所，在那位置向量和為零。",
         "selectedWrongExplanations": {
+          "a": "此向上結果屬於中點以上相反電流情況，而非相等同向電流之間的中點。",
           "c": "這裡的抵消來自於對稱性、等大電流大小以及在該位置相反的切線方向。"
         },
         "showMeAction": {
@@ -223,6 +235,7 @@
         ],
         "explanation": "在等量反向電流對上方的中點處，對稱線上側向貢獻相互抵消而向上貢獻相加，所以淨場所直向上指。",
         "selectedWrongExplanations": {
+          "a": "中點上方相等的同向電流給出了側向增強情況，而不是相反符號的電流。",
           "b": "等量同向電流上方的中點給出側向增強的情況，而不是反號電流。"
         },
         "showMeAction": {
@@ -249,6 +262,7 @@
         ],
         "explanation": "對於長直導線，磁場強度隨著電流增大而增強，隨距離增大而減弱。電流方向決定旋轉方向，而電流大小則規範磁場強度。",
         "selectedWrongExplanations": {
+          "a": "電流縮放適用於該模型中的每個非零距離，而不僅僅是在線上。",
           "c": "方向和強度是不同的角色：符號選擇順時針或逆時針旋轉，而大小規範磁場的強度。"
         },
         "showMeAction": {
@@ -288,6 +302,75 @@
         "title": "保持來源磁場的故事進行"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "查看電流方向、導線間距、距離和疊加如何設定一條或兩根長直導線周圍的磁場，並將階段箭頭和掃描圖綁定到相同的即時源模式。",
+    "whyItMatters": "磁場將電流轉換為方向敏感效應，因此右手定則、距離和向量加法需要在感應和磁力之前感受到連結。",
+    "keyTakeaway": "此模型中的正電流意味著離開頁面並產生逆時針磁場循環。負電流意味著進入頁面並產生順時針循環。"
+  },
+  "v2": {
+    "intuition": "將每條載流導線視為圓形場箭頭源，然後在探頭處添加兩個局部切線箭頭，而不是僅從圖片中猜測。",
+    "whyItMatters": "這是从电场叠加到感應、电机和带电粒子運動的桥梁：电流方向設定循环，而几何形状决定哪些贡献被取消或增强。",
+    "guidedSteps": [
+      {
+        "id": "read-one-wire-circulation",
+        "title": "先讀取一條線",
+        "goal": "在新增第二個來源之前，將目前符號連接到順時針或逆時針磁場循環。",
+        "doThis": "載入單線參考，保持場環和探頭向量可見，然後將導線 A 拖過零，而不移動探頭。",
+        "notice": "當目前符號翻轉時，循環箭頭和探針貢獻方向相反，而探針位置保持固定。",
+        "explain": "對於直導線，場與導線周圍的圓相切。當前標誌選擇流通感；距離和當前大小設定強度。"
+      },
+      {
+        "id": "build-opposite-current-lift",
+        "title": "搭建向上的橋樑",
+        "goal": "使用對稱性來查看橫向磁場片段何時抵消而垂直片段何時增強。",
+        "doThis": "施加相反電流升力，將探頭保持在中點上方，並比較同一點處的琥珀色和天空貢獻箭頭。",
+        "notice": "水平部分在對稱線上抵消，但兩個貢獻箭頭共享向上的分量，因此淨箭頭指向上方。",
+        "explain": "同等幅度並不能保證取消。您必須比較探針處的兩個切線方向並添加它們的分量。"
+      },
+      {
+        "id": "compare-strength-and-distance",
+        "title": "比較源重量",
+        "goal": "在決定哪根導線主導網路場時，將電流大小和與電流方向的距離分開。",
+        "doThis": "切換到更強的左線，然後稍微左右移動探頭，同時觀察貢獻箭頭和掃描圖。",
+        "notice": "更近或更堅固的線將向量和向其局部切線方向彎曲，並且圖像峰值以相同的幾何形狀重塑。",
+        "explain": "疊加加入實際的局部向量。較大的電流或較短的線到探頭距離使該源在淨場中權重更大。"
+      },
+      {
+        "id": "test-midpoint-cancel",
+        "title": "測試中點取消",
+        "goal": "將向上相反電流情況與零場同電流中點情況進行比較。",
+        "doThis": "載入相同電流中點取消並將探頭精確放置在共用軸上的電線之間。",
+        "notice": "每根導線仍然貢獻一個非零場，但兩個切線箭頭在該點相等且方向相反，因此網絡箭頭折疊。",
+        "explain": "取消是局部向量和結果。將探頭移離中點，相同的兩個電流將不再完美平衡。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "電流符號設定電線周圍順時針或逆時針的磁場循環。",
+        "電流大小和距離設定一條導線對探頭的貢獻程度。",
+        "淨磁場是兩個局部切線貢獻的向量和，因此對稱性可以產生增強或抵消。"
+      ],
+      "misconception": "只要兩個電流大小相等，磁場就會沿著載流導線指向或消失。",
+      "freePlayPrompt": "建構兩個具有相同電流幅度的設定：一個是探測場指向上方，另一個是淨場幾乎消失。",
+      "nextConcepts": [
+        {
+          "slug": "electromagnetic-induction",
+          "title": "法拉第定律與楞次定律",
+          "reasonLabel": "將變化的磁場轉化為電動勢"
+        },
+        {
+          "slug": "magnetic-force-moving-charges-currents",
+          "title": "移動電荷/電流上的磁力",
+          "reasonLabel": "使用 B 預測力的方向"
+        },
+        {
+          "slug": "maxwells-equations-synthesis",
+          "title": "麥克斯韋方程組綜合",
+          "reasonLabel": "將磁場置於四定律圖內"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -348,27 +431,445 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "方向掃描",
+      "primaryGraphIds": [
+        "方向掃描",
+        "即時掃描"
+      ],
+      "primaryControlIds": [
+        "電流A",
+        "目前B",
+        "探針Y"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ]
+    },
     "controls": [
       {
         "id": "currentA",
-        "label": "導線A電流"
+        "label": "導線A電流",
+        "description": "正值表示離開頁面，負值意味著進入頁面，因此更改符號會反轉導線 A 的循環方向。"
       },
       {
         "id": "currentB",
-        "label": "導線B電流"
+        "label": "導線B電流",
+        "description": "改變導線 B 會改變其循環方向和強度，因此第二個貢獻可以增強、取消或反轉淨磁場。"
       },
       {
         "id": "sourceSeparation",
-        "label": "導線分離"
+        "label": "導線分離",
+        "description": "沿水平軸對稱移動兩條線，而不會破壞有界佈局。"
       },
       {
         "id": "probeX",
-        "label": "探測器 x 軸位置"
+        "label": "探測器 x 軸位置",
+        "description": "在載物台和連結的掃描圖上向左或向右移動探頭。"
       },
       {
         "id": "probeY",
-        "label": "探測器 y 軸位置"
+        "label": "探測器 y 軸位置",
+        "description": "將探頭移動到不同的水平掃描線，因此兩個圖像都會對新的場切片進行取樣。"
       }
+    ],
+    "presets": [
+      {
+        "id": "opposite-currents-lift",
+        "label": "逆流升力",
+        "description": "中點上方相等且相反的電流形成了一個乾淨的對稱情況：水平部分抵消，而垂直部分增加。"
+      },
+      {
+        "id": "same-current-cancel",
+        "label": "相同電流中點取消",
+        "description": "相等的頁外電流恰好在共用軸的中點處抵消。"
+      },
+      {
+        "id": "same-current-sweep",
+        "label": "相同電流掃描",
+        "description": "中點上方相等的頁外電流顯示出強大的水平增強。"
+      },
+      {
+        "id": "single-wire-reference",
+        "label": "單線參考",
+        "description": "關閉導線 B 可隔離頁外電流周圍的圓形磁場。"
+      },
+      {
+        "id": "stronger-left-wire",
+        "label": "更強的左線",
+        "description": "較大的導線 A 電流會使淨場嚮導線 A 的局部切線傾斜。"
+      },
+      {
+        "id": "reversed-opposite-pair",
+        "label": "反轉兩個電流",
+        "description": "反轉兩個電流可保持相同的幾何形狀，但會翻轉每個場方向。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldLoops",
+        "label": "場循環",
+        "shortDescription": "顯示每條導線周圍的圓形引導環，以便右手定則具有可見的形狀。",
+        "whatToNotice": [
+          "點標記採用逆時針循環，而十字標記則採用順時針循環。"
+        ],
+        "whyItMatters": "它使電流方向和場環流成為同一張圖的一部分。",
+        "relatedControls": [
+          "電流A",
+          "目前B"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedEquationVariables": [
+          "電流A",
+          "目前B"
+        ]
+      },
+      {
+        "id": "fieldGrid",
+        "label": "場網格",
+        "shortDescription": "顯示載物台上許多取樣點處的淨磁場方向。",
+        "whatToNotice": [
+          "每個小箭頭已包含該位置的兩條導線貢獻。"
+        ],
+        "whyItMatters": "它使疊加在整個平面上可見，而不僅僅是在當前探頭處。",
+        "relatedControls": [
+          "電流A",
+          "目前B",
+          "来源分离"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedEquationVariables": [
+          "電流A",
+          "目前B",
+          "来源分离"
+        ]
+      },
+      {
+        "id": "fieldVectors",
+        "label": "場向量",
+        "shortDescription": "顯示每條導線的貢獻和探頭處的淨磁場。",
+        "whatToNotice": [
+          "兩個來源箭頭在同一探測點處加入青色網路箭頭。"
+        ],
+        "whyItMatters": "它將磁疊加變成可見的向量加法。",
+        "relatedControls": [
+          "電流A",
+          "目前B",
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedEquationVariables": [
+          "電流A",
+          "目前B",
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "scanLine",
+        "label": "圖像掃描線",
+        "shortDescription": "標記兩個反應圖所使用的水平切片。",
+        "whatToNotice": [
+          "向上或向下移動探針會改變整個圖像，因為圖像正在取樣不同的 y 等級。"
+        ],
+        "whyItMatters": "它將圖像與舞台上的真實切片相關聯。",
+        "relatedControls": [
+          "探針Y",
+          "探針X"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "field-scan",
+      "label": "水平場掃描",
+      "xLabel": "探頭 x 位置 (m)",
+      "yLabel": "水平磁場分量",
+      "description": "顯示導線 A 和導線 B 如何沿著當前掃描線貢獻 B_x，以及淨曲線如何是它們的逐點總和。"
+    },
+    {
+      "id": "direction-scan",
+      "label": "垂直場分量與強度",
+      "xLabel": "探頭 x 位置 (m)",
+      "yLabel": "磁場響應",
+      "description": "比較舞台上顯示的沿同一掃描線的淨垂直分量和總磁場強度。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "將每個提示視為一項小型調查。改變一件事，然後連接循環圖片、探針箭頭和圖像。",
+    "items": [
+      {
+        "id": "mf-notice-current-sense",
+        "text": "電流方向先選擇循環方向：頁外電流為逆時針循環，頁內電流為順時針循環。",
+        "tryThis": "將導線 B 設為零，然後將導線 A 從正極掃描到負極，而不移動探頭。觀察環路方向和探針箭頭一起反轉。",
+        "whyItMatters": "這可以防止在未先設定循環感應的情況下猜測磁場方向的常見錯誤。",
+        "relatedControls": [
+          "電流A",
+          "目前B"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedOverlays": [
+          "欄位循環",
+          "字段向量"
+        ],
+        "relatedEquationVariables": [
+          "電流A",
+          "目前B"
+        ]
+      },
+      {
+        "id": "mf-notice-scan-superposition",
+        "text": "淨掃描曲線是同一 y 水平上兩條線貢獻曲線的逐點總和。",
+        "tryThis": "開啟水平掃描圖並沿著虛線掃描線移動探頭。保持階段標記與圖像預覽對齊。",
+        "whyItMatters": "它將磁性疊加變成您可以直接閱讀的東西，而不僅僅是記住。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "扫描線"
+        ]
+      },
+      {
+        "id": "mf-notice-opposite-currents",
+        "text": "在中點之上，相反的電流可以使水平部分抵消，而垂直部分添加到垂直向上或垂直向下的淨場中。",
+        "tryThis": "使用相反電流提升並將探頭保持在對稱線上。觀察橫向部分消失，而垂直圖保持強勁。",
+        "whyItMatters": "這是無需猜測即可推理場方向的最乾淨的對稱情況。",
+        "relatedControls": [
+          "電流A",
+          "目前B",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedOverlays": [
+          "欄位循環",
+          "字段向量",
+          "扫描線"
+        ],
+        "relatedEquationVariables": [
+          "電流A",
+          "目前B",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "mf-notice-compare-stronger-wire",
+        "text": "比較模式可以更輕鬆地查看哪個設定具有較大的附近貢獻。更強或更近的導線使淨場向其切線方向彎曲。",
+        "tryThis": "複製目前設定，然後在設定 B 中使導線 A 變大，並比較探針箭頭和響應曲線。",
+        "whyItMatters": "比較兩個誠實的電流源案例比盯著一個快照猜測哪根電線占主導地位更具啟發性。",
+        "relatedControls": [
+          "電流A",
+          "目前B",
+          "来源分离"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "字段網格"
+        ]
+      },
+      {
+        "id": "mf-notice-separation",
+        "text": "改變導線間距會改變導線到探頭的距離，因此同一探頭點可以從平衡情況轉變為單線優勢。",
+        "tryThis": "將探頭保持在中點上方並慢慢擴大間隙。觀察字段箭頭和圖像峰值一起變化。",
+        "whyItMatters": "這顯示幾何形狀與目前尺寸一樣重要。",
+        "relatedControls": [
+          "来源分离",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedOverlays": [
+          "扫描線",
+          "字段網格"
+        ],
+        "relatedEquationVariables": [
+          "来源分离",
+          "探針Y"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在套用變更之前進行預測。每個場景每次都會改變一個原因，因此階段和圖像可以確認相同的磁場故事。",
+    "items": [
+      {
+        "id": "mf-pred-current-flip",
+        "prompt": "在一個固定探測點，如果導線 B 從頁面外翻轉到頁面內，而導線 A 留在頁面外，會發生什麼變化？",
+        "scenarioLabel": "翻轉線 B",
+        "changeLabel": "目前方向",
+        "choices": [
+          {
+            "id": "a",
+            "label": "導線 B 的貢獻會反轉切線方向，因此即使探頭未移動，淨磁場也會急劇旋轉。"
+          },
+          {
+            "id": "b",
+            "label": "只有磁場強度會變化，因為磁場方向不依賴電流符號。"
+          },
+          {
+            "id": "c",
+            "label": "沒有什麼重要的變化，因為兩條電線與探頭的距離仍然相同。"
+          }
+        ],
+        "explanation": "改變一個電流的符號會反轉該電線的環流感應。探針停留在同一位置，但現在有一個貢獻指向相反的方向，因此淨向量可能會急劇變化。",
+        "observationHint": "觀察導線 B 的循環方向和貢獻箭頭反向。"
+      },
+      {
+        "id": "mf-pred-stronger-wire",
+        "prompt": "如果 A 線變得更強，而 B 線保持不變，並且探頭保留在它們之間，哪一種說法最受支持？",
+        "scenarioLabel": "使電線更堅固",
+        "changeLabel": "目前尺寸",
+        "choices": [
+          {
+            "id": "a",
+            "label": "淨場更傾向於導線 A 的切線貢獻，因為疊加對較大的局部源的權重較大。"
+          },
+          {
+            "id": "b",
+            "label": "淨場必須保持在中心，因為探頭位置沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "只有場強可以改變，因為兩條線仍然位於同一軸上。"
+          }
+        ],
+        "explanation": "疊加在探針處加入實際的局部向量。如果導線 A 變得更強，其切向貢獻就會變大，因此淨場可以在方向和大小上發生變化。",
+        "observationHint": "比較更改後的琥珀色和天空箭頭。較大的源貢獻現在應該主導局部向量和。"
+      },
+      {
+        "id": "mf-pred-reverse-both",
+        "prompt": "如果在幾何形狀保持固定的情況下兩條線電流反向，探頭處會發生什麼？",
+        "scenarioLabel": "反轉兩個電流",
+        "changeLabel": "目前方向",
+        "choices": [
+          {
+            "id": "a",
+            "label": "場方向反轉，而強度保持不變，因為每條導線的貢獻以相同的距離翻轉符號。"
+          },
+          {
+            "id": "b",
+            "label": "只有場強發生變化，因為反轉兩個電流會維持相同的環流感。"
+          },
+          {
+            "id": "c",
+            "label": "由於兩個反轉相互抵消，場消失了。"
+          }
+        ],
+        "explanation": "每根導線的貢獻與電流成正比。反轉兩個電流會將兩個貢獻乘以 -1，因此淨場會反轉方向，同時在同一探測點保持相同的幅度。",
+        "observationHint": "網路箭頭翻轉方向，而 |B|則維持不變。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的兩線平台來建立目標場模式。成功取決於即時舞台的讀取對稱性、循環感和向量加法。",
+    "items": [
+      {
+        "id": "mf-ch-build-upward-bridge",
+        "title": "建立一個直線場",
+        "prompt": "從相同電流掃描開始，反轉導線 B，使橫向部分幾乎抵消，同時淨磁場強烈指向中點上方。",
+        "successMessage": "您建立了對稱情況：側面部分在探頭處抵消，但向上部分仍然相加。",
+        "setup": {
+          "note": "在調整兩線設定時，同時使用方向掃描和探頭向量。"
+        },
+        "hints": [
+          "目標不是零場。你希望左右部分抵消，而垂直部分仍然增強。",
+          "中點上方符號相反的相等電流使向上對稱情況很快可見。"
+        ],
+        "targets": [
+          {
+            "label": "將電流保持在 1.9 A 和 2.1 A 之間。"
+          },
+          {
+            "label": "將電流 b 保持在 -2.1 A 和 -1.9 A 之間。"
+          },
+          {
+            "label": "將水平場分量保持在 -0.08 和 0.08 之間。"
+          },
+          {
+            "label": "將垂直場分量保持在 1.85 和 2.05 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "mf-ch-compare-lift-and-cancel",
+        "title": "比較向上提升和中點取消",
+        "prompt": "從相反電流提升開啟比較模式。將設定 A 保持在中點以上向上的情況，但將設定 B 轉變為中點取消情況，其中淨場幾乎消失，即使當前幅度仍然匹配。",
+        "successMessage": "您分離了兩個常見的對稱故事：中點上方的相反電流可以增強為向上的場，而中點處的相等同向電流可以幾乎完全抵消。",
+        "setup": {
+          "note": "從升降機箱開啟比較模式，然後僅編輯設定 B。"
+        },
+        "hints": [
+          "設定 A 應保持在中點上方的提升對稱線上。",
+          "對於設定 B，僅更改中點取消故事所需的內容：相同的當前符號和探針回到共享軸上。"
+        ],
+        "targets": [
+          {
+            "label": "在上行橋上保持設定 A，B_y 位於 1.8 和 2.1 場單位之間。"
+          },
+          {
+            "label": "反轉設定 B，使電線 B 與電線 A 相匹配，約為 +2 A。"
+          },
+          {
+            "label": "將設定 B 滑回 y = 0 m 附近的共用軸。"
+          },
+          {
+            "label": "使設定 B 的淨場在中點處塌陷到 0.08 場單位以下。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "磁场 |开放模型实验室",
+    "description": "透過有界兩線實驗室了解磁場，此實驗室鏈結電流方向、右手定則循環、疊加、掃描圖、引導疊加、預測提示和概念快速測試。",
+    "keywords": [
+      "磁场",
+      "載流電線",
+      "右手規則",
+      "磁場方向",
+      "實體模擬"
     ]
   }
 }

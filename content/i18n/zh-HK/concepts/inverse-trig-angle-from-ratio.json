@@ -65,46 +65,62 @@
           "steps": [
             {
               "id": "read-coordinates",
-              "label": "1. 讀取即時笛卡兒坐標"
+              "label": "1. 讀取即時笛卡兒坐標",
+              "template": "當 r = 4 且 theta = 60 度時，該點位於 (2.00, 3.46) 附近。"
             },
             {
               "id": "form-the-ratio",
-              "label": "2. 形成正切比值"
+              "label": "2. 形成正切比值",
+              "template": "座標比為 y / x \\約 3.46 / 2.00 \\約 1.73。"
             },
             {
               "id": "recover-the-angle",
-              "label": "3. 套用反三角函式讀數"
+              "label": "3. 套用反三角函式讀數",
+              "template": "arctan(1.73) 回傳約 60 度，這已經與實際的第一象限角度相符。"
             }
           ],
           "resultLabel": "恢復的角度",
+          "resultTemplate": "\\theta \\約 60^\\circ",
           "applyAction": {
             "label": "套用比值恢復視圖",
             "observationHint": "保持坐標指南針開啟，以免 y / x 的實際點從此斷開。"
-          }
+          },
+          "interpretationTemplate": "在像 I 中，主反正切輸出和全極角一致，因此比率恢復是直接的。"
         },
         {
           "id": "quadrant-two-warning",
           "title": "在第二象限捕捉象限警告",
           "prompt": "為何在第二象限警告預設中，原始反正切輸出單獨使用時會失敗？",
+          "variables": [
+            {
+              "id": "angle",
+              "label": "實際角度"
+            }
+          ],
           "steps": [
             {
               "id": "read-signs",
-              "label": "1. 説明 x 和 y 的符號"
+              "label": "1. 説明 x 和 y 的符號",
+              "template": "此點位於象限 II，因此 x 為負值，而 y 為正值。"
             },
             {
               "id": "notice-ratio",
-              "label": "2. 注意比值本身説了什麼"
+              "label": "2. 注意比值本身説了什麼",
+              "template": "因為 y / x 為負，所以主反正切輸出落在 -40 度附近。"
             },
             {
               "id": "restore-full-angle",
-              "label": "3. 恢復實際方向"
+              "label": "3. 恢復實際方向",
+              "template": "此圖顯示實際角度為 140 度，因此符號強制該點進入象限 II，而不是使其處於負銳角。"
             }
           ],
           "resultLabel": "修正後的象限角度",
+          "resultTemplate": "\\theta = 140^\\circ",
           "applyAction": {
             "label": "套用象限警告視圖",
             "observationHint": "注意主角度曲線如何下降到負範圍，而實際角度曲線則保持在第二象限。"
-          }
+          },
+          "interpretationTemplate": "此比率給出了參考式角度，但座標符號恢復了完整方向。"
         }
       ]
     },
@@ -137,6 +153,10 @@
           }
         ],
         "explanation": "一個負的切線值可以發生在兩個象限中，因此坐標符號決定實際方向。",
+        "selectedWrongExplanations": {
+          "b": "半徑本身並不能區分出具有相同正切比的象限。",
+          "c": "比率需要符號或像限上下文才能恢復預期角度。"
+        },
         "showMeAction": {
           "label": "顯示象限警告",
           "observationHint": "注意點即使主角度曲線下降到負數範圍內仍保持在第二象限。"
@@ -159,7 +179,11 @@
             "label": "它應雙倍於半徑。"
           }
         ],
-        "explanation": "沿著一條射線縮放點會改變坐標大小但不會改變方向"
+        "explanation": "沿著一條射線縮放點會改變坐標大小但不會改變方向",
+        "selectedWrongExplanations": {
+          "a": "以固定角度更改半徑可使點保持在同一射線上。",
+          "c": "角度不隨半徑縮放。"
+        }
       }
     ]
   },
@@ -195,6 +219,74 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "保持一個極點及其座標符號可見，以便逆三角成為透過象限檢查進行角度比推理，而不是僅使用計算器的輸出。",
+    "whyItMatters": "每當座標必須再次變成方向時，就會出現角度恢復：極座標轉換、複數參數、向量和運動都需要比率加上象限檢查。",
+    "keyTakeaway": "對於 x 不等於零的點，tan θ = y / x。"
+  },
+  "v2": {
+    "intuition": "反三角函數僅在將比率回連到形成角度的點後才恢復角度。斜率 y/x 給出切線，但 x 和 y 的符號決定完整方向屬於哪一個像限。",
+    "whyItMatters": "這是atan2背後的幾何習慣：在點、座標符號和象限一致之前不接受計算器角度。",
+    "equationSnapshot": {
+      "note": "先讀取 y/x 作為正切比，然後將主反正切輸出與座標符號進行比較，然後再命名全角度。"
+    },
+    "guidedSteps": [
+      {
+        "id": "recover-a-direct-angle",
+        "title": "恢復直角",
+        "goal": "使用第一象限點來查看 y/x 和 arctan 何時與實際方向一致。",
+        "doThis": "應用第一象限比率預設，保持座標參考線和角度弧可見，並將比率讀數與角度恢復圖進行比較。",
+        "notice": "x 和 y 均為正，因此 y/x 為正，且主反正切輸出位於與射線相同的 60 度方向上。",
+        "explain": "在像 I 中，主反正切範圍已經包含實際角度，因此一旦 x 不為零，比率恢復就是直接的。"
+      },
+      {
+        "id": "spot-the-quadrant-trap",
+        "title": "發現象限陷阱",
+        "goal": "了解為什麼相同的反正切輸入可能指向錯誤的完整方向。",
+        "doThis": "切換到像限 II 警告，觀察實際角度保持在左上角，而主角曲線下降到負銳角。",
+        "notice": "y/x 比為負，因為 x 為負，y 為正，但該點仍位於左側 x 軸上方。",
+        "explain": "arctan(y/x) 僅根據比率報告主值。座標符號是恢復完整第二象限方向的缺失證據。"
+      },
+      {
+        "id": "compare-negative-ratio-cases",
+        "title": "比較負比率",
+        "goal": "將正切比的符號與點的象限分開。",
+        "doThis": "在角度恢復圖保持開啟時，將象限 II 警告與象限 IV 參考進行比較。",
+        "notice": "兩種情況都可以使 y/x 為負值，但像限 II 的 x 為負值，y 為正值，而像限 IV 的 x 為正值，y 為負值。",
+        "explain": "正切比將兩個不同方向單獨壓縮為一個符號圖案。讀取兩個座標符號可以防止幾何圖像崩潰為單一計算器輸出。"
+      },
+      {
+        "id": "recover-with-signs-and-atan2",
+        "title": "有標誌恢復",
+        "goal": "在嘗試挑戰之前陳述安全角度恢復規則。",
+        "doThis": "返回象限 II 警告設定，首先命名 x 和 y 的符號，然後解釋為什麼 atan2(y, x) 給出完整方向。",
+        "notice": "完整的答案命名比率、符號、象限和校正的全角，而不是停留在 arctan(y/x)。",
+        "explain": "atan2 將 y 和 x 一起使用，因此它保留了單一比率可以隱藏的象限資訊。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "對於 x 不等於零的點，座標比 y/x 給出 theta 的正切值。",
+        "arctan(y/x) 傳回一個主角，因此它可能不是完整的極軸方向。",
+        "x 和 y 的符號決定負正切比屬於象限 II 還是像限 IV。",
+        "atan2(y, x) 或等效的符號和象限推理保留完整方向。"
+      ],
+      "misconception": "在點和座標符號與此象限一致之前，不要將原始反正切輸出視為最終角度。",
+      "freePlayPrompt": "當恢復圖打開時，將角度移動到所有四個像限，並說出主輸出何時與實際角度匹配以及何時需要校正。",
+      "nextConcepts": [
+        {
+          "slug": "parametric-curves-motion-from-equations",
+          "title": "參數曲線/方程式運動",
+          "reasonLabel": "將象限感知的 x-y 讀數帶入運動中，其中一個參數追蹤變化點。"
+        },
+        {
+          "slug": "dot-product-angle-and-projection",
+          "title": "點積/角度與投影",
+          "reasonLabel": "比較兩個向量之間的方向時重複使用角度恢復習慣。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "tangent-ratio",
@@ -225,15 +317,234 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "角度恢復",
+      "primaryGraphIds": [
+        "角度恢復"
+      ],
+      "primaryControlIds": [
+        "角度",
+        "半徑"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ]
+    },
     "controls": [
       {
         "id": "radius",
-        "label": "半徑"
+        "label": "半徑",
+        "description": "沿著同一條射線將點移近或遠離原點。在固定角度下，比率$y/x$和恢復方向保持相同。"
       },
       {
         "id": "angle",
-        "label": "角度"
+        "label": "角度",
+        "description": "設定點距正 x 軸的方向，這會變更像限並且可以變更反正切是否需要校正。"
       }
+    ],
+    "presets": [
+      {
+        "id": "first-quadrant-ratio",
+        "label": "第一象限比率",
+        "description": "主反正切輸出已與實際角度相符的安全性。"
+      },
+      {
+        "id": "quadrant-two-warning",
+        "label": "第二象限警告",
+        "description": "第二象限的情況，其中 $\\arctan(y/x)$ 本身並沒有給出完整的方向。"
+      },
+      {
+        "id": "fourth-quadrant-reference",
+        "label": "第四象限參考",
+        "description": "象限 IV 情況，與象限 II 具有相同的負切線符號，但實際方向不同。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "coordinateGuides",
+        "label": "座標參考線",
+        "shortDescription": "顯示點在軸上的 x 和 y 座標。",
+        "whatToNotice": [
+          "比率$y / x$ 由這兩個座標值建構而成。"
+        ],
+        "whyItMatters": "它將逆三角關係與平面上的實際點而不是裸露的計算器輸入聯繫起來。",
+        "relatedControls": [
+          "半徑",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "座標掃描",
+          "角度恢復"
+        ],
+        "relatedEquationVariables": [
+          "半徑",
+          "角度"
+        ]
+      },
+      {
+        "id": "angleArc",
+        "label": "角度圓弧",
+        "shortDescription": "顯示從正 x 軸到目前射線的完整角度。",
+        "whatToNotice": [
+          "在像 I 和象限 IV 之外，全角可能與主反正切輸出不同。"
+        ],
+        "whyItMatters": "當比率本身不明確時，它可以保持實際方向可見。",
+        "relatedControls": [
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "角度恢復"
+        ],
+        "relatedEquationVariables": [
+          "角度"
+        ]
+      },
+      {
+        "id": "radiusSweep",
+        "label": "半徑掃描",
+        "shortDescription": "當角度變化時顯示目前半徑處的所有點。",
+        "whatToNotice": [
+          "單獨改變半徑不會改變方向，因此恢復的角度沿著一條射線保持固定。"
+        ],
+        "whyItMatters": "它將比例變化與角度恢復分開。",
+        "relatedControls": [
+          "半徑",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "座標掃描"
+        ],
+        "relatedEquationVariables": [
+          "半徑",
+          "角度"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "angle-recovery",
+      "label": "主反正切與實際角度",
+      "xLabel": "θ（度）",
+      "yLabel": "角度（度數）",
+      "description": "將實際極角與 $\\arctan(y / x)$ 的主要輸出進行比較，因此象限錯誤變得可見。"
+    },
+    {
+      "id": "coordinate-sweep",
+      "label": "x 和 y 與角度",
+      "xLabel": "θ（度）",
+      "yLabel": "座標值",
+      "description": "隨著角度的變化顯示 x 和 y，因此比率和象限線索保持與同一點相關。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使點和恢復圖一起可見，以便可以立即檢查比率、象限和返回角度。",
+    "items": [
+      {
+        "id": "iatr-notice-radius-does-not-change-angle",
+        "text": "改變半徑會將點進一步向外拉伸或沿著同一射線將其拉近，因此方向和恢復的角度保持不變。",
+        "relatedControls": [
+          "半徑"
+        ],
+        "relatedGraphTabs": [
+          "座標掃描",
+          "角度恢復"
+        ],
+        "relatedOverlays": [
+          "座標指南",
+          "半徑掃描"
+        ],
+        "relatedEquationVariables": [
+          "半徑"
+        ]
+      },
+      {
+        "id": "iatr-notice-quadrant-warning",
+        "text": "在像限 II 中，$y / x$ 為負，因此 $\\arctan(y / x)$ 傳回負銳角，即使實際點位於左側 x 軸上方。",
+        "relatedControls": [
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "角度恢復"
+        ],
+        "relatedOverlays": [
+          "座標指南",
+          "角度弧"
+        ],
+        "relatedEquationVariables": [
+          "角度"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "预測主要输出",
+    "intro": "在將點移到新象限之前預測 $\\arctan(y / x)$ 會回傳什麼。",
+    "items": [
+      {
+        "id": "iatr-predict-quadrant-two",
+        "prompt": "如果該點移入象限 II 並且 $y / x$ 變為負值，則在任何象限校正之前原始 $\\arctan(y / x)$ 應返回什麼？",
+        "scenarioLabel": "将點移至象限 II",
+        "choices": [
+          {
+            "id": "a",
+            "label": "负锐角。"
+          },
+          {
+            "id": "b",
+            "label": "90 到 180 度之间的全角。"
+          },
+          {
+            "id": "c",
+            "label": "象限 I 中的正锐角。"
+          }
+        ],
+        "explanation": "$\\arctan$ 傳回其有限範圍內的主值，因此即使實際點位於象限 II 中，負比率也會給出負銳角。",
+        "observationHint": "觀察主角曲線降至零以下，而實際角度曲線保持在左上角。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "一起使用點、座標參考線和恢復圖。目標是當比率本身不明確時誠實地恢復完整方向。",
+    "items": [
+      {
+        "id": "iatr-ch-quadrant-two-ratio-recovery",
+        "title": "象限 II 恢复检查點",
+        "prompt": "建立一個負值 $y / x$ 的點，其全角顯然位於第二象限，而不是第四象限。保持角度恢復圖打開，以便主角和實際角度曲線明顯不一致。",
+        "successMessage": "您使用 x 和 y 的符號來恢復完整方向，而不是單獨信任比率。圖像顯示負主軸角，而實際點仍位於象限 II。",
+        "setup": {
+          "note": "留在左上角區域，這樣 x 保持負值，而 y 保持正值。"
+        },
+        "hints": [
+          "負正切值可以屬於象限 II 或像限 IV，因此座標符號是決定線索。",
+          "如果 y 低於 x 軸，則您已進入第四象限。"
+        ],
+        "targets": [
+          {
+            "label": "保持半徑接近 4，以便該點保持在同一個警告圈上。"
+          },
+          {
+            "label": "將角度設定在 134 度和 146 度之​​間，以便該點清楚地位於象限 II 中。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "反三角/比率角度",
+    "description": "將反三角視為在一個極座標台上進行角度與比率推理，並透過象限檢查將反正切輸出與平面上的實際點連結起來。",
+    "keywords": [
+      "反三角函數",
+      "反正切",
+      "阿坦2",
+      "極座標",
+      "三角學",
+      "數學"
     ]
   }
 }

@@ -39,9 +39,10 @@
       ]
     },
     "keyIdeas": [
-      "較高的折射率意味著該介質中的波速較低，因此進入高指數側會使光線向法線彎曲。",
-      "斯涅爾定律，n_1 sin(θ_1) = n_2 sin(θ_2)，定量地連線兩邊界的角而不是僅透過一個記憶的圖形。",
-      "在法線入射時，速度仍然可以改變而方向不變，當光試圖從高指數到低指數太陡峭地傳播時，沒有真實的傳輸角度。"
+      "折射率越高表示該介質中的光速越低。",
+      "如果第二種介質速度較慢，則光線會向法線方向彎曲。如果第二種介質速度更快，它就會彎曲。",
+      "斯涅爾定律，n_1 sin(theta_1) = n_2 sin(theta_2)，讓您可以計算彎曲而不是根據草圖猜測。",
+      "在垂直入射時，即使方向不變，速度仍然會改變，並且如果光在臨界角以上從較高的 n 到較低的 n，則不存在真正的透射光線。"
     ],
     "commonMisconception": {
       "myth": "邊界使光線在介面處獲得側向推力，因此導致了方向變化。",
@@ -75,22 +76,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始使用斯涅爾定律"
+              "label": "1. 開始使用斯涅爾定律",
+              "template": "使用$n_1\\sin(\\theta_1) = n_2\\sin(\\theta_2)$。"
             },
             {
               "id": "rearrange",
-              "label": "2. 重新排列以求解傳出正弦值"
+              "label": "2. 重新排列以求解傳出正弦值",
+              "template": "$\\sin(\\theta_2) = \\dfrac{n_1}{n_2}\\sin(\\theta_1) = \\dfrac{{{n1Value}}}{{{n2Value}}}\\sin({{incidentAngleValue}}^\\circ) = {{sineTargetValue}}$。"
             },
             {
               "id": "result",
-              "label": "3. 解釋結果"
+              "label": "3. 解釋結果",
+              "template": "{{refractedAngleStep}}"
             }
           ],
           "resultLabel": "傳出結果",
+          "resultTemplate": "{{refractedAngleResult}}",
           "applyAction": {
             "label": "應用空氣到玻璃",
             "observationHint": "光線在較低介質中減慢並向法線方向彎曲，而影像預覽仍基於角度而非時間。"
-          }
+          },
+          "interpretationTemplate": "{{refractionInterpretation}}"
         },
         {
           "id": "compare-speed-ratio",
@@ -109,22 +115,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始從折射率-速度關係入手"
+              "label": "1. 開始從折射率-速度關係入手",
+              "template": "對每種介質使用 $n = \\dfrac{c}{v}$。"
             },
             {
               "id": "ratio",
-              "label": "2. 建立速度比"
+              "label": "2. 建立速度比",
+              "template": "$\\dfrac{v_2}{v_1} = \\dfrac{c / n_2}{c / n_1} = \\dfrac{n_1}{n_2} = \\dfrac{{{n1Value}}}{{{n2Value}}} = {{speedRatioValue}}$。"
             },
             {
               "id": "interpret",
-              "label": "3. 將速度與彎曲連線起來"
+              "label": "3. 將速度與彎曲連線起來",
+              "template": "{{speedRatioStep}}"
             }
           ],
           "resultLabel": "速度比",
+          "resultTemplate": "$\\dfrac{v_2}{v_1} = {{speedRatioValue}}$",
           "applyAction": {
             "label": "應用玻璃到空氣",
             "observationHint": "較大的速度比意味著低介質更快，因此傳輸光線會遠離法線。"
-          }
+          },
+          "interpretationTemplate": "{{speedInterpretation}}"
         }
       ]
     },
@@ -263,6 +274,76 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "觀察一束光線穿過邊界，將折射率與速度變化聯繫起來，並查看斯涅爾定律在同一即時圖上設定折射角、彎曲方向和臨界角限制。",
+    "whyItMatters": "這是從光線草圖到透鏡、光纖、彩虹和全內反射的橋樑：一旦您可以同時讀取速度變化和角度變化，斯涅爾定律就不再是一個記憶公式。",
+    "keyTakeaway": "折射率越大表示該介質中的波速越低，因此進入折射率較高的一側會使光線彎曲到法線方向。"
+  },
+  "v2": {
+    "intuition": "折射是一種邊界協商：光線保持相同的邊界交叉點，但當折射率改變時，波速會變化，因此透射角度必須調整。",
+    "whyItMatters": "這是從光線草圖到透鏡、光纖、彩虹和全內反射的橋樑：一旦您可以同時讀取速度變化和角度變化，斯涅爾定律就不再是一個記憶公式。",
+    "equationSnapshot": {
+      "note": "從索引開始作為速度線索，然後使用斯涅爾定律作為角度；僅當光線離開折射率較高的一側時才使用臨界角規則。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-boundary-ray",
+        "title": "讀取一條邊界射線",
+        "goal": "連接預設空氣到玻璃設定中的入射角、速度變化和透射角。",
+        "doThis": "保持「空氣到玻璃」選取，保留正常和速度指南，並在同一階段比較 theta_1、theta_2、n1、n2 和 v2/v1。",
+        "notice": "下介質具有較大的折射率和較小的速比，且透射角度比入射光線更接近法線。",
+        "explain": "折射率越大代表波速越低。斯涅爾定律將速度對比轉換為您在圖像中看到的較小的傳輸角度。"
+      },
+      {
+        "id": "make-the-second-medium-slower",
+        "title": "使介質 2 變慢",
+        "goal": "了解增加 n2 如何改變速度比和折射角。",
+        "doThis": "在保持入射角和頂部介質固定的情況下提高底部介質指數 n2，然後一起觀看角度圖和速度指南。",
+        "notice": "速度比 v2/v1 下降且 theta_2 收縮，因此向法線方向的彎曲變得更強。",
+        "explain": "當 n1 和 theta_1 固定時，較大的 n2 會使斯涅耳定律目標 (n1/n2) sin(theta_1) 更小。這迫使發射的光線更接近法線。"
+      },
+      {
+        "id": "separate-speed-change-from-bending",
+        "title": "速度與彎曲分開",
+        "goal": "使用法向入射將速度變化與方向變化分開。",
+        "doThis": "切換到法線入射並將直通光線與速度指南和彎曲圖進行比較。",
+        "notice": "光線不會扭結，因為兩個角度都是零，但介質仍具有不同的折射率和速度。",
+        "explain": "斯涅耳定律給出，當 theta_1 = 0 時，theta_2 = 0。折射可以包括速度變化，而沒有可見的方向變化。"
+      },
+      {
+        "id": "find-the-critical-limit",
+        "title": "求臨界極限",
+        "goal": "辨識斯涅耳定律何時停止產生真正的透射射線。",
+        "doThis": "切換到玻璃到臨界以上的空氣，打開臨界角指南，並將圖像截止與丟失的透射光線進行比較。",
+        "notice": "以陡峭角度離開高折射率介質將需要 sin(theta_2) 大於 1，因此傳輸分支結束。",
+        "explain": "臨界角並不是新的彎曲規則；當光試圖從較慢的介質過於陡峭地進入較快的介質時，這是斯涅爾定律的邊緣情況。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "使用折射率作為速度線索：n 越大意味著光越慢。",
+        "在應用斯涅耳定律之前測量兩個與法線的角度。",
+        "根據第二介質較慢或較快來預測彎曲方向。",
+        "將臨界角視為透射角解不再為實數的點。"
+      ],
+      "misconception": "不要測量來自表面的射線角度，並且不要將邊界視為側向推動；彎曲是由速度變化加上斯涅爾定律得出的。",
+      "freePlayPrompt": "嘗試讓n1大於n2，然後向上滑動入射角，直到透射光線消失；使用臨界角方程式解釋截止。",
+      "nextConcepts": [
+        {
+          "slug": "dispersion-refractive-index-color",
+          "reasonLabel": "顏色變化 n 和彎曲"
+        },
+        {
+          "slug": "total-internal-reflection",
+          "reasonLabel": "延長臨界限制"
+        },
+        {
+          "slug": "lens-imaging",
+          "reasonLabel": "在影像中建構許多彎曲"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "snell-law",
@@ -301,11 +382,361 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "折射圖",
+      "primaryGraphIds": [
+        "折射圖"
+      ],
+      "primaryControlIds": [
+        "事件角度",
+        "n1",
+        "n2"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "概念標籤",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "正常發生率"
+      ]
+    },
     "controls": [
       {
         "id": "incidentAngle",
-        "label": "入射角"
+        "label": "入射角",
+        "description": "改變入射光線與法線之間的角度。"
+      },
+      {
+        "id": "n1",
+        "label": "頂級中等索引 n1",
+        "description": "n 越高意味著頂部介質中的光越慢。"
+      },
+      {
+        "id": "n2",
+        "label": "底部中索引 n2",
+        "description": "n 越高意味著底部介質中的光越慢。"
       }
+    ],
+    "presets": [
+      {
+        "id": "air-to-glass",
+        "label": "空氣到玻璃",
+        "description": "速度較慢的較低介質使透射光線向法線方向彎曲。"
+      },
+      {
+        "id": "water-to-acrylic",
+        "label": "水到丙烯酸",
+        "description": "較溫和的折射率對比會產生較溫和的彎曲。"
+      },
+      {
+        "id": "glass-to-air",
+        "label": "玻璃到空氣",
+        "description": "速度較快的較低介質會使光線彎曲遠離法線。"
+      },
+      {
+        "id": "glass-to-air-above-critical",
+        "label": "高於臨界角",
+        "description": "所需的透射正弦將超過 1，因此不存在真正的折射射線。"
+      },
+      {
+        "id": "normal-incidence",
+        "label": "正常發生率",
+        "description": "速度改變，但方向不變。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "normalGuide",
+        "label": "法線與角度指南",
+        "shortDescription": "顯示入射光線和透射光線的界面法線和角度標記。",
+        "whatToNotice": [
+          "兩個角度都是從法線測量的，而不是從表面測量的。"
+        ],
+        "whyItMatters": "大多數的符號和方向錯誤都是由於從錯誤的參考線測量角度造成。",
+        "relatedControls": [
+          "事件角度"
+        ],
+        "relatedGraphTabs": [
+          "折射圖",
+          "彎曲貼圖"
+        ],
+        "relatedEquationVariables": [
+          "入射角"
+        ]
+      },
+      {
+        "id": "speedGuide",
+        "label": "速度指南",
+        "shortDescription": "顯示目前折射率暗示的介質標籤和相對速度。",
+        "whatToNotice": [
+          "折射率較高的介質是速度較慢的介質，即使在光線方向僅改變很小或根本不改變的情況下也是如此。"
+        ],
+        "whyItMatters": "它將彎曲與速度變化聯繫起來，而不是與記憶的射線形狀聯繫起來。",
+        "relatedControls": [
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "彎曲貼圖"
+        ],
+        "relatedEquationVariables": [
+          "概念標籤",
+          "概念標籤"
+        ]
+      },
+      {
+        "id": "criticalGuide",
+        "label": "臨界角指南",
+        "shortDescription": "顯示透射光線僅沿著邊界掠過的閾值。",
+        "whatToNotice": [
+          "僅當光試圖離開高折射率介質時才存在臨界角。"
+        ],
+        "whyItMatters": "它顯示全內反射是斯涅耳定律的限制，而不是作為單獨的規則。",
+        "relatedControls": [
+          "事件角度",
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "折射圖"
+        ],
+        "relatedEquationVariables": [
+          "入射角",
+          "概念標籤",
+          "概念標籤"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "refraction-map",
+      "label": "入射到折射角",
+      "xLabel": "入射角 theta_1（度）",
+      "yLabel": "折射角 theta_2（度）",
+      "description": "顯示目前介質對的多個入射角的透射角。這是一個設定圖，而不是時間圖。"
+    },
+    {
+      "id": "bend-map",
+      "label": "相對於法線彎曲",
+      "xLabel": "入射角 theta_1（度）",
+      "yLabel": "theta_1 - theta_2（度）",
+      "description": "顯示彎曲的大小和方向。正值表示透射光線比入射光線更接近法線；負值表示距離較遠。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次只停留在一個邊界。每個提示都應連接速度變化、射線方向和相同設定的圖像。",
+    "items": [
+      {
+        "id": "rs-notice-slower-medium",
+        "text": "請注意，只有當第二介質速度較慢時，光線才會向法線彎曲，這表示 n2 大於 n1。",
+        "tryThis": "從空氣到玻璃開始，然後切換到玻璃到空氣而不改變入射角並比較出射側。",
+        "whyItMatters": "彎曲方向來自於跨越邊界的速度變化。"
+      },
+      {
+        "id": "rs-notice-angle-map",
+        "text": "請注意，折射圖不是時間軌跡。對於同一介質對，每個點都是不同的入射角。",
+        "tryThis": "將滑鼠懸停在圖像的右側，觀察舞台跳至匹配的入射角，而不是及時前進。",
+        "whyItMatters": "這就是為什麼懸停會立即更改設定而不是及時推進場景。",
+        "relatedGraphTabs": [
+          "折射圖"
+        ]
+      },
+      {
+        "id": "rs-notice-bend-sign",
+        "text": "注意 theta_1 - theta_2 的符號：正值表示透射光線更接近法線，而負值表示它遠離法線。",
+        "tryThis": "在空氣到玻璃和玻璃到空氣之間切換，同時停留在彎曲圖上，這樣您就可以看到標誌翻轉。",
+        "whyItMatters": "現在，一張圖像可以告訴您彎曲的大小和方向。",
+        "relatedGraphTabs": [
+          "彎曲貼圖"
+        ],
+        "relatedEquationVariables": [
+          "入射角"
+        ]
+      },
+      {
+        "id": "rs-notice-normal-incidence",
+        "text": "請注意，正常發生率並不是無影響的情況。即使光線保持相同方向，速度也會改變。",
+        "tryThis": "使用法向入射預設，然後將速度讀數與兩個角度都保持為零的事實進行比較。",
+        "whyItMatters": "它將速度變化與彎曲分開。",
+        "relatedControls": [
+          "事件角度",
+          "n1",
+          "n2"
+        ],
+        "relatedOverlays": [
+          "速度指南"
+        ]
+      },
+      {
+        "id": "rs-notice-compare",
+        "text": "請注意比較模式如何隔離中等對比。保持一個設定固定，然後僅更改 n2 或變體中的入射角。",
+        "tryThis": "將空氣克隆到玻璃中到設定A和設定B，然後在你讀取彎曲圖之前，只在設定B中升高N2。",
+        "whyItMatters": "它可以讓您在不離開即時頁面的情況下將更強的折射率對比度與更陡的入射角分開。",
+        "relatedGraphTabs": [
+          "彎曲貼圖"
+        ]
+      },
+      {
+        "id": "rs-notice-critical",
+        "text": "請注意，當入射角從下方接近臨界角時，透射光線沿邊界變平，透射角接近 90 度。",
+        "tryThis": "打開臨界角導光板，使用玻璃對空氣，向上滑動入射角，直到透射光線幾乎沿著界面運行。",
+        "whyItMatters": "這是普通折射和全內反射之間的清晰界線。",
+        "relatedControls": [
+          "事件角度",
+          "n1",
+          "n2"
+        ],
+        "relatedOverlays": [
+          "關鍵指南"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "首先預測彎曲，然後進行測試。每個提示每次都會改變一個原因，因此您可以將折射率、速度和角度連結起來。",
+    "items": [
+      {
+        "id": "rs-predict-denser-medium",
+        "prompt": "從空氣到玻璃，如果保持相同的入射角，但透過提高 n2 使下部介質更加緻密，會發生什麼？",
+        "scenarioLabel": "提高 n2",
+        "choices": [
+          {
+            "id": "a",
+            "label": "透射光線彎曲得更接近法線，中低速下降。"
+          },
+          {
+            "id": "b",
+            "label": "由於邊界推力較大，透射光線偏離法線彎曲得更遠。"
+          },
+          {
+            "id": "c",
+            "label": "僅速度改變。傳輸角度保持固定，因為 theta_1 保持固定。"
+          }
+        ],
+        "explanation": "提高 n2 會降低 v2 並增加兩種介質之間的對比。斯涅耳定律要求更小的透射角，因此光線更多地向法線彎曲。",
+        "observationHint": "觀察舞台和角度圖上的 theta_2 收縮，同時速度比 v2/v1 降至空氣與玻璃基線以下。"
+      },
+      {
+        "id": "rs-predict-normal-incidence",
+        "prompt": "如果入射角一路下降到零，而兩個指數保持不同，您會期待什麼？",
+        "scenarioLabel": "轉到正常發生率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "速度發生變化，但透射光線保持相同方向，因為兩個角度均為零。"
+          },
+          {
+            "id": "b",
+            "label": "光線仍必須彎曲，因為 n1 和 n2 不同。"
+          },
+          {
+            "id": "c",
+            "label": "一旦 theta_1 為零，邊界就完全不起作用。"
+          }
+        ],
+        "explanation": "法向入射時，theta_1 = 0，因此 theta_2 = 0。由於折射率不同，速度仍然會改變。",
+        "observationHint": "應用法向入射預設並將速度標記與未更改的直通方向進行比較。"
+      },
+      {
+        "id": "rs-predict-above-critical",
+        "prompt": "從玻璃到空氣，如果將入射角增加到遠高於臨界角，會發生什麼事？",
+        "scenarioLabel": "前往 theta_c 上方",
+        "choices": [
+          {
+            "id": "a",
+            "label": "不存在真正的透射角，因為斯涅爾定律要求 sin(theta_2) > 1。"
+          },
+          {
+            "id": "b",
+            "label": "透射光線保持遠離法線的方向，直到它筆直向下。"
+          },
+          {
+            "id": "c",
+            "label": "透射光線翻轉到下部介質中法線的另一側。"
+          }
+        ],
+        "explanation": "當n1大於n2時，提高入射角可以使所需的透射正弦超過1。則不存在真正的透射角，這就是全內反射的閾值。",
+        "observationHint": "套用上述臨界預設並在讀取中尋找遺失的透射射線以及臨界角註釋。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用真實的光線圖，而不是單獨的拼圖狀態。這些檢查從您正在編輯的相同邊界讀取即時角度、索引和疊加。",
+    "items": [
+      {
+        "id": "rs-ch-hit-refraction-target",
+        "title": "擊中透射角目標",
+        "prompt": "從空氣到玻璃開始，調整設定，直到折射角落在 25 到 28 度之間，同時速度比 v2/v1 保持在 0.62 到 0.69 之間。",
+        "successMessage": "您透過協調同一邊界上的速比和斯涅爾角響應來匹配目標。",
+        "setup": {
+          "note": "將角度圖和舞台一起使用。"
+        },
+        "hints": [
+          "密度稍高的下部介質會使傳輸角度更小。",
+          "目標速度比低於 1，因此下部介質必須比頂部介質慢。"
+        ],
+        "checks": [
+          {
+            "label": "開啟入射角到折射角圖。"
+          },
+          {
+            "label": "保持法線和角度參考線可見。"
+          },
+          {
+            "label": "使 theta_2 降落在 25 到 28 度之間。"
+          },
+          {
+            "label": "將 v2/v1 保持在 0.62 和 0.69 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "rs-ch-compare-denser-variant",
+        "title": "比較更密集的變體",
+        "prompt": "開啟空氣與玻璃的比較模式。將設定 A 保留在基線附近，然後編輯設定 B，使下部介質明顯更密且入射角更陡。",
+        "successMessage": "您使用比較模式來隔離更強的折射率對比度，而不是觀察兩條不相關的光線。",
+        "setup": {
+          "note": "編輯 B 時將 A 保留為基線。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "設定 A 應保持接近 n2 = 1.5，因此它仍然是可讀基線。",
+          "使設定 B 更陡峭、更密集，以便其光線更強烈地向法線彎曲。"
+        ],
+        "checks": [
+          {
+            "label": "開啟折彎圖。"
+          },
+          {
+            "label": "在比較模式處於活動狀態時編輯設定 B。"
+          },
+          {
+            "label": "將設定 A 保持在空氣到玻璃基線附近。"
+          },
+          {
+            "label": "使設定 B 使用密度較大的下部介質。"
+          },
+          {
+            "label": "使設定 B 使用更陡的入射角。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "折射/斯涅耳定律",
+    "description": "互動式折射和斯涅爾定律，具有折射率控制、速度變化讀數、圖像連結預覽以及通往全內反射的清晰橋樑。",
+    "keywords": [
+      "折射",
+      "斯涅耳定律",
+      "折射率",
+      "臨界角",
+      "光學"
     ]
   }
 }

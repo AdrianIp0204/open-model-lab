@@ -242,6 +242,144 @@ def load_concept_content(slug: str, concept_entry_map: dict[str, dict[str, Any]]
     return read_json(CONCEPTS_ROOT / f"{content_file}.json")
 
 
+GENERIC_NON_TRANSLATABLE_KEYS = {
+    "id",
+    "slug",
+    "metric",
+    "param",
+    "setup",
+    "presetId",
+    "graphId",
+    "overlayId",
+    "variableId",
+    "equationId",
+    "correctChoiceId",
+    "kind",
+    "type",
+    "unit",
+    "valueKey",
+    "displayUnit",
+    "contentFile",
+    "subjectId",
+    "topicId",
+    "href",
+    "path",
+    "url",
+    "email",
+    "phone",
+    "model",
+    "provider",
+    "status",
+    "sourceHash",
+    "outputHash",
+    "generatedAt",
+    "updatedAt",
+    "timestamp",
+    "compareTarget",
+    "timeSource",
+    "tone",
+    "symbol",
+    "latex",
+    "expression",
+    "mode",
+    "exampleId",
+}
+
+GENERIC_NON_TRANSLATABLE_SEGMENTS = {
+    "conditions",
+    "values",
+    "defaults",
+    "series",
+    "tags",
+    "prerequisites",
+    "related",
+    "requirements",
+    "targets",
+    "equationIds",
+    "graphIds",
+    "overlayIds",
+    "controlIds",
+    "predictionIds",
+    "questionIds",
+    "toolHints",
+    "referenceSections",
+    "workedExampleRefs",
+    "highlightedControls",
+    "highlightedGraphs",
+    "highlightedOverlays",
+    "highlightedControlIds",
+    "highlightedGraphIds",
+    "highlightedOverlayIds",
+}
+
+
+def _skip_generic_translation_path(path: tuple[str, ...]) -> bool:
+    last_key = path[-1] if path else ""
+    return last_key in GENERIC_NON_TRANSLATABLE_KEYS or any(
+        segment in GENERIC_NON_TRANSLATABLE_SEGMENTS for segment in path
+    )
+
+
+def _stable_array_key(value: Any) -> str | None:
+    if (
+        isinstance(value, list)
+        and value
+        and all(isinstance(item, dict) and isinstance(item.get("id"), str) for item in value)
+    ):
+        return "id"
+    if (
+        isinstance(value, list)
+        and value
+        and all(isinstance(item, dict) and isinstance(item.get("slug"), str) for item in value)
+    ):
+        return "slug"
+    return None
+
+
+def build_generic_translatable_overlay(value: Any, path: tuple[str, ...] = ()) -> Any:
+    if isinstance(value, str):
+        return None if _skip_generic_translation_path(path) else value
+
+    if isinstance(value, list):
+        if _skip_generic_translation_path(path):
+            return None
+
+        stable_key = _stable_array_key(value)
+        if stable_key:
+            items = []
+            for item in value:
+                translated_item = build_generic_translatable_overlay(item, path)
+                if isinstance(translated_item, dict) and len(translated_item) > 1:
+                    items.append(translated_item)
+            return items or None
+
+        if all(isinstance(item, str) for item in value):
+            return value
+
+        items = [
+            translated_item
+            for index, item in enumerate(value)
+            if (translated_item := build_generic_translatable_overlay(item, (*path, str(index))))
+            is not None
+        ]
+        return items or None
+
+    if isinstance(value, dict):
+        translated: dict[str, Any] = {}
+        for key, item in value.items():
+            if key in {"id", "slug"} and isinstance(item, str):
+                translated[key] = item
+                continue
+
+            translated_item = build_generic_translatable_overlay(item, (*path, key))
+            if translated_item is not None:
+                translated[key] = translated_item
+
+        return translated or None
+
+    return None
+
+
 def build_concept_overlay_source(
     concept_metadata: dict[str, Any], concept_content: dict[str, Any]
 ) -> dict[str, Any]:
@@ -448,6 +586,93 @@ def build_concept_overlay_source(
         if localized_page_intro:
             overlay["pageIntro"] = localized_page_intro
 
+    v2 = concept_content.get("v2")
+    if v2:
+        localized_v2: dict[str, Any] = {}
+        if v2.get("intuition"):
+            localized_v2["intuition"] = v2["intuition"]
+        if v2.get("whyItMatters"):
+            localized_v2["whyItMatters"] = v2["whyItMatters"]
+
+        equation_snapshot = v2.get("equationSnapshot")
+        if equation_snapshot:
+            localized_equation_snapshot: dict[str, Any] = {}
+            if equation_snapshot.get("title"):
+                localized_equation_snapshot["title"] = equation_snapshot["title"]
+            if equation_snapshot.get("note"):
+                localized_equation_snapshot["note"] = equation_snapshot["note"]
+            if localized_equation_snapshot:
+                localized_v2["equationSnapshot"] = localized_equation_snapshot
+
+        start_setup = v2.get("startSetup")
+        if start_setup and start_setup.get("note"):
+            localized_v2["startSetup"] = {"note": start_setup["note"]}
+
+        if v2.get("guidedSteps"):
+            localized_v2["guidedSteps"] = [
+                {
+                    "id": step["id"],
+                    **({"title": step["title"]} if step.get("title") else {}),
+                    **({"goal": step["goal"]} if step.get("goal") else {}),
+                    **({"doThis": step["doThis"]} if step.get("doThis") else {}),
+                    **({"notice": step["notice"]} if step.get("notice") else {}),
+                    **({"explain": step["explain"]} if step.get("explain") else {}),
+                    **(
+                        {"setup": {"note": step["setup"]["note"]}}
+                        if step.get("setup", {}).get("note")
+                        else {}
+                    ),
+                    **(
+                        {
+                            "inlineCheck": {
+                                **(
+                                    {"title": step["inlineCheck"]["title"]}
+                                    if step.get("inlineCheck", {}).get("title")
+                                    else {}
+                                ),
+                                **(
+                                    {"note": step["inlineCheck"]["note"]}
+                                    if step.get("inlineCheck", {}).get("note")
+                                    else {}
+                                ),
+                            }
+                        }
+                        if step.get("inlineCheck", {}).get("title")
+                        or step.get("inlineCheck", {}).get("note")
+                        else {}
+                    ),
+                }
+                for step in v2["guidedSteps"]
+            ]
+
+        wrap_up = v2.get("wrapUp")
+        if wrap_up:
+            localized_wrap_up: dict[str, Any] = {}
+            if wrap_up.get("learned"):
+                localized_wrap_up["learned"] = wrap_up["learned"]
+            if wrap_up.get("misconception"):
+                localized_wrap_up["misconception"] = wrap_up["misconception"]
+            if wrap_up.get("freePlayPrompt"):
+                localized_wrap_up["freePlayPrompt"] = wrap_up["freePlayPrompt"]
+            if wrap_up.get("nextConcepts"):
+                localized_wrap_up["nextConcepts"] = [
+                    {
+                        "slug": concept["slug"],
+                        **({"title": concept["title"]} if concept.get("title") else {}),
+                        **(
+                            {"reasonLabel": concept["reasonLabel"]}
+                            if concept.get("reasonLabel")
+                            else {}
+                        ),
+                    }
+                    for concept in wrap_up["nextConcepts"]
+                ]
+            if localized_wrap_up:
+                localized_v2["wrapUp"] = localized_wrap_up
+
+        if localized_v2:
+            overlay["v2"] = localized_v2
+
     equations = concept_content.get("equations")
     if equations:
         overlay["equations"] = [
@@ -616,7 +841,8 @@ def build_concept_overlay_source(
             ],
         }
 
-    return overlay
+    generic_overlay = build_generic_translatable_overlay(concept_content)
+    return merge_overlay(overlay, generic_overlay) if generic_overlay else overlay
 
 
 def build_catalog_overlay_source(kind: str, entries: Iterable[dict[str, Any]]) -> dict[str, Any]:

@@ -63,22 +63,27 @@
           "steps": [
             {
               "id": "read-the-recipe",
-              "label": "1. 先從配方卡讀出一個完整批次"
+              "label": "1. 先從配方卡讀出一個完整批次",
+              "template": "一個完整批次將 {{recipeAValue}} 包 A 和 {{recipeBValue}} 包 B 一起花費。"
             },
             {
               "id": "count-copies",
-              "label": "2. 計算這些配方的副本數量"
+              "label": "2. 計算這些配方的副本數量",
+              "template": "目前設定包含{{reactantAAmountValue}} A和{{reactantBAmountValue}} B，因此A支援{{maxBatchesFromAValue}}批次，而B支援{{maxBatchesFromBValue}}。"
             },
             {
               "id": "connect-to-output",
-              "label": "3. 把產品託盤讀成完成的批次"
+              "label": "3. 把產品託盤讀成完成的批次",
+              "template": "這意味著實驗台可以在更嚴格的上限接管之前完成 {{theoreticalBatchesValue}} 個完整批次。"
             }
           ],
           "resultLabel": "批次數量",
+          "resultTemplate": "$b_{\\max} = {{theoreticalBatchesValue}}$ 全部批次",
           "applyAction": {
             "label": "顯示配對配方",
             "observationHint": "當配方與供應量配對時，兩邊的讀數會落在相同的批次數上。"
-          }
+          },
+          "interpretationTemplate": "{{ratioInterpretation}}"
         }
       ]
     },
@@ -139,6 +144,7 @@
         ],
         "explanation": "只要改了配方，一個完整批次的定義就變了，所以同一組供應倉也可能支援不同的輸出。",
         "selectedWrongExplanations": {
+          "a": "補給箱與食譜卡一起重要，而不是單獨重要。",
           "c": "產率與配方定義是分開的；先改變的是批次配方本身。"
         },
         "showMeAction": {
@@ -180,7 +186,93 @@
         "label": "切換成 3:2 配方",
         "description": "更換配方卡，觀察批次故事如何跟著改變。"
       }
-    ]
+    ],
+    "entryGuidance": {
+      "firstAction": "新增反應物 A 包，同時可能批次與 A 包保持開啟狀態，然後將批次上限與配方卡進行比較。",
+      "watchFor": "只有當供應比例與卡片上的配方比例相符時，才能觀察兩個批次上限是否達到相同值。"
+    }
+  },
+  "pageIntro": {
+    "definition": "保持一種反應配方可見，以便化學計量比讀取為完整批次，而不是分離的工作表比例。",
+    "whyItMatters": "當您可以將每個係數視為一個完整反應批次的資料包計數時，化學計量不再感覺像交叉乘法。",
+    "keyTakeaway": "化學計量比是一個完整反應批次的配方，而不僅僅是一對不相關的數字。"
+  },
+  "v2": {
+    "intuition": "平衡反應是一張配方卡：係數告訴您在一批完整的產品可以計數之前必須一起使用哪些資料包。",
+    "whyItMatters": "一旦比率感覺像是完整的批次，限制試劑和百分比產量就成為可見的後續問題，而不是單獨的工作表技巧。",
+    "equationSnapshot": {
+      "title": "配方批次快照",
+      "note": "首先將供應比例與配方比例相匹配，然後使用較小的批次上限作為誠實的產量限制。"
+    },
+    "startSetup": {
+      "note": "從 2:3 配方卡旁邊的 10 A 和 15 B 開始，因此兩種耗材都支援五個完整批次。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-complete-recipe",
+        "title": "閱讀完整的食譜",
+        "goal": "將 2 A + 3 B 視為一批配方，而不是兩個鬆散的數字。",
+        "doThis": "從匹配的 2:3 設定開始，並使配方卡在兩個供應箱旁邊可見。",
+        "notice": "一批將 A 和 B 一起花費。五個完整副本需要 10 個 A 資料包和 15 個 B 資料包。",
+        "explain": "這些係數表示一個完整的反應批次中有多少個資料包；只有當整個配方可用時，產品才算數。",
+        "inlineCheck": {
+          "title": "檢查食譜意義"
+        }
+      },
+      {
+        "id": "compare-the-two-batch-caps",
+        "title": "比較兩個批次上限",
+        "goal": "查看匹配的耗材，因為兩個箱中的批次容量相同。",
+        "doThis": "使用匹配的設定，然後在圖像/讀數上比較 A 支援和 B 支援的批次計數。",
+        "notice": "A 支援五個批次，B 支援五個批次，因此兩個容器都先於另一個容器用完。",
+        "explain": "當兩個耗材支援相同數量的完整配方副本時，耗材比率與化學計量比相符。",
+        "inlineCheck": {
+          "title": "預測固定供應上限"
+        }
+      },
+      {
+        "id": "change-the-recipe-card",
+        "title": "更改食譜卡",
+        "goal": "請注意，更改係數會改變算是一批的內容。",
+        "doThis": "從 2:3 配方切換到 3:2 配方，並保持相同的上限圖可見。",
+        "notice": "供應情況發生了變化，因為現在每個批次一起使用三個 A 資料包和兩個 B 資料包。",
+        "explain": "化學計量比不是分離反應物上的標籤。它們定義了批量大小，因此新配方甚至在輸入百分比產量之前就改變了輸出限制。",
+        "inlineCheck": {
+          "title": "首先檢查哪些變化"
+        }
+      },
+      {
+        "id": "build-a-matched-new-run",
+        "title": "建構匹配的新運行",
+        "goal": "使用配方比例為精確的四批次運作選擇耗材。",
+        "doThis": "將配方設定為 3 A + 2 B，然後選擇 12 A 和 8 B，這樣兩個料箱都支援四個批次。",
+        "notice": "只有在補給品成為新配方的精確副本後，兩個蓋子才會再次相遇。",
+        "explain": "持久的規則是：計算每個供應的完整配方副本，然後信任較小的上限。匹配比率使這些上限一致。",
+        "inlineCheck": {
+          "title": "嘗試合成挑戰"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "化學計量比是一個完整反應批次的包配方。",
+        "相符的耗材支援兩個反應物箱中相同數量的完整配方副本。",
+        "更改係數會更改批次定義，因此相同的原材料可以支援不同的輸出。",
+        "誠實的輸出限制是較小的配方支援的批次上限。"
+      ],
+      "misconception": "不要僅根據較大的係數或較大的原料供應來決定產量；始終計算整個食譜的完整副本。",
+      "freePlayPrompt": "嘗試使用不匹配的供應，命名較低批次的蓋子，然後調整一個箱子，直到兩個蓋子再次放在一起。",
+      "nextConcepts": [
+        {
+          "slug": "limiting-reagent-and-leftover-reactants",
+          "reasonLabel": "使用較小的蓋子作為限制側。"
+        },
+        {
+          "slug": "percent-yield-and-reaction-extent",
+          "reasonLabel": "將配方上限與實際輸出進行比較。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -217,6 +309,23 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "用這個步驟把模擬、圖像和概念連接起來。",
+      "primaryGraphIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "反應物A量",
+        "反應物B量",
+        "食譜A",
+        "食譜B"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "reactantAAmount",
@@ -279,7 +388,19 @@
         "whatToNotice": [
           "同一組供應量在配方卡改變後，能代表完全不同的批次故事。"
         ],
-        "whyItMatters": "這樣能把化學計量比例牢牢連在一張可見的批次配方卡上，而不是變成抽離的比例規則。"
+        "whyItMatters": "這樣能把化學計量比例牢牢連在一張可見的批次配方卡上，而不是變成抽離的比例規則。",
+        "relatedControls": [
+          "食譜A",
+          "食譜B"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "食譜-a",
+          "食譜-b"
+        ]
       },
       {
         "id": "limitingCue",
@@ -288,7 +409,19 @@
         "whatToNotice": [
           "較低的上限線，決定了目前最多能完成多少個完整批次。"
         ],
-        "whyItMatters": "它把限制試劑變成一條看得見的上限線，而不是隱藏在工作紙裡的步驟。"
+        "whyItMatters": "它把限制試劑變成一條看得見的上限線，而不是隱藏在工作紙裡的步驟。",
+        "relatedControls": [
+          "反應物A量",
+          "反應物B量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "概念標籤",
+          "概念標籤"
+        ]
       },
       {
         "id": "yieldGap",
@@ -297,7 +430,13 @@
         "whatToNotice": [
           "較低的產率不會改變配方卡；它改變的是實際出現了多少可達的產物。"
         ],
-        "whyItMatters": "這能為下一個產率概念預留脈絡，同時不打亂目前的配方故事。"
+        "whyItMatters": "這能為下一個產率概念預留脈絡，同時不打亂目前的配方故事。",
+        "relatedControls": [
+          "产量百分比"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ]
       }
     ]
   },
@@ -330,11 +469,43 @@
     "items": [
       {
         "id": "srb-notice-ratio-match",
-        "text": "當供應比例與配方比例配對時，兩條上限線會落在同一個批次數上。"
+        "text": "當供應比例與配方比例配對時，兩條上限線會落在同一個批次數上。",
+        "relatedControls": [
+          "反應物A量",
+          "反應物B量",
+          "食譜A",
+          "食譜B"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "食譜卡",
+          "限制提示"
+        ],
+        "relatedEquationVariables": [
+          "概念標籤",
+          "概念標籤"
+        ]
       },
       {
         "id": "srb-notice-recipe-change",
-        "text": "只要改變配方卡，即使供應倉保持不變，可支援的完整批次數也可能改變。"
+        "text": "只要改變配方卡，即使供應倉保持不變，可支援的完整批次數也可能改變。",
+        "relatedControls": [
+          "食譜A",
+          "食譜B"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "食譜卡"
+        ],
+        "relatedEquationVariables": [
+          "食譜-a",
+          "食譜-b"
+        ]
       }
     ]
   },
@@ -394,8 +565,20 @@
           {
             "label": "把產率保持在 100%，讓這次只測試配方比例。"
           }
-        ]
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "化學計量比和配方批次",
+    "description": "透過一個配方實驗台探索化學計量比，其中反應卡、供應箱和成品批次保持在一起可見。",
+    "keywords": [
+      "化學計量",
+      "化學計量比",
+      "化學",
+      "反應配方",
+      "摩爾比"
     ]
   }
 }

@@ -59,22 +59,27 @@
           "steps": [
             {
               "id": "read-time",
-              "label": "1. 從目前時間開始"
+              "label": "1. 從目前時間開始",
+              "template": "目前時間為 t = {{timeValue}}。"
             },
             {
               "id": "read-coordinates",
-              "label": "2. 一起讀取 x(t) 和 y(t)"
+              "label": "2. 一起讀取 x(t) 和 y(t)",
+              "template": "此時，x(t) = {{xValue}}，y(t) = {{yValue}}。"
             },
             {
               "id": "read-point",
-              "label": "3. 把這一對數值放回平面"
+              "label": "3. 把這一對數值放回平面",
+              "template": "因此移動點位於追蹤曲線上的 ({{xValue}}, {{yValue}}) 處。"
             }
           ],
           "resultLabel": "目前的點",
+          "resultTemplate": "$(x, y) = ({{xValue}}, {{yValue}})$",
           "applyAction": {
             "label": "應用橢圓軌跡",
             "observationHint": "把完整路徑保持開啟，這樣移動點就不會失去它的幾何脈絡。"
-          }
+          },
+          "interpretationTemplate": "{{motionInterpretation}}"
         }
       ]
     },
@@ -106,7 +111,11 @@
             "label": "只有運動才重要；路徑無關緊要。"
           }
         ],
-        "explanation": "相同的路徑概念可以以不同的節奏行進。"
+        "explanation": "相同的路徑概念可以以不同的節奏行進。",
+        "selectedWrongExplanations": {
+          "b": "同一條曲線可以用不同的時間來追踪，因此路徑和運動是相關但又不同的。",
+          "c": "路徑是運動所遵循的幾何軌跡。"
+        }
       },
       {
         "id": "pcm-qt-amplitude",
@@ -125,19 +134,25 @@
             "label": "y 範圍自動加倍。"
           }
         ],
-        "explanation": "x 振幅首先控制水平範圍。"
+        "explanation": "x 振幅首先控制水平範圍。",
+        "selectedWrongExplanations": {
+          "a": "幅度改變水平跨度；速度取決於參數如何變化。",
+          "c": "改變 x 幅度不會直接設定 y 跨距。"
+        }
       }
     ]
   },
   "accessibility": {
     "simulationDescription": {
       "paragraphs": [
-        "模擬顯示引數曲線、移動點以及振幅、頻率和相位偏移的控制。點透過同一平面移動，而整個路徑在此處被繪製。"
+        "模擬顯示了一條參數曲線、一個移動點以及對幅度、頻率和相移的控制。該點移動穿過追蹤整個路徑的同一平面。",
+        "保持完整軌跡可見可顯示幾何路徑，而移動點和時間軌跡則顯示該路徑隨時間推移的情況。"
       ]
     },
     "graphSummary": {
       "paragraphs": [
-        "一個圖表同時顯示 x(t) 和 y(t)，另一個圖表則顯示點的速度隨時間變化。"
+        "一張圖同時顯示 x(t) 和 y(t)，因此每次對應於平面上的一對有序對。",
+        "第二張圖顯示了點隨時間變化的速度，這有助於將路徑的形狀與點沿路徑移動的速度分開。"
       ]
     }
   },
@@ -154,6 +169,74 @@
         "description": "開啟一個相位偏移的迴圈並比較繪製的路徑與移動的點。"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "保持 x(t)、y(t)、追蹤路徑和移動點一起可見，以便形狀和遍歷保持清晰。",
+    "whyItMatters": "每當點在平面上移動時，就會出現參數方程，因此將路徑形狀與時間分開可以使後面的向量、彈體和曲線更易於閱讀。",
+    "keyTakeaway": "x(t) 和 y(t) 共同決定平面中的一個移動點。"
+  },
+  "v2": {
+    "intuition": "參數曲線不只是繪製的形狀。一個共享時鐘 t 提供 x(t) 和 y(t)，這兩個座標讀數選擇每一時刻的移動點。",
+    "whyItMatters": "一旦您可以保持完整路徑、當前點和座標時間圖的連接，您就可以判斷更改是重塑曲線還是僅更改點穿過曲線的方式。",
+    "equationSnapshot": {
+      "note": "將 x(t) 和 y(t) 作為一對有序對一起讀取，然後僅在需要遍歷故事時才使用速度規則。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-moving-point",
+        "title": "讀取一個移動點",
+        "goal": "將座標時間讀數連接到在追蹤曲線上移動的單點。",
+        "doThis": "保持座標與時間打開，保持完整路徑可見，並暫停時鐘一次，以便您可以一起讀取 x(t) 和 y(t)。",
+        "notice": "圖像值和平面上的點描述的是同一時刻，而不是兩張單獨的圖片。",
+        "explain": "參數值 t 選擇一個 x 值和一個 y 值，因此活動位置是有序對 (x(t), y(t))。"
+      },
+      {
+        "id": "stretch-the-path-not-the-clock",
+        "title": "伸展路徑",
+        "goal": "在改變時序控制之前，將振幅視為形狀控制。",
+        "doThis": "增加 y 幅度，同時 x 幅度保持固定，然後比較更改前後的完整跡線。",
+        "notice": "曲線不斷升高和降低，但同一時脈仍然將 x(t) 與 y(t) 配對。",
+        "explain": "振幅設定水平和垂直範圍，因此它們是寬度和高度最乾淨的第一個控制項。"
+      },
+      {
+        "id": "change-the-traversal-story",
+        "title": "改變遍歷",
+        "goal": "使用頻率和相移將運動計時與簡單的寬度-高度讀數分開。",
+        "doThis": "切換到速度圖，將利薩如環與相移環進行比較，並觀察該點在哪裡加速或減速。",
+        "notice": "即使寬度和高度感覺很熟悉，該點也可以交叉、循環或快速穿過部分跡線。",
+        "explain": "頻率和相移會改變 x 和 y 隨時間排列的方式，因此它們會影響遍歷，對於許多設定來說，也會影響追蹤形狀本身。"
+      },
+      {
+        "id": "check-shape-versus-motion",
+        "title": "檢查形狀與運動",
+        "goal": "使用路徑形狀和移動點故事來解釋當前曲線。",
+        "doThis": "使用快速檢查，然後嘗試挑戰：製作一條高曲線並在 y 軸快速移動時捕捉它附近的點。",
+        "notice": "一個很好的解釋指出了哪些設定塑造了軌跡以及哪些證據來自時間或速度讀數。",
+        "explain": "當您可以在方程式、圖像、完整路徑和當前有序對之間移動而不丟失共享時脈時，參數推理是最強的。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "共享參數 t 一次選擇一個有序對 (x(t), y(t))。",
+        "振幅主要改變路徑的水平和垂直範圍。",
+        "頻率、相移和當前時間解釋了點如何穿過跡線。",
+        "完整路徑和移動點/時間讀數回答不同的問題，因此兩種觀點都很重要。"
+      ],
+      "misconception": "不要將曲線圖片視為整個故事。看起來相同的路徑可以隱藏不同的遍歷，時間變化也可以改變形狀。",
+      "freePlayPrompt": "在觸碰滑桿之前，嘗試預測設定變更是否會主要拉伸跡線、變更時序或同時執行這兩項操作。",
+      "nextConcepts": [
+        {
+          "slug": "vectors-in-2d",
+          "title": "2D 向量",
+          "reasonLabel": "使用相同的平面和有序對語言來讀取方向和位移。"
+        },
+        {
+          "slug": "projectile-motion",
+          "title": "抛射運動",
+          "reasonLabel": "將 x(t) 和 y(t) 思維應用於物理運動路徑。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -200,6 +283,25 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "坐标時间",
+      "primaryGraphIds": [
+        "坐标時间",
+        "速度历史记录"
+      ],
+      "primaryControlIds": [
+        "x 振幅",
+        "y 幅度",
+        "x 頻率",
+        "y 頻率",
+        "相移"
+      ],
+      "primaryPresetIds": [
+        "橢圓軌跡",
+        "利薩如環",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "x-amplitude",
@@ -225,12 +327,199 @@
     "presets": [
       {
         "id": "ellipse-trace",
-        "label": "橢圓軌跡"
+        "label": "橢圓軌跡",
+        "description": "一個同頻橢圓，可以將路徑形狀與周圍的運動完全分開。"
       },
       {
         "id": "phase-shift-loop",
-        "label": "相位偏移迴圈"
+        "label": "相位偏移迴圈",
+        "description": "具有相移的相同頻率對會改變移動點與軌跡的對齊方式。"
+      },
+      {
+        "id": "lissajous-loop",
+        "label": "利薩如環",
+        "description": "不同的 x 和 y 頻率會建立一個與其自身交叉的環路。"
       }
+    ],
+    "overlays": [
+      {
+        "id": "fullPath",
+        "label": "完整路徑",
+        "shortDescription": "讓整個追蹤曲線在移動點後面可見。",
+        "whatToNotice": [
+          "完整軌跡顯示幾何路徑，即使該點目前位於其上的其他位置。"
+        ],
+        "whyItMatters": "它可以幫助您將整個曲線與各個時刻的位置分開。",
+        "relatedControls": [
+          "x振幅",
+          "y 振幅"
+        ],
+        "relatedGraphTabs": [
+          "坐标時间"
+        ],
+        "relatedEquationVariables": [
+          "x 振幅",
+          "y 幅度"
+        ]
+      },
+      {
+        "id": "timeTrail",
+        "label": "時間軌跡",
+        "shortDescription": "顯示點沿曲線的最近運動。",
+        "whatToNotice": [
+          "軌跡可以聚集或散開，這表明該點不必在任何地方都以相同的速度移動。"
+        ],
+        "whyItMatters": "它使遍歷速度可見，而不是單獨隱藏形狀內的所有內容。",
+        "relatedControls": [
+          "x頻率",
+          "y頻率"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录"
+        ],
+        "relatedEquationVariables": [
+          "x 頻率",
+          "y 頻率"
+        ]
+      },
+      {
+        "id": "coordinateProjections",
+        "label": "座標投影",
+        "shortDescription": "將目前點投影回 x 軸和 y 軸。",
+        "whatToNotice": [
+          "同一點同時由兩個與時間相關的座標規則設定。"
+        ],
+        "whyItMatters": "它將 x(t) 和 y(t) 連接到平面上的一個可見點。",
+        "relatedControls": [
+          "相移角度"
+        ],
+        "relatedGraphTabs": [
+          "坐标時间"
+        ],
+        "relatedEquationVariables": [
+          "相移"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "coordinate-time",
+      "label": "座標與時間",
+      "xLabel": "時間",
+      "yLabel": "座標值"
+    },
+    {
+      "id": "speed-history",
+      "label": "速度與時間",
+      "xLabel": "時間",
+      "yLabel": "速度"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "保持完整路徑、移動點和時間圖一起可見。主要工作是將形狀與運動分開。",
+    "items": [
+      {
+        "id": "pcm-notice-shape",
+        "text": "改變幅度會改變追蹤路徑的寬度和高度，因為它會改變 x 和 y 可以到達的距離。",
+        "relatedControls": [
+          "x振幅",
+          "y 振幅"
+        ],
+        "relatedGraphTabs": [
+          "坐标時间"
+        ],
+        "relatedOverlays": [
+          "完整路徑"
+        ],
+        "relatedEquationVariables": [
+          "x 振幅",
+          "y 幅度"
+        ]
+      },
+      {
+        "id": "pcm-notice-speed",
+        "text": "點可以沿著相同的幾何曲線加速和減速，因此路徑形狀和遍歷速度不是同一個概念。",
+        "relatedControls": [
+          "x頻率",
+          "y頻率"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录"
+        ],
+        "relatedOverlays": [
+          "時間軌跡"
+        ],
+        "relatedEquationVariables": [
+          "x 頻率",
+          "y 頻率"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測發生了什麼變化",
+    "intro": "在移動控制項之前，請決定它是否應變更路徑、沿路徑的移動或同時變更兩者。",
+    "items": [
+      {
+        "id": "pcm-predict-taller-loop",
+        "prompt": "如果 y 幅度增加而 x 幅度保持固定，則追蹤路徑會發生什麼情況？",
+        "scenarioLabel": "使循環更高",
+        "choices": [
+          {
+            "id": "a",
+            "label": "路徑應該變高，但不一定會變寬。"
+          },
+          {
+            "id": "b",
+            "label": "道路應該總是變得更寬。"
+          },
+          {
+            "id": "c",
+            "label": "路徑應保持相同。"
+          }
+        ],
+        "explanation": "增加 y 幅度會垂直拉伸路徑。它不會自動使路徑變寬。",
+        "observationHint": "保持完整跡線可見，並比較變更前後的垂直範圍。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "形狀與運動檢查點",
+    "intro": "首先建構形狀，然後利用時機捕捉路徑特定部分中的點。",
+    "items": [
+      {
+        "id": "pcm-ch-tall-fast-near-axis",
+        "title": "在高曲線上捕捉快速點",
+        "prompt": "使曲線的高度明顯大於寬度，然後在運動的快速部分捕捉 y 軸附近的點。",
+        "successMessage": "您成功地將形狀與遍歷分開：在運動的快速部分中，點在 y 軸附近被捕獲，但曲線保持高位。",
+        "targets": [
+          {
+            "label": "將路徑高度保持在 6.4 和 8.5 之間。"
+          },
+          {
+            "label": "將路徑寬度保持在 2 到 5.4 之間。"
+          },
+          {
+            "label": "將水平位置保持在 -0.35 和 0.35 之間。"
+          },
+          {
+            "label": "將速度保持在 6.5 到 20 之間。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "參數曲線/方程式運動",
+    "description": "探索 x(t) 和 y(t) 如何建立參數曲線，然後將追蹤路徑與即時實驗台上沿其運動的運動分開。",
+    "keywords": [
+      "參數曲線",
+      "參數運動",
+      "x(t) 和 y(t)",
+      "數學"
     ]
   }
 }

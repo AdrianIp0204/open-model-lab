@@ -67,22 +67,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始從旋轉關係入手"
+              "label": "1. 開始從旋轉關係入手",
+              "template": "使用 $\\tau = rF\\sin\\phi = rF_\\perp$，然後使用 $\\alpha = \\tau/I$。在此實驗台上，轉動慣量保持固定為 $I = 7\\,\\mathrm{kg\\,m^2}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 找出力的垂直部分"
+              "label": "2. 找出力的垂直部分",
+              "template": "對於$r = {{applicationDistanceValue}}\\,\\mathrm{m}$、$F = {{forceMagnitudeValue}}\\,\\mathrm{N}$和$\\phi = {{forceAngleValue}}^\\circ$，垂直部分是$F_\\perp = {{forcePerpendicularValue}}\\,\\mathrm{N}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算扭力和角加速度"
+              "label": "3. 計算扭力和角加速度",
+              "template": "所以$\\tau = {{torqueValue}}\\,\\mathrm{N\\,m}$和$\\alpha = {{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$。"
             }
           ],
           "resultLabel": "當前扭力和角加速度",
+          "resultTemplate": "$\\tau = {{torqueValue}}\\,\\mathrm{N\\,m}, \\quad \\alpha = {{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$",
           "applyAction": {
             "label": "施加以軸心為中心的推力",
             "observationHint": "保持作用線和轉動臂的疊加圖層可見。力仍然很大，但旋轉效果應該會消失。"
-          }
+          },
+          "interpretationTemplate": "{{torqueInterpretation}}"
         },
         {
           "id": "current-turning-state",
@@ -92,27 +97,40 @@
             {
               "id": "torque",
               "label": "扭力"
+            },
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "acceleration",
+              "label": "角加速度"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用恆定扭力運動規則"
+              "label": "1. 使用恆定扭力運動規則",
+              "template": "因為槓鈴從靜止開始，而這個有界長凳在固定設定中保持 $\\tau$ 恆定，所以使用 $\\omega = \\alpha t$ 和 $\\theta = \\tfrac{1}{2}\\alpha t^2$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前的實時值"
+              "label": "2. 代入當前的實時值",
+              "template": "在 $t = {{timeValue}}\\,\\mathrm{s}$ 處使用 $\\alpha = {{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$，從相同狀態計算 $\\omega$ 和 $\\theta$。"
             },
             {
               "id": "compute",
-              "label": "3. 閱讀旋轉回應"
+              "label": "3. 閱讀旋轉回應",
+              "template": "給出 $\\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}$ 和 $\\theta = {{rotationAngleValue}}\\,\\mathrm{rad}$。"
             }
           ],
           "resultLabel": "當前角速度和旋轉角度",
+          "resultTemplate": "$\\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}, \\quad \\theta = {{rotationAngleValue}}\\,\\mathrm{rad}$",
           "applyAction": {
             "label": "施加順時針推力",
             "observationHint": "在影片接近結尾處暫停，並比較扭力、角速度和旋轉角度的符號。"
-          }
+          },
+          "interpretationTemplate": "{{turningInterpretation}}"
         }
       ]
     },
@@ -267,6 +285,74 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "推動一個樞軸桿，看看槓桿臂距離、力方向和轉動效果如何與同一個緊湊的旋轉實驗台保持聯繫。",
+    "whyItMatters": "扭矩是旋轉運動背後的門把手概念：它解釋了在研究平衡、慣性矩或角動量之前，為什麼推動位置以及如何瞄準力很重要。",
+    "keyTakeaway": "扭矩取決於與樞軸的距離和力的垂直部分：$\\tau = rF\\sin\\phi = rF_\\perp$。"
+  },
+  "v2": {
+    "intuition": "使用一根樞軸桿在同一個活動實驗台上連接槓桿臂距離、力方向和轉動效果。",
+    "whyItMatters": "扭矩是從直線力到旋轉變化的乾淨橋樑，因此清楚地看到轉動圖像使後來的角動量和平衡思想更容易信任。",
+    "guidedSteps": [
+      {
+        "id": "read-one-clear-push",
+        "title": "讀一清推送",
+        "goal": "使用直角推動從一張圖片中讀取扭矩和角加速度。",
+        "doThis": "從手把直角預設開始，保持扭力圖可見，然後提高力值一次。",
+        "notice": "當垂直推力變大時，扭矩讀數和角加速度響應一起上升。",
+        "explain": "在距離固定的情況下，力的垂直部分控制轉動效果，因此更強的垂直推力會產生更強的扭曲。"
+      },
+      {
+        "id": "move-the-same-push-closer",
+        "title": "將同一個推近",
+        "goal": "了解為什麼相同的直角力在靠近樞軸作用時扭轉較小。",
+        "doThis": "切換到近鉸鏈直角預設並將其與先前的手柄推動進行比較。",
+        "notice": "由於力臂較短，因此力道可以保持強勁，同時扭力會縮小。",
+        "explain": "扭力取決於乘積 rF_perp，因此即使方向保持有利，縮短 r 也會降低轉動效果。"
+      },
+      {
+        "id": "aim-through-the-pivot",
+        "title": "透過樞軸瞄準",
+        "goal": "將伏地挺身與樞軸對齊，將力量大小與旋轉效果分開。",
+        "doThis": "應用線穿過樞軸預設，然後調整力角度，直到作用線幾乎穿過鉸鏈。",
+        "notice": "即使力箭頭仍存在於桿上，扭力圖也會崩潰。",
+        "explain": "只有垂直分量才會產生扭矩。如果作用線穿過樞軸，力臂幾乎為零，轉動效果消失。"
+      },
+      {
+        "id": "match-the-same-torque",
+        "title": "以另一種方式匹配扭矩",
+        "goal": "權衡力的大小和角度與距離，以便兩種不同的設定產生相同的轉向效果。",
+        "doThis": "切換到淺但更強的預設，然後將其與挑戰中縮短槓桿臂之前的手柄直角推動進行比較。",
+        "notice": "力箭頭可能看起來不同，而扭力和夾子末端旋轉幾乎保持匹配。",
+        "explain": "該頁面正在測試產品$rF_\\perp$。如果一個因素發生變化，另一個因素可以補償，但前提是有意重建垂直部分。",
+        "inlineCheck": {
+          "title": "你能保持相同的扭力嗎？",
+          "note": "現在縮短槓桿臂並用力的垂直部分進行補償，以便轉動效果大致保持不變。"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "扭矩取決於槓桿臂距離和力的垂直部分。",
+        "透過樞軸施加很大的力仍然可以產生幾乎沒有轉動效果。",
+        "對於這個固定慣量實驗台，更大的扭矩意味著更大的角加速度。"
+      ],
+      "misconception": "最大的力總是產生最大的轉動效果。",
+      "freePlayPrompt": "建造兩個明顯不同的設定，但仍提供幾乎相同的扭矩。",
+      "nextConcepts": [
+        {
+          "slug": "rotational-inertia",
+          "title": "轉動慣量/轉動慣量",
+          "reasonLabel": "保持相同的扭曲並改變質量所在的位置。"
+        },
+        {
+          "slug": "angular-momentum",
+          "title": "角動量",
+          "reasonLabel": "將相同的旋轉因果轉換為可以守恆的動量。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "torque-sine",
@@ -307,25 +393,470 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "扭矩",
+      "primaryGraphIds": [
+        "扭矩",
+        "旋轉角度"
+      ],
+      "primaryControlIds": [
+        "力大小",
+        "力角度",
+        "應用距離"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "概念標籤"
+      ],
+      "starterExploreTasks": [
+        "從手柄直角推動開始，在更改任何控制之前比較力箭頭、力臂和平坦扭矩圖。",
+        "切換到近鉸鏈相同的推力而不改變力的大小或角度，然後解釋為什麼即使推力看起來仍然垂直，旋轉也會縮小。",
+        "透過樞軸應用線，打開作用線，並使用方向圖來證明為什麼大的力幾乎不能產生轉動效果。"
+      ]
+    },
     "controls": [
       {
         "id": "forceMagnitude",
-        "label": "力的大小"
+        "label": "力的大小",
+        "description": "設定推力的力度，而不改變其角度或位置。"
       },
       {
         "id": "forceAngle",
-        "label": "力的角度"
+        "label": "力的角度",
+        "description": "相對於桿旋轉力。這會改變垂直分量並翻轉扭矩符號。"
+      },
+      {
+        "id": "applicationDistance",
+        "label": "距樞軸的距離",
+        "description": "將推點移近或遠離樞軸。當槓桿臂改變時，相同的力會產生不同的扭力。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "handle-right-angle",
+        "label": "手柄直角推",
+        "description": "參考案例：垂直推動手把。"
+      },
+      {
+        "id": "near-hinge-right-angle",
+        "label": "近鉸鏈同推",
+        "description": "相同的力和角度，距樞軸的距離減半，因此扭矩減半。"
+      },
+      {
+        "id": "shallow-strong-push",
+        "label": "淺但更強",
+        "description": "$30^\\circ$ 處較大的力可保持垂直分量和扭矩與參考情況相符。"
+      },
+      {
+        "id": "line-through-pivot",
+        "label": "穿過樞軸的線",
+        "description": "力很大，但扭矩幾乎為零，因為作用線穿過樞軸。"
+      },
+      {
+        "id": "clockwise-push",
+        "label": "順時針推動",
+        "description": "沿相反方向垂直推動會產生順時針扭矩。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "perpendicularComponent",
+        "label": "垂直分量",
+        "shortDescription": "將力分為扭轉部分和沿桿的部分。",
+        "whatToNotice": [
+          "垂直部分設定扭矩。",
+          "沿桿的大型組件可能看起來很引人注目，但幾乎不添加或不添加旋轉效果。"
+        ],
+        "whyItMatters": "它將 $\\tau = rF\\sin\\phi = rF_\\perp$ 變成你可以看到的東西。",
+        "relatedControls": [
+          "力大小",
+          "力角度"
+        ],
+        "relatedGraphTabs": [
+          "扭矩",
+          "方向圖"
+        ],
+        "relatedEquationVariables": [
+          "力大小",
+          "力角度"
+        ]
+      },
+      {
+        "id": "lineOfAction",
+        "label": "行動路線",
+        "shortDescription": "擴展力的方向，以便您可以查看它是錯過樞軸還是穿過樞軸。",
+        "whatToNotice": [
+          "當這條線穿過樞軸時，力臂為零，扭力消失。",
+          "僅改變角度就可以將相同的推力從強扭矩情況移動到接近零扭矩的情況。"
+        ],
+        "whyItMatters": "扭矩取決於從樞軸到力線的垂直距離，而不僅僅是箭頭長度。",
+        "relatedControls": [
+          "力角度",
+          "應用距離"
+        ],
+        "relatedGraphTabs": [
+          "方向圖"
+        ],
+        "relatedEquationVariables": [
+          "力角度",
+          "槓桿臂"
+        ]
+      },
+      {
+        "id": "momentArm",
+        "label": "力臂",
+        "shortDescription": "標記從樞軸到作用線的最短距離。",
+        "whatToNotice": [
+          "當此距離較大時，相同的力會產生較大的扭力。",
+          "即使手遠離樞軸，力臂也可以收縮到接近零。"
+        ],
+        "whyItMatters": "它使 $r\\sin\\phi$ 後面的幾何圖像可見，而不是將其保留為記憶公式。",
+        "relatedControls": [
+          "應用距離",
+          "力角度"
+        ],
+        "relatedGraphTabs": [
+          "扭矩",
+          "方向圖"
+        ],
+        "relatedEquationVariables": [
+          "槓桿臂",
+          "力角度"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "torque",
+      "label": "扭力與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "扭力（N·m）",
+      "description": "對於一種固定設定，扭矩保持恆定，因為距樞軸的距離、力的大小以及相對於桿的角度保持固定。"
+    },
+    {
+      "id": "angular-speed",
+      "label": "角速度與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "角速度（rad/s）",
+      "description": "在靜止時角加速度恆定的情況下，角速度線性變化。"
+    },
+    {
+      "id": "rotation-angle",
+      "label": "旋轉角度與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "旋轉角度（rad）",
+      "description": "旋轉角度曲線，因為桿在轉動時不斷獲得角速度。"
+    },
+    {
+      "id": "direction-map",
+      "label": "扭力與力角",
+      "xLabel": "力角（度數）",
+      "yLabel": "扭力（N·m）",
+      "description": "顯示目前力道大小和距離下扭力如何隨力角變化。當作用線穿過樞軸時，轉動效果在 $\\pm 90^\\circ$ 附近最大且接近零。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "關於扭矩需要注意什麼",
+    "intro": "在一次更改一個控制項時使用這些提示。將長條圖上看到的內容與力臂、作用線和圖像相符。",
+    "items": [
+      {
+        "id": "torque-notice-distance",
+        "text": "請注意，相同的垂直推力在手柄處的扭曲程度比在樞軸附近的扭曲程度要大得多。",
+        "tryThis": "在手柄直角推動和近鉸鍊版本之間切換。力箭頭保持不變，但扭矩和最終旋轉應下降約一半。",
+        "whyItMatters": "這將距離與其他所有因素隔離。",
+        "relatedControls": [
+          "應用距離"
+        ],
+        "relatedGraphTabs": [
+          "扭矩",
+          "旋轉角度"
+        ],
+        "relatedOverlays": [
+          "力矩臂"
+        ],
+        "relatedEquationVariables": [
+          "槓桿臂"
+        ]
+      },
+      {
+        "id": "torque-notice-angle-graph",
+        "text": "在角度圖上，扭力在 $\\pm 90^\\circ$ 附近最大，在 $0^\\circ$ 或 $180^\\circ$ 處接近零。",
+        "tryThis": "擦過正弦形響應曲線。正角和負角會翻轉扭矩符號，而線通過樞軸的角度接近零。",
+        "whyItMatters": "它使 $\\sin\\phi$ 因子可見，而不是作為規則將其保留下來。",
+        "relatedControls": [
+          "力角度"
+        ],
+        "relatedGraphTabs": [
+          "方向圖"
+        ],
+        "relatedOverlays": [
+          "垂直分量",
+          "行動路線"
+        ],
+        "relatedEquationVariables": [
+          "力角度"
+        ]
+      },
+      {
+        "id": "torque-notice-line-of-action",
+        "text": "當作用線穿過樞軸時，大的力仍然幾乎不會產生扭矩。",
+        "tryThis": "打開作用線，然後將力沿著桿向後瞄準。即使力讀數仍然很大，力臂也應該塌陷。",
+        "whyItMatters": "它打破了「力越大，轉動效果越大」的錯誤。",
+        "relatedControls": [
+          "力角度",
+          "應用距離"
+        ],
+        "relatedGraphTabs": [
+          "扭矩",
+          "方向圖"
+        ],
+        "relatedOverlays": [
+          "行動路線",
+          "力矩臂"
+        ],
+        "relatedEquationVariables": [
+          "力角度",
+          "槓桿臂"
+        ]
+      },
+      {
+        "id": "torque-notice-same-torque-compare",
+        "text": "請注意，在比較模式下，如果 $rF_\\perp$ 匹配，則不同的幾何形狀仍然可以達到相同的扭矩。",
+        "tryThis": "將裝置 A 保持在手柄處，朝樞軸方向縮短裝置 B，然後抬起推力的垂直部分，直到扭矩圖再次對齊。",
+        "whyItMatters": "扭力是一種產品，因此有多種誠實的方法可以建立相同的轉動效果。",
+        "relatedControls": [
+          "應用距離",
+          "力大小",
+          "力角度"
+        ],
+        "relatedGraphTabs": [
+          "扭矩",
+          "方向圖"
+        ],
+        "relatedOverlays": [
+          "力矩臂",
+          "垂直分量"
+        ],
+        "relatedEquationVariables": [
+          "槓桿臂",
+          "力大小",
+          "力角度"
+        ]
+      },
+      {
+        "id": "torque-notice-angle-change",
+        "text": "僅改變力的角度就可以減弱、消除或反轉扭矩，而無需移動手。",
+        "tryThis": "將角度從 $90^\\circ$ 穿過 $0^\\circ$ 滑動到 $-90^\\circ$。觀察垂直分量穿過零，然後翻轉符號。",
+        "whyItMatters": "方向決定旋轉效果的大小和符號。",
+        "relatedControls": [
+          "力角度"
+        ],
+        "relatedGraphTabs": [
+          "扭矩",
+          "方向圖"
+        ],
+        "relatedOverlays": [
+          "垂直分量",
+          "行動路線"
+        ],
+        "relatedEquationVariables": [
+          "力角度"
+        ]
+      },
+      {
+        "id": "torque-notice-distance-change",
+        "text": "僅改變作用點就會立即改變扭矩，即使力箭頭看起來相同。",
+        "tryThis": "保持相同的直角推動並向內滑動應用點。力臂、扭力圖和最終角度應一起收縮。",
+        "whyItMatters": "這就是為什麼門在把手處比在鉸鏈附近更容易打開。",
+        "relatedControls": [
+          "應用距離"
+        ],
+        "relatedGraphTabs": [
+          "扭矩",
+          "旋轉角度"
+        ],
+        "relatedOverlays": [
+          "力矩臂"
+        ],
+        "relatedEquationVariables": [
+          "槓桿臂"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測轉彎效果",
+    "intro": "首先預測扭矩，然後在長條圖和圖像上進行測試。目的是將距離、力方向和旋轉響應連結起來。",
+    "items": [
+      {
+        "id": "torque-predict-distance",
+        "prompt": "如果同樣的 $2\\,\\mathrm{N}$ 垂直推力從手柄移動到桿的中間，會發生什麼？",
+        "scenarioLabel": "相同的推力，較短的槓桿臂",
+        "changeLabel": "一半的距離",
+        "choices": [
+          {
+            "id": "a",
+            "label": "由於槓桿臂較短，扭力和夾子末端旋轉都會下降。"
+          },
+          {
+            "id": "b",
+            "label": "扭矩應保持不變，因為力方向仍然垂直。"
+          },
+          {
+            "id": "c",
+            "label": "桿應該旋轉更多，因為推力現在更接近樞軸。"
+          }
+        ],
+        "explanation": "在將 $r$ 切成兩半的同時保持相同的垂直力會將扭矩減半，因此角速度和旋轉的建立速度會更慢。",
+        "observationHint": "距離的一半應該會使扭矩減半，因此桿獲得角速度的速度會更慢，並且在夾子末端轉動的次數會更少。"
+      },
+      {
+        "id": "torque-predict-same-product",
+        "prompt": "如果用更強但更淺的推力替換手柄直角推力，使 $F_\\perp$ 保持不變，什麼應該保持幾乎不變？",
+        "scenarioLabel": "不同的幾何形狀，相同的扭矩",
+        "changeLabel": "用力換角度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "即使力箭頭發生變化，扭力和夾子末端轉動也應保持幾乎相同。"
+          },
+          {
+            "id": "b",
+            "label": "扭力必須變得更大，因為總力較大。"
+          },
+          {
+            "id": "c",
+            "label": "扭矩必定消失，因為力不再垂直。"
+          }
+        ],
+        "explanation": "扭矩取決於垂直分量，而不僅取決於總力。如果 $F_\\perp$ 和距樞軸的距離保持匹配，則轉彎效果也保持匹配。",
+        "observationHint": "將扭力圖和夾子末端角度與參考案例進行比較。匹配$F_\\perp$應該與轉動效果相符。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的即時實驗台來證明您可以推理槓桿臂距離、力方向和匹配的轉動效果，而無需隱藏在記憶的公式後面。",
     "items": [
       {
         "id": "torque-ch-zero-turn",
         "title": "手柄端零轉動",
         "prompt": "把受力點保持在接近手柄的位置，同時讓桿幾乎感受不到轉動效果。",
-        "successMessage": "你保留了長力臂，但把力的作用線對準支點，所以仍能把扭轉效果幾乎完全消掉。"
+        "successMessage": "你保留了長力臂，但把力的作用線對準支點，所以仍能把扭轉效果幾乎完全消掉。",
+        "setup": {
+          "note": "打開作用線並一起使用扭矩-角度圖。"
+        },
+        "hints": [
+          "不要透過一直滑動到樞軸來解決這個問題。保持較長的距離並改變方向。",
+          "目標是一個不小的力量。這是一個小力臂。"
+        ],
+        "checks": [
+          {
+            "label": "保持力足夠大，以使零扭矩來自幾何形狀，而不是來自微小的推動。"
+          },
+          {
+            "label": "將力幾乎沿著桿瞄準，以便作用線穿過樞軸。"
+          },
+          {
+            "label": "即使手部靠近手柄，也可折疊力臂。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將應用點保持在 $1.35$ 和 $1.6\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "使扭力落在$-0.12$ 和$0.12\\,\\mathrm{N\\,m}$ 之間。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "torque-ch-same-torque-new-geometry",
+        "title": "相同的扭矩，較短的槓桿臂",
+        "prompt": "開啟比較模式並使設定 B 與設定 A 一樣用力扭轉，即使設定 B 更靠近樞軸。",
+        "successMessage": "您在兩個不同的幾何形狀上匹配了轉動效果，這意味著您透過力的垂直部分進行補償，而不是僅依賴距離。",
+        "setup": {
+          "note": "克隆手把推動，然後僅縮短設定 B，同時保持扭力圖對齊。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "設定 A 可以留在手把處。僅縮短設定 B，然後透過改變推力的垂直部分重建相同的扭矩。",
+          "您不需要相同的箭頭。您需要相同的 $rF_\\perp$ 值。"
+        ],
+        "checks": [
+          {
+            "label": "設定 A 應將參考垂直力保持在 2 N 附近。"
+          },
+          {
+            "label": "設定 B 應以較大的垂直力補償較短的槓桿臂。"
+          },
+          {
+            "label": "設定 B 仍應使用短力臂，而不是複製手柄幾何。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將設定 A 保持在 $1.55$ 和 $1.6\\,\\mathrm{m}$ 之間的手柄附近。"
+          },
+          {
+            "label": "將設定 A 扭力保持在 $3.15$ 和 $3.25\\,\\mathrm{N\\,m}$ 之間。"
+          },
+          {
+            "label": "將裝置 B 移近 $0.75$ 與 $0.85\\,\\mathrm{m}$ 之間的樞軸。"
+          },
+          {
+            "label": "將設定 B 扭力恢復到 $3.15$ 和 $3.25\\,\\mathrm{N\\,m}$ 之間。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "torque-ch-clockwise-finish",
+        "title": "順時針完成",
+        "prompt": "在片段末端暫停並調整乾淨的順時針扭曲。",
+        "successMessage": "您建立了穩定的順時針扭矩，並讓它累積到匹配的剪輯結束速度和角度。",
+        "setup": {
+          "note": "使用剪輯結束檢查狀態，以便速度和角度讀數指向同一時刻。"
+        },
+        "hints": [
+          "順時針扭轉需要負扭矩，因此垂直分量必須指向相反的方向。",
+          "一旦扭力在範圍內，角速度和角度應該就位，因為實驗台慣性保持固定。"
+        ],
+        "checks": [
+          {
+            "label": "將推力保持在預期的槓桿臂處，而不是僅透過滑動手來求解。"
+          },
+          {
+            "label": "使用負垂直分量，使扭力真正為順時針方向。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將扭力保持在 $-2.55$ 和 $-2.25\\,\\mathrm{N\\,m}$ 之間。"
+          },
+          {
+            "label": "使角速度落在 $-0.9$ 和 $-0.76\\,\\mathrm{rad/s}$ 之間。"
+          },
+          {
+            "label": "使旋轉角度落在$-1.08$和$-0.9\\,\\mathrm{rad}$之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "description": "互動式扭力課程，包括旋轉桿、可調式槓桿臂距離和力方向、比較模式、引導覆蓋、預測提示和概念快速測試。",
+    "keywords": [
+      "扭矩",
+      "槓桿臂",
+      "力臂",
+      "力的轉動效果",
+      "旋轉動力學",
+      "實體模擬"
     ]
   }
 }

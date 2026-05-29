@@ -51,49 +51,87 @@
           "id": "current-visible-pair",
           "title": "當前可見線的模式",
           "prompt": "對於能級 {{gap21Value}}，{{gap32Value}} 和 {{gap43Value}}，當前梯度應該產生哪些可見線？",
+          "variables": [
+            {
+              "id": "gap21",
+              "label": "2 級到 1 級差距"
+            },
+            {
+              "id": "gap32",
+              "label": "3 級到 2 級差距"
+            },
+            {
+              "id": "gap43",
+              "label": "4 級到 3 級差距"
+            }
+          ],
           "steps": [
             {
               "id": "pair-21",
-              "label": "1. 將 2 -> 1 能級差轉換為波長"
+              "label": "1. 將 2 -> 1 能級差轉換為波長",
+              "template": "對於目前梯子，$\\Delta E_{2\\to1} = {{gap21Value}}$，因此 2 -> 1 線位於 {{line21WavelengthValue}} 附近。"
             },
             {
               "id": "pair-32",
-              "label": "2. 轉換另一個允許的能級差"
+              "label": "2. 轉換另一個允許的能級差",
+              "template": "3 -> 2 間隙為 {{gap32Value}}，因此該線落在 {{line32WavelengthValue}} 附近。"
             },
             {
               "id": "pattern",
-              "label": "3. 如實閱讀可見模式"
+              "label": "3. 如實閱讀可見模式",
+              "template": "在即時頻譜上，目前間隙設定在 {{shortestVisibleWavelengthValue}} 和 {{longestVisibleWavelengthValue}} 之間給出 {{visibleLineCountValue}} 條可見線。"
             }
           ],
           "resultLabel": "當前可見模式",
+          "resultTemplate": "$\\lambda_{2\\to1} = {{line21WavelengthValue}}, \\; \\lambda_{3\\to2} = {{line32WavelengthValue}}, \\; {{visibleLineCountValue}} visible lines$",
           "applyAction": {
             "label": "顯示類似氫的發射模式",
             "observationHint": "請注意，同一組三個可見線與梯級箭頭和光譜圖一起保持固定。"
-          }
+          },
+          "interpretationTemplate": "{{visiblePatternInterpretation}}"
         },
         {
           "id": "current-mode-line",
           "title": "當前模式及共享波長",
           "prompt": "對於當前模式 {{modeLabelValue}}，最強的高能線發生了什麼變化？為什麼它的波長保持不變？",
+          "variables": [
+            {
+              "id": "mode",
+              "label": "頻譜模式"
+            },
+            {
+              "id": "line41energy",
+              "label": "最大差距"
+            },
+            {
+              "id": "line41wavelength",
+              "label": "共享波長"
+            }
+          ],
           "steps": [
             {
               "id": "largest-gap",
-              "label": "1. 讀取最大的允許間隙"
+              "label": "1. 讀取最大的允許間隙",
+              "template": "這裡允許的最大跳躍是$\\Delta E_{4\\to1} = {{line41EnergyValue}}$。"
             },
             {
               "id": "convert-largest-gap",
-              "label": "2. 將該間隙轉換為波長"
+              "label": "2. 將該間隙轉換為波長",
+              "template": "相同的間隙對應於 {{line41WavelengthValue}}，無論原子是發射還是吸收。"
             },
             {
               "id": "mode-appearance",
-              "label": "3. 分離波長與外觀"
+              "label": "3. 分離波長與外觀",
+              "template": "在 {{modeLabelValue}} 中，該線顯示為 {{appearanceLabelValue}}，但波長保持鎖定在相同的允許間隙。"
             }
           ],
           "resultLabel": "當前模式連結",
+          "resultTemplate": "$\\Delta E_{4\\to1} = {{line41EnergyValue}}, \\; \\lambda_{4\\leftrightarrow1} = {{line41WavelengthValue}}, \\; {{modeLabelValue}}$",
           "applyAction": {
             "label": "切換到匹配的吸收情況",
             "observationHint": "明亮的線成為相同波長下的暗凹痕，因為允許間隙沒有改變。"
-          }
+          },
+          "interpretationTemplate": "{{modeInterpretation}}"
         }
       ]
     },
@@ -247,6 +285,95 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "透過一個緊湊的階梯和光譜實驗台將離散的發射線和吸收線連接到允許的能階間隙，將躍遷、波長和模式變化保持在一起。",
+    "whyItMatters": "線譜是從光子能量到原子結構的乾淨橋樑：一旦你可以將每條線映射到允許的能隙、發射、吸收和後來的玻爾式模型，就不再感覺像是互不相關的事實。",
+    "keyTakeaway": "每條光譜線都來自一個允許的能量差，而不是來自任何任意波長。"
+  },
+  "v2": {
+    "intuition": "將光譜視為由能梯製成的條碼。每個明亮的峰值或黑暗的凹口都是一次允許的跳躍；空白空間意味著在該波長處沒有水平間隙。",
+    "whyItMatters": "原子光譜是量子化變得可見的地方：一些測量的波長揭示了原子實際上可以使用哪些能量差異。",
+    "equationSnapshot": {
+      "title": "能隙到線位置快照",
+      "note": "首先讀取能階間隙，然後將其轉換為波長。較大的間隙使譜線向較短的波長移動；切換模式改變亮與暗，而不是位置。"
+    },
+    "startSetup": {
+      "note": "從稀疏發射模式開始，以便每條可見線都可以追溯到梯子上允許的特定跳躍。"
+    },
+    "guidedSteps": [
+      {
+        "id": "map-one-gap-to-one-line",
+        "title": "將一個間隙對應到一行",
+        "goal": "在比較整個圖案之前，將單一電平差與其光子波長連接起來。",
+        "doThis": "從具有躍遷對和線標籤的類氫發射開始，然後按照 2 -> 1 箭頭到達光譜圖上的匹配線。",
+        "notice": "箭頭、標籤、條帶標記和圖像峰值都指向相同的允許能量差。",
+        "explain": "光譜線不是自由浮動的顏色。它是當原子改變一個允許的能隙時產生或吸收的光子。",
+        "inlineCheck": {
+          "title": "檢查離散線原因"
+        }
+      },
+      {
+        "id": "change-a-gap-change-the-pattern",
+        "title": "改變間隙，改變模式",
+        "goal": "了解為什麼一個滑桿可以移動多條線，但不能均勻地移動整個光譜。",
+        "doThis": "將間隙提高 2 比 1，然後比較哪些標記線移動以及哪些空波長區域保持空狀態。",
+        "notice": "直接 2 -> 1 行移位，以及包含相同間隙移位的較大跳躍。",
+        "explain": "組合跳躍重複使用較小的間隙。這使得線條圖案結構化且不均勻，這是潛在梯子的證據。",
+        "inlineCheck": {
+          "title": "預測間隙變化"
+        }
+      },
+      {
+        "id": "flip-mode-keep-wavelengths",
+        "title": "翻轉模式，維持波長",
+        "goal": "將線位置與發射與吸收外觀分開。",
+        "doThis": "從類氫發射切換到類氫吸收，同時模式鎖定和線路標籤保持可見。",
+        "notice": "亮峰在相同的 x 位置變成暗凹口，因為允許的水平間隙沒有改變。",
+        "explain": "吸收在相反方向上使用相同的能量差。光譜外觀發生變化，但波長圖保持鎖定在階梯上。",
+        "inlineCheck": {
+          "title": "檢查發射與吸收"
+        }
+      },
+      {
+        "id": "build-a-target-line-pattern",
+        "title": "建構目標線圖案",
+        "goal": "故意使用梯子來滿足可見線目標，而不是猜測顏色。",
+        "doThis": "使用挑戰設定保持發射並調整間隙，直到只剩下兩條分佈良好的可見線。",
+        "notice": "成功來自於將允許的間隙移入或移出可見窗口，同時保持每條線與梯子相連。",
+        "explain": "頻譜具有診斷意義，因為目標線圖案限制了可能產生該頻譜的能量差異。",
+        "inlineCheck": {
+          "title": "檢查線條圖案證據"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "每條譜線映射到一個允許的能階差異。",
+        "較大的能隙使波長線較短，而較小的能隙則朝較長的波長移動。",
+        "改變一個間隙可以移動多個組合跳躍線，而無需連續填充頻譜。",
+        "當使用相同的階梯時，發射峰和吸收凹口共享波長。"
+      ],
+      "misconception": "不要將發射和吸收視為不同的波長組。對於相同的級別，它們使用相同的允許間隙；只有亮與暗的外觀發生變化。",
+      "freePlayPrompt": "建立一個設定，其中更改間隙會移動線位置，然後構建第二個設定，其中僅模式發生變化。解釋哪些差異來自結構，哪些差異來自外觀。",
+      "nextConcepts": [
+        {
+          "slug": "de-broglie-matter-waves",
+          "title": "德布羅意物質波",
+          "reasonLabel": "將量化擴展到物質波推理。"
+        },
+        {
+          "slug": "bohr-model",
+          "title": "玻爾模型",
+          "reasonLabel": "將光譜間隙轉換為氫能階模型。"
+        },
+        {
+          "slug": "photoelectric-effect",
+          "title": "光電效應",
+          "reasonLabel": "將線波長與光子能量測量重新連接。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "line-energy",
@@ -292,35 +419,313 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "譜線",
+      "primaryGraphIds": [
+        "譜線"
+      ],
+      "primaryControlIds": [
+        "間隙12Ev",
+        "間隙23Ev",
+        "間隙34Ev",
+        "吸收模式"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ]
+    },
     "controls": [
       {
         "id": "gap12Ev",
-        "label": "從1到2的差距"
+        "label": "從1到2的差距",
+        "description": "設定等級 2 和 1 級之間的能量差。"
       },
       {
         "id": "gap23Ev",
-        "label": "從2到3的差距"
+        "label": "從2到3的差距",
+        "description": "設定等級 3 與等級 2 之間的能量差。"
       },
       {
         "id": "gap34Ev",
-        "label": "從3到4的差距"
+        "label": "從3到4的差距",
+        "description": "設定等級 4 和 3 級之間的能量差。"
+      },
+      {
+        "id": "absorptionMode",
+        "label": "展示吸收案例",
+        "description": "在亮發射線和暗吸收凹口之間切換，同時保持相同的允許波長。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "hydrogen-like-emission",
+        "label": "類氫排放",
+        "description": "三個可見發射線，上面有幾個紫外線跳躍。"
+      },
+      {
+        "id": "hydrogen-like-absorption",
+        "label": "類氫吸收",
+        "description": "相同的線位置現在顯示為連續體中的深色凹口。"
+      },
+      {
+        "id": "clustered-visible-lines",
+        "label": "聚集可見線",
+        "description": "將三條可見線靠得更近，以比較它們的間距。"
+      },
+      {
+        "id": "wide-upper-gap",
+        "label": "上部間隙較寬",
+        "description": "將最高的單步線推向紫外線，同時較低的間隙保持可見。"
+      },
+      {
+        "id": "infrared-plus-visible",
+        "label": "紅外線加可見光",
+        "description": "讓一個較小的間隙進入紅外線，同時另外兩條線保持可見。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "transitionPairs",
+        "label": "過渡對",
+        "shortDescription": "將主動梯形跳躍直接連結到光譜條中的波長。",
+        "whatToNotice": [
+          "活動梯形箭頭、帶狀線和圖像位置一起移動，因為它們代表相同的能量變化。"
+        ],
+        "whyItMatters": "它可以幫助您將能階變化與譜線連結起來，而不是將它們視為單獨的圖片。",
+        "relatedControls": [
+          "間隙12Ev",
+          "間隙23Ev",
+          "間隙34Ev"
+        ],
+        "relatedGraphTabs": [
+          "譜線"
+        ],
+        "relatedEquationVariables": [
+          "間隙12Ev",
+          "間隙23Ev",
+          "間隙34Ev"
+        ]
+      },
+      {
+        "id": "lineLabels",
+        "label": "線路標籤",
+        "shortDescription": "顯示哪個能階對屬於每條譜線及其落在奈米位置的位置。",
+        "whatToNotice": [
+          "改變一個間隙可能會移動多條標記線，因為一些較大的跳躍包含相同的間隙。"
+        ],
+        "whyItMatters": "它使線條圖案更容易從梯子上解釋。",
+        "relatedControls": [
+          "間隙12Ev",
+          "間隙23Ev",
+          "間隙34Ev"
+        ],
+        "relatedGraphTabs": [
+          "譜線"
+        ],
+        "relatedEquationVariables": [
+          "間隙12Ev",
+          "間隙23Ev",
+          "間隙34Ev"
+        ]
+      },
+      {
+        "id": "modeLock",
+        "label": "模式鎖定",
+        "shortDescription": "當頁面在發射和吸收之間翻轉時，保持相同的允許可見波長。",
+        "whatToNotice": [
+          "在相同波長下，亮峰會變成暗凹口，因為允許的電平差未改變。"
+        ],
+        "whyItMatters": "它將線條的顯示位置與其顯示方式分開。",
+        "relatedControls": [
+          "吸收模式"
+        ],
+        "relatedGraphTabs": [
+          "譜線"
+        ],
+        "relatedEquationVariables": [
+          "吸收模式"
+        ]
+      },
+      {
+        "id": "quantizedSpacing",
+        "label": "量化間距",
+        "shortDescription": "提醒您只有允許的水平間隙才會產生線條，因此光譜不會連續填充。",
+        "whatToNotice": [
+          "只要沒有允許的能隙，就會出現空波長區域。"
+        ],
+        "whyItMatters": "最清晰的視覺提示是光譜是離散的，而不是連續的。",
+        "relatedControls": [
+          "間隙12Ev",
+          "間隙23Ev",
+          "間隙34Ev"
+        ],
+        "relatedGraphTabs": [
+          "譜線"
+        ],
+        "relatedEquationVariables": [
+          "間隙12Ev",
+          "間隙23Ev",
+          "間隙34Ev"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "spectrum-lines",
+      "label": "觀察到的光譜",
+      "xLabel": "波長（nm）",
+      "yLabel": "相對強度",
+      "description": "顯示紫外線、可見光和紅外線波長上的目前線條圖案。在吸收模式下，連續光譜保持在原位，而深色凹口標記相同的允許波長。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示，以便梯子、條帶和圖像繼續講述相同的能隙故事。",
+    "items": [
+      {
+        "id": "as-notice-discrete",
+        "text": "大多數波長保持空狀態，因為該階梯僅允許少量能量差異。由於模型的原因，頻譜是稀疏的，而不是因為圖像隱藏了任何內容。",
+        "tryThis": "開始類氫發射並觀察圖像上的可見線之間。",
+        "whyItMatters": "這是此頁面顯示線條而不是平滑彩虹的最明顯原因。",
+        "relatedControls": [
+          "間隙12Ev",
+          "間隙23Ev",
+          "間隙34Ev"
+        ],
+        "relatedGraphTabs": [
+          "譜線"
+        ],
+        "relatedOverlays": [
+          "量化間距",
+          "過渡對"
+        ]
+      },
+      {
+        "id": "as-notice-one-gap",
+        "text": "改變一個間隙可以移動多條線，因為一些較大的跳躍包含相同的間隙。",
+        "tryThis": "僅將間隙增加 2 比 1，並觀察哪些標記線一起移動。",
+        "whyItMatters": "它可以幫助您將光譜視為等級差異圖，而不是不相關顏色的清單。",
+        "relatedControls": [
+          "間隙12Ev"
+        ],
+        "relatedGraphTabs": [
+          "譜線"
+        ],
+        "relatedOverlays": [
+          "過渡對",
+          "行標籤"
+        ]
+      },
+      {
+        "id": "as-notice-mode",
+        "text": "切換到吸收不會移動允許的波長。它將相同的線條從明亮的峰變成黑暗的凹口。",
+        "tryThis": "在類氫發射和吸收預設之間切換。",
+        "whyItMatters": "它將發射和吸收保持在相同的能階結構上。",
+        "relatedControls": [
+          "吸收模式"
+        ],
+        "relatedGraphTabs": [
+          "譜線"
+        ],
+        "relatedOverlays": [
+          "模式鎖定",
+          "行標籤"
+        ]
+      },
+      {
+        "id": "as-notice-compare",
+        "text": "當一種設定更改間隙而另一種設定僅更改模式時，比較模式效果最佳。這使您可以將線條位置的變化與外觀的變化分開。",
+        "tryThis": "保持設定 A 為類氫發射，設定 B 為類氫吸收，然後僅變更設定 A 中的一個間隙。",
+        "whyItMatters": "透過並排，您可以看出差異是來自能梯還是僅來自發射與吸收。",
+        "relatedControls": [
+          "間隙12Ev",
+          "間隙23Ev",
+          "間隙34Ev",
+          "吸收模式"
+        ],
+        "relatedGraphTabs": [
+          "譜線"
+        ],
+        "relatedOverlays": [
+          "過渡對",
+          "模式鎖定",
+          "行標籤"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在移動間隙或翻轉模式之前，確定線條圖案應執行的操作。",
     "items": [
       {
         "id": "as-pred-lower-gap",
+        "prompt": "從類氫發射開始，僅增加 2 至 1 的間隙。首先應該發生什麼事？",
         "scenarioLabel": "提高最低的能級差",
-        "changeLabel": "從1到2的差距"
+        "changeLabel": "從1到2的差距",
+        "choices": [
+          {
+            "id": "a",
+            "label": "2 -> 1 線移動到更短的波長，並且包括 1 級的任何更大的跳躍也會移動。"
+          },
+          {
+            "id": "b",
+            "label": "只有最上面的 4 -> 3 行發生移動，因為底部間隙是隔離的。"
+          },
+          {
+            "id": "c",
+            "label": "線強度發生變化，但波長保持固定，因為等級數沒有變化。"
+          }
+        ],
+        "explanation": "波長來自能隙。如果較大的跳躍包含相同的較低間隙，則其總能量也會改變。",
+        "observationHint": "觀察標記線在條帶和圖像上一起移動。"
       },
       {
         "id": "as-pred-mode-switch",
-        "changeLabel": "吸收模式"
+        "prompt": "保持相同的梯子，但從發射切換到吸收。哪種說法是誠實的？",
+        "scenarioLabel": "翻轉模式",
+        "changeLabel": "吸收模式",
+        "choices": [
+          {
+            "id": "a",
+            "label": "允許的波長保持不變，但亮峰變成暗凹口。"
+          },
+          {
+            "id": "b",
+            "label": "所有波長都顛倒順序，因為吸收讀取梯子向上。"
+          },
+          {
+            "id": "c",
+            "label": "僅保留紫外線，因為吸收首先消除了可見光。"
+          }
+        ],
+        "explanation": "電平差沒有改變，因此允許的波長保持鎖定。僅每條線的外觀發生變化。",
+        "observationHint": "專注於切換前後頻譜圖上相同的 x 位置。"
       },
       {
         "id": "as-pred-middle-gap",
-        "changeLabel": "從2到3的差距"
+        "prompt": "僅減少 3 到 2 個間隙，同時保留其他間隙。模式該做什麼？",
+        "scenarioLabel": "降低中間間隙",
+        "changeLabel": "從2到3的差距",
+        "choices": [
+          {
+            "id": "a",
+            "label": "3 -> 2 線移動到更長的波長，一些較大的跳躍發生移動，而另一些則保持在原來的位置。"
+          },
+          {
+            "id": "b",
+            "label": "每條線都移動相同的波長量，因為所有間隙都一起縮小。"
+          },
+          {
+            "id": "c",
+            "label": "頻譜沒有任何變化，因為頂部和底部間隙保持不變。"
+          }
+        ],
+        "explanation": "僅包含 3 到 2 間距變化的跳躍。這使得線條圖案變化不均勻，這是結構化水平差異的證據的一部分。",
+        "observationHint": "將標記的 3 -> 2 行與繞過它的較大跳轉進行比較。"
       }
     ]
   },
@@ -339,7 +744,25 @@
         "hints": [
           "不需要改變模式，保持光譜在發射模式。",
           "試著把最高那條單步譜線推出可見範圍，同時保留較低的兩條可見線。"
-        ]
+        ],
+        "targets": [
+          {
+            "label": "將模式標誌保持在 0 和 0 之間。"
+          },
+          {
+            "label": "將visiblelinecount 保持在2 到2 之間。"
+          },
+          {
+            "label": "將最短可見波長 nm 保持在 43 nm 和 52 nm 之間。"
+          },
+          {
+            "label": "將最長可見波長 nm 保持在 62 nm 和 72 nm 之間。"
+          },
+          {
+            "label": "保持最小可見間隔在 12 nm 和 26 nm 之間。"
+          }
+        ],
+        "style": "目標設定"
       },
       {
         "id": "as-ch-match-absorption-notches",
@@ -352,8 +775,37 @@
         "hints": [
           "先切到吸收模式，再把最高那條單步譜線帶回可見範圍。",
           "目標是三條可見譜線，但不要把它們壓成一團很緊的聚集。"
-        ]
+        ],
+        "targets": [
+          {
+            "label": "將模式標誌保持在 1 和 1 之間。"
+          },
+          {
+            "label": "將可見線計數保持在 3 到 3 之間。"
+          },
+          {
+            "label": "將最短可見波長 nm 保持在 46 nm 和 54 nm 之間。"
+          },
+          {
+            "label": "將最長可見波長 nm 保持在 62 nm 和 7 nm 之間。"
+          },
+          {
+            "label": "保持最小可見分離奈米在 50 nm 和 11 nm 之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "原子光譜 |開放模型實驗室",
+    "description": "透過緊湊的梯譜模擬將發射光譜和吸收光譜與離散原子能階間隙連接起來。",
+    "keywords": [
+      "原子光譜模擬",
+      "發射吸收光譜",
+      "譜線",
+      "量子化能階",
+      "原子能隙"
     ]
   }
 }

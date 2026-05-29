@@ -1,5 +1,6 @@
 {
   "title": "RC 充電與放電",
+  "shortTitle": "RC 響應",
   "summary": "把一個電阻電容迴路留在畫面上，讓電容電壓、電流、儲存能量和時間常數都連回同一個充電或放電設定。",
   "highlights": [
     "時間常數",
@@ -8,12 +9,762 @@
   ],
   "topic": "電路",
   "subtopic": "含儲能元件的時間響應",
+  "recommendedNext": [
+    {
+      "slug": "power-energy-circuits",
+      "reasonLabel": "比較穩定功率與瞬態儲存"
+    },
+    {
+      "slug": "capacitance-and-stored-electric-energy",
+      "reasonLabel": "查看儲存模型"
+    }
+  ],
   "sections": {
     "explanation": {
       "paragraphs": [
         "RC 電路的變化不是突然完成，而是由時間常數控制。充電時，電容電壓逐步接近電源電壓；放電時，它逐步回落，同時電流方向和大小也跟著改變。",
         "這個模型讓電阻、電容和初始狀態保持在同一個畫面。重點是把曲線上的時間讀數連回實際迴路，而不是只記住指數式外形。"
       ]
+    },
+    "keyIdeas": [
+      "在 1τ 時，充電電容器進行了可預測的部分移動：約 63% 的電壓上升完成，而電流已降至其起始值的約 37%。",
+      "充電以最大電流開始，因為電容器電壓最初為零；隨著電容器電壓升高，電阻壓降和電流都會減少。",
+      "時間常數 tau = RC 決定速度。較大的電阻或較大的電容會使充電和放電變慢。"
+    ],
+    "commonMisconception": {
+      "myth": "連接到電池的電容器應立即跳至電池電壓，因為電電源電壓已固定。",
+      "correction": [
+        "電電源電壓是固定的，但電阻器限制了電荷移動到電容器板上的速度。",
+        "電容器電壓隨著時間的推移而建立，因為電流開始很大，然後隨著電容器本身消耗更多的電源電壓而減弱。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時工作範例",
+      "intro": "使用螢幕上精確的 RC 設定。相同的電電源電壓、電阻、電容、模式和檢查時間驅動下面的方程式。",
+      "items": [
+        {
+          "id": "time-constant-and-capacitor-voltage",
+          "title": "時間常數與電容器電壓",
+          "prompt": "對於目前的 RC 設定，時間常數是多少，在目前檢查的時間電容器電壓是多少？",
+          "variables": [
+            {
+              "id": "resistance",
+              "label": "電阻"
+            },
+            {
+              "id": "capacitance",
+              "label": "電容"
+            },
+            {
+              "id": "time",
+              "label": "已用時間"
+            }
+          ],
+          "steps": [
+            {
+              "id": "build-time-constant",
+              "label": "1. 建立時間常數",
+              "template": "$\\tau = RC = {{resistanceValue}} \\times {{capacitanceValue}} = {{timeConstantValue}}$。"
+            },
+            {
+              "id": "choose-voltage-rule",
+              "label": "2. 使用即時模式規則",
+              "template": "此設定為{{modeLabelValue}}，因此${{capacitorRuleValue}}$。"
+            },
+            {
+              "id": "substitute-voltage",
+              "label": "3.替換即時值",
+              "template": "${{capacitorSubstitutionValue}}$。"
+            },
+            {
+              "id": "read-capacitor-voltage",
+              "label": "4.讀取電容電壓",
+              "template": "在 $t = {{timeValue}}$ 處給出 $V_C = {{capacitorVoltageValue}}$。"
+            }
+          ],
+          "resultLabel": "時間常數與電容器電壓",
+          "resultTemplate": "$\\tau = {{timeConstantValue}}, \\quad V_C = {{capacitorVoltageValue}}$",
+          "applyAction": {
+            "label": "顯示慢充",
+            "observationHint": "R和C越大，tau越大，因此電壓曲線上升越慢。"
+          },
+          "interpretationTemplate": "{{voltageInterpretation}}"
+        },
+        {
+          "id": "current-and-stored-energy",
+          "title": "目前和儲存的能量",
+          "prompt": "對於電流設定和檢查時間，流過的電流是多少以及電容器中儲存了多少能量？",
+          "variables": [
+            {
+              "id": "sourceVoltage",
+              "label": "電源電壓"
+            },
+            {
+              "id": "resistance",
+              "label": "電阻"
+            },
+            {
+              "id": "capacitance",
+              "label": "電容"
+            }
+          ],
+          "steps": [
+            {
+              "id": "choose-current-rule",
+              "label": "1. 從目前規則開始",
+              "template": "此設定為{{modeLabelValue}}，因此${{currentRuleValue}}$。"
+            },
+            {
+              "id": "substitute-current-rule",
+              "label": "2. 取代即時值",
+              "template": "${{currentSubstitutionValue}}$，所以$I = {{currentValue}}$。"
+            },
+            {
+              "id": "stored-energy-rule",
+              "label": "3.利用電容器能量關係",
+              "template": "$U = \\tfrac{1}{2} C V_C^2 = \\tfrac{1}{2} \\times {{capacitanceValue}} \\times ({{capacitorVoltageValue}})^2$。"
+            },
+            {
+              "id": "stored-energy-result",
+              "label": "4.讀取儲存的能量",
+              "template": "這給了$U = {{storedEnergyValue}}$。"
+            }
+          ],
+          "resultLabel": "目前和儲存的能量",
+          "resultTemplate": "$I = {{currentValue}}, \\quad U = {{storedEnergyValue}}$",
+          "applyAction": {
+            "label": "顯示放電",
+            "observationHint": "電流反轉，儲存的能量耗盡，而相同的時間常數仍然控制速度。"
+          },
+          "interpretationTemplate": "{{energyInterpretation}}"
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "在某一時間常數下，為什麼即使電電源電壓一直固定，充電電容器還沒有完成工作？",
+      "prediction": "在檢查 tau 標記之前，確定未完成的反應是否來自電容器電壓、電流或時間常數。",
+      "answer": "在某個時間常數下，電容器僅處於變化的一半，因為電流已經開始衰減。隨著電容器電壓升高，電阻器獲得的電源電壓減小，因此充電電流會不斷縮小而不是保持恆定。",
+      "explanation": "電源電壓是固定的，但 RC 電路不是由固定電流驅動的。電流在開始時最強，然後呈指數衰減，這就是電容器電壓逐漸接近其最終值的原因。"
     }
+  },
+  "quickTest": {
+    "title": "快速測試",
+    "intro": "來自即時 RC 循環的答案，而不是來自獨立公式的答案。",
+    "questions": [
+      {
+        "id": "rc-qt-largest-current",
+        "prompt": "充電時，何時電流最大？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "就在開始時，在電容器產生很大電壓之前。"
+          },
+          {
+            "id": "b",
+            "label": "響應進行到一半，因為此時電容器和電阻器均勻共享電壓。"
+          },
+          {
+            "id": "c",
+            "label": "最後，因為電容器終於達到了電電源電壓。"
+          }
+        ],
+        "explanation": "充電開始時，電容器電壓接近零，因此電阻器上幾乎出現完整的電源電壓，電流最大。",
+        "selectedWrongExplanations": {
+          "b": "到中點時電流已經變小，因為電容器吸收了部分電源電壓。",
+          "c": "充電結束時電流接近零，而不是最大。"
+        },
+        "showMeAction": {
+          "label": "顯示快充",
+          "observationHint": "反應開始時觀察目前箭頭。"
+        }
+      },
+      {
+        "id": "rc-qt-one-tau",
+        "prompt": "充電期間 1tau 時，哪種說法最好？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電容器已完成充電，因為一個時間常數意味著一次充滿電。"
+          },
+          {
+            "id": "b",
+            "label": "電容器僅達到其最終電壓的一半，電流已經下降很多。"
+          },
+          {
+            "id": "c",
+            "label": "由於電電源電壓是固定的，電流仍然與開始時相同。"
+          }
+        ],
+        "explanation": "一個時間常數是一個節奏標記，而不是終點線。充電曲線只完成一半，電流已經劇烈衰減。",
+        "selectedWrongExplanations": {
+          "a": "反應逐漸接近其最終值，但在 1tau 時仍不完整。",
+          "c": "源是固定的，但電流不是。它隨著電容器電壓的升高而下降。"
+        },
+        "showMeAction": {
+          "label": "顯示 1tau 參考",
+          "observationHint": "擦洗 tau 標記並將電荷分數與電流分數進行比較。"
+        }
+      },
+      {
+        "id": "rc-qt-larger-r",
+        "prompt": "如果電阻變大，而相同的電容器和電源保持在充電模式，會發生什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "響應變得更快，因為電阻現在可以容納更多能量。"
+          },
+          {
+            "id": "b",
+            "label": "沒有任何變化，因為電容是設定 RC 時序的唯一因素。"
+          },
+          {
+            "id": "c",
+            "label": "反應變慢，因為 tau 增加並且啟動電流變小。"
+          }
+        ],
+        "explanation": "較大的電阻會提高 tau = RC 並降低啟動電流 V/R，因此整個響應會變慢。",
+        "selectedWrongExplanations": {
+          "a": "電阻器在此不會產生更快的響應。它減慢了電容器上的電荷流動。",
+          "b": "R 和 C 皆設定 tau。"
+        },
+        "showMeAction": {
+          "label": "顯示慢速充電",
+          "observationHint": "將 tau 標記間距和目前箭頭與更快的設定進行比較。"
+        }
+      },
+      {
+        "id": "rc-qt-discharge",
+        "prompt": "一名學生說：「一旦電源斷開，電流必然立即消失，因為電池已耗盡。」最好的修正是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "這是正確的，因為只有電池才能驅動迴路中的電流。"
+          },
+          {
+            "id": "b",
+            "label": "電流不會立即消失。充電的電容器成為驅動電阻的源，因此電流反向然後衰減。"
+          },
+          {
+            "id": "c",
+            "label": "電流永遠保持完全相同，因為電容器保持相同的儲存電壓。"
+          }
+        ],
+        "explanation": "充電的電容器儲存電壓和能量。在放電期間，它成為驅動電阻器的源，因此電流反轉然後消失。",
+        "selectedWrongExplanations": {
+          "a": "充電電容器在釋放儲存的能量時也可以驅動電流。",
+          "c": "放電期間電容器電壓不固定。它隨著時間的推移而下降。"
+        },
+        "showMeAction": {
+          "label": "顯示放電",
+          "observationHint": "當能量條縮小時，觀察目前箭頭反向。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示了有界 RC 迴路中的一顆電池、一個電阻器和一個電容器。模式切換在充電和放電之間切換，而滑桿則設定電電源電壓、電阻和電容。",
+        "疊加層可以顯示電流、電壓標籤、tau 標記、極板電荷累積和儲存能量提示。相同的控制驅動載物台、讀數卡片和兩個圖像。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "電壓圖顯示電容器電壓和電阻器壓降隨時間的變化，因此變化的環路平衡保持可見。歸一化響應圖顯示了同一時間軸上的電荷分數、電流分數和儲存能量分數，因此 RC 速度很容易進行比較。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "即時 RC 檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "1tau 檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "維持時間回應故事的動人"
+      }
+    ],
+    "featuredSetups": [
+      {
+        "id": "one-tau-checkpoint",
+        "label": "1τ 檢查點",
+        "description": "在 1τ 處開啟參考設定，以便 63% 電壓和 37% 電流標記一起可見。"
+      },
+      {
+        "id": "slow-response",
+        "label": "反應慢",
+        "description": "增加 RC 乘積並比較相同的電源電壓如何花費更長的時間來建立電容器電壓。"
+      },
+      {
+        "id": "discharge-reversal",
+        "label": "放電逆轉",
+        "description": "切換到放電狀態，觀察充電電容器驅動反向電流，同時儲存的能量耗盡。"
+      }
+    ],
+    "entryGuidance": {
+      "firstAction": "開啟 1τ 檢查點設定，然後在移動任何滑桿之前檢查電壓、電流和儲存能量讀數。",
+      "watchFor": "在 1τ 時，電容器只充電一半，而電流已經減弱； R 或 C 越大，同一故事的傳播時間就越長。",
+      "hints": [
+        {
+          "id": "one-tau-reference",
+          "label": "1τ 參考"
+        },
+        {
+          "id": "normalized-response",
+          "label": "標準化反應"
+        },
+        {
+          "id": "tauMarkers",
+          "label": "tau 標記"
+        },
+        {
+          "id": "currentFlow",
+          "label": "電流"
+        }
+      ]
+    }
+  },
+  "pageIntro": {
+    "definition": "使用電阻電容迴路來了解為什麼電容器電壓逐漸變化、為什麼電流衰減以及時間常數 τ = RC 如何決定速度。",
+    "whyItMatters": "RC 定時是相機閃光燈、濾鏡、感測器延遲以及任何儲存電荷無法立即改變的電路的基礎。",
+    "keyTakeaway": "在 1τ 時，充電電容器僅達到電電源電壓的約 63%，因為電流已降至其起始值的約 37%。"
+  },
+  "equations": [
+    {
+      "id": "time-constant",
+      "label": "時間常數",
+      "meaning": "電阻和電容的乘積決定了 RC 反應發生的速度。"
+    },
+    {
+      "id": "charging-voltage",
+      "label": "充電電容電壓",
+      "meaning": "電容器電壓上升至源值，而不是立即跳到那裡。"
+    },
+    {
+      "id": "discharging-voltage",
+      "label": "放電電容器電壓",
+      "meaning": "在放電期間，電容器電壓從其起始值呈指數下降。"
+    },
+    {
+      "id": "current-rule",
+      "label": "RC 電流",
+      "meaning": "電流大小在任一模式下均呈指數衰減，而符號取決於電容器是充電還是放電。"
+    },
+    {
+      "id": "stored-energy",
+      "label": "儲存的電容器能量",
+      "meaning": "儲存的能量跟隨電容器電壓變化，因此它的變化甚至比電荷分數更快。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "sourceVoltage",
+      "label": "電源電壓",
+      "description": "設定完全充電目標和初始電流範圍。"
+    },
+    {
+      "id": "resistance",
+      "label": "電阻",
+      "description": "較大的電阻會增加 tau 並降低啟動電流，從而減慢響應速度。"
+    },
+    {
+      "id": "capacitance",
+      "label": "電容",
+      "description": "較大的電容可儲存更多電荷，但也會減慢反應速度，因為 tau = RC 會增加。"
+    }
+  ],
+  "simulation": {
+    "ui": {
+      "initialGraphId": "電壓-時間",
+      "primaryGraphIds": [
+        "電壓-時間"
+      ],
+      "primaryControlIds": [
+        "正在充電",
+        "電阻",
+        "電容",
+        "電源電壓"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "放電啟動器",
+        "慢速充電"
+      ],
+      "starterExploreTasks": [
+        "在移動時脈之前開啟 1tau 參考預設並讀取時間常數。",
+        "擦除 1tau 並比較電容器電壓、電流和儲存的能量。",
+        "切換到放電模式並觀察電流反向，同時時間常數仍設定速度。"
+      ]
+    },
+    "controls": [
+      {
+        "id": "charging",
+        "label": "充電模式",
+        "description": "On 連接電源並對電容器充電。關閉會斷開電源，因此電容器透過電阻器放電。",
+        "displayValueLabels": [
+          {
+            "label": "充電"
+          },
+          {
+            "label": "放電"
+          }
+        ]
+      },
+      {
+        "id": "sourceVoltage",
+        "label": "電源電壓",
+        "description": "設定充電目標和初始電流規模。"
+      },
+      {
+        "id": "resistance",
+        "label": "電阻R",
+        "description": "較大的電阻會使反應變慢並降低初始電流。"
+      },
+      {
+        "id": "capacitance",
+        "label": "電容C",
+        "description": "較大的電容可儲存更多電荷，但也會減慢反應速度，因為 tau = RC 會增加。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "fast-charge",
+        "label": "快速充電",
+        "description": "較小的時間常數會使充電曲線快速攀升。"
+      },
+      {
+        "id": "slow-charge",
+        "label": "慢速充電",
+        "description": "R 和 C 越大，相同電源對電容器充電的速度越慢。"
+      },
+      {
+        "id": "discharge-starter",
+        "label": "放電啟動器",
+        "description": "從充電的電容器開始，並讓它通過同一電阻器漏電。"
+      },
+      {
+        "id": "one-tau-reference",
+        "label": "1tau 參考",
+        "description": "tau = 2 秒的乾淨充電設定，因此 1tau 檢查點易於檢查。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentFlow",
+        "label": "電流",
+        "shortDescription": "顯示瞬態電流的方向和強度。",
+        "whatToNotice": [
+          "電流在開始時最大，然後隨著反應的進展而減弱。"
+        ],
+        "whyItMatters": "它使電壓曲線與正在進行充電或放電的實際電流相關聯。",
+        "relatedControls": [
+          "正在充電",
+          "電阻",
+          "電源電壓"
+        ],
+        "relatedGraphTabs": [
+          "標準化反應"
+        ],
+        "relatedEquationVariables": [
+          "電源電壓",
+          "電阻"
+        ]
+      },
+      {
+        "id": "voltageLabels",
+        "label": "電壓標籤",
+        "shortDescription": "標示即時環路上的電電源電壓、電阻壓降和電容器電壓。",
+        "whatToNotice": [
+          "充電期間，電阻壓降縮小，而電容器電壓則上升至相同的電源值。"
+        ],
+        "whyItMatters": "它使不斷變化的循環平衡可見，而不是將其隱藏在一個公式中。",
+        "relatedControls": [
+          "電源電壓",
+          "正在充電"
+        ],
+        "relatedGraphTabs": [
+          "電壓-時間"
+        ],
+        "relatedEquationVariables": [
+          "電源電壓"
+        ]
+      },
+      {
+        "id": "tauMarkers",
+        "label": "tau 標記",
+        "shortDescription": "在同一響應標尺上顯示 1tau、2tau、3tau 和當前時間位置。",
+        "whatToNotice": [
+          "一個時間常數是一個起搏標記，而不是反應的結束。"
+        ],
+        "whyItMatters": "它賦予 tau 物理計時意義，而不是僅僅將其作為產品。",
+        "relatedControls": [
+          "電阻",
+          "電容"
+        ],
+        "relatedGraphTabs": [
+          "標準化反應"
+        ],
+        "relatedEquationVariables": [
+          "電阻",
+          "電容"
+        ]
+      },
+      {
+        "id": "chargeCue",
+        "label": "充電提示",
+        "shortDescription": "顯示電容器板上相反的電荷建立或減弱。",
+        "whatToNotice": [
+          "極板電荷不會立即跳躍。它以相同的 RC 速度增長或消退。"
+        ],
+        "whyItMatters": "它使電壓曲線與電容器上實際儲存的電荷有關。",
+        "relatedControls": [
+          "電容",
+          "正在充電"
+        ],
+        "relatedGraphTabs": [
+          "標準化反應"
+        ],
+        "relatedEquationVariables": [
+          "電容"
+        ]
+      },
+      {
+        "id": "energyStore",
+        "label": "能量儲存",
+        "shortDescription": "顯示儲存的電容器能量隨電容器電壓上升或下降。",
+        "whatToNotice": [
+          "儲存能量的變化比電荷分數更急劇，因為它取決於 V_C 的平方。"
+        ],
+        "whyItMatters": "它將能量儲存與電荷儲存分開，同時將兩者保持在同一個實驗台上。",
+        "relatedControls": [
+          "電容",
+          "電源電壓",
+          "正在充電"
+        ],
+        "relatedGraphTabs": [
+          "標準化反應"
+        ],
+        "relatedEquationVariables": [
+          "電容",
+          "電源電壓"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "voltage-time",
+      "label": "電容器與電阻器電壓與時間的關係",
+      "xLabel": "時間 t （秒）",
+      "yLabel": "電壓（V）",
+      "description": "電容器電壓和電阻壓降保持在同一圖像上，因此隨著時間的推移，變化的環路平衡仍然可見。"
+    },
+    {
+      "id": "normalized-response",
+      "label": "歸一化電荷、電流和能量響應",
+      "xLabel": "時間 t （秒）",
+      "yLabel": "反應的分數",
+      "description": "電荷分數、電流分數和儲能分數共享一個無量綱圖，因此時間常數的故事易於比較。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用相同的 RC 迴路來保持時間常數、電流、電壓和儲存的能量一起可見。",
+    "items": [
+      {
+        "id": "rc-notice-start-current",
+        "text": "電流在開始時最大，因為電阻器最初看到幾乎全部電電源電壓。",
+        "tryThis": "將循環重設為充電預設，並在等待很長時間之前觀察當前箭頭。",
+        "whyItMatters": "它解釋了為什麼電壓曲線在開始時而不是後來最陡。",
+        "relatedControls": [
+          "正在充電",
+          "電源電壓"
+        ],
+        "relatedGraphTabs": [
+          "電壓-時間"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤"
+        ]
+      },
+      {
+        "id": "rc-notice-tau",
+        "text": "一個時間常數是一個節奏標記，而不是終點線。 1tau 時響應仍不完整。",
+        "tryThis": "使用 1tau 參考預設並精確檢查 tau 處的狀態。",
+        "whyItMatters": "它將 tau 變成了一個可讀的計時概念，而不僅僅是一個符號。",
+        "relatedControls": [
+          "電阻",
+          "電容"
+        ],
+        "relatedGraphTabs": [
+          "標準化反應"
+        ],
+        "relatedOverlays": [
+          "tau 標記"
+        ]
+      },
+      {
+        "id": "rc-notice-discharge",
+        "text": "放電使用相同的時間常數，但電流反向，因為電容器成為驅動電阻器的源。",
+        "tryThis": "在 1tau 參考和放電啟動器之間切換，無需更改 R 或 C。",
+        "whyItMatters": "它作為一個 RC 故事而不是兩個不相關的公式不斷充電和放電。",
+        "relatedControls": [
+          "正在充電"
+        ],
+        "relatedGraphTabs": [
+          "電壓-時間",
+          "標準化反應"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "能量儲存"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測 RC 響應。",
+    "items": [
+      {
+        "id": "rc-pred-larger-r",
+        "prompt": "如果電阻增加，而相同的電容器和電源保持充電模式，哪種說法最好？",
+        "scenarioLabel": "增加R",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "時間常數變大，初始電流變小，電容器需要更長的時間才能接近電源電壓。"
+          },
+          {
+            "id": "b",
+            "label": "電容器充電速度更快，因為電阻器現在會及時阻止更少的電流。"
+          },
+          {
+            "id": "c",
+            "label": "僅儲存的能量發生變化。電壓曲線本身保持不變。"
+          }
+        ],
+        "explanation": "較大的電阻會提高 tau = RC 並降低啟動電流 V/R，因此整個充電響應會減慢。",
+        "observationHint": "將 one-tau 參考與慢速充電預設進行比較。"
+      },
+      {
+        "id": "rc-pred-larger-c",
+        "prompt": "如果電容增加，而相同的電阻和電源保持在充電模式，會發生什麼變化？",
+        "scenarioLabel": "增加C",
+        "changeLabel": "電容",
+        "choices": [
+          {
+            "id": "a",
+            "label": "時間常數變大，因此即使電源電壓目標相同，響應也會變慢。"
+          },
+          {
+            "id": "b",
+            "label": "時間常數變小，因為電容器可以容納更多電荷。"
+          },
+          {
+            "id": "c",
+            "label": "電流立即永遠保持不變，因為較大的電容器吸收了電源。"
+          }
+        ],
+        "explanation": "較大的電容也會提高 tau = RC。電容器可以儲存更多電荷，但同樣的增加會使電壓建立得更慢。",
+        "observationHint": "固定源並在增加 C 時比較 tau 標記。"
+      },
+      {
+        "id": "rc-pred-discharge",
+        "prompt": "當循環從充電切換到放電且 R 和 C 相同時，哪種說法最好？",
+        "scenarioLabel": "切換至放電",
+        "changeLabel": "模式",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電流反轉方向，電容器電壓現在以相同的時間常數向零衰減。"
+          },
+          {
+            "id": "b",
+            "label": "由於源設定沒有改變，電容器持續上升至電電源電壓。"
+          },
+          {
+            "id": "c",
+            "label": "由於電池斷開，電流立即消失。"
+          }
+        ],
+        "explanation": "電池在放電期間從主動迴路中移除，因此充電的電容器成為驅動電阻器的來源。潮流發生逆轉，但同樣的 tau = RC 仍然引領潮流。",
+        "observationHint": "比較模式切換前後的目前箭頭和能量條。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "對緊湊時間反應目標使用相同的 RC 循環。",
+    "items": [
+      {
+        "id": "rc-ch-one-tau-charge",
+        "title": "抓住 1tau 充電點",
+        "prompt": "從 1tau 參考預設開始，檢查 1tau 處的環路並保持充電設定，其中電容器電壓約為電源的 63%，電流分數約為 37%。",
+        "successMessage": "您到達了經典的 1tau 充電檢查點：電容器位於曲線的中間位置，而電流已經大幅下降。",
+        "setup": {
+          "note": "保持充電模式並使用 tau 標記，而不是僅根據絕對時間進行猜測。"
+        },
+        "hints": [
+          "在 1tau 處，反應尚未完成。",
+          "電流分數應遠小於電荷分數。"
+        ],
+        "targets": [
+          {
+            "label": "維持時間常數介於 1.95 秒到 2.05 秒之間。"
+          },
+          {
+            "label": "將電荷分數保持在 0.62 和 0.64 之間。"
+          },
+          {
+            "label": "將目前分數保持在 0.36 和 0.38 之間。"
+          },
+          {
+            "label": "將電容器電壓保持在 5 V 和 5.15 V 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "rc-ch-slower-response",
+        "title": "建構較慢的反應",
+        "prompt": "從快速充電開始，僅改變 R 和 C，直到時間常數約為 4 s，同時電源電壓保持固定。",
+        "successMessage": "透過增加 RC 乘積而不是更改目標電壓，您使相同來源的反應速度變慢。",
+        "setup": {
+          "note": "保持電電源電壓固定。只有 R 和 C 應該移動。"
+        },
+        "hints": [
+          "Tau 取決於產品 RC，而不是電電源電壓。",
+          "許多不同的 R 和 C 對都可以工作，但該目標希望 tau 接近 4 s。"
+        ],
+        "targets": [
+          {
+            "label": "將電電源電壓保持在 7.9 V 和 8.1 V 之間。"
+          },
+          {
+            "label": "將時間常數維持在 3.9 秒到 4.1 秒之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "遙控充放電 |開放式模型實驗室",
+    "description": "透過一個有界電阻電容迴路學習 RC 充電和放電，該環路將電容器電壓、電流、儲存能量和時間常數保持在同一個即時實驗台上。",
+    "keywords": [
+      "RC 電路",
+      "充電與放電",
+      "時間常數",
+      "電容器電壓",
+      "電路仿真"
+    ]
   }
 }

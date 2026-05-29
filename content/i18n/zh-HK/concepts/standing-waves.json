@@ -71,22 +71,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 從允許模式關係開始"
+              "label": "1. 從允許模式關係開始",
+              "template": "對於兩端固定的字串，請使用 $\\lambda_n = \\dfrac{2L}{n}$ 和 $f_n = \\dfrac{nv}{2L}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前諧波"
+              "label": "2. 代入目前諧波",
+              "template": "$\\lambda_n = \\dfrac{2({{lengthValue}})}{{modeNumberValue}}$ 和 $f_n = \\dfrac{({{modeNumberValue}})({{waveSpeedValue}})}{2({{lengthValue}})}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算允許的振動"
+              "label": "3. 計算允許的振動",
+              "template": "給出 $\\lambda_n = {{wavelengthValue}}\\,\\mathrm{m}$ 和 $f_n = {{frequencyValue}}\\,\\mathrm{Hz}$，節點間距為 ${{nodeSpacingValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "目前諧波要求",
+          "resultTemplate": "$\\lambda_n = {{wavelengthValue}}\\,\\mathrm{m}, \\quad f_n = {{frequencyValue}}\\,\\mathrm{Hz}$",
           "applyAction": {
             "label": "顯示第三諧波",
             "observationHint": "更多半波長段可以放進同一條弦內，因此節點會排列得更緊密，模式振動也更快。"
-          }
+          },
+          "interpretationTemplate": "{{harmonicInterpretation}}"
         },
         {
           "id": "probe-displacement",
@@ -108,27 +113,36 @@
             {
               "id": "probe",
               "label": "探針位置"
+            },
+            {
+              "id": "time",
+              "label": "時間"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用駐波關係式"
+              "label": "1. 使用駐波關係式",
+              "template": "使用$y(x,t) = A\\sin\\!\\left(\\dfrac{n\\pi x}{L}\\right)\\cos(2\\pi f_n t)$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入即時位置因子"
+              "label": "2. 代入即時位置因子",
+              "template": "這裡是$\\sin\\!\\left(\\dfrac{n\\pi x_p}{L}\\right) = {{probeShapeValue}}$，所以本地包絡是$A_p = {{probeEnvelopeValue}}\\,\\mathrm{m}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算目前位移"
+              "label": "3. 計算目前位移",
+              "template": "此時探頭位於$y = {{probeDisplacementValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "目前探針位移",
+          "resultTemplate": "$y(x_p,t) = {{probeDisplacementValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "移動到節點",
             "observationHint": "模式形狀在節點處為零，所以即使弦的其他部分仍在運動，局部時間跡線也會收斂到接近零。"
-          }
+          },
+          "interpretationTemplate": "{{probeInterpretation}}"
         }
       ]
     },
@@ -283,6 +297,102 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "追蹤一根即時弦上的固定節點、移動波腹和諧波模態振型，同時同一探頭跡線及時顯示潛在的振盪。",
+    "whyItMatters": "駐波是弦樂器、共振模式和氣柱泛音背後的模式，因此學習讀取波節和波腹可以讓以後的共振問題變得直觀，而不是僅僅依靠公式。",
+    "keyTakeaway": "節點是由持續相消幹擾所創造的固定點，而不是波從整個弦消失的地方。"
+  },
+  "v2": {
+    "intuition": "固定的繩子只能保持適合其末端的波浪圖案。节點标记安静的抵消點，波腹标记最强的局部運動，探測器证明大部分弦仍在時间上振荡。",
+    "whyItMatters": "這是從行波幹擾到弦、管、樂器和結構中的共振的橋樑：允許的模式來自邊界條件，而不是來自任意繪圖。",
+    "equationSnapshot": {
+      "title": "模式拟合和局部運動",
+      "note": "使用擬合的波長對節點進行計數，然後使用位移方程式來確定一個探測點在時間上的作用。"
+    },
+    "startSetup": {
+      "note": "在两环字符串上打开，因此第一个操作是在移動探针之前识别固定的内部节點。"
+    },
+    "guidedSteps": [
+      {
+        "id": "locate-the-fixed-points",
+        "title": "找到固定點",
+        "goal": "将固定节點圖案与移動弦形状分开。",
+        "doThis": "從二次諧波圖開始，保持節點指南和波腹指南可見，按播放鍵，然後將即時弦樂與模式形狀圖進行比較。",
+        "notice": "末端節點和內部節點保持在中心線上，而兩個循環中心在其上方和下方擺動。",
+        "explain": "駐波具有固定的空間模式，但這並不表示整個弦被凍結。持續的取消使得節點安靜，而其他位置仍在振盪。",
+        "setup": {
+          "note": "首先使用雙循環模式：一個內部節點使節點/波腹區別可見，而無需擁擠的圖像。"
+        },
+        "inlineCheck": {
+          "title": "检查节點的含义"
+        }
+      },
+      {
+        "id": "move-the-probe-from-node-to-antinode",
+        "title": "移動探头",
+        "goal": "使用一个測量點将绳子上的位置与随時间变化的運動联系起来。",
+        "doThis": "將探針位置從波腹向節點滑動，然後切換到探針運動圖。",
+        "notice": "時間軌跡在波腹附近最大，並在節點附近崩潰，儘管弦的其餘部分上的諧波仍然可見。",
+        "explain": "探頭讀取駐波方程式中的局部空間因子。在一個節點，該因子為零；在節點之間，它設定上下運動的大小。",
+        "inlineCheck": {
+          "title": "预測安静探头"
+        }
+      },
+      {
+        "id": "change-the-harmonic",
+        "title": "更改谐波",
+        "goal": "將模式編號與節點數、允許的波長和頻率連接起來。",
+        "doThis": "將模數從二次諧波提高到第四諧波，同時保持弦長度固定。",
+        "notice": "固定端之間可容納更多的半波長段，因此節點更加緊密地聚集在一起，並且探頭跡線循環速度更快。",
+        "explain": "對於固定字串，lambda_n = 2L/n 且 f_n = nv/(2L)。提高 n 會同時改變允許的空間模式和匹配的振盪頻率。",
+        "inlineCheck": {
+          "title": "预測更高模式"
+        }
+      },
+      {
+        "id": "show-the-interference-origin",
+        "title": "显示干扰",
+        "goal": "解釋為何靜止模式來自於移動分量波。",
+        "doThis": "打開反行波，然後觀察微弱的波相互移動，同時節點圖案保持固定。",
+        "notice": "分量波繼續傳播，但它們的疊加在相同的波節位置不斷抵消，並在相同的波腹附近增強。",
+        "explain": "駐波是一種具有固定邊界規則的干涉圖案。此圖案保持在原位是因為允許的波匹配，而不是因為介質停止移動。",
+        "inlineCheck": {
+          "title": "解释站立模式"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "節點是固定的取消點，而弦的附近部分仍然可能強烈振盪。",
+        "波腹標記最大的局部包絡線；一瞬間的零位移不會使波腹成為節點。",
+        "模式編號設定固定端弦的擬合波長、節點間距和頻率。"
+      ],
+      "misconception": "驻波不是冻结的弦。眾數模式在空間上是固定的，但大多數點仍然在時間上上下移動。",
+      "freePlayPrompt": "選取一個節點和一個波腹，在它們之間移動探針，並解釋位移方程式的哪一部分發生了變化。",
+      "nextConcepts": [
+        {
+          "slug": "resonance-air-columns-open-closed-pipes",
+          "title": "空氣柱中的共振",
+          "reasonLabel": "管道中的相同節點規則"
+        },
+        {
+          "slug": "damping-resonance",
+          "title": "阻尼與共振",
+          "reasonLabel": "驅動響應"
+        },
+        {
+          "slug": "oscillation-energy",
+          "title": "振盪能量",
+          "reasonLabel": "某一點的能量"
+        },
+        {
+          "slug": "simple-harmonic-motion",
+          "title": "簡諧振動",
+          "reasonLabel": "查看地方動議"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "standing-displacement",
@@ -332,6 +442,28 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "形狀",
+      "primaryGraphIds": [
+        "形狀",
+        "位移"
+      ],
+      "primaryControlIds": [
+        "模式編號",
+        "探針X",
+        "長度"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "節點探針",
+        "四次諧波"
+      ],
+      "starterExploreTasks": [
+        "開啟二次諧波並指出哪些標記是固定波節與擺動波腹。",
+        "將探針從波腹移動到節點，然後切換到探針運動圖並觀察跡線塌陷。",
+        "提高模式編號並計算節點間距、允許波長和探測頻率如何一起變化。"
+      ]
+    },
     "controls": [
       {
         "id": "amplitude",
@@ -353,18 +485,365 @@
         "label": "探針位置",
         "description": "移動探針可比較節點、反節點和中間位置的即時位移。"
       }
+    ],
+    "presets": [
+      {
+        "id": "second-harmonic-map",
+        "label": "二次諧波圖",
+        "description": "兩個循環使得在移動探頭之前可以輕鬆比較一個內部節點和兩個波腹。"
+      },
+      {
+        "id": "fundamental-center",
+        "label": "基礎",
+        "description": "一個環、兩個端節點和一個中間波腹。"
+      },
+      {
+        "id": "third-harmonic",
+        "label": "三次諧波",
+        "description": "三個環和兩個額外的內部節點適合同一條繩子。"
+      },
+      {
+        "id": "fourth-harmonic",
+        "label": "四次諧波",
+        "description": "將二次諧波加倍會增加更多節點並縮短允許的波長。"
+      },
+      {
+        "id": "node-probe",
+        "label": "節點上的探測",
+        "description": "探測器位於內部節點上，而附近的部分仍在移動。"
+      },
+      {
+        "id": "short-string",
+        "label": "較短的字串",
+        "description": "較短的琴弦上的相同諧波需要較短的波長和較高的頻率。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "nodes",
+        "label": "節點指南",
+        "shortDescription": "標記在目前模式下從不移動的固定點。",
+        "whatToNotice": [
+          "節點每時每刻都保持在中心線上，即使附近的弦線部分在其上方和下方擺動。"
+        ],
+        "whyItMatters": "它使持久的破壞性幹擾可見，而不是將節點視為裝飾標記。",
+        "relatedControls": [
+          "模式編號",
+          "長度",
+          "探針X"
+        ],
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "模式編號",
+          "長度",
+          "探針X"
+        ]
+      },
+      {
+        "id": "antinodes",
+        "label": "波腹導星",
+        "shortDescription": "顯示弦可以達到最大局部振盪的位置。",
+        "whatToNotice": [
+          "腹點是局部包絡最大的環的中心，而不僅僅是一個凍結幀中的高點。"
+        ],
+        "whyItMatters": "它將某一時刻的最大可能位移與瞬時形狀分開。",
+        "relatedControls": [
+          "振幅",
+          "模式編號",
+          "長度"
+        ],
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "模式編號",
+          "長度"
+        ]
+      },
+      {
+        "id": "componentWaves",
+        "label": "反行波",
+        "shortDescription": "增加兩個相等的行波，它們疊加以建立站立圖案。",
+        "whatToNotice": [
+          "兩個微弱的分量波不斷地互相移動，而節點圖案保持固定。"
+        ],
+        "whyItMatters": "它使駐波的干涉源可見，而不是將圖案視為特殊的單獨物體。",
+        "relatedControls": [
+          "振幅",
+          "模式編號",
+          "長度"
+        ],
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "模式編號",
+          "長度"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "shape",
+      "label": "振型",
+      "xLabel": "繩子上的位置 (m)",
+      "yLabel": "有符號的振幅比例 (m)",
+      "description": "顯示電流諧波的空間因子。零交叉標記節點，峰值標記波腹。"
+    },
+    {
+      "id": "displacement",
+      "label": "探頭運動",
+      "xLabel": "時間（秒）",
+      "yLabel": "位移（公尺）",
+      "description": "顯示所選點如何隨時間移動以及其局部包絡線在當前模式下有多大。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每個提示都應該指向您可以在字串或圖像上實際看到的內容。",
+    "items": [
+      {
+        "id": "standing-notice-nodes",
+        "text": "請注意，節點標記永遠不會離開中心線，即使相鄰環路每個週期都會穿過中心線。",
+        "tryThis": "在移動探頭之前，請保持節點覆蓋並觀察一個完整週期。",
+        "whyItMatters": "駐波並非在任何地方都是靜止的。保持固定的是節點和模式模式。",
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "節點"
+        ]
+      },
+      {
+        "id": "standing-notice-shape-link",
+        "text": "請注意，將滑鼠懸停在振型圖上會將同一個即時探頭移動到弦上的該位置。",
+        "tryThis": "將滑鼠停留在節點附近，然後將滑鼠懸停在波腹附近，並比較探測跡線的變化。",
+        "whyItMatters": "圖像和階段是同一駐波模式的兩個視圖。",
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "節點",
+          "波腹"
+        ]
+      },
+      {
+        "id": "standing-notice-mode",
+        "text": "請注意，提高模式數會為同一串添加另一個半波長段，因此節點會靠得更近，振盪會變得更快。",
+        "tryThis": "從二次諧波步進到三次或四次諧波，並比較節點間距和探頭跡線的速度。",
+        "whyItMatters": "變更模式編號會同時變更空間模式和時間行為。",
+        "relatedControls": [
+          "模式編號"
+        ],
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "節點",
+          "波腹"
+        ],
+        "relatedEquationVariables": [
+          "模式編號"
+        ]
+      },
+      {
+        "id": "standing-notice-components",
+        "text": "請注意，站立圖案來自兩個彼此穿過的相等波浪。繩子還沒有停止攜帶波浪。",
+        "tryThis": "打開反行波並觀察它們互相穿過，同時駐波節點保持固定。",
+        "whyItMatters": "這會將駐波與行波之間的干擾連結起來。",
+        "relatedOverlays": [
+          "組件波"
+        ],
+        "relatedGraphTabs": [
+          "形狀"
+        ]
+      },
+      {
+        "id": "standing-notice-inspect",
+        "text": "請注意，時間軌道改變了瞬時弦形狀和探頭位移，但模態形狀圖保持不變，因為它代表空間模式，而不是一個凍結幀。",
+        "tryThis": "暫停，單步執行一次，然後將弦上的變化與振型圖上保持固定的內容進行比較。",
+        "whyItMatters": "它將駐波模式與此模式內的本地振盪分開。",
+        "relatedGraphTabs": [
+          "形狀",
+          "位移"
+        ]
+      },
+      {
+        "id": "standing-notice-compare",
+        "text": "注意哪個設定將更多的循環打包到相同的長度。該設定要么是高次諧波，要么是較短的弦。",
+        "tryThis": "複製目前狀態，然後在一次設定中提高模式編號，並在讀取圖像之前逐行比較節點間距。",
+        "whyItMatters": "比較模式使諧波間距變化可見，而無需隱藏固定端幾何形狀。",
+        "relatedControls": [
+          "模式編號",
+          "長度"
+        ],
+        "relatedGraphTabs": [
+          "形狀"
+        ],
+        "relatedOverlays": [
+          "節點",
+          "波腹"
+        ]
+      }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測結果。每個提示一次改變一個原因，因此您可以連接字串、圖像和方程式。",
     "items": [
       {
         "id": "standing-predict-mode",
-        "changeLabel": "模式數"
+        "prompt": "字串長度保持固定，但模式編號從 2 跳到 4。站立模式會發生什麼事？",
+        "scenarioLabel": "提高諧波",
+        "changeLabel": "模式數",
+        "choices": [
+          {
+            "id": "a",
+            "label": "此字串應顯示更多節點和更短的允許波長。"
+          },
+          {
+            "id": "b",
+            "label": "字串應保持相同的節點間距，因為長度沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "只有探針圖應該改變。舞台圖案應保持不變。"
+          }
+        ],
+        "explanation": "在固定的弦上，較高的諧波會將更多的半波長段放入相同的長度。這增加了節點，縮短了允許的波長，並提高了振盪頻率。",
+        "observationHint": "觀察更改後節點間距縮小和探測追蹤週期加快。"
       },
       {
         "id": "standing-predict-node",
-        "changeLabel": "探針位置"
+        "prompt": "如果將探頭移動到節點上同時保持相同的諧波，探頭運動圖會發生什麼情況？",
+        "scenarioLabel": "節點上的探測",
+        "changeLabel": "探針位置",
+        "choices": [
+          {
+            "id": "a",
+            "label": "探針跡線應在接近零處塌陷，因為該點不振盪。"
+          },
+          {
+            "id": "b",
+            "label": "探針軌跡應該要加倍，因為節點是兩個波相遇的地方。"
+          },
+          {
+            "id": "c",
+            "label": "探頭跡線應保持不變，因為諧波沒有變化。"
+          }
+        ],
+        "explanation": "節點是永久取消點。將探針移動到那裡會使空間因子為零，因此即使弦的其餘部分繼續移動，該點也會停止振盪。",
+        "observationHint": "字串仍然顯示相鄰環，但當點落在節點上時，探測線變平。"
+      },
+      {
+        "id": "standing-predict-length",
+        "prompt": "保留相同的二次諧波，但琴弦縮短。允許的波長和頻率會發生什麼變化？",
+        "scenarioLabel": "縮短字串",
+        "changeLabel": "長度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "允許的波長變短，頻率升高。"
+          },
+          {
+            "id": "b",
+            "label": "允許的波長保持不變，但幅度增加。"
+          },
+          {
+            "id": "c",
+            "label": "頻率下降是因為弦的移動空間較小。"
+          }
+        ],
+        "explanation": "對於相同的模式編號，縮短$L$會縮短$\\lambda_n = 2L/n$允許的波長。在波速固定的情況下，較短的波長意味著較高的頻率。",
+        "observationHint": "標尺距離縮小，節點移近，探測軌跡循環更快。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用模態振型圖、疊加和偵測時間軌來解決同一帶電字串上的短駐波任務。",
+    "items": [
+      {
+        "id": "sw-ch-probe-on-node",
+        "title": "節點上的探測",
+        "prompt": "從三次諧波開始，將探頭移到節點上，使其局部包絡幾乎為零。",
+        "successMessage": "您將探針放置在真實節點上。弦的其餘部分仍然顯示駐波模式，但該點保持靜止。",
+        "setup": {
+          "note": "移動探頭時同時使用節點疊加與模態振型圖。"
+        },
+        "hints": [
+          "在三次諧波中，內部節點將琴弦分成三個相等的環路部分。",
+          "微小的探頭包絡比一瞬間的小位移更重要。真正的節點始終保持安靜。"
+        ],
+        "checks": [
+          {
+            "label": "開啟振型圖。"
+          },
+          {
+            "label": "保持節點覆蓋可見。"
+          },
+          {
+            "label": "將模式數保持在三次諧波附近。"
+          },
+          {
+            "label": "使探頭包絡線小於 $0.08\\,\\mathrm{m}$。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "sw-ch-center-zero-crossing",
+        "title": "中心過零",
+        "prompt": "從基本模式開始，將探頭保持在中心波腹處，並在波腹穿過零位移時暫停。",
+        "successMessage": "您將瞬時位移與包絡線分開。即使波腹是最大振盪點，它也可以過零。",
+        "setup": {
+          "note": "將探頭保持在中心波腹，然後在探頭運動軌跡穿過軸時暫停。"
+        },
+        "hints": [
+          "基波的中心是波腹，因此即使瞬時位移為零，其包絡線也應保持較大。",
+          "這是一項檢查時任務。觀察探頭運動圖並在過零處暫停。"
+        ],
+        "checks": [
+          {
+            "label": "開啟探針運動圖。"
+          },
+          {
+            "label": "保持波腹覆蓋可見。"
+          },
+          {
+            "label": "暫停進入檢查模式。"
+          },
+          {
+            "label": "將探頭包絡線保持在 $0.95$ 和 $1.1\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "使瞬時探頭位移接近零。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "駐波 |開放模型實驗室",
+    "description": "具有節點、波腹、諧波、鏈結振型圖、探頭運動、預測提示和引導幹擾疊加的互動式駐波。",
+    "keywords": [
+      "駐波",
+      "節點與波腹",
+      "諧波",
+      "波幹擾",
+      "振盪"
     ]
   }
 }

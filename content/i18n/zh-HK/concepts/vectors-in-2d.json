@@ -75,22 +75,27 @@
           "steps": [
             {
               "id": "scale-a",
-              "label": "1. 首先縮放向量A"
+              "label": "1. 首先縮放向量A",
+              "template": "縮放後的第一個向量為 sA = <{{scaledAxValue}}, {{scaledAyValue}}>。"
             },
             {
               "id": "combine-b",
-              "label": "2. 然後與有效的第二個向量結合"
+              "label": "2. 然後與有效的第二個向量結合",
+              "template": "目前操作是 sA {{operationSymbol}} B，因此第二塊貢獻 <{{effectiveBxValue}}, {{effectiveByValue}}>。"
             },
             {
               "id": "result-components",
-              "label": "3. 加上分量"
+              "label": "3. 加上分量",
+              "template": "結果 = <{{scaledAxValue}} + {{effectiveBxValue}}, {{scaledAyValue}} + {{effectiveByValue}}> = <{{resultXValue}}, {{resultYValue}}>。"
             }
           ],
           "resultLabel": "當前結果",
+          "resultTemplate": "$\\vec{r} = \\langle {{resultXValue}}, {{resultYValue}} \\rangle$",
           "applyAction": {
             "label": "應用減法情況",
             "observationHint": "第二箭頭在翻轉前被平移至箭頭相接，所以減法仍然像平面上的向量加法一樣讀取。"
-          }
+          },
+          "interpretationTemplate": "{{vectorInterpretation}}"
         },
         {
           "id": "scaled-vector-before-combination",
@@ -113,22 +118,27 @@
           "steps": [
             {
               "id": "start-a",
-              "label": "1. 開始於向量 A"
+              "label": "1. 開始於向量 A",
+              "template": "原向量為 A = <{{axValue}}, {{ayValue}}>。"
             },
             {
               "id": "scale-components",
-              "label": "2. 將每個分量乘以標量"
+              "label": "2. 將每個分量乘以標量",
+              "template": "縮放得 sA = <{{scalarValue}}({{axValue}}), {{scalarValue}}({{ayValue}})> = <{{scaledAxValue}}, {{scaledAyValue}}>。"
             },
             {
               "id": "read-size",
-              "label": "3. 比較新的大小和方向"
+              "label": "3. 比較新的大小和方向",
+              "template": "在與 B 發生任何組合之前，縮放向量的大小為 {{scaledMagnitudeValue}}。"
             }
           ],
           "resultLabel": "當前縮放後的向量",
+          "resultTemplate": "$s\\vec{A} = \\langle {{scaledAxValue}}, {{scaledAyValue}} \\rangle$",
           "applyAction": {
             "label": "應用反轉縮放",
             "observationHint": "一個負的標量會先透過原點翻轉 A，再改變其大小，從新的起始箭頭開始更新圖形。"
-          }
+          },
+          "interpretationTemplate": "{{magnitudeInterpretation}}"
         }
       ]
     },
@@ -189,6 +199,7 @@
         ],
         "explanation": "這就是為什麼尾對尾的圖形仍然有效的原因：減法是透過首先反轉 B 來處理的。",
         "selectedWrongExplanations": {
+          "a": "一旦第二個向量被其相反向量替換，相同的平面圖仍然有效。",
           "c": "啟用減法會直接改變幾何形狀，因為第二個箭頭翻轉了。"
         },
         "showMeAction": {
@@ -215,6 +226,7 @@
         ],
         "explanation": "負標量會反轉 A 的方向，同時仍按比例放大其大小。大小始終非負。",
         "selectedWrongExplanations": {
+          "a": "幅度圖繪製大小，因此它們保持在零或以上。",
           "b": "大小圖表繪製大小，因此始終在零以上或零。"
         },
         "showMeAction": {
@@ -245,6 +257,79 @@
         "title": "將向量引入運動"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "使用一個座標平面來組合、減去和縮放箭頭，以便圖片和分量算術講述相同的向量故事。",
+    "whyItMatters": "這是任何力、運動、複數、矩陣、以及兩個方向必須協同工作的情況的基礎。",
+    "keyTakeaway": "2D 向量是具有兩個等效視圖的一個物件：平面上的箭頭以及一對有序的 x 和 y 分量。"
+  },
+  "v2": {
+    "intuition": "當箭頭、尖端到尾部結構和分量讀數都在同一平面上一起移動時，2D 向量最容易信任。",
+    "whyItMatters": "一旦這些視圖保持連接，向量加法、減法、縮放、力、速度、複雜平面運動和矩陣變換就不再感覺像單獨的規則。",
+    "equationSnapshot": {
+      "note": "將元件規則解讀為箭頭的代數版本：先縮放 A，選擇 B 或 -B，然後將 x 與 x 組合，將 y 與 y 組合。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-arrow-two-ways",
+        "title": "以兩種方式讀取一個箭頭",
+        "goal": "在組合任何內容之前，將平面上的可見箭頭連接到其 x 和 y 分量讀數。",
+        "doThis": "從平衡總和開始，保持組件參考線可見，並在第一遍中僅移動 A x 組件或 A y 組件。",
+        "notice": "箭頭端點、水平/垂直參考線和有序對一起更改。",
+        "explain": "向量不是只有方向的草圖。它的組件是同一個箭頭的精確座標描述。"
+      },
+      {
+        "id": "build-a-tip-to-tail-sum",
+        "title": "求和",
+        "goal": "將向量加法視為尾尾幾何和逐分量算術。",
+        "doThis": "開啟 Tip-to-tail 視圖並在觀察結果端點時變更 B x 分量或 B y 分量。",
+        "notice": "移動 B 會以相同的水平和垂直量更改平移的第二個箭頭和所得分量。",
+        "explain": "加法之所以有效，是因為每個軸都有自己的帳戶：x 分量與 x 分量組合，y 分量與 y 分量組合。"
+      },
+      {
+        "id": "flip-or-scale-before-combining",
+        "title": "先翻轉或縮放",
+        "goal": "將標量乘法和減法與最終組合步驟分開。",
+        "doThis": "嘗試差異，然後翻轉比例。觀察 B 是否反轉、A 反轉，或僅觀察由此產生的變化。",
+        "notice": "減法在首尾加法之前反轉 B；負標量在添加任何 B 之前反轉 A 的縮放副本。",
+        "explain": "兩個動作都先準備一個有效向量。此後，相同的組件和首尾組合規則仍然適用。"
+      },
+      {
+        "id": "check-cancellation-honestly",
+        "title": "檢查取消",
+        "goal": "使用平面和分量圖來確定小結果是否來自實際取消。",
+        "doThis": "切換到“接近取消”，將組件圖與平面進行比較，然後在不縮小 A 的情況下嘗試挑戰。",
+        "notice": "接近零的結果需要 x 和 y 的貢獻來平衡；取消一根軸是不夠的。",
+        "explain": "最有力的向量解釋使幅度、方向和分量保持一致，而不是只依賴一種觀點。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "2D 向量可以理解為一個箭頭和一對有序的分量。",
+        "一旦減法被視為添加相反的向量，向量加法和減法共享相同的從頭到尾的圖片。",
+        "標量在組合步驟之前改變 A；負標量會翻轉其方向。",
+        "只有當 x 分量和 y 分量都解釋了抵消時，一個小的結果才令人信服。"
+      ],
+      "misconception": "不要將平面影像和分量算術視為單獨的方法。它們是同一向量狀態的兩種描述。",
+      "freePlayPrompt": "發明一個重要的取消情況，然後從箭頭解釋一次，從 x 分量和 y 分量和解釋一次。",
+      "nextConcepts": [
+        {
+          "slug": "matrix-transformations",
+          "title": "矩陣變換",
+          "reasonLabel": "讓矩陣在同一平面、基底向量和箭頭上移動。"
+        },
+        {
+          "slug": "dot-product-angle-and-projection",
+          "title": "點積/角度與投影",
+          "reasonLabel": "使用向量分量來讀取對齊和投影。"
+        },
+        {
+          "slug": "vectors-components",
+          "title": "向量/組件",
+          "reasonLabel": "將相同的組件語言引入運動和物理。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -296,23 +381,320 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "結果組件",
+      "primaryGraphIds": [
+        "結果組件",
+        "結果幅度"
+      ],
+      "primaryControlIds": [
+        "斧頭",
+        "哎呀",
+        "bx",
+        "透過",
+        "標量",
+        "減法模式"
+      ],
+      "primaryPresetIds": [
+        "平衡和",
+        "差異",
+        "翻轉刻度",
+        "即將取消"
+      ]
+    },
     "controls": [
       {
         "id": "ax",
-        "label": "A x-分量"
+        "label": "A x-分量",
+        "description": "設定向量 A 的水平分量。"
       },
       {
         "id": "ay",
-        "label": "A y-分量"
+        "label": "A y-分量",
+        "description": "設定向量 A 的垂直分量。"
       },
       {
         "id": "bx",
-        "label": "B x-分量"
+        "label": "B x-分量",
+        "description": "設定向量 B 的水平分量。"
       },
       {
         "id": "by",
-        "label": "B y-分量"
+        "label": "B y-分量",
+        "description": "設定向量 B 的垂直分量。"
+      },
+      {
+        "id": "scalar",
+        "label": "A 上的標量",
+        "description": "在 A 與 B 結合之前拉伸、壓縮或翻轉 A。"
+      },
+      {
+        "id": "subtract-mode",
+        "label": "減去 B",
+        "description": "將減法顯示為添加相反的向量。"
       }
+    ],
+    "presets": [
+      {
+        "id": "balanced-sum",
+        "label": "餘額",
+        "description": "一個乾淨的第一象限加法案例。"
+      },
+      {
+        "id": "difference",
+        "label": "差異",
+        "description": "減法情況，其中 B 在組合之前反轉。"
+      },
+      {
+        "id": "flipped-scale",
+        "label": "翻轉刻度",
+        "description": "一個負標量，在求和之前將 A 翻轉到原點。"
+      },
+      {
+        "id": "near-cancel",
+        "label": "即將取消",
+        "description": "結果落在原點附近的情況。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "componentGuides",
+        "label": "組件指南",
+        "shortDescription": "顯示結果在軸上的水平和垂直投影。",
+        "whatToNotice": [
+          "相同的結果可以讀成一個對角線箭頭或兩個垂直分量。"
+        ],
+        "whyItMatters": "它將平面圖直接連結到組件規則。",
+        "relatedControls": [
+          "斧頭",
+          "哎呀",
+          "bx",
+          "透過",
+          "標量"
+        ],
+        "relatedGraphTabs": [
+          "結果組件"
+        ],
+        "relatedEquationVariables": [
+          "斧頭",
+          "哎呀",
+          "bx",
+          "透過"
+        ]
+      },
+      {
+        "id": "tipToTail",
+        "label": "從頭到尾的視圖",
+        "shortDescription": "將有效的第二個向量移到縮放後的第一個向量的尖端。",
+        "whatToNotice": [
+          "一旦 B 被保留或反轉，加法和減法將使用相同的結構。"
+        ],
+        "whyItMatters": "它使向量組合成為你可以看到的東西，而不僅僅是一個需要記住的規則。",
+        "relatedControls": [
+          "bx",
+          "透過",
+          "減法模式"
+        ],
+        "relatedGraphTabs": [
+          "結果組件"
+        ],
+        "relatedEquationVariables": [
+          "bx",
+          "透過",
+          "減法模式"
+        ]
+      },
+      {
+        "id": "scaledVector",
+        "label": "縮放 A",
+        "shortDescription": "顯示 A 與 B 結合之前的縮放副本。",
+        "whatToNotice": [
+          "正標量保持 A 的方向，而負標量則將其翻轉到原點。"
+        ],
+        "whyItMatters": "它將標量乘法與後面的加法或減法步驟分開。",
+        "relatedControls": [
+          "斧頭",
+          "哎呀",
+          "標量"
+        ],
+        "relatedGraphTabs": [
+          "結果幅度",
+          "結果組件"
+        ],
+        "relatedEquationVariables": [
+          "斧頭",
+          "哎呀",
+          "標量"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "result-components",
+      "label": "結果分量與標量",
+      "xLabel": "標量 s",
+      "yLabel": "組件值",
+      "description": "顯示結果的 x 和 y 分量如何隨著 A 上標量的變化而變化。"
+    },
+    {
+      "id": "result-magnitude",
+      "label": "結果幅度與標量",
+      "xLabel": "標量 s",
+      "yLabel": "|結果|",
+      "description": "顯示結果的大小如何隨著縮放後的第一個向量的移動而改變。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用這些提示來保留平面圖圖、組件讀數以及描述相同向量事件的圖像。",
+    "items": [
+      {
+        "id": "v2d-notice-components",
+        "text": "拖曳 A 或 B 並將平面上的箭頭與有序對進行比較。它們一起變化，因為它們是兩種形式的相同向量。",
+        "relatedControls": [
+          "斧頭",
+          "哎呀",
+          "bx",
+          "透過"
+        ],
+        "relatedGraphTabs": [
+          "結果組件"
+        ],
+        "relatedOverlays": [
+          "組件指南"
+        ],
+        "relatedEquationVariables": [
+          "斧頭",
+          "哎呀",
+          "bx",
+          "透過"
+        ]
+      },
+      {
+        "id": "v2d-notice-tip-to-tail",
+        "text": "開啟減法並觀察 B 在從頭到尾移動之前反轉。該結構仍然是加法，但現在您要添加 B 的相反內容。",
+        "relatedControls": [
+          "減法模式"
+        ],
+        "relatedGraphTabs": [
+          "結果組件"
+        ],
+        "relatedOverlays": [
+          "從頭到尾"
+        ],
+        "relatedEquationVariables": [
+          "減法模式"
+        ]
+      },
+      {
+        "id": "v2d-notice-negative-scalar",
+        "text": "將標量移到零並觀察 sA 翻轉到原點。幅度圖永遠不會變成負值，因為大小和方向是不同的概念。",
+        "relatedControls": [
+          "標量"
+        ],
+        "relatedGraphTabs": [
+          "結果組件",
+          "結果幅度"
+        ],
+        "relatedOverlays": [
+          "縮放向量"
+        ],
+        "relatedEquationVariables": [
+          "標量"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測變化",
+    "intro": "在更改運算或標量之前預測平面和圖像應執行的操作。",
+    "items": [
+      {
+        "id": "v2d-predict-negative-scalar",
+        "prompt": "如果A上的標量從正變為負，而其幅度保持在1以上，最直接的視覺效果是什麼？",
+        "scenarioLabel": "翻轉標量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "A 的縮放版本翻轉原點並更改大小。"
+          },
+          {
+            "id": "b",
+            "label": "向量 B 被迫反轉。"
+          },
+          {
+            "id": "c",
+            "label": "所得震級必須變成負值。"
+          }
+        ],
+        "explanation": "負標量透過原點反轉 A。由於標量的大小仍高於 1，因此縮放後的副本也比 A 長。",
+        "observationHint": "首先觀看 A 的縮放副本，然後查看結果和圖像的反應。"
+      },
+      {
+        "id": "v2d-predict-subtract",
+        "prompt": "如果在每個分量保持不變的情況下打開減法模式，那麼從頭到尾的圖片中的第二個向量會發生什麼？",
+        "scenarioLabel": "開啟減法",
+        "choices": [
+          {
+            "id": "a",
+            "label": "B 應該反轉方向，以便圖片變成 sA + (-B)。"
+          },
+          {
+            "id": "b",
+            "label": "A 應該會消失，因為減法刪除了第一個向量。"
+          },
+          {
+            "id": "c",
+            "label": "只有幅度圖發生變化，而平面保持不變。"
+          }
+        ],
+        "explanation": "減法是與相反向量的加法，因此在 B 反轉後，相同的首尾規則仍然有效。",
+        "observationHint": "觀察 B 的反向，然後觀察相同結構重建的結果。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "像向量實驗室一樣使用平面，而不是靜態圖。目標是在各個向量仍然明顯非零的情況下使取消可見。",
+    "items": [
+      {
+        "id": "v2d-ch-near-zero-result",
+        "title": "接近零的結果",
+        "prompt": "調整向量，直到結果非常接近原點，但保持縮放後的第一個向量明顯不平凡，因此接近零的結果來自取消而不是縮小所有內容。",
+        "successMessage": "您透過取消而不是透過使向量變得微不足道來創建了一個接近於零的結果。平面、分量讀數和幅度現在一致。",
+        "setup": {
+          "note": "同時使用從頭到尾的視圖和元件指南。一個顯示幾何抵消，而另一個顯示哪些 x 和 y 分量正在平衡。"
+        },
+        "hints": [
+          "接近零的結果需要 x 分量和 y 分量幾乎抵消。",
+          "將標量遠離零，這樣第一個向量仍然很重要。"
+        ],
+        "targets": [
+          {
+            "label": "使合成震級低於 $0.35$。"
+          },
+          {
+            "label": "將縮放後的第一個向量振幅保持在 $3.3$ 和 $3.9$ 之間。"
+          },
+          {
+            "label": "保持標量接近 $1$，因此抵消主要來自向量反對，而不是來自縮小 A。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "2D 向量",
+    "description": "使用即時 2D 平面和協調響應圖來探索向量分量、加法、減法和標量乘法。",
+    "keywords": [
+      "向量",
+      "2D 向量",
+      "向量加法",
+      "向量減法",
+      "標量乘法",
+      "組件"
     ]
   }
 }

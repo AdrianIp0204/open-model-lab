@@ -68,22 +68,27 @@
           "steps": [
             {
               "id": "model",
-              "label": "1. 開始使用有界的色散模型"
+              "label": "1. 開始使用有界的色散模型",
+              "template": "使用波長以奈米為單位的 $n(\\lambda) \\approx n_{\\mathrm{ref}} + D\\left[\\left(\\dfrac{550}{\\lambda}\\right)^2 - 1\\right]$。"
             },
             {
               "id": "term",
-              "label": "2. 評估波長項"
+              "label": "2. 評估波長項",
+              "template": "對於 $\\lambda = {{wavelengthValue}}\\,\\mathrm{nm}$，括號變成 $\\left(\\dfrac{550}{{{wavelengthValue}}}\\right)^2 - 1 = {{ratioTermValue}}$。"
             },
             {
               "id": "index",
-              "label": "3. 建立當前指數"
+              "label": "3. 建立當前指數",
+              "template": "$n(\\lambda) \\approx {{referenceIndexValue}} + {{dispersionStrengthValue}}({{ratioTermValue}}) = {{selectedIndexValue}}$。"
             }
           ],
           "resultLabel": "當前折射率",
+          "resultTemplate": "$n(\\lambda) \\approx {{selectedIndexValue}}$",
           "applyAction": {
             "label": "應用火石紫羅蘭",
             "observationHint": "所選的紫羅蘭光線使用比綠色或紅色更大的折射率，因此它的出射路徑偏折最遠。"
-          }
+          },
+          "interpretationTemplate": "{{indexInterpretation}}"
         },
         {
           "id": "red-violet-spread",
@@ -93,27 +98,40 @@
             {
               "id": "prism-angle",
               "label": "稜鏡角度"
+            },
+            {
+              "id": "red-index",
+              "label": "紅色索引"
+            },
+            {
+              "id": "violet-index",
+              "label": "紫羅蘭索引"
             }
           ],
           "steps": [
             {
               "id": "red",
-              "label": "1. 計算紅色偏折"
+              "label": "1. 計算紅色偏折",
+              "template": "對於紅色，$\\delta_r \\approx [n_r - 1]A = [{{redIndexValue}} - 1]({{prismAngleValue}}^\\circ) \\approx {{redDeviationValue}}^\\circ$。"
             },
             {
               "id": "violet",
-              "label": "2. 計算紫羅蘭偏折"
+              "label": "2. 計算紫羅蘭偏折",
+              "template": "對於紫色，$\\delta_v \\approx [n_v - 1]A = [{{violetIndexValue}} - 1]({{prismAngleValue}}^\\circ) \\approx {{violetDeviationValue}}^\\circ$。"
             },
             {
               "id": "spread",
-              "label": "3. 減去兩個出射角"
+              "label": "3. 減去兩個出射角",
+              "template": "$\\Delta\\delta = \\delta_v - \\delta_r \\approx {{violetDeviationValue}}^\\circ - {{redDeviationValue}}^\\circ = {{spreadValue}}^\\circ$。"
             }
           ],
           "resultLabel": "色散",
+          "resultTemplate": "$\\Delta\\delta \\approx {{spreadValue}}^\\circ$",
           "applyAction": {
             "label": "應用寬火石稜鏡",
             "observationHint": "較強的材料反應和更寬的稜鏡都將紫羅蘭-紅色分離向上推移在同一實時平台上。"
-          }
+          },
+          "interpretationTemplate": "{{spreadInterpretation}}"
         }
       ]
     },
@@ -247,7 +265,8 @@
     },
     "graphSummary": {
       "paragraphs": [
-        "第一個圖表繪製當前材料模型下的折射率對可見波長的關係。第二個圖表繪製同一材料和稜鏡角度下的薄稜鏡偏折度對可見波長的關係，因此懸停在任一圖表上預覽另一波長在同一靜態稜鏡上的效果而不是向前推進時間。"
+        "一張圖繪製了目前材料的折射率與可見光波長的關係。另一個繪製了當前棱鏡角相對於相同波長的棱鏡偏差。",
+        "將滑鼠停留在任一圖像上可預覽同一棱鏡上的另一個波長，而不是提前時間。"
       ]
     }
   },
@@ -266,6 +285,92 @@
         "title": "前移依賴顏色的彎曲"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "使用薄棱镜實驗台连接颜色、折射率和弯曲角度：紫色比红色弯曲更多，只是因為相同的材料赋予不同波长不同的 n 值。",
+    "whyItMatters": "這是斯涅耳定律與彩虹、棱鏡和光譜儀之間缺少的橋樑：分色仍然是折射，但 n 現在取決於波長。",
+    "keyTakeaway": "色散意味著折射率取決於波長。在這個可見光模型中，較短的波長使用稍大的 n，因此在同一棱鏡中紫光比紅光彎曲更多。"
+  },
+  "v2": {
+    "intuition": "讓一個折射故事負責：棱鏡彎曲每種顏色，但色散材料為每個波長分配略有不同的折射率，因此出射光線分開。",
+    "whyItMatters": "一旦這種聯繫明確，棱鏡彩虹、光譜儀、色差和簡單斯涅爾定律射線草圖的限制都感覺像是相同的依賴於顏色的彎曲想法。",
+    "equationSnapshot": {
+      "title": "指數、速度與稜鏡擴散",
+      "note": "從 n(lambda) 開始，然後使用薄棱鏡近似將折射率差異轉換為彎曲角度差異。"
+    },
+    "startSetup": {
+      "note": "從可見的色扇和索引指南開始，以便可以一起讀取波長順序和出射光線順序。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-color-index-order",
+        "title": "讀取顏色索引順序",
+        "goal": "在變更任何控制項之前，將出射顏色扇形與折射率曲線連結。",
+        "doThis": "從皇冠綠色開始，保持顏色風扇和索引指南打開，並將紅色、綠色和紫色光線與索引曲線進行比較。",
+        "notice": "紫羅蘭色位於紅色下方，因為紫羅蘭色在此可見光範圍內具有較大的折射率；階段順序與圖像順序相符。",
+        "explain": "色散並不是一個新的稜鏡技巧。這是斯涅耳定律折射，n 允許隨波長變化。",
+        "inlineCheck": {
+          "title": "說出彎曲程度最大的顏色"
+        }
+      },
+      {
+        "id": "move-one-wavelength",
+        "title": "移動一個波長",
+        "goal": "查看所選光線的變化是因為其波長發生變化，而不是因為棱鏡獲得了新規則。",
+        "doThis": "將選定的波長從紅色滑動到紫色，同時觀察選定的光線、折射率讀數和兩個圖像。",
+        "notice": "較短的波長使用較大的 n(lambda)，在材料中傳播得更慢，並且離開時會產生較大的薄棱鏡偏差。",
+        "explain": "相同的公式驅動讀數、圖像和階段：改變 lambda 會改變 n(lambda)，而棱鏡偏差遵循 [n(lambda) - 1]A。",
+        "inlineCheck": {
+          "title": "預測紫移"
+        }
+      },
+      {
+        "id": "widen-the-color-spread",
+        "title": "擴大色彩範圍",
+        "goal": "將材料分散與稜鏡幾何形狀分開作為較寬扇形的兩個原因。",
+        "doThis": "將皇冠綠與寬火石棱鏡進行比較，然後一次更改一個色散強度和棱鏡角度。",
+        "notice": "提高 D 會使紅光和紫光的折射率拉得更遠，而加寬 A 則會向上縮放每個偏離角。",
+        "explain": "展開關係指出，Δδ 隨著指數差 n_violet - n_red 和稜鏡角 A 增大而增大。",
+        "inlineCheck": {
+          "title": "選擇開啟風扇的方式"
+        }
+      },
+      {
+        "id": "test-no-dispersion",
+        "title": "測試無分散",
+        "goal": "證明整體折射和分色相關但不相同。",
+        "doThis": "不施加色散，然後恢復寬火石棱鏡並利用挑戰擊中目標彎曲和擴散。",
+        "notice": "當 D 為零時，棱鏡仍然會彎曲光束，但紅紫分離會崩潰，因為所有顏色共用相同的 n。",
+        "explain": "棱鏡不會產生顏色。只有當材料賦予這些波長不同的折射率時，它才會分離已經存在的波長。",
+        "inlineCheck": {
+          "title": "檢查折射與色散"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "色散意味著一種材料可以為不同的波長分配不同的折射率。",
+        "在此可見光模型中，紫色比紅色具有更大的折射率，因此在同一棱鏡中彎曲更多。",
+        "當材料反應更依賴波長或稜鏡角度較大時，出射風扇會變寬。",
+        "無色散棱鏡仍然可以折射光束；它只是停止分離顏色。"
+      ],
+      "misconception": "棱鏡不會為白光添加顏色。它分離已經存在的波長，因為它們的折射率、速度和彎曲角度不同。",
+      "freePlayPrompt": "嘗試製作兩個具有相似綠色彎曲但紅紫色擴散非常不同的棱鏡；解釋哪種控制改變了材料響應而不是幾何形狀。",
+      "nextConcepts": [
+        {
+          "slug": "total-internal-reflection",
+          "reasonLabel": "將折射率達到臨界角極限"
+        },
+        {
+          "slug": "lens-imaging",
+          "reasonLabel": "使用許多彎曲來形成影像"
+        },
+        {
+          "slug": "atomic-spectra",
+          "reasonLabel": "比較稜鏡擴散與線光譜"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -315,35 +420,389 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "指數曲線",
+      "primaryGraphIds": [
+        "指數曲線",
+        "偏差曲線"
+      ],
+      "primaryControlIds": [
+        "波長Nm",
+        "分散強度"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "wavelengthNm",
-        "label": "選定波長"
+        "label": "選定波長",
+        "description": "將選定的可見顏色從紫色移至紅色。"
       },
       {
         "id": "dispersionStrength",
-        "label": "色散強度"
+        "label": "色散強度",
+        "description": "設定短波長和長波長在折射率上的分離程度。"
       },
       {
         "id": "prismAngle",
-        "label": "稜鏡角度"
+        "label": "稜鏡角度",
+        "description": "加寬或縮小薄棱鏡。"
+      },
+      {
+        "id": "referenceIndex",
+        "label": "參考指數接近綠色",
+        "description": "提高或降低整體折射率基準。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "crown-green",
+        "label": "皇冠綠",
+        "description": "接近綠光的中等玻璃狀基線。"
+      },
+      {
+        "id": "flint-violet",
+        "label": "火石紫",
+        "description": "密度較大、分散較佳的稜鏡，所選光線接近紫羅蘭色。"
+      },
+      {
+        "id": "water-red",
+        "label": "水紅色",
+        "description": "所選光線在紅色一側的材料反應較弱。"
+      },
+      {
+        "id": "no-dispersion",
+        "label": "無分散",
+        "description": "保持整體彎曲，但折疊顏色擴散。"
+      },
+      {
+        "id": "wide-flint",
+        "label": "寬火石棱鏡",
+        "description": "更強的材料反應加上更寬的棱鏡角度使風扇更容易比較。"
+      },
+      {
+        "id": "narrow-crown",
+        "label": "窄冠棱鏡",
+        "description": "保持相同的材料系列，同時縮小整體彎曲。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "colorFan",
+        "label": "彩色風扇",
+        "shortDescription": "顯示紅色、綠色和紫色將棱鏡放在一起，因此它們的角距很容易比較。",
+        "whatToNotice": [
+          "紫色位於紅色下方，因為它使用較大的折射率，因此棱鏡偏差較大。"
+        ],
+        "whyItMatters": "它將色散轉換為折射角度的可見差異，而不是有關棱鏡的詞彙表。",
+        "relatedControls": [
+          "波長Nm",
+          "分散強度",
+          "棱鏡角度"
+        ],
+        "relatedGraphTabs": [
+          "偏差曲線"
+        ],
+        "relatedEquationVariables": [
+          "波長",
+          "分散強度",
+          "棱鏡角"
+        ]
+      },
+      {
+        "id": "indexGuide",
+        "label": "索引指南",
+        "shortDescription": "顯示目前材質中紅色、綠色和紫色如何依折射率排序。",
+        "whatToNotice": [
+          "舞台上的顏色順序來自折射率的排序，而不是來自單獨的顏色規則。"
+        ],
+        "whyItMatters": "它在舞台和圖像背後保留了一個與波長相關的折射率故事。",
+        "relatedControls": [
+          "參考索引",
+          "分散強度"
+        ],
+        "relatedGraphTabs": [
+          "指數曲線"
+        ],
+        "relatedEquationVariables": [
+          "參考索引",
+          "分散強度"
+        ]
+      },
+      {
+        "id": "thinPrismGuide",
+        "label": "薄棱鏡指南",
+        "shortDescription": "顯示有界薄棱鏡近似值和選定的總偏差。",
+        "whatToNotice": [
+          "改變稜鏡角度可縮放每種顏色的偏差，同時保持相同的紅色到紫色順序。"
+        ],
+        "whyItMatters": "它將整體彎曲與波長相關的擴展分開。",
+        "relatedControls": [
+          "棱鏡角度"
+        ],
+        "relatedGraphTabs": [
+          "偏差曲線"
+        ],
+        "relatedEquationVariables": [
+          "棱鏡角"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "index-curve",
+      "label": "折射率與波長",
+      "xLabel": "真空波長 lambda_0 (nm)",
+      "yLabel": "n(lambda)",
+      "description": "顯示目前材料如何在可見光波長上分配略有不同的折射率值。"
+    },
+    {
+      "id": "deviation-curve",
+      "label": "薄棱鏡偏差與波長",
+      "xLabel": "真空波長 lambda_0 (nm)",
+      "yLabel": "偏差增量（度數）",
+      "description": "顯示棱鏡偏差如何在可見波長範圍內變化，因此色展可以解讀為角度差異，而不僅僅是在舞台上看到。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次只關心一個原因。棱鏡風扇、讀數卡和圖像都顯示了相同的波長相關折射模型。",
+    "items": [
+      {
+        "id": "disp-notice-violet",
+        "text": "請注意，紫羅蘭色比紅色彎曲更多，因為在此模型中紫羅蘭色使用較大的折射率。舞台上的顏色順序來自於索引曲線。",
+        "tryThis": "從皇冠綠色開始，然後將選定的波長滑向紫色，同時顏色扇形保持可見。",
+        "whyItMatters": "它使棱鏡扇形與折射相關聯，而不是與單獨的顏色規則相關聯。",
+        "relatedControls": [
+          "波長Nm",
+          "分散強度"
+        ],
+        "relatedGraphTabs": [
+          "指數曲線",
+          "偏差曲線"
+        ],
+        "relatedOverlays": [
+          "彩扇",
+          "索引指南"
+        ]
+      },
+      {
+        "id": "disp-notice-response",
+        "text": "請注意，這些圖比較了一種棱鏡狀態的不同波長。將滑鼠懸停在它們上可以立即預覽另一個波長，而不是提前時間。",
+        "tryThis": "將滑鼠懸停在偏差圖的紅色端附近，然後靠近紫色端，並觀察選定的光線在同一棱鏡上的這些波長之間跳躍。",
+        "whyItMatters": "它使圖像保持誠實：這是一個波長系列，而不是時間軌跡。",
+        "relatedGraphTabs": [
+          "指數曲線",
+          "偏差曲線"
+        ]
+      },
+      {
+        "id": "disp-notice-no-dispersion",
+        "text": "請注意，當色散設定為零時，棱鏡仍然可以彎曲光束。消失的是色散，而不是整體折射。",
+        "tryThis": "套用「無分散」預設並將單一傳出路徑與早期風扇進行比較。",
+        "whyItMatters": "它將整體彎曲與波長相關的分離分開。",
+        "relatedControls": [
+          "分散強度"
+        ],
+        "relatedOverlays": [
+          "彩扇",
+          "索引指南"
+        ]
+      },
+      {
+        "id": "disp-notice-prism-angle",
+        "text": "請注意，增加稜鏡角度會向上縮放整個彎曲系列。紅紫色順序保持不變，但每條出射光都移動得更遠。",
+        "tryThis": "在窄冠棱鏡和寬火石棱鏡之間切換，然後一起讀取偏差圖和展開支架。",
+        "whyItMatters": "它說明了為什麼幾何形狀和材料反應在棱鏡擴散中都很重要。",
+        "relatedControls": [
+          "棱鏡角度"
+        ],
+        "relatedGraphTabs": [
+          "偏差曲線"
+        ],
+        "relatedOverlays": [
+          "彩扇",
+          "薄棱鏡指南"
+        ]
+      },
+      {
+        "id": "disp-notice-compare",
+        "text": "當一種設定僅更改材料響應而另一種設定保持相同的棱鏡幾何形狀時，比較模式效果最佳。這使得顏色擴散更容易與整體彎曲分開。",
+        "tryThis": "將設定 A 保留在皇冠綠色附近，然後僅提高設定 B 中的色散強度，並在所選綠色彎曲發生很大變化之前觀察擴展度量的變化。",
+        "whyItMatters": "它可以防止兩種不同的原因混合成一個更強的棱鏡的模糊想法。",
+        "relatedControls": [
+          "分散強度",
+          "棱鏡角度",
+          "波長Nm"
+        ],
+        "relatedGraphTabs": [
+          "指數曲線",
+          "偏差曲線"
+        ],
+        "relatedOverlays": [
+          "彩扇",
+          "索引指南"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在更改波長、材料響應或棱鏡角度之前，預測同一棱鏡應如何響應。",
     "items": [
       {
         "id": "disp-predict-stronger-d",
-        "changeLabel": "色散強度"
+        "prompt": "從皇冠綠開始，如果提高色散強度，同時保持參考折射率和棱鏡角度幾乎相同，會發生什麼？",
+        "scenarioLabel": "提高 D",
+        "changeLabel": "色散強度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "紅紫色擴散變寬，而綠色參考彎曲僅適度變化。"
+          },
+          {
+            "id": "b",
+            "label": "每種顏色一起移動相同的量，因此扇形寬度保持固定。"
+          },
+          {
+            "id": "c",
+            "label": "所選的綠色光線必須拉直，因為較強的色散總是會降低平均折射率。"
+          }
+        ],
+        "explanation": "提高色散強度會增加紅色和紫色之間的折射率變化程度。由於參考索引固定在綠色附近，因此綠色彎曲僅發生很小的變化，而色差卻擴大很多。",
+        "observationHint": "在應用更強色散設定後，一起觀察擴散支架和索引指南。"
       },
       {
         "id": "disp-predict-violet",
-        "changeLabel": "選定波長"
+        "prompt": "使用相同的材​​料和棱鏡角度，當您將選定的波長從紅色滑動到紫色時會發生什麼？",
+        "scenarioLabel": "往紫羅蘭方向移動",
+        "changeLabel": "選定波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "所選光線彎曲較多，因為較短的波長使用較大的折射率。"
+          },
+          {
+            "id": "b",
+            "label": "所選光線彎曲較小，因為紫光較有能量。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為棱鏡只響應材質，而不響應顏色。"
+          }
+        ],
+        "explanation": "在此有界模型中，較短的可見光波長使用較大的折射率。因此，同一棱鏡對紫色的彎曲程度大於對紅色的彎曲程度。",
+        "observationHint": "施加紫色偏移並將選定的光線與固定的紅色和綠色扇形進行比較。"
       },
       {
         "id": "disp-predict-angle",
-        "changeLabel": "稜鏡角度"
+        "prompt": "如果您在不考慮材料和所選波長的情況下加寬棱鏡，接下來會發生什麼？",
+        "scenarioLabel": "加寬棱鏡",
+        "changeLabel": "稜鏡角度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "整體彎曲和紅紫擴散都會增加，因為相同的波長排序按較大的 A 進行縮放。"
+          },
+          {
+            "id": "b",
+            "label": "僅選定的波長發生變化。紅紫色擴散保持固定，因為 A 不影響顏色。"
+          },
+          {
+            "id": "c",
+            "label": "風扇上下翻轉，因為較寬的棱鏡交換了紅色和紫色。"
+          }
+        ],
+        "explanation": "增加棱鏡角度會縮放每個偏差，因此整個風扇打開更多，同時顏色順序保持不變。",
+        "observationHint": "當您加寬棱鏡後，觀察偏差圖上升並且擴展支架變長。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用活動棱鏡，而不是分離的拼圖狀態。這些檢查從您正在編輯的相同有界模型中讀取當前波長、棱鏡角度和波長相關折射率。",
+    "items": [
+      {
+        "id": "disp-ch-hit-index-and-bend",
+        "title": "達到索引和彎曲目標",
+        "prompt": "從皇冠綠開始，調整當前波長和棱鏡，使選定的折射率落在 1.53 到 1.55 之間，而選定的偏差落在 11.0 到 12.0 度之間。",
+        "successMessage": "您透過在相同即時設定上協調波長相關折射率和薄棱鏡彎曲來匹配目標。",
+        "setup": {
+          "note": "將偏差圖與薄棱鏡導軌一起使用。"
+        },
+        "hints": [
+          "較短的波長有助於提高目前的折射率。",
+          "如果指數已在範圍內但偏差仍然很小，請稍微加寬棱鏡。"
+        ],
+        "checks": [
+          {
+            "label": "開啟偏差圖。"
+          },
+          {
+            "label": "保持薄棱鏡導軌可見。"
+          },
+          {
+            "label": "使 n(lambda) 介於 1.53 和 1.55 之間。"
+          },
+          {
+            "label": "使選定的偏差落在 11.0 和 12.0 度之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "disp-ch-compare-spread",
+        "title": "比較弱分散劑和強分散劑",
+        "prompt": "從皇冠綠色開啟比較模式。保持設定 A 弱色散，然後編輯設定 B，直到相同的棱鏡角度產生更大的紅紫色擴散。",
+        "successMessage": "您使用比較模式將材料響應與幾何體分開，而不是盯著兩個不相關的棱鏡。",
+        "setup": {
+          "note": "在編輯設定 B 時，將設定 A 保留為弱色散基線。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "保持兩個棱鏡角度相似，因此擴散差異主要來自 D。",
+          "設定 B 應使用比設定 A 明顯更大的色散強度。"
+        ],
+        "checks": [
+          {
+            "label": "開啟偏差圖。"
+          },
+          {
+            "label": "在比較模式處於活動狀態時編輯設定 B。"
+          },
+          {
+            "label": "保持設定 A 弱色散。"
+          },
+          {
+            "label": "將兩個稜鏡角度保持在相同的適度範圍內。"
+          },
+          {
+            "label": "使設定 B 具有很強的分散性。"
+          },
+          {
+            "label": "將設定 B 保持在相同的稜鏡角帶附近。"
+          },
+          {
+            "label": "保持設定 A，僅少量紅紫色擴散。"
+          },
+          {
+            "label": "使設定 B 顯示更大的紅紫色擴散。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "色散/折射率與色彩 |開放式模型實驗室",
+    "description": "了解折射率如何取決於波長、棱鏡為何分離顏色以及有界薄棱鏡模型如何將色擴散與折射聯繫起來。",
+    "keywords": [
+      "分散",
+      "折射率與顏色",
+      "稜鏡分色",
+      "波長相關折射率",
+      "光學棱鏡折射"
     ]
   }
 }

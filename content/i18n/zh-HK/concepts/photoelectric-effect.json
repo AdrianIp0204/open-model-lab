@@ -68,22 +68,27 @@
           "steps": [
             {
               "id": "photon-energy",
-              "label": "1. 將頻率轉換為光子能量"
+              "label": "1. 將頻率轉換為光子能量",
+              "template": "對於 $f = {{frequencyValue}}$，光子能量為 $hf = {{photonEnergyValue}}$。"
             },
             {
               "id": "threshold-check",
-              "label": "2. 對比與工作功函式"
+              "label": "2. 對比與工作功函式",
+              "template": "金屬需要 $\\phi = {{workFunctionValue}}$，因此目前閾值為 $f_0 = {{thresholdFrequencyValue}}$。"
             },
             {
               "id": "budget",
-              "label": "3. 閱讀剩餘的能量"
+              "label": "3. 閱讀剩餘的能量",
+              "template": "剩下$K_{\\max} = hf - \\phi = {{maxKineticValue}}$，所以即時實驗台說{{emissionOutcome}}。"
             }
           ],
           "resultLabel": "當前發射狀態",
+          "resultTemplate": "$hf = {{photonEnergyValue}}, \\; K_{\\max} = {{maxKineticValue}}, \\; {{emissionOutcome}}$",
           "applyAction": {
             "label": "跳轉至紫光以上閾值",
             "observationHint": "觀看能量預算卡片和發射的電子同時亮起。"
-          }
+          },
+          "interpretationTemplate": "{{energyInterpretation}}"
         },
         {
           "id": "current-stopping-potential",
@@ -97,27 +102,36 @@
             {
               "id": "stoppingPotential",
               "label": "停止電壓"
+            },
+            {
+              "id": "collectorCurrent",
+              "label": "收集的電流"
             }
           ],
           "steps": [
             {
               "id": "stop-link",
-              "label": "1. 將能量與停止電位聯絡起來"
+              "label": "1. 將能量與停止電位聯絡起來",
+              "template": "目前的能源預算給出 $V_{\\text{stop}} = {{stoppingPotentialValue}}$，因為 $eV_{\\text{stop}} = K_{\\max}$。"
             },
             {
               "id": "compare-bias",
-              "label": "2. 將應用的偏置與停止點進行比較"
+              "label": "2. 將應用的偏置與停止點進行比較",
+              "template": "收集器設定為 {{collectorVoltageValue}}，因此該欄位目前顯示為 {{collectorAssistText}}。"
             },
             {
               "id": "current-readout",
-              "label": "3. 如實讀取剩餘的電流"
+              "label": "3. 如實讀取剩餘的電流",
+              "template": "可用發射為 {{saturationCurrentValue}}，收集器實際接收到 {{collectorCurrentValue}}。"
             }
           ],
           "resultLabel": "集電極狀態",
+          "resultTemplate": "$V_{\\text{stop}} = {{stoppingPotentialValue}}, \\; I_{\\text{col}} = {{collectorCurrentValue}}$",
           "applyAction": {
             "label": "顯示截止偏置",
             "observationHint": "發射的電子仍然存在於表面，但退偏場減少了收集到的電流幾乎為零。"
-          }
+          },
+          "interpretationTemplate": "{{stoppingInterpretation}}"
         }
       ]
     },
@@ -271,6 +285,95 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用一個緊湊的燈對金屬實驗台來了解為什麼光頻率會決定電子發射，為什麼強度單獨低於閾值，以及停止電位如何誠實地讀取電子能量。",
+    "whyItMatters": "此效果是從波亮度直覺到可測量光子能量故事的最短路徑：閾值頻率決定發射是否開始，停止電壓測量剩餘的電子能量。",
+    "keyTakeaway": "低於閾值頻率，單獨提高強度仍不會發射電子。"
+  },
+  "v2": {
+    "intuition": "將燈視為光子能量預算。亮度會改變到達的光子數量，但頻率決定每個光子是否能夠清除金屬的功函數障礙。",
+    "whyItMatters": "光電效應是閾值行為、電流和停止電壓使光子模型感覺是必要的而不是裝飾性的。",
+    "equationSnapshot": {
+      "title": "閾值與能量快照",
+      "note": "首先將 hf 與功函數進行比較；只有高於閾值，電流和停止電壓才成為有意義的測量值。"
+    },
+    "startSetup": {
+      "note": "從閾值以下開始，以便在頻率打開發射之前測試亮度。"
+    },
+    "guidedSteps": [
+      {
+        "id": "test-brightness-below-threshold",
+        "title": "測試亮度低於閾值",
+        "goal": "在任何電子出現之前將光子能量與總光束亮度分開。",
+        "doThis": "從低於閾值的紅色開始，然後切換到明亮但仍低於閾值，同時閾值門和能量預算保持可見。",
+        "notice": "燈看起來更亮，光子通量增加，但 hf 仍低於功函數，並且收集的電流保持為零。",
+        "explain": "強度會改變每秒到達的光子數量。如果每個光子仍然低於功函數勢壘，則沒有單一電子能夠獲得足夠的能量來逃逸。",
+        "inlineCheck": {
+          "title": "預測亮度測試"
+        }
+      },
+      {
+        "id": "cross-the-frequency-threshold",
+        "title": "跨越頻率閾值",
+        "goal": "查看頻率打開發射並產生剩餘電子能量。",
+        "doThis": "從亮紅色情況移至閾值以上的紫色，然後一起讀取能量平衡圖和發射電子階段。",
+        "notice": "當 hf 穿過勢壘時，電子出現，Kmax 變為正值，並且停止電位讀數變為非零。",
+        "explain": "頻率會改變每個光子的能量。跨越門檻是開/關門；高於功函數的額外光子能量變成最大動能。",
+        "inlineCheck": {
+          "title": "預測閾值跨越"
+        }
+      },
+      {
+        "id": "separate-count-from-energy",
+        "title": "將數數與能量分開",
+        "goal": "使用閾值以上的光來區分電子電流和電子能量。",
+        "doThis": "在強度掃描和能量預算視圖可用時，將暗淡但高於閾值與紫色高於閾值進行比較。",
+        "notice": "改變強度會改變可用和收集的電流，但 Kmax 和停止電位仍與頻率相關。",
+        "explain": "高於閾值，亮度主要改變每秒發射的電子數量。除非頻率也發生變化，否則它不會使每個發射的電子變得更快。",
+        "inlineCheck": {
+          "title": "檢查計數與能量"
+        }
+      },
+      {
+        "id": "read-stopping-voltage",
+        "title": "讀取停止電壓",
+        "goal": "將延遲集電極場轉變為最大電子能量的測量。",
+        "doThis": "施加停止電位截止，然後將集電極電壓掃描與能量預算卡進行比較。",
+        "notice": "負集電極電壓可以將收集的電流減少到接近零，同時電子仍在金屬表面發射。",
+        "explain": "停止電壓不會產生光子。它測量逃逸後發射最快的電子所具有的能量：eVstop = Kmax。",
+        "inlineCheck": {
+          "title": "檢查電壓測量"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "閾值頻率決定發射是否可以開始。",
+        "強度改變光子通量和電流，而不是每個光子攜帶的能量。",
+        "高於閾值，額外的光子能量變成最大電子動能。",
+        "阻止電位透過阻止收集來測量最大動能。"
+      ],
+      "misconception": "不要將亮度視為最終將電子噴射到閾值以下的儲存能量。在此模型中，每個發射的電子需要一個高於功函數障礙的光子。",
+      "freePlayPrompt": "與低於閾值的亮紅色和高於閾值的暗紫色進行並排比較，然後解釋哪束射出電子以及哪束提供更多電流。",
+      "nextConcepts": [
+        {
+          "slug": "atomic-spectra",
+          "title": "原子光譜",
+          "reasonLabel": "將光子能量轉換為離散線光譜。"
+        },
+        {
+          "slug": "electric-potential",
+          "title": "電位",
+          "reasonLabel": "將停止電壓連接到位能差。"
+        },
+        {
+          "slug": "light-spectrum-linkage",
+          "title": "光作為電磁波",
+          "reasonLabel": "重新檢影片譜軌上的頻率、波長和顏色。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "photon-energy",
@@ -321,38 +424,322 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "能量平衡",
+      "primaryGraphIds": [
+        "能量平衡",
+        "強度掃描"
+      ],
+      "primaryControlIds": [
+        "頻率PHZ",
+        "強度"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "frequencyPHz",
-        "label": "光頻率"
+        "label": "光頻率",
+        "description": "改變每個光子的能量和光束的色帶。"
       },
       {
         "id": "intensity",
-        "label": "強度"
+        "label": "強度",
+        "description": "改變光子通量，因此在閾值以上它主要改變電流。"
       },
       {
         "id": "workFunctionEv",
-        "label": "工作功函"
+        "label": "工作功函",
+        "description": "改變電子逃離金屬所需的能量。"
       },
       {
         "id": "collectorVoltage",
-        "label": "收集電壓"
+        "label": "收集電壓",
+        "description": "在電子離開金屬後幫助或阻止電子。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "red-below-threshold",
+        "label": "紅色低於閾值",
+        "description": "無法從該金屬中發射電子的長波長光。"
+      },
+      {
+        "id": "bright-below-threshold",
+        "label": "明亮但仍低於閾值",
+        "description": "在不超過閾值的情況下提高強度。"
+      },
+      {
+        "id": "violet-above-threshold",
+        "label": "紫色高於閾值",
+        "description": "較短波長的光現在可以清除功函數。"
+      },
+      {
+        "id": "dim-above-threshold",
+        "label": "昏暗但高於閾值",
+        "description": "維持電子能量但降低發射率。"
+      },
+      {
+        "id": "stopping-potential-cutoff",
+        "label": "停止電位截止",
+        "description": "在停止點附近使用減速場。"
+      },
+      {
+        "id": "harder-metal-threshold",
+        "label": "較硬的金屬",
+        "description": "提高功函數，使相同的光更接近閾值。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "thresholdGate",
+        "label": "閾值門",
+        "shortDescription": "一起顯示閾值頻率和功函數障礙。",
+        "whatToNotice": [
+          "僅當頻率標記穿過所選金屬的 f0 時才開始發射。"
+        ],
+        "whyItMatters": "它使閾值在計算之前可見。",
+        "relatedControls": [
+          "頻率PHZ",
+          "工作函數Ev"
+        ],
+        "relatedGraphTabs": [
+          "能量平衡"
+        ],
+        "relatedEquationVariables": [
+          "頻率PHZ",
+          "工作函數Ev"
+        ]
+      },
+      {
+        "id": "intensityFlux",
+        "label": "強度通量",
+        "shortDescription": "顯示亮度改變光子流和電流，而不是每個光子的能量。",
+        "whatToNotice": [
+          "高於閾值，當強度增加時，電子流變得更密集，但能量收支僅在頻率或功函數改變時改變。"
+        ],
+        "whyItMatters": "它將電子計數與電子能量分開。",
+        "relatedControls": [
+          "強度"
+        ],
+        "relatedGraphTabs": [
+          "強度掃描",
+          "收集器掃一掃"
+        ],
+        "relatedEquationVariables": [
+          "強度"
+        ]
+      },
+      {
+        "id": "stoppingField",
+        "label": "停止字段",
+        "shortDescription": "顯示集極電壓是否有助於、減少或停止收集電子。",
+        "whatToNotice": [
+          "截止電壓取決於發射電子的能量，而不僅僅是光的亮度。"
+        ],
+        "whyItMatters": "它將收集器圖連接到舞台上顯示的相同能量故事。",
+        "relatedControls": [
+          "收集器電壓"
+        ],
+        "relatedGraphTabs": [
+          "收集器掃一掃"
+        ],
+        "relatedEquationVariables": [
+          "收集器電壓"
+        ]
+      },
+      {
+        "id": "energyBudget",
+        "label": "能源預算",
+        "shortDescription": "在舞台附近的一處保持 hf、phi 和 Kmax 可見。",
+        "whatToNotice": [
+          "改變強度不會改變 hf、phi 或 Kmax。只有頻率和功函數可以。"
+        ],
+        "whyItMatters": "這是了解為什麼閾值取決於光子能量而不是僅取決於亮度的最清晰方法。",
+        "relatedControls": [
+          "頻率PHZ",
+          "工作函數Ev"
+        ],
+        "relatedGraphTabs": [
+          "能量平衡"
+        ],
+        "relatedEquationVariables": [
+          "頻率PHZ",
+          "工作函數Ev"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "energy-balance",
+      "label": "能量預算與頻率",
+      "xLabel": "頻率 (PHz)",
+      "yLabel": "能量 (eV)",
+      "description": "顯示光子能量何時低於功函數、等於功函數或高於功函數，以及剩餘多少 Kmax。"
+    },
+    {
+      "id": "collector-sweep",
+      "label": "收集電流與集極電壓",
+      "xLabel": "集電極電壓（V）",
+      "yLabel": "目前（任意）",
+      "description": "顯示更負的集極電壓如何減少收集的電流，直到達到停止點。"
+    },
+    {
+      "id": "intensity-sweep",
+      "label": "電流與強度",
+      "xLabel": "強度（任意）",
+      "yLabel": "目前（任意）",
+      "description": "顯示改變強度會改變電流大小，而每個電子能量保持固定。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用這些提示來區分閾值、強度和集電極電壓想法，同時保持在同一個實驗台上。",
+    "items": [
+      {
+        "id": "pe-notice-threshold",
+        "text": "低於閾值，使燈更亮仍然不會產生收集的電子。缺少的成分是光子能量，而不是總亮度。",
+        "tryThis": "從低於閾值的紅色切換為明亮，但仍低於閾值，同時保持能量預算卡處於可見狀態。",
+        "whyItMatters": "它直接測試了亮度本身就應該噴射電子的想法。",
+        "relatedControls": [
+          "頻率PHZ",
+          "強度"
+        ],
+        "relatedGraphTabs": [
+          "能量平衡",
+          "強度掃描"
+        ],
+        "relatedOverlays": [
+          "閾值門",
+          "強度通量"
+        ]
+      },
+      {
+        "id": "pe-notice-intensity",
+        "text": "一旦頻率高於閾值，提高強度主要提高電流，而不是最大動能。",
+        "tryThis": "將紫色高於閾值與暗淡但高於閾值進行比較。",
+        "whyItMatters": "它將發射的電子數量與最快電子的能量分開。",
+        "relatedControls": [
+          "強度"
+        ],
+        "relatedGraphTabs": [
+          "強度掃描",
+          "能量平衡"
+        ],
+        "relatedOverlays": [
+          "強度通量",
+          "能源預算"
+        ]
+      },
+      {
+        "id": "pe-notice-stopping",
+        "text": "使集電極電壓更負會減少收集的電流，並且在顯示的停止電位附近發生截止。",
+        "tryThis": "開啟集極電壓掃描並將滑鼠懸停在截止點附近。",
+        "whyItMatters": "它將停止潛力轉換為同一台上的可測量量。",
+        "relatedControls": [
+          "收集器電壓"
+        ],
+        "relatedGraphTabs": [
+          "收集器掃一掃"
+        ],
+        "relatedOverlays": [
+          "停止場",
+          "能源預算"
+        ]
+      },
+      {
+        "id": "pe-notice-compare",
+        "text": "當一種設定改變頻率而另一種設定改變強度時，比較模式效果最佳。這使您可以將閾值與亮度分開。",
+        "tryThis": "保持設定 A 為明亮，但仍低於閾值，設定 B 為紫色，高於閾值。",
+        "whyItMatters": "很明顯，頻率和強度的作用不同。",
+        "relatedControls": [
+          "頻率PHZ",
+          "強度",
+          "工作函數Ev"
+        ],
+        "relatedGraphTabs": [
+          "能量平衡",
+          "強度掃描",
+          "收集器掃一掃"
+        ],
+        "relatedOverlays": [
+          "閾值門",
+          "強度通量",
+          "能源預算"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在移動控制項之前預測因果變化。",
     "items": [
       {
         "id": "pe-pred-bright-red",
-        "changeLabel": "強度"
+        "prompt": "從低於閾值的紅色開始，僅提高強度。板凳接下來該做什麼？",
+        "scenarioLabel": "將強度提高到閾值以下",
+        "changeLabel": "強度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "光束看起來更亮，但沒有電子發射，因為每個光子仍低於閾值。"
+          },
+          {
+            "id": "b",
+            "label": "電子開始緩慢出現，因為光束現在整體上夠亮。"
+          },
+          {
+            "id": "c",
+            "label": "停止電位上升，因為較亮的光總是會產生較快的電子。"
+          }
+        ],
+        "explanation": "增加強度會改變光子通量，而不是光子能量，因此低於閾值的光仍然無法噴射電子。",
+        "observationHint": "觀察光束變亮，同時能量預算卡保持在功函數障礙以下且電流保持為零。"
       },
       {
         "id": "pe-pred-frequency",
-        "changeLabel": "頻率"
+        "prompt": "保持強度固定，但將頻率從低於閾值的紅色增加到高於閾值的紫色。什麼必須一起改變？",
+        "scenarioLabel": "將頻率提高到閾值",
+        "changeLabel": "頻率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "發射開啟，最大動能升至零以上，且停止電位變為非零。"
+          },
+          {
+            "id": "b",
+            "label": "只有光束顏色會變化，因為強度保持固定。"
+          },
+          {
+            "id": "c",
+            "label": "電流上升，但停止電位保持不變，因為電壓僅屬於集電極。"
+          }
+        ],
+        "explanation": "頻率會改變每個光子的能量。跨越閾值是開啟發射並使 Kmax 和停止電位非零的原因。",
+        "observationHint": "觀察能量圖上的 hf 交叉 phi，然後讀取 Kmax 和 Vstop。"
       },
       {
         "id": "pe-pred-retarding-field",
-        "changeLabel": "收集電壓"
+        "prompt": "保持相同的閾值以上光，但使集電極電壓更負。哪種說法是誠實的？",
+        "scenarioLabel": "增加減速場",
+        "changeLabel": "收集電壓",
+        "choices": [
+          {
+            "id": "a",
+            "label": "收集到的電流降至零，但電子以相同的 Kmax 離開金屬。"
+          },
+          {
+            "id": "b",
+            "label": "減速場會在光子到達金屬之前降低其能量。"
+          },
+          {
+            "id": "c",
+            "label": "電流不變，因為光電效應只有頻率很重要。"
+          }
+        ],
+        "explanation": "收集器場會改變到達收集器的發射電子數量。它不會改變 hf 和 phi 設定的表面能量收支。",
+        "observationHint": "追蹤收集器掃描圖，同時能量預算卡保持固定。"
       }
     ]
   },
@@ -371,7 +758,19 @@
         "hints": [
           "不要改變入射光頻率；發射電子的能量應保持固定。",
           "截止點應接近畫面顯示的停止電壓。"
-        ]
+        ],
+        "targets": [
+          {
+            "label": "將集電極電壓保持在 -1.95 V 和 -1.72 V 之間。"
+          },
+          {
+            "label": "將 maxkineticenergyev 保持在 1.75 eV 和 1.92 eV 之間。"
+          },
+          {
+            "label": "保持集電極電流在 0 任意值之間。 and 0.05 arb.."
+          }
+        ],
+        "style": "目標設定"
       },
       {
         "id": "pe-ch-brightness-not-enough",
@@ -384,8 +783,31 @@
         "hints": [
           "保持高強度，但不要讓頻率越過閾值標記。",
           "能量預算卡仍應顯示 hf 低於 phi。"
-        ]
+        ],
+        "targets": [
+          {
+            "label": "將強度保持在 1.45 任意值之間。和 1.8 arb.."
+          },
+          {
+            "label": "將頻率phz 保持在0.3 PHz 和0.4 PHz 之間。"
+          },
+          {
+            "label": "保持集電極電流在 0 任意值之間。 and 0.02 arb.."
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "光電效應|開放模型實驗室",
+    "description": "透過緊湊的光電效應模擬來探索閾值頻率、停止電勢、功函數以及光強度和光頻率之間的差異。",
+    "keywords": [
+      "光電效應模擬",
+      "閾值頻率",
+      "停止潛力",
+      "工作功能",
+      "光強度與頻率"
     ]
   }
 }

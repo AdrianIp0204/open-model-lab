@@ -71,46 +71,70 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始從圓形軌道平衡開始"
+              "label": "1. 開始從圓形軌道平衡開始",
+              "template": "將重力設定為等於所需的向心加速度：$M/r^2 = v_c^2/r$。"
             },
             {
               "id": "solve",
-              "label": "2. 解出圓形速度"
+              "label": "2. 解出圓形速度",
+              "template": "以顯示的 $G = 1$ 單位給出 $v_c = \\sqrt{M/r} = \\sqrt{{{sourceMassValue}}/{{orbitRadiusValue}}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算活躍圓形速度"
+              "label": "3. 計算活躍圓形速度",
+              "template": "因此，圓形軌道速度為 $v_c = {{circularSpeedValue}}\\,\\mathrm{m/s}$，$\\omega_c = {{angularSpeedValue}}\\,\\mathrm{rad/s}$ 和 $T_c = {{periodValue}}\\,\\mathrm{s}$ 對應同一參考圓。"
             }
           ],
           "resultLabel": "所需的圓形速度",
+          "resultTemplate": "$v_c = {{circularSpeedValue}}\\,\\mathrm{m/s}$",
           "applyAction": {
             "label": "顯示較重的來源案例",
             "observationHint": "保持相同的半徑，並觀察當來源質量增加時所需的圓周速度和引力水平共同上升。"
-          }
+          },
+          "interpretationTemplate": "{{circularSpeedInterpretation}}"
         },
         {
           "id": "current-orbit-balance",
           "title": "目前的內向引力與轉彎需求比較",
           "prompt": "在當前實時時間點，內向引力與實際運動的轉彎需求相比如何？",
+          "variables": [
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "currentRadius",
+              "label": "目前半徑"
+            },
+            {
+              "id": "actualSpeed",
+              "label": "目前速度"
+            }
+          ],
           "steps": [
             {
               "id": "measure",
-              "label": "1. 調閱當前半徑和速度"
+              "label": "1. 調閱當前半徑和速度",
+              "template": "在 $t = {{timeValue}}\\,\\mathrm{s}$ 處，即時路徑給出 $r = {{currentRadiusValue}}\\,\\mathrm{m}$ 和 $v = {{actualSpeedValue}}\\,\\mathrm{m/s}$。"
             },
             {
               "id": "gravity",
-              "label": "2. 計算該處的內向引力"
+              "label": "2. 計算該處的內向引力",
+              "template": "重力供給$g = M/r^2 = {{gravityAccelerationValue}}\\,\\mathrm{m/s^2}$。"
             },
             {
               "id": "turning",
-              "label": "3. 計算運動的轉彎需求"
+              "label": "3. 計算運動的轉彎需求",
+              "template": "目前路徑需要$v^2/r = {{requiredCentripetalValue}}\\,\\mathrm{m/s^2}$，因此餘額缺口為$\\Delta = g - v^2/r = {{balanceGapValue}}\\,\\mathrm{m/s^2}$。"
             }
           ],
           "resultLabel": "目前軌道平衡",
+          "resultTemplate": "$g = {{gravityAccelerationValue}},\\; v^2/r = {{requiredCentripetalValue}},\\; \\Delta = {{balanceGapValue}}$",
           "applyAction": {
             "label": "顯示速度過慢的案例",
             "observationHint": "當速度因子降至1以下時，引力曲線位於轉彎需求曲線之上，軌跡落在虛線參考軌道內部。"
-          }
+          },
+          "interpretationTemplate": "{{balanceInterpretation}}"
         }
       ]
     },
@@ -238,9 +262,8 @@
   "accessibility": {
     "simulationDescription": {
       "paragraphs": [
-        "模擬顯示舞台中心固定的一個源質量、從選擇的參考半徑右側發射的移動衞星以及可選的虛線參考軌道、活躍半徑線、切向速度向量、內向引力向量和軌跡軌跡。",
-        "更改源質量、參考軌道半徑或速度因子會一起更新相同的軌道路徑、實時讀數和相關圖表。比較模式在不切換到另一個軌道模型的情況下疊加第二個設定。",
-        "顯示的單位使用了一個有邊界的單一源引力模型，其中 G = 1。最小樣本半徑保持舞台和圖表有限且可讀，同時保留正確的內向和反平方趨勢。"
+        "模擬顯示中心有一個源質量，一顆從所選參考圓右側發射的移動衛星，以及虛線參考軌道、當前半徑線、切向速度向量、向內重力向量和軌跡軌蹟的可選疊加。",
+        "改變來源質量、參考半徑或速度因子會同時更新相同的軌道路徑、讀數和圖像。主要比較是即時路徑是否停留在參考圓上，或者由於重力和轉彎要求不再匹配而在參考圓內部或外部剝離。"
       ]
     },
     "graphSummary": {
@@ -265,6 +288,72 @@
         "title": "將軌道橋向前移動"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "了解為什麼圓形軌道需要右側速度、重力如何提供向心加速度，以及源質量和半徑如何在一個有界即時模型上共同設定軌道速度和週期。",
+    "keyTakeaway": "對於此 G = 1 模型中的圓形軌道，重力符合轉動要求：M/r^2 = v^2/r，因此 v_c = sqrt(M/r)。在相同的源質量附近，半徑加倍會使速度降低 1/sqrt(2)，而不是一半。"
+  },
+  "v2": {
+    "intuition": "圓形軌道是速度匹配問題：側向運動必須完全正確，重力才能保持路徑轉動而不讓半徑漂移。",
+    "whyItMatters": "這是從等速圓週運動到真實軌道運動的乾淨橋樑，其中重力本身提供向內的轉動，而不是隱藏的額外力。",
+    "equationSnapshot": {
+      "note": "將它們一起使用：重力必須與轉彎要求相匹配，而圓週速度公式則被淘汰。"
+    },
+    "guidedSteps": [
+      {
+        "id": "match-the-circle",
+        "title": "匹配圓圈",
+        "goal": "在解釋之前先看看正確匹配的圓形軌道是什麼樣子。",
+        "doThis": "從參考軌道開始，保持半徑隨時間變化打開，並將速度因子微移到 1 以下和 1 以上。",
+        "notice": "只有相符的案例位於虛線參考圓上。太慢會向內彎曲，太快會向外打開。",
+        "explain": "在選定的半徑下，只有當重力和轉彎要求 v^2/r 匹配時，路徑才會保持圓形。"
+      },
+      {
+        "id": "change-mass-or-radius",
+        "title": "更改質量或半徑",
+        "goal": "請注意，圓週速度取決於源質量和所選半徑。",
+        "doThis": "在速度歷史記錄保持開啟的情況下，在較重來源和外部較慢圓之間切換。",
+        "notice": "較重的源會提高相同半徑下所需的圓週速度。圓越寬，速度就會降低平方根，週期會大大延長。",
+        "explain": "相同的天平給出兩個結果：v_c = sqrt(M/r) 和 T_c = 2pi sqrt(r^3/M)。在源質量保持固定的情況下，半徑加倍會使圓週速度 1/sqrt(2) 變大，週期延長 2sqrt(2) 倍。"
+      },
+      {
+        "id": "read-the-live-balance",
+        "title": "讀取即時餘額",
+        "goal": "使用即時軌道將重力與當下時刻的轉彎需求進行比較。",
+        "doThis": "開啟太慢，透過軌道移動，同時讀取目前半徑、速度、加速度平衡。",
+        "notice": "當重力曲線位於 v^2/r 曲線上方時，軌跡落在虛線圓圈內，因為運動向內彎曲得太厲害。",
+        "explain": "g - v^2/r 的符號告訴您運動是否有足夠的側向速度來保持當前半徑。"
+      },
+      {
+        "id": "check-the-orbit-story",
+        "title": "查看軌道故事",
+        "goal": "在進行完整概念測試或自由遊戲之前，對規則進行壓力測試。",
+        "doThis": "從同一個軌道圖片中回答兩個簡短的檢查，然後重複使用實驗台來製作你自己的太慢、恰到好處和太快的情況。",
+        "notice": "最強的答案不斷重複同樣的故事：重力是向內轉動的源，正確的速度取決於質量和半徑。",
+        "explain": "如果您可以預測質量、半徑和速度因子如何改變路徑，那麼您就已經為概念測試和更多開放式軌道案例做好了準備。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "圓形軌道是一種特殊情況，其中重力已滿足轉動要求 v^2/r。",
+        "在相同的半徑下，較重的源需要更大的圓週速度並給出更短的周期。",
+        "在相同的源質量下，較寬的圓形軌道以平方根係數移動得更慢，行進更遠，因此需要更長的時間才能繞一圈。"
+      ],
+      "misconception": "由於重力消失，衛星沒有漂浮。軌道是重力仍然存在的情況，而正是重力使路徑向內轉動的原因。",
+      "freePlayPrompt": "坐在長凳上，在幾個半徑上建造自己的太慢、恰到好處和太快的情況。",
+      "nextConcepts": [
+        {
+          "slug": "escape-velocity",
+          "title": "逃逸速度",
+          "reasonLabel": "如果速度夠高，可以離開而不是繞圈怎麼辦？"
+        },
+        {
+          "slug": "uniform-circular-motion",
+          "title": "勻速圓週運動",
+          "reasonLabel": "回顧無重力的旋轉運動基礎。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -311,57 +400,500 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "半徑歷史記錄",
+      "primaryGraphIds": [
+        "半徑歷史記錄"
+      ],
+      "primaryControlIds": [
+        "速度係數"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "sourceMass",
-        "label": "來源質量"
+        "label": "來源質量",
+        "description": "改變產生向內重力的質量。"
       },
       {
         "id": "orbitRadius",
-        "label": "參考軌道半徑"
+        "label": "參考軌道半徑",
+        "description": "設定用於圓形軌道目標的虛線參考圓。"
       },
       {
         "id": "speedFactor",
-        "label": "速度因子"
+        "label": "速度因子",
+        "description": "1.00 表示實際速度等於所選質量和半徑的圓形軌道速度。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "reference-orbit",
+        "label": "參考軌道",
+        "description": "速度因子精確設定為 1 的平衡圓形軌道情況。"
+      },
+      {
+        "id": "inner-faster-circle",
+        "label": "內部較快的圓圈",
+        "description": "圍繞相同源質量的較小圓形軌道需要較大的圓週速度。"
+      },
+      {
+        "id": "outer-slower-circle",
+        "label": "較慢的外圈",
+        "description": "較寬的圓形軌道會降低圓週速度並延長圓週週期。"
+      },
+      {
+        "id": "too-slow-fall-in",
+        "label": "太慢",
+        "description": "下降到低於圓週速度會使重力強於轉彎要求，因此路徑向內彎曲。"
+      },
+      {
+        "id": "too-fast-climb",
+        "label": "太快了",
+        "description": "高於圓形值的速度會使路徑向外打開，因為重力無法將其彎曲得足夠緊。"
+      },
+      {
+        "id": "heavy-source-circle",
+        "label": "較重的來源",
+        "description": "在相同的半徑下，較重的源質量需要較大的圓週速度和較短的圓週週期。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "referenceOrbit",
+        "label": "參考軌道",
+        "shortDescription": "顯示所選圓形軌道目標的虛線圓圈。",
+        "whatToNotice": [
+          "只有正確的速度才能讓即時路徑沿著這個虛線圓圈行駛。"
+        ],
+        "whyItMatters": "當速度係數太低或太高時，它將所選的圓形目標與實際路徑分開。",
+        "relatedControls": [
+          "軌道半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄"
+        ],
+        "relatedEquationVariables": [
+          "軌道半徑",
+          "速度係數"
+        ]
+      },
+      {
+        "id": "radiusLine",
+        "label": "半徑線",
+        "shortDescription": "顯示目前來源到衛星的半徑。",
+        "whatToNotice": [
+          "在即時讀數和連結的平衡關係中出現相同的當前半徑。"
+        ],
+        "whyItMatters": "當軌道偏離參考圓時，它保持 r 的幾何意義可見。",
+        "relatedControls": [
+          "軌道半徑"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "加速平衡"
+        ],
+        "relatedEquationVariables": [
+          "軌道半徑"
+        ]
+      },
+      {
+        "id": "velocityVector",
+        "label": "速度向量",
+        "shortDescription": "顯示軌道物體目前的切線方向和速度。",
+        "whatToNotice": [
+          "在圓形條件下，速度與所需的轉彎相符。遠離這種情況，相同的切線方向會導致向內或向外漂移。"
+        ],
+        "whyItMatters": "它使軌道平衡的側向運動部分可見，而不是將速度視為隱藏數字。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
+      },
+      {
+        "id": "gravityVector",
+        "label": "重力向量",
+        "shortDescription": "顯示使路徑彎曲的向內重力加速度。",
+        "whatToNotice": [
+          "這是軌道問題中的向心加速度源，而不是在上面添加的額外力。"
+        ],
+        "whyItMatters": "它使重力和向心加速度之間的連結保持明確。",
+        "relatedControls": [
+          "來源海量",
+          "軌道半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "加速平衡"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "軌道半徑",
+          "速度係數"
+        ]
+      },
+      {
+        "id": "trail",
+        "label": "軌跡軌跡",
+        "shortDescription": "在目前時間視窗內留下移動體後面的實際路徑。",
+        "whatToNotice": [
+          "正確的圓週速度可使軌跡保持在虛線圓圈上，而速度太小或太大會使軌跡剝離。"
+        ],
+        "whyItMatters": "它使軌道結果隨著時間的推移而可見，而不是在一瞬間隱藏它。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "radius-history",
+      "label": "隨時間變化的半徑",
+      "xLabel": "時間（秒）",
+      "yLabel": "半徑（公尺）",
+      "description": "顯示即時路徑是停留在選定的圓形半徑上還是隨時間向內或向外漂移。"
+    },
+    {
+      "id": "speed-history",
+      "label": "實際速度與圓週速度",
+      "xLabel": "時間（秒）",
+      "yLabel": "速度（公尺/秒）",
+      "description": "將實際速度與目前半徑處所需的圓週速度進行比較。"
+    },
+    {
+      "id": "acceleration-balance",
+      "label": "重力和轉彎需求",
+      "xLabel": "時間（秒）",
+      "yLabel": "向內加速度（m/s^2）",
+      "description": "直接顯示重力是否符合、超過或低於轉彎需求 $v^2/r$。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用這些提示將即時路徑與虛線參考圓進行比較。核心問題始終是相同的：重力是否符合目前半徑的轉彎要求？",
+    "items": [
+      {
+        "id": "co-notice-circular-match",
+        "text": "請注意，只有當速度係數非常接近 1.00 時，軌跡才會停留在虛線參考圓上。",
+        "tryThis": "將速度係數保留為 1.00，然後擦洗半徑圖。由於重力和轉彎要求保持匹配，即時半徑不斷返回相同的值。",
+        "whyItMatters": "這是后面的公式描述的稳定圆形轨道情况。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄"
+        ],
+        "relatedOverlays": [
+          "參考Orbit",
+          "蹤跡"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
+      },
+      {
+        "id": "co-notice-too-slow",
+        "text": "請注意，將速度係數降低到 1 以下會使重力強於轉彎要求，因此路徑會在虛線圓圈內彎曲。",
+        "tryThis": "應用太慢，然後將軌跡與加速度平衡圖進行比較。青色重力曲線位于珊瑚 v^2/r 曲線上方。",
+        "whyItMatters": "它準確地說明了為什麼圓形軌道需要正確的側向速度而不是任何快速運動。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "加速平衡",
+          "半徑歷史記錄"
+        ],
+        "relatedOverlays": [
+          "重力向量",
+          "蹤跡"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
+      },
+      {
+        "id": "co-notice-too-fast",
+        "text": "請注意，將速度係數提高到 1 以上會使轉彎要求超過重力，因此路徑從虛線圓向外打開。",
+        "tryThis": "應用太快並將即時速度曲線與圓週速度曲線進行比較。實際速度開始於圓形值之上，因此路徑不能保持在相同的半徑上。",
+        "whyItMatters": "更快的轨道並不自動更稳定。它仍然必須與該位置的半徑和重力相匹配。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录",
+          "半徑歷史記錄"
+        ],
+        "relatedOverlays": [
+          "速度向量",
+          "蹤跡"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
+      },
+      {
+        "id": "co-notice-radius-scaling",
+        "text": "改變參考半徑會同時改變所需的圓週速度和週期：較寬的圓圈移動速度較慢，但需要更長的時間才能完成。",
+        "tryThis": "在內部較快圓和外部較慢圓之間切換，同時將速度因子保持為 1。虛線圓變寬，速度圖下降，圓週期變長。",
+        "whyItMatters": "這可以防止半徑依賴性崩潰為記憶公式。",
+        "relatedControls": [
+          "軌道半徑"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录",
+          "半徑歷史記錄"
+        ],
+        "relatedOverlays": [
+          "參考Orbit",
+          "蹤跡"
+        ],
+        "relatedEquationVariables": [
+          "軌道半徑"
+        ]
+      },
+      {
+        "id": "co-notice-acceleration-balance",
+        "text": "加速度平衡圖是核心軌道檢查：當重力曲線和 v^2/r 曲線相互重疊時會出現圓形軌道。",
+        "tryThis": "先停留在參考軌道上，然後將速度因子移離 1。曲線之間的間隔預測軌跡是向內還是向外移動。",
+        "whyItMatters": "它使「重力提供向心加速度」這句話變得可見且可測試。",
+        "relatedGraphTabs": [
+          "加速平衡"
+        ],
+        "relatedOverlays": [
+          "重力向量",
+          "速度向量"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "軌道半徑",
+          "速度係數"
+        ]
+      },
+      {
+        "id": "co-notice-compare",
+        "text": "當兩種設定都將速度係數保持在 1 附近且僅源質量或參考半徑發生變化時，比較模式最強。那麼速度和週期差異就是相同軌道規則的誠實結果。",
+        "tryThis": "保持兩個設定為圓形，然後使設定 B 成為較小半徑的軌道。現在，相同的源質量在 B 中產生週期更短、速度更快的軌道。",
+        "whyItMatters": "它隔離了質量和半徑依賴性，而不會混合單獨的“太慢”或“太快”錯誤。",
+        "relatedControls": [
+          "來源海量",
+          "軌道半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录",
+          "半徑歷史記錄"
+        ],
+        "relatedOverlays": [
+          "參考Orbit",
+          "蹤跡"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在運行案例之前預測路徑將做什麼。然後使用載物台和平衡圖檢查重力是否符合轉彎要求。對於半徑變化，請記住速度變化是平方根縮放，而不是直接的一半或雙倍變化。",
     "items": [
       {
         "id": "co-pred-heavier-source",
+        "prompt": "在相同的參考半徑下，當源質量增加而速度因子保持在 1.00 時會發生什麼？",
+        "scenarioLabel": "較重的源，相同的半徑",
         "changeLabel": "來源質量",
         "choices": [
           {
             "id": "b",
             "label": "圓周速度保持不變，因為只有半徑對於圓軌道才重要。"
+          },
+          {
+            "id": "a",
+            "label": "圓週速度增加，圓週週期縮短，並且軌跡仍然可以停留在虛線圓圈上，因為速度因子保持為 1。"
+          },
+          {
+            "id": "c",
+            "label": "軌道必須立即向內彎曲，因為較重的源質量總是意味著速度現在太低。"
           }
-        ]
+        ],
+        "explanation": "在固定半徑下，較強的重力會提高圓週速度並縮短圓週週期。由於此處的控制將速度係數保持為 1，因此實際速度會隨著新的圓形值而上升，路徑可以保持圓形。",
+        "observationHint": "虛線圓保持相同的大小，但即時速度和重力值都上升，而圓週期下降。"
       },
       {
         "id": "co-pred-wider-orbit",
-        "changeLabel": "參考軌道半徑"
+        "prompt": "在相同的源質量下，當所選圓形軌道半徑增加而速度因子保持在 1.00 時，什麼變化最明顯？",
+        "scenarioLabel": "較寬的圓形軌道",
+        "changeLabel": "參考軌道半徑",
+        "choices": [
+          {
+            "id": "a",
+            "label": "圓週速度降低，而圓週週期增加，因此路徑保持圓形，但繞一圈需要更長的時間。"
+          },
+          {
+            "id": "b",
+            "label": "圓週速度會增加，因為較大的圓週總是需要更高的速度。"
+          },
+          {
+            "id": "c",
+            "label": "週期保持固定，因為速度係數沒有改變。"
+          }
+        ],
+        "explanation": "對於圓形軌道，v_c = sqrt(M/r) 隨著半徑的增長而下降，而 T_c = 2pi sqrt(r^3/M) 隨著半徑的增長而強勁。半徑加倍得到速度的 1/sqrt(2) 但得到週期的 2sqrt(2) 倍。將速度因子保持為 1 可保留循環匹配。",
+        "observationHint": "虛線圓圈變寬，速度圖向下移動，循環週期讀數上升。"
       },
       {
         "id": "co-pred-too-slow",
+        "prompt": "如果在一個選定的參考半徑處速度係數降至 1.00 以下，首先會發生什麼？",
+        "scenarioLabel": "軌道速度太小",
         "changeLabel": "速度因子",
         "choices": [
           {
             "id": "b",
             "label": "引力消失因為物體現在處於自由落體狀態。"
+          },
+          {
+            "id": "a",
+            "label": "重力變得比轉彎要求更強，因此路徑在虛線圓圈內彎曲。"
+          },
+          {
+            "id": "c",
+            "label": "路徑保持完美的圓形，因為只有質量和半徑很重要。"
           }
-        ]
+        ],
+        "explanation": "降低速度會降低該半徑處的 v^2/r。重力大於圓週轉彎所需的向內加速度，因此路徑向內彎曲。",
+        "observationHint": "青色重力曲線位於珊瑚 v^2/r 曲線上方，軌跡落在虛線參考圓內。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "將一個有界重力源調整為軌道平衡目標。這些檢查讀取相同的即時軌道狀態、覆蓋圖和圖像，而不是獨立的答案卷。",
     "items": [
       {
         "id": "co-ch-heavier-source-balance",
         "title": "讓較重的來源仍保持圓形軌道",
         "prompt": "由參考軌道開始，把來源質量調大，同時讓選定半徑仍接近 $1.6\\,\\mathrm{m}$，並保持軌道為圓形。",
-        "successMessage": "你在較重來源的情況下仍維持了圓形軌道，方法是在同一半徑上把新的圓軌道速度調到與更強重力相符。"
+        "successMessage": "你在較重來源的情況下仍維持了圓形軌道，方法是在同一半徑上把新的圓軌道速度調到與更強重力相符。",
+        "setup": {
+          "note": "提高源質量，然後將速度係數保持在 1 附近，以便軌跡保持在虛線圓圈上。"
+        },
+        "hints": [
+          "在相同的半徑下，較重的源會提高而不是降低圓週速度。",
+          "圓形軌道仍需要實際速度曲線來匹配圓形速度曲線。"
+        ],
+        "targets": [
+          {
+            "label": "將源質量維持在 5.1 公斤到 5.3 公斤之間。"
+          },
+          {
+            "label": "保持軌道半徑在 1.55 m 和 1.65 m 之間。"
+          },
+          {
+            "label": "將速度係數維持在 0.99 到 1.01 之間。"
+          },
+          {
+            "label": "將實際速度保持在 1.76 m/s 和 1.84 m/s 之間。"
+          },
+          {
+            "label": "將週期維持在 5.45 秒到 5.7 秒之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "co-ch-inner-orbit-faster-compare",
+        "title": "內軌道，比較速度更快",
+        "prompt": "開啟比較模式並將兩個設定保持為具有相同來源質量的圓形，但使設定 B 為較小半徑的軌道，以便它移動得更快並更快完成。",
+        "successMessage": "你誠實地隔離了半徑依賴性：較小的圓形軌道保持相同的源質量，但需要更快的速度和更短的週期。",
+        "setup": {
+          "note": "將兩個設定保持在速度係數 1 附近。比較應該是關於半徑，而不是太慢或太快。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "在兩個設定中保持來源品質匹配，以便比較僅與半徑有關。",
+          "半徑較小的圓形軌道應該具有較大的速度和較短的週期。"
+        ],
+        "targets": [
+          {
+            "label": "將設定 A 源質量保持在 3.95 公斤到 4.05 公斤之間。"
+          },
+          {
+            "label": "將設定 B 源質量保持在 3.95 kg 和 4.05 kg 之間。"
+          },
+          {
+            "label": "將設定 A 軌道半徑保持在 1.95 m 和 2.05 m 之間。"
+          },
+          {
+            "label": "將設定 B 軌道半徑保持在 1.05 m 和 1.15 m 之間。"
+          },
+          {
+            "label": "將設定 A 速度係數保持在 0.99 和 1.01 之間。"
+          },
+          {
+            "label": "將設定 B 速度係數保持在 0.99 和 1.01 之間。"
+          },
+          {
+            "label": "將設定 B 實際速度保持在 1.85 m/s 和 1.97 m/s 之間。"
+          },
+          {
+            "label": "將設定 B 週期保持在 3.5 秒到 3.75 秒之間。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "co-ch-too-slow-falls-in",
+        "title": "向內落得太慢",
+        "prompt": "從參考軌道開始，將速度降低到足以使重力明顯強於轉彎要求並且路徑在虛線圓圈內彎曲。",
+        "successMessage": "您建立了誠實的太慢的情況：重力曲線位於轉彎要求曲線上方，因此軌跡落在參考軌道內。",
+        "setup": {
+          "note": "首先保持相同的源和半徑，然後僅降低速度係數。"
+        },
+        "hints": [
+          "較小的速度會降低相同半徑下的 v^2/r。",
+          "此目標是使重力大於轉彎要求，而不是改變源質量。"
+        ],
+        "targets": [
+          {
+            "label": "保持軌道半徑在 1.55 m 和 1.65 m 之間。"
+          },
+          {
+            "label": "將速度係數保持在 0.84 和 0.86 之間。"
+          },
+          {
+            "label": "將實際速度保持在 1.32 m/s 和 1.37 m/s 之間。"
+          },
+          {
+            "label": "將重力加速度保持在 1.52 m/s^2 和 1.6 m/s^2 之間。"
+          },
+          {
+            "label": "將所需的向心加速度保持在 1.1 m/s^2 和 1.17 m/s^2 之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "圓形軌道與軌道速度 |開放式模型實驗室",
+    "description": "透過緊湊的單源重力實驗室了解為什麼圓形軌道需要正確的速度，該實驗室將軌道半徑、源質量、重力作為向心加速度、讀數、引導疊加、工作示例和概念快速測試聯繫起來。",
+    "keywords": [
+      "圓形軌道",
+      "軌道速度",
+      "向心加速度",
+      "重力",
+      "實體模擬"
     ]
   }
 }

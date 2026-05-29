@@ -71,22 +71,27 @@
           "steps": [
             {
               "id": "measure-distance",
-              "label": "1. 量出來源到探針的距離"
+              "label": "1. 量出來源到探針的距離",
+              "template": "從原點到探針，$r = \\\\sqrt{x_p^2 + y_p^2} = {{distanceValue}}\\\\,\\\\mathrm{m}$。"
             },
             {
               "id": "apply-potential-relation",
-              "label": "2. 套用單一來源的重力勢關係"
+              "label": "2. 套用單一來源的重力勢關係",
+              "template": "顯示單位為$G = 1$，$\\\\phi = -M/r = -{{sourceMassValue}} / {{distanceValue}}$。"
             },
             {
               "id": "compute-potential",
-              "label": "3. 算出目前重力勢"
+              "label": "3. 算出目前重力勢",
+              "template": "探頭處給出 $\\\\phi = {{potentialValue}}$。"
             }
           ],
           "resultLabel": "重力勢",
+          "resultTemplate": "$\\\\phi = {{potentialValue}}$",
           "applyAction": {
             "label": "顯示距離加倍的軸上案例",
             "observationHint": "比較 1 m 和 2 m 的同一來源；勢的大小會大約減半，而場的大小會下降得更快。"
-          }
+          },
+          "interpretationTemplate": "{{potentialInterpretation}}"
         },
         {
           "id": "current-gravitational-potential-energy",
@@ -96,27 +101,36 @@
             {
               "id": "testMass",
               "label": "探測器質量"
+            },
+            {
+              "id": "potentialValue",
+              "label": "引力位勢"
             }
           ],
           "steps": [
             {
               "id": "energy-relation",
-              "label": "1. 寫出勢能關係"
+              "label": "1. 寫出勢能關係",
+              "template": "使用$U = m_{\\\\text{test}}\\\\phi$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前的探針質量與重力勢"
+              "label": "2. 代入目前的探針質量與重力勢",
+              "template": "$U = {{testMassValue}}\\\\times {{potentialValue}}$。"
             },
             {
               "id": "compute-energy",
-              "label": "3. 算出勢能"
+              "label": "3. 算出勢能",
+              "template": "這給了$U = {{potentialEnergyValue}}$。"
             }
           ],
           "resultLabel": "勢能",
+          "resultTemplate": "$U = {{potentialEnergyValue}}$",
           "applyAction": {
             "label": "把探針質量加倍",
             "observationHint": "當只改變探針質量時，勢圖和場箭頭不會改變，但 U 和探針所受的力會立即按比例增大。"
-          }
+          },
+          "interpretationTemplate": "{{potentialEnergyInterpretation}}"
         }
       ]
     },
@@ -268,6 +282,21 @@
       }
     ]
   },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "此模擬顯示固定在原點的一個源質量、有界二維重力井中的可移動正探針，以及勢圖、等勢輪廓圓、等距環、局部場箭頭、探針上的力箭頭以及圖像使用的水平掃描線的可選疊加。",
+        "拖曳探針直接在舞台上變更取樣位置。讀數和圖像遊標使用相同的位置，因此地圖、箭頭和圖像始終描述同一點。",
+        "非常接近來源質量，顯示器使用最小取樣半徑，因此孔深度、箭頭和圖像保持有限且可讀。這使得視覺化受到限制，同時保留了電位變得更負且場在源附近快速增長的正確趨勢。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "位能掃描圖繪製了沿著目前水平掃描線的重力位勢和所選探頭的位能。將滑鼠懸停在圖像上可預覽舞台上的相同 x 位置。",
+        "場連結圖繪製了水平重力場分量以及沿同一掃描線的位勢圖的匹配負斜率。改變探頭質量會重新調整能量曲線，但場連結圖仍然是來源質量和幾何讀數。"
+      ]
+    }
+  },
   "pageFramework": {
     "sections": [
       {
@@ -284,47 +313,173 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "查看一個源質量創建負勢阱，比較位能和位能如何隨距離變化，並將 phi 的下坡與同一即時模型上的重力場連接起來。",
+    "keyTakeaway": "重力位能 phi 是由源質量和距離設定的標量，而不是由偵測器質量設定的標量。"
+  },
+  "v2": {
+    "intuition": "重力位勢是在您選擇將特定物體放入其中之前井的形狀：源質量和距離設定 phi，然後探針質量將相同的 phi 轉換為位能。",
+    "whyItMatters": "這給了重力場故事的能量版本。相同的幾何形狀解釋了為什麼電位變化（如 1/r）、場強變化（如 1/r²）以及較重的探頭會在不改變孔的情況下改變 U。",
+    "equationSnapshot": {
+      "note": "將這些視為一條鏈：源設定位勢阱，探針品質將該位勢阱轉換為 U，並且場指向同一景觀上的下坡。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-potential-well",
+        "title": "讀好",
+        "goal": "在考慮力之前，將 phi 視為探測點處的標量井深度。",
+        "doThis": "從基線對​​角線開始，電位圖、輪廓、視場箭頭和掃描線可見。稍微移動探頭，觀察讀數和掃描圖一起移動。",
+        "notice": "電位保持為負值，且距離源越遠，負值就越小。箭頭給出了方向，但 phi 本身只是局部井深。",
+        "explain": "在這個規模化的實驗室中，無限遠為零，一個源質量使得 phi = -M/r。距離和源質量決定了井；探頭質量不是 phi 的一部分。"
+      },
+      {
+        "id": "double-the-distance",
+        "title": "雙倍距離",
+        "goal": "使用一次乾淨的比較將 1/r 電位模式與 1/r² 場模式分開。",
+        "doThis": "在距離環、電位掃描和場連結圖可用時，在軸 1 m 和軸 2 m 之間切換。",
+        "notice": "在 2 m 處，phi 和 U 的深度約為 1 m 處的一半，但場強僅為 1 m 處的約四分之一。",
+        "explain": "位能是每公斤的能量，遵循 1/r。場強是下降的變化率，因此在一個源周圍，場強下降得更快，例如 1/r²。"
+      },
+      {
+        "id": "separate-source-from-probe",
+        "title": "源與探頭",
+        "goal": "決定哪些變化會重寫重力井，哪些變化只改變該偵測器的反應。",
+        "doThis": "將較重的源與同一位置的較重的探頭進行比較。保持位能掃描打開並觀察哪些曲線和箭頭發生變化。",
+        "notice": "較重的源會加深井並增強磁場。較重的探針不會影響 phi 和 g，但會使 U 和探針上的力加倍。",
+        "explain": "源質量屬於 phi 和 g。探頭質量隨後透過 U = m_test phi 和 F = m_test g 進入。"
+      },
+      {
+        "id": "check-the-slope-story",
+        "title": "檢查坡度",
+        "goal": "使用位勢圖來解釋場方向，而不是單獨記住它。",
+        "doThis": "從基線對​​角線開啟場連結圖，並將潛在斜率的符號與水平場分量進行比較。",
+        "notice": "當電位圖隨著 x 的增加而上升時，g_x 為負。該場指向下坡，因此它使用 phi 的負斜率。",
+        "explain": "電位和場是同一景觀的兩個視圖：phi 是高度/深度值，g 是下坡方向和陡度。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "重力位勢是由源質量和距離設定的標量井深度，在此模型中零定義為無窮遠。",
+        "位能為 U = m_test phi，因此僅改變探針質量即可改變 U，而不會改變位勢阱。",
+        "對於固定探頭，距離加倍會使 phi 和 U 的幅度減半，而場幅度則降至四分之一。",
+        "重力場在潛在景觀上指向下坡，與掃描線上 phi 的負斜率相符。"
+      ],
+      "misconception": "負電位並不表示重力向外或消失。這表示該點位於無窮遠零參考點下方；場仍指向源頭的下坡方向。",
+      "freePlayPrompt": "建構三種情況的比較：雙倍距離、雙倍源質量，然後雙倍探頭質量。說出哪些量會因井的變化而變化，哪些量會因探頭反應的變化而改變。",
+      "nextConcepts": [
+        {
+          "slug": "circular-orbits-orbital-speed",
+          "title": "圓形軌道與軌道速度",
+          "reasonLabel": "使用相同的重力模型設定圓形軌道速度。"
+        },
+        {
+          "slug": "escape-velocity",
+          "title": "逃逸速度",
+          "reasonLabel": "將負能量轉化為出井閾值。"
+        },
+        {
+          "slug": "electric-potential",
+          "title": "電位",
+          "reasonLabel": "比較重力位能和電位語言。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "distance-relation",
-      "label": "源點到探測器距離"
+      "label": "源點到探測器距離",
+      "meaning": "此距離設定井深度和場強。"
+    },
+    {
+      "id": "gravitational-potential",
+      "label": "單一源質量的電位",
+      "meaning": "將零定義為無窮大時，來自一個源質量的電位為負，並且隨著 r 變小而變得更負。",
+      "notes": [
+        "這個有界實驗室將顯示單位固定為 G = 1，以便讀數強調符號、縮放和幾何。"
+      ]
+    },
+    {
+      "id": "potential-energy",
+      "label": "探針質量的位能",
+      "meaning": "探針質量將源集電位轉換為位能，而不會改變電位本身。"
+    },
+    {
+      "id": "field-from-potential",
+      "label": "位勢場",
+      "meaning": "該場在潛在景觀上指向下坡，從較高的 φ 到較低的 φ。"
+    },
+    {
+      "id": "scan-line-slope",
+      "label": "水平掃描線鏈接",
+      "meaning": "在目前水平切片上，場的 x 分量是 φ(x) 的負斜率。"
+    },
+    {
+      "id": "inverse-square",
+      "label": "平方反比場趨勢",
+      "meaning": "電位變化如 1/r，但場強變化較快，如 1/r²。"
     }
   ],
   "variableLinks": [
     {
       "id": "sourceMass",
-      "label": "來源質量"
+      "label": "來源質量",
+      "description": "加深或淺化整個井，因此 φ、U 和 |g|所有的尺度都來自固定點的相同源質量。"
     },
     {
       "id": "probeX",
-      "label": "探測器 x 軸位置"
+      "label": "探測器 x 軸位置",
+      "description": "沿著目前掃描線向左或向右移動探頭，以便平台和圖像對相同的 x 位置進行取樣。"
     },
     {
       "id": "probeY",
-      "label": "探測器 y 軸位置"
+      "label": "探測器 y 軸位置",
+      "description": "將探針移到同一孔的不同水平切片，從而更改讀數和圖像。"
     },
     {
       "id": "testMass",
-      "label": "探測器質量"
+      "label": "探測器質量",
+      "description": "僅更改探頭響應，因此 U 和力標度，而 φ 和 g 保持固定在同一點。"
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "用這個步驟把模擬、圖像和概念連接起來。",
+      "primaryGraphIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "探針X",
+        "探針Y"
+      ],
+      "primaryPresetIds": [
+        "基線-對角線",
+        "概念標籤",
+        "概念標籤",
+        "重源",
+        "重探針"
+      ]
+    },
     "controls": [
       {
         "id": "sourceMass",
-        "label": "來源質量"
+        "label": "來源質量",
+        "description": "更改創建井的源質量，因此 phi 和 |g|規模出於同一原因。"
       },
       {
         "id": "probeX",
-        "label": "探測器 x 軸位置"
+        "label": "探測器 x 軸位置",
+        "description": "在載物台和連結的掃描圖上向左或向右移動探頭。"
       },
       {
         "id": "probeY",
-        "label": "探測器 y 軸位置"
+        "label": "探測器 y 軸位置",
+        "description": "將探頭移動到不同的水平掃描線，以便圖像對孔中的不同切片進行取樣。"
       },
       {
         "id": "testMass",
-        "label": "探測器質量"
+        "label": "探測器質量",
+        "description": "更改位能和探針力，而不更改源集電位或場。"
       }
     ],
     "presets": [
@@ -332,52 +487,538 @@
         "id": "baseline-diagonal",
         "label": "基準斜向位置",
         "description": "探針位於斜向位置，讓勢阱深度、向內重力場和受力都可在同一個清晰的基準狀態下比較。"
+      },
+      {
+        "id": "axis-one-meter",
+        "label": "軸 1 m",
+        "description": "1 m 軸上探頭使電位和場比易於與以後的距離變化進行比較。"
+      },
+      {
+        "id": "axis-two-meters",
+        "label": "軸 2 m",
+        "description": "在同一軸上 2 m 處，phi 和 U 的大小應減半，而 |g|降至 1 m 情況的四分之一。"
+      },
+      {
+        "id": "heavy-source",
+        "label": "較重的來源",
+        "description": "將源質量加倍會加深井並增強同一探測點處的場。"
+      },
+      {
+        "id": "heavy-probe",
+        "label": "較重的探頭",
+        "description": "較大的探針質量會改變 U 和力，而位勢阱保持固定。"
+      },
+      {
+        "id": "overhead-well",
+        "label": "頭頂井",
+        "description": "源正上方的點使得等值線圓和下坡場方向特別容易讀取。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "potentialMap",
+        "label": "潛力圖",
+        "shortDescription": "將 φ 顯示為重力井：靠近源頭較深，遠離源頭較淺。",
+        "whatToNotice": [
+          "距離源越遠， φ 逐漸趨近於零。"
+        ],
+        "whyItMatters": "它使電位的符號和深度在舞台上可見，而不是將 φ 作為孤立的數字。",
+        "relatedControls": [
+          "來源海量",
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "potentialContours",
+        "label": "潛在輪廓",
+        "shortDescription": "在源質量周圍繪製多個負 phi 值的等位能圓。",
+        "whatToNotice": [
+          "字段箭頭穿過輪廓圓，而不是沿著輪廓圓運行。"
+        ],
+        "whyItMatters": "等值線可協助您將潛力解讀為一個標量景觀，並將田野解讀為其下坡方向。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "即時鏈接"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "distanceRings",
+        "label": "距離環",
+        "shortDescription": "標記源周圍的等距圓圈，以便 1/r 和 1/r^2 比較保持幾何而不是抽象。",
+        "whatToNotice": [
+          "1 m、2 m 和 3 m 環可讓您比較匹配徑向步長處的電位和場變化。"
+        ],
+        "whyItMatters": "距離環使 phi 減半和四分之一 |g| 之間存在差異在計算之前更容易看到。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "即時鏈接"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "fieldArrow",
+        "label": "字段箭頭",
+        "shortDescription": "將局部重力場顯示為潛在景觀上的下坡方向。",
+        "whatToNotice": [
+          "場箭頭總是指向較低的 φ，因此指向源質量。"
+        ],
+        "whyItMatters": "它使場和電位與相同的即時探頭狀態相關聯。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時鏈接"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "forceArrow",
+        "label": "力箭頭",
+        "shortDescription": "顯示所選正探針質量上的力，而無需重新定義孔本身。",
+        "whatToNotice": [
+          "僅更改探針質量會重新縮放該箭頭，而電位圖和場箭頭保持固定。"
+        ],
+        "whyItMatters": "它將源產生的孔與所選探針的反應分開。",
+        "relatedControls": [
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "測試質量"
+        ]
+      },
+      {
+        "id": "scanLine",
+        "label": "圖像掃描線",
+        "shortDescription": "標記兩個圖像取樣的水平切片。",
+        "whatToNotice": [
+          "改變探頭高度會改變圖像，因為圖像會透過同一孔取樣新的水平切片。"
+        ],
+        "whyItMatters": "它使圖像階段連結保持誠實，因此電位和斜率曲線清楚地來自階段上的一個取樣切片。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "即時鏈接"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "potential-energy-scan",
+      "label": "掃描線上的電位與能量",
+      "xLabel": "探頭 x 位置 (m)",
+      "yLabel": "位能/位能",
+      "description": "顯示 φ 和所選探頭的位能如何沿著目前水平切片變化。"
+    },
+    {
+      "id": "field-link",
+      "label": "掃描線上的場斜率鏈接",
+      "xLabel": "探頭 x 位置 (m)",
+      "yLabel": "場分量/斜率",
+      "description": "顯示 g_x 與同一切片上的電位圖的負斜率相符。"
+    }
+  ],
   "noticePrompts": {
+    "title": "在勢井中要注意什麼",
+    "intro": "一次使用一個提示。每一個都連接同一即時探頭位置的地圖、等高線圓和掃描圖。",
     "items": [
       {
-        "id": "gp-notice-compare-ratios"
-      },
-      {
-        "id": "gp-notice-compare-ratios"
-      },
-      {
-        "id": "gp-notice-compare-ratios"
-      },
-      {
-        "id": "gp-notice-compare-ratios"
+        "id": "gp-notice-compare-ratios",
+        "text": "比較模式在一個設定把距離加倍、另一個設定把探測質量加倍時最有啟發性。前者會改變 φ 和 g；後者只會改變 U 和 F。",
+        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。",
+        "whyItMatters": "它使幾何變化和探針響應變化之間的差異變得可見，而無需留下相同的緊湊模型。",
+        "relatedControls": [
+          "探針X",
+          "探針Y",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "即時鏈接"
+        ],
+        "relatedOverlays": [
+          "距離環",
+          "力箭頭",
+          "字段箭頭"
+        ]
       },
       {
         "id": "gp-notice-compare-ratios",
         "text": "比較模式在一個設定把距離加倍、另一個設定把探測質量加倍時最有啟發性。前者會改變 φ 和 g；後者只會改變 U 和 F。",
-        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。"
+        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。",
+        "whyItMatters": "它使幾何變化和探針響應變化之間的差異變得可見，而無需留下相同的緊湊模型。",
+        "relatedControls": [
+          "探針X",
+          "探針Y",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "即時鏈接"
+        ],
+        "relatedOverlays": [
+          "距離環",
+          "力箭頭",
+          "字段箭頭"
+        ]
+      },
+      {
+        "id": "gp-notice-compare-ratios",
+        "text": "比較模式在一個設定把距離加倍、另一個設定把探測質量加倍時最有啟發性。前者會改變 φ 和 g；後者只會改變 U 和 F。",
+        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。",
+        "whyItMatters": "它使幾何變化和探針響應變化之間的差異變得可見，而無需留下相同的緊湊模型。",
+        "relatedControls": [
+          "探針X",
+          "探針Y",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "即時鏈接"
+        ],
+        "relatedOverlays": [
+          "距離環",
+          "力箭頭",
+          "字段箭頭"
+        ]
+      },
+      {
+        "id": "gp-notice-compare-ratios",
+        "text": "比較模式在一個設定把距離加倍、另一個設定把探測質量加倍時最有啟發性。前者會改變 φ 和 g；後者只會改變 U 和 F。",
+        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。",
+        "whyItMatters": "它使幾何變化和探針響應變化之間的差異變得可見，而無需留下相同的緊湊模型。",
+        "relatedControls": [
+          "探針X",
+          "探針Y",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "即時鏈接"
+        ],
+        "relatedOverlays": [
+          "距離環",
+          "力箭頭",
+          "字段箭頭"
+        ]
+      },
+      {
+        "id": "gp-notice-compare-ratios",
+        "text": "比較模式在一個設定把距離加倍、另一個設定把探測質量加倍時最有啟發性。前者會改變 φ 和 g；後者只會改變 U 和 F。",
+        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。",
+        "whyItMatters": "它使幾何變化和探針響應變化之間的差異變得可見，而無需留下相同的緊湊模型。",
+        "relatedControls": [
+          "探針X",
+          "探針Y",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "即時鏈接"
+        ],
+        "relatedOverlays": [
+          "距離環",
+          "力箭頭",
+          "字段箭頭"
+        ]
+      },
+      {
+        "id": "gp-notice-deeper-well",
+        "text": "向內移動探頭會使 φ 很快變得更負。靠近源頭，井變得更深。",
+        "tryThis": "從 Axis 2 m 開始並向內拖曳至 Axis 1 m。觀察讀數、地圖和掃描曲線一起加深。",
+        "whyItMatters": "它可以幫助您在混合力或能量之前讀取勢和深度。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "潛力圖",
+          "距離環"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "gp-notice-zero-at-infinity",
+        "text": "距離源較遠， φ 上升到零，同時保持負值，因為模型將無窮遠定義為零。",
+        "tryThis": "使用 Axis 2 m 預設，然後進一步向外移動，觀察讀數從下方接近零。",
+        "whyItMatters": "它將負號解釋為參考選擇，而不是力方向的變化。",
+        "relatedControls": [
+          "探針X"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "潛力圖",
+          "潛在輪廓"
+        ]
+      },
+      {
+        "id": "gp-notice-field-slope",
+        "text": "在此水平切片上，g_x 曲線與 φ(x) 的負斜率相符。",
+        "tryThis": "求 φ 隨著 x 增加而增加的地方。斜率為正，因此 g_x 必須為負。",
+        "whyItMatters": "這是從標量位勢到向量場的橋樑。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時鏈接"
+        ],
+        "relatedOverlays": [
+          "字段箭頭",
+          "扫描線"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "gp-notice-test-mass",
+        "text": "僅改變 m_test 不會影響 φ 和 g，但會立即重新調整 U 和探針上的力。",
+        "tryThis": "保持探頭固定，然後向上拖曳探頭質量滑桿。觀察 U 的變化，而位勢圖和場連結圖保持不變。",
+        "whyItMatters": "它將源產生的孔與放置在該孔中的一個選定對象的響應完全分開。",
+        "relatedControls": [
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "力箭頭",
+          "字段箭頭"
+        ],
+        "relatedEquationVariables": [
+          "測試質量"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測井和響應",
+    "intro": "在移動滑桿之前預測會發生什麼變化。每種場景一次測試一個原因：來源質量、距離或探測器品質。",
     "items": [
       {
         "id": "gp-pred-heavy-source",
-        "changeLabel": "來源質量"
+        "prompt": "在一個固定的探測點，如果源質量加倍而探測器質量和幾何形狀保持固定，會發生什麼？",
+        "scenarioLabel": "源質量加倍",
+        "changeLabel": "來源質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "井變得更深，因此 phi 和 U 的幅度變為負值的兩倍，且場幅度加倍。"
+          },
+          {
+            "id": "b",
+            "label": "只有場加倍，因為電位忽略了源質量。"
+          },
+          {
+            "id": "c",
+            "label": "由於源質量變大，phi 的符號會翻轉。"
+          }
+        ],
+        "explanation": "源質量設定整個單質量模型的比例。將 M 加倍，使 φ、U 和 |g| 加倍大小在同一點，同時保持相同的負號和向內方向意義。",
+        "observationHint": "地圖加深，讀數變得更加負，字段箭頭在不改變其向內方向的情況下增長。"
       },
       {
         "id": "gp-pred-heavy-probe",
+        "prompt": "如果只有探針質量在同一點加倍，哪種說法最有道理？",
         "scenarioLabel": "將探測質量加倍",
-        "changeLabel": "探測器質量"
+        "changeLabel": "探測器質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電位和場保持不變，但 U 和探針上的力的大小加倍。"
+          },
+          {
+            "id": "b",
+            "label": "位勢阱加深，因為交互作用中現在有較多的總質量。"
+          },
+          {
+            "id": "c",
+            "label": "場方向發生翻轉，因為探頭現在更重了。"
+          }
+        ],
+        "explanation": "源質量和距離定義 φ 和 g。僅更改 m_test 會倍增現有的產生 U 的潛力，並倍增現有的產生力的場，但它不會重寫源生成的井。",
+        "observationHint": "電位圖和場連結圖保持固定，而 U 曲線和力讀數成長。"
+      },
+      {
+        "id": "gp-pred-double-distance",
+        "prompt": "從軸 1 m 開始，如果探頭在同一水平線上移動到 2 m，而質量保持固定，會發生什麼情況？",
+        "scenarioLabel": "雙倍距離",
+        "changeLabel": "距離",
+        "choices": [
+          {
+            "id": "a",
+            "label": "phi 和 U 的幅度下降到大約一半，而場幅度下降到大約四分之一。"
+          },
+          {
+            "id": "b",
+            "label": "phi、U 和 |g| 的大小由於距離加倍，所有的都下降到一半。"
+          },
+          {
+            "id": "c",
+            "label": "只有場發生變化，因為電位取決於源質量而不是距離。"
+          }
+        ],
+        "explanation": "對於一個源質量， φ 的縮放比例類似於 -1/r，因此 r 加倍會使井深度減半。探頭質量相同時，U 也減半。但是|g|遵循 1/r²，因此下降到四分之一。",
+        "observationHint": "使用距離環並將電位掃描與場鏈結圖一起比較。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "將相同的單質量重力井調整為緊湊目標。這些檢查讀取即時電位、能量和場狀態，而不是單獨的答案卷。",
     "items": [
       {
-        "id": "gp-ch-double-energy-not-potential"
+        "id": "gp-ch-double-energy-not-potential",
+        "title": "能量加倍，而不是潛力加倍",
+        "prompt": "由基準斜向位置開始，只改變探測質量，使重力勢能的大小加倍，同時令位勢和重力場保持不變。",
+        "successMessage": "您在不重寫反應孔的情況下更改了探針響應：U 與 m_test 成比例變得更負，而 phi 和 g 保持固定。",
+        "setup": {
+          "note": "保留源質量和探頭位置。只有探頭質量應該移動。"
+        },
+        "hints": [
+          "如果 phi 應保持固定，請勿觸碰來源質量或探頭座標。",
+          "使用 U = m_test phi。將 m_test 加倍會使同一點的能量大小加倍。"
+        ],
+        "targets": [
+          {
+            "label": "將測試品質維持在 1.95 公斤到 2.05 公斤之間。"
+          },
+          {
+            "label": "將電位保持在 -1.01 和 -0.99 之間。"
+          },
+          {
+            "label": "將位能維持在 -2.02 和 -1.98 之間。"
+          },
+          {
+            "label": "將場幅值維持在 0.49 到 0.51 之間。"
+          },
+          {
+            "label": "將力大小保持在 0.99 到 1.01 之間。"
+          }
+        ],
+        "style": "目標設定"
       },
       {
         "id": "gp-ch-double-energy-not-potential",
-        "prompt": "由基準斜向位置開始，只改變探測質量，使重力勢能的大小加倍，同時令位勢和重力場保持不變。"
+        "title": "能量加倍，而不是潛力加倍",
+        "prompt": "由基準斜向位置開始，只改變探測質量，使重力勢能的大小加倍，同時令位勢和重力場保持不變。",
+        "successMessage": "您在不重寫反應孔的情況下更改了探針響應：U 與 m_test 成比例變得更負，而 phi 和 g 保持固定。",
+        "setup": {
+          "note": "保留源質量和探頭位置。只有探頭質量應該移動。"
+        },
+        "hints": [
+          "如果 phi 應保持固定，請勿觸碰來源質量或探頭座標。",
+          "使用 U = m_test phi。將 m_test 加倍會使同一點的能量大小加倍。"
+        ],
+        "targets": [
+          {
+            "label": "將測試品質維持在 1.95 公斤到 2.05 公斤之間。"
+          },
+          {
+            "label": "將電位保持在 -1.01 和 -0.99 之間。"
+          },
+          {
+            "label": "將位能維持在 -2.02 和 -1.98 之間。"
+          },
+          {
+            "label": "將場幅值維持在 0.49 到 0.51 之間。"
+          },
+          {
+            "label": "將力大小保持在 0.99 到 1.01 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "gp-ch-half-potential-quarter-field",
+        "title": "一半的潛力，四分之一的領域",
+        "prompt": "從軸 1 m 開始，將探頭移動到同一水平線上的雙倍距離情況，因此 phi 的深度約為一半，場強約為四分之一。",
+        "successMessage": "您保持了單質量模型的誠實：距離加倍使勢阱深度減半，而平方反比場下降到大約四分之一。",
+        "setup": {
+          "note": "保持源質量和探針質量固定。將環、電位掃描和場連結圖結合使用。"
+        },
+        "hints": [
+          "保持在水平軸上，因此比較僅與距離有關，而不與新的探測方向有關。",
+          "勢遵循 1/r，但場遵循 1/r^2。不要在兩個讀數上追求相同的比率。"
+        ],
+        "targets": [
+          {
+            "label": "將探頭保持在 1.95 m 到 2.05 m 之間。"
+          },
+          {
+            "label": "將探頭保持在 -0.05 m 和 0.05 m 之間。"
+          },
+          {
+            "label": "將電位保持在 -1.05 和 -0.95 之間。"
+          },
+          {
+            "label": "將位能維持在 -1.05 和 -0.95 之間。"
+          },
+          {
+            "label": "將場幅值維持在 0.48 到 0.52 之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "重力位能與位能 |開放模型實驗室",
+    "description": "透過緊湊的單質量實驗室學習重力勢和位能，該實驗室將負勢井、能量與距離推理、下坡場方向、預測提示和概念快速測試聯繫起來。",
+    "keywords": [
+      "引力位勢",
+      "重力位能",
+      "重力井",
+      "平方反比定律",
+      "實體模擬"
     ]
   }
 }

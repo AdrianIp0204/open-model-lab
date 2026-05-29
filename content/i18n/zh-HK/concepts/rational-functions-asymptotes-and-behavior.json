@@ -27,15 +27,17 @@
       ]
     },
     "keyIdeas": [
-      "分母決定禁止的 x 值 x = h，因此影像在此處斷裂且域排除該點。",
-      "新增的常數 k 設定水平減限 y = k，因此影像遠離減限時趨向於那個等級。",
-      "a 的符號決定每個分支在哪邊的一側生活，而 a 的大小控制著影像在垂直減限附近如何彎曲。"
+      "分母 x - h 在 x = h 處建立真正的垂直漸近線，因此 x 值被排除在域之外。",
+      "常數 k 設定水平漸近線 y = k，因此圖像向左側和右側的水平穩定。",
+      "a 的符號決定每個分支佔據 y = k 的哪一側，a 的大小控製圖像在 x = h 附近彎曲的程度。",
+      "可移除的孔會添加另一個排除的 x 值，而不會在此處產生爆炸，因此它的讀取方式必須與垂直漸近線不同。"
     ],
     "commonMisconception": {
       "myth": "可除洞應該與垂直減限行為完全相同，因為兩者都來自分母。",
       "correction": [
-        "垂直減限是當 x 接近禁止值時影像無限增長的地方。",
-        "可除洞不同：附近的曲線仍然趨向於一個有限的高度，但函式在那一個 x 值處未被定義。"
+        "在垂直漸近線附近，當 x 接近禁止值時，函數值無限制地增長。",
+        "在可移動孔附近，附近的曲線仍然接近一個有限高度。",
+        "因此，洞會從有限的曲線中刪除一個點，而真正的漸近線則標記圖像爆炸的位置。"
       ]
     },
     "workedExamples": {
@@ -46,41 +48,63 @@
           "id": "read-the-shifted-reciprocal",
           "title": "閱讀一個移位的倒數家族",
           "prompt": "對於預設 f(x) = -1 + 2/(x - 1)，影像應該首先顯示什麼？",
+          "variables": [
+            {
+              "id": "example-case",
+              "label": "範例案例"
+            }
+          ],
           "steps": [
             {
               "id": "vertical-break",
-              "label": "1. 閱讀禁止的分母值"
+              "label": "1. 閱讀禁止的分母值",
+              "template": "分母在 x = 1 處消失，因此該圖在那裡有一個垂直漸近線，且域不包括 x = 1。"
             },
             {
               "id": "horizontal-level",
-              "label": "2. 閱讀遠端等級"
+              "label": "2. 閱讀遠端等級",
+              "template": "遠離漸近線，倒數部分逐漸減弱，圖像趨於 y = -1，因此這就是水平漸近線。"
             },
             {
               "id": "intercepts",
-              "label": "3. 檢查同一影像上的截距"
+              "label": "3. 檢查同一影像上的截距",
+              "template": "設定 y = 0 得到 x = 3，代入 x = 0 得到 y = -3，因此圖像在 (3, 0) 和 (0, -3) 相交。"
             }
           ],
-          "resultLabel": "可見的標誌"
+          "resultLabel": "可見的標誌",
+          "resultTemplate": "VA：x = 1，HA：y = -1，x 整數：(3, 0)，y 整數：(0, -3)",
+          "interpretationTemplate": "這是一個乾淨的移位倒數故事：一個禁止的 x 值，一個水平級別，以及仍然屬於同一家族的截距。"
         },
         {
           "id": "compare-the-removable-hole",
           "title": "比較可除洞與減限",
           "prompt": "在可除洞預設 f(x) = -0.5 + 3(x - 1)/((x + 1)(x - 1)) 中，什麼改變了而什麼保持不變？",
+          "variables": [
+            {
+              "id": "example-case",
+              "label": "範例案例"
+            }
+          ],
           "steps": [
             {
               "id": "asymptote-stays",
-              "label": "1. 將真正的減限與取消因子分開"
+              "label": "1. 將真正的減限與取消因子分開",
+              "template": "因子 x + 1 仍然在 x = -1 處創建真正的垂直漸近線，因此圖像仍然會在那裡爆炸。"
             },
             {
               "id": "hole-location",
-              "label": "2. 説明可移除的斷點"
+              "label": "2. 説明可移除的斷點",
+              "template": "因子 x - 1 從族中取消，因此 x = 1 成為可移動的洞而不是另一個漸近線。"
             },
             {
               "id": "hole-height",
-              "label": "3. 從附近的曲線讀取缺失點"
+              "label": "3. 從附近的曲線讀取缺失點",
+              "template": "當 x 接近 1 時，附近的分支仍以 y = 1 為目標，因此洞位於 (1, 1)，而水平漸近線保持在 y = -0.5。"
             }
           ],
-          "resultLabel": "什麼改變了"
+          "resultLabel": "什麼改變了",
+          "resultTemplate": "VA：x = -1，HA：y = -0.5，可拆卸孔：(1, 1)",
+          "interpretationTemplate": "可移除的孔又增加了一個排除的 x 值，但它不會取代真正的漸近線或水平末端行為。"
         }
       ]
     },
@@ -264,6 +288,10 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "改變一個移位倒數族，以便域斷裂、垂直和水平漸近線、截距和可移動孔行為保持與同一個圖相關。",
+    "keyTakeaway": "分母決定禁止的 x 值 x = h，因此圖在此中斷，並且定義域排除該點。"
+  },
   "equations": [
     {
       "id": "shifted-reciprocal",
@@ -309,36 +337,322 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "漸近線響應",
+      "primaryGraphIds": [
+        "漸近線響應"
+      ],
+      "primaryControlIds": [
+        "探測距離"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "asymptote-x",
-        "label": "垂直漸近線 x 值"
+        "label": "垂直漸近線 x 值",
+        "description": "向左或向右移動真正的垂直漸近線 x = h。"
       },
       {
         "id": "horizontal-level",
-        "label": "水平漸近線 y 值"
+        "label": "水平漸近線 y 值",
+        "description": "向上或向下移動水平漸近線 y = k。"
       },
       {
         "id": "branch-scale",
-        "label": "分支比例"
+        "label": "分支比例",
+        "description": "翻轉分支佔據 y = k 的哪一側，並更改它們在 x = h 附近彎曲的劇烈程度。"
       },
       {
         "id": "probe-distance",
-        "label": "探針距離"
+        "label": "探針距離",
+        "description": "將樣本點移近或遠離真實的垂直漸近線。"
       },
       {
         "id": "hole-location",
-        "label": "孔 x 值"
+        "label": "孔 x 值",
+        "description": "打開孔視圖時放置可移動的孔。"
+      },
+      {
+        "id": "show-hole",
+        "label": "顯示可拆卸孔",
+        "description": "增加一個可移動的孔，而不移動真正的漸近線。"
       }
     ],
     "presets": [
       {
         "id": "shifted-right-down",
-        "label": "移位的倒數"
+        "label": "移位的倒數",
+        "description": "一種平移倒數，具有一條垂直漸近線、一條水平漸近線和可見截距。"
       },
       {
         "id": "removable-hole",
-        "label": "可移除的孔"
+        "label": "可移除的孔",
+        "description": "相同的倒數族，加上一個有限缺失點。"
+      },
+      {
+        "id": "reflected-branches",
+        "label": "反射的樹枝",
+        "description": "相同的漸近線佈局，但 a 的符號交換了每個分支佔據 y = k 的哪一側。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "asymptotes",
+        "label": "漸近線",
+        "shortDescription": "顯示垂直和水平漸近線參考線。",
+        "whatToNotice": [
+          "改變 h 會導致 x = h，而改變 k 會導致 y = k。"
+        ],
+        "whyItMatters": "這兩本指南可以最快了解家庭破裂和穩定的情況。",
+        "relatedControls": [
+          "漸近線X",
+          "水平漸近線Y"
+        ],
+        "relatedGraphTabs": [
+          "漸近線響應"
+        ],
+        "relatedEquationVariables": [
+          "漸近線-x",
+          "水平水平"
+        ]
+      },
+      {
+        "id": "probeMarkers",
+        "label": "近漸近線探針",
+        "shortDescription": "顯示距垂直漸近線距離 d 的左右取樣點。",
+        "whatToNotice": [
+          "當 d 縮小時，如果存在真正的垂直漸近線，則 x = h 附近的 y 值會快速增長。"
+        ],
+        "whyItMatters": "它將漸近線語言與附近的函數值連結起來，而不僅僅是與未定義的 x 值連結起來。",
+        "relatedControls": [
+          "樣本距離",
+          "分支規模"
+        ],
+        "relatedGraphTabs": [
+          "漸近線響應"
+        ],
+        "relatedEquationVariables": [
+          "探測距離",
+          "分公司規模"
+        ]
+      },
+      {
+        "id": "intercepts",
+        "label": "攔截標記",
+        "shortDescription": "在實際定義時標記 x 軸截距和 y 軸截距。",
+        "whatToNotice": [
+          "即使漸近線保持固定，截距也可以移動。"
+        ],
+        "whyItMatters": "他們在同一族上給出了額外的地標，而不是取代漸近線。",
+        "relatedControls": [
+          "水平漸近線Y",
+          "分支規模"
+        ],
+        "relatedGraphTabs": [
+          "漸近線響應"
+        ],
+        "relatedEquationVariables": [
+          "水平水平",
+          "分公司規模"
+        ]
+      },
+      {
+        "id": "holeMarker",
+        "label": "可拆卸孔標記",
+        "shortDescription": "當取消因子視圖開啟時顯示缺失點。",
+        "whatToNotice": [
+          "在孔附近，曲線仍然接近一個有限高度。"
+        ],
+        "whyItMatters": "它將可移除的缺失點與 x = h 處的爆炸分開。",
+        "relatedControls": [
+          "秀洞",
+          "孔X"
+        ],
+        "relatedGraphTabs": [
+          "漸近線響應"
+        ],
+        "relatedEquationVariables": [
+          "孔位置"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "asymptote-response",
+      "label": "近漸近線響應",
+      "xLabel": "距離 x = h 的距離",
+      "yLabel": "f(x)",
+      "description": "顯示距 x = h 距離 d 處的左側和右側值，因此您可以將垂直漸近線附近的爆炸與長期水平 y = k 進行比較。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用這些提示可以在一個圖像故事上保留禁止的 x 值、長期水平和可移除的漏洞。",
+    "items": [
+      {
+        "id": "rf-notice-near-break",
+        "text": "縮小探測距離 d，觀察 x = h 附近的 y 值成長得更快。這就是真正的漸近線和普通缺失點之間的明顯差異。",
+        "relatedControls": [
+          "樣本距離",
+          "分支規模"
+        ],
+        "relatedGraphTabs": [
+          "漸近線響應"
+        ],
+        "relatedOverlays": [
+          "探針標記",
+          "漸近線"
+        ],
+        "relatedEquationVariables": [
+          "探測距離",
+          "分公司規模"
+        ]
+      },
+      {
+        "id": "rf-notice-shifted-level",
+        "text": "升高或降低 k 並觀察整個家庭以 y = k 移動，同時禁止的 x 值保持固定，除非 h 也改變。",
+        "relatedControls": [
+          "水平漸近線Y",
+          "漸近線X"
+        ],
+        "relatedGraphTabs": [
+          "漸近線響應"
+        ],
+        "relatedOverlays": [
+          "漸近線",
+          "攔截"
+        ],
+        "relatedEquationVariables": [
+          "水平水平",
+          "漸近線-x"
+        ]
+      },
+      {
+        "id": "rf-notice-removable-hole",
+        "text": "打開可移動孔並與真實漸近線進行比較。此孔移除了一個有限點，但漸近線佈局和長期水平保持不變。",
+        "relatedControls": [
+          "秀洞",
+          "孔X"
+        ],
+        "relatedGraphTabs": [
+          "漸近線響應"
+        ],
+        "relatedOverlays": [
+          "孔標記",
+          "漸近線"
+        ],
+        "relatedEquationVariables": [
+          "孔位置",
+          "漸近線-x"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測圖像行為",
+    "intro": "在觸控控制之前決定什麼應該要移動。",
+    "items": [
+      {
+        "id": "rf-predict-move-h",
+        "prompt": "如果 h 增加而 a 和 k 保持固定，那麼圖像上什麼應該先移動？",
+        "scenarioLabel": "移動垂直漸近線",
+        "changeLabel": "增加 h",
+        "choices": [
+          {
+            "id": "a",
+            "label": "垂直漸近線和兩個分支都向右移動。"
+          },
+          {
+            "id": "b",
+            "label": "只有水平漸近線向上移動。"
+          },
+          {
+            "id": "c",
+            "label": "分支方向在 y = k 的上方和下方翻轉。"
+          }
+        ],
+        "explanation": "改變 h 會水平移動禁止的 x 值和整個倒數族。水平漸近線水平和分支方向保持不變，直到 k 或 a 改變。",
+        "observationHint": "當您觀看家人翻譯時，請保持漸近線引導線可見。"
+      },
+      {
+        "id": "rf-predict-negative-a",
+        "prompt": "如果a由正變負，而h和k保持不變，最直接的視覺變化是什麼？",
+        "scenarioLabel": "翻轉分支方向",
+        "changeLabel": "做一個負數",
+        "choices": [
+          {
+            "id": "a",
+            "label": "兩個分支交換它們佔據 y = k 的哪一側。"
+          },
+          {
+            "id": "b",
+            "label": "垂直漸近線消失。"
+          },
+          {
+            "id": "c",
+            "label": "圖像自動獲得可移動的孔。"
+          }
+        ],
+        "explanation": "改變 a 的符號會翻轉分支相對於水平漸近線的方向。同樣的 x = h 和 y = k 仍然是這個家庭的支柱。",
+        "observationHint": "當分支符號翻轉時，觀察相對於 y = k 的探針標記。"
+      },
+      {
+        "id": "rf-predict-hole",
+        "prompt": "在不更改 h 或 k 的情況下開啟可移動孔視圖應該做什麼？",
+        "scenarioLabel": "加入可拆卸孔",
+        "changeLabel": "打開孔",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它刪除一個有限點而不移動真正的漸近線。"
+          },
+          {
+            "id": "b",
+            "label": "它將孔變成第二條垂直漸近線。"
+          },
+          {
+            "id": "c",
+            "label": "它強製水平漸近線變成 y = 0。"
+          }
+        ],
+        "explanation": "可移除孔是同一族上的有限缺失點。它添加了域中斷，但真正的垂直漸近線 x = h 和水平漸近線 y = k 保持在原來的位置。",
+        "observationHint": "保持孔標記和漸近線輔助線一起可見。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "將孔與漸近線分開",
+    "intro": "使用此圖作為網域中斷實驗台。目標是保持真正的漸近線和可移動孔明顯不同，同時仍讀取同一族的分支方向。",
+    "items": [
+      {
+        "id": "rf-ch-separate-hole-from-asymptote",
+        "title": "將真正的斷裂和可移動的斷裂分開",
+        "prompt": "建立一個倒數族，其中真正的垂直漸近線位於 $x=-1$ 附近，可移動孔位於正 x 值處，並且右分支保持在水平漸近線下方。",
+        "successMessage": "您將真正的漸近線與可移動的孔分開，同時保持分支方向一致。由於顯而易見的原因，兩個排除的 x 值現在講述了不同的圖像故事。",
+        "setup": {
+          "note": "從乾淨的移動倒數開始，然後打開孔並移動族，直到真正的漸近線和可移動的孔在同一圖像上表現不同。"
+        },
+        "hints": [
+          "a 的符號決定右分支佔據水平漸近線的哪一側。",
+          "可移動孔仍應具有一個有限的附近高度，因此不要將其放置在漸近線本身上。"
+        ],
+        "targets": [
+          {
+            "label": "將真正的垂直漸近線移到 $-1.1$ 和 $-0.9$ 之間的左側帶。"
+          },
+          {
+            "label": "保持水平漸近線位於 x 軸上方，位於 $0.7$ 與 $0.95$ 之間。"
+          },
+          {
+            "label": "在 $-2.1$ 和 $-1.5$ 之間將分支比例反轉為負，因此右側分支保持在 $y=k$ 以下。"
+          },
+          {
+            "label": "將可拆卸孔放置在正 x 上，位於 $1.15$ 和 $1.45$ 之間。"
+          }
+        ],
+        "style": "可见條件"
       }
     ]
   }

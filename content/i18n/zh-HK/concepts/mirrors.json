@@ -31,9 +31,10 @@
       ]
     },
     "keyIdeas": [
-      "平面鏡保持虛像、直立且大小相同，物體在鏡子前的距離與像在鏡子後的距離相等。",
-      "凹面鏡可以在物體位於焦距外時形成倒立的實像在鏡子前面，但當物體移動到焦距內時，它會轉變為虛立的像在鏡子後面。",
-      "凸面鏡總是形成虛立縮小的像，帶符號的鏡方程和放大率解釋了這種行為，無需另外的規則書。"
+      "平面鏡產生虛擬的直立影像，其距離與鏡子後面的距離與物體在前面的距離相同。",
+      "對於凹面鏡，F 外部的物體在鏡前產生倒立的實像，而 F 內部的物體在其後面產生虛擬的正立影像。",
+      "凸面鏡始終為前方的真實物體提供虛擬的直立縮小影像。",
+      "d_i 的符號表示影像位於鏡子的哪一側，m 的符號表示影像是正立還是倒立。"
     ],
     "commonMisconception": {
       "myth": "虛像是假的，因為實際上沒有光線到達那裡，所以它不被視為像。",
@@ -54,27 +55,36 @@
             {
               "id": "object-distance",
               "label": "物體距離"
+            },
+            {
+              "id": "focal-length",
+              "label": "簽名焦距"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始於映象關係"
+              "label": "1. 開始於映象關係",
+              "template": "使用$\\dfrac{1}{f} = \\dfrac{1}{d_o} + \\dfrac{1}{d_i}$。"
             },
             {
               "id": "rearrange",
-              "label": "2. 調整以求得帶號的像距"
+              "label": "2. 調整以求得帶號的像距",
+              "template": "$\\dfrac{1}{d_i} = \\dfrac{1}{f} - \\dfrac{1}{d_o} = {{reciprocalFValue}} - {{reciprocalObjectValue}} = {{reciprocalImageValue}}$。"
             },
             {
               "id": "result",
-              "label": "3. 反轉結果"
+              "label": "3. 反轉結果",
+              "template": "所以$d_i = {{imageDistanceValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "帶號的像距",
+          "resultTemplate": "$d_i = {{imageDistanceValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "應用平面鏡",
             "observationHint": "平面鏡使帶符號焦距實際上無限大，因此結果簡化為鏡子後面的等距離幾何。"
-          }
+          },
+          "interpretationTemplate": "{{imageDistanceInterpretation}}"
         },
         {
           "id": "solve-image-height",
@@ -97,22 +107,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用放大率關係"
+              "label": "1. 使用放大率關係",
+              "template": "從$m = -\\dfrac{d_i}{d_o} = \\dfrac{h_i}{h_o}$開始。"
             },
             {
               "id": "compute-m",
-              "label": "2. 計算帶號的放大率"
+              "label": "2. 計算帶號的放大率",
+              "template": "$m = -\\dfrac{{{imageDistanceValue}}}{{{objectDistanceValue}}} = {{magnificationValue}}$。"
             },
             {
               "id": "compute-hi",
-              "label": "3. 求解像高"
+              "label": "3. 求解像高",
+              "template": "$h_i = m h_o = {{magnificationValue}}\\cdot {{objectHeightValue}} = {{imageHeightValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "像高",
+          "resultTemplate": "$h_i = {{imageHeightValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "應用凹面內聚焦",
             "observationHint": "正的放大率保持影像直立，而大於一的絕對值解釋了為什麼虛像被放大。"
-          }
+          },
+          "interpretationTemplate": "{{imageHeightInterpretation}}"
         }
       ]
     },
@@ -251,6 +266,97 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "使用平面鏡、凹面鏡和凸面鏡在同一即時光線圖上追蹤等角反射、帶符號影像距離和放大倍率。",
+    "whyItMatters": "鏡子將等角規則轉換為截然不同的影像結果，因此一起閱讀光線和符號可以幫助您預測浴室鏡子、化妝鏡或安全鏡的作用。",
+    "keyTakeaway": "鏡像行為不是單獨情況的清單：等角反射設定光線，d_i 的符號表示真實側面與虛擬側面，m 的符號和大小表示方向和比例。"
+  },
+  "v2": {
+    "intuition": "從物體箭頭和一面鏡子開始，然後觀察反射光線實際相遇的位置，或僅當您向後延伸它們時才會出現相遇。",
+    "whyItMatters": "當您連接光線圖片、帶符號的影像距離和放大倍率而不是記住三個不相連的情況清單時，平面鏡、凹鏡和凸鏡更容易預測。",
+    "equationSnapshot": {
+      "note": "使用等角反射繪製光線，然後使用鏡像方程式和放大符號命名像側、方向和大小。"
+    },
+    "startSetup": {
+      "note": "從凹面鏡開始，反射光線在鏡子前面相遇，然後將後面的每個案例與該真實影像參考進行比較。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-ray-meeting-point",
+        "title": "讀取射線交會點",
+        "goal": "在使用公式之前，根據射線圖確定目前影像是實像還是虛像。",
+        "doThis": "保持凹實像預設打開，顯示主光線和等角提示，並尋找反射光線相遇的位置。",
+        "notice": "真實影像位於鏡子前面，因為反射光線物理地穿過那裡，並且影像箭頭是倒置的。",
+        "explain": "真實影像已準備好螢幕顯示，因為光線實際上穿過影像點。公式符號應與可見光交叉一致。",
+        "setup": {
+          "note": "使用真實影像參考作為本課程其餘部分的基線。"
+        },
+        "inlineCheck": {
+          "title": "這個影像可以出現在螢幕上嗎？"
+        }
+      },
+      {
+        "id": "connect-signs-to-image-behavior",
+        "title": "將標誌與行為連結起來",
+        "goal": "使用 d_i 和 m 作為側面、方向和尺寸的簡潔描述。",
+        "doThis": "開啟物件到影像圖和放大率圖像，然後在鏡子保持凹面的情況下移動物件距離。",
+        "notice": "在 F 之外，正 d_i 與負 m 配對：圖像是真實的，在鏡子前面，並且是倒置的。",
+        "explain": "鏡像方程式給出帶符號的影像距離，而 m = -d_i/d_o 將相同位置轉換為方向和大小。",
+        "inlineCheck": {
+          "title": "預測符號對"
+        }
+      },
+      {
+        "id": "cross-the-focal-point",
+        "title": "穿越焦點",
+        "goal": "了解為何凹面鏡在 F 內從真實的倒置翻轉為虛擬的直立。",
+        "doThis": "從凹實像開始，將物體向內滑動經過 F，並將射線圖與兩張圖進行比較。",
+        "notice": "在 F 附近，像距急劇增大；在 F 內部，光線不再在前面相遇，因此向後延伸在鏡子後面定義了一個虛擬的直立圖像。",
+        "explain": "交叉 F 一起改變 d_i 和 m 的符號。共享的符號翻轉是影像側面和方向都改變的訊號。",
+        "setup": {
+          "note": "僅移動物距，以便清楚看到焦點交叉點。"
+        },
+        "inlineCheck": {
+          "title": "F 內部發生了什麼變化？"
+        }
+      },
+      {
+        "id": "compare-plane-concave-and-convex",
+        "title": "比較三塊鏡子",
+        "goal": "將保持不變的部分（反射定律）與影像類型和放大倍率的變化分開。",
+        "doThis": "嘗試平面鏡、凹面實像、凹面內焦和凸面鏡預設，保持影像映射圖可見。",
+        "notice": "等角規則在任何情況下都成立，但平面鏡和凸面鏡保持虛擬，而凹面鏡可以切換分支。",
+        "explain": "鏡子類型會改變反射光線在遵守相同反射定律後的組合方式。圖像分支和 m 符號可以快速檢查您的射線讀數。",
+        "inlineCheck": {
+          "title": "使用即時目標"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "使用等角反射作為頁面上每個鏡子背後的通用規則。",
+        "從反射光線相遇或僅看似相遇的位置讀取實像與虛像類型。",
+        "使用 d_i 和 m 的符號來命名影像的側面、方向和尺寸變化。",
+        "預測平面鏡、凹面鏡和凸面鏡的差異，無需記住單獨的規則清單。"
+      ],
+      "misconception": "虛像不是假的；它是透過向後延伸反射光線找到的一致的表觀位置。",
+      "freePlayPrompt": "選擇一個影像目標，先預測 d_i 和 m 的符號，然後只移動一個鏡子控制，直到光線圖和圖像一致。",
+      "nextConcepts": [
+        {
+          "slug": "lens-imaging",
+          "reasonLabel": "將簽名成像應用於鏡頭"
+        },
+        {
+          "slug": "refraction-snells-law",
+          "reasonLabel": "追蹤跨越邊界的光線"
+        },
+        {
+          "slug": "wave-interference",
+          "reasonLabel": "比較射線與波動光學"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "law-of-reflection",
@@ -289,21 +395,385 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "影像地圖",
+      "primaryGraphIds": [
+        "影像地圖",
+        "放大倍率"
+      ],
+      "primaryControlIds": [
+        "彎曲",
+        "凹",
+        "物體距離",
+        "焦距"
+      ],
+      "primaryPresetIds": [
+        "平面參考",
+        "凹實",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "凸參考"
+      ]
+    },
     "controls": [
       {
         "id": "objectDistance",
-        "label": "物體距離"
+        "label": "物體距離",
+        "description": "沿主軸移動物件。對於凹面鏡，穿過F將影像從實像變為虛像。"
       },
       {
         "id": "objectHeight",
-        "label": "物體高度"
+        "label": "物體高度",
+        "description": "僅變更物體尺寸，因此影像高度會以相同的放大倍率變化，而無需移動像點。"
+      },
+      {
+        "id": "curved",
+        "label": "曲面鏡",
+        "description": "對於平面鏡，請關閉此功能。保持開啟狀態，使用凹面鏡在相同焦距大小的凹面和凸面情況之間切換。"
+      },
+      {
+        "id": "concave",
+        "label": "凹面鏡",
+        "description": "在曲面鏡開啟的情況下，將其關閉以從凹面鏡切換到凸面鏡，同時保持相同的|f|。"
+      },
+      {
+        "id": "focalLength",
+        "label": "焦距大小",
+        "description": "控制 $F$ 和 $C$ 在曲面鏡情況下的位置。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "plane-reference",
+        "label": "平面鏡",
+        "description": "鏡子後面的相同大小的虛擬影像。"
+      },
+      {
+        "id": "concave-real",
+        "label": "凹實像",
+        "description": "凹面鏡，物體位於 F 之外，在鏡前呈現真實的倒像。"
+      },
+      {
+        "id": "concave-inside-focus",
+        "label": "內在焦點",
+        "description": "凹面鏡，物體位於 F 內部，在鏡子後方產生虛擬的直立放大影像。"
+      },
+      {
+        "id": "convex-reference",
+        "label": "凸面鏡",
+        "description": "凸面鏡，鏡後有虛擬直立縮小影像。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "equalAngles",
+        "label": "等角球桿",
+        "shortDescription": "顯示極點處的法線，並提醒您入射角和反射角在那裡匹配。",
+        "whatToNotice": [
+          "此頁面上的每個鏡子在表面上仍然遵循相同的等角反射規則。"
+        ],
+        "whyItMatters": "不同的影像行為來自這些反射光線的組合方式，而不是來自不同的反射定律。",
+        "relatedControls": [
+          "彎曲",
+          "物體距離"
+        ],
+        "relatedEquationVariables": [
+          "物體距離"
+        ]
+      },
+      {
+        "id": "focusMarkers",
+        "label": "F 和 C 標記",
+        "shortDescription": "顯示曲面鏡的焦點和曲率中心。",
+        "whatToNotice": [
+          "對於凹面鏡，交叉 F 會將影像從實像變成虛像。"
+        ],
+        "whyItMatters": "焦點標記將標準鏡子區域直接錨定在舞台上。",
+        "relatedControls": [
+          "彎曲",
+          "凹",
+          "焦距",
+          "物體距離"
+        ],
+        "relatedGraphTabs": [
+          "影像地圖"
+        ],
+        "relatedEquationVariables": [
+          "焦距",
+          "物體距離"
+        ]
+      },
+      {
+        "id": "principalRays",
+        "label": "主光線",
+        "shortDescription": "顯示定位影像點的建構光線。",
+        "whatToNotice": [
+          "實像來自於實際相遇的反射光線，而虛像則來自於向後延伸。"
+        ],
+        "whyItMatters": "它將 d_i 的符號與可見光線行為聯繫起來，而不是與記憶的符號規則聯繫起來。",
+        "relatedControls": [
+          "彎曲",
+          "凹",
+          "焦距",
+          "物體距離"
+        ],
+        "relatedGraphTabs": [
+          "影像地圖"
+        ],
+        "relatedEquationVariables": [
+          "焦距",
+          "物體距離"
+        ]
+      },
+      {
+        "id": "distanceGuide",
+        "label": "距離與高度指南",
+        "shortDescription": "顯示放大時所使用的帶符號距離和物像高度比較。",
+        "whatToNotice": [
+          "m 的符號表示方向，而 |m|告訴影像大小發生了多少變化。"
+        ],
+        "whyItMatters": "它將舞台直接連結到放大倍率關係。",
+        "relatedControls": [
+          "物體距離",
+          "物件高度"
+        ],
+        "relatedGraphTabs": [
+          "放大倍率"
+        ],
+        "relatedEquationVariables": [
+          "物體距離",
+          "物件高度"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "magnification",
-      "label": "放大率"
+      "label": "放大率",
+      "xLabel": "物距 d_o (m)",
+      "yLabel": "放大倍率米",
+      "description": "顯示 m 如何隨物距變化。負值是倒立影像，正值是正立影像，|m|給出影像尺寸比例。"
+    },
+    {
+      "id": "image-map",
+      "label": "物件到影像映射",
+      "xLabel": "物距 d_o (m)",
+      "yLabel": "簽名影像距離 d_i (m)",
+      "description": "顯示目前鏡子的帶符號影像距離與物距。正值是鏡子前面的實像，負值是鏡子後面的虛像。"
     }
-  ]
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用即時提示連接反射定律、光線構造和目前鏡像的圖像分支。",
+    "items": [
+      {
+        "id": "mi-notice-equal-angles",
+        "text": "請注意，此頁面上的每個鏡子在表面上仍然遵循相同的等角規則。不同的影像行為來自反射光線相遇或不相遇的地方。",
+        "tryThis": "在平面鏡和凹面鏡之間切換，然後觀察極光線保持相同的等角規則，而第二主光線發生變化。",
+        "whyItMatters": "鏡子類型改變了由反射建構的幾何形狀，而不是反射定律本身。",
+        "relatedControls": [
+          "彎曲",
+          "凹",
+          "物體距離"
+        ],
+        "relatedOverlays": [
+          "等角",
+          "主射線"
+        ],
+        "relatedEquationVariables": [
+          "物體距離"
+        ]
+      },
+      {
+        "id": "mi-notice-graph-preview",
+        "text": "請注意，鏡像圖是基於物件距離的，而不是基於時間的。將滑鼠懸停在一個點上會立即預覽不同的幾何圖像，而不是稍後。",
+        "tryThis": "將滑鼠停留在影像圖上，觀察物件跳到匹配位置，同時反射光線幾何圖像一步更新。",
+        "whyItMatters": "它使圖像保持誠實：您正在比較設定係列，而不是逐步瀏覽時間。",
+        "relatedGraphTabs": [
+          "影像地圖"
+        ],
+        "relatedOverlays": [
+          "主射線"
+        ]
+      },
+      {
+        "id": "mi-notice-concave-sign-flip",
+        "text": "請注意，當凹面鏡物體穿過 F 內部時，d_i 和 m 一起改變符號。",
+        "tryThis": "從凹面實像預設開始，然後將物件向內滑動經過 $F$ 並比較影像映射和放大分支。",
+        "whyItMatters": "共享符號翻轉是影像從真實倒置變為虛擬直立的清晰訊號。",
+        "relatedControls": [
+          "物體距離",
+          "焦距"
+        ],
+        "relatedGraphTabs": [
+          "影像地圖",
+          "放大倍率"
+        ],
+        "relatedOverlays": [
+          "焦點標記",
+          "主射線"
+        ]
+      },
+      {
+        "id": "mi-notice-plane-distance",
+        "text": "請注意，平面鏡將影像放置在鏡子後面的距離與物體位於前面的距離相同。影像不在表面內部；它是由反射光線的向後延伸所設定的。",
+        "tryThis": "關閉曲面鏡，然後使用距離指南直接比較 $d_o$ 和 $d_i$。",
+        "whyItMatters": "它將幾何影像位置與實體鏡子材料分開。",
+        "relatedControls": [
+          "彎曲",
+          "物體距離"
+        ],
+        "relatedOverlays": [
+          "距離指南",
+          "主射線"
+        ],
+        "relatedEquationVariables": [
+          "物體距離"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在你應用它之前，先預測分支或方向的變化。然後將 d_i 和 m 的符號與光線圖比較。",
+    "items": [
+      {
+        "id": "mi-predict-plane-to-concave",
+        "prompt": "從平面鏡預設開始，如果切換到物距相同、焦距大小為 0.8 m 的凹面鏡，會發生什麼情況？",
+        "scenarioLabel": "將平面切換為凹面",
+        "choices": [
+          {
+            "id": "a",
+            "label": "影像變得真實、倒置並在鏡子前形成。"
+          },
+          {
+            "id": "b",
+            "label": "影像保持虛擬、直立且大小完全相同。"
+          },
+          {
+            "id": "c",
+            "label": "影像消失，因為反射光線現在彎曲。"
+          }
+        ],
+        "explanation": "在此物距處，凹面鏡位於焦距之外，因此反射光線在鏡前相遇並形成真實的倒像。",
+        "observationHint": "觀察影像映射點從平面鏡線跳到真實分支。"
+      },
+      {
+        "id": "mi-predict-cross-focus",
+        "prompt": "如果凹面鏡物體從外部 $F$ 穿過到內部 $F$，會發生什麼變化？",
+        "scenarioLabel": "F 內十字",
+        "choices": [
+          {
+            "id": "a",
+            "label": "影像在鏡子後面變得虛擬、直立並放大。"
+          },
+          {
+            "id": "b",
+            "label": "影像保持真實、倒置，並且只是靠近鏡子。"
+          },
+          {
+            "id": "c",
+            "label": "鏡子停止產生任何影像點。"
+          }
+        ],
+        "explanation": "在 F 內部，反射光線不再在鏡子前相遇。它們向後延伸的部分在鏡子後面相遇，因此影像變得虛擬且直立。",
+        "observationHint": "虛線向後延伸取代了真實的光線交點，並且 d_i 和 m 都翻轉符號。"
+      },
+      {
+        "id": "mi-predict-convex",
+        "prompt": "如果從凹面實像參考切換到具有相同焦距大小的凸面鏡，會發生什麼事？",
+        "scenarioLabel": "切換到凸面",
+        "choices": [
+          {
+            "id": "a",
+            "label": "影像在鏡子後面變得虛擬、直立並縮小。"
+          },
+          {
+            "id": "b",
+            "label": "影像保持真實，因為曲面鏡始終聚焦反射光線。"
+          },
+          {
+            "id": "c",
+            "label": "影像必須保持相同的大小，因為只有 $f$ 的符號發生了變化。"
+          }
+        ],
+        "explanation": "凸面鏡始終將其前面的真實物體的影像傳送到虛擬側，並保持影像直立，放大倍率低於 1。",
+        "observationHint": "比較虛擬分支並維持在 1 以下的正放大倍率。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用真實的鏡像控制和簽名圖像來擊中影像目標。檢查讀取的內容與舞台已顯示的 d_i 和 m 相同。",
+    "items": [
+      {
+        "id": "mi-ch-real-image-target",
+        "title": "實像目標",
+        "prompt": "從凹實像預設開始，調整設定，直到影像距離落在 1.0 到 1.2 m 之間且放大倍率落在 -1.4 到 -1.1 之間。",
+        "successMessage": "您透過將物件引導到正確的分支而不是透過眼睛猜測來匹配真實的倒置影像。",
+        "setup": {
+          "note": "將影像圖和反射光線交集結合使用。"
+        },
+        "hints": [
+          "使鏡子保持凹面且物體位於焦點之外。",
+          "放大倍率應保持負值，因為影像仍然是倒置的。"
+        ],
+        "checks": [
+          {
+            "label": "開啟物體-影像圖。"
+          },
+          {
+            "label": "保持主光線可見。"
+          },
+          {
+            "label": "使 $d_i$ 著陸在 1.0 和 1.2 m 之間。"
+          },
+          {
+            "label": "將放大倍率保持在 -1.4 和 -1.1 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "mi-ch-virtual-image-target",
+        "title": "虛擬影像目標",
+        "prompt": "從內焦預設開始，製作 $d_i$ 在 -0.90 和 -0.75 m 之間、放大倍率在 2.2 和 2.6 之間的虛擬正立影像。",
+        "successMessage": "您誠實地使用了簽名圖：影像保持虛擬且直立，而放大倍率設定了最終尺寸。",
+        "setup": {
+          "note": "同時使用放大圖和距離指南。"
+        },
+        "hints": [
+          "物體必須位於焦點內，影像才能保持虛像。",
+          "大於 1 的正放大率表示影像是直立且放大的。"
+        ],
+        "checks": [
+          {
+            "label": "開啟放大圖。"
+          },
+          {
+            "label": "保持距離和高度指南可見。"
+          },
+          {
+            "label": "使 $d_i$ 著陸在 -0.90 和 -0.75 m 之間。"
+          },
+          {
+            "label": "將放大倍率保持在 2.2 和 2.6 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "鏡子",
+    "description": "具有等角反射、帶有符號影像距離和放大倍率的平面鏡、凹面鏡和凸面鏡的互動式鏡面光線圖。",
+    "keywords": [
+      "鏡子",
+      "反射定律",
+      "射線圖",
+      "凹面鏡",
+      "凸面鏡",
+      "影像形成"
+    ]
+  }
 }

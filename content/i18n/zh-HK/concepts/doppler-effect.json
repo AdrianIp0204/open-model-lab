@@ -75,22 +75,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用移動聲源間距關係"
+              "label": "1. 使用移動聲源間距關係",
+              "template": "使用 $\\lambda_{ahead} = \\dfrac{v_{wave} - v_s}{f_s}$ 和 $\\lambda_{behind} = \\dfrac{v_{wave} + v_s}{f_s}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入設定中的聲源數值"
+              "label": "2. 代入設定中的聲源數值",
+              "template": "$\\lambda_{ahead} = \\dfrac{ {{waveSpeedValue}} - {{sourceSpeedValue}} }{ {{sourceFrequencyValue}} } = {{frontSpacingValue}}\\,\\mathrm{m}$ 和 $\\lambda_{behind} = \\dfrac{ {{waveSpeedValue}} + {{sourceSpeedValue}} }{ {{sourceFrequencyValue}} } = {{backSpacingValue}}\\,\\mathrm{m}$。"
             },
             {
               "id": "compute",
-              "label": "3. 讀出前後間距差"
+              "label": "3. 讀出前後間距差",
+              "template": "源從更前的位置發射每個後面的波峰，因此前部間距變為 {{frontSpacingValue}} 米，而後部間距延伸到 {{backSpacingValue}} 米。"
             }
           ],
           "resultLabel": "間距結果",
+          "resultTemplate": "$\\lambda_{ahead} = {{frontSpacingValue}}\\,\\mathrm{m}, \\quad \\lambda_{behind} = {{backSpacingValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "顯示更快的透過",
             "observationHint": "觀看前方標記緊湊在一起，後方標記則散開。"
-          }
+          },
+          "interpretationTemplate": "{{spacingInterpretation}}"
         },
         {
           "id": "heard-frequency-from-motion",
@@ -117,22 +122,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 從所選側面的關係開始"
+              "label": "1. 從所選側面的關係開始",
+              "template": "對於此收聽方，請使用 ${{observedRelation}}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入設定中的數值"
+              "label": "2. 代入設定中的數值",
+              "template": "$f_{obs} = {{observedFrequencyValue}}\\,\\mathrm{Hz}$，所以到貨週期為$T_{obs} = {{observedPeriodValue}}\\,\\mathrm{s}$。"
             },
             {
               "id": "compute",
-              "label": "3. 比較聽到的音高與發射的音高"
+              "label": "3. 比較聽到的音高與發射的音高",
+              "template": "觀察者聽到的是 {{sideLabelValue}} 側發射頻率的 {{pitchRatioValue}} 倍。"
             }
           ],
           "resultLabel": "聽到音高的結果",
+          "resultTemplate": "$f_{obs} = {{observedFrequencyValue}}\\,\\mathrm{Hz}, \\quad T_{obs} = {{observedPeriodValue}}\\,\\mathrm{s}$",
           "applyAction": {
             "label": "在聲源後方聆聽",
             "observationHint": "轉換到後方側會降低到達率，因為觀察者現在取樣拉長的波前間距。"
-          }
+          },
+          "interpretationTemplate": "{{pitchInterpretation}}"
         }
       ]
     },
@@ -239,7 +249,8 @@
     },
     "graphSummary": {
       "paragraphs": [
-        "第一個圖表比較了發射的聲源訊號與觀察者訊號隨時間的變化。第二個圖表掃描聲源速度以顯示前後間距，而第三個圖表掃描觀察者速度以顯示聽到的頻率對比發射頻率基線。"
+        "第一張圖將發射的源訊號與觀察者訊號隨時間的變化進行比較。",
+        "第二張圖顯示源速度如何改變前後間距，第三張圖顯示觀察者速度如何改變所選側相對於發射頻率基線的聽到頻率。"
       ]
     }
   },
@@ -258,6 +269,77 @@
         "title": "保持聲波故事進行"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "觀看移動的聲源壓縮前方的波前並拉伸後方的波前，然後了解聲源運動和觀察者運動如何結合起來改變一個有界古典長凳上聽到的音高。",
+    "keyTakeaway": "移動源將其前方的波前聚集得更近，並在其後方將波前分開得更遠。"
+  },
+  "v2": {
+    "intuition": "使用一個移動的警報器來查看為什麼音調聽起來前面較高而後面較低，即使來源不斷發出相同的音調。",
+    "whyItMatters": "這是透過警報器、雷達速度檢查以及移動源或觀察者測量的任何波背後的模式。",
+    "equationSnapshot": {
+      "note": "首先讀取間距方程，然後使用觀測頻率方程加入觀測器運動。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-front-and-rear-spacing",
+        "title": "讀取間距分割",
+        "goal": "將移動源連接到前面的壓縮波前和後面的拉伸波前。",
+        "doThis": "從城市通行證開始並保持前後間距覆蓋可見。",
+        "notice": "儘管發射頻率仍然固定，但前標記距離更近，而後標記距離更遠。",
+        "explain": "源在排放之間移動。每個新的波峰都從更向前的位置開始，這會擠壓前面的間距並打開後面的間距。"
+      },
+      {
+        "id": "separate-observer-motion",
+        "title": "單獨的觀察者運動",
+        "goal": "看到觀察者速度改變了到達率，而無需重新繪製介質中已有的間距。",
+        "doThis": "應用觀察者移動，然後將觀察者速度掃過零，同時觀察觀察者反應圖。",
+        "notice": "聽覺頻率軌跡移動，但前後間距標記保持與源速度相關。",
+        "explain": "觀察者的運動會改變聽者遇到現有波峰的頻率。它不會改變源頭發射這些徽章的位置。"
+      },
+      {
+        "id": "compare-ahead-and-behind",
+        "title": "前後比較",
+        "goal": "使用聽者端來預測相同來源聽起來是更高還是更低。",
+        "doThis": "切換到來源後面，然後在前方聆聽和後方收聽之間切換，而不更改發射頻率。",
+        "notice": "Ahead 取樣壓縮的間距，聽起來更高；後面的樣本拉長了間距，聲音更低。",
+        "explain": "兩側發出的音調相同。音調變化來自觀察者採樣的間距以及這些波峰到達的速度。"
+      },
+      {
+        "id": "solve-the-pass-by-check",
+        "title": "解決路過檢查",
+        "goal": "將間距故事變成降低警報聲的實用選擇。",
+        "doThis": "使用即時工作範例，然後發起挑戰並明確底層故事。",
+        "notice": "較低的聽到音調每秒需要較少的波峰到達，而後側為相同的移動源提供了這種情況。",
+        "explain": "在源後面，較大的間距意味著較低的到達率。這就是為什麼在同一個警報器後面聆聽時音調會下降，而不會改變發出的頻率。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "源運動改變介質中的波前間距：向前壓縮，向後拉伸。",
+        "觀察者的運動會改變到達聽者的速率，但不會改變發射頻率。",
+        "聽到的音調升高或降低是波峰到達率的變化，而不是音源改變音調的證據。"
+      ],
+      "misconception": "移動的警報器必須在前面和後面發出不同的頻率。",
+      "freePlayPrompt": "保持源頻率固定，然後調整源速度、觀察者側和觀察者速度，直到可以使聽到的音高有意上升和下降。",
+      "nextConcepts": [
+        {
+          "slug": "wave-interference",
+          "title": "波幹擾",
+          "reasonLabel": "在可以追蹤一個移動源後組合波"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "駐波",
+          "reasonLabel": "將間距和頻率轉換為共振模式"
+        },
+        {
+          "slug": "sound-waves-longitudinal-motion",
+          "title": "聲波與縱向運動",
+          "reasonLabel": "查看媒體中實際移動的內容"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -302,47 +384,371 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "源間距",
+      "primaryGraphIds": [
+        "源間距",
+        "觀察者回應",
+        "位移"
+      ],
+      "primaryControlIds": [
+        "源速度",
+        "觀察者前方",
+        "觀察者速度"
+      ],
+      "primaryPresetIds": [
+        "城市通行證",
+        "接近聽眾",
+        "落後落後"
+      ],
+      "starterExploreTasks": [
+        "從城市通行證開始，並比較壓縮的前部間距與拉伸的後部間距。",
+        "將聽者切換到同一移動來源後面，並在開啟觀察者圖之前預測音調變化。",
+        "將觀察者移近或移開，並將到達率變化與介質中已有的波前間距分開。"
+      ]
+    },
     "controls": [
       {
         "id": "sourceFrequency",
-        "label": "聲源頻率"
+        "label": "聲源頻率",
+        "description": "設定源發射新波前的頻率。"
       },
       {
         "id": "sourceSpeed",
-        "label": "聲源速度"
+        "label": "聲源速度",
+        "description": "將來源移到介質中，從而壓縮前方的間距並拉伸後方的間距。"
       },
       {
         "id": "observerSpeed",
-        "label": "觀察者速度"
+        "label": "觀察者速度",
+        "description": "正值將觀察者移向所選一側的源；負值消失並僅改變到達率。"
+      },
+      {
+        "id": "observerAhead",
+        "label": "聽著",
+        "description": "選擇觀察者是在移動源的壓縮前側還是拉伸後側聆聽。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "steady-siren",
+        "label": "警笛穩定",
+        "description": "固定源兩側的間距相同。"
+      },
+      {
+        "id": "city-pass",
+        "label": "城市通行證",
+        "description": "向前移動的源會壓縮前方間距，同時使觀察者保持靜止。"
+      },
+      {
+        "id": "approaching-listener",
+        "label": "觀察員進場",
+        "description": "觀察者向前方的聲源移動，以進一步提高聽到的音高。"
+      },
+      {
+        "id": "behind-trailing",
+        "label": "來源背後",
+        "description": "觀察者在移動源的拉伸後側聆聽。"
+      },
+      {
+        "id": "listener-away",
+        "label": "觀察者移開",
+        "description": "觀察者向後退到前方，降低了到達率，即使源頭仍向前移動。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "motionVectors",
+        "label": "運動向量",
+        "shortDescription": "在同一路過場景上標記源和觀察者運動。",
+        "whatToNotice": [
+          "源運動改變介質中的間距，而觀察者運動改變遇到這些波前的速度。"
+        ],
+        "whyItMatters": "它可以防止兩種不同的多普勒原因混合為一種。",
+        "relatedControls": [
+          "源速度",
+          "觀察者速度",
+          "觀察者前方"
+        ],
+        "relatedGraphTabs": [
+          "觀察者回應"
+        ],
+        "relatedEquationVariables": [
+          "源速度",
+          "觀察者速度"
+        ]
+      },
+      {
+        "id": "frontBackSpacing",
+        "label": "前後間距",
+        "shortDescription": "同時顯示源前面一個間距和後面一個間距。",
+        "whatToNotice": [
+          "一旦源向前移動，前面的間距就會變小，後面的間距就會變大。"
+        ],
+        "whyItMatters": "它將音調變化與介質中的可見變化聯繫起來，而不是與以某種方式發射得更快的源聯繫起來。",
+        "relatedControls": [
+          "源速度",
+          "觀察者前方"
+        ],
+        "relatedGraphTabs": [
+          "源間距"
+        ],
+        "relatedEquationVariables": [
+          "源速度"
+        ]
+      },
+      {
+        "id": "arrivalTiming",
+        "label": "到達時間",
+        "shortDescription": "標示觀察者所選一側的目前到達率。",
+        "whatToNotice": [
+          "即使所選邊的間距保持不變，改變觀察者速度也會改變聽到的到達率。"
+        ],
+        "whyItMatters": "它將介質中的間距與觀察者遇到這些波前的速率分開。",
+        "relatedControls": [
+          "觀察者速度",
+          "觀察者前方",
+          "源頻率"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "觀察者回應"
+        ],
+        "relatedEquationVariables": [
+          "源頻率",
+          "觀察者速度"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "源訊號與觀察者訊號",
+      "xLabel": "時間（秒）",
+      "yLabel": "歸一化訊號",
+      "description": "將發射訊號與接收訊號進行比較，因此您可以看到來源保持一種發射頻率，而觀察者接收到不同的到達率。"
+    },
+    {
+      "id": "source-spacing",
+      "label": "源速度與波前間距",
+      "xLabel": "源速度（公尺/秒）",
+      "yLabel": "介質間距（公尺）",
+      "description": "顯示在發射頻率保持固定的情況下，源速度如何改變源前後介質的間距。"
+    },
+    {
+      "id": "observer-response",
+      "label": "觀察者運動與聽到的頻率",
+      "xLabel": "觀察者朝向源頭的速度 (m/s)",
+      "yLabel": "頻率 (Hz)",
+      "description": "顯示觀察者運動如何改變所選側相對於發射頻率基線的聽到頻率。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次更改一個原因並將其連結到路過長凳上可見的東西。",
     "items": [
       {
-        "id": "doppler-notice-compare"
-      },
-      {
-        "id": "doppler-notice-compare"
-      },
-      {
-        "id": "doppler-notice-compare"
+        "id": "doppler-notice-compare",
+        "text": "留意哪個設定改變了介質中的波峰間距，哪個設定只改變觀察者接收到波峰的速率。比較模式能把這兩個原因清楚分開。",
+        "tryThis": "克隆城市通過，然後讓一個人在後面設定路線，另一個人朝前面的源頭移動。",
+        "whyItMatters": "比較表面顯示，兩個不同的運動故事可以在同一個古典長凳上產生不同的音調變化。",
+        "relatedControls": [
+          "源速度",
+          "觀察者速度",
+          "觀察者前方"
+        ],
+        "relatedGraphTabs": [
+          "源間距",
+          "觀察者回應"
+        ],
+        "relatedOverlays": [
+          "正面背面間距",
+          "到達時間"
+        ]
       },
       {
         "id": "doppler-notice-compare",
-        "text": "留意哪個設定改變了介質中的波峰間距，哪個設定只改變觀察者接收到波峰的速率。比較模式能把這兩個原因清楚分開。"
+        "text": "留意哪個設定改變了介質中的波峰間距，哪個設定只改變觀察者接收到波峰的速率。比較模式能把這兩個原因清楚分開。",
+        "tryThis": "克隆城市通過，然後讓一個人在後面設定路線，另一個人朝前面的源頭移動。",
+        "whyItMatters": "比較表面顯示，兩個不同的運動故事可以在同一個古典長凳上產生不同的音調變化。",
+        "relatedControls": [
+          "源速度",
+          "觀察者速度",
+          "觀察者前方"
+        ],
+        "relatedGraphTabs": [
+          "源間距",
+          "觀察者回應"
+        ],
+        "relatedOverlays": [
+          "正面背面間距",
+          "到達時間"
+        ]
+      },
+      {
+        "id": "doppler-notice-compare",
+        "text": "留意哪個設定改變了介質中的波峰間距，哪個設定只改變觀察者接收到波峰的速率。比較模式能把這兩個原因清楚分開。",
+        "tryThis": "克隆城市通過，然後讓一個人在後面設定路線，另一個人朝前面的源頭移動。",
+        "whyItMatters": "比較表面顯示，兩個不同的運動故事可以在同一個古典長凳上產生不同的音調變化。",
+        "relatedControls": [
+          "源速度",
+          "觀察者速度",
+          "觀察者前方"
+        ],
+        "relatedGraphTabs": [
+          "源間距",
+          "觀察者回應"
+        ],
+        "relatedOverlays": [
+          "正面背面間距",
+          "到達時間"
+        ]
+      },
+      {
+        "id": "doppler-notice-compare",
+        "text": "留意哪個設定改變了介質中的波峰間距，哪個設定只改變觀察者接收到波峰的速率。比較模式能把這兩個原因清楚分開。",
+        "tryThis": "克隆城市通過，然後讓一個人在後面設定路線，另一個人朝前面的源頭移動。",
+        "whyItMatters": "比較表面顯示，兩個不同的運動故事可以在同一個古典長凳上產生不同的音調變化。",
+        "relatedControls": [
+          "源速度",
+          "觀察者速度",
+          "觀察者前方"
+        ],
+        "relatedGraphTabs": [
+          "源間距",
+          "觀察者回應"
+        ],
+        "relatedOverlays": [
+          "正面背面間距",
+          "到達時間"
+        ]
+      },
+      {
+        "id": "doppler-notice-front-spacing",
+        "text": "請注意，更快的源運動會壓縮前標記並同時拉伸後標記。源的發射速度並不快；它在排放之間移動。",
+        "tryThis": "從穩定警報開始，然後移至城市通行證而不更改來源頻率。",
+        "whyItMatters": "多普勒頻移始於介質中的間距變化。",
+        "relatedControls": [
+          "源速度"
+        ],
+        "relatedGraphTabs": [
+          "源間距"
+        ],
+        "relatedOverlays": [
+          "正面背面間距"
+        ],
+        "relatedEquationVariables": [
+          "源速度"
+        ]
+      },
+      {
+        "id": "doppler-notice-observer-motion",
+        "text": "請注意，即使前後間距標記不移動，改變觀察者速度也會移動聽到的頻率軌跡。觀察者正在改變遭遇率，而不是媒介。",
+        "tryThis": "保持來源設定固定，並在觀察者反應圖時將觀察者速度掃過零。",
+        "whyItMatters": "它將源創建的間距變化與觀察者創建的到達率變化分開。",
+        "relatedControls": [
+          "觀察者速度"
+        ],
+        "relatedGraphTabs": [
+          "觀察者回應"
+        ],
+        "relatedOverlays": [
+          "到達時間"
+        ],
+        "relatedEquationVariables": [
+          "觀察者速度"
+        ]
+      },
+      {
+        "id": "doppler-notice-ahead-behind",
+        "text": "請注意，從前面切換到後面會改變觀察者取樣的間距。前方被壓縮，聽起來更高；後面被拉長，聲音更低。",
+        "tryThis": "保持相同的源速度和觀察者速度，然後在前聽和後聽之間切換。",
+        "whyItMatters": "音調變化取決於觀察者從移動源的哪一側收聽。",
+        "relatedControls": [
+          "觀察者前方",
+          "源速度"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "源間距"
+        ],
+        "relatedOverlays": [
+          "正面背面間距",
+          "到達時間"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測音高和間距變化。每個提示一次改變一個原因，因此您可以分離發射頻率、介質間距和到達率。",
     "items": [
       {
         "id": "de-predict-faster-source",
-        "changeLabel": "聲源速度"
+        "prompt": "源保持相同的發射頻率，但當觀察者保持前方且靜止時，其前進速度會增加。應該發生什麼事？",
+        "scenarioLabel": "移動速度較快的來源",
+        "changeLabel": "聲源速度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "前面的間距縮小，觀察者聽到的音調較高。"
+          },
+          {
+            "id": "b",
+            "label": "發射頻率升高，因此來源本身改變其音調。"
+          },
+          {
+            "id": "c",
+            "label": "只有後間距會發生變化，因為觀察者位於前方。"
+          }
+        ],
+        "explanation": "此處，較快的源不會改變其發射頻率。它從更前面的位置發射每個波峰，從而壓縮了前面的間距並提高了前方觀察者的到達率。",
+        "observationHint": "觀察前方標記聚集在一起，觀察者追蹤週期更快。"
       },
       {
         "id": "de-predict-moving-observer",
-        "changeLabel": "觀察者速度"
+        "prompt": "源設定保持固定，但觀察者向所選一側的源移動。應該發生什麼事？",
+        "scenarioLabel": "觀察者走向",
+        "changeLabel": "觀察者速度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "聽到的音高升高，但介質中已有的間距並沒有改變。"
+          },
+          {
+            "id": "b",
+            "label": "由於觀察者在移動，前後間距都會改變。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為只有源可以產生多普勒頻移。"
+          }
+        ],
+        "explanation": "觀察者運動會改變觀察者與所選一側波前相遇的速度。它不會重新繪製來源已經設定的間距。",
+        "observationHint": "保持間距標記固定，僅觀察觀察者反應圖的移動。"
+      },
+      {
+        "id": "de-predict-behind-source",
+        "prompt": "來源繼續向前移動，但觀察者從前方監聽切換到後方監聽。聽到的音調會發生什麼變化？",
+        "scenarioLabel": "切換到後面",
+        "changeLabel": "觀察者方",
+        "choices": [
+          {
+            "id": "a",
+            "label": "聽到的音調下降是因為觀察者現在取樣了拉長的後間距。"
+          },
+          {
+            "id": "b",
+            "label": "聽到的音調保持不變，因為源頻率沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "由於觀察者距離聲源較遠，聽到的音高會升高。"
+          }
+        ],
+        "explanation": "在聲源後面，觀察者取樣拉長的後部間距，因此每秒到達的波峰較少，聽到的音高也會下降。",
+        "observationHint": "切換到後側並將源間距圖與觀察者軌跡進行比較。"
       }
     ]
   },
@@ -381,7 +787,8 @@
           {
             "label": "令觀察到的頻率高於發射頻率。"
           }
-        ]
+        ],
+        "style": "目標設定"
       },
       {
         "id": "de-ch-compare-low-vs-high",
@@ -389,7 +796,8 @@
         "prompt": "進入比較模式，讓設定 A 聽到比發射頻率更低的音高，同時讓設定 B 聽到更高的音高，且兩個聲源都保持相同的發射頻率。",
         "successMessage": "設定 A 接收到較慢的到達頻率故事，而設定 B 接收到較快的到達頻率故事，儘管兩者的發射頻率相同。",
         "setup": {
-          "note": "先把「城市掠過」複製到 A 和 B，然後只改變聆聽側的條件。"
+          "note": "先把「城市掠過」複製到 A 和 B，然後只改變聆聽側的條件。",
+          "interactionMode": "比較"
         },
         "hints": [
           "讓 A 和 B 保持相同發射頻率，這樣音高差異才真正來自運動和取樣側的選擇。",
@@ -420,8 +828,20 @@
           {
             "label": "令設定 B 聽到比發射頻率更高的音高。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "多普勒效應 |開放模型實驗室",
+    "description": "了解為什麼移動的聲源會壓縮前方的波前，拉伸後方的波前，並改變移動或靜止觀察者聽到的音調。",
+    "keywords": [
+      "多普勒效應",
+      "聲波",
+      "移動源",
+      "觀察到的頻率",
+      "音調變換"
     ]
   }
 }

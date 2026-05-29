@@ -55,27 +55,40 @@
             {
               "id": "critical-angle",
               "label": "臨界角度"
+            },
+            {
+              "id": "index-1",
+              "label": "事件媒體索引"
+            },
+            {
+              "id": "index-2",
+              "label": "傳輸媒體索引"
             }
           ],
           "steps": [
             {
               "id": "condition",
-              "label": "1. 先檢查傳播方向"
+              "label": "1. 先檢查傳播方向",
+              "template": "僅當光在折射率較高的介質中開始時才存在臨界角，因此首先將 $n_1 = {{n1Value}}$ 與 $n_2 = {{n2Value}}$ 進行比較。"
             },
             {
               "id": "relation",
-              "label": "2. 套用臨界角關係式"
+              "label": "2. 套用臨界角關係式",
+              "template": "當$n_1 > n_2$時，使用$\\sin(\\theta_c) = \\dfrac{n_2}{n_1}$。"
             },
             {
               "id": "result",
-              "label": "3. 求出門檻角度"
+              "label": "3. 求出門檻角度",
+              "template": "{{criticalAngleResult}}"
             }
           ],
           "resultLabel": "臨界角結果",
+          "resultTemplate": "{{criticalAngleResult}}",
           "applyAction": {
             "label": "顯示接近臨界的玻璃到空氣案例",
             "observationHint": "門檻圖會直接標出 θ_c，而舞台上的折射光會幾乎貼著邊界前進。"
-          }
+          },
+          "interpretationTemplate": "{{criticalAngleInterpretation}}"
         },
         {
           "id": "classify-boundary-state",
@@ -89,27 +102,36 @@
             {
               "id": "critical-angle",
               "label": "臨界角度"
+            },
+            {
+              "id": "critical-offset",
+              "label": "臨界裕度"
             }
           ],
           "steps": [
             {
               "id": "compare",
-              "label": "1. 把目前入射角與臨界角作比較"
+              "label": "1. 把目前入射角與臨界角作比較",
+              "template": "使用 $\\theta_1 = {{incidentAngleValue}}^\\circ$ 和 $\\theta_c = {{criticalAngleValue}}^\\circ$。"
             },
             {
               "id": "margin",
-              "label": "2. 計算離門檻還差多少"
+              "label": "2. 計算離門檻還差多少",
+              "template": "{{criticalOffsetResult}}"
             },
             {
               "id": "outcome",
-              "label": "3. 解讀邊界結果"
+              "label": "3. 解讀邊界結果",
+              "template": "{{boundaryOutcomeStep}}"
             }
           ],
           "resultLabel": "邊界結果",
+          "resultTemplate": "{{boundaryOutcomeResult}}",
           "applyAction": {
             "label": "顯示超過臨界角的玻璃到空氣案例",
             "observationHint": "超過 θ_c 之後，折射支路會消失，光線會留在介質 1 內反射。"
-          }
+          },
+          "interpretationTemplate": "{{boundaryOutcomeInterpretation}}"
         }
       ]
     },
@@ -234,28 +256,520 @@
       }
     ]
   },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "此模擬顯示了兩種介質之間的一個邊界，在接觸點處具有虛線法線。一束光線從介質 1 接近。低於閾值，透射光線進入介質 2；低於閾值，透射光線進入介質 2；低於閾值，透射光線進入介質 2。高於閾值時，介質 1 中僅保留反射光線。",
+        "可選疊加顯示角度標記、臨界角閾值、等角反射提示以及與當前折射率相關的速度資訊。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "閾值轉換圖繪製了目前介質對的出射角與入射角的關係。折射分支在 $\\theta_c$ 達到 90°，超過此角度僅保留反射分支。",
+        "透射角圖將普通折射分支隔離在閾值以下，因此將其懸停可以預覽不同的邊界設定，而不是稍後預覽。"
+      ]
+    }
+  },
+  "pageIntro": {
+    "definition": "將光線從折射率較高的介質推向折射率較低的邊界，觀察臨界角的出現，並看到相同的即時圖像從普通折射切換到全內反射。",
+    "whyItMatters": "這是斯涅爾定律的光纖轉折點：一旦您可以讀取閾值，神秘的內部反彈就成為可預測的邊界條件。",
+    "keyTakeaway": "只有當光在較高折射率介質中開始並嘗試進入較低折射率介質時，全內反射才可能發生，因此在所選行進方向上 n_1 必須大於 n_2。"
+  },
+  "v2": {
+    "intuition": "全內反射是指從高到低的折射率邊界耗盡真實折射光線角度的時刻，因此出射光必須停留在第一介質。",
+    "whyItMatters": "同樣的閾值解釋了為什麼玻璃空氣演示、光纖芯和棱鏡雙筒望遠鏡可以在沒有鍍銀鏡的情況下引導光線。",
+    "equationSnapshot": {
+      "title": "臨界角閾值",
+      "note": "從斯涅爾定律開始，檢查光是否從高折射率側離開，然後將 theta_1 與臨界角比較。"
+    },
+    "startSetup": {
+      "note": "從玻璃到空氣閾值上方開始，以便立即看到失去的透射分支和正臨界裕度。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-threshold-state",
+        "title": "讀取閾值狀態",
+        "goal": "從即時邊界決定光線是否仍可折射或必須停留在介質 1 內。",
+        "doThis": "使用玻璃對高於臨界設定的空氣進行通風，保持臨界角和反射導軌打開，並將讀數中的 theta_1 與 theta_c 進行比較。",
+        "notice": "入射角大於臨界角，因此 theta_2 消失，反射分支是唯一的出射光線。",
+        "explain": "斯涅爾定律要求 sin(theta_2) 大於 1。這個不可能的要求正是將普通折射變成全內反射的原因。",
+        "inlineCheck": {
+          "title": "舉出兩個條件"
+        }
+      },
+      {
+        "id": "approach-from-below",
+        "title": "從下面接近",
+        "goal": "觀察透射光線在消失前掠過邊界。",
+        "doThis": "切換到接近臨界的玻璃空氣界面，然後在觀察臨界邊際和 θ_2 的同時上下微調入射角。",
+        "notice": "略低於閾值，theta_2 仍然是真實的，但與正常值幾乎成 90 度；就在它的上方，傳輸的分支消失了。",
+        "explain": "臨界角是邊緣情況 theta_2 = 90 度。跨越它是圖中一個連續的閾值，而不是一個單獨的魔法反射規則。",
+        "inlineCheck": {
+          "title": "以下什麼是正確的？"
+        }
+      },
+      {
+        "id": "change-the-index-contrast",
+        "title": "改變索引對比度",
+        "goal": "解釋為什麼相同的入射角可以從TIR切換回普通折射。",
+        "doThis": "將高於臨界值的玻璃與空氣與相同入射角的玻璃與水進行比較，然後將 n_2 降低迴空氣。",
+        "notice": "將 n_2 向 n_1 升高會升高 theta_c，並且可以恢復真實的透射射線；降低 n_2 會降低 theta_c 並使 TIR 更容易。",
+        "explain": "因為 sin(theta_c) = n_2 / n_1，介質對設定閾值。入射角僅告訴您目前光線相對於該閾值的位置。",
+        "inlineCheck": {
+          "title": "預測對比變化"
+        }
+      },
+      {
+        "id": "test-the-travel-direction",
+        "title": "測試行進方向",
+        "goal": "將陡峭的入射角與使 TIR 成為可能的從高到低的條件分開。",
+        "doThis": "將 n_1 設為低於 n_2 並使用較大的入射角，然後查看臨界角波導和透射光線的行為是否類似於玻璃-空氣情況。",
+        "notice": "當光線在較低折射率介質中啟動時，模型會保留透射光線，而不是建立臨界截止。",
+        "explain": "全內反射需要兩個要素：從高到低的行進方向和高於臨界角的 theta_1。僅靠大角度是不夠的。",
+        "inlineCheck": {
+          "title": "檢查方向條件"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "首先檢查行進方向：只有當光線在較高折射率介質中啟動時才會出現 TIR。",
+        "使用 sin(theta_c) = n_2 / n_1 找出該介質對的邊界閾值。",
+        "讀取 theta_1 - theta_c 作為普通折射和全內反射之間的即時餘裕。",
+        "解釋為什麼改變 n_2 可以將相同的光線移回閾值。"
+      ],
+      "misconception": "不要將 TIR 視為從表面反射的任何陡峭光線。由於沒有從高到低的行程，該模型中不存在臨界角截止。",
+      "freePlayPrompt": "選擇一個入射角，然後只改變 n_2，直到臨界裕度過零。解釋閾值的哪一側仍有透射射線。",
+      "nextConcepts": [
+        {
+          "slug": "dispersion-refractive-index-color",
+          "reasonLabel": "使用索引隨顏色變化"
+        },
+        {
+          "slug": "mirrors",
+          "reasonLabel": "與一般反射比較"
+        },
+        {
+          "slug": "lens-imaging",
+          "reasonLabel": "將光線行為建構到影像中"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "snell-law",
-      "label": "斯涅爾定律"
+      "label": "斯涅爾定律",
+      "meaning": "這與閾值以下使用的折射定律相同，並且該定律在臨界角以上停止給出真實的 $\\theta_2$。"
     },
     {
       "id": "critical-angle",
-      "label": "臨界角度"
+      "label": "臨界角度",
+      "meaning": "這是當光從較高的 $n$ 到較低的 $n$ 時仍允許真實透射光線的最大入射角。"
+    },
+    {
+      "id": "reflection-law",
+      "label": "反射角度",
+      "meaning": "在全內反射中，光線保留在介質 1 中，反射角仍然等於入射角。"
     }
   ],
   "variableLinks": [
     {
       "id": "incident-angle",
-      "label": "入射角"
+      "label": "入射角",
+      "description": "設定入射光線接近法線的陡度。提高它會驅動從普通折射到臨界角然後超越臨界角的即時過渡。"
+    },
+    {
+      "id": "index-medium-1",
+      "label": "事件媒體索引",
+      "description": "控制光線開始的介質。在固定 n_2 處提高 n_1 可降低臨界角並使全內反射更容易達到。"
+    },
+    {
+      "id": "index-medium-2",
+      "label": "傳輸媒體索引",
+      "description": "控制第二個介質。相對於 n_1 降低 n_2 會增加折射率對比度，降低 theta_c，並將閾值推至較小的入射角。"
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "轉換圖",
+      "primaryGraphIds": [
+        "轉換圖"
+      ],
+      "primaryControlIds": [
+        "事件角度",
+        "n1",
+        "n2"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "incidentAngle",
-        "label": "入射角"
+        "label": "入射角",
+        "description": "從正常值測量。增加它會將設定推向臨界角，然後可能超出臨界角。"
+      },
+      {
+        "id": "n1",
+        "label": "事件媒體索引 n1",
+        "description": "改變 $n_1$ 會改變速度對比。相對於 $n_2$ 較高的 $n_1$ 會降低臨界角。"
+      },
+      {
+        "id": "n2",
+        "label": "傳輸媒體索引 n2",
+        "description": "改變 $n_2$ 會移動閾值。將 $n_2$ 向 $n_1$ 升高會升高 $\\theta_c$；降低它可以使 TIR 更容易到達。"
       }
+    ],
+    "presets": [
+      {
+        "id": "glass-to-air-below-critical",
+        "label": "低於臨界值",
+        "description": "玻璃與空氣之間仍存在真實的透射射線。"
+      },
+      {
+        "id": "glass-to-air-near-critical",
+        "label": "接近臨界",
+        "description": "透射光線仍然是真實的，但幾乎平行於邊界。"
+      },
+      {
+        "id": "glass-to-air-above-critical",
+        "label": "高於臨界值",
+        "description": "入射角高於 $\\theta_c$，因此沒有留下真正的透射光線。"
+      },
+      {
+        "id": "glass-to-water",
+        "label": "玻璃到水",
+        "description": "較弱的對比會提高 $\\theta_c$，因此相同的 50° 光線會再次折射。"
+      },
+      {
+        "id": "water-to-air-near-critical",
+        "label": "水到空氣",
+        "description": "較溫和的對比仍允許 TIR，但臨界角較大。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "normalGuide",
+        "label": "法線與角度指南",
+        "shortDescription": "顯示此頁面上使用的法線和角度標記。",
+        "whatToNotice": [
+          "入射角和透射角是從法線測量的，而不是從表面測量的。"
+        ],
+        "whyItMatters": "許多 TIR 錯誤都源自於測量錯誤的角度。",
+        "relatedControls": [
+          "事件角度"
+        ],
+        "relatedGraphTabs": [
+          "轉換圖",
+          "折射圖"
+        ],
+        "relatedEquationVariables": [
+          "入射角"
+        ]
+      },
+      {
+        "id": "criticalGuide",
+        "label": "臨界角指南",
+        "shortDescription": "標記透射光線僅沿著邊界傳播的閾值。",
+        "whatToNotice": [
+          "只有當光在較高折射率介質中啟動時，波導才存在。"
+        ],
+        "whyItMatters": "它使從折射到 TIR 的變化在同一邊界上保持可見。",
+        "relatedControls": [
+          "事件角度",
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "轉換圖",
+          "折射圖"
+        ],
+        "relatedEquationVariables": [
+          "入射角",
+          "概念標籤",
+          "概念標籤"
+        ]
+      },
+      {
+        "id": "reflectionGuide",
+        "label": "反射角指南",
+        "shortDescription": "顯示超過閾值後剩餘的等角反射。",
+        "whatToNotice": [
+          "在$\\theta_c$之上，沒有真正的透射光線，因此反射光線是此模型中唯一的出射分支。"
+        ],
+        "whyItMatters": "它將 TIR 與普通反射定律聯繫起來，而不假裝折射仍然存在。",
+        "relatedControls": [
+          "事件角度"
+        ],
+        "relatedGraphTabs": [
+          "轉換圖"
+        ],
+        "relatedEquationVariables": [
+          "入射角"
+        ]
+      },
+      {
+        "id": "speedGuide",
+        "label": "速度指南",
+        "shortDescription": "顯示 $n_1$ 和 $n_2$ 隱含的相對光速。",
+        "whatToNotice": [
+          "改變折射率對比會改變速度對比度，進而改變臨界角。"
+        ],
+        "whyItMatters": "TIR 來自兩種媒體的差異，而不是來自單獨的退回規則。",
+        "relatedControls": [
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "轉換圖"
+        ],
+        "relatedEquationVariables": [
+          "概念標籤",
+          "概念標籤"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "transition-map",
+      "label": "閾值轉換",
+      "xLabel": "入射角 theta_1（度）",
+      "yLabel": "與法線的角度 (deg)",
+      "description": "在 $\\theta_c$ 以下，折射角分支向 90° 爬升。在$\\theta_c$之上，沒有保留真正的傳輸分支，因此只有反射角分支繼續。"
+    },
+    {
+      "id": "refraction-map",
+      "label": "發射角度低於閾值",
+      "xLabel": "入射角 theta_1（度）",
+      "yLabel": "折射角 theta_2（度）",
+      "description": "僅顯示閾值以下存在的折射分支。當$\\theta_1$從下方接近$\\theta_c$時，$\\theta_2$接近90°。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次改變一件事。結合使用舞台和圖像來查看折射分支的結束位置和全內反射的開始位置。",
+    "items": [
+      {
+        "id": "tir-notice-direction",
+        "text": "請注意，只有當光線在折射率較高的介質中開始時，才會出現 TIR。如果$n_1$不大於$n_2$，則臨界角閾值消失。",
+        "tryThis": "從 Glass 開始，然後將 $n_2$ 向 $n_1$ 升起，觀察閾值向上移動或消失。",
+        "whyItMatters": "只靠大角度是不夠的。指數對比的行進方向首先是重要。",
+        "relatedControls": [
+          "n1",
+          "n2"
+        ],
+        "relatedOverlays": [
+          "關鍵指南"
+        ]
+      },
+      {
+        "id": "tir-notice-transition-map",
+        "text": "請注意，閾值轉換圖不是時間圖。對於相同的兩種介質，每個點都是不同的入射角設定。",
+        "tryThis": "從左向右懸停，觀看舞台跳躍不同的入射角度，而不是及時推進。",
+        "whyItMatters": "這就是為什麼該圖可以顯示折射分支結束和反射分支接管的位置。",
+        "relatedGraphTabs": [
+          "轉換圖"
+        ]
+      },
+      {
+        "id": "tir-notice-below-threshold",
+        "text": "請注意，在 $\\theta_c$ 下方，透射光線仍然是真實的，但當 $\\theta_2$ 接近 90° 時，它幾乎平行於邊界。",
+        "tryThis": "使用近臨界並將 theta_1 向上微移一次一度，直到透射光線幾乎掠過邊界。",
+        "whyItMatters": "這是 TIR 開始之前跨越的幾何限制。",
+        "relatedControls": [
+          "事件角度"
+        ],
+        "relatedGraphTabs": [
+          "折射圖"
+        ],
+        "relatedOverlays": [
+          "關鍵指南"
+        ]
+      },
+      {
+        "id": "tir-notice-reflected-branch",
+        "text": "請注意，在 theta_c 上方，舞台沒有顯示真正的透射光線。模型中剩下的唯一傳出分支是介質 1 中的反射分支。",
+        "tryThis": "在不更改媒體對的情況下從近臨界切換到高於臨界，並觀察反射分支替換傳輸分支。",
+        "whyItMatters": "它可以防止傳輸光線永遠保持彎曲的錯誤想法。",
+        "relatedGraphTabs": [
+          "轉換圖"
+        ],
+        "relatedOverlays": [
+          "反射指南"
+        ]
+      },
+      {
+        "id": "tir-notice-contrast",
+        "text": "注意折射率對比如何影響 θ_c。較強的對比會降低閾值，因此相同的入射角可以從折射變為全內反射。",
+        "tryThis": "將水克隆到空氣中到兩個設定中，然後僅在設定 B 中升高 n_1 並讀取臨界裕度行和轉換圖。",
+        "whyItMatters": "比較模式將更大的入射角與更大的索引對比度分開，而無需離開即時頁面。",
+        "relatedControls": [
+          "n1",
+          "n2"
+        ],
+        "relatedGraphTabs": [
+          "轉換圖"
+        ]
+      },
+      {
+        "id": "tir-notice-guidance",
+        "text": "請注意，連續邊界處的重複 TIR 與光纖導引中使用的本地事件相同。",
+        "tryThis": "保持在 theta_c 上方，想像光線在前方更遠的地方遇到另一面較低折射率的牆。相同的閾值事件可以一次又一次地重複。",
+        "whyItMatters": "在不脫離當前概念的情況下給出了邊界事件的一種具體應用。",
+        "relatedOverlays": [
+          "反射指南"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "首先預測閾值結果，然後套用變更並比較階段、臨界角讀數和圖像。",
+    "items": [
+      {
+        "id": "tir-predict-cross-threshold",
+        "prompt": "從玻璃開始到接近臨界的空氣，如果在不改變介質對的情況下增加 theta_1 幾度，會發生什麼？",
+        "scenarioLabel": "將 theta_1 升高到 theta_c 之上",
+        "choices": [
+          {
+            "id": "a",
+            "label": "透射分支結束，光線以全內反射光線停留在介質 1 中。"
+          },
+          {
+            "id": "b",
+            "label": "透射光線保持遠離法線的方向，直到它直接向下指向介質 2。"
+          },
+          {
+            "id": "c",
+            "label": "沒有什麼重要的變化，因為 theta_c 只取決於索引。"
+          }
+        ],
+        "explanation": "在 $\\theta_c$ 處，折射光線達到 90°。在它之上，斯涅爾定律不再給出真正的透射角，因此光線停留在介質 1 中。",
+        "observationHint": "當反射光線成為唯一的出射分支時，觀察臨界裕度變成正值。"
+      },
+      {
+        "id": "tir-predict-weaker-contrast",
+        "prompt": "從高於臨界值的玻璃到空氣開始，如果以相同的入射角切換到玻璃到水來提高 n_2 更接近 n_1，會發生什麼？",
+        "scenarioLabel": "朝 n_1 方向提升 n_2",
+        "choices": [
+          {
+            "id": "a",
+            "label": "臨界角上升，因此相同的 50 度光線會回到普通折射。"
+          },
+          {
+            "id": "b",
+            "label": "臨界角進一步下降，因此反射分支變得更強。"
+          },
+          {
+            "id": "c",
+            "label": "結果無法改變，因為 theta_1 保持不變。"
+          }
+        ],
+        "explanation": "朝$n_1$提高$n_2$會減弱對比度，提高$\\theta_c$，並且可以在$\\theta_1$的同時恢復真實的透射光線。",
+        "observationHint": "將玻璃與空氣的正臨界裕度與玻璃與水的負臨界裕度進行比較。"
+      },
+      {
+        "id": "tir-predict-stronger-contrast",
+        "prompt": "從玻璃到 50 度的水，如果保持 theta_1 固定但將 n_2 降低到空氣，會發生什麼？",
+        "scenarioLabel": "下 n_2",
+        "choices": [
+          {
+            "id": "a",
+            "label": "臨界角下降，因此同一光線可以進入全內反射。"
+          },
+          {
+            "id": "b",
+            "label": "臨界角上升，因此傳輸分支變得更容易維持。"
+          },
+          {
+            "id": "c",
+            "label": "僅速比發生變化。閾值角度保持不變。"
+          }
+        ],
+        "explanation": "降低 $n_2$ 會增強對比度，降低 $\\theta_c$，並且可以將相同的 $\\theta_1$ 從折射移至 TIR。",
+        "observationHint": "應用空氣箱並觀察 theta_c 在圖像上向左移動，同時反射的分支出現在舞台上。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用即時閾值模型而不是獨立的謎題。這些檢查讀取與您在舞台上看到的相同的入射角、索引對和圖像狀態。",
+    "items": [
+      {
+        "id": "tir-ch-land-below-threshold",
+        "title": "著陸在門檻下方",
+        "prompt": "從玻璃開始到接近臨界的空氣，調整設定直到入射角保持在 theta_c 下方：將 theta_1 - theta_c 保持在 -2 到 -0.4 度之間，同時 theta_2 保持在 74 到 89 度之間。",
+        "successMessage": "您以普通折射方式保持光線，同時明顯靠近閾值。",
+        "setup": {
+          "note": "一起使用臨界裕度行和轉換圖。"
+        },
+        "hints": [
+          "您需要一個小的負臨界裕度，而不是正臨界裕度。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "checks": [
+          {
+            "label": "開啟閾值轉換圖。"
+          },
+          {
+            "label": "保持臨界角指南可見。"
+          },
+          {
+            "label": "維持 theta_1 - theta_c 略為負值。"
+          },
+          {
+            "label": "保持發射角度陡峭但真實。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "tir-ch-cross-threshold",
+        "title": "乾淨俐落地進入 TIR",
+        "prompt": "從玻璃開始到低於臨界值的空氣，升高設定直到邊界明顯高於閾值，同時保持在同一介質對上。",
+        "successMessage": "您跨越了臨界角極限並將相同的邊界變成了全內反射。",
+        "setup": {
+          "note": "保持玻璃與空氣對並將臨界裕度推至正值。"
+        },
+        "hints": [
+          "最簡單的做法是提高 theta_1，同時將 n_1 和 n_2 保留在玻璃與空氣的值附近。",
+          "正的臨界餘裕意味著你高於 θ_c。"
+        ],
+        "checks": [
+          {
+            "label": "開啟閾值轉換圖。"
+          },
+          {
+            "label": "保持反射角指南可見。"
+          },
+          {
+            "label": "使入射介質靠近玻璃。"
+          },
+          {
+            "label": "將傳輸介質保持在空氣附近。"
+          },
+          {
+            "label": "使 theta_1 - theta_c 明確為正。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "全內反射",
+    "description": "互動式全內反射，具有即時臨界角讀數、折射率對比度控制、閾值圖以及從折射到光纖式引導的緊湊橋樑。",
+    "keywords": [
+      "全內反射",
+      "臨界角",
+      "斯涅耳定律",
+      "折射率",
+      "光學"
     ]
   }
 }

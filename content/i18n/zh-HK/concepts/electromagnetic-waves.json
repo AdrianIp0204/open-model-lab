@@ -76,22 +76,27 @@
           "steps": [
             {
               "id": "timing",
-              "label": "1. 閱讀實時波的時間"
+              "label": "1. 閱讀實時波的時間",
+              "template": "目前設定具有 $f = \\dfrac{v}{\\lambda} = {{frequencyValue}}\\,\\mathrm{Hz}$，因此探頭位於源後面的 {{phaseCyclesValue}} 週期。"
             },
             {
               "id": "electric-field",
-              "label": "2. 閱讀探測器處的電場"
+              "label": "2. 閱讀探測器處的電場",
+              "template": "從即時快照來看，探頭電場為$E_p = {{electricFieldValue}}\\,\\mathrm{arb.}$，因此電動箭頭指向{{electricDirectionText}}。"
             },
             {
               "id": "magnetic-field",
-              "label": "3. 建立匹配的磁場"
+              "label": "3. 建立匹配的磁場",
+              "template": "使用有界對規則 $B = E/v$，同一探針具有 $B_p = {{magneticFieldValue}}\\,\\mathrm{arb.}$，因此磁性標記指向 {{magneticDirectionText}}。"
             }
           ],
           "resultLabel": "當前場對",
+          "resultTemplate": "$E_p = {{electricFieldValue}}\\,\\mathrm{arb.}, \\quad B_p = {{magneticFieldValue}}\\,\\mathrm{arb.}$",
           "applyAction": {
             "label": "顯示較慢的傳播",
             "observationHint": "電曲線保持相同的總體形狀，但磁場讀數增大且探針等待更長時間，因為同一場模式現在傳播得更慢。"
-          }
+          },
+          "interpretationTemplate": "{{fieldPairInterpretation}}"
         },
         {
           "id": "source-probe-delay",
@@ -118,22 +123,27 @@
           "steps": [
             {
               "id": "delay",
-              "label": "1. 將距離轉換為傳播延遲"
+              "label": "1. 將距離轉換為傳播延遲",
+              "template": "目前階段的下游延遲為 $\\Delta t = \\dfrac{x_p}{v} = {{travelDelayValue}}\\,\\mathrm{s}$。"
             },
             {
               "id": "cycle-lag",
-              "label": "2. 將相同的間距轉換為週期滯後"
+              "label": "2. 將相同的間距轉換為週期滯後",
+              "template": "相同的位置也給出了$\\dfrac{x_p}{\\lambda} = {{phaseLagCyclesValue}}$週期的相位滯後。"
             },
             {
               "id": "compare-fields",
-              "label": "3. 現在比較源和探針值"
+              "label": "3. 現在比較源和探針值",
+              "template": "現在，來源讀取 $E_s = {{sourceElectricFieldValue}}\\,\\mathrm{arb.}$，而探針讀取 $E_p = {{electricFieldValue}}\\,\\mathrm{arb.}$，這與延遲副本匹配，而不是單獨的振盪。"
             }
           ],
           "resultLabel": "當前下游滯後",
+          "resultTemplate": "$\\Delta t = {{travelDelayValue}}\\,\\mathrm{s}, \\quad \\dfrac{x_p}{\\lambda} = {{phaseLagCyclesValue}}$ 週期",
           "applyAction": {
             "label": "顯示一個完整的週期滯後",
             "observationHint": "在一個波長的分離下，源和探針在同一相位上對齊，即使探針軌跡被延遲了一個完整週期。"
-          }
+          },
+          "interpretationTemplate": "{{delayInterpretation}}"
         }
       ]
     },
@@ -265,7 +275,8 @@
     },
     "graphSummary": {
       "paragraphs": [
-        "探針-場圖比較了一個探針上的電場和顯示比例化的磁場在同一時間軸上的值，以便可以直接讀取他們的共享時間。源-探針圖比較了來源電場與下游探針電場，使傳播延遲和相位滯後變得清晰，而不需要離開相同的模擬狀態。"
+        "探頭場圖比較同一時間軸上一個探頭處的電場和顯示比例的磁場，因此可以直接讀取它們的共享時序。",
+        "源-探針圖將源電場與下游探針電場進行比較。這使得一個波的行進延遲和相位滯後可見，而無需留下相同的模擬狀態。"
       ]
     }
   },
@@ -284,6 +295,78 @@
         "title": "繼續波的故事"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "了解變化的電場和磁場如何作為一個向右波一起傳播，其中局部場對、源到探頭延遲和傳播線索都與同一個緊湊的即時舞台相關。",
+    "keyTakeaway": "在此有界模型中的一個位置，電場和磁場同相。當電場過零時，磁場也過零。"
+  },
+  "v2": {
+    "intuition": "從向右電磁波上的一個探頭開始，然後觀察電磁讀數一起翻轉，同時源到探頭的延遲隨著距離和速度的變化而變化。",
+    "whyItMatters": "它區分了兩個容易混淆的想法：E 和 B 在同一點本地配對，而延遲發生在來源位置和下游位置之間。",
+    "equationSnapshot": {
+      "note": "使用 v = f lambda 作為行波定時，然後僅使用 B = E / v 作為此有界級的局部場對規則。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-local-field-pair",
+        "title": "讀取本機欄位對",
+        "goal": "看到一個探頭處的電和磁讀數屬於同一經過波。",
+        "doThis": "保持探針電場和磁場圖打開，使傳播三重軸可見，並透過一個反轉觀察探針。",
+        "notice": "在探頭處，E 和 B 一起過零並翻轉方向；雙方都不會在本地等待對方。",
+        "explain": "在此階段，場對是局部的：電方向、磁方向和向右傳播線索必須在同一點和時間一致。",
+        "inlineCheck": {
+          "title": "檢查三重軸方向"
+        }
+      },
+      {
+        "id": "separate-delay-from-field-pairing",
+        "title": "與配對分開延遲",
+        "goal": "使用源-探測圖來定位真正的延遲：下游位置稍後重複來源。",
+        "doThis": "切換到來源和探頭電場圖，移動探頭位置，並將延遲讀數與週期滯後讀數進行比較。",
+        "notice": "當該位置複製來源時，移動探針會發生變化，但不會在同一位置建立 E-before-B 滯後。",
+        "explain": "延遲是空間性的：Delta t = x_p / v。無論您選擇哪個探頭位置，本地 E/B 對仍然會一起上升和反轉。",
+        "inlineCheck": {
+          "title": "預測全波長滯後"
+        }
+      },
+      {
+        "id": "test-speed-and-scale",
+        "title": "測試速度與規模",
+        "goal": "將波速與頻率、行程延遲和模型的磁標尺連結起來，而不會改變電圖案的主要形狀。",
+        "doThis": "套用較慢的傳播預設，然後將頻率、源到探頭延遲和磁讀數與基線進行比較。",
+        "notice": "速度越低，下游延遲越大，並且在這個有界模型中，對於相同的電振幅，會使 B = E / v 讀數更大。",
+        "explain": "改變速度會影響透過 v = f lambda 的計時和透過局部配對規則顯示的磁標度，因此在使用公式之前請說出您正在閱讀的效果。",
+        "inlineCheck": {
+          "title": "解釋較低的速度"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "在一個探頭處，電場和磁場是一對本地讀數：在該模型中它們一起過零並反向。",
+        "來源到探針的延遲與空間旅行有關，因此當下游副本出現時，改變探針位置或速度會改變。",
+        "相同的波速出現在計時的 v = f lambda 和該級磁標尺的 B = E / v 中，因此這兩種效應應分別命名。"
+      ],
+      "misconception": "磁場是一種延遲響應，在電場之後的同一點達到峰值。",
+      "freePlayPrompt": "保持三重軸和探針引導可見，然後發明一項影響局部場大小的變更和一項影響源到探針時序的變更。",
+      "nextConcepts": [
+        {
+          "slug": "light-spectrum-linkage",
+          "title": "光作為電磁波",
+          "reasonLabel": "將電磁波轉換為光"
+        },
+        {
+          "slug": "polarization",
+          "title": "極化",
+          "reasonLabel": "測試波方向"
+        },
+        {
+          "slug": "refraction-snells-law",
+          "title": "折射/斯涅耳定律",
+          "reasonLabel": "將波帶入光學"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -335,18 +418,48 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "探測場",
+      "primaryGraphIds": [
+        "探測場",
+        "來源探針"
+      ],
+      "primaryControlIds": [
+        "探針X",
+        "波速",
+        "波長"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "較慢-中等",
+        "概念標籤"
+      ],
+      "starterExploreTasks": [
+        "保持探針場圖開啟並觀察電磁讀數在某一點同時反轉。",
+        "將探頭移至距離光源一個波長，然後將相位滯後與行程延遲讀數進行比較。",
+        "應用較慢的傳播並解釋為什麼延遲和磁標度會變化而波長保持固定。"
+      ]
+    },
     "controls": [
       {
         "id": "waveSpeed",
-        "label": "波速"
+        "label": "波速",
+        "description": "控制整個場模式向右傳播的速度，同時改變延遲和頻率。"
       },
       {
         "id": "wavelength",
-        "label": "波長"
+        "label": "波長",
+        "description": "控制共享場圖案的波峰到波峰間距。"
       },
       {
         "id": "probeX",
-        "label": "探測器位置"
+        "label": "探測器位置",
+        "description": "沿著傳播軸移動即時測量點，以便稍後或更早讀取相同的波。"
+      },
+      {
+        "id": "electricAmplitude",
+        "label": "電場幅度",
+        "description": "改變電場高度和匹配磁場高度而不改變時序關係。"
       }
     ],
     "presets": [
@@ -354,40 +467,403 @@
         "id": "baseline-coupled-wave",
         "label": "基準設定",
         "description": "一個中等波速的電磁波，場對清晰，探針位於下游中途位置。"
+      },
+      {
+        "id": "slower-medium",
+        "label": "傳播速度較慢",
+        "description": "相同的電振幅和波長現在移動得更慢，因此探頭等待的時間更長，並且該模型中的磁振幅會增加。"
+      },
+      {
+        "id": "faster-medium",
+        "label": "傳播速度較快",
+        "description": "磁場圖案更快到達探頭並且循環更快，而磁振幅相對於相同的電波縮小。"
+      },
+      {
+        "id": "longer-wavelength",
+        "label": "較長的波長",
+        "description": "相同的波速現在將場圖在空間中傳播得更遠，因此探頭位於源後面的週期更少。"
+      },
+      {
+        "id": "one-wavelength-lag",
+        "label": "一個波長之外",
+        "description": "探頭距離光源剛好一個波長，因此在一個完整週期後它會回到相同的相位。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "wavelengthGuide",
+        "label": "波長指南",
+        "shortDescription": "直接在電場通道上標記一個完整的波峰到波峰間距。",
+        "whatToNotice": [
+          "改變 lambda 會將兩個場通道重新間隔在一起，因為它們是同一行波的兩個視圖。"
+        ],
+        "whyItMatters": "它將波長保留為空間中的可見間距，而不是僅用公式表示的量。",
+        "relatedControls": [
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針"
+        ],
+        "relatedEquationVariables": [
+          "波長"
+        ]
+      },
+      {
+        "id": "probeGuide",
+        "label": "探測延遲指南",
+        "shortDescription": "將來源到探頭距離、行程延遲和週期滯後標記在一起。",
+        "whatToNotice": [
+          "當該位置響應時，移動探頭會發生變化，而不是源本身的振盪方式。"
+        ],
+        "whyItMatters": "它將下游延遲與本地 E/B 關係在某一點上分開。",
+        "relatedControls": [
+          "探針X",
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "來源探針"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "波速"
+        ]
+      },
+      {
+        "id": "propagationTriad",
+        "label": "傳播三元組",
+        "shortDescription": "一起顯示局部 E 方向、B 方向和向右傳播線索。",
+        "whatToNotice": [
+          "當電方向翻轉時，磁方向也隨之翻轉，因此 E 和 B 仍指向右側。"
+        ],
+        "whyItMatters": "它將局部場對轉變為關於傳播方向的直接陳述。",
+        "relatedControls": [
+          "電振幅",
+          "波速"
+        ],
+        "relatedGraphTabs": [
+          "探測場"
+        ],
+        "relatedEquationVariables": [
+          "電振幅",
+          "波速"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "probe-fields",
+      "label": "探測電場和磁場",
+      "xLabel": "時間（秒）",
+      "yLabel": "欄位值",
+      "description": "追蹤同一探頭上的電場和顯示比例的磁場，因此它們的共享時序很容易進行比較。"
+    },
+    {
+      "id": "source-probe",
+      "label": "源與探頭電場",
+      "xLabel": "時間（秒）",
+      "yLabel": "電場",
+      "description": "在同一時間軸上比較源電場與下游探頭電場，使一個波中的行進延遲和相位滯後可見。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每一個都指向即時舞台和當前浪潮中已經顯示的圖像的關係。",
     "items": [
       {
-        "id": "emw-notice-compare"
-      },
-      {
-        "id": "emw-notice-compare"
-      },
-      {
-        "id": "emw-notice-compare"
+        "id": "emw-notice-compare",
+        "text": "比較模式在場型大致相似、但其中一個控制項改變延遲故事時最有用。某個設定可以保持相同電場振幅，同時呈現非常不同的磁場尺度或探針滯後。",
+        "tryThis": "複製目前設定，然後僅減慢一項設定並比較讀數卡和來源探頭分離。",
+        "whyItMatters": "它隔離了哪些差異來自於傳播速度，哪些差異來自於場大小或波長。",
+        "relatedControls": [
+          "波速",
+          "波長",
+          "電振幅"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針"
+        ],
+        "relatedOverlays": [
+          "探針指南",
+          "傳播三聯體"
+        ]
       },
       {
         "id": "emw-notice-compare",
-        "text": "比較模式在場型大致相似、但其中一個控制項改變延遲故事時最有用。某個設定可以保持相同電場振幅，同時呈現非常不同的磁場尺度或探針滯後。"
+        "text": "比較模式在場型大致相似、但其中一個控制項改變延遲故事時最有用。某個設定可以保持相同電場振幅，同時呈現非常不同的磁場尺度或探針滯後。",
+        "tryThis": "複製目前設定，然後僅減慢一項設定並比較讀數卡和來源探頭分離。",
+        "whyItMatters": "它隔離了哪些差異來自於傳播速度，哪些差異來自於場大小或波長。",
+        "relatedControls": [
+          "波速",
+          "波長",
+          "電振幅"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針"
+        ],
+        "relatedOverlays": [
+          "探針指南",
+          "傳播三聯體"
+        ]
+      },
+      {
+        "id": "emw-notice-compare",
+        "text": "比較模式在場型大致相似、但其中一個控制項改變延遲故事時最有用。某個設定可以保持相同電場振幅，同時呈現非常不同的磁場尺度或探針滯後。",
+        "tryThis": "複製目前設定，然後僅減慢一項設定並比較讀數卡和來源探頭分離。",
+        "whyItMatters": "它隔離了哪些差異來自於傳播速度，哪些差異來自於場大小或波長。",
+        "relatedControls": [
+          "波速",
+          "波長",
+          "電振幅"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針"
+        ],
+        "relatedOverlays": [
+          "探針指南",
+          "傳播三聯體"
+        ]
+      },
+      {
+        "id": "emw-notice-compare",
+        "text": "比較模式在場型大致相似、但其中一個控制項改變延遲故事時最有用。某個設定可以保持相同電場振幅，同時呈現非常不同的磁場尺度或探針滯後。",
+        "tryThis": "複製目前設定，然後僅減慢一項設定並比較讀數卡和來源探頭分離。",
+        "whyItMatters": "它隔離了哪些差異來自於傳播速度，哪些差異來自於場大小或波長。",
+        "relatedControls": [
+          "波速",
+          "波長",
+          "電振幅"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針"
+        ],
+        "relatedOverlays": [
+          "探針指南",
+          "傳播三聯體"
+        ]
+      },
+      {
+        "id": "emw-notice-field-pair",
+        "text": "在一個探頭位置，電場和磁場同時反轉。延遲屬於源與探頭的延遲，而不屬於同一點的 E 與 B 的延遲。",
+        "tryThis": "透過幾個週期觀察一個探針標記並比較探針場圖上的兩條跡線。",
+        "whyItMatters": "這是將電場和磁場視為單獨時間線的主要概念轉變。",
+        "relatedControls": [
+          "探針X"
+        ],
+        "relatedGraphTabs": [
+          "探測場"
+        ],
+        "relatedOverlays": [
+          "傳播三聯體"
+        ]
+      },
+      {
+        "id": "emw-notice-source-probe-delay",
+        "text": "源-探針圖顯示下游稍後出現相同的電振盪，而不是不同的振盪。",
+        "tryThis": "向右拖曳探頭並觀察兩條電跡線之間的水平間距變寬。",
+        "whyItMatters": "它將延遲與空間距離連結起來，而不是發明單獨的下游機制。",
+        "relatedControls": [
+          "探針X",
+          "波速"
+        ],
+        "relatedGraphTabs": [
+          "來源探針"
+        ],
+        "relatedOverlays": [
+          "探針指南"
+        ]
+      },
+      {
+        "id": "emw-notice-wave-speed",
+        "text": "降低波速在這裡可以同時起到三件事：降低固定波長的頻率，增加源到探頭的延遲，並使相同電波的磁振幅更大。",
+        "tryThis": "降低波速，同時保留波長，然後將讀數卡與兩張圖像進行比較。",
+        "whyItMatters": "它透過一個共享控制連結傳播定時和本地場配對。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "探測場",
+          "來源探針"
+        ],
+        "relatedOverlays": [
+          "探針指南",
+          "傳播三聯體"
+        ],
+        "relatedEquationVariables": [
+          "波速"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在移動控制項之前進行預測。每個場景一次改變一個波屬性，因此即時舞台和圖像可以確認結果。",
     "items": [
       {
         "id": "emw-pred-slower-medium",
-        "changeLabel": "波速"
+        "prompt": "保持振幅和波長固定，但使波傳播得更慢。該模型中應該發生哪些變化？",
+        "scenarioLabel": "減慢傳播速度",
+        "changeLabel": "波速",
+        "choices": [
+          {
+            "id": "a",
+            "label": "磁振幅應增大，源頻率應下降，且探頭延遲應增加。"
+          },
+          {
+            "id": "b",
+            "label": "只有行程延遲應該改變，因為 E 和 B 幅度由來源固定。"
+          },
+          {
+            "id": "c",
+            "label": "波長應自動縮小，以便來源頻率保持不變。"
+          }
+        ],
+        "explanation": "在 lambda 固定的情況下，降低 v 會降低 f，因為 v = f lambda。因此，源到探頭延遲 x_p / v 增加，且模型的 B = E / v 規則使得相同電場下的磁場幅度更大。",
+        "observationHint": "觀察源-探頭間隙變寬以及磁跡線相對於電跡線的成長。"
       },
       {
         "id": "emw-pred-longer-wavelength",
-        "changeLabel": "波長"
+        "prompt": "保持波速和探頭位置固定，但增加波長。相位滯後和行程延遲會發生什麼情況？",
+        "scenarioLabel": "增加波長",
+        "changeLabel": "波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "週期中的相位滯後應該會減少，而行程延遲保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "相位滯後和行程延遲都會增加，因為圖案更分散。"
+          },
+          {
+            "id": "c",
+            "label": "任何一個都不應該改變，因為探頭仍然在同一位置。"
+          }
+        ],
+        "explanation": "行程延遲取決於 x_p / v，因此當 x_p 和 v 固定時，它保持固定。但周期滯後為 x_p / λ，因此波長越大意味著源和同一探頭之間的滯後週期越少。",
+        "observationHint": "比較波長變化前後的週期滯後讀數，同時旅行延遲值保持固定。"
       },
       {
         "id": "emw-pred-one-wavelength",
-        "changeLabel": "探測器位置"
+        "prompt": "將探頭放置在光源剛好一個波長的位置。源-探頭相位關係應該變成什麼？",
+        "scenarioLabel": "將探頭放置在 1 lambda 之外",
+        "changeLabel": "探測器位置",
+        "choices": [
+          {
+            "id": "a",
+            "label": "探頭應回到與源相同的相位，但要晚一個完整週期。"
+          },
+          {
+            "id": "b",
+            "label": "探頭應翻轉到相反相位，因為它距離源較遠。"
+          },
+          {
+            "id": "c",
+            "label": "相位關係應該變得不確定，因為探頭不再靠近源頭。"
+          }
+        ],
+        "explanation": "額外距離的一個波長會增加一個完整週期的延遲。下游點重複相同的階段，但僅在一個全週期延遲之後。",
+        "observationHint": "觀察源和探頭電跡線以全週期水平移位對齊。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用即時對實驗台將本地 E/B 配對與下游延遲和波速變化分開。",
+    "items": [
+      {
+        "id": "emw-ch-one-wavelength-delay",
+        "title": "下行波長",
+        "prompt": "從基線波開始，將探頭恰好放置在下游一個波長處，以便源和探頭在完整週期後具有相同的相位。",
+        "successMessage": "探頭距離來源只有一個波長：局部相位重複，但探頭仍代表同一行波的延遲副本。",
+        "setup": {
+          "note": "一起使用源探頭圖、波長導和相位滯後讀數。"
+        },
+        "hints": [
+          "一個完整波長的間隔意味著一個完整週期的相位滯後。",
+          "當基線波長為 1.8 m 時，探頭應位於 x = 1.8 m 附近，同時波速和波長保持不變。"
+        ],
+        "checks": [
+          {
+            "label": "開啟源-探針電場圖。"
+          },
+          {
+            "label": "保持探頭延遲指南可見。"
+          },
+          {
+            "label": "保持波長導管可見。"
+          },
+          {
+            "label": "將基線波長保持在 1.8 m 附近。"
+          },
+          {
+            "label": "將探頭放置在距離光源約一個波長的位置。"
+          },
+          {
+            "label": "使源-探測落後一個完整週期。"
+          }
+        ],
+        "style": "參數匹配"
+      },
+      {
+        "id": "emw-ch-slower-same-wavelength",
+        "title": "較慢的波，相同的間距",
+        "prompt": "進入比較模式並使設定 B 使用與設定 A 相同的振幅、波長和探頭位置，但波速較慢。",
+        "successMessage": "在此模型中，設定 B 保持相同的空間波形，但傳播速度較慢，因此其來源頻率下降，探頭延遲增加，且磁振幅較大。",
+        "setup": {
+          "note": "將基線克隆到 A 和 B，然後編輯設定 B 速度，同時保持電振幅、波長和探頭位置匹配。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "僅向較慢的傳播預設降低設定 B 波速。",
+          "在固定波長下，較低的速度意味著較低的頻率；因為該實驗台使用 B = E/v，所以磁振幅也會增加。"
+        ],
+        "checks": [
+          {
+            "label": "切換到比較模式並編輯設定 B。"
+          },
+          {
+            "label": "保持探測場對圖開啟。"
+          },
+          {
+            "label": "將設定 A 保持在基線波速上。"
+          },
+          {
+            "label": "放慢設定 B 的速度。"
+          },
+          {
+            "label": "保持設定 B 波長與設定 A 相符。"
+          },
+          {
+            "label": "設定 B 頻率應降至約 1.0 Hz。"
+          },
+          {
+            "label": "設定 B 探頭延遲應成長至約 1.5 秒。"
+          },
+          {
+            "label": "對於相同的電振幅，設定B磁振幅應該會更大。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "電磁波 |開放模型實驗室",
+    "description": "使用緊湊的、模擬優先的場對級探索變化的電場和磁場如何在電磁波中一起傳播。",
+    "keywords": [
+      "電磁波",
+      "電場",
+      "磁場",
+      "波傳播",
+      "電磁仿真"
     ]
   }
 }

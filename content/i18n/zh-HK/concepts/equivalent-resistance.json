@@ -1,5 +1,6 @@
 {
   "title": "等效電阻",
+  "shortTitle": "R_eq",
   "summary": "先將一個被高亮的電阻組合簡化為一個簡單的等效塊，然後誠實地壓縮整個混聯電路，並觀察總電流和組合行為如何共同變化。",
   "highlights": [
     "簡化一個組合",
@@ -33,9 +34,8 @@
     "commonMisconception": {
       "myth": "等效電阻只是個捷徑數字，所以它實際上並不能告訴你原始電路中的電流或電壓任何東西。",
       "correction": [
-        "等效電阻由匹配同一電源汲取的總電流來定義。如果電源看到相同的電壓和相同的總電流，簡化電路正在向你描述原始電路中真實的物理現象。",
-        "你不能忽視簡化的順序。在替換之前，必須首先確定一個真正像一個系列塊或一個並聯塊的組合。",
-        "在並聯配對中，組合後的等效電阻必須小於任何一條分支的電阻。如果結果更大，你很可能不小心用了串聯規則。"
+        "等效電阻是透過匹配源所經歷的情況來定義的：電路上的相同電壓和通過電路的相同的總電流。",
+        "可能出錯的是分組，而不是想法本身。在替換之前，您必須先確定真正共享一個系列路徑或相同兩個節點的對。"
       ]
     },
     "workedExamples": {
@@ -67,26 +67,32 @@
           "steps": [
             {
               "id": "identify-group",
-              "label": "1. 開始於活躍的組合配對"
+              "label": "1. 開始於活躍的組合配對",
+              "template": "突出顯示的對是 {{groupModeLabelValue}}，因此是 ${{groupRuleValue}}$。"
             },
             {
               "id": "reduce-group",
-              "label": "2. 用數值簡化組合配對"
+              "label": "2. 用數值簡化組合配對",
+              "template": "與 $R_2 = {{resistance2Value}}$ 和 $R_3 = {{resistance3Value}}$、${{groupSubstitutionValue}}$，所以 $R_{\\text{group}} = {{groupEquivalentResistanceValue}}$。"
             },
             {
               "id": "add-outer-resistor",
-              "label": "3. 加上外側的串聯電阻"
+              "label": "3. 加上外側的串聯電阻",
+              "template": "因為 $R_1$ 與整個區塊 ${{totalSubstitutionValue}}$ 保持串聯，所以 $R_{\\text{eq}} = {{equivalentResistanceValue}}$。"
             },
             {
               "id": "find-total-current",
-              "label": "4. 使用總等效電阻於歐姆定律"
+              "label": "4. 使用總等效電阻於歐姆定律",
+              "template": "$I_{\\text{total}} = \\dfrac{V}{R_{\\text{eq}}} = \\dfrac{{voltageValue}}{ {{equivalentResistanceValue}} } = {{totalCurrentValue}}$。"
             }
           ],
           "resultLabel": "組合和總等效電阻",
+          "resultTemplate": "$R_{\\text{group}} = {{groupEquivalentResistanceValue}}, \\quad R_{\\text{eq}} = {{equivalentResistanceValue}}, \\quad I_{\\text{total}} = {{totalCurrentValue}}$",
           "applyAction": {
             "label": "顯示並聯組合配對",
             "observationHint": "被標示的配對在加入 R1 前會塌縮成一個較小的組合電阻，因此總電流會立即上升。"
-          }
+          },
+          "interpretationTemplate": "{{reductionInterpretation}}"
         },
         {
           "id": "group-voltage-and-r3-charge",
@@ -100,31 +106,41 @@
             {
               "id": "voltage",
               "label": "電池電壓"
+            },
+            {
+              "id": "time",
+              "label": "已用時間"
             }
           ],
           "steps": [
             {
               "id": "group-voltage",
-              "label": "1. 使用簡化塊來找到組合降壓"
+              "label": "1. 使用簡化塊來找到組合降壓",
+              "template": "$V_{\\text{group}} = I_{\\text{total}} R_{\\text{group}}$，因此 ${{groupVoltageSubstitutionValue}}$ 和 $V_{\\text{group}} = {{groupVoltageValue}}$。"
             },
             {
               "id": "r3-current-rule",
-              "label": "2. 在組合配對內寫入實時電流規則"
+              "label": "2. 在組合配對內寫入實時電流規則",
+              "template": "${{resistor3CurrentRuleValue}}$。"
             },
             {
               "id": "r3-current-substitute",
-              "label": "3. 代入 R3 的實時值"
+              "label": "3. 代入 R3 的實時值",
+              "template": "${{resistor3CurrentSubstitutionValue}}$，因此 $I_3 = {{resistor3CurrentValue}}$ 和 $V_3 = {{resistor3VoltageValue}}$。"
             },
             {
               "id": "r3-charge",
-              "label": "4. 使用檢查時間點來計算電量"
+              "label": "4. 使用檢查時間點來計算電量",
+              "template": "$Q_3 = I_3 t = {{resistor3CurrentValue}} \\times {{timeValue}} = {{resistor3ChargeValue}}$。"
             }
           ],
           "resultLabel": "組合降壓、R3 電流和 R3 電量",
+          "resultTemplate": "$V_{\\text{group}} = {{groupVoltageValue}}, \\quad I_3 = {{resistor3CurrentValue}}, \\quad Q_3 = {{resistor3ChargeValue}}$",
           "applyAction": {
             "label": "顯示不等的並聯配對",
             "observationHint": "R3 保持整個組合電壓，但在並聯中其電流和電量計數較小，因為它的阻抗較大。"
-          }
+          },
+          "interpretationTemplate": "{{resistor3BehaviorInterpretation}}"
         }
       ]
     },
@@ -307,6 +323,80 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "等效電阻是指從同一顆電池汲取與整個電阻組相同的總電流的單一電阻。",
+    "whyItMatters": "它可以讓您簡化混合電路，而不會失去您需要預測的實際源電流、電壓共享或分支電流行為。",
+    "keyTakeaway": "首先使用其接線實際合理的規則減少突出顯示的對，然後添加外部電阻器 R1 以獲得電池的總負載。"
+  },
+  "v2": {
+    "intuition": "等效電阻是電池有效承受的負載。您不必一次對所有電阻進行平均；您先折疊一個實際的串聯或併聯組，然後讓源響應更簡單的總負載。",
+    "whyItMatters": "這個一數負載預測了實際的總電流，而未簡化的電路仍然解釋了電流和電壓如何在突出顯示的組內分配。",
+    "equationSnapshot": {
+      "note": "電流 , . [[]] r_eq"
+    },
+    "guidedSteps": [
+      {
+        "id": "reduce-the-highlighted-pair",
+        "title": "減少反白的對",
+        "goal": "首先確定唯一允許成為電阻的組別。",
+        "doThis": "從平衡系列組開始，減少指南可見。在移動任何控制項之前讀取 R2、R3、R_group、R_eq 和 I_total。",
+        "notice": "突出顯示的對首先被減少，因為它位於一個共享電流路徑中； R1 在組外等待，直到第一次歸約完成。",
+        "explain": "在起始串聯組中，R_group = R2 + R3 = 12 歐姆。只有這樣，電路才變成 R1 + R_group = 16 歐姆，因此 12 V 電池驅動 0.75 A。"
+      },
+      {
+        "id": "switch-only-the-group-mode",
+        "title": "僅切換群組模式",
+        "goal": "在其他任何變更之前，請了解將串聯變更為並聯如何改變分組負載。",
+        "doThis": "負載平衡並聯組，或僅開關 使用並聯組對，同時 R1、R2、R3 和電池保持不變。在總電流徽章之前觀察分組等效晶片。",
+        "notice": "相同的兩個 6 歐姆電阻現在減少到 3 歐姆，而不是 12 歐姆，因為並聯分支共享兩個組節點和相同的組電壓。",
+        "explain": "R1 沒有改變，但第一次減少改變了。總負載從 16 歐姆降至 7 歐姆，因此相同的 12 V 電池可驅動更多的總電流。"
+      },
+      {
+        "id": "separate-current-from-voltage-share",
+        "title": "將電流與電壓共享分開",
+        "goal": "使用不等串聯組可以避免壓降越大電流越大的常見錯誤。",
+        "doThis": "加載不等系列組，並在電流疊加開啟時將藍色 R3 電壓標籤與 Q2 和 Q3 充電計數器進行比較。",
+        "notice": "R3 由於電阻較大而承受較大的壓降，但 Q2 和 Q3 仍一起上升，因為分組路徑只有一個電流。",
+        "explain": "在一個串聯路徑中，電流是常見的。電壓與電阻成正比，因此較大的電壓標籤並不表示每秒通過該電阻的電荷較多。"
+      },
+      {
+        "id": "trace-the-parallel-branch-current",
+        "title": "追蹤並聯支路電流",
+        "goal": "在嘗試減少目標之前，將共享節點圖片連接到不等支路電流。",
+        "doThis": "負載不等並聯組，節點引導與電流可見。在開始挑戰之前，先比較 R2 電流、R3 電流、分組電壓和電流圖。",
+        "notice": "兩個支路共享組電壓，但電阻較低的支路承載更多電流。分組等效電阻也小於任一分支電阻。",
+        "explain": "並聯以相等的電壓啟動，而不是相等的電流。一旦組被誠實地減少，源電流仍然遵循最終的 R_eq，而分支電流解釋了分組電流如何分裂。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "等效電阻是使電電源電壓和總電流與原始網路相符的一個電阻。",
+        "有效的第一個減少來自接線：串聯的一個電流路徑，或並聯的相同的兩個節點。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "較低的總等效電阻使得相同的電池驅動更大的總電流。",
+        "並聯支路共享組電壓，但可以承載不同的電流，並且它們的等效電阻小於單獨的任何支路。"
+      ],
+      "misconception": "不要僅僅因為看起來很近的電阻器靠得很近而將它們組合在一起。僅減少真正的串聯路徑或真正的並聯節點對，並檢查並聯等效值是否小於每個分支電阻。",
+      "freePlayPrompt": "在移動控制項之前，預測您是否要變更第一組減少、外部系列新增、總源電流或反白對內的分支分割。",
+      "nextConcepts": [
+        {
+          "slug": "power-energy-circuits",
+          "title": "電路中的功率與能量",
+          "reasonLabel": "使用 R_eq 來判斷電流、功率和能量傳輸。"
+        },
+        {
+          "slug": "kirchhoff-loop-and-junction-rules",
+          "title": "基爾霍夫環路與連接規則",
+          "reasonLabel": "處理不能被一個明顯組別減少的網路。"
+        },
+        {
+          "slug": "series-parallel-circuits",
+          "title": "串聯和並聯電路",
+          "reasonLabel": "看看每次縮減背後的兩條接線規則。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "group-series",
@@ -372,11 +462,430 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "等效地圖",
+      "primaryGraphIds": [
+        "等效地圖"
+      ],
+      "primaryControlIds": [
+        "群組並行"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "voltage",
-        "label": "電池電壓"
+        "label": "電池電壓",
+        "description": "改變整個簡化電路的來源推送。"
+      },
+      {
+        "id": "resistance1",
+        "label": "外部電阻 R1",
+        "description": "此電阻始終與減少的組別串聯。"
+      },
+      {
+        "id": "resistance2",
+        "label": "分組電阻 R2",
+        "description": "變更突出顯示群組內的頂部或第一個電阻。"
+      },
+      {
+        "id": "resistance3",
+        "label": "分組電阻 R3",
+        "description": "變更突出顯示群組中的底部或第二個電阻並驅動響應圖掃描。"
+      },
+      {
+        "id": "groupParallel",
+        "label": "使用平行分組對",
+        "description": "關閉會使突出顯示的對保持串聯。 On 使突出顯示的線對在與 R1 組合之前平行。"
       }
+    ],
+    "presets": [
+      {
+        "id": "series-group-balanced",
+        "label": "平衡系列組",
+        "description": "一個對稱起點，其中突出顯示的對直接在包含 R1 之前添加。"
+      },
+      {
+        "id": "parallel-group-balanced",
+        "label": "平衡並聯組",
+        "description": "現在，相同的電阻值首先通過並聯規則減小，在添加 R1 之前給出更小的分組等效值。"
+      },
+      {
+        "id": "series-group-unequal",
+        "label": "不等系列組",
+        "description": "阻值較大的分組串聯電阻在組壓降中所佔的份額較大。"
+      },
+      {
+        "id": "parallel-group-unequal",
+        "label": "不等並聯組",
+        "description": "兩個分組分支共享相同的組電壓，但電阻較低的分支每秒消耗更多的電流和電荷。"
+      },
+      {
+        "id": "low-voltage-parallel-group",
+        "label": "低壓並聯組",
+        "description": "縮減順序保持不變，同時整個電路運作更加平緩。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentFlow",
+        "label": "電流",
+        "shortDescription": "顯示分組電路中的即時電流箭頭和充電計數器。",
+        "whatToNotice": [
+          "R1 始終承載總電流。突出顯示的線對僅在線對平行時才分流電流。"
+        ],
+        "whyItMatters": "簡化的電路仍應與您所看到的即時充電流程一致。",
+        "relatedControls": [
+          "電壓",
+          "電阻1",
+          "電阻2",
+          "電阻3",
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻1",
+          "電阻2",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "voltageLabels",
+        "label": "電壓標籤",
+        "shortDescription": "標記電源電壓、外部電阻壓降、分組塊壓降和即時 R3 壓降。",
+        "whatToNotice": [
+          "在您決定如何在反白的對內分配該電壓降之前，分組區塊會採用一個共享電壓降。"
+        ],
+        "whyItMatters": "透過將分組區塊與完整電路電壓故事連結起來，可以保持還原的真實性。",
+        "relatedControls": [
+          "電壓",
+          "電阻1",
+          "電阻3",
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻1",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "reductionGuide",
+        "label": "減少指南",
+        "shortDescription": "反白您應該先減少的唯一對，並顯示其即時分組的等效項。",
+        "whatToNotice": [
+          "首先減少反白顯示的對。 R1 直到該組已成為一個電阻器後才組合。"
+        ],
+        "whyItMatters": "這使得歸約順序可見，而不是將其變成符號技巧。",
+        "relatedControls": [
+          "電阻1",
+          "電阻2",
+          "電阻3",
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "等效地圖"
+        ],
+        "relatedEquationVariables": [
+          "電阻1",
+          "電阻2",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "nodeGuide",
+        "label": "節點指南",
+        "shortDescription": "標記證明並行縮減合理的共享群組節點。",
+        "whatToNotice": [
+          "當反白的電阻對並聯時，兩個分組的電阻器連接在相同的兩個組節點上，因此共享相同的組電壓。"
+        ],
+        "whyItMatters": "共享節點圖解釋了並行歸約規則和群組內的即時分支行為。",
+        "relatedControls": [
+          "群組並行",
+          "電阻2",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedEquationVariables": [
+          "電阻2",
+          "電阻3"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "equivalent-map",
+      "label": "減少掃描與 R3",
+      "xLabel": "R3（歐姆）",
+      "yLabel": "等效電阻（歐姆）",
+      "description": "僅掃描 R3，同時保持電池、R1、R2 和群組模式固定。先讀取分組等效曲線，再再加上固定的外部電阻R1，即可了解總等效曲線。"
+    },
+    {
+      "id": "current-map",
+      "label": "電流掃描與 R3",
+      "xLabel": "R3（歐姆）",
+      "yLabel": "電流（A）",
+      "description": "僅掃描 R3，同時保持電路的其餘部分固定。在串聯組中，所有電流保持鎖定在一起。在並聯組中，R2 和 R3 分流分組電流，而 R1 仍承載總電流。"
+    },
+    {
+      "id": "voltage-share",
+      "label": "電壓共享與 R3",
+      "xLabel": "R3（歐姆）",
+      "yLabel": "電壓（V）",
+      "description": "僅掃描 R3，同時保持來源、R1、R2 和群組模式固定。外部電阻壓降和分組塊壓降總是會增加電池電壓。並聯組中，R3獲得全組電壓；在系列組中，它只獲得該掉落的一部分。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一隻眼睛盯著突出顯示的線對，另一隻眼睛盯著整個電路。重要的問題始終是：當該組誠實地減少時會發生什麼變化？",
+    "items": [
+      {
+        "id": "eqr-notice-reduce-first",
+        "text": "從突出顯示的對開始，而不是整個電路。僅減少真正共享一條當前路徑或一對節點的群組。",
+        "tryThis": "在串連和並聯之間切換分組對，而不接觸 R1。在總電流變化之前觀察還原卡的變化。",
+        "whyItMatters": "降序是這個概念中主要的新技能。",
+        "relatedControls": [
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "等效地圖"
+        ],
+        "relatedOverlays": [
+          "還原指南"
+        ],
+        "relatedEquationVariables": [
+          "電阻1",
+          "電阻2",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "eqr-notice-equivalent-map",
+        "text": "總等效曲線在分組曲線上方保持固定量，因為 R1 僅在突出顯示的對減少後添加。",
+        "tryThis": "將 R1 保持在 4 歐姆，並在預覽不同的 R3 值時比較兩條曲線之間的垂直間隙。",
+        "whyItMatters": "該圖將兩步符號過程變成了您可以看到的東西。",
+        "relatedControls": [
+          "電阻1",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "等效地圖"
+        ],
+        "relatedOverlays": [
+          "還原指南"
+        ],
+        "relatedEquationVariables": [
+          "電阻1",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "eqr-notice-parallel-nodes",
+        "text": "當突出顯示的對平行時，節點指南解釋了為什麼兩個分組的分支即使電流不同但仍保持相同的組電壓。",
+        "tryThis": "在並聯組模式下開啟節點指南並將其與電壓共享圖進行比較。",
+        "whyItMatters": "相同的兩個共享節點證明了歸約規則和即時分支行為的合理性。",
+        "relatedControls": [
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedOverlays": [
+          "節點指南",
+          "電壓標籤"
+        ],
+        "relatedEquationVariables": [
+          "電阻2",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "eqr-notice-current-split",
+        "text": "目前圖像是誠實性檢查。在串聯組中，所有電流都匹配。在並聯組中，只有支路電流分流，而 R1 仍承載總電流。",
+        "tryThis": "使用不等分組預設並預覽更大的 R3 值。藍色支路電流下降，但外電阻電流仍是兩個分組支路的總和。",
+        "whyItMatters": "等效電阻應與可見電流一致，而不是取代它。",
+        "relatedControls": [
+          "電阻3",
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedOverlays": [
+          "電流流量"
+        ],
+        "relatedEquationVariables": [
+          "電阻3"
+        ]
+      },
+      {
+        "id": "eqr-notice-time-charge",
+        "text": "費用計數器顯示組別規則的時間結果。在串聯組中，Q2 和 Q3 一起上升。在並聯組中，它們由於支路電流不同而分開。",
+        "tryThis": "稍後暫停不等並聯組預設，然後切換到不等串聯組預設並比較 Q2 和 Q3。",
+        "whyItMatters": "減少步驟改變了基於即時的結果，而不僅僅是靜態數字。",
+        "relatedControls": [
+          "群組並行",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedOverlays": [
+          "電流流量"
+        ],
+        "relatedEquationVariables": [
+          "電阻3"
+        ]
+      },
+      {
+        "id": "eqr-notice-compare",
+        "text": "當兩種設定保持相同的電阻值但僅更改分組對模式時，比較模式在這裡最強。這將減少訂單隔離為唯一的結構性變化。",
+        "tryThis": "將平衡串聯組預設複製到設定 B 中，僅將設定 B 切換為並聯分組對，然後比較幻影電路、還原卡和電流圖。",
+        "whyItMatters": "您可以信任因果變化，因為只有分組關係發生了變化。",
+        "relatedControls": [
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "等效地圖",
+          "目前地圖"
+        ],
+        "relatedOverlays": [
+          "還原指南",
+          "電流流量"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在切換電路之前預測誠實的減少。每個場景一次更改一組功能，因此原因始終可見。",
+    "items": [
+      {
+        "id": "eqr-pred-switch-group-to-parallel",
+        "prompt": "電路從 VIN = 12V、R1 = 4 歐姆以及串聯的一對平衡突出顯示的 R2 = 6 歐姆和 R3 = 6 歐姆開始。如果僅將突出顯示的對切換為並行，哪種說法最有道理？",
+        "scenarioLabel": "將分組對切換為平行",
+        "changeLabel": "群組模式",
+        "choices": [
+          {
+            "id": "a",
+            "label": "分組等效電阻從 12 歐姆下降到 3 歐姆，總等效電阻從 16 歐姆下降到 7 歐姆，總電流上升。"
+          },
+          {
+            "id": "b",
+            "label": "分組等效電阻保持 12 歐姆，因為 R1 仍然與整個電路串聯。"
+          },
+          {
+            "id": "c",
+            "label": "總電流下降，因為突出顯示的對現在包含兩個單獨的分支。"
+          }
+        ],
+        "explanation": "僅突出顯示的對發生變化。將其從串聯切換為並聯會使分組當量變得更小，因此最終的總當量下降並且電池電流上升。",
+        "observationHint": "首先觀察分組等效變化，然後觀察總電流徽章和圖像響應。"
+      },
+      {
+        "id": "eqr-pred-raise-r3-series",
+        "prompt": "在串聯組模式下，VCC = 12V、R1 = 4 歐姆、R2 = 4 歐姆，如果 R3 從 4 歐姆升至 12 歐姆，會發生什麼情況？",
+        "scenarioLabel": "串聯組中增加R3",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "分組等效值上升，總電流下降，並且 R3 佔據分組電壓的更大份額。"
+          },
+          {
+            "id": "b",
+            "label": "總電流保持固定，因為 R1 仍然承載與先前相同的環路電流。"
+          },
+          {
+            "id": "c",
+            "label": "R3 電壓必須下降，因為較大的電阻總是會獲得較小的電壓。"
+          }
+        ],
+        "explanation": "在串聯組中，增加 R3 會增加分組當量和最終總當量。相同的電流仍然流過兩個分組的電阻器，因此較大的 R3 也獲得更大的組電壓份額。",
+        "observationHint": "電流隨處下降，而分組電壓的藍色部分則增加。"
+      },
+      {
+        "id": "eqr-pred-raise-r3-parallel",
+        "prompt": "在 V = 12 V、R1 = 4 歐姆、R2 = 4 歐姆的並聯組模式下，如果 R3 從 4 歐姆升至 12 歐姆，會發生什麼情況？",
+        "scenarioLabel": "增加並聯組中的 R3",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "分組等效值上升，總電流下降，R3 支路電流下降，而 R2 仍保持相同的分組電壓。"
+          },
+          {
+            "id": "b",
+            "label": "分組等效值下降，因為較大的 R3 為電流提供了另一條路徑。"
+          },
+          {
+            "id": "c",
+            "label": "R3 分支電流上升，因為分組區塊現在儲存更多電荷。"
+          }
+        ],
+        "explanation": "在並聯組中，增加 R3 會使該分支變弱並增加分組當量。整個電路消耗的總電流較少，即使 R3 仍承受組電壓，R3 支路電流也會下降。",
+        "observationHint": "即使分支仍共用該組的電壓，藍色分支電流和藍色電荷計數器也會縮小。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的分組電路來達到減少目標。檢查來自即時還原卡、電流響應和電壓行為，而不是來自單獨的答案卷。",
+    "items": [
+      {
+        "id": "eqr-ch-parallel-group-collapse",
+        "title": "建構 3 歐姆並聯組",
+        "prompt": "從平衡串聯組開始，僅更改分組連接，直到突出顯示的對約為 3 歐姆，整個電路約為 7 歐姆。",
+        "successMessage": "您首先減少了正確的對，並得到了誠實的混合電路答案。分組當量和總當量現在與即時電流響應一致。",
+        "setup": {
+          "note": "當您僅變更分組對模式時，請同時使用縮減精靈和等效掃描。"
+        },
+        "hints": [
+          "保持電阻值不變。目標來自於改變分組關係，而不是電阻器大小。",
+          "在 R1 加回串聯之前，分組等效電阻應降至低於任一分組電阻。"
+        ],
+        "targets": [
+          {
+            "label": "將電阻 1 保持在 3.8 歐姆和 4.2 歐姆之間。"
+          },
+          {
+            "label": "將電阻 2 保持在 5.8 歐姆和 6.2 歐姆之間。"
+          },
+          {
+            "label": "將電阻 3 保持在 5.8 歐姆和 6.2 歐姆之間。"
+          },
+          {
+            "label": "將組等效電阻保持在 2.9 歐姆和 3.1 歐姆之間。"
+          },
+          {
+            "label": "將等效電阻保持在 6.9 歐姆和 7.1 歐姆之間。"
+          },
+          {
+            "label": "將總電流保持在 1.67 A 和 1.76 A 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "等效電阻 |開放模型實驗室",
+    "description": "了解如何透過即時還原步驟、分組電流和電壓讀數、引導覆蓋、預測提示和更強的概念快速測試將有界混合電阻電路簡化為等效電阻。",
+    "keywords": [
+      "等效電阻",
+      "混合電阻電路",
+      "串聯和並聯減速",
+      "分組電阻",
+      "電路簡化"
     ]
   }
 }

@@ -72,22 +72,78 @@
           "steps": [
             {
               "id": "write-points",
-              "label": "1. 輸入當前點"
+              "label": "1. 輸入當前點",
+              "template": "當前點為 z = {{zValue}} 和 w = {{wValue}}。"
             },
             {
               "id": "add-components",
-              "label": "2. 分別加實部和虛部"
+              "label": "2. 分別加實部和虛部",
+              "template": "總和使平面保持誠實：({{realPartValue}} + {{operandRealValue}}, {{imaginaryPartValue}} + {{operandImaginaryValue}})。"
             },
             {
               "id": "read-result",
-              "label": "3. 閱讀新的終點"
+              "label": "3. 閱讀新的終點",
+              "template": "給出 z + w =​​ {{sumValue}}，因此總和為 ({{sumRealValue}}, {{sumImaginaryValue}})。"
             }
           ],
           "resultLabel": "當前總和",
+          "resultTemplate": "$z + w = {{sumValue}}$",
           "applyAction": {
             "label": "應用向量和法",
             "observationHint": "頭尾相接的指引保持了分量加法和幾何圖形的一致性。"
-          }
+          },
+          "interpretationTemplate": "{{additionInterpretation}}"
+        },
+        {
+          "id": "read-complex-multiplication-geometrically",
+          "title": "將 z · w 讀為刻度加轉數",
+          "prompt": "在乘法視圖中，使用 w 的大小和角度來預測 z · w 應該落在哪裡。",
+          "variables": [
+            {
+              "id": "z",
+              "label": "起始複數"
+            },
+            {
+              "id": "w",
+              "label": "乘數"
+            },
+            {
+              "id": "scale-factor",
+              "label": "w 的比例因子"
+            },
+            {
+              "id": "rotation",
+              "label": "從 w 旋轉"
+            },
+            {
+              "id": "product",
+              "label": "產品"
+            }
+          ],
+          "steps": [
+            {
+              "id": "read-multiplier",
+              "label": "1. 讀 |w|和arg(w)",
+              "template": "目前的乘數是w = {{wValue}}，所以它的大小|w| = {{scaleFactorValue}} 且其轉動約為 {{rotationDegValue}}°。"
+            },
+            {
+              "id": "apply-scale-turn",
+              "label": "2. 縮放並旋轉 z",
+              "template": "從 z = {{zValue}} 開始。乘法將 z 按 {{scaleFactorValue}} 縮放，並在其方向上加約 {{rotationDegValue}}°。"
+            },
+            {
+              "id": "read-product",
+              "label": "3. 將產品與端點相符",
+              "template": "即時產品為 z · w = {{productValue}}，降落在同一平面上的 ({{productRealValue}}, {{productImaginaryValue}})。"
+            }
+          ],
+          "resultLabel": "飛機上的當前產品",
+          "resultTemplate": "$z \\cdot w = {{productValue}}$",
+          "applyAction": {
+            "label": "將乘法顯示為輪",
+            "observationHint": "產品箭頭應與相同的比例加回合故事匹配：|w|控制拉伸，arg(w) 控制旋轉。"
+          },
+          "interpretationTemplate": "{{multiplicationInterpretation}}"
         }
       ]
     },
@@ -119,7 +175,11 @@
             "label": "只把它當成兩個彼此無關的實數。"
           }
         ],
-        "explanation": "複數平面的核心就在於：代數和幾何其實在描述同一個物件。"
+        "explanation": "複數平面的核心就在於：代數和幾何其實在描述同一個物件。",
+        "selectedWrongExplanations": {
+          "b": "a 和 b 部分將複數直接放置在平面上。",
+          "c": "這兩個元件作為一個點/向量一起工作，而不是作為不相關的值。"
+        }
       },
       {
         "id": "cnp-qt-multiplication",
@@ -138,7 +198,11 @@
             "label": "不會發生什麼重要變化。"
           }
         ],
-        "explanation": "當乘數接近單位圓時，它主要改變方向而不是大小，所以乘積通常會旋轉很多，但長度改變不大。"
+        "explanation": "當乘數接近單位圓時，它主要改變方向而不是大小，所以乘積通常會旋轉很多，但長度改變不大。",
+        "selectedWrongExplanations": {
+          "a": "接近 1 的模數不會大幅縮放長度。",
+          "c": "一個大的爭論改變了產品的方向。"
+        }
       }
     ]
   },
@@ -173,6 +237,72 @@
         }
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "將複數讀取為一個平面上的點和向量，然後將加法和乘法保持幾何而不是僅符號。",
+    "keyTakeaway": "複數 z = a + bi 可以讀成點 (a, b) 或從原點到該點的向量。"
+  },
+  "v2": {
+    "intuition": "當代數和影像永遠不會分開時，複數會變得容易得多：同一個 z 既是一個平面上的點又是箭頭。",
+    "whyItMatters": "這將複雜的算術變成了你可以看到和推理的東西，這使得後來的旋轉、三角學和極坐標形式的想法不再那麼抽象。",
+    "equationSnapshot": {
+      "note": "記住平面圖：一個公式告訴您點在哪裡，另一個公式告訴您乘法如何旋轉和縮放它。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-z-and-w-on-the-plane",
+        "title": "讀取平面上的 z 和 w",
+        "goal": "在開始組合任何東西之前，請注意複數已經既是幾何又是代數。",
+        "doThis": "從向量和開始，保持加法圖打開，並僅移動 w 滑桿進行第一遍。",
+        "notice": "有序對和箭頭一起移動。您不是在兩個不同的物件之間切換。",
+        "explain": "z = a + bi 表示點 (a, b) 以及從原點到同一點的向量。"
+      },
+      {
+        "id": "build-the-sum",
+        "title": "求和",
+        "goal": "使用相同平面將 z + w 讀取為組件相加和頭尾幾何形狀。",
+        "doThis": "保持附加視圖並使用從頭到尾的指南來讀取 z + w 的落地位置。",
+        "notice": "總和端點與翻譯後的第二個箭頭和逐個組件相加規則相符。",
+        "explain": "複數加法的行為類似於向量加法，因為實部在一個軸上相加，虛部在另一個軸上相加。"
+      },
+      {
+        "id": "turn-multiplication-into-motion",
+        "title": "將乘法變成運動",
+        "goal": "將乘法視為回合加比例動作，而不僅僅是組件規則。",
+        "doThis": "在您自己變更 w 之前，請開啟乘法視圖並套用按 i 旋轉。",
+        "notice": "單位圓附近的乘數可以在不拉伸太多的情況下將 z 轉動很多。",
+        "explain": "對於乘積，量值相乘，參數相加，因此 w 會改變 z 的大小和方向。"
+      },
+      {
+        "id": "check-the-plane-story",
+        "title": "看看飛機故事",
+        "goal": "當你向自己解釋這個想法時，測試幾何和代數描述是否仍然一致。",
+        "doThis": "使用快速檢查，然後建立一個乘法案例，在不過度拉伸的情況下改變結果。",
+        "notice": "正確答案應該一直說同樣的事情：平面影像和代數描述的是同一個物件。",
+        "explain": "如果你可以在同一平面上解釋一個點、一個向量、一個和以及一個乘積，那麼這個概念就開始結合在一起了。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "複數可以讀成點 (a, b) 以及從原點到該點的向量。",
+        "複平面上的加法與向量加法是相同的。",
+        "乘法會一起改變大小和方向，因為振幅相乘，參數相加。"
+      ],
+      "misconception": "複數乘法不只是一個符號分量法則。幾何形狀是了解產品功能最清晰的方式。",
+      "freePlayPrompt": "留在飛機上並嘗試自己的加法與乘法案例，直到您可以在切換視圖之前預測轉彎和拉伸。",
+      "nextConcepts": [
+        {
+          "slug": "unit-circle-sine-cosine-from-rotation",
+          "title": "單位圓/旋轉的正弦和餘弦",
+          "reasonLabel": "保留相同的開機圖片並將其重新用於三角座標。"
+        },
+        {
+          "slug": "polar-coordinates-radius-and-angle",
+          "title": "極座標/半徑與角度",
+          "reasonLabel": "將相同的距離和方向讀數攜帶到半徑角度座標。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -219,6 +349,17 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "加法掃描",
+      "primaryGraphIds": [
+        "加法掃描"
+      ],
+      "primaryControlIds": [
+        "操作數-實數",
+        "操作數-虛數"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "real-part",
@@ -266,7 +407,22 @@
         "whatToNotice": [
           "和向量仍然只是同一對實部與虛部的相加結果。"
         ],
-        "whyItMatters": "它把複數加法直接連迴向量加法。"
+        "whyItMatters": "它把複數加法直接連迴向量加法。",
+        "relatedControls": [
+          "真實部分",
+          "虛部",
+          "操作數實數",
+          "運算元虛數"
+        ],
+        "relatedGraphTabs": [
+          "加法掃描"
+        ],
+        "relatedEquationVariables": [
+          "真實部分",
+          "虛部",
+          "操作數-實數",
+          "操作數-虛數"
+        ]
       },
       {
         "id": "magnitudeCircle",
@@ -275,7 +431,22 @@
         "whatToNotice": [
           "模為 1 的乘數，仍然可以把 z 旋轉得很明顯。"
         ],
-        "whyItMatters": "它讓乘法中的縮放大小更容易被看清。"
+        "whyItMatters": "它讓乘法中的縮放大小更容易被看清。",
+        "relatedControls": [
+          "真實部分",
+          "虛部",
+          "操作數實數",
+          "運算元虛數"
+        ],
+        "relatedGraphTabs": [
+          "乘法掃描"
+        ],
+        "relatedEquationVariables": [
+          "真實部分",
+          "虛部",
+          "操作數-實數",
+          "操作數-虛數"
+        ]
       },
       {
         "id": "rotationCue",
@@ -284,7 +455,20 @@
         "whatToNotice": [
           "乘法會透過角度相加來改變方向。"
         ],
-        "whyItMatters": "它把幅角相加的規則變成可見的幾何動作。"
+        "whyItMatters": "它把幅角相加的規則變成可見的幾何動作。",
+        "relatedControls": [
+          "操作數實數",
+          "運算元虛數",
+          "乘法模式"
+        ],
+        "relatedGraphTabs": [
+          "乘法掃描"
+        ],
+        "relatedEquationVariables": [
+          "操作數-實數",
+          "操作數-虛數",
+          "乘法模式"
+        ]
       }
     ]
   },
@@ -308,11 +492,46 @@
     "items": [
       {
         "id": "cnp-notice-addition",
-        "text": "在加法檢視中，結果箭頭既可以讀成分量相加，也可以讀成同一平面上的首尾相接和。"
+        "text": "在加法檢視中，結果箭頭既可以讀成分量相加，也可以讀成同一平面上的首尾相接和。",
+        "relatedControls": [
+          "真實部分",
+          "虛部",
+          "操作數實數",
+          "運算元虛數"
+        ],
+        "relatedGraphTabs": [
+          "加法掃描"
+        ],
+        "relatedOverlays": [
+          "新增指南"
+        ],
+        "relatedEquationVariables": [
+          "真實部分",
+          "虛部",
+          "操作數-實數",
+          "操作數-虛數"
+        ]
       },
       {
         "id": "cnp-notice-multiply",
-        "text": "當乘數接近單位圓時，它可以大幅改變 z 的方向，同時只帶來很小的伸縮。"
+        "text": "當乘數接近單位圓時，它可以大幅改變 z 的方向，同時只帶來很小的伸縮。",
+        "relatedControls": [
+          "操作數實數",
+          "運算元虛數",
+          "乘法模式"
+        ],
+        "relatedGraphTabs": [
+          "乘法掃描"
+        ],
+        "relatedOverlays": [
+          "幅度圓",
+          "旋轉提示"
+        ],
+        "relatedEquationVariables": [
+          "操作數-實數",
+          "操作數-虛數",
+          "乘法模式"
+        ]
       }
     ]
   },
@@ -351,8 +570,30 @@
         "id": "cnp-ch-rotate-to-positive-imaginary",
         "title": "旋轉到正虛軸",
         "prompt": "建立一個乘法情況，令 z · w 幾乎落在正虛軸上，同時保持乘數的模接近 1。",
-        "successMessage": "你建立了一個真正以旋轉為主的乘法情況。乘積落在接近正虛軸的位置，因為幅角大幅改變，而縮放因子仍接近 1。"
+        "successMessage": "你建立了一個真正以旋轉為主的乘法情況。乘積落在接近正虛軸的位置，因為幅角大幅改變，而縮放因子仍接近 1。",
+        "targets": [
+          {
+            "label": "將比例因子保持在 0.95 到 1.05 之間。"
+          },
+          {
+            "label": "將productreal 維持在-0.25 和0.25 之間。"
+          },
+          {
+            "label": "將虛數積保持在 2.2 和 5 之間。"
+          }
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "平面上的複數",
+    "description": "將複數探索為點和向量，然後在即時複平面上以幾何方式讀取加法和乘法。",
+    "keywords": [
+      "複數",
+      "複平面",
+      "複數乘法",
+      "數學"
     ]
   }
 }

@@ -1,4 +1,5 @@
 import type { AppLocale } from "@/i18n/routing";
+import { localizeZhHkVisibleText } from "@/lib/i18n/zh-hk-visible-text";
 
 export function copyText(locale: AppLocale | undefined, english: string, zhHongKong: string) {
   return locale === "zh-HK" ? zhHongKong : english;
@@ -154,6 +155,6 @@ export function localizeKnownSimulationText(locale: AppLocale | undefined, value
     case "principal axis":
       return "主軸";
     default:
-      return localizeKnownCompareText(locale, value);
+      return localizeKnownCompareText(locale, localizeZhHkVisibleText(value));
   }
 }

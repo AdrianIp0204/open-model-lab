@@ -1,5 +1,6 @@
 {
   "title": "均速圓周運動",
+  "shortTitle": "UCM",
   "summary": "跟隨粒子以恆定速率繞圓運動，並把半徑、角速度、切向速度、向心加速度與所需向心力連回同一個即時狀態。",
   "highlights": [
     "半徑",
@@ -75,22 +76,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別投影關係"
+              "label": "1. 識別投影關係",
+              "template": "使用圓週運動的水平投影：$x(t) = R\\cos(\\omega t + \\phi)$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前值"
+              "label": "2. 代入當前值",
+              "template": "$x({{timeValue}}) = {{radiusValue}}\\cos({{omegaValue}}\\cdot {{timeValue}} + {{phaseValue}})$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算當前投影"
+              "label": "3. 計算當前投影",
+              "template": "目前角度為$\\theta = {{angleValue}}$，因此水平位置為$x = {{xValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "當前水平投影",
+          "resultTemplate": "$x({{timeValue}}) = {{xValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "顯示投影連結",
             "observationHint": "啟用投影引導並比較粒子與 x(t) 圖像標記。"
-          }
+          },
+          "interpretationTemplate": "{{projectionInterpretation}}"
         },
         {
           "id": "centripetal-acceleration",
@@ -109,22 +115,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別內向加速關係"
+              "label": "1. 識別內向加速關係",
+              "template": "對於勻速圓週運動，$a_c = \\omega^2 R$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前值"
+              "label": "2. 代入當前值",
+              "template": "$a_c = ({{omegaValue}})^2\\cdot {{radiusValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算內向加速度"
+              "label": "3. 計算內向加速度",
+              "template": "這給了$a_c = {{centripetalAccelerationValue}}\\,\\mathrm{m/s^2}$。"
             }
           ],
           "resultLabel": "當前向心加速度",
+          "resultTemplate": "$a_c = {{centripetalAccelerationValue}}\\,\\mathrm{m/s^2}$",
           "applyAction": {
             "label": "顯示更緊的轉彎",
             "observationHint": "內向箭頭變長，因為在較高的角速度下進行較小的圓周運動需要更多的向心加速度。"
-          }
+          },
+          "interpretationTemplate": "{{centripetalInterpretation}}"
         }
       ]
     },
@@ -279,6 +290,92 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "追蹤一個以恆定速度繞圓運動的粒子，然後將其切線速度、向內加速度、投影和力需求連接到相同的即時狀態。",
+    "whyItMatters": "它是從簡諧投影到軌道和向心力問題的橋樑：你學會解讀方向的變化，而不僅僅是速度。",
+    "keyTakeaway": "恆定速度並不意味著恆定速度。速度是切線的，而加速度向內以保持路徑轉動。"
+  },
+  "v2": {
+    "intuition": "轉彎是方向改變。使用軌道觀察切線速度旋轉，同時加速度保持向內指向中心。",
+    "whyItMatters": "勻速圓週運動是向心力、圓形軌道以及簡諧運動的投影鏈結的共同基礎，因此向量需要感覺像是一個生動的故事，而不是單獨的公式。",
+    "equationSnapshot": {
+      "title": "一轉狀態",
+      "note": "將速度、向內加速度和投影方程式保持在一起，以便每個公式都指向同一個粒子。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-turning-vectors",
+        "title": "讀取轉動向量",
+        "goal": "在觸控控制之前，將恆定速度與變化速度分開。",
+        "doThis": "從參考軌道開始，保持速度組件打開，並觀察向內加速度箭頭旁的切線速度箭頭幾秒鐘。",
+        "notice": "當速度箭頭持續旋轉、加速度箭頭持續瞄準中心時，速度值可以保持穩定。",
+        "explain": "加速度表示速度正在改變。在圓週運動中，速度的大小可以保持固定，但其方向會不斷變化。",
+        "inlineCheck": {
+          "title": "檢查恆速誤解"
+        }
+      },
+      {
+        "id": "change-angular-speed",
+        "title": "改變角速度",
+        "goal": "看看角速度如何在不改變圓形路徑本身的情況下改變計時和向內加速度。",
+        "doThis": "提高角速度或切換到快速旋轉，同時角度和速度圖保持可見。",
+        "notice": "粒子更快完成每次旋轉，角度圖變得更陡，向內加速度強勁增長。",
+        "explain": "角速度決定角度變化的速度。因為 a_c = ω²R，較快的旋轉在相同半徑下需要更多的向內加速度。",
+        "inlineCheck": {
+          "title": "預測更快的旋轉"
+        }
+      },
+      {
+        "id": "connect-the-projections",
+        "title": "連結投影",
+        "goal": "使用相同的圓週運動來解釋為什麼 x(t) 和 y(t) 看起來像振盪。",
+        "doThis": "切換到投影鏈接，開啟 x 和 y 投影圖，然後開啟投影參考線。",
+        "notice": "虛線引導線、粒子位置和圖像標記都從不同視圖描述同一時刻。",
+        "explain": "每個座標只是圓的一個軸投影，因此 x 和 y 值追蹤正弦和餘弦模式，而完整運動保持圓形。",
+        "inlineCheck": {
+          "title": "解釋一下圖像鏈接"
+        }
+      },
+      {
+        "id": "judge-one-instant",
+        "title": "判斷一瞬間",
+        "goal": "讀取圓上單點的速度、加速度和投影值。",
+        "doThis": "暫停或拖曳到側面/頂部位置，然後在回答檢查點之前比較半徑、切線速度、向內加速度和投影圖值。",
+        "notice": "在每個瞬間，切線方向和向內方向都是垂直的，而圖像值顯示匹配的 x 和 y 投影。",
+        "explain": "正確的圓週運動答案必須保持幾何圖像和圖像同步：速度為正切，加速度為向內，座標為軸投影。",
+        "inlineCheck": {
+          "title": "使用向量檢查點"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "當速度方向不斷變化時，恆定速度仍意味著加速度。",
+        "速度指向與圓相切的方向，而向心加速度則沿著半徑向內指向。",
+        "角速度控制週期、切向速度、向內加速度、半徑。",
+        "x(t) 和 y(t) 圖像是同一圓週運動的投影，而不是單獨的運動。"
+      ],
+      "misconception": "請勿將速度箭頭對準中心。向內的箭頭是加速度；速度箭頭與路徑保持相切。",
+      "freePlayPrompt": "坐在長凳上，創建一個緩慢的寬軌道和一個快速的緊軌道，然後解釋哪一個需要更大的向內加速度以及原因。",
+      "nextConcepts": [
+        {
+          "slug": "circular-orbits-orbital-speed",
+          "title": "圓形軌道/軌道速度",
+          "reasonLabel": "讓重力提供向內轉動"
+        },
+        {
+          "slug": "simple-harmonic-motion",
+          "title": "簡諧振動",
+          "reasonLabel": "回顧投影橋"
+        },
+        {
+          "slug": "projectile-motion",
+          "title": "抛射運動",
+          "reasonLabel": "比較二維方向的變化"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "ucm-angle",
@@ -328,30 +425,343 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "速度",
+      "primaryGraphIds": [
+        "速度",
+        "預測"
+      ],
+      "primaryControlIds": [
+        "歐米茄",
+        "半徑"
+      ],
+      "primaryPresetIds": [
+        "參考軌道",
+        "快速旋轉",
+        "投影鏈接"
+      ],
+      "starterExploreTasks": [
+        "保持速度圖打開並將切線箭頭與向內加速度箭頭進行比較。",
+        "提高角速度而不改變半徑，然後觀察週期縮小和向內箭頭增長。",
+        "開啟投影參考線，將 x(t) 和 y(t) 視為同一圓週運動的軸視圖。"
+      ]
+    },
     "controls": [
       {
         "id": "radius",
-        "label": "半徑"
+        "label": "半徑",
+        "description": "控制軌道的大小。"
       },
       {
         "id": "omega",
-        "label": "角速度"
+        "label": "角速度",
+        "description": "控製粒子繞圓掃掠的速度。"
       },
       {
         "id": "phase",
-        "label": "相位"
+        "label": "相位",
+        "description": "設定軌道的起始角度。"
       }
     ],
     "presets": [
       {
         "id": "projection-link",
-        "label": "投影連結"
+        "label": "投影連結",
+        "description": "開啟幾何圖像，使 x 和 y 投影易於與圖像進行比較。"
+      },
+      {
+        "id": "reference-orbit",
+        "label": "參考軌道",
+        "description": "具有可讀向量的平衡圓週運動情況。"
+      },
+      {
+        "id": "fast-spin",
+        "label": "快速旋轉",
+        "description": "軌道大小保持適中，而角速度急劇增加。"
+      },
+      {
+        "id": "wide-orbit",
+        "label": "寬軌道",
+        "description": "較大的半徑使軌道和投影擺動更容易比較。"
+      },
+      {
+        "id": "tight-turn",
+        "label": "急轉彎",
+        "description": "較小的軌道和較高的角速度會使向內的加速度增加。"
       }
     ],
     "overlays": [
       {
         "id": "centripetalVector",
-        "label": "向心加速度"
+        "label": "向心加速度",
+        "shortDescription": "顯示保持路徑彎曲的向內加速度。",
+        "whatToNotice": [
+          "即使速度箭頭與路徑相切，箭頭也指向內。"
+        ],
+        "whyItMatters": "這是恆速仍可涉及加速度的關鍵原因。",
+        "relatedControls": [
+          "歐米茄",
+          "半徑"
+        ],
+        "relatedGraphTabs": [
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "歐米茄",
+          "半徑"
+        ]
+      },
+      {
+        "id": "radiusVector",
+        "label": "半徑向量",
+        "shortDescription": "顯示從中心到粒子的線。",
+        "whatToNotice": [
+          "向心加速度總是沿著這個向內的方向指向後面。"
+        ],
+        "whyItMatters": "它錨定了向內加速度的幾何意義。",
+        "relatedControls": [
+          "半徑",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "預測",
+          "角度"
+        ],
+        "relatedEquationVariables": [
+          "半徑",
+          "階段"
+        ]
+      },
+      {
+        "id": "velocityVector",
+        "label": "速度向量",
+        "shortDescription": "顯示運動的瞬時切線方向。",
+        "whatToNotice": [
+          "即使速度值保持恆定，向量也會保持旋轉。"
+        ],
+        "whyItMatters": "它使恆定速度和變化速度之間的差異變得可見。",
+        "relatedControls": [
+          "歐米茄",
+          "半徑"
+        ],
+        "relatedGraphTabs": [
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "歐米茄",
+          "半徑"
+        ]
+      },
+      {
+        "id": "angleMarker",
+        "label": "角度標記",
+        "shortDescription": "標示軌道上的目前角位置。",
+        "whatToNotice": [
+          "當角速度保持恆定時，角度隨時間線性增長。"
+        ],
+        "whyItMatters": "它將即時軌道與角度圖和相位控制連結起來。",
+        "relatedControls": [
+          "歐米茄",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "角度"
+        ],
+        "relatedEquationVariables": [
+          "歐米茄",
+          "階段"
+        ]
+      },
+      {
+        "id": "projectionGuides",
+        "label": "投影指南",
+        "shortDescription": "將粒子投影到 x 軸和 y 軸上。",
+        "whatToNotice": [
+          "投影的 x 和 y 位置的行為類似於沿著每個軸觀察的振盪。"
+        ],
+        "whyItMatters": "它使簡諧振動的橋樑變得明確，而無需建造第二次模擬。",
+        "relatedControls": [
+          "半徑",
+          "歐米茄",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "預測"
+        ],
+        "relatedEquationVariables": [
+          "半徑",
+          "歐米茄",
+          "階段"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "projections",
+      "label": "x 和 y 投影",
+      "xLabel": "時間（秒）",
+      "yLabel": "位移（公尺）",
+      "description": "將水平和垂直投影顯示為相同旋轉的正弦視圖。"
+    },
+    {
+      "id": "velocity",
+      "label": "速度分量",
+      "xLabel": "時間（秒）",
+      "yLabel": "速度分量 (m/s)",
+      "description": "显示切線速度如何分解為变化的 x 和 y 分量。"
+    },
+    {
+      "id": "angle",
+      "label": "角度随時间变化",
+      "xLabel": "時間（秒）",
+      "yLabel": "角度 (rad)",
+      "description": "显示当角速度保持恒定時，角位置線性增加。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "将轨道、向量和圖像作為一个链接系统使用。最好的提示会告诉您哪种表述对于您所提出的问题最清晰。",
+    "items": [
+      {
+        "id": "ucm-notice-constant-speed",
+        "text": "當速度向量不斷轉動時，速度可以保持恆定。",
+        "tryThis": "觀察切線箭头完成一整圈，舞台上的速度值没有变化。",
+        "whyItMatters": "加速度取决于速度的变化，而不仅仅是速度的变化。",
+        "relatedControls": [
+          "歐米茄",
+          "半徑"
+        ],
+        "relatedGraphTabs": [
+          "速度"
+        ],
+        "relatedOverlays": [
+          "速度向量"
+        ]
+      },
+      {
+        "id": "ucm-notice-inward-acceleration",
+        "text": "向心加速度指向內，而速度則與圓相切。",
+        "tryThis": "在軌道的頂部、底部或側面暫停，並將向內箭頭與切線速度箭頭進行比較。",
+        "whyItMatters": "這是使圓週運動加速度非零的幾何形狀。",
+        "relatedOverlays": [
+          "向心向量",
+          "速度向量",
+          "半徑向量"
+        ],
+        "relatedEquationVariables": [
+          "半徑",
+          "歐米茄"
+        ]
+      },
+      {
+        "id": "ucm-notice-projection-link",
+        "text": "x 和 y 圖像是同一圓週運動的軸投影。",
+        "tryThis": "打开投影参考線，然后擦洗圖像，使标记和投影坐标保持同步。",
+        "whyItMatters": "它是從圓週運動到簡諧振動的直接視覺橋樑。",
+        "relatedGraphTabs": [
+          "預測"
+        ],
+        "relatedOverlays": [
+          "投影指南"
+        ],
+        "relatedEquationVariables": [
+          "半徑",
+          "歐米茄",
+          "階段"
+        ]
+      },
+      {
+        "id": "ucm-notice-omega",
+        "text": "增加角速度會使粒子繞圓速度更快，並使角度圖變陡而不改變半徑。",
+        "tryThis": "提高角速度並比較粒子完成一整週的速度。",
+        "whyItMatters": "即使圆的大小保持固定，角速度也会改变運動的時间。",
+        "relatedControls": [
+          "歐米茄",
+          "半徑"
+        ],
+        "relatedGraphTabs": [
+          "角度",
+          "速度"
+        ]
+      },
+      {
+        "id": "ucm-notice-inspect",
+        "text": "當您暫停並拖曳時，軌道位置、向量方向和圖像標記都描述同一時刻。",
+        "tryThis": "暫停，單步執行一次，然後將粒子角度與 x 和 y 投影值進行比較。",
+        "whyItMatters": "它將公式變成一種可檢查的狀態，而不是單獨的事實。",
+        "relatedGraphTabs": [
+          "預測",
+          "速度",
+          "角度"
+        ],
+        "relatedOverlays": [
+          "角度標記",
+          "投影指南"
+        ]
+      },
+      {
+        "id": "ucm-notice-compare",
+        "text": "越快完成一轉的設定具有越大的角速度。",
+        "tryThis": "保持 A 和 B 中的半徑相似，然後在一項設定中僅更改角速度。",
+        "whyItMatters": "比較模式在不改變空間框架的情況下使時序差異變得明顯。",
+        "relatedControls": [
+          "歐米茄"
+        ],
+        "relatedGraphTabs": [
+          "角度"
+        ],
+        "relatedOverlays": [
+          "角度標記"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "预測效果",
+    "intro": "在觸摸軌道之前預測會發生什麼變化。然后在舞台、向量和圖像上測试相同的变化。",
+    "items": [
+      {
+        "id": "ucm-predict-1",
+        "prompt": "如果半徑保持固定且角速度增加，週期和向心加速度會發生什麼變化？",
+        "scenarioLabel": "提高角速度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "週期變短，向心加速度增加。"
+          },
+          {
+            "id": "b",
+            "label": "週期不變，向心加速度下降。"
+          },
+          {
+            "id": "c",
+            "label": "軌道半徑自動增加，而週期保持固定。"
+          }
+        ],
+        "explanation": "較大的角速度意味著每秒更多的弧度，因此每次旋轉所需的時間更少。因為$a_c = \\omega^2 R$，當半徑保持固定時，向內加速度也會強烈增加。",
+        "observationHint": "角度圖變得更陡，向內的箭頭變大，而圓圈大小保持固定。"
+      },
+      {
+        "id": "ucm-predict-2",
+        "prompt": "如果角速度保持固定而半徑增加，什麼變化最直接？",
+        "scenarioLabel": "增加半径",
+        "choices": [
+          {
+            "id": "a",
+            "label": "軌道變大，速度增加，週期不變。"
+          },
+          {
+            "id": "b",
+            "label": "当速度保持固定時，周期自動加倍。"
+          },
+          {
+            "id": "c",
+            "label": "向內加速度消失，因為路徑彎曲程度較小。"
+          }
+        ],
+        "explanation": "角速度固定時，週期 $T = 2\\pi/\\omega$ 保持不變。但粒子必須同時覆蓋一個更大的圓，因此它的速度增加，向內的加速度也增加。",
+        "observationHint": "觀察軌道變寬，同時角度圖保持相同的斜率，速度讀數變得更大。"
       }
     ]
   },
@@ -363,7 +773,29 @@
         "id": "ucm-ch-short-period-force-band",
         "title": "短週期力值區間",
         "prompt": "由參考軌道開始，在半徑仍貼近原本圓周的前提下，把週期縮短至約 $2.2\\,\\mathrm{s}$。讓運動落在與較強向心力需求相對應的速度與向心加速度區間內。",
-        "successMessage": "你用同一條真實軌道改變了向內力需求：同一個即時狀態同時把週期、切向速度和向心加速度一起調整到位。"
+        "successMessage": "你用同一條真實軌道改變了向內力需求：同一個即時狀態同時把週期、切向速度和向心加速度一起調整到位。",
+        "setup": {
+          "note": "使用角度圖進行計時，使用向內向量進行力要求。將半徑保持在參考軌道附近，而不是用一個小圓來求解。"
+        },
+        "hints": [
+          "當半徑保持在 $1.2\\,\\mathrm{m}$ 附近時，目標週期意味著 $\\omega$ 最終應略低於 $3\\,\\mathrm{rad/s}$。",
+          "一旦週期正確，檢查速度和向內加速度讀數是否仍與同一軌道一致。"
+        ],
+        "targets": [
+          {
+            "label": "保持半徑在 $1.15$ 和 $1.25\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "使週期落在 $2.15$ 和 $2.35\\,\\mathrm{s}$ 之間。"
+          },
+          {
+            "label": "將切向速度保持在 $3.2$ 和 $3.55\\,\\mathrm{m/s}$ 之間。"
+          },
+          {
+            "label": "使向心加速度落在 $8.6$ 和 $10.4\\,\\mathrm{m/s^2}$ 之間。"
+          }
+        ],
+        "style": "目標設定"
       },
       {
         "id": "ucm-ch-match-period-change-pull",
@@ -399,8 +831,79 @@
           {
             "label": "讓設定 B 的向心加速度落在 $3.6$ 到 $4.1\\,\\mathrm{m/s^2}$ 之間。"
           }
-        ]
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "ucm-ch-tight-inward-pull",
+        "title": "向內拉緊",
+        "prompt": "從參考軌道開始，調整運動，直到向內加速度位於 $7$ 到 $8.5\\,\\mathrm{m/s^2}$ 範圍內，同時切向速度保持在 $2.5$ 和 $3.1\\,\\mathrm{m/s}$ 之間。",
+        "successMessage": "您在不失去半徑、速度和向內加速度之間聯繫的情況下進行了更急的轉彎。階段和速度圖仍然描述一個一致的軌道。",
+        "setup": {
+          "note": "在收緊軌道時，將速度圖和向內向量結合使用。"
+        },
+        "hints": [
+          "較小的半徑和較大的角速度可以共同提高向內的加速度。",
+          "觀察向量長度和速度讀數。速度不匹配的巨大向內拉力將錯過目標帶。"
+        ],
+        "checks": [
+          {
+            "label": "開啟速度圖。"
+          },
+          {
+            "label": "保持向心加速度向量可見。"
+          },
+          {
+            "label": "使向心加速度落在 $7$ 和 $8.5\\,\\mathrm{m/s^2}$ 之間。"
+          },
+          {
+            "label": "將切向速度保持在 $2.5$ 和 $3.1\\,\\mathrm{m/s}$ 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "ucm-ch-compare-spin-rate",
+        "title": "比較旋轉",
+        "prompt": "從參考軌道開啟比較模式，使設定 B 完成轉彎的速度明顯快於設定 A，同時兩種設定保持幾乎相同的半徑。",
+        "successMessage": "您使用比較模式將角速度變化與軌道大小隔離。角度圖現在顯示真實的時序對比，而不是重新縮放的圓。",
+        "setup": {
+          "note": "從相同的參考狀態啟動兩個設定，然後僅編輯設定 B。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "將設定 A 保持在原始軌道附近，並僅提高設定 B 中的角速度。",
+          "如果半徑相差太大，則比較不再僅與時間有關。"
+        ],
+        "checks": [
+          {
+            "label": "編輯設定 B 時保持比較模式。"
+          },
+          {
+            "label": "保持角度圖處於活動狀態。"
+          },
+          {
+            "label": "保持 $1.1$ 和 $1.3\\,\\mathrm{m}$ 之間的設定半徑。"
+          },
+          {
+            "label": "將設定 B 半徑保持在 $1.1$ 和 $1.3\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "將設定 B 角速度提高到 $2.6\\,\\mathrm{rad/s}$ 以上。"
+          }
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "勻速圓週運動",
+    "description": "互動式勻速圓週運動，具有即時向量疊加、投影圖以及與角速度、週期和向心加速度的清晰連結。",
+    "keywords": [
+      "勻速圓週運動",
+      "向心加速度",
+      "角速度",
+      "實體模擬"
     ]
   }
 }

@@ -35,9 +35,10 @@
       ]
     },
     "keyIdeas": [
-      "當物體位於焦距之外時，凸透鏡可以產生真實倒立的影像；但當物體移動到焦距之內時，它會轉變為虛擬直立的影像。",
-      "凹透鏡始終會對左側的實物生成虛立縮小的影像。",
-      "薄透鏡方程式給出了帶符號的像距，而放大率則告訴您影像大小的比例以及它是否直立或倒置。"
+      "對於會聚鏡頭，焦距之外的物體給出倒立的實像，而焦距以內的物體則給出正立的虛像。",
+      "發散透鏡仍在左側形成真實物體的影像，但該影像始終是虛擬的、直立的且縮小的。",
+      "像距的符號表示影像位於鏡頭的哪一側：遠端的實像為正，物側的虛像為負。",
+      "放大倍率的符號表示方向，而其大小表示影像尺寸縮放了多少。"
     ],
     "commonMisconception": {
       "myth": "凹透鏡會散射光線，因此不會生成影像。",
@@ -58,27 +59,36 @@
             {
               "id": "object-distance",
               "label": "物體距離"
+            },
+            {
+              "id": "focal-length",
+              "label": "簽名焦距"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始於薄透鏡關係"
+              "label": "1. 開始於薄透鏡關係",
+              "template": "使用$\\dfrac{1}{f} = \\dfrac{1}{d_o} + \\dfrac{1}{d_i}$。"
             },
             {
               "id": "rearrange",
-              "label": "2. 調整以求得帶號的像距"
+              "label": "2. 調整以求得帶號的像距",
+              "template": "$\\dfrac{1}{d_i} = \\dfrac{1}{f} - \\dfrac{1}{d_o} = {{reciprocalFValue}} - {{reciprocalObjectValue}} = {{reciprocalImageValue}}$。"
             },
             {
               "id": "result",
-              "label": "3. 反轉結果"
+              "label": "3. 反轉結果",
+              "template": "所以$d_i = {{imageDistanceValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "帶號的像距",
+          "resultTemplate": "$d_i = {{imageDistanceValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "應用近焦情況",
             "observationHint": "注意虛線向後延伸。負像距與物體側的虛像相符。"
-          }
+          },
+          "interpretationTemplate": "{{imageDistanceInterpretation}}"
         },
         {
           "id": "solve-image-height",
@@ -101,22 +111,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用放大率關係"
+              "label": "1. 使用放大率關係",
+              "template": "從$m = -\\dfrac{d_i}{d_o} = \\dfrac{h_i}{h_o}$開始。"
             },
             {
               "id": "compute-m",
-              "label": "2. 計算帶號的放大率"
+              "label": "2. 計算帶號的放大率",
+              "template": "$m = -\\dfrac{{{imageDistanceValue}}}{{{objectDistanceValue}}} = {{magnificationValue}}$。"
             },
             {
               "id": "compute-hi",
-              "label": "3. 求解像高"
+              "label": "3. 求解像高",
+              "template": "$h_i = m h_o = {{magnificationValue}}\\cdot {{objectHeightValue}} = {{imageHeightValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "像高",
+          "resultTemplate": "$h_i = {{imageHeightValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "應用發散透鏡",
             "observationHint": "正的放大率保持像直立，但其絕對值小於一則使其縮小。"
-          }
+          },
+          "interpretationTemplate": "{{imageHeightInterpretation}}"
         }
       ]
     },
@@ -255,6 +270,91 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "使用三個主光線和符號的薄透鏡方程式來預測透鏡影像形成的位置，無論是實像或虛像，以及是直立或倒立。",
+    "whyItMatters": "相同的符號規則決定相機感應器、眼睛、放大鏡或投影機是否可以捕捉清晰的影像或僅追蹤光線似乎相遇的位置。",
+    "keyTakeaway": "會聚透鏡只有在物體位於焦距之外時才會形成真實的倒像；穿過 F 內部將影像翻轉為虛像且正立。"
+  },
+  "v2": {
+    "intuition": "從物體箭頭開始，提出一個實際問題：折射光線是否真的在遠端相遇，還是僅在向後延伸時才出現相遇？",
+    "whyItMatters": "真實與虛擬的區別解釋了鏡頭何時可以投影到螢幕上、為什麼放大鏡會產生直立的虛擬影像，以及放大倍率的符號如何編碼方向。",
+    "equationSnapshot": {
+      "title": "簽名鏡頭故事",
+      "note": "比較射線圖時，保持影像距離符號和放大率符號可見。"
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-real-and-virtual-images",
+        "title": "分離實像與虛像",
+        "goal": "透過確定光線是實際相遇還是僅透過向後擴展相遇來建立第一張光線圖片。",
+        "doThis": "載入會聚參考，保持主光線可見，然後與內焦預設進行比較。",
+        "notice": "真實影像位於繪製光線交叉的遠端；虛像位於虛線延伸相交的物體一側。",
+        "explain": "d_i 的符號是一個幾何標籤，而不是一個記憶技巧：正值表示真實光線在鏡頭後相遇，而負值表示僅向後延伸才能定位影像。",
+        "inlineCheck": {
+          "title": "哪個影像可以出現在螢幕上？"
+        }
+      },
+      {
+        "id": "move-toward-the-focal-point",
+        "title": "向焦點移動",
+        "goal": "看看為什麼真實影像會在物體穿過 F 內部之前跑得更遠並變大。",
+        "doThis": "從會聚參考開始，向內滑動物件距離，但將物件保持在焦點標記之外。",
+        "notice": "影像映射點爬上真實分支，d_i 增加，並且隨著物體接近 F，倒像也增大。",
+        "explain": "在薄透鏡方程中，當 1/d_o 接近 1/f 時，1/d_i 向零收縮，因此實像距離和 |m|兩者在焦點附近都會變大。",
+        "inlineCheck": {
+          "title": "預測近焦變化"
+        }
+      },
+      {
+        "id": "read-magnification-orientation",
+        "title": "將放大倍率讀取為方向",
+        "goal": "使用 m 的符號和大小來表示一個讀數的方向和比例。",
+        "doThis": "切換到發散參考，開啟放大圖，然後開啟距離和高度參考線。",
+        "notice": "對於發散透鏡，m 保持正值且小於 1，因此影像是直立的，並且在虛側縮小。",
+        "explain": "m 的符號表示方向，而 |m|告訴尺寸比例。正數 m 不代表實數；像距符號決定真實與虛擬。",
+        "inlineCheck": {
+          "title": "使用 m 而不過度閱讀它"
+        }
+      },
+      {
+        "id": "check-the-branch-change",
+        "title": "檢查分支更改",
+        "goal": "連接 F 內部的交叉點並同時翻轉 d_i、m 和影像方向。",
+        "doThis": "套用內焦預設，將光線延伸與影像圖和放大圖進行比較，然後回答快速檢查。",
+        "notice": "影像移向物體一側，d_i 變為負值，而 m 變為正值，因為虛像是正立的。",
+        "explain": "交叉 F 會改變分支，而不僅僅是影像大小。光線不再在遠端相遇，因此圖、d_i 符號和方向都會一起改變。",
+        "inlineCheck": {
+          "title": "為穿越 F 後的分支命名"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "正 d_i 表示折射光線真正在遠端相遇，因此影像是真實的並且可以在螢幕上顯示。",
+        "負 d_i 意味著只有向後的延伸在物體端相交，因此影像是虛像。",
+        "m 的符號表示正立與倒立，而 |m|表示影像與物體相比有多大。"
+      ],
+      "misconception": "發散透鏡仍然形成影像；它是虛擬的、直立的、縮小的，因為折射光線只有在向後延伸時才出現相遇。",
+      "freePlayPrompt": "建立一個可以投影到螢幕上的設定和一個保持虛擬的類似放大鏡的設定，然後解釋證明這一點的兩個標誌。",
+      "nextConcepts": [
+        {
+          "slug": "mirrors",
+          "title": "鏡子",
+          "reasonLabel": "比較簽名影像規則"
+        },
+        {
+          "slug": "optical-resolution-imaging-limits",
+          "title": "光學解析度/成像限制",
+          "reasonLabel": "詢問影像能有多清晰"
+        },
+        {
+          "slug": "refraction-snells-law",
+          "title": "折射/斯涅耳定律",
+          "reasonLabel": "追蹤鏡片背後的彎曲定律"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "thin-lens",
@@ -293,27 +393,349 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "影像地圖",
+      "primaryGraphIds": [
+        "影像地圖"
+      ],
+      "primaryControlIds": [
+        "匯聚",
+        "物體距離"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "objectDistance",
-        "label": "物體距離"
+        "label": "物體距離",
+        "description": "沿著主軸移動物體，當物體穿過 F 時，可以將會聚透鏡影像從真實分支移動到虛擬分支。"
       },
       {
         "id": "objectHeight",
-        "label": "物體高度"
+        "label": "物體高度",
+        "description": "變更物件尺寸，以便可以直接比較放大影像的高度，而無需更改影像形成的位置。"
+      },
+      {
+        "id": "converging",
+        "label": "聚光透鏡",
+        "description": "關閉此選項可切換至焦距大小相同但焦距符號相反的發散鏡頭。"
+      },
+      {
+        "id": "focalLength",
+        "label": "焦距大小",
+        "description": "設定焦點位置以及鏡頭彎曲光線的強度。"
       }
     ],
     "presets": [
       {
         "id": "converging-inside-focus",
+        "label": "內在焦點",
         "description": "焦距以外的會聚透鏡。"
+      },
+      {
+        "id": "converging-reference",
+        "label": "收斂參考",
+        "description": "物體位於 F 以外的會聚透鏡，在遠端產生真實的倒立影像。"
+      },
+      {
+        "id": "diverging-reference",
+        "label": "分歧參考",
+        "description": "發散透鏡提供虛擬直立縮小影像。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "focusMarkers",
+        "label": "F 和 2F 標記",
+        "shortDescription": "在鏡頭兩側顯示 F 和 2F。",
+        "whatToNotice": [
+          "對於會聚鏡頭，交叉 F 會將影像從實像變成虛像。"
+        ],
+        "whyItMatters": "焦點標記將標準鏡頭區域直接固定在舞台上。",
+        "relatedControls": [
+          "匯聚",
+          "焦距",
+          "物體距離"
+        ],
+        "relatedGraphTabs": [
+          "影像地圖"
+        ],
+        "relatedEquationVariables": [
+          "焦距",
+          "物體距離"
+        ]
+      },
+      {
+        "id": "principalRays",
+        "label": "主光線",
+        "shortDescription": "顯示定位影像點的建構光線。",
+        "whatToNotice": [
+          "實際光線相交給出實像，而向後擴展給出虛像。"
+        ],
+        "whyItMatters": "它將 d_i 的符號與可見光線行為聯繫起來，而不是與記憶的符號規則聯繫起來。",
+        "relatedControls": [
+          "匯聚",
+          "焦距",
+          "物體距離"
+        ],
+        "relatedGraphTabs": [
+          "影像地圖"
+        ],
+        "relatedEquationVariables": [
+          "焦距",
+          "物體距離"
+        ]
+      },
+      {
+        "id": "magnificationGuide",
+        "label": "距離與高度指南",
+        "shortDescription": "顯示放大時使用的帶符號距離和物體/影像高度比較。",
+        "whatToNotice": [
+          "m 的符號設定方向，而 |m|設定尺寸變化。"
+        ],
+        "whyItMatters": "它將載物台直接連結到放大方程式。",
+        "relatedControls": [
+          "物體距離",
+          "物件高度"
+        ],
+        "relatedGraphTabs": [
+          "放大倍率"
+        ],
+        "relatedEquationVariables": [
+          "物體距離",
+          "物件高度"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "magnification",
-      "label": "放大率"
+      "label": "放大率",
+      "xLabel": "物距 d_o (m)",
+      "yLabel": "放大倍率米",
+      "description": "顯示 m 如何隨目前鏡頭的物距變化。負值是倒立影像，正值是正立影像，|m|給出尺寸比例。"
+    },
+    {
+      "id": "image-map",
+      "label": "物件到影像映射",
+      "xLabel": "物距 d_o (m)",
+      "yLabel": "簽名影像距離 d_i (m)",
+      "description": "顯示目前鏡頭的帶符號影像距離如何隨物距變化。正值是遠側的實像，負值是物側的虛像。"
     }
-  ]
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用即時提示連接目前設定的符號方程式、射線和圖像分支。",
+    "items": [
+      {
+        "id": "li-notice-real-vs-virtual",
+        "text": "請注意，實像來自真實的光線交叉，而虛像來自向後延伸。",
+        "tryThis": "在會聚參考和內焦預設之間切換，然後比較光線是否確實在鏡頭的遠端相遇。",
+        "whyItMatters": "這個差異解釋了為什麼只有真實影像才能出現在螢幕上。",
+        "relatedControls": [
+          "匯聚",
+          "物體距離"
+        ],
+        "relatedGraphTabs": [
+          "影像地圖"
+        ],
+        "relatedOverlays": [
+          "主射線"
+        ],
+        "relatedEquationVariables": [
+          "焦距",
+          "物體距離"
+        ]
+      },
+      {
+        "id": "li-notice-object-map",
+        "text": "請注意，物像圖是基於物距，而不是時間。將其懸停會立即選擇不同的幾何設定。",
+        "tryThis": "將滑鼠停留在影像距離圖上，觀察光線圖立即跳到符合的物件位置。",
+        "whyItMatters": "它使圖像保持誠實：您正在比較鏡頭設定係列，而不是逐步瀏覽時間。",
+        "relatedGraphTabs": [
+          "影像地圖"
+        ],
+        "relatedOverlays": [
+          "焦點標記"
+        ]
+      },
+      {
+        "id": "li-notice-near-focus",
+        "text": "請注意，當會聚透鏡物體從外部接近 F 時，像距會變得非常大。",
+        "tryThis": "在會聚透鏡上向內滑動物體，直到其剛好位於 F 之外，然後將圖像與載物台邊緣標籤進行比較。",
+        "whyItMatters": "F是實像分支和虛像分支之間的分界線。",
+        "relatedControls": [
+          "物體距離",
+          "焦距"
+        ],
+        "relatedGraphTabs": [
+          "影像地圖",
+          "放大倍率"
+        ],
+        "relatedOverlays": [
+          "焦點標記",
+          "主射線"
+        ]
+      },
+      {
+        "id": "li-notice-sign-of-m",
+        "text": "請注意，m 的符號立即顯示方向：負數表示倒置，正數表示直立。",
+        "tryThis": "開啟放大，然後將影像箭頭方向與圖點位於零之上還是之下進行比較。",
+        "whyItMatters": "放大圖不僅與尺寸有關。它還告訴您圖像方向。",
+        "relatedGraphTabs": [
+          "放大倍率"
+        ],
+        "relatedOverlays": [
+          "放大指南"
+        ],
+        "relatedEquationVariables": [
+          "物體距離",
+          "物件高度"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "首先預測分支變化或方向變化，然後套用設定並將射線圖與圖像進行比較。",
+    "items": [
+      {
+        "id": "li-predict-near-focus",
+        "prompt": "從會聚參考開始，如果物體靠近鏡頭但仍位於焦點之外會發生什麼？",
+        "scenarioLabel": "將物體移向F",
+        "choices": [
+          {
+            "id": "a",
+            "label": "真實影像移得更遠，放大倍率增大。"
+          },
+          {
+            "id": "b",
+            "label": "影像立即翻轉直立並移動到物體一側。"
+          },
+          {
+            "id": "c",
+            "label": "沒有什麼重要的變化，因為焦距保持不變。"
+          }
+        ],
+        "explanation": "對於物體仍在 F 之外的會聚透鏡，向內移動物體會將實像推得更遠，並增加 m 的大小。影像保持真實且倒置，直到物體穿過 F。",
+        "observationHint": "觀察影像映射點攀爬真實分支，同時倒置影像箭頭成長。"
+      },
+      {
+        "id": "li-predict-inside-focus",
+        "prompt": "如果會聚透鏡物體穿過焦距內部會發生什麼變化？",
+        "scenarioLabel": "F 內十字",
+        "choices": [
+          {
+            "id": "a",
+            "label": "影像變成虛像、正立並在物體側放大。"
+          },
+          {
+            "id": "b",
+            "label": "影像保持真實、倒置，並且更靠近遠端的鏡頭。"
+          },
+          {
+            "id": "c",
+            "label": "鏡頭停止產生任何影像點。"
+          }
+        ],
+        "explanation": "在 F 內部，折射光線在透鏡後發散。它們向後的延伸在物側相交，所以像變成虛像、正立的、放大的。",
+        "observationHint": "虛線向後擴展現在將影像定位在圖的虛擬分支上。"
+      },
+      {
+        "id": "li-predict-diverging",
+        "prompt": "如果您從會聚參考切換到具有相同 |f| 的發散透鏡和相似的物距，會發生什麼？",
+        "scenarioLabel": "開關鏡頭系列",
+        "choices": [
+          {
+            "id": "a",
+            "label": "影像保持虛像、直立，並在物體側縮小。"
+          },
+          {
+            "id": "b",
+            "label": "由於鏡頭使光線擴散得更多，影像變得真實且更容易投影。"
+          },
+          {
+            "id": "c",
+            "label": "影像保持相同的分支和方向，因為只有 f 的符號改變了。"
+          }
+        ],
+        "explanation": "改變焦距的符號會改變整個分支結構。對於左邊的真實物體，發散透鏡可讓影像保持虛擬、直立和縮小。",
+        "observationHint": "圖像點保持在虛擬的直立側，而向後擴展將影像定位在左側。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用真實的鏡頭控制和簽名圖像來擊中影像目標。檢查從同一個實驗台讀取即時距離和放大倍率。",
+    "items": [
+      {
+        "id": "li-ch-real-image-target",
+        "title": "建構真實的倒立影像",
+        "prompt": "從會聚參考開始，調整設定，直到影像保持真實，d_i 介於 1.0 和 1.2 m 之間，m 介於 -1.4 和 -1.1 之間。",
+        "successMessage": "您透過將物件引導到正確的真實影像分支而不是透過眼睛猜測來匹配真實的倒置影像。",
+        "setup": {
+          "note": "將影像距離圖和光線交點結合使用。"
+        },
+        "hints": [
+          "將物件從參考設定向內移動，但將其保持在焦點之外。",
+          "放大倍率應保持負值，因為影像仍然是倒置的。"
+        ],
+        "checks": [
+          {
+            "label": "開啟物體-影像圖。"
+          },
+          {
+            "label": "保持主光線可見。"
+          },
+          {
+            "label": "使 d_i 著陸在 1.0 和 1.2 m 之間。"
+          },
+          {
+            "label": "將放大倍率保持在 -1.4 和 -1.1 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "li-ch-virtual-image-target",
+        "title": "建構虛擬正立影像",
+        "prompt": "從發散參考開始，調整設定，直到影像保持虛擬，d_i 介於 -0.65 和 -0.45 m 之間，m 介於 0.3 和 0.5 之間。",
+        "successMessage": "您誠實地使用了簽名圖：影像保持虛擬且直立，而縮小的放大倍率設定了最終尺寸。",
+        "setup": {
+          "note": "同時使用放大圖和高度指南。"
+        },
+        "hints": [
+          "發散透鏡將影像保持在虛擬側，因此不要嘗試強制 d_i 為正。",
+          "調整物距和焦距大小以移動 d_i 和 m。"
+        ],
+        "checks": [
+          {
+            "label": "開啟放大圖。"
+          },
+          {
+            "label": "保持距離和高度指南可見。"
+          },
+          {
+            "label": "使 d_i 著陸在 -0.65 和 -0.45 m 之間。"
+          },
+          {
+            "label": "將放大倍率維持在 0.3 到 0.5 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "鏡頭成像",
+    "description": "互動式薄透鏡光線圖，包含會聚和發散透鏡、帶符號的影像距離、放大倍率和圖像連結預覽。",
+    "keywords": [
+      "鏡頭成像",
+      "薄鏡片",
+      "射線圖",
+      "放大倍率",
+      "光學"
+    ]
+  }
 }

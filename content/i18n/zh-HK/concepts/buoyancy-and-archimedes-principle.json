@@ -32,10 +32,11 @@
       ]
     },
     "keyIdeas": [
-      "阿基米德原理説浮力等於排開流體重力，所以需要關注的是排開體積。",
-      "當塊體只有一部分浸沒時，推動它更深會增加排開體積並因此增加浮力。",
-      "自由漂浮的塊體會在重量和浮力平衡的地方停泊，所以所需的浸沒分數是密度比 $\\rho_{obj}/\\rho_f$。",
-      "一旦整個塊體被完全浸入一種均勻流體中，移動它更深會同時提高頂部和底部壓力但不會改變它們之間的差異，因此浮力保持不變。"
+      "阿基米德原理指出，浮力等於排出液體的重量，因此排出的體積是要追蹤的關鍵量。",
+      "雖然該塊僅部分浸入水中，但將其推得更深會增加排氣量，從而增加浮力。",
+      "自由漂浮的塊在重量和浮力平衡處沉降，因此所需的浸沒分數是密度比 $\\rho_{obj}/\\rho_f$。",
+      "如果$\\rho_{obj} > \\rho_f$，即使完全浸沒也無法提供足夠的浮力，因此塊會下沉。",
+      "一旦整個塊浸沒在一種均勻的流體中，將其移動得更深會同時提高頂部和底部壓力，但不會改變它們的差異，因此浮力保持不變。"
     ],
     "commonMisconception": {
       "myth": "重的物體下沉是因為浮力只依賴於物體的質量。",
@@ -60,27 +61,36 @@
             {
               "id": "gravity",
               "label": "重力"
+            },
+            {
+              "id": "displacedVolume",
+              "label": "位移體積"
             }
           ],
           "steps": [
             {
               "id": "read-submerged-volume",
-              "label": "1. 讀取浸沒部分的排開體積"
+              "label": "1. 讀取浸沒部分的排開體積",
+              "template": "該方塊目前已被 ${{submergedHeightValue}}\\,\\mathrm{m}$ 淹沒，因此置換的流體柱顯示為 $V_{\\mathrm{disp}} = {{displacedVolumeValue}}\\,\\mathrm{m^3}$。"
             },
             {
               "id": "apply-archimedes",
-              "label": "2. 應用阿基米德原理"
+              "label": "2. 應用阿基米德原理",
+              "template": "使用$F_b = \\rho_f g V_{\\mathrm{disp}}$，當前狀態給出$F_b = {{buoyantForceValue}}\\,\\mathrm{N}$。"
             },
             {
               "id": "connect-to-fluid-weight",
-              "label": "3. 將結果解釋為排開流體重力"
+              "label": "3. 將結果解釋為排開流體重力",
+              "template": "同樣的 ${{buoyantForceValue}}\\,\\mathrm{N}$ 是排出液體的重量，這就是排出液體提示和浮力箭頭保持同步的原因。"
             }
           ],
           "resultLabel": "當前浮力",
+          "resultTemplate": "$F_b = {{buoyantForceValue}}\\,\\mathrm{N}, \\quad V_{\\mathrm{disp}} = {{displacedVolumeValue}}\\,\\mathrm{m^3}$",
           "applyAction": {
             "label": "顯示完全浸沒的情況",
             "observationHint": "排開的液體柱已經滿了，所以往更深處移動只會改變壓力標籤但不會改變浮力箭頭。"
-          }
+          },
+          "interpretationTemplate": "{{pressureInterpretation}}"
         },
         {
           "id": "current-force-balance",
@@ -94,27 +104,40 @@
             {
               "id": "weight",
               "label": "物體重量"
+            },
+            {
+              "id": "objectVolume",
+              "label": "物體體積"
+            },
+            {
+              "id": "buoyantForce",
+              "label": "浮力"
             }
           ],
           "steps": [
             {
               "id": "compute-weight",
-              "label": "1. 計算物體的重量"
+              "label": "1. 計算物體的重量",
+              "template": "此區塊的固定體積為 ${{objectVolumeValue}}\\,\\mathrm{m^3}$，因此為 $W = \\rho_{obj} g V_{obj} = {{weightValue}}\\,\\mathrm{N}$。"
             },
             {
               "id": "compare-weight-and-buoyancy",
-              "label": "2. 將重量與當前浮力進行比較"
+              "label": "2. 將重量與當前浮力進行比較",
+              "template": "排出的流體目前提供 $F_b = {{buoyantForceValue}}\\,\\mathrm{N}$，而浮動平衡部分需要約為整個塊高度的 ${{requiredSubmergedFractionValue}}$。"
             },
             {
               "id": "decide-balance",
-              "label": "3. 確定此深度是否自行平衡"
+              "label": "3. 確定此深度是否自行平衡",
+              "template": "在此狀態 $F_{net,up} = {{netForceValue}}\\,\\mathrm{N}$，因此自由浮動天平將位於底部深度 ${{equilibriumBottomDepthValue}}\\,\\mathrm{m}$ 附近。"
             }
           ],
           "resultLabel": "當前力平衡",
+          "resultTemplate": "$W = {{weightValue}}\\,\\mathrm{N}, \\quad F_b = {{buoyantForceValue}}\\,\\mathrm{N}, \\quad F_{net,up} = {{netForceValue}}\\,\\mathrm{N}$",
           "applyAction": {
             "label": "顯示同一方塊在更濃密的液體中",
             "observationHint": "同一個方塊因為排開的液體更濃密而在較淺的位置平衡。"
-          }
+          },
+          "interpretationTemplate": "{{balanceInterpretation}}"
         }
       ]
     },
@@ -289,6 +312,76 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用一個浸入式實驗台連接壓力差、排開的流體以及漂浮、下沉和中性浮力背後的密度平衡。",
+    "whyItMatters": "這種連結使阿基米德原理不像是一條被記住的規則：每個漂浮高度都來自位移體積、流體密度和力平衡。",
+    "keyTakeaway": "阿基米德原理指出，浮力等於排出液體的重量，因此排出的體積是需要觀察的量。"
+  },
+  "v2": {
+    "intuition": "浮力是一個壓力差故事，您可以透過排出的液體來解讀：排出的液體越多，向上的力就越大，直到物體完全浸沒。",
+    "whyItMatters": "一旦位移流體影像清晰，漂浮高度、下沉、中性浮力和「更深但完全淹沒」的高原都來自一個密度平衡模型，而不是單獨的規則。",
+    "equationSnapshot": {
+      "note": "從壓力差開始，將其包裝為位移流體重量，然後僅將密度比用於自由浮動天平。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-displaced-fluid",
+        "title": "讀取排出的液體",
+        "goal": "將可見的水下體積連接到浮力箭頭。",
+        "doThis": "將木材放入水中，並在緩慢移動底部深度時保持位移流體和力平衡覆蓋層可見。",
+        "notice": "雖然該塊僅部分浸入水中，但位移的流體柱會增長，浮力曲線也會隨之上升。",
+        "explain": "阿基米德原理在這裡並不是一個單獨的魔法推動力：向上的力是塊所排出的流體體積的重量。"
+      },
+      {
+        "id": "find-the-floating-balance",
+        "title": "求平衡",
+        "goal": "使用重量與浮力來決定自由浮動塊的沉降位置。",
+        "doThis": "將木材保持在選定的水中，然後將目前的力箭頭與自由浮動液位進行比較。",
+        "notice": "在平衡水平上，向上的浮力與塊的重量相匹配；握得太深或太淺，就會出現額外的支撐提示。",
+        "explain": "漂浮物體選擇使流體重量等於物體重量的排開體積，因此所需的浸沒分數就是密度比。"
+      },
+      {
+        "id": "compare-denser-fluid",
+        "title": "比較液體",
+        "goal": "了解為什麼同一塊可以在密度較大的流體中浮得較高。",
+        "doThis": "從水中的木材切換到鹽水中的同一塊，然後比較位移流體柱和力-流體密度圖。",
+        "notice": "塊體的重量保持不變，但每立方米鹽水的重量更大，因此匹配的排開體積可以更小。",
+        "explain": "改變流體密度會改變每單位排氣量體積的浮力。該物體不需要排出盡可能多的密度較大的流體來平衡。"
+      },
+      {
+        "id": "test-full-submersion-plateau",
+        "title": "測試平台",
+        "goal": "一旦塊完全浸沒，就將絕對壓力與壓力差分開。",
+        "doThis": "使用完全浸入更深的位置，打開壓力差，並在置換流體柱已滿後將塊移至更深的位置。",
+        "notice": "頂部和底部壓力樣本均上升，但它們的差異、位移體積和浮力箭頭基本上保持不變。",
+        "explain": "在一種均勻流體中，更深的完全浸沒會改變絕對壓力，而不是塊高度或位移體積。這就是為什麼浮力在完全浸沒後變得穩定。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "浮力跟隨排出液體的重量，因此排出的體積是需要觀察的即時量。",
+        "一個自由漂浮的塊在浮力等於重量的地方沉降，這變成了浸沒部分的密度比。",
+        "較稠密的流體可以支撐具有較小浸沒體積的同一塊，因為每個位移的體積單位重量較重。",
+        "一旦均勻塊完全浸沒在均勻流體中，更深的移動會改變絕對壓力，但不會改變浮力。"
+      ],
+      "misconception": "較重的物體總是下沉，因為浮力直接取決於質量。",
+      "freePlayPrompt": "嘗試將同一塊漂浮在接近一半的水下，然後解釋是否更改了物體密度、流體密度或兩者。",
+      "nextConcepts": [
+        {
+          "slug": "drag-and-terminal-velocity",
+          "reasonLabel": "比較浮力支撐與速度相關的流體阻力"
+        },
+        {
+          "slug": "bernoullis-principle",
+          "reasonLabel": "比較靜態流體壓力差與移動流體壓力權衡"
+        },
+        {
+          "slug": "pressure-and-hydrostatic-pressure",
+          "reasonLabel": "看看導致向上推力的壓力差"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "pressure-difference",
@@ -337,6 +430,24 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "力深度",
+      "primaryGraphIds": [
+        "力深度",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "底部深度",
+        "流體密度",
+        "物件密度"
+      ],
+      "primaryPresetIds": [
+        "水平衡",
+        "鹽水平衡",
+        "中性浮點",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ]
+    },
     "controls": [
       {
         "id": "objectDensity",
@@ -395,7 +506,21 @@
           "達到平衡時，向上的浮力會和向下的重量相匹配。",
           "如果目前深度不是自由漂浮的平衡深度，便會出現額外支撐箭頭，顯示要把方塊固定在這裡需要多少外力。"
         ],
-        "whyItMatters": "它把漂浮與下沉重新連回力的平衡，而不是死記物體名稱。"
+        "whyItMatters": "它把漂浮與下沉重新連回力的平衡，而不是死記物體名稱。",
+        "relatedControls": [
+          "物件密度",
+          "流體密度",
+          "底部深度"
+        ],
+        "relatedGraphTabs": [
+          "力深度",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "物件密度",
+          "流體密度",
+          "底部深度"
+        ]
       },
       {
         "id": "displacedFluid",
@@ -405,7 +530,18 @@
           "當方塊仍只是部分浸沒時，排開流體柱會與浸沒部分同步增長。",
           "一旦整個方塊都浸沒，流體柱已經填滿，之後不會再增加。"
         ],
-        "whyItMatters": "它把阿基米德原理變成看得見的排開流體重量故事。"
+        "whyItMatters": "它把阿基米德原理變成看得見的排開流體重量故事。",
+        "relatedControls": [
+          "流體密度",
+          "底部深度"
+        ],
+        "relatedGraphTabs": [
+          "力深度"
+        ],
+        "relatedEquationVariables": [
+          "流體密度",
+          "底部深度"
+        ]
       },
       {
         "id": "equilibriumLine",
@@ -415,7 +551,18 @@
           "如果這條線落在目前方塊之下，代表方塊被按得比自由漂浮更深。",
           "如果所需浸沒比例超過整個高度，這條線就會變成下沉警示，而不是漂浮標記。"
         ],
-        "whyItMatters": "它把漂浮高度直接連回密度比，而不是隻看質量大小。"
+        "whyItMatters": "它把漂浮高度直接連回密度比，而不是隻看質量大小。",
+        "relatedControls": [
+          "物件密度",
+          "流體密度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "物件密度",
+          "流體密度"
+        ]
       },
       {
         "id": "pressureDifference",
@@ -425,7 +572,20 @@
           "較深處的壓力樣本永遠較大，這正是向上浮力的壓力來源。",
           "當方塊完全浸沒後再往下移動，頂部與底部壓力會一起上升，但它們之間的差保持不變。"
         ],
-        "whyItMatters": "它把靜水壓的想法直接帶進浮力，而不是把阿基米德原理當成斷裂的規則。"
+        "whyItMatters": "它把靜水壓的想法直接帶進浮力，而不是把阿基米德原理當成斷裂的規則。",
+        "relatedControls": [
+          "流體密度",
+          "重力",
+          "底部深度"
+        ],
+        "relatedGraphTabs": [
+          "力深度"
+        ],
+        "relatedEquationVariables": [
+          "流體密度",
+          "重力",
+          "底部深度"
+        ]
       }
     ]
   },
@@ -460,25 +620,84 @@
         "id": "bap-notice-more-submerged-more-buoyancy",
         "text": "當方塊仍只是部分浸沒時，把底部推得更深，排開流體柱會增加，浮力箭頭也會變長。",
         "tryThis": "從「木塊在水中」開始，然後把底部深度滑桿慢慢推近 0.9 m。",
-        "whyItMatters": "它顯示浮力跟隨的是排開體積，而不是方塊內部隱藏的質量。"
+        "whyItMatters": "它顯示浮力跟隨的是排開體積，而不是方塊內部隱藏的質量。",
+        "relatedControls": [
+          "底部深度"
+        ],
+        "relatedGraphTabs": [
+          "力深度"
+        ],
+        "relatedOverlays": [
+          "位移流體",
+          "力平衡"
+        ],
+        "relatedEquationVariables": [
+          "底部深度",
+          "流體密度"
+        ]
       },
       {
         "id": "bap-notice-full-submersion-plateau",
         "text": "當整個方塊都在水面下時，排開流體柱已經填滿。再把方塊放得更深，只會讓兩個壓力標記一起上升，但浮力箭頭不變。",
         "tryThis": "切到「更深的完全浸沒」，開啟壓力差，並把舞台和力-深度圖一起比較。",
-        "whyItMatters": "它把阿基米德原理重新連回靜水壓差，而不是隻看絕對壓力。"
+        "whyItMatters": "它把阿基米德原理重新連回靜水壓差，而不是隻看絕對壓力。",
+        "relatedControls": [
+          "底部深度"
+        ],
+        "relatedGraphTabs": [
+          "力深度"
+        ],
+        "relatedOverlays": [
+          "壓力差",
+          "位移流體"
+        ],
+        "relatedEquationVariables": [
+          "流體密度",
+          "重力",
+          "底部深度"
+        ]
       },
       {
         "id": "bap-notice-density-threshold",
         "text": "如果所需浸沒比例曲線高過完全浸沒線，即使整個方塊沉下去也沒有足夠浮力，所以它會下沉。",
         "tryThis": "慢慢提高物體密度，直到所需浸沒比例曲線越過完全浸沒線。",
-        "whyItMatters": "它能防止你直接把「重」誤當成「一定下沉」，而忽略體積和流體密度。"
+        "whyItMatters": "它能防止你直接把「重」誤當成「一定下沉」，而忽略體積和流體密度。",
+        "relatedControls": [
+          "物件密度",
+          "流體密度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "平衡線"
+        ],
+        "relatedEquationVariables": [
+          "物件密度",
+          "流體密度"
+        ]
       },
       {
         "id": "bap-notice-same-block-less-submerged",
         "text": "在比較模式下，同一個方塊在密度更高的流體中，可以用更少的浸沒高度達到平衡，因為每立方米排開流體更重。",
         "tryThis": "把「木塊在水中」和「同一方塊在鹽水中」並排比較，留意 設定 B 的排開流體柱更短。",
-        "whyItMatters": "它把漂浮高度直接連回密度比。"
+        "whyItMatters": "它把漂浮高度直接連回密度比。",
+        "relatedControls": [
+          "流體密度",
+          "底部深度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "力深度"
+        ],
+        "relatedOverlays": [
+          "位移流體",
+          "平衡線"
+        ],
+        "relatedEquationVariables": [
+          "流體密度",
+          "底部深度"
+        ]
       }
     ]
   },
@@ -580,7 +799,8 @@
           {
             "label": "令所需浸沒比例接近 0.5"
           }
-        ]
+        ],
+        "style": "目標設定"
       },
       {
         "id": "bap-ch-less-submerged-in-brine",
@@ -588,7 +808,8 @@
         "prompt": "從「木塊在水中」開始，切到比較模式，保持 設定 A 不變，只調整 設定 B，令同一個方塊在較高密度流體中以明顯較小的浸沒高度達到平衡。",
         "successMessage": "設定 B 現在令同一個方塊在較高密度流體中以更高位置平衡。",
         "setup": {
-          "note": "設定 A 保持作為水中的基準，只編輯 設定 B。"
+          "note": "設定 A 保持作為水中的基準，只編輯 設定 B。",
+          "interactionMode": "比較"
         },
         "hints": [
           "兩個設定中的物體重量相同。",
@@ -610,8 +831,20 @@
           {
             "label": "讓 設定 B 也保持平衡"
           }
-        ]
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "浮力與阿基米德原理",
+    "description": "透過緊湊的位移流體模擬來學習浮力，該模擬將壓力差、阿基米德原理以及漂浮和下沉背後的密度平衡聯繫起來。",
+    "keywords": [
+      "浮力與阿基米德原理",
+      "排開的流體浮力",
+      "浮沉密度比",
+      "為什麼完全浸沒更深不會改變浮力",
+      "開放式浮力模型實驗室"
     ]
   }
 }

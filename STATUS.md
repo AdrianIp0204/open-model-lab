@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-29 OML-QA-026 zh-HK Concept Translation Coverage
+
+Current state: `OML-QA-026` is complete. The zh-HK concept overlay worklist now reports zero fallback fields, the overlay validator covers the current concept surfaces, and the rendered zh-HK browser sweep is clean for public and signed-in routes.
+
+### Files Changed
+
+- `content/i18n/zh-HK/concepts/*`: fills the remaining zh-HK concept overlay fields across published concept pages.
+- `content/i18n/generated/zh-HK.json`, `content/i18n/zh-HK/manifest.json`, `content/_meta/generated/i18n-worklist-zh-HK.*`, `content/_meta/generated/concept-variant-manifest.json`: refresh generated zh-HK i18n and variant artifacts.
+- `lib/content/editorial-overlays.mjs`, `tools/i18n/common.py`, `tools/i18n/validate_overlays.py`: expands overlay extraction and validation for current concept content surfaces.
+- `components/layout/ZhHkVisibleTextLocalizer.tsx`, `lib/i18n/zh-hk-visible-text.ts`, `lib/i18n/copy-text.ts`, `app/[locale]/layout.tsx`: add a zh-HK visible-text guard for remaining hardcoded runtime strings while the keyed-copy migration remains tracked in `OML-QA-028` and `OML-QA-029`.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm i18n:worklist -- --locale zh-HK`: passed, generated worklist for 0 concepts.
+- `pnpm i18n:validate -- --locale zh-HK`: passed with `valid: true`.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: passed with `issueCount: 0` across 139 public routes, 4 signed-in free routes, and 8 signed-in premium routes.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-025 zh-HK Overlay Validation Gate
 
 Current state: `OML-QA-025` is complete. The zh-HK overlay validator now runs locally through the package script on this Mac, the six structural overlay errors are repaired, and the generated zh-HK i18n artifacts are refreshed.

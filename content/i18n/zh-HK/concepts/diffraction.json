@@ -39,9 +39,10 @@
       ]
     },
     "keyIdeas": [
-      "當波長相對於縫寬較大時，衍射變得更明顯，因此中央峯展開而不是保持狹窄。",
-      "螢幕圖案並非隨機模糊。它遵循單縫封套，清晰的亮暗區域由開口邊緣到邊緣的路徑差決定。",
-      "雙縫圖案仍然依賴衍射，因為每個縫都有自己的散射封套，在兩縫相互幹擾之前。"
+      "重要的比較是 lambda / a。較大的 lambda 或較小的 a 會使繞射更加明顯。",
+      "第一個最小值標示了中心明亮區域的邊緣，因此當它遠離中心時，中心峰值會變得更寬。",
+      "螢幕圖案並非隨機模糊。它來自同一狹縫不同部分的路徑差異。",
+      "雙縫干涉仍位於各個縫的繞射包絡內。"
     ],
     "commonMisconception": {
       "myth": "更窄的開口總是使出射束更窄，因為較少的波透過。",
@@ -66,27 +67,36 @@
             {
               "id": "wavelength",
               "label": "波長"
+            },
+            {
+              "id": "ratio",
+              "label": "波長與狹縫比"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 從第一最小值條件開始"
+              "label": "1. 從第一最小值條件開始",
+              "template": "使用單縫條件 $\\sin(\\theta_1) \\approx \\lambda / a$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入活躍的開口和波長"
+              "label": "2. 代入活躍的開口和波長",
+              "template": "$\\sin(\\theta_1) \\approx {{wavelengthValue}} / {{slitWidthValue}} = {{wavelengthToSlitRatioValue}}$。"
             },
             {
               "id": "interpret",
-              "label": "3. 閱讀幾何結果"
+              "label": "3. 閱讀幾何結果",
+              "template": "{{firstMinimumStep}}"
             }
           ],
           "resultLabel": "第一最小值結果",
+          "resultTemplate": "{{firstMinimumResult}}",
           "applyAction": {
             "label": "顯示廣泛散射",
             "observationHint": "開口不再比波長寬很多，因此中央峯向外延伸，第一個最小值移離中心更遠。"
-          }
+          },
+          "interpretationTemplate": "{{spreadInterpretation}}"
         },
         {
           "id": "probe-intensity",
@@ -100,27 +110,36 @@
             {
               "id": "beta",
               "label": "包封角"
+            },
+            {
+              "id": "edge-path-difference",
+              "label": "邊緣路徑差異"
             }
           ],
           "steps": [
             {
               "id": "beta",
-              "label": "1. 建立封包角"
+              "label": "1. 建立封包角",
+              "template": "計算 $\\beta = \\pi \\Delta r_{edge} / \\lambda = \\pi({{edgePathDifferenceValue}}) / {{wavelengthValue}} = {{betaValue}}$。"
             },
             {
               "id": "intensity",
-              "label": "2. 使用單縫強度法則"
+              "label": "2. 使用單縫強度法則",
+              "template": "$I / I_0 = (\\sin\\beta / \\beta)^2 = {{intensityValue}}$。"
             },
             {
               "id": "meaning",
-              "label": "3. 將其連線到當前螢幕點"
+              "label": "3. 將其連線到當前螢幕點",
+              "template": "{{probeIntensityStep}}"
             }
           ],
           "resultLabel": "當前探測器強度",
+          "resultTemplate": "$I / I_0 = {{intensityValue}}$",
           "applyAction": {
             "label": "移動到暗帶",
             "observationHint": "探測器接近第一個最小值，因此邊緣路徑差約為一個波長，區域性強度幾乎消失。"
-          }
+          },
+          "interpretationTemplate": "{{probeIntensityInterpretation}}"
         }
       ]
     },
@@ -275,6 +294,89 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "觀察波在一個狹窄的開口後傳播，了解為什麼當波長與狹縫寬度競爭時衍射會增加，並構建通往雙縫干涉的波動光學橋樑。",
+    "whyItMatters": "相同的單縫分佈解釋了為什麼雙縫條紋位於信封內以及為什麼小開口限制了成像清晰度。",
+    "keyTakeaway": "當波長相對於狹縫寬度較大時，繞射變得更加明顯，因此中心峰值會展開而不是保持狹窄。"
+  },
+  "v2": {
+    "intuition": "將狹縫視為一個完整的開口，而不是針孔：從其頂部和底部邊緣發出的波到每個屏幕點傳播的距離略有不同，而 lambda / a 之比決定了這些差異產生暗帶的速度。",
+    "whyItMatters": "這是從單一開口到後來的光學元件的橋樑：雙縫條紋位於衍射包絡內，並且每個實際孔徑都有擴展限制。",
+    "equationSnapshot": {
+      "title": "單縫擴散",
+      "note": "讀取第一個最小值作為實際寬度標記，然後使用邊緣路徑差異和強度來解釋圖像變亮或變暗的原因。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-slit-and-center-peak",
+        "title": "讀取狹縫和中心峰",
+        "goal": "將實體開口連接到螢幕圖案上的明亮中心區域。",
+        "doThis": "從中心明亮開始，保持螢幕圖案圖可見，並將狹縫寬度指南與波長讀數進行比較。",
+        "notice": "圖案的中心明亮且寬闊，且第一最小值引導標記當前 lambda / a 比率的中心區域的結束位置。",
+        "explain": "衍射不是隨機模糊。每個螢幕點都會接收來自相同狹縫的貢獻，並且邊緣到邊緣的路徑差隨著遠離中心而增加。",
+        "inlineCheck": {
+          "title": "說出控制價差的比率"
+        }
+      },
+      {
+        "id": "make-the-peak-wider",
+        "title": "使峰值更寬",
+        "goal": "了解為何較大的波長與狹縫比會擴展中心繞射峰。",
+        "doThis": "將寬狹縫與寬展度進行比較，然後在觀看第一個最小指南時更改波長或狹縫寬度。",
+        "notice": "增加波長或縮小狹縫會將第一個最小值推得離中心更遠，因此中心亮峰變得更寬。",
+        "explain": "第一個最小值遵循 sin(theta_1) 近似 lambda / a。較大的 lambda/a 意味著第一個暗帶出現在較大的角度。",
+        "inlineCheck": {
+          "title": "預測更廣泛的模式"
+        }
+      },
+      {
+        "id": "sample-a-dark-band",
+        "title": "對暗帶進行取樣",
+        "goal": "將探頭移到其不同部分來單獨更改整個圖案。",
+        "doThis": "應用接近第一個最小值，然後微移探針高度，同時模式和探針場圖可見。",
+        "notice": "局部偵測場在暗帶附近收縮，但圖案僅在波長或狹縫寬度變化時變化。",
+        "explain": "探頭高度會改變您取樣的螢幕點。它改變了該點的邊緣路徑差異和局部強度，而不改變狹縫幾何形狀本身。",
+        "inlineCheck": {
+          "title": "探針與模式"
+        }
+      },
+      {
+        "id": "tune-a-target-minimum",
+        "title": "調整目標最小值",
+        "goal": "使用第一個最小值指南作為可測量的傳播目標，而不是依賴模糊的更寬/更窄的印象。",
+        "doThis": "從寬狹縫開始，調整波長和狹縫寬度，直到第一個最小值落在約 22° 和 28° 之間。",
+        "notice": "如果許多控制對使 lambda / a 落在正確的範圍內，則它們可以達到相同的傳播目標。",
+        "explain": "挑戰在於比例搜尋：螢幕距離保持固定，而波長和狹縫寬度設定第一個暗帶的角度。",
+        "inlineCheck": {
+          "title": "比較兩種情況"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "繞射擴展主要由波長與狹縫之比 lambda/a 控制。",
+        "第一個最小值給出了中心明亮區域寬度的具體標記。",
+        "移動探針取樣不同的螢幕點；它本身並不會改變模式。",
+        "單縫繞射成為塑造後來的雙縫和成像圖案的包絡線。"
+      ],
+      "misconception": "較窄的開口不會使出射光束變窄；當a相對於lambda變小時，衍射峰擴展得更寬。",
+      "freePlayPrompt": "嘗試製作兩種具有幾乎相同的第一最小角度的不同設定：一種透過提高波長，一種透過縮小狹縫。",
+      "nextConcepts": [
+        {
+          "slug": "double-slit-interference",
+          "reasonLabel": "將乾涉條紋放入信封內"
+        },
+        {
+          "slug": "optical-resolution-imaging-limits",
+          "reasonLabel": "使用孔徑擴展作為成像限制"
+        },
+        {
+          "slug": "wave-interference",
+          "reasonLabel": "回顧階段與路徑差異"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "edge-path-difference",
@@ -318,41 +420,367 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "圖案",
+      "primaryGraphIds": [
+        "圖案",
+        "位移"
+      ],
+      "primaryControlIds": [
+        "波長",
+        "狹縫寬度",
+        "探針Y"
+      ],
+      "primaryPresetIds": [
+        "中心亮",
+        "廣泛傳播",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "wavelength",
-        "label": "波長"
+        "label": "波長",
+        "description": "較長的波長使得相同的開口傳播波的能力更強。"
       },
       {
         "id": "slitWidth",
-        "label": "縫隙寬度"
+        "label": "縫隙寬度",
+        "description": "較窄的開口使中心衍射峰變寬。"
       },
       {
         "id": "probeY",
-        "label": "探針高度"
+        "label": "探針高度",
+        "description": "將螢幕探針移到繞射圖案上的新點。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "center-bright",
+        "label": "中心明亮",
+        "description": "探針位於主衍射峰的中心。"
+      },
+      {
+        "id": "wide-slit",
+        "label": "寬縫",
+        "description": "開盤較大，價差相對較小。"
+      },
+      {
+        "id": "wide-spread",
+        "label": "傳播廣泛",
+        "description": "波長和開口夠接近，使得出射波傳播得更強烈。"
+      },
+      {
+        "id": "matched-opening",
+        "label": "開口與波長匹配",
+        "description": "當 lambda 與開口大小大致相同時，圖案變得非常寬。"
+      },
+      {
+        "id": "off-center-dim",
+        "label": "接近第一個最小值",
+        "description": "探頭放置在預設開口和波長的第一個暗帶附近。"
+      },
+      {
+        "id": "tight-spread",
+        "label": "緊密傳播",
+        "description": "較短的波長和較寬的開口使中心峰保持較窄。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "slitWidthGuide",
+        "label": "狹縫寬度導軌",
+        "shortDescription": "直接在屏障上標示開口寬度。",
+        "whatToNotice": [
+          "繞射取決於開口與波長相比的寬度，而不僅僅是探頭所在的位置。"
+        ],
+        "whyItMatters": "它使孔徑大小保持可見，作為物理的一部分。",
+        "relatedControls": [
+          "狹縫寬度"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedEquationVariables": [
+          "狹縫寬度"
+        ]
+      },
+      {
+        "id": "edgePaths",
+        "label": "邊緣路徑",
+        "shortDescription": "繪製到目前探測點的頂部和底部狹縫邊緣路徑。",
+        "whatToNotice": [
+          "一個螢幕點沿著略有不同的路徑接收來自同一狹縫的頂部和底部的貢獻。"
+        ],
+        "whyItMatters": "這是繞射包絡線背後的幾何形狀。",
+        "relatedControls": [
+          "探針Y",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "圖案",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "探針Y",
+          "波長"
+        ]
+      },
+      {
+        "id": "firstMinimumGuide",
+        "label": "第一最低限度指南",
+        "shortDescription": "顯示當前比率 lambda / a 允許有限最小值時第一個暗點的位置。",
+        "whatToNotice": [
+          "隨著 lambda / a 的增大，第一個最小值離中心越來越遠，因此中心峰變得更寬。"
+        ],
+        "whyItMatters": "它將「更多分佈」變成了具體的螢幕位置。",
+        "relatedControls": [
+          "波長",
+          "狹縫寬度"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedEquationVariables": [
+          "波長",
+          "狹縫寬度"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "pattern",
-      "label": "螢幕圖案"
+      "label": "螢幕圖案",
+      "xLabel": "螢幕高度（公尺）",
+      "yLabel": "相對強度",
+      "description": "顯示整個螢幕上的相對強度，因此它在空間而不是時間上映射衍射圖案。"
+    },
+    {
+      "id": "displacement",
+      "label": "探測場",
+      "xLabel": "時間（秒）",
+      "yLabel": "場/位移（a.u.）",
+      "description": "追蹤一個螢幕時間點，顯示該點的探測場及其局部包絡線。"
     }
   ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。目標是將狹縫幾何形狀與中心峰的寬度和暗帶的位置連接起來。",
+    "items": [
+      {
+        "id": "diffraction-notice-central-peak",
+        "text": "請注意，中心不僅是圖案最亮的部分。它也是最寬的亮區，其寬度隨著lambda/a的變化而變化。",
+        "tryThis": "從中心明亮開始，然後在閱讀圖像之前將寬縫與寬展度進行比較。",
+        "whyItMatters": "主要學習目標是擴散如何變化，而不僅僅是亮度最高的地方。",
+        "relatedControls": [
+          "波長",
+          "狹縫寬度"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "狹縫寬度指南"
+        ]
+      },
+      {
+        "id": "diffraction-notice-slit-change",
+        "text": "請注意，即使物理開口變小，縮小狹縫也會使出射波傳播得更多。",
+        "tryThis": "在保持波長固定的情況下降低狹縫寬度，並比較第一最小波導移動的距離。",
+        "whyItMatters": "這直接修正了常見的波束變窄的誤解。",
+        "relatedControls": [
+          "狹縫寬度"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "狹縫寬度指南",
+          "第一最低限度指南"
+        ],
+        "relatedEquationVariables": [
+          "狹縫寬度"
+        ]
+      },
+      {
+        "id": "diffraction-notice-wavelength-change",
+        "text": "請注意，增加波長會加寬中心峰值，因為與一個波長相比，相同的開口現在更小。",
+        "tryThis": "保持狹縫固定，提高 lambda，觀察條帶和圖案圖向外展開。",
+        "whyItMatters": "它將 lambda / a 比率變成空間可見的東西。",
+        "relatedControls": [
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "邊緣路徑",
+          "第一最低限度指南"
+        ],
+        "relatedEquationVariables": [
+          "波長"
+        ]
+      },
+      {
+        "id": "diffraction-notice-time-vs-pattern",
+        "text": "請注意，隨著時間的推移，電流探頭的振盪會發生變化，但模式圖保持固定，因為它是螢幕上的空間強度圖。",
+        "tryThis": "在探頭場圖上暫停，單步執行一次，然後將探頭處的變化與模式圖上保持固定的情況進行比較。",
+        "whyItMatters": "它將某一點的時間變化與整個螢幕上的位置模式分開。",
+        "relatedGraphTabs": [
+          "位移",
+          "圖案"
+        ]
+      },
+      {
+        "id": "diffraction-notice-compare",
+        "text": "當一個設定改變 lambda 而另一個設定改變 a 時，比較模式最強。然後你可以看到相同比例的故事來自兩個不同的原因。",
+        "tryThis": "在讀取圖像之前，克隆即時設定，加寬一行中的狹縫，並延長另一行中的波長。",
+        "whyItMatters": "它阻止衍射塌陷為一種模糊的「更多擴散」控制。",
+        "relatedControls": [
+          "波長",
+          "狹縫寬度",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "圖案",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "狹縫寬度指南",
+          "第一最低限度指南"
+        ]
+      }
+    ]
+  },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測點差的變化。每個提示一次改變一個原因。",
     "items": [
       {
         "id": "diffraction-pred-narrower-slit",
-        "changeLabel": "縫隙寬度"
+        "prompt": "保持波長固定並使狹縫變窄。中心衍射峰會發生什麼？",
+        "scenarioLabel": "縮小縫隙",
+        "changeLabel": "縫隙寬度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它應該變寬，因為當開口相對於波長較小時，波傳播得更強烈。"
+          },
+          {
+            "id": "b",
+            "label": "它應該保持相同的寬度，因為只有波長對繞射很重要。"
+          },
+          {
+            "id": "c",
+            "label": "它應該變得更窄，因為開口更窄。"
+          }
+        ],
+        "explanation": "繞射取決於 lambda / a。減小值會增加此比率，因此中心峰變寬，第一個最小值向外移動。",
+        "observationHint": "觀察中心峰變寬且第一個最小值向外移動。"
       },
       {
         "id": "diffraction-pred-longer-wavelength",
-        "changeLabel": "波長"
+        "prompt": "保持狹縫固定並增加波長。模式應該發生什麼事？",
+        "scenarioLabel": "增加波長",
+        "changeLabel": "波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "圖案應該會展開，因為與波長相比，相同的開口現在很小。"
+          },
+          {
+            "id": "b",
+            "label": "圖案應該收緊，因為較長的波浪彎曲較少。"
+          },
+          {
+            "id": "c",
+            "label": "只有探測場圖應該改變。螢幕圖案應保持固定。"
+          }
+        ],
+        "explanation": "增大 lambda 會增加 lambda / a，因此中心峰會變寬，且最小值會遠離中心。",
+        "observationHint": "即使在移動探針之前，圖像也會向外擴展。"
       },
       {
         "id": "diffraction-pred-move-probe",
-        "changeLabel": "探針高度"
+        "prompt": "保留狹縫和波長，但將探頭從中心移向第一個暗帶。當地應該發生什麼事？",
+        "scenarioLabel": "往暗帶移動",
+        "changeLabel": "探針高度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "探測場包絡應收縮為零，因為螢幕點接近繞射最小值。"
+          },
+          {
+            "id": "b",
+            "label": "探頭應保持相同的包絡線，因為只有狹縫寬度才能設定強度。"
+          },
+          {
+            "id": "c",
+            "label": "局部場應該會成長，因為離中心較遠的點總是會收到較多的路徑差。"
+          }
+        ],
+        "explanation": "移動探頭不會改變圖案。它只會改變您採樣的現有包絡的哪一部分，因此局部強度可以下降到接近最小值的零。",
+        "observationHint": "觀察探針標記接近條帶和圖像上的第一個黑暗區域。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "將擴散圖案轉變為與相同狹縫幾何形狀相關的小型波動光學搜尋。",
+    "items": [
+      {
+        "id": "diff-ch-set-first-minimum",
+        "title": "設定清晰的展開角度",
+        "prompt": "從寬縫開始，調整控制直到第一個最小值落在 22 度和 28 度之間。",
+        "successMessage": "您透過改變波長與開口之比來調整展寬，而不是透過移動探頭。現在，圖案寬度與第一個最小目標完全匹配。",
+        "setup": {
+          "note": "調整 lambda 和 a 時，使用第一最小值參考線作為目標。"
+        },
+        "hints": [
+          "您需要比目前寬縫更大的 lambda/a 比率。",
+          "增加波長或減少狹縫寬度可以使第一個極小值向外移動。"
+        ],
+        "targets": [
+          {
+            "label": "將第一個最小角度設定在 22 度到 28 度之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "diff-ch-find-dark-band",
+        "title": "找到第一個暗帶",
+        "prompt": "從中心亮開始，將探頭移到第一個暗帶上，而不改變狹縫或波長。",
+        "successMessage": "您透過僅更改採樣的螢幕點找到了第一個最小值。邊緣路徑分裂大約是一個波長，局部強度已經崩潰。",
+        "setup": {
+          "note": "拖曳探針而不是改變開口。"
+        },
+        "hints": [
+          "您正在尋找邊緣路徑差約為一個波長的第一個位置。",
+          "圖案圖是將探頭引導至暗點最快的方法。"
+        ],
+        "targets": [
+          {
+            "label": "使邊緣路徑分裂接近一個波長。"
+          },
+          {
+            "label": "將相對強度控制在 0.08 以下。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "衍射",
+    "description": "互動式單縫衍射，包括波長、縫寬、探頭高度、即時讀數和連結的螢幕圖案圖。",
+    "keywords": [
+      "衍射",
+      "單縫衍射",
+      "波動光學",
+      "波長與狹縫寬度",
+      "繞射圖案"
     ]
   }
 }

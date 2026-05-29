@@ -51,22 +51,27 @@
           "steps": [
             {
               "id": "read-bound",
-              "label": "1. 閱讀來源圖表中的活躍邊界"
+              "label": "1. 閱讀來源圖表中的活躍邊界",
+              "template": "目前上限為 x = {{upperBoundValue}}，源高度為 f(x) = {{sourceHeightValue}}。"
             },
             {
               "id": "read-total",
-              "label": "2. 閱讀匹配的累積圖表上的點"
+              "label": "2. 閱讀匹配的累積圖表上的點",
+              "template": "在相同的 x 值處，累積圖顯示 A(x) = {{accumulatedValue}}。"
             },
             {
               "id": "connect-slope",
-              "label": "3. 將區域性斜率與來源高度聯絡起來"
+              "label": "3. 將區域性斜率與來源高度聯絡起來",
+              "template": "因為 A'(x) = f(x)，累積圖此時具有局部斜率 {{accumulationSlopeValue}}。"
             }
           ],
           "resultLabel": "當前累積總和",
+          "resultTemplate": "$A(x) = {{accumulatedValue}}$",
           "applyAction": {
             "label": "應用近抵消情況",
             "observationHint": "即使當前來源高度不為零，累積總和仍然接近於零，因為早期的正貢獻與後期的負貢獻相互抵消。"
-          }
+          },
+          "interpretationTemplate": "{{accumulationInterpretation}}"
         },
         {
           "id": "height-versus-total",
@@ -81,22 +86,27 @@
           "steps": [
             {
               "id": "read-height",
-              "label": "1. 閱讀來源圖的區域性高度"
+              "label": "1. 閱讀來源圖的區域性高度",
+              "template": "電流源高度為 f({{upperBoundValue}}) = {{sourceHeightValue}}。"
             },
             {
               "id": "read-total",
-              "label": "2. 閱讀累積總量"
+              "label": "2. 閱讀累積總量",
+              "template": "從 0 到 {{upperBoundValue}} 的運行總計為 A({{upperBoundValue}}) = {{accumulatedValue}}。"
             },
             {
               "id": "compare-meanings",
-              "label": "3. 比較每個值的意義"
+              "label": "3. 比較每個值的意義",
+              "template": "累積圖的局部斜率仍為{{accumulationSlopeValue}}，但此斜率與完整累積量{{accumulatedValue}}不同。"
             }
           ],
           "resultLabel": "當前高度 vs 總計",
+          "resultTemplate": "$f(x) = {{sourceHeightValue}}, \\quad A(x) = {{accumulatedValue}}$",
           "applyAction": {
             "label": "應用負尾情況",
             "observationHint": "這裡來源高度為負，所以即使總計仍然可以保持正值一段時間，區域性累積量仍然在減少。"
-          }
+          },
+          "interpretationTemplate": "{{sourceVsAccumulationInterpretation}}"
         }
       ]
     },
@@ -157,6 +167,7 @@
         ],
         "explanation": "這是這個概念試圖讓我們看到的核心區別：高度是區域性的，而累積是總體的。",
         "selectedWrongExplanations": {
+          "a": "它們有時可能具有相似的數值，但描述的數量不同。",
           "c": "累積立即開始。穿越軸只改變新增面積或減去面積是否發生。"
         },
         "showMeAction": {
@@ -183,6 +194,7 @@
         ],
         "explanation": "軸下方的面積要算作負值，因此邊界穿過該區域時會從累積總量中扣減。",
         "selectedWrongExplanations": {
+          "a": "較長的間隔長度本身並不能決定變化的符號。该符号来自源高度。",
           "b": "區間長度本身並不能決定變化符號。符號來自源高度。"
         },
         "showMeAction": {
@@ -214,6 +226,61 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "在來源曲線上拖曳上限，觀察有符號區域和累積圖一起更新，並將目前來源高度與運算總計分開。",
+    "keyTakeaway": "A(x) 是從 0 到目前上限的符號區域，因此移動邊界會變更總數，而不是建立單獨的靜態圖片。"
+  },
+  "v2": {
+    "intuition": "將一個上限拖曳到一條來源曲線上，以便簽名區域和累積圖一起更新，而不是成為單獨的圖片。",
+    "whyItMatters": "累積是核心積分故事，因此學生需要了解當前源高度和運行總和之間的關係，而不會將它們混淆為相同的數量。",
+    "guidedSteps": [
+      {
+        "id": "build-signed-area",
+        "title": "建立簽名區",
+        "goal": "將運行總計視為從 0 到目前上限的帶符號區域。",
+        "doThis": "從正建預設開始，保持來源圖可見，然後將上限拖曳到右側。",
+        "notice": "陰影區域成長，同時累積總數隨之更新。",
+        "explain": "A(x) 不是源高度。它是從開始到目前邊界為止收集的有符號區域。"
+      },
+      {
+        "id": "separate-height-from-total",
+        "title": "將高度與總高度分開",
+        "goal": "了解為什麼源值和累積面積回答不同的問題。",
+        "doThis": "開啟累積圖並將目前來源高度與相同邊界處的目前累積總數進行比較。",
+        "notice": "一個值告訴您目前的本地高度，而另一個值記錄迄今為止收集的所有內容。",
+        "explain": "源函數控制累積圖的斜率，但它與累積面積本身不是相同數量。"
+      },
+      {
+        "id": "cross-into-negative-region",
+        "title": "進入負值區域",
+        "goal": "了解當來源曲線低於軸但總數有歷史記錄時會發生什麼。",
+        "doThis": "套用負尾預設並將邊界移動到源曲線位於軸下方的區域。",
+        "notice": "即使目前來源高度為負，運行總計也可能在一段時間內保持正值。",
+        "explain": "負源高度會從累計總數中減去，但它只會撤銷先前已經建構的正區域。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "累積函數是從開始到目前邊界建構的有符號區域。",
+        "來源值設定總數現在如何變化，而不是總數本身。",
+        "負源區域從已建構的正總數中減去面積。"
+      ],
+      "misconception": "若源高度為負，則累計總高度也必須已為負。",
+      "freePlayPrompt": "找出源高度為負但運行總計仍高於零的邊界。",
+      "nextConcepts": [
+        {
+          "slug": "derivative-as-slope-local-rate-of-change",
+          "title": "導數為斜率/局部變化率",
+          "reasonLabel": "將總找零連接回本地匯率"
+        },
+        {
+          "slug": "optimization-maxima-minima-and-constraints",
+          "title": "最佳化/最大值/最小值與約束",
+          "reasonLabel": "使用率和麵積一起推理"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "accumulation-rule",
@@ -239,11 +306,267 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "源函數",
+      "primaryGraphIds": [
+        "源函數",
+        "累积函數"
+      ],
+      "primaryControlIds": [
+        "上限"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "upper-bound",
-        "label": "上界"
+        "label": "上界",
+        "description": "移動端點 x，該端點 x 決定從 0 開始累積了多少有符號區域。"
       }
+    ],
+    "presets": [
+      {
+        "id": "positive-build",
+        "label": "积极构建",
+        "description": "源位於軸上方且總數不斷增長的邊界。"
+      },
+      {
+        "id": "near-cancel",
+        "label": "即將取消",
+        "description": "較早的正區域和較晚的負區域幾乎平衡的邊界。"
+      },
+      {
+        "id": "negative-tail",
+        "label": "负尾",
+        "description": "源位於軸下方且總數被下拉的邊界。"
+      },
+      {
+        "id": "leftward-build",
+        "label": "向左构建",
+        "description": "負界，因此您可以看到有符號區域在相反方向累積。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "signedArea",
+        "label": "簽名區域底紋",
+        "shortDescription": "從 0 到目前邊界收集的簽名區域進行著色。",
+        "whatToNotice": [
+          "軸上方的面積加到總數中，而軸下方的面積從中減去。"
+        ],
+        "whyItMatters": "它使積分可視為累加，而不僅僅是符號。",
+        "relatedControls": [
+          "上限"
+        ],
+        "relatedGraphTabs": [
+          "源函數"
+        ],
+        "relatedEquationVariables": [
+          "上限"
+        ]
+      },
+      {
+        "id": "boundGuide",
+        "label": "綁定指南",
+        "shortDescription": "标记源圖上的当前上限。",
+        "whatToNotice": [
+          "此 x 值處的來源高度告訴您目前運轉總計的變化。"
+        ],
+        "whyItMatters": "它將目前來源值與整個累計量分開。",
+        "relatedControls": [
+          "上限"
+        ],
+        "relatedGraphTabs": [
+          "源函數"
+        ],
+        "relatedEquationVariables": [
+          "上限"
+        ]
+      },
+      {
+        "id": "accumulationPoint",
+        "label": "累积积分",
+        "shortDescription": "在累积圖上标记匹配點。",
+        "whatToNotice": [
+          "y 值是運轉總計，局部坡度由目前來源高度設定。"
+        ],
+        "whyItMatters": "它使連結 A'(x) = f(x) 在圖像上可見。",
+        "relatedControls": [
+          "上限"
+        ],
+        "relatedGraphTabs": [
+          "累积函數"
+        ],
+        "relatedEquationVariables": [
+          "上限"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "source-function",
+      "label": "源函數",
+      "xLabel": "x",
+      "yLabel": "f(x)",
+      "description": "顯示提供正在累積的有符號區域的來源曲線。"
+    },
+    {
+      "id": "accumulation-function",
+      "label": "累積圖",
+      "xLabel": "x",
+      "yLabel": "A(x)",
+      "description": "顯示從 0 到 x 之間的有符號區域建立的運行總計。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "在兩個圖像上使用相同的 x 值。一張圖告訴您下一個切片現在正在做什麼，另一張圖告訴您到目前為止已經收集了多少。",
+    "items": [
+      {
+        "id": "ia-notice-positive-growth",
+        "text": "當源曲線保持在軸上方時，向右移動邊界會增加正切片並使運行總計上升。",
+        "relatedControls": [
+          "上限"
+        ],
+        "relatedGraphTabs": [
+          "源函數",
+          "累积函數"
+        ],
+        "relatedOverlays": [
+          "簽名區域",
+          "累積點"
+        ],
+        "relatedEquationVariables": [
+          "上限"
+        ]
+      },
+      {
+        "id": "ia-notice-negative-slope",
+        "text": "一旦源下降到軸下，即使局部斜率變成負值，累積圖仍然可以位於零以上。",
+        "relatedControls": [
+          "上限"
+        ],
+        "relatedGraphTabs": [
+          "源函數",
+          "累积函數"
+        ],
+        "relatedOverlays": [
+          "綁定指南",
+          "累積點"
+        ],
+        "relatedEquationVariables": [
+          "上限"
+        ]
+      },
+      {
+        "id": "ia-notice-height-vs-total",
+        "text": "直接比較 f(x) 和 A(x)：一個是邊界處的當前高度，另一個是到該邊界收集的總有符號面積。",
+        "relatedControls": [
+          "上限"
+        ],
+        "relatedGraphTabs": [
+          "源函數",
+          "累积函數"
+        ],
+        "relatedOverlays": [
+          "簽名區域",
+          "累積點"
+        ],
+        "relatedEquationVariables": [
+          "上限"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測",
+    "intro": "在移動界限之前預測運行總計是否應該上升、持平或下降。",
+    "items": [
+      {
+        "id": "ia-predict-positive-region",
+        "prompt": "如果上限向右移動一點，而源高度保持正值，則累積量會發生什麼變化？",
+        "scenarioLabel": "在正區域向右移動",
+        "choices": [
+          {
+            "id": "a",
+            "label": "累計金額應增加。"
+          },
+          {
+            "id": "b",
+            "label": "由於間隔時間較長，累計金額必定會下降。"
+          },
+          {
+            "id": "c",
+            "label": "累計金額應維持固定，因為起始界線仍為 0。"
+          }
+        ],
+        "explanation": "如果來源高度保持正值，則每個額外的薄片都會增加正符號面積，因此運行總計會增加。",
+        "observationHint": "使用陰影區域和累積點作為兩個圖像上顯示的相同事件。"
+      },
+      {
+        "id": "ia-predict-negative-region",
+        "prompt": "如果源高度在目前邊界處為負，那麼那裡的累積圖一定是正確的嗎？",
+        "scenarioLabel": "軸下方的源",
+        "choices": [
+          {
+            "id": "a",
+            "label": "那裡的局部斜率為負。"
+          },
+          {
+            "id": "b",
+            "label": "其 y 值必須已經為負數。"
+          },
+          {
+            "id": "c",
+            "label": "它變得平坦，因為負面積抵消了整個圖像。"
+          }
+        ],
+        "explanation": "因為 A'(x) = f(x)，負源高度意味著累積圖在該 x 值處向下傾斜，即使 A(x) 仍高於零。",
+        "observationHint": "將圖像的目前高度與其局部斜率分開。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "一起使用這兩個圖像。目標是將局部高度和總積累分開，即使跡象誘使您將它們視為相同事物。",
+    "items": [
+      {
+        "id": "ia-ch-negative-height-positive-total",
+        "title": "負高度，正總高度",
+        "prompt": "將邊界移動到源高度為負但運行總計仍為正的位置。",
+        "successMessage": "您找到了本地費率和累積金額之間的關鍵差異。源在本地進行減法，但較早的正值區域仍使運行總計保持在零以上。",
+        "setup": {
+          "note": "觀察源圖上的目前高度以及累積圖上相同 x 值的總高度。"
+        },
+        "hints": [
+          "移過源曲線右側的零，但不要太遠以致先前的正區域已完全取消。",
+          "即使局部斜率變成負值，累積圖也可以保持在零以上。"
+        ],
+        "targets": [
+          {
+            "label": "將負尾視窗的上限放置在 $2.05$ 和 $2.35$ 之間。"
+          },
+          {
+            "label": "將電流源高度設定為明顯負值，位於 $-0.8$ 與 $-0.45$ 之間。"
+          },
+          {
+            "label": "保持累計金額為正，介於 $0.8$ 和 $1.2$ 之間。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "積分作為累積/面積",
+    "description": "使用即時積分繪圖台來探索符號面積、運行總計以及來源高度和累積之間的聯繫。",
+    "keywords": [
+      "積分",
+      "積累",
+      "簽名區",
+      "微積分基本定理",
+      "微積分"
     ]
   }
 }

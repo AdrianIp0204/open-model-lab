@@ -60,27 +60,40 @@
             {
               "id": "cycle-rate",
               "label": "迴圈率"
+            },
+            {
+              "id": "electric-flux",
+              "label": "淨電通量"
+            },
+            {
+              "id": "magnetic-loop-strength",
+              "label": "閉環磁性圖案"
             }
           ],
           "steps": [
             {
               "id": "read-charge",
-              "label": "1. 閱讀封閉源項"
+              "label": "1. 閱讀封閉源項",
+              "template": "目前封閉的電荷是$Q_{\\text{enc}} = {{chargeSourceValue}}\\,\\mathrm{arb.}$，因此源是{{chargeSignText}}。"
             },
             {
               "id": "gauss-electric",
-              "label": "2. 適用高斯定理（對於 E）"
+              "label": "2. 適用高斯定理（對於 E）",
+              "template": "給出 $\\oint \\vec{E}\\cdot d\\vec{A} = {{electricFluxValue}}\\,\\mathrm{arb.}$，因此淨電通量為 {{electricFluxDirectionText}}。"
             },
             {
               "id": "gauss-magnetic",
-              "label": "3. 適用高斯定理（對於 B）"
+              "label": "3. 適用高斯定理（對於 B）",
+              "template": "在同一時刻，即使局部閉環強度為 ${{closedLoopStrengthValue}}\\,\\mathrm{arb.}$，此階段仍給出 $\\oint \\vec{B}\\cdot d\\vec{A} = {{magneticNetFluxValue}}\\,\\mathrm{arb.}$。"
             }
           ],
           "resultLabel": "通量法則讀取",
+          "resultTemplate": "$\\oint \\vec{E}\\cdot d\\vec{A} = {{electricFluxValue}}\\,\\mathrm{arb.}, \\quad \\oint \\vec{B}\\cdot d\\vec{A} = {{magneticNetFluxValue}}\\,\\mathrm{arb.}$",
           "applyAction": {
             "label": "顯示中性封閉",
             "observationHint": "電源項坍塌為零，但迴圈卡仍然可以保持活動狀態，因為迴圈法則是另一個故事的一部分。"
-          }
+          },
+          "interpretationTemplate": "{{gaussInterpretation}}"
         },
         {
           "id": "current-circulation-bridge",
@@ -90,31 +103,49 @@
             {
               "id": "cycle-rate-bridge",
               "label": "迴圈率"
+            },
+            {
+              "id": "conduction-current",
+              "label": "封閉電流"
+            },
+            {
+              "id": "electric-change",
+              "label": "更改電通量項"
+            },
+            {
+              "id": "magnetic-change",
+              "label": "更改磁通量項"
             }
           ],
           "steps": [
             {
               "id": "ampere-terms",
-              "label": "1. 閱讀兩個 B 迴圈源項"
+              "label": "1. 閱讀兩個 B 迴圈源項",
+              "template": "現在封閉電流為$I_{\\text{enc}} = {{conductionCurrentValue}}\\,\\mathrm{arb.}$，而變電項為${{electricChangeInstantValue}}\\,\\mathrm{arb.}$。"
             },
             {
               "id": "ampere-balance",
-              "label": "2. 適用安培-馬克斯韋爾定律"
+              "label": "2. 適用安培-馬克斯韋爾定律",
+              "template": "它們一起給出 $\\oint \\vec{B}\\cdot d\\vec{l} = {{bCirculationValue}}\\,\\mathrm{arb.}$，因此磁環是 {{ampereBalanceText}}。"
             },
             {
               "id": "faraday-balance",
-              "label": "3. 適用法拉第定律"
+              "label": "3. 適用法拉第定律",
+              "template": "磁通量變化為 ${{magneticFluxChangeValue}}\\,\\mathrm{arb.}$，因此法拉第給出 $\\oint \\vec{E}\\cdot d\\vec{l} = {{eCirculationValue}}\\,\\mathrm{arb.}$。"
             },
             {
               "id": "light-bridge",
-              "label": "4. 閱讀變化場橋"
+              "label": "4. 閱讀變化場橋",
+              "template": "因為變化字段對是 {{fieldAlignmentText}}，所以該階段報告 ${{waveCueValue}}\\,\\mathrm{arb.}$ 的 {{waveCueLabelText}}。"
             }
           ],
           "resultLabel": "迴圈和橋",
+          "resultTemplate": "$\\oint \\vec{B}\\cdot d\\vec{l} = {{bCirculationValue}}\\,\\mathrm{arb.}, \\quad \\oint \\vec{E}\\cdot d\\vec{l} = {{eCirculationValue}}\\,\\mathrm{arb.}, \\quad \\text{bridge} = {{waveCueValue}}\\,\\mathrm{arb.}$",
           "applyAction": {
             "label": "顯示位移驅動的迴圈",
             "observationHint": "導電電流項靜默，但磁場迴圈仍然存活，因為變化電場仍在供應安培-馬克斯韋爾定律。"
-          }
+          },
+          "interpretationTemplate": "{{circulationInterpretation}}"
         }
       ]
     },
@@ -174,6 +205,7 @@
         ],
         "explanation": "高斯定律（對於磁場）是無淨來源的陳述。它並不是説磁場不存在；而是説磁場線仍然閉合，所以封閉表面的淨通量始終為零。",
         "selectedWrongExplanations": {
+          "a": "零電源項不會消除局部磁性結構。",
           "c": "透過封閉表面的通量和沿環繞路徑的迴圈是不同的物理讀數。"
         },
         "showMeAction": {
@@ -199,6 +231,7 @@
         ],
         "explanation": "麥克斯韋的額外項在此處起作用。即使電流項為零，變化電場仍然可以產生磁迴圈。",
         "selectedWrongExplanations": {
+          "a": "這錯過了麥克斯韋的位移電流項。",
           "b": "這忽略了麥克斯韋的位移電流項。"
         },
         "showMeAction": {
@@ -225,6 +258,7 @@
         ],
         "explanation": "這個光橋的暗示是兩條迴圈定律共同作用的直觀結果。這不僅僅是更快的電荷流動，也不需要打破高斯定律（對於磁場）。",
         "selectedWrongExplanations": {
+          "a": "光本身並不是電源定律；光本身並不是電源定律；耦合的變化領域的故事很重要。",
           "c": "高斯定律（對於磁場）在統一的光故事中仍然保持為零淨通量。"
         },
         "showMeAction": {
@@ -263,6 +297,79 @@
         "title": "將合成帶入波動"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "了解每個麥克斯韋方程式在物理上的意義、來源和循環有何不同，以及為什麼改變電場和磁場會統一電、磁和光。",
+    "keyTakeaway": "將麥克斯韋方程式視為一個場故事：高斯定律將電源與磁閉合分開，而法拉第和安培-麥克斯韋則展示了變化的場如何驅動循環並架起通往光的橋樑。"
+  },
+  "v2": {
+    "intuition": "當您按工作對麥克斯韋方程式進行排序時，它們就變得不那麼令人生畏了：封閉的曲面揭示了源定律，而循環則揭示了循環定律。",
+    "whyItMatters": "源與環路的分離是從電荷、電流和感應到改變電場和磁場可以維持一個電磁波故事這一想法的乾淨途徑。",
+    "equationSnapshot": {
+      "note": "對E使用高斯，對B使用高斯將源與閉包分離，然後使用安培-麥克斯韋作為環路定律升級；法拉第在引導橋步驟中加入它。"
+    },
+    "guidedSteps": [
+      {
+        "id": "sort-source-laws",
+        "title": "對源律進行排序",
+        "goal": "在查看環路之前，將電源定律與磁被動定律分開。",
+        "doThis": "保持通量定律開放，將封閉電荷移向零，並將電通量卡與磁通量卡進行比較。",
+        "notice": "電通量隨著封閉電荷的變化而變化，但透過閉合表面的磁淨通量保持為零。",
+        "explain": "E 的高斯是電荷源定律，而 B 的高斯是閉包定律。它們都是通量定律，但只有一個有封閉源項。"
+      },
+      {
+        "id": "compare-loop-sources",
+        "title": "比較循環源",
+        "goal": "使用安培-麥克斯韋來了解為什麼磁循環不僅僅是線電流效應。",
+        "doThis": "切換到安培-麥克斯韋圖，設定位移驅動環路，並將傳導電流跡線與變化電跡線進行比較。",
+        "notice": "線電流貢獻可以變得安靜，而總磁循環保持活躍，因為變化的電場仍在滿足環路定律。",
+        "explain": "安培-麥克斯韋增加了位移電流項，因此即使沒有通過環路的傳導電流，改變電通量也可以產生磁循環。"
+      },
+      {
+        "id": "connect-faraday-bridge",
+        "title": "連接即時橋",
+        "goal": "將法拉第的變化 B 反應與變化場對的光橋提示連結起來。",
+        "doThis": "打開法拉第和光橋圖，比較強光橋與未對準的橋，並觀察橋提示如何變化。",
+        "notice": "翻轉一個變化場符號會改變法拉第響應並削弱橋樑提示，即使環路定律仍然存在。",
+        "explain": "通往電磁波的橋樑並不是一個接一個場的延遲故事。正是耦合的變化字段結構可以保持更新的進行。"
+      },
+      {
+        "id": "synthesize-four-laws",
+        "title": "綜合四大定律",
+        "goal": "使用源與循環的句子解釋當前的即時狀態。",
+        "doThis": "使用快速檢查，然後回答有關電場變化的零傳導電流的檢查點。",
+        "notice": "一個很好的麥克斯韋解釋指出了哪些定律是關於淨通量的，哪些定律是關於跳到波連接之前的環路響應的。",
+        "explain": "綜合就是分類：電荷源淨電通量，磁通量保持閉合，改變B循環E，電流或改變E循環B。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "E 的高斯將封閉電荷與通過封閉表面的淨電通量連結起來。",
+        "B 的高斯將透過閉合表面的淨磁通量保持為零，而不使局部磁場消失。",
+        "法拉第將變化的磁通量轉化為循環電場。",
+        "安培-麥克斯韋讓傳導電流或變化的電通量提供磁循環。",
+        "排列變化的電場和磁場是從麥克斯韋方程式到電磁波的橋樑。"
+      ],
+      "misconception": "不要將四個方程式當作不連續的公式來記憶。首先詢問方程式是否是關於通過封閉表面的淨通量或圍繞環路的循環。",
+      "freePlayPrompt": "首先選擇一個更改，預測它是屬於源定律還是循環定律，然後移動匹配滑塊並檢查圖像。",
+      "nextConcepts": [
+        {
+          "slug": "electromagnetic-waves",
+          "title": "電磁波",
+          "reasonLabel": "查看傳播結果"
+        },
+        {
+          "slug": "light-spectrum-linkage",
+          "title": "光作為電磁波",
+          "reasonLabel": "將合成帶入光中"
+        },
+        {
+          "slug": "magnetic-force-moving-charges-currents",
+          "title": "移動電荷和電流上的磁力",
+          "reasonLabel": "重新連接B以強制"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -319,27 +426,355 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "通量定律",
+      "primaryGraphIds": [
+        "通量定律"
+      ],
+      "primaryControlIds": [
+        "電荷源",
+        "電動變化率"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "chargeSource",
-        "label": "封閉電荷"
+        "label": "封閉電荷",
+        "description": "設定閉合表面通量讀數的電源項。"
       },
       {
         "id": "conductionCurrent",
-        "label": "傳導電流"
+        "label": "傳導電流",
+        "description": "設定對安培-麥克斯韋環路故事的當前貢獻。"
       },
       {
         "id": "electricChangeRate",
-        "label": "變化電場"
+        "label": "變化電場",
+        "description": "改變共享循環中電力變化貢獻的大小和符號。"
       },
       {
         "id": "magneticChangeRate",
-        "label": "變化磁場"
+        "label": "變化磁場",
+        "description": "更改共享週期內變化磁貢獻的大小和符號。"
       },
       {
         "id": "cycleRate",
-        "label": "迴圈率"
+        "label": "迴圈率",
+        "description": "控制共享變化場時脈的運轉速度。"
       }
+    ],
+    "presets": [
+      {
+        "id": "balanced-synthesis",
+        "label": "平衡合成",
+        "description": "緊密的基線，其中電荷、電流和兩個變化場項同時活動。"
+      },
+      {
+        "id": "neutral-circulation",
+        "label": "中性外殼",
+        "description": "刪除電源術語，同時保持循環故事處於活動狀態。"
+      },
+      {
+        "id": "current-dominated-loop",
+        "label": "電流主導環路",
+        "description": "讓傳導電流主導磁循環，同時變電項保持較小。"
+      },
+      {
+        "id": "displacement-driven-loop",
+        "label": "位移驅動迴路",
+        "description": "關閉線電流並保持變電項較強，以便安培-麥克斯韋仍驅動磁環。"
+      },
+      {
+        "id": "strong-light-bridge",
+        "label": "強光橋",
+        "description": "保持兩個變化場項同時處於活動狀態，以便合成卡顯示出更強的類似光的橋樑提示。"
+      },
+      {
+        "id": "misaligned-bridge",
+        "label": "橋未對準",
+        "description": "翻轉化磁項的符號，以便變化場對停止加強乾淨的橋。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "chargeSurface",
+        "label": "電荷表面",
+        "shortDescription": "突顯封閉電荷周圍的封閉表面，使電源定律保持可見。",
+        "whatToNotice": [
+          "更改隨附的費用會直接更改電源術語，即使下面的流通卡做了不同的事情。"
+        ],
+        "whyItMatters": "它將電源與環路定律分開，而不是將所有內容混合到一張場線圖中。",
+        "relatedControls": [
+          "電荷源"
+        ],
+        "relatedGraphTabs": [
+          "通量定律"
+        ],
+        "relatedEquationVariables": [
+          "電荷源"
+        ]
+      },
+      {
+        "id": "noMonopoles",
+        "label": "磁性閉合",
+        "shortDescription": "在螢幕上保留非單極子提醒，這樣局部磁環就不會被誤認為是淨源項。",
+        "whatToNotice": [
+          "局部磁圖案可以變得更強，而淨閉合表面磁通量仍然保持為零。"
+        ],
+        "whyItMatters": "它使 B 的高斯在概念上與安培-麥克斯韋環路定律分開。",
+        "relatedGraphTabs": [
+          "通量定律"
+        ],
+        "relatedEquationVariables": [
+          "磁性變化率"
+        ]
+      },
+      {
+        "id": "faradayLoop",
+        "label": "法拉第環",
+        "shortDescription": "標記透過改變磁通量而產生的循環電場響應。",
+        "whatToNotice": [
+          "翻轉磁通量變化的符號會翻轉循環電響應。"
+        ],
+        "whyItMatters": "它將法拉第定律變成了一個循環閱讀的故事，而不是一個獨立的減號。",
+        "relatedControls": [
+          "磁性變化率"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "磁性變化率"
+        ]
+      },
+      {
+        "id": "ampereMaxwell",
+        "label": "安培-麥克斯韋環路",
+        "shortDescription": "顯示為一個共享磁環供電的目前項和變電項。",
+        "whatToNotice": [
+          "如果變電項仍然有效，則零傳導電流不會強制零磁循環。"
+        ],
+        "whyItMatters": "它使麥克斯韋的位移電流思想保持可見，而不是將其隱藏在公式中。",
+        "relatedControls": [
+          "傳導電流",
+          "電動變化率"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "傳導電流",
+          "電動變化率"
+        ]
+      },
+      {
+        "id": "lightBridge",
+        "label": "光橋",
+        "shortDescription": "顯示目前變化場對是否支援乾淨的類似燈光的橋接提示。",
+        "whatToNotice": [
+          "當兩個變化場術語同時保持活躍和一致時，而不是只有一個定律完成所有工作時，橋樑是最堅固的。"
+        ],
+        "whyItMatters": "它是從麥克斯韋方程組到電磁波和光的直覺第一橋樑。",
+        "relatedControls": [
+          "電動變化率",
+          "磁性變化率",
+          "循環速率"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "電動變化率",
+          "磁性變化率",
+          "循環速率"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "flux-laws",
+      "label": "通量定律",
+      "xLabel": "時間（秒）",
+      "yLabel": "助焊劑",
+      "description": "比較兩個源定律讀數：淨電通量會隨著封閉電荷的變化而變化，而通過閉合表面的淨磁通量保持為零。"
+    },
+    {
+      "id": "ampere-maxwell-link",
+      "label": "安培-麥克斯韋鏈接",
+      "xLabel": "時間（秒）",
+      "yLabel": "流通/來源術語",
+      "description": "在一個時間軸上顯示傳導電流項、變化電項以及由此產生的磁循環，以便您可以看到任一源都可以驅動環路響應。"
+    },
+    {
+      "id": "faraday-wave-link",
+      "label": "法拉第和光橋",
+      "xLabel": "時間（秒）",
+      "yLabel": "循環/橋接提示",
+      "description": "顯示變化的磁通量如何驅動電流循環，以及變化的電和變化的磁項是否足夠一致以支持強大的光橋線索。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。首先將源定律與環定律分開，然後觀察變化場對如何橋接波。",
+    "items": [
+      {
+        "id": "maxwell-notice-source-vs-loop",
+        "text": "先分離作業。封閉電荷直接改變電源法卡，但循環卡仍然可以出於完全不同的原因保持活動狀態。",
+        "tryThis": "將封閉電荷降到零，而不觸及變化場項，並觀察舞台的哪些部分會塌陷和不會塌陷。",
+        "whyItMatters": "許多麥克斯韋混淆來自於源定律與循環定律的混合。",
+        "relatedControls": [
+          "電荷源"
+        ],
+        "relatedGraphTabs": [
+          "通量定律"
+        ],
+        "relatedOverlays": [
+          "充電表面",
+          "安培麥克斯韋"
+        ],
+        "relatedEquationVariables": [
+          "電荷源"
+        ]
+      },
+      {
+        "id": "maxwell-notice-no-monopoles",
+        "text": "B 的高斯並不是說磁性消失。也就是說，即使局部磁環很強，通過閉合表面的淨磁通量也保持為零。",
+        "tryThis": "當下環卡處於活動狀態時，觀察閉環讀數。即使淨磁通定律保持為零，局部磁結構仍然存在。",
+        "whyItMatters": "這可以防止 B 的高斯被误讀為磁性消失。",
+        "relatedGraphTabs": [
+          "通量定律"
+        ],
+        "relatedOverlays": [
+          "no單極子"
+        ]
+      },
+      {
+        "id": "maxwell-notice-displacement",
+        "text": "Ampere-Maxwell 是關鍵升級。即使沒有傳導電流，變化的電場仍然可以使磁環保持活動。",
+        "tryThis": "使用位移驱動环预設，然后将电流项迹線与總磁环迹線进行比较。",
+        "whyItMatters": "它將位移電流項變成了你可以直接檢查的東西，而不僅僅是背誦。",
+        "relatedControls": [
+          "傳導電流",
+          "電動變化率"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "安培麥克斯韋"
+        ],
+        "relatedEquationVariables": [
+          "傳導電流",
+          "電動變化率"
+        ]
+      },
+      {
+        "id": "maxwell-notice-light-bridge",
+        "text": "当两个变化场项同時保持活動状态且符号兼容時，光桥最强。翻转一个标志，桥提示就会减弱，尽管循环法则本身仍然存在。",
+        "tryThis": "克隆強光橋設定，然後僅翻轉設定 B 中的磁變化符號並比較法拉第波圖。",
+        "whyItMatters": "這是從麥克斯韋方程組到電磁波和光的直覺第一連結。",
+        "relatedControls": [
+          "電動變化率",
+          "磁性變化率"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "光橋"
+        ],
+        "relatedEquationVariables": [
+          "電動變化率",
+          "磁性變化率"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在移動滑块之前遵守场定律结果。每個場景都會改變合成的一部分，以便即時舞台可以確認或糾正想法。",
+    "items": [
+      {
+        "id": "maxwell-pred-neutral-charge",
+        "prompt": "如果封閉電荷減少到零，同時電流和變化場項保持活動狀態，綜合頁面上會發生什麼？",
+        "scenarioLabel": "中性外殼",
+        "changeLabel": "电荷源",
+        "choices": [
+          {
+            "id": "a",
+            "label": "淨電通量卡應變為中性，但循環卡仍可維持活動狀態。"
+          },
+          {
+            "id": "b",
+            "label": "所有四张卡片都應该折叠，因為麦克斯韦方程组需要电荷才能做任何事情。"
+          },
+          {
+            "id": "c",
+            "label": "磁淨通量卡應變為非零以補償缺失的電荷。"
+          }
+        ],
+        "explanation": "E 的高斯取決於封閉的電荷，因此電源項可以變成中性。環流定律取決於電流和變化的磁場，B 的高斯仍然保持淨磁通量為零。",
+        "observationHint": "觀察源律行與循環行分開，而不是期望一個主滑塊可以處理所有事情。"
+      },
+      {
+        "id": "maxwell-pred-displacement",
+        "prompt": "如果傳導電流設定為零，但變化的電場保持很強，磁循環會發生什麼？",
+        "scenarioLabel": "位移驅動迴路",
+        "changeLabel": "安培-麥克斯韋源",
+        "choices": [
+          {
+            "id": "a",
+            "label": "磁循环可以保持非零，因為变化的电项仍然提供给安培-麦克斯韦。"
+          },
+          {
+            "id": "b",
+            "label": "磁環一定會消失，因為只有線電流才能產生 B 迴路。"
+          },
+          {
+            "id": "c",
+            "label": "電源法卡應翻轉標誌以取代缺少的電流。"
+          }
+        ],
+        "explanation": "安培-麥克斯韋包括封閉電流和變化電項。如果變化的電貢獻仍然存在，則零傳導電流不會消除磁循環。",
+        "observationHint": "在傳導電流滑塊達到零後，將電流項跡線與總磁環跡線進行比較。"
+      },
+      {
+        "id": "maxwell-pred-misaligned-bridge",
+        "prompt": "如果變磁項的符號翻轉而變電項保持不變，綜合頁面應該顯示什麼？",
+        "scenarioLabel": "橋未對準",
+        "changeLabel": "改变-B 标志",
+        "choices": [
+          {
+            "id": "a",
+            "label": "法拉第的循環 E 反應應該會翻轉，光橋提示應該會減弱到未對準狀態。"
+          },
+          {
+            "id": "b",
+            "label": "只有電源定律卡應該翻轉，因為電荷和磁力變化在這裡是同一件事。"
+          },
+          {
+            "id": "c",
+            "label": "沒有什麼重要的變化，因為兩個循環定律總是指向相同的方向。"
+          }
+        ],
+        "explanation": "法拉第直接取決於磁通量變化的符號，因此循環 E 響應會翻轉。如果變化的 E 項和變化的 B 項不再對齊，即使兩個環路定律仍然存在，光橋提示也會減弱。",
+        "observationHint": "一起使用橋卡和法拉第圖。循環法則仍然存在，但組合的橋提示變得不對齊。"
+      }
+    ]
+  },
+  "seo": {
+    "title": "麥克斯韋方程組綜合 |開放模型實驗室",
+    "description": "透過一個緊湊的綜合階段來探索麥克斯韋方程組的物理意義，將源定律、循環定律、變化場和光之橋連結起來。",
+    "keywords": [
+      "麥克斯韋方程組",
+      "電磁學",
+      "電通量",
+      "法拉第定律",
+      "安培麥克斯韋定律",
+      "光"
     ]
   }
 }

@@ -71,26 +71,32 @@
           "steps": [
             {
               "id": "source-positions",
-              "label": "1. 將兩個來源放置在共享軸上"
+              "label": "1. 將兩個來源放置在共享軸上",
+              "template": "對稱放置，$x_A = -s/2 = {{sourceAXValue}}\\,\\mathrm{m}$ 和 $x_B = +s/2 = {{sourceBXValue}}\\,\\mathrm{m}$。"
             },
             {
               "id": "probe-vectors",
-              "label": "2. 建立來源到探測點的向量"
+              "label": "2. 建立來源到探測點的向量",
+              "template": "$\\vec{r}_A = ({{rAxValue}}, {{rAyValue}})$ 與 $|\\vec{r}_A| = {{rAValue}}$，$\\vec{r}_B = ({{rBxValue}}, {{rByValue}})$ 與 $|\\vec{r}_B| = {{rBValue}}$。"
             },
             {
               "id": "source-fields",
-              "label": "3. 計算各個電場貢獻"
+              "label": "3. 計算各個電場貢獻",
+              "template": "$\\vec{E}_A = q_A\\vec{r}_A/|\\vec{r}_A|^3 = ({{eAxValue}}, {{eAyValue}})$ 和 $\\vec{E}_B = q_B\\vec{r}_B/|\\vec{r}_B|^3 = ({{eBxValue}}, {{eByValue}})$。"
             },
             {
               "id": "add-fields",
-              "label": "4. 在同一探測點把向量相加"
+              "label": "4. 在同一探測點把向量相加",
+              "template": "$\\vec{E}_{\\text{net}} = \\vec{E}_A + \\vec{E}_B = ({{fieldXValue}}, {{fieldYValue}})$，所以$|\\vec{E}| = {{fieldMagnitudeValue}}$。"
             }
           ],
           "resultLabel": "淨電場",
+          "resultTemplate": "$\\vec{E}_{\\text{net}} = ({{fieldXValue}}, {{fieldYValue}}), \\quad |\\vec{E}| = {{fieldMagnitudeValue}}$",
           "applyAction": {
             "label": "顯示平衡同性電荷拱",
             "observationHint": "在中點上方，每個正源貢獻一個向上電場分量和一個水平分量。水平部分相互抵消而向上部分相加。"
-          }
+          },
+          "interpretationTemplate": "{{fieldInterpretation}}"
         },
         {
           "id": "current-test-charge-force",
@@ -105,22 +111,27 @@
           "steps": [
             {
               "id": "force-relation",
-              "label": "1. 開始從場到力的關係"
+              "label": "1. 開始從場到力的關係",
+              "template": "使用$\\vec{F}_{\\text{test}} = q_{\\text{test}}\\vec{E}_{\\text{net}}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 將當前測試電荷和淨電場代入"
+              "label": "2. 將當前測試電荷和淨電場代入",
+              "template": "$\\vec{F}_{\\text{test}} = {{testChargeValue}}\\,( {{fieldXValue}}, {{fieldYValue}} )$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算力分量"
+              "label": "3. 計算力分量",
+              "template": "給出 $\\vec{F}_{\\text{test}} = ({{forceXValue}}, {{forceYValue}})$ 和 $|\\vec{F}| = {{forceMagnitudeValue}}$。"
             }
           ],
           "resultLabel": "測試電荷力",
+          "resultTemplate": "$\\vec{F}_{\\text{test}} = ({{forceXValue}}, {{forceYValue}}), \\quad |\\vec{F}| = {{forceMagnitudeValue}}$",
           "applyAction": {
             "label": "翻轉為負的測試電荷",
             "observationHint": "電場箭頭與掃描圖保持不變，只有受力箭頭會反轉，因為改變的只有 $q_{\\text{test}}$。"
-          }
+          },
+          "interpretationTemplate": "{{forceInterpretation}}"
         }
       ]
     },
@@ -181,6 +192,7 @@
         ],
         "explanation": "在源軸中點，幾何學上完全對稱。每個來源都貢獻一個等量的水平場強，在相反的方向上，所以那裡的向量和消失。",
         "selectedWrongExplanations": {
+          "a": "在該中點處沒有垂直偏移，因此兩個源都不會在那裡貢獻向上的分量。",
           "c": "測試電荷符號影響力，而不是來源產生的場強。這種抵消已經存在於選擇任何測試電荷之前。"
         },
         "showMeAction": {
@@ -207,6 +219,7 @@
         ],
         "explanation": "中點上方的等量偶極子，兩個來源貢獻共享一個右向分量。他們的垂直部分相互抵消，但水平部分增強，所以淨場強主要指向右方。",
         "selectedWrongExplanations": {
+          "a": "此直接結果屬於中點上方兩個相等的同類電荷，而非異號電荷。",
           "b": "那種垂直結果屬於中點上方的兩個相等同號電荷，而不是相反符號的電荷。"
         },
         "showMeAction": {
@@ -233,6 +246,7 @@
         ],
         "explanation": "電場由源電荷和位置定義。試驗電荷感受到的力與電場方向相反，但它本身不重新定義電場。",
         "selectedWrongExplanations": {
+          "a": "探針強度僅縮放此模型中的力。场方向不与測试负责人协商。",
           "c": "負電荷是有效的探針。它們之所以有用，正是因為它可以揭示力可以反對電場方向。"
         },
         "showMeAction": {
@@ -272,6 +286,53 @@
         "title": "保持電場故事流動"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "了解源電荷符號、距離和疊加如何設定一個探針上的電場，然後觀察測試電荷將該場轉變為力而不改變場本身。",
+    "keyTakeaway": "正源電荷使場遠離自身，而負源電荷將場拉向自身。"
+  },
+  "v2": {
+    "intuition": "在使用方程式之前，將一個探頭移動通過雙源場並使方向規則可見。",
+    "whyItMatters": "當您可以分離源電荷、探針位置和測試電荷力而不是將所有三者混合到一個箭頭中時，電場就可以重複使用。",
+    "equationSnapshot": {
+      "title": "場第一，力第二",
+      "note": "並排保留源場規則、向量和和測試電荷力關係。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-source-sign",
+        "title": "先讀取來源標誌",
+        "goal": "在更改測試電荷之前根據源電荷預測場方向。",
+        "doThis": "開啟單源參考，將來源從正翻轉為負，並將場向量保持可見。",
+        "notice": "當來源符號反轉時，場箭頭也會反轉，即使探頭停留在同一位置。",
+        "explain": "正源將場發送遠離自身；負源將場拉向自身，因此符號在向量相加開始之前選擇徑向方向。"
+      },
+      {
+        "id": "add-two-source-contributions",
+        "title": "增加兩個來源",
+        "goal": "使用圖像和欄位箭頭來確定兩個來源貢獻何時取消或加強。",
+        "doThis": "在中點取消和同電荷拱之間切換，然後沿著掃描線移動探頭。",
+        "notice": "在某些探頭位置，水平分量抵消；在其他情況下，附近的一個或更強大的源主宰了網場。",
+        "explain": "疊加意味著探針從兩個來源讀取一個向量和，而不是兩個單獨的字段答案。"
+      },
+      {
+        "id": "separate-field-from-force",
+        "title": "將場與力分開",
+        "goal": "解釋為何翻轉測試電荷會改變力箭頭而不改變電場。",
+        "doThis": "開啟負測試電荷預設並將藍綠色箭頭與珊瑚力箭頭進行比較。",
+        "notice": "力隨測試電荷符號反轉，但源產生的場和場圖仍與源電荷相關。",
+        "explain": "場是探測點處源的屬性；測試電荷只會將該場倍增為力。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "源電荷符號選擇場是遠離還是指向該源。",
+        "淨電場是一個探測點的向量和。",
+        "測試電荷會改變力讀數，但不會改變源產生的場。"
+      ],
+      "misconception": "不要使用測試充電標誌來重畫電場；僅在已知該欄位後才使用它。",
+      "freePlayPrompt": "將探針放置在一個源幾乎抵消另一個源的位置，然後僅翻轉測試電荷並解釋發生變化和未發生變化的情況。"
+    }
   },
   "equations": [
     {
@@ -337,6 +398,17 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "方向掃描",
+      "primaryGraphIds": [
+        "方向掃描"
+      ],
+      "primaryControlIds": [
+        "源電荷A",
+        "源電荷B"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "sourceChargeA",
@@ -409,7 +481,21 @@
         "whatToNotice": [
           "每一支小箭頭都已經把該位置的兩個來源貢獻一起計算在內。"
         ],
-        "whyItMatters": "它讓你在整個平面上看見疊加，而不只是在目前探針那一點看見。"
+        "whyItMatters": "它讓你在整個平面上看見疊加，而不只是在目前探針那一點看見。",
+        "relatedControls": [
+          "源電荷A",
+          "源電荷B",
+          "来源分离"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedEquationVariables": [
+          "源電荷A",
+          "源電荷B",
+          "来源分离"
+        ]
       },
       {
         "id": "fieldVectors",
@@ -418,7 +504,23 @@
         "whatToNotice": [
           "琥珀色和天藍色箭頭會在同一個探針點首尾相接，合成為青綠色的總場箭頭。"
         ],
-        "whyItMatters": "它把疊加顯示成單一探測點上的向量和，而不只是口頭規則。"
+        "whyItMatters": "它把疊加顯示成單一探測點上的向量和，而不只是口頭規則。",
+        "relatedControls": [
+          "源電荷A",
+          "源電荷B",
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedEquationVariables": [
+          "源電荷A",
+          "源電荷B",
+          "探針X",
+          "探針Y"
+        ]
       },
       {
         "id": "forceVector",
@@ -427,7 +529,16 @@
         "whatToNotice": [
           "只改變 q_test 的正負，就能令珊瑚色受力箭頭反向，而青綠色電場箭頭保持不變。"
         ],
-        "whyItMatters": "學生常會把負電荷所受力的方向，和電場本身的方向混為一談。"
+        "whyItMatters": "學生常會把負電荷所受力的方向，和電場本身的方向混為一談。",
+        "relatedControls": [
+          "測試充電"
+        ],
+        "relatedGraphTabs": [
+          "方向掃描"
+        ],
+        "relatedEquationVariables": [
+          "測試充電"
+        ]
       },
       {
         "id": "scanLine",
@@ -436,7 +547,19 @@
         "whatToNotice": [
           "把探針上下移動時，整張圖都會跟著改變，因為影像正在取樣另一條 y 高度。"
         ],
-        "whyItMatters": "它讓影像與舞台之間的連結保持誠實，而不是讓人以為影像來自另一套模型。"
+        "whyItMatters": "它讓影像與舞台之間的連結保持誠實，而不是讓人以為影像來自另一套模型。",
+        "relatedControls": [
+          "探針Y",
+          "探針X"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
       }
     ]
   },
@@ -464,31 +587,99 @@
         "id": "ef-notice-source-sign",
         "text": "來源電荷的正負會先決定方向：正電荷把電場向外送出，負電荷則把電場拉向自己。",
         "tryThis": "先把來源 B 調成零，再把來源 A 由正值掃到負值，觀察在探針不移動時電場箭頭如何反向。",
-        "whyItMatters": "很多電場方向錯誤，來自把電荷符號當成小修正，而不是決定徑向方向的根本規則。"
+        "whyItMatters": "很多電場方向錯誤，來自把電荷符號當成小修正，而不是決定徑向方向的根本規則。",
+        "relatedControls": [
+          "源電荷A",
+          "源電荷B"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "字段網格"
+        ],
+        "relatedEquationVariables": [
+          "源電荷A",
+          "源電荷B"
+        ]
       },
       {
         "id": "ef-notice-scan-superposition",
         "text": "合成掃描曲線不是另一條獨立規則；它就是同一個 y 高度上琥珀與天藍兩條來源曲線逐點相加的結果。",
         "tryThis": "開啟水平掃描圖，沿虛線掃描線移動探針。探針標記與圖表預覽應該始終同步。",
-        "whyItMatters": "這會把疊加原理變成可直接觀察的圖表關係，而不是隻靠背誦的一句口號。"
+        "whyItMatters": "這會把疊加原理變成可直接觀察的圖表關係，而不是隻靠背誦的一句口號。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "扫描線"
+        ]
       },
       {
         "id": "ef-notice-test-charge",
         "text": "只改變測試電荷的符號，會翻轉受力箭頭，但不會改變場箭頭或掃描圖。",
         "tryThis": "固定來源與探針位置，再把 q_test 拖過零點進入負值。",
-        "whyItMatters": "這是把來源產生的電場，和某一個測試電荷實際感受到的力，清楚分開的最好方法。"
+        "whyItMatters": "這是把來源產生的電場，和某一個測試電荷實際感受到的力，清楚分開的最好方法。",
+        "relatedControls": [
+          "測試充電"
+        ],
+        "relatedGraphTabs": [
+          "方向掃描"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "力向量"
+        ],
+        "relatedEquationVariables": [
+          "測試充電"
+        ]
       },
       {
         "id": "ef-notice-compare-stronger-source",
         "text": "比較模式最容易看出哪個設定的近端貢獻較大。較強或較近的來源，會把合成電場向自己那邊拉過去。",
         "tryThis": "複製目前設定後，把 設定 B 的來源 A 調大，再比較探針箭頭與反應曲線。",
-        "whyItMatters": "同時比較兩個誠實的疊加案例，比只盯著一張靜態畫面猜誰主導，更容易看清楚。"
+        "whyItMatters": "同時比較兩個誠實的疊加案例，比只盯著一張靜態畫面猜誰主導，更容易看清楚。",
+        "relatedControls": [
+          "源電荷A",
+          "源電荷B",
+          "来源分离"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "字段網格"
+        ]
       },
       {
         "id": "ef-notice-separation",
         "text": "拉大來源間距時，探針到兩個來源的距離都會改變，所以同一個探針點可能由平衡貢獻轉成某一來源主導。",
         "tryThis": "把探針留在中點上方，再慢慢拉闊間距。留意虛線掃描線與圖表峯值如何一起重塑。",
-        "whyItMatters": "這會讓你看到，電場強度不只由電荷大小決定，幾何位置同樣關鍵。"
+        "whyItMatters": "這會讓你看到，電場強度不只由電荷大小決定，幾何位置同樣關鍵。",
+        "relatedControls": [
+          "来源分离",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時掃描",
+          "方向掃描"
+        ],
+        "relatedOverlays": [
+          "扫描線",
+          "字段網格"
+        ],
+        "relatedEquationVariables": [
+          "来源分离",
+          "探針Y"
+        ]
       }
     ]
   },
@@ -596,7 +787,8 @@
           {
             "label": "令向上場分量落在 1.35 至 1.48"
           }
-        ]
+        ],
+        "style": "目標設定"
       },
       {
         "id": "ef-ch-flip-force-not-field",
@@ -626,8 +818,20 @@
           {
             "label": "令向下受力分量落在 -1.48 至 -1.35"
           }
-        ]
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "電場 |開放模型實驗室",
+    "description": "透過有界二電荷實驗室學習電場，該實驗室將源符號、疊加、測試電荷上的力、掃描圖像、引導疊加、預測提示和概念快速測試連結起來。",
+    "keywords": [
+      "電場",
+      "電力",
+      "測試充電",
+      "疊加",
+      "實體模擬"
     ]
   }
 }

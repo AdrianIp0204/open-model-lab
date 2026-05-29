@@ -63,22 +63,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別分量關係"
+              "label": "1. 識別分量關係",
+              "template": "使用 $v_x = v\\cos(\\theta)$ 和 $v_y = v\\sin(\\theta)$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前大小和角度"
+              "label": "2. 代入目前大小和角度",
+              "template": "$v_x = {{magnitudeValue}}\\cos({{angleValue}}^\\circ)$ 和 $v_y = {{magnitudeValue}}\\sin({{angleValue}}^\\circ)$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算每個分量"
+              "label": "3. 計算每個分量",
+              "template": "給出 $v_x = {{vxValue}}\\,\\mathrm{m/s}$ 和 $v_y = {{vyValue}}\\,\\mathrm{m/s}$。"
             }
           ],
           "resultLabel": "當前分量",
+          "resultTemplate": "$v_x = {{vxValue}}\\,\\mathrm{m/s}, \\quad v_y = {{vyValue}}\\,\\mathrm{m/s}$",
           "applyAction": {
             "label": "顯示陡峭上升",
             "observationHint": "一起觀察分量圖表和參考三角形：向量保持相同的大小，而向上部分增長，水平部分縮小。"
-          }
+          },
+          "interpretationTemplate": "{{componentInterpretation}}"
         },
         {
           "id": "current-displacement",
@@ -92,27 +97,36 @@
             {
               "id": "angle",
               "label": "角度"
+            },
+            {
+              "id": "time",
+              "label": "時間"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始從分量位置關係"
+              "label": "1. 開始從分量位置關係",
+              "template": "具有常數分量，$x(t) = v\\cos(\\theta)t$ 和 $y(t) = v\\sin(\\theta)t$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前狀態"
+              "label": "2. 代入目前狀態",
+              "template": "$x({{timeValue}}) = {{magnitudeValue}}\\cos({{angleValue}}^\\circ)\\cdot {{timeValue}}$ 和 $y({{timeValue}}) = {{magnitudeValue}}\\sin({{angleValue}}^\\circ)\\cdot {{timeValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算當前坐標"
+              "label": "3. 計算當前坐標",
+              "template": "此點位於 $x = {{xValue}}\\,\\mathrm{m}$ 和 $y = {{yValue}}\\,\\mathrm{m}$，總位移為 $|\\vec{r}| = {{distanceValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "當前位移",
+          "resultTemplate": "$x = {{xValue}}\\,\\mathrm{m}, \\quad y = {{yValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "顯示向下跳躍",
             "observationHint": "分量線保持相同的斜率和符號，而移動點沿著一條直線行進。負的垂直分量僅僅將點向下驅動。"
-          }
+          },
+          "interpretationTemplate": "{{displacementInterpretation}}"
         }
       ]
     },
@@ -267,16 +281,107 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "旋轉和縮放即時向量，將其分解為水平和垂直部分，並觀察這些組件驅動相同的直線運動和幾何形狀。",
+    "whyItMatters": "組件將任何傾斜運動、力或場轉換為水平和垂直部分，您可以在圖像上計算和檢查。",
+    "keyTakeaway": "對角線向量不是兩個單獨的推送。它的水平和垂直分量是同一向量在每個軸上的陰影。"
+  },
+  "v2": {
+    "intuition": "一個對角線向量可以被解讀為兩個精確的陰影：一個水平分量和一個垂直分量，它們共同作用以做出相同的運動。",
+    "whyItMatters": "組件思維是拋射運動、斜坡上的力、扭矩、動量和場背後的可重複使用的移動：將向量分割成軸，求解各個部分，然後重新組合結果。",
+    "equationSnapshot": {
+      "title": "元件快照",
+      "note": "使用角度將一個向量分割為精確的 x 和 y 投影，然後使用相同的分量來預測直線運動。"
+    },
+    "startSetup": {
+      "note": "從第一象限向量開始，以便兩個分量腿都可見且為正。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-vector-triangle",
+        "title": "讀一個向量三角形",
+        "goal": "將對角線箭頭連接到其水平和垂直組件腿。",
+        "doThis": "從平衡分割預設開始，保持組件圖打開，並從原點追蹤參考步驟三角形。",
+        "notice": "對角線箭頭、兩個分量參考線和兩個圖像值都描述相同的向量狀態。",
+        "explain": "分量是一個向量在垂直軸上的精確投影，因此水平和垂直腿重新組合到原始對角線。",
+        "inlineCheck": {
+          "title": "檢查分割"
+        }
+      },
+      {
+        "id": "rotate-with-magnitude-fixed",
+        "title": "以固定長度旋轉",
+        "goal": "將角度視為相同總向量長度的重新分佈。",
+        "doThis": "切換到陡峭爬升預設或將角度拖曳到垂直方向，同時保持幅度固定。",
+        "notice": "垂直分量增大，水平分量收縮，且路徑向上傾斜，而向量不需要額外的長度。",
+        "explain": "在固定幅度下，兩個垂直投影之間的正弦和餘弦交換份額；結果長度保持不變。",
+        "inlineCheck": {
+          "title": "預測旋轉"
+        }
+      },
+      {
+        "id": "use-signs-for-direction",
+        "title": "使用標誌指示方向",
+        "goal": "將負分量解釋為沿軸的方向，而不是損失的幅度。",
+        "doThis": "套用向下俯衝預設，然後將 v_y 的符號與舞台路徑和位置圖的斜率進行比較。",
+        "notice": "垂直分量翻轉到零以下，而總向量仍具有選定的大小，且該點仍沿一條直線路徑移動。",
+        "explain": "組件符號告訴您投影在其軸上的指向方向；大小關係仍然將有符號分量重新組合成相同的向量大小。",
+        "inlineCheck": {
+          "title": "检查标志"
+        }
+      },
+      {
+        "id": "recombine-and-check-motion",
+        "title": "重新组合並检查運動",
+        "goal": "使用組件預測位置，然後驗證舞台上的相同運動。",
+        "doThis": "在運行結束時進行擦洗，並將階段點與 x(t)、y(t) 和路徑圖進行比較。",
+        "notice": "常數分量進行直線運動：x 和 y 線性成長，路徑圖與階段點一致。",
+        "explain": "一旦知道 v_x 和 v_y，每個軸就變成一個一維運動問題；它們一起重現了原本的二維位移。",
+        "inlineCheck": {
+          "title": "你能用组件构建吗？"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "向量分量是一個向量在軸上的精確投影。",
+        "以固定大小改變角度會在水平和垂直分量之間重新分配相同的向量。",
+        "分量符號編碼沿軸的方向，而合成的幅度來自垂直腿。",
+        "常數分量產生具有匹配 x(t)、y(t)、路徑和階段表示的直線運動。"
+      ],
+      "misconception": "不要將組件視為事後添加的兩個新向量；它們是原始向量的軸陰影。",
+      "freePlayPrompt": "建立一個具有相同幅度的向上向量和一個向下向量，然後僅使用分量符號和大小來解釋發生了什麼變化。",
+      "nextConcepts": [
+        {
+          "slug": "projectile-motion",
+          "title": "抛射運動",
+          "reasonLabel": "使用水平和垂直分量來預測彎曲路徑。"
+        },
+        {
+          "slug": "torque",
+          "title": "扭矩",
+          "reasonLabel": "將力分散到產生轉動的部分。"
+        },
+        {
+          "slug": "momentum-impulse",
+          "title": "動量與衝動",
+          "reasonLabel": "將向量方向轉換為動量變化。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "x-component",
       "label": "水平分量",
-      "meaning": "將向量投影到水平軸上。"
+      "meaning": "將向量投影到水平軸上。",
+      "readAloud": "水平分量等於向量振幅乘以角度的餘弦"
     },
     {
       "id": "y-component",
       "label": "垂直分量",
-      "meaning": "將向量投影到垂直軸上。"
+      "meaning": "將向量投影到垂直軸上。",
+      "readAloud": "垂直分量等於向量振幅乘以角度的正弦值"
     },
     {
       "id": "x-position",
@@ -311,6 +416,28 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "組件",
+      "primaryGraphIds": [
+        "組件",
+        "路徑",
+        "位置"
+      ],
+      "primaryControlIds": [
+        "震級",
+        "角度"
+      ],
+      "primaryPresetIds": [
+        "平衡行走",
+        "陡峭攀登",
+        "向下俯衝"
+      ],
+      "starterExploreTasks": [
+        "從平衡分割開始，在查看公式之前將一個對角線箭頭追蹤到其水平和垂直引導腿。",
+        "保持幅度固定，將角度拖向陡峭爬升，然後觀察組件圖將水平份額換成垂直份額。",
+        "應用向下俯衝，然後解釋為什麼負垂直分量會改變方向而不會使向量長度消失。"
+      ]
+    },
     "controls": [
       {
         "id": "magnitude",
@@ -353,7 +480,19 @@
         "whatToNotice": [
           "這兩條直角邊正好就是目前時刻的水平和垂直距離。"
         ],
-        "whyItMatters": "它把斜向運動還原成方程式所描述的直角三角形。"
+        "whyItMatters": "它把斜向運動還原成方程式所描述的直角三角形。",
+        "relatedControls": [
+          "震級",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "路徑",
+          "位置"
+        ],
+        "relatedEquationVariables": [
+          "震級",
+          "角度"
+        ]
       },
       {
         "id": "angleMarker",
@@ -362,7 +501,17 @@
         "whatToNotice": [
           "當向量越過 x 軸下方或超過 90 度時，分量符號會改變，但三角規則本身不變。"
         ],
-        "whyItMatters": "它讓角度約定一直可見，方便你判斷符號與象限。"
+        "whyItMatters": "它讓角度約定一直可見，方便你判斷符號與象限。",
+        "relatedControls": [
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "組件",
+          "路徑"
+        ],
+        "relatedEquationVariables": [
+          "角度"
+        ]
       },
       {
         "id": "referenceStep",
@@ -371,7 +520,19 @@
         "whatToNotice": [
           "當時間增加時，移動點會沿同一方向繼續延伸，但 1 秒步長本身保持固定。"
         ],
-        "whyItMatters": "它把固定向量本身，和由它累積出來的位移清楚區分開來。"
+        "whyItMatters": "它把固定向量本身，和由它累積出來的位移清楚區分開來。",
+        "relatedControls": [
+          "震級",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "位置",
+          "組件"
+        ],
+        "relatedEquationVariables": [
+          "震級",
+          "角度"
+        ]
       }
     ]
   },
@@ -406,31 +567,82 @@
         "id": "vc-notice-component-triangle",
         "text": "留意：斜向運動其實就是水平和垂直變化同時發生。",
         "tryThis": "保持大小不變，拖曳向量把手，並把舞台上的直角三角形和 x(t)、y(t) 兩條線一起比較。",
-        "whyItMatters": "這正是運動學與受力分析中做向量分解的核心動作。"
+        "whyItMatters": "這正是運動學與受力分析中做向量分解的核心動作。",
+        "relatedControls": [
+          "震級",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "位置",
+          "組件"
+        ],
+        "relatedOverlays": [
+          "組件指南",
+          "參考步驟"
+        ]
       },
       {
         "id": "vc-notice-path-link",
         "text": "留意：路徑圖和舞台展示的是同一條直線運動，只是表示方式不同。",
         "tryThis": "懸停或拖曳路徑圖，觀察移動點如何跳到舞台上的對應位置。",
-        "whyItMatters": "它讓圖表不再像附錄，而是同一個幾何運動的另一種表現。"
+        "whyItMatters": "它讓圖表不再像附錄，而是同一個幾何運動的另一種表現。",
+        "relatedGraphTabs": [
+          "路徑"
+        ],
+        "relatedOverlays": [
+          "組件指南"
+        ]
       },
       {
         "id": "vc-notice-angle-redistribution",
         "text": "留意：在大小固定時改變角度，會讓一個分量變大、另一個分量變小。",
         "tryThis": "把角度從大約 35 度轉到 75 度，再看 vx 和 vy 兩條線如何變化，之後才去看路徑。",
-        "whyItMatters": "這是最直接看見「角度是在重新分配同一個向量，而不是額外加長它」的方法。"
+        "whyItMatters": "這是最直接看見「角度是在重新分配同一個向量，而不是額外加長它」的方法。",
+        "relatedControls": [
+          "角度",
+          "震級"
+        ],
+        "relatedGraphTabs": [
+          "組件",
+          "路徑"
+        ],
+        "relatedOverlays": [
+          "角度標記",
+          "參考步驟"
+        ],
+        "relatedEquationVariables": [
+          "角度"
+        ]
       },
       {
         "id": "vc-notice-negative-component",
         "text": "負分量不代表向量變小，只代表那一部分沿選定的軸向左或向下。",
         "tryThis": "保持大小不變，把向量拖到 x 軸下方；垂直分量會翻成負值，但總向量大小沒有改變。",
-        "whyItMatters": "如果把符號概念藏起來，之後做力學時很容易出現方向錯誤。"
+        "whyItMatters": "如果把符號概念藏起來，之後做力學時很容易出現方向錯誤。",
+        "relatedControls": [
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "位置",
+          "組件"
+        ],
+        "relatedOverlays": [
+          "角度標記",
+          "組件指南"
+        ]
       },
       {
         "id": "vc-notice-inspection",
         "text": "暫停只會改變已累積的位移，不會改變底層的向量分量。",
         "tryThis": "暫停後逐步前進。x(t) 和 y(t) 的標記會移動，但 vx 和 vy 線仍保持平坦，因為分量本來就是常數。",
-        "whyItMatters": "它把「速率資訊」和「累積位置資訊」清楚分開。"
+        "whyItMatters": "它把「速率資訊」和「累積位置資訊」清楚分開。",
+        "relatedGraphTabs": [
+          "位置",
+          "組件"
+        ],
+        "relatedOverlays": [
+          "參考步驟"
+        ]
       }
     ]
   },
@@ -498,11 +710,20 @@
           "若想得到相等分量，從大約 45 度開始最乾淨。",
           "如果其中一個分量仍明顯較大，就代表角度還是偏向某一個軸。"
         ],
+        "checks": [
+          {
+            "label": "將水平分量保持在 8 m/s 向量的等分割值附近。"
+          },
+          {
+            "label": "將垂直分量保持在相同的等分值附近。"
+          }
+        ],
         "targets": [
           {
             "label": "把分量差距壓到小於 $0.2\\,\\mathrm{m/s}$。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       },
       {
         "id": "vc-ch-hit-end-point",
@@ -516,6 +737,14 @@
           "這一題需要在運動尾段附近進入檢視模式。",
           "較淺的角度會比垂直方向更快增加水平距離。"
         ],
+        "checks": [
+          {
+            "label": "對 3-4-5 端點模式使用接近 5 m/s 的向量振幅。"
+          },
+          {
+            "label": "將角度設定為接近 37 度，以便組件以接近 4 m/s 和 3 m/s 的速度著陸。"
+          }
+        ],
         "targets": [
           {
             "label": "把水平位置調進 $15.5$ 到 $16.5\\,\\mathrm{m}$ 的區間。"
@@ -523,8 +752,50 @@
           {
             "label": "把垂直位置調進 $11.5$ 到 $12.5\\,\\mathrm{m}$ 的區間。"
           }
-        ]
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "vc-ch-downward-same-length",
+        "title": "向下，相同長度",
+        "prompt": "從平衡分割中，保持向量長度接近 8 m/s，但將其旋轉到右下方向。證明負垂直分量表示方向，而不是較小的向量。",
+        "successMessage": "在將垂直分量翻轉到零以下的同時，您保持了相同的向量長度。標誌改變了路徑方向；其幅度並沒有消失。",
+        "setup": {
+          "note": "在 x 軸下方旋轉時保持引導三角形可見；組件圖應顯示正 vx 和負 vy。"
+        },
+        "hints": [
+          "不要收縮向量來減少垂直分量。保持震級接近 8 m/s 並沿軸下方旋轉方向。",
+          "接近 -30 度的目標會給出具有相同總向量長度的正水平分量和負垂直分量。"
+        ],
+        "checks": [
+          {
+            "label": "保持水平分量為正且向右。"
+          },
+          {
+            "label": "使垂直分量為負且向下。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將總向量幅度保持在 8 m/s 附近。"
+          },
+          {
+            "label": "將向量旋轉到右下方向接近 -30 度。"
+          }
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "向量與組件 |開放模型實驗室",
+    "description": "透過連結幾何、分量圖、工作範例、預測模式和快速測試的即時角度和幅度實驗室學習向量分解。",
+    "keywords": [
+      "向量",
+      "組件",
+      "向量分解",
+      "力学",
+      "實體模擬"
     ]
   }
 }

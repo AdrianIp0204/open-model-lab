@@ -64,27 +64,40 @@
             {
               "id": "temperature",
               "label": "溫度"
+            },
+            {
+              "id": "averageKineticEnergy",
+              "label": "每個粒子的平均動能"
+            },
+            {
+              "id": "bondEnergy",
+              "label": "鍵與相儲存"
             }
           ],
           "steps": [
             {
               "id": "read-average-motion",
-              "label": "1. 讀取單個粒子的能量比例尺"
+              "label": "1. 讀取單個粒子的能量比例尺",
+              "template": "在此模型中，目前溫度對應於每個粒子的平均動能 $K_{\\mathrm{avg}} = {{averageKineticEnergyValue}}\\,\\mathrm{u}$。"
             },
             {
               "id": "multiply-by-amount",
-              "label": "2. 將單個粒子的比例尺轉換成總能量部分"
+              "label": "2. 將單個粒子的比例尺轉換成總能量部分",
+              "template": "乘以物質的量：$K_{\\mathrm{thermal}} = N K_{\\mathrm{avg}} = {{thermalKineticEnergyValue}}\\,\\mathrm{u}$。"
             },
             {
               "id": "add-other-store",
-              "label": "3. 加上非動能儲存"
+              "label": "3. 加上非動能儲存",
+              "template": "目前非動能儲存為 $U_{\\mathrm{bond}} = {{bondEnergyValue}}\\,\\mathrm{u}$，因此總內能為 $U = {{internalEnergyValue}}\\,\\mathrm{u}$。"
             }
           ],
           "resultLabel": "熱學總量和內能總量",
+          "resultTemplate": "$K_{\\mathrm{thermal}} = {{thermalKineticEnergyValue}}\\,\\mathrm{u}, \\quad U = {{internalEnergyValue}}\\,\\mathrm{u}$",
           "applyAction": {
             "label": "顯示較大的樣本",
             "observationHint": "粒子運動看似同樣活躍，但總內能條和數量都上升了，因為更多粒子分享著相同的平均運動。"
-          }
+          },
+          "interpretationTemplate": "{{amountInterpretation}}"
         },
         {
           "id": "heating-through-the-shelf",
@@ -94,27 +107,40 @@
             {
               "id": "heaterPower",
               "label": "加熱功率"
+            },
+            {
+              "id": "time",
+              "label": "已用時間"
+            },
+            {
+              "id": "temperature",
+              "label": "當前溫度"
             }
           ],
           "steps": [
             {
               "id": "start-with-input",
-              "label": "1. 計算加熱器輸出的能量"
+              "label": "1. 計算加熱器輸出的能量",
+              "template": "使用$\\Delta U_{\\mathrm{in}} = P_{\\mathrm{heater}} t = {{heaterPowerValue}} \\times {{timeValue}}$，因此加熱器增加了{{addedEnergyValue}}\\,\\mathrm{u}$。"
             },
             {
               "id": "read-current-state",
-              "label": "2. 檢視實時熱態"
+              "label": "2. 檢視實時熱態",
+              "template": "現在樣本處於 $T = {{temperatureValue}}$，內能 $U = {{internalEnergyValue}}\\,\\mathrm{u}$。"
             },
             {
               "id": "check-shelf-progress",
-              "label": "3. 檢查是否仍直接提升溫度"
+              "label": "3. 檢查是否仍直接提升溫度",
+              "template": "相架已完成 {{phaseProgressPercentValue}}\\%，目前溫升率為 {{temperatureRateValue}}\\,\\mathrm{arb/s}$。"
             }
           ],
           "resultLabel": "加熱輸入和當前架子狀態",
+          "resultTemplate": "$\\Delta U_{\\mathrm{in}} = {{addedEnergyValue}}\\,\\mathrm{u}, \\quad T = {{temperatureValue}}, \\quad \\text{shelf progress} = {{phaseProgressPercentValue}}\\%$",
           "applyAction": {
             "label": "顯示相態架子",
             "observationHint": "溫度曲線可以保持平直，而內能曲線和相態進展條繼續移動，所以進入的能量仍然在做真正的微觀工作。"
-          }
+          },
+          "interpretationTemplate": "{{heatingInterpretation}}"
         }
       ]
     },
@@ -281,6 +307,82 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "使用一個粒子台將作為平均運動的溫度與作為整個樣品的總微觀儲存的內能分開。",
+    "whyItMatters": "這是傳熱、比熱和相變的橋樑：相同的溫度並不意味著相同的儲存能量，並且添加的能量並不總是立即升高溫度。",
+    "keyTakeaway": "溫度追蹤此有界模型中每個粒子的平均微觀運動；內能計算物質的運動加上其他內部儲存的量。"
+  },
+  "v2": {
+    "intuition": "溫度是每個粒子的平均值；內能是整個樣本的總和。改變一張長凳上的數量、加熱器功率和架子狀態，這樣這兩個想法就不再模糊在一起。",
+    "whyItMatters": "這種差異解釋了為什麼溫暖的浴缸可以比杯子儲存更多的能量，為什麼小樣本加熱得更快，以及為什麼相變可以吸收能量而不會立即發生溫度跳躍。",
+    "equationSnapshot": {
+      "title": "平均值、金額和輸入快照",
+      "note": "保持平均與總的故事可見：溫度遵循平均動能，而內能也取決於粒子計數和其他微觀儲存。"
+    },
+    "startSetup": {
+      "note": "首先將一個較小的溫樣本與相同溫度下的較大樣本進行比較。"
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-average-from-total",
+        "title": "將平均值與總數分開",
+        "goal": "了解為什麼兩個樣本的溫度可以匹配，但內能卻不同。",
+        "doThis": "從小溫樣本開始，然後切換到大溫樣本，同時粒子/溫度碎片和內能分裂保持可見。",
+        "notice": "溫度晶片和運動標度可以保持相似，但內部能量條會增長，因為正在計算更多粒子。",
+        "explain": "溫度是每個顆粒的平均值。內能是整個樣本的總和，因此即使平均運動匹配，內能也很重要。"
+      },
+      {
+        "id": "share-the-same-heater-input",
+        "title": "共用相同的加熱器輸入",
+        "goal": "預測加熱器功率不變時哪個樣品的溫度變化較快。",
+        "doThis": "保持加熱器功率固定並比較小樣本和大樣本的量-加熱-速率圖。",
+        "notice": "較小的樣本升溫速度較快，因為相同的傳入能量由較少的粒子共享。",
+        "explain": "加熱器功率決定輸入速率，但溫度響應取決於必須共用該輸入的物質數量。"
+      },
+      {
+        "id": "catch-energy-on-the-shelf",
+        "title": "在架上捕捉能量",
+        "goal": "觀察內部能量不斷上升，而溫度幾乎持平。",
+        "doThis": "應用在架子上或向架子加溫，然後一起檢查溫度歷史和能量分解圖。",
+        "notice": "即使溫度線幾乎沒有變化，層架進度和內能讀數也可以保持移動。",
+        "explain": "增加的能量可以進入另一個微觀儲存。溫度不會因為能量的進入而在每時每刻都被迫跳躍。"
+      },
+      {
+        "id": "explain-the-temperature-story",
+        "title": "解釋一下溫度的故事",
+        "goal": "將實驗台觀察結果轉換為可用於傳熱和相變問題的規則。",
+        "doThis": "使用工作範例，然後嘗試在改變整個樣本內能的同時保持溫度相似的挑戰。",
+        "notice": "強而有力的解釋總是說明什麼是平均值，什麼是總量，以及現在增加的能量流向何處。",
+        "explain": "當您可以將溫度、數量、加熱器輸入和架子能量保存在單獨的心理盒子中時，您就可以繼續前進了。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "溫度追蹤每個粒子的平均微觀運動，而不是整個樣本的總能量。",
+        "內部能量隨著長凳上呈現的物質數量和微觀儲存量的增加而增長。",
+        "相同的加熱器功率可以更快地加熱較小的樣品，而相架可以在溫度變化很小的情況下吸收能量。"
+      ],
+      "misconception": "相同的溫度並不意味著相同的內能，並且增加的能量並不能保證溫度立即升高。",
+      "freePlayPrompt": "建立兩個具有相同溫度但不同粒子數的樣品，然後解釋哪個具有更多的內能以及哪個在相同的加熱器下加熱得更快。",
+      "nextConcepts": [
+        {
+          "slug": "ideal-gas-law-and-kinetic-theory",
+          "title": "理想氣體定律與動力學理論",
+          "reasonLabel": "將平均粒子運動與氣壓連結起來。"
+        },
+        {
+          "slug": "heat-transfer",
+          "title": "傳熱",
+          "reasonLabel": "使用溫差來解釋能量接下來流向的地方。"
+        },
+        {
+          "slug": "specific-heat-and-phase-change",
+          "title": "比熱和相變",
+          "reasonLabel": "將層架概念擴展到特定材料的加熱曲線。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "avg-kinetic-temperature",
@@ -330,67 +432,440 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "用這個步驟把模擬、圖像和概念連接起來。",
+      "primaryGraphIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "粒子計數"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "particleCount",
-        "label": "粒子數量"
+        "label": "粒子數量",
+        "description": "改變存在的樣本量，同時保持相同的有界粒子盒圖片。"
       },
       {
         "id": "heaterPower",
-        "label": "加熱功率"
+        "label": "加熱功率",
+        "description": "提高或降低能量輸入速率而不改變樣本量。"
       },
       {
         "id": "startingTemperature",
-        "label": "起始溫度"
+        "label": "起始溫度",
+        "description": "改變同一樣本的起始平均粒子運動。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "small-warm-sample",
+        "label": "溫馨小樣",
+        "description": "中等溫度下的較小樣本。它與大樣本的溫度匹配，但與其總內能匹配。"
+      },
+      {
+        "id": "large-warm-sample",
+        "label": "溫馨大樣",
+        "description": "平均運動與小樣本相匹配，但較大的數量儲存較多的總內能。"
+      },
+      {
+        "id": "warming-with-shelf",
+        "label": "向架子變暖",
+        "description": "一個溫和的樣品，將加熱，在相變架子附近暫停，然後在架子裝滿後繼續加熱。"
+      },
+      {
+        "id": "on-the-shelf",
+        "label": "上架",
+        "description": "直接在相變架上啟動，因此內部能量可以持續上升，而溫度幾乎保持不變。"
+      },
+      {
+        "id": "after-the-shelf",
+        "label": "上架後",
+        "description": "相同的樣品已經裝滿了架子，因此新的加熱再次直接提高溫度。"
       }
     ],
     "overlays": [
       {
         "id": "phaseShelf",
-        "label": "相變架台"
+        "label": "相變架台",
+        "shortDescription": "顯示簡化相變架的進度條。",
+        "whatToNotice": [
+          "如果架子僅部分填充，加熱器可以持續增加能量，而溫度變化很小。"
+        ],
+        "whyItMatters": "它說明了為什麼增加的能量並不總是會導致溫度立即升高。",
+        "relatedControls": [
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "溫度歷史記錄",
+          "能量擊穿"
+        ],
+        "relatedEquationVariables": [
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "motionVectors",
+        "label": "運動向量",
+        "shortDescription": "顯示代表性粒子上的運動軌跡，因此平均微觀運動保持可見。",
+        "whatToNotice": [
+          "更快的平均運動意味著更高的溫度，但它本身並不能告訴您總內能。"
+        ],
+        "whyItMatters": "它將溫度與可見粒子運動聯繫起來，而不是將溫度視為斷開的儀表。",
+        "relatedControls": [
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "溫度歷史記錄"
+        ],
+        "relatedEquationVariables": [
+          "起始溫度"
+        ]
+      },
+      {
+        "id": "energySplit",
+        "label": "內能分裂",
+        "shortDescription": "顯示目前內部能量如何在熱運動和其他微觀儲存之間分配。",
+        "whatToNotice": [
+          "在架子加熱過程中，即使溫度曲線平坦，總內能條仍會持續成長。"
+        ],
+        "whyItMatters": "它可以幫助您在同一個實驗台上將溫度與總內能分開。",
+        "relatedControls": [
+          "粒子計數",
+          "加熱器功率",
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "能量擊穿",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "加熱器功率",
+          "起始溫度"
+        ]
+      },
+      {
+        "id": "particleCounter",
+        "label": "顆粒和溫度晶片",
+        "shortDescription": "直接在實驗台上顯示即時粒子數、每個粒子的平均動能和目前溫度。",
+        "whatToNotice": [
+          "具有相同溫度晶片的樣品仍可能具有不同的粒子數和不同的總內能。"
+        ],
+        "whyItMatters": "在閱讀圖像之前，它使數量和平均運動之間的差異可見。",
+        "relatedControls": [
+          "粒子計數",
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "起始溫度"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "energy-breakdown",
-      "label": "內能記錄"
+      "label": "內能記錄",
+      "xLabel": "時間（秒）",
+      "yLabel": "能量 (u)",
+      "description": "將總內能與其熱運動部分和其他微觀儲存進行比較。這是查看貨架上發生的情況的最清晰的圖像。"
+    },
+    {
+      "id": "temperature-history",
+      "label": "溫度隨時間變化",
+      "xLabel": "時間（秒）",
+      "yLabel": "溫度（任意）",
+      "description": "使用此圖可以了解樣品隨時間變化的情況。平坦部分並不自動意味著能量已停止進入樣品。"
+    },
+    {
+      "id": "amount-internal-energy",
+      "label": "內能與粒子數",
+      "xLabel": "顆粒計數",
+      "yLabel": "內能 (u)",
+      "description": "此圖僅改變粒子計數，而類溫度標度保持固定，因此它清楚地顯示了相同溫度的樣本如何具有不同的總內能。"
+    },
+    {
+      "id": "amount-heating-rate",
+      "label": "溫升率與顆粒數",
+      "xLabel": "顆粒計數",
+      "yLabel": "溫升速率（arb/s）",
+      "description": "此圖僅變更目前加熱器設定下的顆粒計數。它說明了為什麼在相同的能量輸入下，較大的樣品升溫速度較慢。"
     }
   ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每一個都將控制變更連結到您應該在舞台、疊加層和圖像上看到的內容。",
     "items": [
       {
-        "id": "tie-notice-compare-mode"
-      },
-      {
-        "id": "tie-notice-compare-mode"
-      },
-      {
-        "id": "tie-notice-compare-mode"
-      },
-      {
-        "id": "tie-notice-compare-mode"
+        "id": "tie-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相近溫度、但粒子數不同時最有用。這樣便能把平均運動和總內能這個核心差別分開。",
+        "tryThis": "把「小而暖的樣本」複製到比較模式，只提高設定 B 的粒子數，然後觀察實線與虛線讀數如何分開。",
+        "whyItMatters": "它可以讓您一次測試一個因果變化，而不會失去即時粒子圖片。",
+        "relatedControls": [
+          "粒子計數",
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "能量擊穿"
+        ],
+        "relatedOverlays": [
+          "粒子計數器",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "起始溫度"
+        ]
       },
       {
         "id": "tie-notice-compare-mode",
         "text": "比較模式在設定 A 和設定 B 保持相近溫度、但粒子數不同時最有用。這樣便能把平均運動和總內能這個核心差別分開。",
-        "tryThis": "把「小而暖的樣本」複製到比較模式，只提高設定 B 的粒子數，然後觀察實線與虛線讀數如何分開。"
+        "tryThis": "把「小而暖的樣本」複製到比較模式，只提高設定 B 的粒子數，然後觀察實線與虛線讀數如何分開。",
+        "whyItMatters": "它可以讓您一次測試一個因果變化，而不會失去即時粒子圖片。",
+        "relatedControls": [
+          "粒子計數",
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "能量擊穿"
+        ],
+        "relatedOverlays": [
+          "粒子計數器",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "起始溫度"
+        ]
+      },
+      {
+        "id": "tie-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相近溫度、但粒子數不同時最有用。這樣便能把平均運動和總內能這個核心差別分開。",
+        "tryThis": "把「小而暖的樣本」複製到比較模式，只提高設定 B 的粒子數，然後觀察實線與虛線讀數如何分開。",
+        "whyItMatters": "它可以讓您一次測試一個因果變化，而不會失去即時粒子圖片。",
+        "relatedControls": [
+          "粒子計數",
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "能量擊穿"
+        ],
+        "relatedOverlays": [
+          "粒子計數器",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "起始溫度"
+        ]
+      },
+      {
+        "id": "tie-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相近溫度、但粒子數不同時最有用。這樣便能把平均運動和總內能這個核心差別分開。",
+        "tryThis": "把「小而暖的樣本」複製到比較模式，只提高設定 B 的粒子數，然後觀察實線與虛線讀數如何分開。",
+        "whyItMatters": "它可以讓您一次測試一個因果變化，而不會失去即時粒子圖片。",
+        "relatedControls": [
+          "粒子計數",
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "能量擊穿"
+        ],
+        "relatedOverlays": [
+          "粒子計數器",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "起始溫度"
+        ]
+      },
+      {
+        "id": "tie-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相近溫度、但粒子數不同時最有用。這樣便能把平均運動和總內能這個核心差別分開。",
+        "tryThis": "把「小而暖的樣本」複製到比較模式，只提高設定 B 的粒子數，然後觀察實線與虛線讀數如何分開。",
+        "whyItMatters": "它可以讓您一次測試一個因果變化，而不會失去即時粒子圖片。",
+        "relatedControls": [
+          "粒子計數",
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "能量擊穿"
+        ],
+        "relatedOverlays": [
+          "粒子計數器",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "起始溫度"
+        ]
+      },
+      {
+        "id": "tie-notice-same-temp-more-total",
+        "text": "如果只改變粒子數，晶片的溫度幾乎可以保持不變，而內能棒會增加很多。這是溫度和總內能是不同量的最明顯跡象。",
+        "tryThis": "在小暖樣本和大暖樣本預設之間切換。比較溫度晶片、運動提示、內部能量條和數量掃描。",
+        "whyItMatters": "在傳熱、比熱和相變等概念有意義之前，您需要進行這種區分。",
+        "relatedControls": [
+          "粒子計數"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "粒子計數器",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數"
+        ]
+      },
+      {
+        "id": "tie-notice-heating-rate",
+        "text": "在固定的加熱器功率下，溫升圖隨著顆粒數的增加而下降，因為更多的顆粒共享相同的輸入能量。",
+        "tryThis": "將滑鼠懸停在小粒子數處的一個點和大粒子數處的一個點，然後將預覽值與粒子框進行比較。",
+        "whyItMatters": "它說明了為什麼升溫速率取決於量，而不僅僅是加熱器功率。",
+        "relatedControls": [
+          "粒子計數",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "粒子計數器"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "tie-notice-shelf-flat-temperature",
+        "text": "溫度圖像平坦並不表示加熱器已關閉。如果架子仍然充滿，即使溫度幾乎保持恆定，內能仍然會增加。",
+        "tryThis": "使用現成的預設，擦洗溫度圖的平坦部分，並將其與能量細分圖和貨架進度條進行比較。",
+        "whyItMatters": "它可以防止常見的錯誤，即平坦溫度意味著沒有能量進入樣品。",
+        "relatedControls": [
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "溫度歷史記錄",
+          "能量擊穿"
+        ],
+        "relatedOverlays": [
+          "相架",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "tie-notice-starting-temperature",
+        "text": "提高起始溫度會使運動線索立即更加活躍，但總內部能量仍取決於粒子計數和其他儲存。",
+        "tryThis": "僅提高起始溫度並比較運動向量、溫度晶片和內部能量棒如何一起移動但移動量不同。",
+        "whyItMatters": "它阻止了在每次比較中更熱總是意味著更多總能量的捷徑。",
+        "relatedControls": [
+          "起始溫度"
+        ],
+        "relatedGraphTabs": [
+          "溫度歷史記錄",
+          "能量擊穿"
+        ],
+        "relatedOverlays": [
+          "運動向量",
+          "粒子計數器",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "起始溫度"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在套用變更之前進行預測。每個場景都會檢查您是否可以將平均運動、總內能和架子行為分開。",
     "items": [
       {
         "id": "tie-predict-more-particles-same-temp",
-        "changeLabel": "粒子數量"
+        "prompt": "從小的溫樣本中，您只增加顆粒計數並保持起始溫度相同。哪種說法最符合替補席？",
+        "scenarioLabel": "增加粒子數",
+        "changeLabel": "粒子數量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "溫度可以維持大致相同，但總內能上升，未來暖化率變小。"
+          },
+          {
+            "id": "b",
+            "label": "溫度必須立即升高，因為較大的樣品自動包含更多的內能。"
+          },
+          {
+            "id": "c",
+            "label": "溫度和內能必須保持完全相同，因為加熱器沒有改變。"
+          }
+        ],
+        "explanation": "溫度遵循每個粒子的平均運動，而內能則對整個樣本進行計數。相同溫度下的粒子越多，總內能越大，而同一加熱器會更慢地加熱較大的樣品。",
+        "observationHint": "尋找類似的溫度晶片，但內能條較高，溫升圖較低。"
       },
       {
         "id": "tie-predict-shelf-heating",
-        "changeLabel": "加熱功率"
+        "prompt": "樣品已位於階段架上且加熱器保持開啟。貨架完成填充之前應該發生什麼？",
+        "scenarioLabel": "保持架子上的加熱",
+        "changeLabel": "加熱功率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "內部能量不斷增加，而溫度幾乎保持不變，因為輸入正在填充架子。"
+          },
+          {
+            "id": "b",
+            "label": "溫度必須立即升高，因為任何增加的能量總是意味著更快的粒子運動。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為平坦的溫度線意味著加熱器不再增加能量。"
+          }
+        ],
+        "explanation": "在擱置期間，加熱器仍在補充能量。此能量進入另一個微觀儲存，因此溫度不需要同時升高。",
+        "observationHint": "溫度圖幾乎保持平坦，而內能曲線和架條會不斷移動。"
       },
       {
         "id": "tie-predict-fewer-particles-faster-rise",
-        "changeLabel": "粒子數量"
+        "prompt": "兩個樣品在相同的溫度下啟動並獲得相同的加熱器功率，但其中一個樣品的顆粒要少得多。在任何貨架行為變得重要之前，哪個樣品加熱得更快？",
+        "scenarioLabel": "減少顆粒數量",
+        "changeLabel": "粒子數量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "較小的樣本升溫速度較快，因為相同的輸入能量由較少的粒子共享。"
+          },
+          {
+            "id": "b",
+            "label": "兩個樣品以相同的速率升溫，因為相同的加熱器功率始終意味著相同的溫升。"
+          },
+          {
+            "id": "c",
+            "label": "較大的樣本升溫速度較快，因為它已經包含了更多的內能。"
+          }
+        ],
+        "explanation": "加熱器功率決定輸入速率，但溫度響應取決於有多少粒子必須共享輸入能量。",
+        "observationHint": "量-加熱-速率圖在小顆粒數時最高。"
       }
     ]
   },
@@ -404,7 +879,8 @@
         "prompt": "由小而暖的樣本開始，切換到比較模式，只修改設定 B，令它在溫度與設定 A 大致相同的情況下，明顯儲存更多內能。",
         "successMessage": "你在保持平均運動尺度相近的同時，把整個樣本的總能量大幅提高。這正是溫度與內能之間最核心的差別。",
         "setup": {
-          "note": "把設定 A 保持為基準，只修改設定 B。"
+          "note": "把設定 A 保持為基準，只修改設定 B。",
+          "interactionMode": "比較"
         },
         "hints": [
           "利用粒子數目提高整體總量，而不要迫使溫度大幅改變。",
@@ -435,7 +911,8 @@
           {
             "label": "令設定 B 的內能明顯更大。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       },
       {
         "id": "tie-ch-catch-the-shelf",
@@ -468,8 +945,20 @@
           {
             "label": "令溫度上升率接近零。"
           }
-        ]
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "溫度與內部能量 |開放模型實驗室",
+    "description": "透過緊湊的粒子和能量實驗台、數量掃描、相變架、引導疊加、預測提示和概念快速測試來了解溫度和內能之間的差異。",
+    "keywords": [
+      "溫度與內能",
+      "粒子模型溫度",
+      "物質的內能",
+      "相變溫度平台",
+      "比熱直觀"
     ]
   }
 }

@@ -54,51 +54,71 @@
             {
               "id": "delta-x",
               "label": "delta x"
+            },
+            {
+              "id": "point-x",
+              "label": "點位置"
             }
           ],
           "steps": [
             {
               "id": "identify-points",
-              "label": "1. 讀取曲線上兩個點"
+              "label": "1. 讀取曲線上兩個點",
+              "template": "割線從 $({{pointXValue}}, {{pointYValue}})$ 到 $({{secantXValue}}, {{secantYValue}})$。"
             },
             {
               "id": "difference-quotient",
-              "label": "2. 形成差商"
+              "label": "2. 形成差商",
+              "template": "使用 $\\dfrac{\\Delta y}{\\Delta x} = \\dfrac{{{secantYValue}} - {{pointYValue}}}{{{deltaXValue}}}$，其中 $\\Delta y = {{deltaYValue}}$。"
             },
             {
               "id": "compute-slope",
-              "label": "3. 計算平均變化率"
+              "label": "3. 計算平均變化率",
+              "template": "因此割線斜率為 $\\dfrac{{{deltaYValue}}}{{{deltaXValue}}} = {{secantSlopeValue}}$。"
             }
           ],
           "resultLabel": "當前割線斜率",
+          "resultTemplate": "$m_{\\text{secant}} = {{secantSlopeValue}}$",
           "applyAction": {
             "label": "使用小的delta x",
             "observationHint": "隨著 delta x 縮小，割線斜率和切線斜率會越來越接近。"
-          }
+          },
+          "interpretationTemplate": "{{secantInterpretation}}"
         },
         {
           "id": "tangent-slope-from-the-derivative",
           "title": "讀取切線斜率",
           "prompt": "在當前點，導數説切線的斜率是多少？",
+          "variables": [
+            {
+              "id": "point-x",
+              "label": "點位置"
+            }
+          ],
           "steps": [
             {
               "id": "identify-location",
-              "label": "1. 識別曲線上的一個點"
+              "label": "1. 識別曲線上的一個點",
+              "template": "目前點是$({{pointXValue}}, {{pointYValue}})$。"
             },
             {
               "id": "read-derivative",
-              "label": "2. 在該點讀取導數值"
+              "label": "2. 在該點讀取導數值",
+              "template": "在 $x = {{pointXValue}}$ 處，導數給出 $f'(x) = {{slopeValue}}$。"
             },
             {
               "id": "interpret-slope",
-              "label": "3. 將其與切線連線起來"
+              "label": "3. 將其與切線連線起來",
+              "template": "這表示該點的切線有斜率${{slopeValue}}$。"
             }
           ],
           "resultLabel": "當前切線斜率",
+          "resultTemplate": "$m_{\\text{tangent}} = {{slopeValue}}$",
           "applyAction": {
             "label": "移動到平坦點",
             "observationHint": "在轉折點附近，切線變平緩，導數圖接近零。"
-          }
+          },
+          "interpretationTemplate": "{{slopeInterpretation}}"
         }
       ]
     },
@@ -159,6 +179,7 @@
         ],
         "explanation": "割線使用兩個點和一段區間，而切線則捕捉單一點的區域性斜率。",
         "selectedWrongExplanations": {
+          "a": "兩個斜率皆來自原始曲線。導數圖是事後根據切線斜率建構的。",
           "c": "只有當delta x非常小時，它們才會吻合得很緊密。"
         },
         "showMeAction": {
@@ -185,6 +206,7 @@
         ],
         "explanation": "負的導數意味著切線斜率為負，因此原始曲線在區域性從左到右下降。",
         "selectedWrongExplanations": {
+          "a": "導數符號告訴您斜率，而不是原始 y 值。",
           "b": "導數符號告訴你關於斜率的資訊，而不是原始y值。"
         },
         "showMeAction": {
@@ -205,6 +227,65 @@
       "paragraphs": [
         "導數圖表繪製切線斜率對應於x，因此它作為原始曲線的斜率地圖。",
         "差商圖表繪製割線斜率對應於delta x，因此它顯示平均速率如何隨著區間縮小而趨近切線斜率。"
+      ]
+    }
+  },
+  "pageIntro": {
+    "definition": "沿著一條曲線滑動一個點，將割線收緊為切線，並將局部陡度連接到導數圖，而無需離開同一個即時實驗台。",
+    "keyTakeaway": "在某一點，導數是切線斜率：透過縮小割線間隔找到的局部變化率。"
+  },
+  "v2": {
+    "intuition": "沿著一條曲線滑動一個點，使正切斜率、正切斜率和導數圖在同一個實驗台上保持連接。",
+    "whyItMatters": "這是第一個可重複使用的導數作為局部陡度的圖片，因此實驗台應該使極限想法感覺像是一個可見的細化，而不是符號跳躍。",
+    "guidedSteps": [
+      {
+        "id": "read-a-secant-first",
+        "title": "先唸割線",
+        "goal": "在求導數之前，將割線視為平均斜率。",
+        "doThis": "從可見的割線開始，保持差商圖打開，然後移動點一次。",
+        "notice": "割線遵循局部趨勢，但其斜率仍取決於由 delta x 分隔的第二個點。",
+        "explain": "割線斜率是一個區間內的平均變化率，因此它接近導數，但不是正切斜率。"
+      },
+      {
+        "id": "shrink-delta-x",
+        "title": "收缩增量 x",
+        "goal": "當兩點靠在一起時，觀察正割線趨向於切線。",
+        "doThis": "減少 Delta x，直到割線幾乎位於切線的頂部。",
+        "notice": "當間隔變得非常小時，差商值朝著正切斜率穩定。",
+        "explain": "導數是當 delta x 接近零時差商的極限，因此收緊間隔可以揭示局部速率。"
+      },
+      {
+        "id": "read-the-derivative-graph",
+        "title": "讀取導數圖",
+        "goal": "使用導數圖作為沿著原始曲線的局部陡度圖。",
+        "doThis": "將點移到平轉預設，然後移動到上升部分，同時導數圖保持可見。",
+        "notice": "當切線變平時，導數圖向零移動；當正切上升時，導數圖變成正值。",
+        "explain": "導數圖記錄了您從每個 x 位置的原始曲線中讀取的切線斜率。",
+        "inlineCheck": {
+          "title": "你能找到一條平切線嗎？",
+          "note": "移動點直到切線處於水平位置，但曲線仍然顯著改變其周圍的形狀。"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "某一點的導數是該點的切線斜率：原始曲線上的局部變化率。",
+        "收縮 delta x 使割線斜率接近切線斜率。",
+        "導數圖儲存整個曲線的局部切線斜率。"
+      ],
+      "misconception": "導數只是兩個附近點之間的另一個平均斜率。",
+      "freePlayPrompt": "求導數為負的 x 位置、導數為零的位置、導數為正的位置。",
+      "nextConcepts": [
+        {
+          "slug": "limits-and-continuity-approaching-a-value",
+          "title": "極限與連續性/逼近某個值",
+          "reasonLabel": "支持下方衍生的極限圖片"
+        },
+        {
+          "slug": "integral-as-accumulation-area",
+          "title": "積分作為累積/面積",
+          "reasonLabel": "將本地費率與累計總額配對"
+        }
       ]
     }
   },
@@ -243,25 +324,281 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "差商",
+      "primaryGraphIds": [
+        "差商"
+      ],
+      "primaryControlIds": [
+        "點-x",
+        "德爾塔-x",
+        "顯示正割"
+      ],
+      "primaryPresetIds": [],
+      "starterExploreTasks": [
+        "從割線開始，注意它的平均斜率仍然明顯不同於切線。",
+        "沿著曲線移動點並觀察兩個斜率一起變化。",
+        "收縮 \\(\\Delta x\\)，使割線斜率趨於切線斜率。",
+        "然後打開導數圖並讀取整個曲線的局部斜率。"
+      ]
+    },
     "controls": [
       {
         "id": "point-x",
-        "label": "點位置"
+        "label": "點位置",
+        "description": "沿曲線移動所選點。"
       },
       {
         "id": "delta-x",
-        "label": "delta x"
+        "label": "delta x",
+        "description": "將水平間距設定為用於平均速率的割點。"
       },
       {
         "id": "show-secant",
-        "label": "顯示割線"
+        "label": "顯示割線",
+        "description": "隱藏或顯示正割比較，以便您可以比較平均坡度和局部坡度。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "negative-slope",
+        "label": "負斜率",
+        "description": "曲線下降且切線斜率為負的點。"
+      },
+      {
+        "id": "flat-turn",
+        "label": "幾乎持平",
+        "description": "轉捩點附近的點，其切線幾乎是水平的。"
+      },
+      {
+        "id": "positive-rise",
+        "label": "積極上漲",
+        "description": "曲線增加且切線斜率明顯為正的點。"
       }
     ],
     "overlays": [
       {
         "id": "tangentLine",
-        "label": "切線線條"
+        "label": "切線線條",
+        "shortDescription": "在目前點繪製切線以顯示瞬時斜率。",
+        "whatToNotice": [
+          "在所選點處，切線與曲線的局部方向相符。"
+        ],
+        "whyItMatters": "它將導數顯示為原始曲線上的可見斜率。",
+        "relatedControls": [
+          "點X"
+        ],
+        "relatedGraphTabs": [
+          "斜率函數"
+        ],
+        "relatedEquationVariables": [
+          "點-x"
+        ]
+      },
+      {
+        "id": "deltaGuide",
+        "label": "割線",
+        "shortDescription": "透過由目前 Δx 分隔的兩個取樣點繪製正割線。",
+        "whatToNotice": [
+          "較大的 Δx 通常會使平均斜率與切線斜率差異更大。"
+        ],
+        "whyItMatters": "在限制定義接管之前，它使平均速率的想法保持可見。",
+        "relatedControls": [
+          "德爾塔X",
+          "顯示割線"
+        ],
+        "relatedGraphTabs": [
+          "差商"
+        ],
+        "relatedEquationVariables": [
+          "德爾塔-x",
+          "顯示正割"
+        ]
+      },
+      {
+        "id": "slopeGuide",
+        "label": "Δy/Δx 指南",
+        "shortDescription": "顯示差商中使用的水平和垂直變化。",
+        "whatToNotice": [
+          "正割斜率是可見比 Δy/Δx。"
+        ],
+        "whyItMatters": "它將繪製的區間與差商的代數連結起來。",
+        "relatedControls": [
+          "點X",
+          "德爾塔X"
+        ],
+        "relatedGraphTabs": [
+          "差商"
+        ],
+        "relatedEquationVariables": [
+          "點-x",
+          "德爾塔-x"
+        ]
       }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "slope-function",
+      "label": "導數圖",
+      "xLabel": "x",
+      "yLabel": "f'(x)",
+      "description": "顯示切線斜率在曲線上如何變化：正值表示曲線在那裡上升，負值表示曲線在那裡下降，接近零的值表示切線幾乎平坦。"
+    },
+    {
+      "id": "difference-quotient",
+      "label": "割線斜率与 delta x",
+      "xLabel": "增量 x",
+      "yLabel": "平均費率",
+      "description": "顯示正割斜率如何隨著 Δx 縮小而變化，以及它如何接近所選點處的切線斜率。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用這些提示連接曲線、直線和斜率圖。首先讀取幾何圖像，然後將圖像用作坡度圖。",
+    "items": [
+      {
+        "id": "ds-notice-tangent-sign",
+        "text": "移動點並觀察切線從下降變成上升。导數过零，切線变得平坦。",
+        "relatedControls": [
+          "點X"
+        ],
+        "relatedGraphTabs": [
+          "斜率函數"
+        ],
+        "relatedOverlays": [
+          "切線"
+        ],
+        "relatedEquationVariables": [
+          "點-x"
+        ]
+      },
+      {
+        "id": "ds-notice-small-delta",
+        "text": "縮小 Δx 並將割線斜率與切線斜率進行比較。平均費率接近當地費率。",
+        "relatedControls": [
+          "德爾塔X"
+        ],
+        "relatedGraphTabs": [
+          "差商"
+        ],
+        "relatedOverlays": [
+          "德爾塔指南",
+          "坡度指南"
+        ],
+        "relatedEquationVariables": [
+          "德爾塔-x"
+        ]
+      },
+      {
+        "id": "ds-notice-derivative-graph",
+        "text": "將導數圖解讀為斜率圖：正值表示上升，負值表示下降，零表示平切線。",
+        "relatedControls": [
+          "點X"
+        ],
+        "relatedGraphTabs": [
+          "斜率函數"
+        ],
+        "relatedOverlays": [
+          "切線"
+        ],
+        "relatedEquationVariables": [
+          "點-x"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測",
+    "intro": "在移動點或更改 Δx 之前預測斜率會發生什麼。",
+    "items": [
+      {
+        "id": "ds-predict-rising",
+        "prompt": "如果將點向右移動夠遠，切線斜率最終會發生什麼事？",
+        "scenarioLabel": "向右移動",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它應該變成正數，因為曲線最終會在那裡上升。"
+          },
+          {
+            "id": "b",
+            "label": "它必須保持負值，因為曲線以下降斜率開始。"
+          },
+          {
+            "id": "c",
+            "label": "它的右半部各處都應該為零。"
+          }
+        ],
+        "explanation": "向右夠遠，曲線在那裡增加，因此切線斜率變成正值。",
+        "observationHint": "同時檢查曲線上的切線和導數圖上的匹配點。"
+      },
+      {
+        "id": "ds-predict-small-delta",
+        "prompt": "如果 delta x 縮小而該點保持固定，那麼割線斜率會發生什麼變化？",
+        "scenarioLabel": "收缩增量 x",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它應该更接近切線斜率。"
+          },
+          {
+            "id": "b",
+            "label": "它應該總是移得更遠，因為間隔更小。"
+          },
+          {
+            "id": "c",
+            "label": "它應該保持完全相同，因為該點沒有移動。"
+          }
+        ],
+        "explanation": "導數是差商的極限，因此縮小 delta x 會使割線斜率接近切線斜率。",
+        "observationHint": "保持此點固定，並觀察割線斜率讀數隨著間隔變緊而向切線斜率讀數移動。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用該點和 Δx 作為斜率比較台。我們的目標是使切線和割線出於幾何原因講述相同的近乎平坦的故事，而不僅僅是達到一個數字。",
+    "items": [
+      {
+        "id": "ds-ch-catch-the-flat-tangent",
+        "title": "匹配接近平坦的斜坡",
+        "prompt": "移到右側轉折點，使切線幾乎平坦，然後縮小 Δx 直到正割斜率也幾乎平坦。",
+        "successMessage": "您發現局部斜率和小區間平均斜率都接近零的點。導數和差商現在講述的是相同的近乎平坦的故事。",
+        "setup": {
+          "note": "當您朝右側轉折點移動時，請使用割線圖和 Δy/Δx 參考線。"
+        },
+        "hints": [
+          "右側轉折點位於 $x=1.3$ 稍遠。",
+          "如果割線仍然明顯傾斜，請進一步縮小 Δx。"
+        ],
+        "targets": [
+          {
+            "label": "將活動點移至 $1.25$ 和 $1.45$ 之間的右側平轉帶。"
+          },
+          {
+            "label": "將 $\\Delta x$ 縮小為 $0.15$ 和 $0.3$ 之間的緊密局部間隔。"
+          },
+          {
+            "label": "將切線斜率置於從 $-0.08$ 到 $0.08$ 的近零帶內。"
+          },
+          {
+            "label": "保持正割斜率也接近，位於 $-0.12$ 和 $0.12$ 之間。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "導數為斜率/局部變化率",
+    "description": "使用即時曲線、導數圖和差商視圖來探索正切斜率、正割斜率和局部變化率。",
+    "keywords": [
+      "導數",
+      "切線",
+      "割線",
+      "本地變化率",
+      "微積分"
     ]
   }
 }

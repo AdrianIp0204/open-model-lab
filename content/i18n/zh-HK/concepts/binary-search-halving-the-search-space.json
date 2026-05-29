@@ -60,22 +60,27 @@
           "steps": [
             {
               "id": "read-the-interval",
-              "label": "1. 閱讀活躍區間"
+              "label": "1. 閱讀活躍區間",
+              "template": "活動間隔從索引 {{lowIndexValue}} 到 {{highIndexValue}}，因此 {{intervalWidthValue}} 位置仍然可能。"
             },
             {
               "id": "read-the-midpoint",
-              "label": "2. 閱讀中點檢查"
+              "label": "2. 閱讀中點檢查",
+              "template": "目前中點是索引 {{midIndexValue}}，它保存 {{midValueValue}}，而目標是 {{targetValueValue}}。"
             },
             {
               "id": "compare-to-linear",
-              "label": "3. 比較搜尋成本"
+              "label": "3. 比較搜尋成本",
+              "template": "到目前為止，二分搜尋已使用 {{comparisonsValue}} 中點檢查，而一對一掃描需要 {{linearNeedValue}} 檢查來保證相同的目標。"
             }
           ],
           "resultLabel": "當前搜尋讀取",
+          "resultTemplate": "$[low, high] = [{{lowIndexValue}}, {{highIndexValue}}], mid = {{midIndexValue}}$",
           "applyAction": {
             "label": "應用遠端目標設定",
             "observationHint": "觀看如何透過極少數次中點檢查就能找到一個遠端目標。"
-          }
+          },
+          "interpretationTemplate": "{{binaryInterpretation}}"
         }
       ]
     },
@@ -107,7 +112,11 @@
             "label": "因為排序會改變陣列的大小。"
           }
         ],
-        "explanation": "沒有秩序，中點給不出任何合理的理由來捨棄剩下的位置的一半。"
+        "explanation": "沒有秩序，中點給不出任何合理的理由來捨棄剩下的位置的一半。",
+        "selectedWrongExplanations": {
+          "b": "中點有時只是目標；有序使得安全丟棄成為可能。",
+          "c": "訂購會更改排列，而不是更改商品數量。"
+        }
       },
       {
         "id": "bsh-qt-halving",
@@ -126,7 +135,11 @@
             "label": "它甚至能在無序資料上表現得更好。"
           }
         ],
-        "explanation": "速度來自於每次中點檢查後都大幅減少搜尋空間。"
+        "explanation": "速度來自於每次中點檢查後都大幅減少搜尋空間。",
+        "selectedWrongExplanations": {
+          "a": "二分找一次檢查一個中點，而不是一次檢查每一項。",
+          "c": "如果沒有排序，半丟棄不變量就會中斷。"
+        }
       }
     ]
   },
@@ -160,12 +173,78 @@
           "note": "使用這個案例來獲得對低、中、高位置的第一個簡潔觀看。"
         }
       }
-    ]
+    ],
+    "entryGuidance": {
+      "firstAction": "變更目標位置，然後在開啟時間間隔寬度的情況下重新執行搜尋。",
+      "watchFor": "觀察低、中、高一起向內跳躍，因為每次中點檢查後剩餘間隔寬度下降約一半。"
+    }
   },
   "pageIntro": {
     "definition": "把有序列表、低中高標記和收縮中的區間一起保持可見，讓二分搜尋讀起來更像幾何上的減半，而不是死記程式。",
     "whyItMatters": "二分搜尋只在有序資料上才有意義。一旦列表被排序，每次中點檢查可以刪除一半的可能性，而不是逐一檢查。",
     "keyTakeaway": "二分搜尋之所以有效，因為資料是有序的。"
+  },
+  "v2": {
+    "intuition": "將二分搜尋視為您遵守的承諾：如果目標存在，它會保持在突出顯示的從低到高的區間內，而每個中點檢查都會將該承諾大約減少一半。",
+    "whyItMatters": "這是從排序到有序搜尋的乾淨橋樑：排序順序允許一次比較刪除一半的可能性，同時保留答案仍然在內部的不變量。",
+    "equationSnapshot": {
+      "note": "中點告訴您接下來要測試哪個值；間隔寬度顯示每次比較後從低到高的不變量如何縮小。"
+    },
+    "guidedSteps": [
+      {
+        "id": "see-the-live-interval",
+        "title": "查看即時間隔",
+        "goal": "將低、中、高和活動間隔讀取為不變量：目標必須仍位於此突出顯示的視窗內。",
+        "doThis": "從中間目標開始，保持時間間隔寬度開放，並在每次檢查之前命名承諾：目標仍然介於低點和高點之間。",
+        "notice": "二分查找不是一次掃描一個清單。它正在保護一個不斷縮小的區間，但該區間仍包含所有可能的目標位置。",
+        "explain": "低支架和高支架是唯一仍可能的位置； mid 是決定哪一半可以被安全丟棄的單一測試。"
+      },
+      {
+        "id": "push-the-target-to-an-edge",
+        "title": "將目標推到邊緣",
+        "goal": "請注意，即使目標遠離第一個中點，減半仍然有效。",
+        "doThis": "切換到最右側目標並保持時間間隔寬度打開，同時觀看低跳越過中點。",
+        "notice": "僅通過幾次中點檢查仍然可以找到遠目標，因為倖存間隔不斷失去其一半寬度。",
+        "explain": "優勢並非來自於儘早猜測確切目標。它來自於每次都積極縮小剩餘搜尋空間。"
+      },
+      {
+        "id": "explain-why-order-matters",
+        "title": "使用順序丟棄一半",
+        "goal": "將區間不變量直接與排序順序連結起來：一次比較就足以選擇倖存的一半。",
+        "doThis": "保持低中高歷史記錄可見，並在每次中點比較後說出哪一半倖存下來。",
+        "notice": "中點僅告訴您要保留哪一半，因為它一側的每個值都已經相對於目標進行了排序。",
+        "explain": "如果沒有順序，中點比較就不能證明刪除一半區間，同時仍保證目標保持在低位..高位內。"
+      },
+      {
+        "id": "check-the-halving-story",
+        "title": "查看減半故事",
+        "goal": "壓力測試是否可以解釋二分搜尋而不依賴模糊的效率口號。",
+        "doThis": "使用快速檢查，然後建立一個大列表案例，其中目標位於邊緣附近，但搜尋仍然很快完成。",
+        "notice": "最清楚的答案一直指向同一個現實事實：活動間隔不斷縮小一半。",
+        "explain": "如果您能說出為什麼有序資料很重要以及為什麼間隔寬度下降得如此之快，那麼您就已經準備好進行完整的概念測試和圖像搜尋後續工作。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "二分搜尋的工作原理是維持一個不變量：如果目標存在，則它仍然位於有效的從低到高的區間內。",
+        "每次中點比較可以刪除剩餘位置的一半，因為清單是有序的。",
+        "間隔持續減半後，仍可快速找到遠處的目標。"
+      ],
+      "misconception": "二分查找不只是稍微快一點的掃描。它的真正優勢是使用有序資料丟棄一半的剩餘位置，而不破壞答案仍然在內部不變量。",
+      "freePlayPrompt": "留在清單台上並建立自己的中間目標和邊緣目標案例，直到您可以在每次中點檢查之前預測哪一半將生存。",
+      "nextConcepts": [
+        {
+          "slug": "graph-representation-and-adjacency-intuition",
+          "title": "圖像示和鄰接直覺",
+          "reasonLabel": "從有序區間移動到圖鄰域和可見邊界。"
+        },
+        {
+          "slug": "sorting-and-algorithmic-trade-offs",
+          "title": "排序與演算法權衡",
+          "reasonLabel": "傳回相同的列表語言，並將有序搜尋與可見的排序工作進行比較。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -197,6 +276,22 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "用這個步驟把模擬、圖像和概念連接起來。",
+      "primaryGraphIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "目標索引",
+        "陣列大小",
+        "線性對比"
+      ],
+      "primaryPresetIds": [
+        "中間目標",
+        "概念標籤",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "array-size",
@@ -208,18 +303,202 @@
       },
       {
         "id": "linear-contrast",
-        "label": "線性對比"
+        "label": "線性對比",
+        "displayValueLabels": [
+          {
+            "label": "隱藏"
+          },
+          {
+            "label": "顯示"
+          }
+        ]
       }
     ],
     "presets": [
       {
         "id": "middle-target",
-        "label": "中間目標"
+        "label": "中間目標",
+        "description": "第一種溫和的情況，其中中點落在目標上或目標附近，並且標記邏輯易於閱讀。"
       },
       {
         "id": "far-right-target",
-        "label": "遠端目標"
+        "label": "遠端目標",
+        "description": "較大的情況，目標位於最右邊緣附近，但間隔仍快速縮小。"
+      },
+      {
+        "id": "left-edge-target",
+        "label": "左邊緣目標",
+        "description": "左側邊緣有一個鏡子盒，可用來檢查任一方向的減半是否有效。"
       }
+    ],
+    "overlays": [
+      {
+        "id": "intervalWindow",
+        "label": "活動間隔",
+        "shortDescription": "突顯仍可能包含目標的位置。",
+        "whatToNotice": [
+          "每次中點檢查後，整個一半會從突出顯示的區間中消失。"
+        ],
+        "whyItMatters": "它使減半在列表中可見，而不是將其保留為抽象規則。",
+        "relatedControls": [
+          "陣列大小",
+          "目標索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "指標歷史記錄"
+        ],
+        "relatedEquationVariables": [
+          "陣列大小",
+          "目標索引"
+        ]
+      },
+      {
+        "id": "pointerMarkers",
+        "label": "低-中-高標記",
+        "shortDescription": "顯示排序清單中目前的低、中、高位置。",
+        "whatToNotice": [
+          "低點和高點標記了倖存區間，中點是您接下來測試的位置。"
+        ],
+        "whyItMatters": "它將每個低或高更新連結到可見搜尋空間。",
+        "relatedControls": [
+          "目標索引"
+        ],
+        "relatedGraphTabs": [
+          "指標歷史記錄"
+        ],
+        "relatedEquationVariables": [
+          "目標索引"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "interval-width-history",
+      "label": "間隔寬度隨時間的變化",
+      "xLabel": "時間",
+      "yLabel": "位置還剩"
+    },
+    {
+      "id": "pointer-history",
+      "label": "低、中、高",
+      "xLabel": "時間",
+      "yLabel": "索引"
+    },
+    {
+      "id": "checks-history",
+      "label": "二進位與線性檢查",
+      "xLabel": "時間",
+      "yLabel": "檢查"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "將有序列表和一個圖像保持在一起可見，然後在每次檢查後遵循低、中和高的操作。",
+    "items": [
+      {
+        "id": "bsh-notice-halving",
+        "text": "關鍵的移動並不是讀取速度更快。它保留了目標仍在內部的不變量，而中點排除了一半的剩餘位置。",
+        "relatedControls": [
+          "目標索引",
+          "陣列大小"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "指標歷史記錄"
+        ],
+        "relatedOverlays": [
+          "間隔窗口",
+          "指標標記"
+        ],
+        "relatedEquationVariables": [
+          "目標索引",
+          "陣列大小"
+        ]
+      },
+      {
+        "id": "bsh-notice-ordered-data",
+        "text": "中點只告訴您要保留哪一半，因為每個值都已按排序順序排列。",
+        "relatedControls": [
+          "目標索引"
+        ],
+        "relatedGraphTabs": [
+          "指標歷史記錄",
+          "檢查歷史記錄"
+        ],
+        "relatedOverlays": [
+          "指標標記"
+        ],
+        "relatedEquationVariables": [
+          "目標索引"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測",
+    "intro": "在繼續搜尋之前預測哪一半會存活下來。",
+    "items": [
+      {
+        "id": "bsh-predict-right-half",
+        "prompt": "如果目標值大於目前中點值，則區間的哪一側應保持活動狀態？",
+        "scenarioLabel": "目標大於中點",
+        "choices": [
+          {
+            "id": "a",
+            "label": "保留右半部分，以便低點移動到中點上方。"
+          },
+          {
+            "id": "b",
+            "label": "保留左半部分，以便高位移動到中位下方。"
+          },
+          {
+            "id": "c",
+            "label": "保留兩半，因為一個中點資訊不夠。"
+          }
+        ],
+        "explanation": "在有序列表中，當中點值已經太小時，mid 左邊的所有內容都太小。",
+        "observationHint": "開啟最右側的目標設定並觀察低跳越過中線，而間隔視窗僅保留右半部。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "建立一個案例，其中減半保留間隔不變性，而不是依靠運氣，來解釋少量的檢查。",
+    "items": [
+      {
+        "id": "bsh-ch-find-far-right-fast",
+        "title": "快速找出邊緣目標",
+        "prompt": "建立一個大型有序列表，目標位於最右邊緣附近，但仍然可以在五次或更少的檢查中找到它。",
+        "successMessage": "您建立了正確的場景。即使目標靠近邊緣，二分搜尋仍然保持高效，因為每個失敗的中點都會將剩餘間隔大致減半。",
+        "targets": [
+          {
+            "label": "將陣列大小保持在 18 到 20 之間。"
+          },
+          {
+            "label": "將 targetindex 保持在 15 到 19 之間。"
+          },
+          {
+            "label": "保持找到的值在 1 和 1 之間。"
+          },
+          {
+            "label": "保持 0 和 5 之間的比較。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "二分找出/將搜尋空間減半",
+    "description": "觀看低、中、高縮小有序清單上的生存間隔，以便二分搜尋感覺直觀而不是程序化。",
+    "keywords": [
+      "二分查找",
+      "演算法",
+      "搜尋空間",
+      "訂購數據",
+      "電腦科學"
     ]
   }
 }

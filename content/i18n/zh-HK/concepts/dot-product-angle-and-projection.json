@@ -42,49 +42,79 @@
           "id": "current-dot-product",
           "title": "讀點積為對齊",
           "prompt": "您應該如何從試驗台上圖形中的當前點積讀取資訊？",
+          "variables": [
+            {
+              "id": "magnitudeA",
+              "label": "A 的幅度"
+            },
+            {
+              "id": "projectionScalar",
+              "label": "B 到 A 的簽名投影"
+            }
+          ],
           "steps": [
             {
               "id": "measure-a",
-              "label": "1. 調整參考向量 A 的大小"
+              "label": "1. 調整參考向量 A 的大小",
+              "template": "以 |A| 開頭= {{magnitudeAValue}}。這決定了沿著 A 組件的重要性。"
             },
             {
               "id": "read-projection",
-              "label": "2. 調整 B 在 A 上的有號部分"
+              "label": "2. 調整 B 在 A 上的有號部分",
+              "template": "然後讀取 comp_A(B) = {{projectionScalarValue}}。正數表示 B 仍部分指向 A，零表示正交，負數表示 B 部分指向 A。"
             },
             {
               "id": "multiply",
-              "label": "3. 合併大小和對齊"
+              "label": "3. 合併大小和對齊",
+              "template": "所以 A · B = |A| comp_A(B) = {{magnitudeAValue}} × {{projectionScalarValue}} = {{dotProductValue}}。符號來自對齊，而幅度則與向量 A 對該投影的權重成比例。"
             }
           ],
           "resultLabel": "閱讀規則",
+          "resultTemplate": "$\\vec{A} \\cdot \\vec{B} = {{dotProductValue}}$",
           "applyAction": {
             "label": "顯示正交情況",
             "observationHint": "當角度達到直角時，琥珀色投影消失，點積降至零，而兩個向量都未消失。"
-          }
+          },
+          "interpretationTemplate": "{{alignmentInterpretation}}"
         },
         {
           "id": "current-projection",
           "title": "讀投影為沿 A 的部分",
           "prompt": "你應如何解讀工作台上琥珀色的投影向量?",
+          "variables": [
+            {
+              "id": "projectionScalar",
+              "label": "B 到 A 的簽名投影"
+            },
+            {
+              "id": "angleBetween",
+              "label": "向量之間的角度"
+            }
+          ],
           "steps": [
             {
               "id": "line-of-a",
-              "label": "1. 保持投影在 A 的線上"
+              "label": "1. 保持投影在 A 的線上",
+              "template": "投影必須位於 A 的線上，因為它只是 B 沿 A 的部分。此處角度約為 {{angleBetweenValue}} 度。"
             },
             {
               "id": "signed-length",
-              "label": "2. 使用沿 A 的有號長度"
+              "label": "2. 使用沿 A 的有號長度",
+              "template": "這裡 comp_A(B) = {{projectionScalarValue}}，因此琥珀色箭頭相對於 A 指向 {{alignmentLabelValue}}。"
             },
             {
               "id": "vector-readout",
-              "label": "3. 將其與虛線剩餘部分比較"
+              "label": "3. 將其與虛線剩餘部分比較",
+              "template": "琥珀色部分的星等為 {{projectionMagnitudeValue}}，而虛線剩餘部分的星等為 {{rejectionMagnitudeValue}}。他們一起將 B 重建為沿著 A 的部分加上垂直的部分。"
             }
           ],
           "resultLabel": "閱讀規則",
+          "resultTemplate": "$\\operatorname{comp}_{\\vec{A}}(\\vec{B}) = {{projectionScalarValue}}$",
           "applyAction": {
             "label": "顯示負投影",
             "observationHint": "一旦角度超過九十度，即使 B 仍然可以被視為一個箭頭，琥珀色投影仍會翻轉到原點的另一側。"
-          }
+          },
+          "interpretationTemplate": "{{alignmentInterpretation}}"
         }
       ]
     },
@@ -145,6 +175,7 @@
         ],
         "explanation": "正交性消除了沿 A 的部分。這就是為何零點積不需要零向量的原因。",
         "selectedWrongExplanations": {
+          "a": "正長度並不能保證正對齊。",
           "c": "在九十度時，沿A的部分已經縮減而非增長。"
         },
         "showMeAction": {
@@ -171,6 +202,7 @@
         ],
         "explanation": "負號意味著沿A的部分指向前方，但長度仍然保持非負，並且垂直剩餘部分仍可能存在。",
         "selectedWrongExplanations": {
+          "a": "這裡向量長度永遠不會改變符號。方向建立負投影。",
           "b": "向量的長度在此處永遠不會變號。方向創造了負投影。"
         },
         "showMeAction": {
@@ -201,6 +233,79 @@
         "title": "將投影引入運動"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "保持兩個向量、它們的角度、一個向量到另一個向量的帶符號投影以及點積一起可見，以便對齊以幾何方式讀取，而不是按照記憶的情況讀取。",
+    "whyItMatters": "點積會出現在您需要確定一個方向對另一個方向有多大幫助的任何地方：沿斜坡的運動、做功的力、陰影、投影和基於組件的幾何形狀。",
+    "keyTakeaway": "點積透過將 A 的大小乘以 B 的有符號沿著 A 部分來測量對齊情況。"
+  },
+  "v2": {
+    "intuition": "點積是對齊儀：將 A 保持為參考方向，然後觀察 B 中有多少實際上沿著該線分佈。",
+    "whyItMatters": "一旦符號和尺寸感覺是幾何的，工作、投影、角度、正交性和運動組件就成為一個故事，而不是單獨的公式。",
+    "equationSnapshot": {
+      "note": "透過圖片閱讀公式：角度控制符號，標量投影給出帶符號的沿 A 長度，向量投影將該長度轉換為琥珀色箭頭。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-positive-alignment",
+        "title": "讀取正對齊",
+        "goal": "在移動任何控制項之前，將銳角連接到正投影和正點積。",
+        "doThis": "從角度標記和投影導軌打開的急性對齊開始。將琥珀色投影與點積讀數進行比較。",
+        "notice": "琥珀色投影位於原點的 A 側，因此 B 沿 A 部分具有正值，且 A·B 為正值。",
+        "explain": "點積不只是一個分量乘法法則。它測量 B 對 A 方向的幫助程度，並以 A 的長度進行縮放。"
+      },
+      {
+        "id": "collapse-the-along-a-part",
+        "title": "折疊沿 A 部分",
+        "goal": "了解為何直角使點積為零而不會使任一向量消失。",
+        "doThis": "切換到正交轉彎。保持兩個箭頭可見，然後比較角度標記、琥珀色投影和點積圖。",
+        "notice": "在 90 度時，琥珀色投影收縮到原點，而 A 和 B 仍然具有清晰的長度。",
+        "explain": "正交表示沒有沿 A 分量。零來自對齊，而不是來自零長度向量。"
+      },
+      {
+        "id": "flip-the-projection-sign",
+        "title": "翻轉投影標誌",
+        "goal": "將 B 轉過九十度，觀察標誌變化變成可見的方向變化。",
+        "doThis": "切換到負投影，然後圍繞鈍角情況移動 B x 分量或 B y 分量。",
+        "notice": "在讀數報告負點積之前，琥珀色投影穿過原點的另一側。",
+        "explain": "負點積並不表示負長度。意思是B的沿A部分指向A。"
+      },
+      {
+        "id": "use-projection-as-a-tool",
+        "title": "使用投影作為工具",
+        "goal": "將公式、投影箭頭、工作範例和挑戰與一種可重複使用的閱讀習慣聯繫起來。",
+        "doThis": "比較兩個工作範例，然後透過將 B 朝直角著陸方向旋轉而不縮小任一箭頭來嘗試挑戰。",
+        "notice": "相同的三部分保持一致：角度決定符號，投影給出沿 A 的量，並且 |A|縮放最終的點積。",
+        "explain": "投影是幾何和代數之間的橋樑。一旦您可以讀取琥珀色箭頭，A·B = |A| comp_A(B) 變成了一張圖片，而不是一個記憶的公式。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "正點積表示 B 具有指向 A 的帶符號沿 A 部分。",
+        "正交非零向量的點積為零，因為 B 不貢獻沿 A 的分量。",
+        "負點積表示 B 點相對於 A 的投影，而不是向量長度變成負值。",
+        "標量和向量投影將相同的對齊想法轉化為 A 線上的符號長度和箭頭。"
+      ],
+      "misconception": "不要只從向量長度讀取點積符號。從B在A上的投影方向讀取。",
+      "freePlayPrompt": "建立一個銳角、一個直角和一個鈍角案例。對於每個數字，在閱讀數字之前解釋投影箭頭的點積。",
+      "nextConcepts": [
+        {
+          "slug": "vectors-components",
+          "title": "向量/組件",
+          "reasonLabel": "將投影語言引入運動組件。"
+        },
+        {
+          "slug": "matrix-transformations",
+          "title": "矩陣變換",
+          "reasonLabel": "在讀取平面變換時使用向量對齊。"
+        },
+        {
+          "slug": "vectors-in-2d",
+          "title": "2D 向量",
+          "reasonLabel": "檢視向量分量、縮放比例和幾何箭頭。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -242,23 +347,279 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "投影響應",
+      "primaryGraphIds": [
+        "投影響應",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "bx",
+        "透過"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "ax",
-        "label": "A x-分量"
+        "label": "A x-分量",
+        "description": "設定參考向量 A 的水平分量。"
       },
       {
         "id": "ay",
-        "label": "A y-分量"
+        "label": "A y-分量",
+        "description": "設定 A 的垂直分量。"
       },
       {
         "id": "bx",
-        "label": "B x-分量"
+        "label": "B x-分量",
+        "description": "設定探測向量 B 的水平分量。"
       },
       {
         "id": "by",
-        "label": "B y-分量"
+        "label": "B y-分量",
+        "description": "設定 B 的垂直分量。"
       }
+    ],
+    "presets": [
+      {
+        "id": "acute-alignment",
+        "label": "急性對準",
+        "description": "沿 A 向前投影的明顯正點積。"
+      },
+      {
+        "id": "orthogonal-turn",
+        "label": "正交轉彎",
+        "description": "一個乾淨的直角案例，其中沿著 A 部分折疊。"
+      },
+      {
+        "id": "negative-projection",
+        "label": "負投影",
+        "description": "鈍角情況，其中投影指向 A。"
+      },
+      {
+        "id": "nearly-opposite",
+        "label": "幾乎在對面",
+        "description": "強負點積，只有很小的垂直剩餘部分。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "angleMarker",
+        "label": "角度標記",
+        "shortDescription": "顯示 A 和 B 在原點的角度。",
+        "whatToNotice": [
+          "符號變化發生在角度與 $90^\\circ$ 交叉時，而不是當任一向量變小時。"
+        ],
+        "whyItMatters": "它將正、零和負點積與幾何連結起來。",
+        "relatedControls": [
+          "斧頭",
+          "哎呀",
+          "bx",
+          "透過"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "投影響應"
+        ],
+        "relatedEquationVariables": [
+          "斧頭",
+          "哎呀",
+          "bx",
+          "透過"
+        ]
+      },
+      {
+        "id": "projectionGuide",
+        "label": "投影指南",
+        "shortDescription": "顯示 B 在 A 上的投影以及垂直的剩餘部分。",
+        "whatToNotice": [
+          "琥珀色部分對點積有貢獻。虛線的剩餘部分則沒有。"
+        ],
+        "whyItMatters": "它將點積變成可見的分解，而不是隱藏的乘法法則。",
+        "relatedControls": [
+          "斧頭",
+          "哎呀",
+          "bx",
+          "透過"
+        ],
+        "relatedGraphTabs": [
+          "投影響應"
+        ],
+        "relatedEquationVariables": [
+          "斧頭",
+          "哎呀",
+          "bx",
+          "透過"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "dot-product-response",
+      "label": "點積與角度",
+      "xLabel": "A 和 B 之間的角度（度數）",
+      "yLabel": "A點B",
+      "description": "在目前向量長度固定的情況下，顯示角度如何單獨將點積從正到零再到負。"
+    },
+    {
+      "id": "projection-response",
+      "label": "投影與角度",
+      "xLabel": "A 和 B 之間的角度（度數）",
+      "yLabel": "comp_A(B)",
+      "description": "在目前向量長度固定的情況下，顯示 B 的帶符號沿著 A 部分如何隨著角度從銳角變為鈍角而變化。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "將角度標記、琥珀色投影和標誌讀數保持在同一個故事上。",
+    "items": [
+      {
+        "id": "dpp-notice-acute",
+        "text": "銳角沿著 A 部分保持正值，因此投影和點積均為正值。",
+        "relatedControls": [
+          "bx",
+          "透過"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "投影響應"
+        ],
+        "relatedOverlays": [
+          "角度標記",
+          "投影指南"
+        ],
+        "relatedEquationVariables": [
+          "bx",
+          "透過"
+        ]
+      },
+      {
+        "id": "dpp-notice-orthogonal",
+        "text": "當角度接近 $90^\\circ$ 時，即使 $\\vec{B}$ 保持很長，琥珀色投影也會收縮到零。",
+        "relatedControls": [
+          "bx",
+          "透過"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "角度標記",
+          "投影指南"
+        ],
+        "relatedEquationVariables": [
+          "bx",
+          "透過"
+        ]
+      },
+      {
+        "id": "dpp-notice-obtuse",
+        "text": "經過 $90^\\circ$，投影相對於 A 翻轉，因此點積變成負值。",
+        "relatedControls": [
+          "bx",
+          "透過"
+        ],
+        "relatedGraphTabs": [
+          "投影響應"
+        ],
+        "relatedOverlays": [
+          "投影指南",
+          "角度標記"
+        ],
+        "relatedEquationVariables": [
+          "bx",
+          "透過"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測標誌",
+    "intro": "在旋轉 $\\vec{B}$ 之前預測符號和投影將如何變化。",
+    "items": [
+      {
+        "id": "dpp-predict-orthogonal",
+        "prompt": "如果 B 從 A 旋轉九十度，同時兩個向量長度保持固定，會發生什麼事？",
+        "scenarioLabel": "將 B 轉九十度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "點積和帶符號投影都向零收縮。"
+          },
+          {
+            "id": "b",
+            "label": "點積保持正值，因為向量仍然具有非零長度。"
+          },
+          {
+            "id": "c",
+            "label": "由於角度標記變大，因此投影變大。"
+          }
+        ],
+        "explanation": "正交性刪除了 B 的沿 A 部分。僅長度並不能保持點積為正值。",
+        "observationHint": "當角度標記接近 $90^\\circ$ 時觀察琥珀色投影崩潰。"
+      },
+      {
+        "id": "dpp-predict-negative",
+        "prompt": "如果 B 旋轉超過 90 度而 A 保持固定，哪一種說法正確？",
+        "scenarioLabel": "將 B 推成鈍角",
+        "choices": [
+          {
+            "id": "a",
+            "label": "投影相對於 A 翻轉，點積變成負值。"
+          },
+          {
+            "id": "b",
+            "label": "僅角度改變。投影必須保持在 A 方向。"
+          },
+          {
+            "id": "c",
+            "label": "點積變成未定義，因為向量不再對齊。"
+          }
+        ],
+        "explanation": "鈍角表示 B 的沿著 A 部分指向相反的方向，因此符號投影和點積都翻轉符號。",
+        "observationHint": "在讀取負值之前，琥珀色投影會穿過原點的另一側。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "將角度標記、琥珀色投影和響應圖結合使用。目標是在不縮小任何向量的情況下使零對齊可見。",
+    "items": [
+      {
+        "id": "dpp-ch-collapse-the-projection",
+        "title": "使投影幾乎消失",
+        "prompt": "調整 $\\vec{B}$ 直到琥珀色投影幾乎崩潰，同時兩個箭頭明顯保持非零。保持角度標記和投影指南可見，以便直角故事保持幾何形狀。",
+        "successMessage": "您建立了正交情況，但沒有將其隱藏在零長度向量中。角度、投影和點積讀數現在一致於相同的零對準力矩。",
+        "setup": {
+          "note": "保持 $\\vec{A}$ 固定並旋轉 $\\vec{B}$ 直到沿 A 部分消失，而不是將任一向量縮小。"
+        },
+        "hints": [
+          "直角會殺死沿著 A 的部分，但不會殺死任何一個向量。",
+          "首先使用角度標記，然後使用琥珀色投影進行確認。"
+        ],
+        "targets": [
+          {
+            "label": "將 B x 分量移至 $-1$ 附近。"
+          },
+          {
+            "label": "將 B y 分量移至 $2$ 附近。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "點積/角度與投影 |開放模型實驗室",
+    "description": "使用一個即時 2D 向量實驗台學習點積符號、正交性和投影，使幾何和代數同時可見。",
+    "keywords": [
+      "點積",
+      "向量投影",
+      "正交向量",
+      "向量角",
+      "數學向量"
     ]
   }
 }

@@ -1,5 +1,6 @@
 {
   "title": "深度優先搜尋和回溯路徑",
+  "shortTitle": "DFS",
   "summary": "保持堆疊前沿、當前深度和分支順序的可見性，讓深度優先搜尋感覺像是有紀律的回溯而不是隨機漫遊。",
   "highlights": [
     "堆疊前沿",
@@ -62,22 +63,27 @@
           "steps": [
             {
               "id": "read-the-frontier-order",
-              "label": "1. 閱讀第一個堆疊順序"
+              "label": "1. 閱讀第一個堆疊順序",
+              "template": "在 A 聲明 B 和 C 後，兩個節點都位於邊界上，但最新的聲明 C 現在位於頂部。"
             },
             {
               "id": "predict-the-next-node",
-              "label": "2. 閱讀下一個分支移動"
+              "label": "2. 閱讀下一個分支移動",
+              "template": "由於 DFS 使用堆疊邊界，因此即使先發現 B，C 也會接著離開。"
             },
             {
               "id": "connect-to-backtracking",
-              "label": "3. 語名分支優先後果"
+              "label": "3. 語名分支優先後果",
+              "template": "DFS 繼續追蹤最新的分支，直到耗盡新的鄰居，然後回溯到較舊的等待節點，例如 B。"
             }
           ],
           "resultLabel": "DFS分支閱讀",
+          "resultTemplate": "從 A 開始，DFS 將 C 放在堆疊邊界的頂部，然後向下潛入那裡。",
           "applyAction": {
             "label": "展示分層校園DFS",
             "observationHint": "保持前沿提示和深度圖的可見性，使分支優先跳躍容易閱讀。"
-          }
+          },
+          "interpretationTemplate": "堆疊邊界讓 DFS 在 BFS 逐層探索的同一圖上感覺很深且像路徑。"
         }
       ]
     },
@@ -109,7 +115,11 @@
             "label": "因為 DFS 忽略圖的邊結構。"
           }
         ],
-        "explanation": "堆疊前沿是給一個分支暫時優先權並推高當前深度的原因。"
+        "explanation": "堆疊前沿是給一個分支暫時優先權並推高當前深度的原因。",
+        "selectedWrongExplanations": {
+          "b": "其他前沿節點仍然可用； DFS 只優先考慮最新的分支。",
+          "c": "DFS 仍然遵循圖邊結構。"
+        }
       },
       {
         "id": "dfs-qt-shortest-path-misread",
@@ -128,7 +138,80 @@
             "label": "DFS 消除了訪問狀態的需求。"
           }
         ],
-        "explanation": "DFS 會選擇一個分支先行。這很有用，但與最短路徑保證不同。"
+        "explanation": "DFS 會選擇一個分支先行。這很有用，但與最短路徑保證不同。",
+        "selectedWrongExplanations": {
+          "a": "首先快速或深入移動並不能保證最短路線。",
+          "c": "仍需要存取狀態以避免重複工作。"
+        }
+      },
+      {
+        "id": "dfs-qt-stack-frontier",
+        "prompt": "是什麼讓 DFS 不斷推向這個長凳上的最新分支？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "DFS 總是先擴展最早的發現。"
+          },
+          {
+            "id": "b",
+            "label": "DFS 從圖中刪除除一邊以外的所有邊。"
+          },
+          {
+            "id": "c",
+            "label": "邊界的行為就像一個堆疊，因此接下來會擴展最新的發現。"
+          }
+        ],
+        "explanation": "後進先出行為是分支保持優先順序的明顯原因。",
+        "selectedWrongExplanations": {
+          "a": "最舊優先是佇列故事，而不是堆疊故事。",
+          "b": "圖結構維持不變；只是邊境政策改變了。"
+        }
+      },
+      {
+        "id": "dfs-qt-backtrack",
+        "prompt": "DFS什麼時候在這個長凳上回溯？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "僅當目標已從圖像中刪除。"
+          },
+          {
+            "id": "b",
+            "label": "當目前分支沒有新的鄰居可以深入時。"
+          },
+          {
+            "id": "c",
+            "label": "每當圖像包含多個連通分量時。"
+          }
+        ],
+        "explanation": "回溯是指活動分支不再提供新的下一步的時刻。",
+        "selectedWrongExplanations": {
+          "a": "目標未從圖像中刪除。當分支耗盡時，DFS 會回溯。",
+          "c": "多個元件是一個單獨的圖屬性，而不是普通 DFS 回溯的觸發器。"
+        }
+      },
+      {
+        "id": "dfs-qt-visited-needed",
+        "prompt": "為什麼在DFS中仍然需要存取狀態？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因此 DFS 可以完全停止使用邊界。"
+          },
+          {
+            "id": "b",
+            "label": "所以DFS可以保證到每個節點的最淺路由。"
+          },
+          {
+            "id": "c",
+            "label": "因此分支優先搜尋不會一直循環通過相同的循環節點。"
+          }
+        ],
+        "explanation": "即使堆疊不斷下推一個分支，存取簿記也能防止循環。",
+        "selectedWrongExplanations": {
+          "a": "DFS仍然需要一個前沿；訪問只是保持它的界限。",
+          "b": "已存取狀態不會將 DFS 轉變為最短路徑方法。"
+        }
       }
     ]
   },
@@ -171,6 +254,57 @@
     "whyItMatters": "深度優先搜尋將前沿組織得像一個堆疊。最新的被聲稱節點是下一個要展開的，所以搜尋會一直深入一條分支，直到無法繼續為止。",
     "keyTakeaway": "深度優先搜尋首先展開最新的等待節點。"
   },
+  "v2": {
+    "intuition": "保持堆疊邊界、當前深度和分支順序可見在一起，這樣 DFS 感覺就像有紀律的回溯，而不是隨機徘徊。",
+    "whyItMatters": "DFS 是 BFS 的分支優先對應物，因此學生應該在同一個圖中看到堆疊規則和回溯行為，而不是記住遍歷秘訣。",
+    "guidedSteps": [
+      {
+        "id": "read-the-first-branch",
+        "title": "讀取第一個分支",
+        "goal": "使用堆疊邊界來了解為什麼 DFS 首先深入到最新的分支。",
+        "doThis": "從 Layered-campus-dfs 預設開始，觀察 A 發現 B 和 C 後哪個邊界節點位於頂部。",
+        "notice": "儘管 B 首先被發現，但 C 接下來離開，因為 C 是後來添加的，現在位於堆疊的頂部。",
+        "explain": "堆疊是後進先出的，因此 DFS 在返回到較早的等待節點之前會遵循最新的未完成分支。"
+      },
+      {
+        "id": "watch-backtracking-on-a-cycle",
+        "title": "觀看循環回溯",
+        "goal": "看看當前分支用完新鄰居時 DFS 會做什麼。",
+        "doThis": "應用bridge-cycle-dfs預設並觀察當頂部分支耗盡時邊界回落。",
+        "notice": "當前深度快速上升，然後當活動分支無法繼續繼續時，搜尋將返回較舊的等待節點。",
+        "explain": "回溯不是一個單獨的技巧。當最新的分支耗盡並且堆疊暴露了下面較舊的未完成節點時，就會自然發生這種情況。"
+      },
+      {
+        "id": "contrast-stack-order-with-bfs",
+        "title": "堆疊順序與 BFS 對比",
+        "goal": "使用相同的圖將分支優先搜尋與最短層搜尋分開。",
+        "doThis": "在同一張圖上切換遍歷模式，並比較 DFS 和 BFS 如何處理完全相同的邊界選項。",
+        "notice": "圖結構保持固定，但 DFS 繼續潛水，而 BFS 先清除淺層。",
+        "explain": "差異並不在於圖像本身。問題在於邊界是否被視為堆疊或佇列。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "DFS 首先擴展最新的等待節點，因為邊界的行為類似於堆疊。",
+        "當前深度可能會快速上升，因為 DFS 會停留在一個分支上，直到無法繼續為止。",
+        "當頂部分支耗盡並且堆疊暴露較舊的未完成節點時，回溯自然會發生。"
+      ],
+      "misconception": "深度優先搜尋最快到達目標，因為它直接沿著一個分支進行。",
+      "freePlayPrompt": "選擇一張 DFS 快速深入的圖像，以及另一張較早回溯的圖像，然後解釋原因。",
+      "nextConcepts": [
+        {
+          "slug": "frontier-and-visited-state-on-graphs",
+          "title": "圖像上的邊界和存取狀態",
+          "reasonLabel": "了解為什麼分支優先搜尋仍然需要乾淨的循環簿記"
+        },
+        {
+          "slug": "breadth-first-search-and-layered-frontiers",
+          "title": "廣度優先搜尋與分層前沿",
+          "reasonLabel": "返回同一圖上基於隊列的對比"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "dfs-depth",
@@ -206,33 +340,332 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "已訪問與前沿紀錄",
+      "primaryGraphIds": [
+        "已訪問與前沿紀錄"
+      ],
+      "primaryControlIds": [
+        "遍歷模式"
+      ],
+      "primaryPresetIds": [],
+      "starterExploreTasks": [
+        "運行預設的 DFS 情況並觀察下一個位於頂部的前沿節點。",
+        "保持邊界歷史圖可見，以便分支優先規則易於閱讀。",
+        "將同一個圖從 DFS 切換到 BFS，並比較前緣如何成長和等待。"
+      ]
+    },
     "controls": [
       {
         "id": "start-node",
-        "label": "起始節點"
+        "label": "起始節點",
+        "description": "選擇遍歷開始的位置，然後讀取 DFS 先採用哪個分支。",
+        "displayValueLabels": [
+          {
+            "label": "一個"
+          },
+          {
+            "label": "B"
+          },
+          {
+            "label": "C"
+          },
+          {
+            "label": "D"
+          },
+          {
+            "label": "E"
+          },
+          {
+            "label": "F"
+          },
+          {
+            "label": "G"
+          },
+          {
+            "label": "H"
+          }
+        ]
       },
       {
         "id": "target-node",
-        "label": "目標節點"
+        "label": "目標節點",
+        "description": "標記搜尋嘗試到達的節點。",
+        "displayValueLabels": [
+          {
+            "label": "一個"
+          },
+          {
+            "label": "B"
+          },
+          {
+            "label": "C"
+          },
+          {
+            "label": "D"
+          },
+          {
+            "label": "E"
+          },
+          {
+            "label": "F"
+          },
+          {
+            "label": "G"
+          },
+          {
+            "label": "H"
+          }
+        ]
       },
       {
         "id": "traversal-mode",
-        "label": "遍歷模式"
+        "label": "遍歷模式",
+        "description": "在同一圖上比較基於堆疊的 DFS 和基於佇列的 BFS。",
+        "displayValueLabels": [
+          {
+            "label": "BFS"
+          },
+          {
+            "label": "DFS"
+          }
+        ]
+      },
+      {
+        "id": "graph-index",
+        "label": "圖",
+        "description": "切換圖像場景並比較相同的 DFS 規則在不同連接模式上的行為。",
+        "displayValueLabels": [
+          {
+            "label": "分層校園"
+          },
+          {
+            "label": "橋循環"
+          },
+          {
+            "label": "樞紐與彎路"
+          }
+        ]
       }
     ],
     "presets": [
       {
         "id": "layered-campus-dfs",
-        "label": "層次校園 DFS"
+        "label": "層次校園 DFS",
+        "description": "清晰的圖像，其中堆疊順序和第一個深層分支很容易理解。"
       },
       {
         "id": "bridge-cycle-dfs",
-        "label": "橋迴圈 DFS"
+        "label": "橋迴圈 DFS",
+        "description": "循環圖，其中 DFS 必須避免重複並在分支關閉時回溯。"
       },
       {
         "id": "layered-campus-bfs",
-        "label": "分層校園BFS"
+        "label": "分層校園BFS",
+        "description": "在 BFS 模式下使用相同的圖來比較分支優先行為與逐層搜尋。"
+      },
+      {
+        "id": "hub-detours-dfs",
+        "label": "樞紐與繞道 DFS",
+        "description": "居中開始，其中出現多個選擇，但 DFS 接下來仍會提交一個最新分支。"
       }
+    ],
+    "overlays": [
+      {
+        "id": "adjacencyCue",
+        "label": "鄰接提示",
+        "shortDescription": "保持目前節點的直接鄰居可見。",
+        "whatToNotice": [
+          "DFS 仍然從目前節點的本地鄰居開始進行每次移動，即使整體路徑看起來很深。"
+        ],
+        "whyItMatters": "它將分支優先行為與實際邊緣聯繫起來，而不是讓它看起來像一個神秘的路徑選擇。",
+        "relatedControls": [
+          "圖索引",
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局",
+          "起始節點"
+        ]
+      },
+      {
+        "id": "frontierCue",
+        "label": "前緣提示",
+        "shortDescription": "顯示哪些已發現的節點仍在堆疊中等待。",
+        "whatToNotice": [
+          "最新的等待節點位於頂部，因此 DFS 持續給予目前分支優先權。"
+        ],
+        "whyItMatters": "它使堆疊規則在圖像上可見，而不是將其作為定義來記憶。",
+        "relatedControls": [
+          "遍歷模式",
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "深度史",
+          "已訪問與前沿紀錄"
+        ],
+        "relatedEquationVariables": [
+          "起始節點",
+          "遍歷模式"
+        ]
+      },
+      {
+        "id": "visitedCue",
+        "label": "已存取提示",
+        "shortDescription": "標記哪些節點已完全展開。",
+        "whatToNotice": [
+          "當圖像包含循環時，存取標記會阻止 DFS 重新開啟舊分支。"
+        ],
+        "whyItMatters": "它使重複避免和乾淨回溯同時可見。",
+        "relatedControls": [
+          "圖索引",
+          "目標節點索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "深度史"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局",
+          "目標節點"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "visited-frontier-history",
+      "label": "存取節點與邊界大小",
+      "xLabel": "步驟",
+      "yLabel": "節點",
+      "description": "觀察較舊的替代方案仍然處於前沿，而 DFS 則保持一個較新的分支處於活動狀態。"
+    },
+    {
+      "id": "depth-history",
+      "label": "當前深度與聲稱的最深深度",
+      "xLabel": "步驟",
+      "yLabel": "深度",
+      "description": "追蹤 DFS 如何快速增加當前深度，然後在回溯開始時下降。"
+    },
+    {
+      "id": "neighbor-check-history",
+      "label": "新發現與重複跳過",
+      "xLabel": "步驟",
+      "yLabel": "檢查",
+      "description": "將新發現與造訪過的狀態阻止重新開啟的重複邊進行比較。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "讓圖像和一個歷史圖像一起可見，然後觀察每個步驟後哪個前沿節點保持在頂部。",
+    "items": [
+      {
+        "id": "dfs-notice-depth-rises-fast",
+        "text": "DFS 通常會快速增加當前深度，因為最新的分支保持在邊界的頂部。",
+        "relatedControls": [
+          "遍歷模式",
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "深度史",
+          "已訪問與前沿紀錄"
+        ],
+        "relatedOverlays": [
+          "邊境提示",
+          "訪問了提示"
+        ],
+        "relatedEquationVariables": [
+          "起始節點",
+          "遍歷模式"
+        ]
+      },
+      {
+        "id": "dfs-notice-backtracking-needs-visited-state",
+        "text": "回溯之所以有效，是因為較舊的替代方案保留在前沿，而存取狀態會阻止搜尋重新開啟已探索的分支。",
+        "relatedControls": [
+          "圖索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "已訪問與前沿紀錄"
+        ],
+        "relatedOverlays": [
+          "邊境提示",
+          "訪問了提示"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測",
+    "intro": "在推進場景之前預測下一個堆疊移動。",
+    "items": [
+      {
+        "id": "dfs-predict-newest-goes-next",
+        "prompt": "在從 A 運行的分層園區 DFS 上，在 A 發現 B 和 C 後，哪個節點接下來應該離開邊界？",
+        "scenarioLabel": "A發現B和C後",
+        "choices": [
+          {
+            "id": "a",
+            "label": "C，因為 DFS 將最新發現的節點保留在堆疊頂部。"
+          },
+          {
+            "id": "b",
+            "label": "B，因為最古老的發現總是最先離開。"
+          },
+          {
+            "id": "c",
+            "label": "H，因為目標總是跳到前面。"
+          }
+        ],
+        "explanation": "DFS 採用後進先出的順序，因此最新發現的節點 C 是下一個要擴展的分支。",
+        "observationHint": "經營分層校園 DFS 並觀察 A 展開後的邊界提示。接下來是 C，因為它位於堆疊頂部。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用圖台證明 DFS 深度來自堆疊順序，並且在分支重新連接時仍需要存取狀態記帳。",
+    "items": [
+      {
+        "id": "dfs-ch-build-deep-backtracking-branch",
+        "title": "建構深度回溯分支",
+        "prompt": "切換到橋循環 DFS 場景，保持 DFS 模式打開，並解釋為什麼當前深度可以在搜尋備份之前上升，而不是循環循環。",
+        "successMessage": "您建立了正確的 DFS 場景：堆疊順序使最新分支保持活動狀態，存取狀態讓搜尋回溯而不是重新開啟循環。",
+        "hints": [
+          "套用橋循環 DFS 預設，然後一起觀察深度圖和鄰居檢查圖。",
+          "如果出現重複邊，請使用造訪過的提示來解釋為什麼 DFS 會備份而不是再次新增該節點。"
+        ],
+        "targets": [
+          {
+            "label": "使用橋循環圖。"
+          },
+          {
+            "label": "將遍歷模式設定為 DFS。"
+          },
+          {
+            "label": "從節點 A 開始，因此分支和後來的回溯很容易比較。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "深度優先搜尋與回溯路徑",
+    "description": "查看一個即時圖像上的深度優先搜索，其中堆疊邊界、分支深度和回溯行為保持可見。",
+    "keywords": [
+      "深度優先搜索",
+      "DFS",
+      "圖遍歷",
+      "回溯",
+      "電腦科學"
     ]
   }
 }

@@ -32,10 +32,11 @@
       ]
     },
     "keyIdeas": [
-      "在此實驗中，阻力依賴於速度，因此在釋放後開始很小，隨著物體加速而迅速增大。",
-      "重力保持固定，而阻力變化，這就是為什麼初始合力最大，而在下落過程中變得遠小得多。",
-      "終速意味著阻力和重力正在平衡，因此合力接近零。它不意味著物體停止移動。",
-      "更大的質量會提高終速，而更大的面積或更強的阻力則會降低終速，因為這些設定改變了阻力追上重力的速度。"
+      "阻力一開始很小，因為物體開始時速度很小，然後隨著下落速度加快而迅速增大。",
+      "阻力變化時重量不變，因此淨力在早期最大，在接近終端速度時小得多。",
+      "最終速度意味著阻力和重量正在平衡，因此加速度幾乎為零。",
+      "在終端速度下，物體仍然向下移動；消失的是速度的變化，而不是運動本身。",
+      "較大的質量會提高終端速度，而較大的面積或較強的阻力會降低終端速度。"
     ],
     "commonMisconception": {
       "myth": "終速發生的原因是重力在物體下落一段時間後消失。",
@@ -73,22 +74,27 @@
           "steps": [
             {
               "id": "read-weight",
-              "label": "1. 將質量轉換為恆定向下的重力"
+              "label": "1. 將質量轉換為恆定向下的重力",
+              "template": "當重力固定在此頁面上時，目前設定給出 $W = mg = {{weightValue}}\\,\\mathrm{N}$。"
             },
             {
               "id": "set-balance",
-              "label": "2. 使用終速平衡條件"
+              "label": "2. 使用終速平衡條件",
+              "template": "最終速度是阻力捕捉重量的地方，因此 $kAv_t^2 = mg$ 與 $k = {{dragStrengthValue}}$ 和 $A = {{areaValue}}\\,\\mathrm{m^2}$。"
             },
             {
               "id": "solve-terminal-speed",
-              "label": "3. 解出結果平衡速度"
+              "label": "3. 解出結果平衡速度",
+              "template": "這為目前控制項提供了 $v_t = \\sqrt{mg/(kA)} = {{terminalSpeedValue}}\\,\\mathrm{m/s}$。"
             }
           ],
           "resultLabel": "當前終速",
+          "resultTemplate": "$W = {{weightValue}}\\,\\mathrm{N}, \\quad v_t = {{terminalSpeedValue}}\\,\\mathrm{m/s}$",
           "applyAction": {
             "label": "顯示較重的質量",
             "observationHint": "箭頭較大的是重量，所以速度曲線必須在更高的終端值才會水平化，直到阻力能匹配它。"
-          }
+          },
+          "interpretationTemplate": "{{terminalSpeedInterpretation}}"
         },
         {
           "id": "current-force-balance",
@@ -106,27 +112,40 @@
             {
               "id": "weight",
               "label": "重力"
+            },
+            {
+              "id": "time",
+              "label": "目前時間"
+            },
+            {
+              "id": "speed",
+              "label": "目前速度"
             }
           ],
           "steps": [
             {
               "id": "read-live-speed",
-              "label": "1. 從舞台或速度圖表中讀取實時速度"
+              "label": "1. 從舞台或速度圖表中讀取實時速度",
+              "template": "現在，實驗台在 $t = {{timeValue}}\\,\\mathrm{s}$ 處顯示 $v = {{speedValue}}\\,\\mathrm{m/s}$。"
             },
             {
               "id": "compute-drag",
-              "label": "2. 使用該速度下的阻力法則"
+              "label": "2. 使用該速度下的阻力法則",
+              "template": "對於 $F_d = kAv^2$，目前設定給出 $F_d = {{dragForceValue}}\\,\\mathrm{N}$。"
             },
             {
               "id": "compare-forces",
-              "label": "3. 將阻力與重量比較以獲得總力"
+              "label": "3. 將阻力與重量比較以獲得總力",
+              "template": "重量仍為 ${{weightValue}}\\,\\mathrm{N}$，因此淨向下力為 $F_{net} = W - F_d = {{netForceValue}}\\,\\mathrm{N}$，向下加速度為 ${{accelerationValue}}\\,\\mathrm{m/s^2}$。"
             }
           ],
           "resultLabel": "當前平衡狀態",
+          "resultTemplate": "$F_d = {{dragForceValue}}\\,\\mathrm{N}, \\quad F_{net} = {{netForceValue}}\\,\\mathrm{N}, \\quad a = {{accelerationValue}}\\,\\mathrm{m/s^2}$",
           "applyAction": {
             "label": "顯示低終端設定",
             "observationHint": "速度曲線快速變平，阻力箭頭追上重量，總力線接近零。"
-          }
+          },
+          "interpretationTemplate": "{{balanceInterpretation}}"
         }
       ]
     },
@@ -310,6 +329,10 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "將物體放入流體中，然後改變其質量、面積和阻力強度，以了解為何下落會穩定在穩定的最終速度。",
+    "keyTakeaway": "當向上阻力增長到足以平衡重量時，就會發生最終速度，因此當物體繼續向下移動時，加速度會減弱。"
+  },
   "equations": [
     {
       "id": "drag-law",
@@ -353,18 +376,31 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "力平衡",
+      "primaryGraphIds": [
+        "力平衡"
+      ],
+      "primaryControlIds": [
+        "質量"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "mass",
-        "label": "質量"
+        "label": "質量",
+        "description": "改變物體的質量，因此拖曳最終必須平衡的恆定重量。"
       },
       {
         "id": "area",
-        "label": "面積"
+        "label": "面積",
+        "description": "改變物件在相同速度下所獲得的阻力大小。"
       },
       {
         "id": "dragStrength",
-        "label": "阻力強度"
+        "label": "阻力強度",
+        "description": "設定此有界模型抵抗流體運動的強度。"
       }
     ],
     "presets": [
@@ -372,60 +408,459 @@
         "id": "baseline-drop",
         "label": "基準下落",
         "description": "一個中等質量、截面面積適中、阻力強度也適中的物體。"
+      },
+      {
+        "id": "heavy-sphere",
+        "label": "重球體",
+        "description": "相同的面積和阻力強度，但質量較大。"
+      },
+      {
+        "id": "wide-canopy",
+        "label": "寬大的天篷",
+        "description": "面積越大，阻力越快，因此終端速度較低。"
+      },
+      {
+        "id": "thick-fluid",
+        "label": "濃稠液體",
+        "description": "更強的阻力會降低最終的下落速度，而不會改變質量。"
+      },
+      {
+        "id": "matched-ratio",
+        "label": "匹配比例",
+        "description": "當阻力強度保持固定時，質量和麵積加倍可以維持相同的終端速度比。"
+      },
+      {
+        "id": "draggy-disk",
+        "label": "拖曳磁碟",
+        "description": "大面積和強阻力會很快產生低終端速度。"
       }
     ],
     "overlays": [
       {
         "id": "forceBalance",
-        "label": "力的平衡"
+        "label": "力的平衡",
+        "shortDescription": "顯示恆重箭頭、向上阻力箭頭和收縮淨力箭頭。",
+        "whatToNotice": [
+          "起初，權重箭頭比拖曳箭頭大得多，但拖曳箭頭隨著速度增長，直到兩者幾乎匹配。"
+        ],
+        "whyItMatters": "它使終端速度成為一種力平衡的想法，而不是記憶的速度限制。",
+        "relatedControls": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ],
+        "relatedGraphTabs": [
+          "力平衡",
+          "速度历史记录"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ]
+      },
+      {
+        "id": "terminalBand",
+        "label": "終端速度提示",
+        "shortDescription": "顯示目前終端速度標籤以及阻力與重量的接近程度。",
+        "whatToNotice": [
+          "接近極限速度時，物體仍在向下移動。變小的就是淨力和加速度。"
+        ],
+        "whyItMatters": "它將恆速與零運動分開。",
+        "relatedControls": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录",
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ]
+      },
+      {
+        "id": "distanceGuide",
+        "label": "距離指南",
+        "shortDescription": "標記物體通過液柱下落的距離。",
+        "whatToNotice": [
+          "速度曲線變平後，物體仍保持更遠的距離。"
+        ],
+        "whyItMatters": "它可以防止將恆速與停止混淆的錯誤。",
+        "relatedControls": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "speed-history",
+      "label": "速度與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "速度（公尺/秒）",
+      "description": "速度先快速上升，然後隨著阻力追上重量而向平坦的終端速度線彎曲。"
+    },
+    {
+      "id": "force-balance",
+      "label": "力平衡與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "力 (N)",
+      "description": "重量不變，阻力隨速度增加，淨向下力趨於零。"
+    },
+    {
+      "id": "terminal-speed-mass",
+      "label": "終端速度與質量",
+      "xLabel": "質量（公斤）",
+      "yLabel": "終端速度（公尺/秒）",
+      "description": "較重的物體需要更高的速度，然後阻力才能平衡較大的重量。"
+    },
+    {
+      "id": "terminal-speed-area",
+      "label": "終端速度與面積",
+      "xLabel": "面積 (m^2)",
+      "yLabel": "終端速度（公尺/秒）",
+      "description": "面積越大意味著相同速度下阻力越大，因此終端速度會下降。"
+    },
+    {
+      "id": "terminal-speed-drag-strength",
+      "label": "終端速度與阻力強度",
+      "xLabel": "阻力強度 k",
+      "yLabel": "終端速度（公尺/秒）",
+      "description": "較大的阻力強度常數會降低力平衡所需的速度。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次只考慮一個力問題，以便舞台、時間軌道和圖像都講述相同的秋季故事。",
     "items": [
       {
-        "id": "same-terminal-different-cause"
-      },
-      {
-        "id": "same-terminal-different-cause"
-      },
-      {
-        "id": "same-terminal-different-cause"
-      },
-      {
-        "id": "same-terminal-different-cause"
+        "id": "same-terminal-different-cause",
+        "text": "使用比較模式將相同的終端速度與兩種不同的設定進行比對。相同的終端速度並不代表質量、面積和阻力強度都相同。這意味著比率$mg/(kA)$匹配。",
+        "tryThis": "由基準下落開始，把它複製到比較模式，再把設定 B 改成「相同比例」。即使設定 B 同時更重又更大，終端速度標籤仍會吻合。",
+        "relatedControls": [
+          "質量",
+          "區域"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "終端帶",
+          "力平衡"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ]
       },
       {
         "id": "same-terminal-different-cause",
-        "tryThis": "由基準下落開始，把它複製到比較模式，再把設定 B 改成「相同比例」。即使設定 B 同時更重又更大，終端速度標籤仍會吻合。"
+        "text": "使用比較模式將相同的終端速度與兩種不同的設定進行比對。相同的終端速度並不代表質量、面積和阻力強度都相同。這意味著比率$mg/(kA)$匹配。",
+        "tryThis": "由基準下落開始，把它複製到比較模式，再把設定 B 改成「相同比例」。即使設定 B 同時更重又更大，終端速度標籤仍會吻合。",
+        "relatedControls": [
+          "質量",
+          "區域"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "終端帶",
+          "力平衡"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ]
+      },
+      {
+        "id": "same-terminal-different-cause",
+        "text": "使用比較模式將相同的終端速度與兩種不同的設定進行比對。相同的終端速度並不代表質量、面積和阻力強度都相同。這意味著比率$mg/(kA)$匹配。",
+        "tryThis": "由基準下落開始，把它複製到比較模式，再把設定 B 改成「相同比例」。即使設定 B 同時更重又更大，終端速度標籤仍會吻合。",
+        "relatedControls": [
+          "質量",
+          "區域"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "終端帶",
+          "力平衡"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ]
+      },
+      {
+        "id": "same-terminal-different-cause",
+        "text": "使用比較模式將相同的終端速度與兩種不同的設定進行比對。相同的終端速度並不代表質量、面積和阻力強度都相同。這意味著比率$mg/(kA)$匹配。",
+        "tryThis": "由基準下落開始，把它複製到比較模式，再把設定 B 改成「相同比例」。即使設定 B 同時更重又更大，終端速度標籤仍會吻合。",
+        "relatedControls": [
+          "質量",
+          "區域"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "終端帶",
+          "力平衡"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ]
+      },
+      {
+        "id": "same-terminal-different-cause",
+        "text": "使用比較模式將相同的終端速度與兩種不同的設定進行比對。相同的終端速度並不代表質量、面積和阻力強度都相同。這意味著比率$mg/(kA)$匹配。",
+        "tryThis": "由基準下落開始，把它複製到比較模式，再把設定 B 改成「相同比例」。即使設定 B 同時更重又更大，終端速度標籤仍會吻合。",
+        "relatedControls": [
+          "質量",
+          "區域"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "終端帶",
+          "力平衡"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "區域",
+          "拖曳強度"
+        ]
+      },
+      {
+        "id": "drag-starts-small",
+        "text": "釋放後，阻力仍然很小，因為速度仍然很小。重量箭頭已經在那裡，所以淨向下的力開始很大。",
+        "relatedGraphTabs": [
+          "速度历史记录",
+          "力平衡"
+        ],
+        "relatedOverlays": [
+          "力平衡"
+        ],
+        "relatedEquationVariables": [
+          "區域",
+          "拖曳強度"
+        ]
+      },
+      {
+        "id": "forces-not-motion-disappear",
+        "text": "接近極限速度時，即使合力很小，物體仍在向下移動。力平衡使加速度幾乎消失；它不會消除已經存在的速度。",
+        "tryThis": "在秋季後期暫停，並將小淨力線與仍為正的速度線進行比較。",
+        "whyItMatters": "這是終端速度和靜止速度之間的主要區別。",
+        "relatedGraphTabs": [
+          "速度历史记录",
+          "力平衡"
+        ],
+        "relatedOverlays": [
+          "力平衡",
+          "終端帶"
+        ]
+      },
+      {
+        "id": "mass-raises-terminal-speed",
+        "text": "在質量掃描中，較大的質量會提高終端速度，因為重量較大，而阻力定律本身不變。",
+        "relatedControls": [
+          "質量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "力平衡",
+          "終端帶"
+        ],
+        "relatedEquationVariables": [
+          "質量"
+        ]
+      },
+      {
+        "id": "area-lowers-terminal-speed",
+        "text": "在區域掃描中，較大的正面區域會降低終端速度，因為相同的速度現在會產生更大的阻力。",
+        "relatedControls": [
+          "區域"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "終端帶"
+        ],
+        "relatedEquationVariables": [
+          "區域"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在運行新設定之前預測力平衡的哪一側發生變化。",
     "items": [
       {
         "id": "dtv-predict-area",
         "prompt": "由基準下落開始，在保持質量和阻力強度不變的情況下增大面積。會發生甚麼？",
-        "changeLabel": "面積"
+        "scenarioLabel": "較大的面積",
+        "changeLabel": "面積",
+        "choices": [
+          {
+            "id": "a",
+            "label": "阻力在相同速度下增長得更強烈，因此速度曲線更快趨於平穩，最終速度更低。"
+          },
+          {
+            "id": "b",
+            "label": "重量增加，因此終端速度較高。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為面積只會影響位置，而不影響力。"
+          }
+        ],
+        "explanation": "區域直接出現在阻力定律 $F_d = kAv^2$ 中，因此較大的區域會使每個速度下的阻力更強，並降低最終速度。",
+        "observationHint": "拉線更快地捕捉重量，且終端速度面積圖隨著面積的增加而下降。"
       },
       {
         "id": "dtv-predict-mass",
         "prompt": "由基準下落開始，在保持面積和阻力強度不變的情況下把質量加倍。哪個說法最恰當？",
-        "changeLabel": "質量"
+        "scenarioLabel": "較重的物體",
+        "changeLabel": "質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "重量較大，因此在力平衡之前阻力必須增長到更高的速度。"
+          },
+          {
+            "id": "b",
+            "label": "阻力在相同速度下會變弱，因為較重的物體會穿過流體。"
+          },
+          {
+            "id": "c",
+            "label": "最終速度保持不變，因為質量沒有出現在阻力定律中。"
+          }
+        ],
+        "explanation": "質量會改變天平的重量側，因此即使阻力定律本身不變，較重的物體也會達到較高的最終速度。",
+        "observationHint": "當您切換到較重的設定時，速度歷史曲線會接近更高的平坦終端速度值。"
       },
       {
         "id": "dtv-predict-drag-strength",
         "prompt": "由基準下落開始，把物體放進更稠密的流體，使阻力強度變大。接下來會改變甚麼？",
-        "changeLabel": "阻力強度"
+        "scenarioLabel": "更強的阻力",
+        "changeLabel": "阻力強度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "阻力在每個速度下都會增加得更快，因此物體會穩定在較低的最終速度。"
+          },
+          {
+            "id": "b",
+            "label": "由於流體變稠，重力下降。"
+          },
+          {
+            "id": "c",
+            "label": "僅位置標尺發生變化；速度和力圖保持不變。"
+          }
+        ],
+        "explanation": "對於相同的 $A$ 和 $v$，較大的 $k$ 會使阻力更強，因此與重量的平衡會以較低的速度發生。",
+        "observationHint": "終端速度阻力圖向下傾斜，力平衡圖較早達到接近相等。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用落體實驗台來證明兩個終端速度主張：透過改變天平的阻力側來調整較慢的下落速度，然後在阻力和重量幾乎匹配時暫停。",
     "items": [
       {
         "id": "dtv-ch-slow-the-fall",
-        "prompt": "由基準下落開始，把設定調成一個終端速度明顯更慢的情況：質量保持接近 $2\\,\\mathrm{kg}$，同時增加面積和阻力強度。"
+        "title": "建構一個終端速度較慢的案例",
+        "prompt": "由基準下落開始，把設定調成一個終端速度明顯更慢的情況：質量保持接近 $2\\,\\mathrm{kg}$，同時增加面積和阻力強度。",
+        "successMessage": "您透過加強天平的阻力側降低了終端速度。物體仍然下落，但它進入了較慢的穩定速度狀態。",
+        "setup": {
+          "note": "使用終端速度圖並使質量保持接近基線。"
+        },
+        "hints": [
+          "將質量保持在基線附近，因此速度變化必須來自天平的阻力側。",
+          "更大的面積和更強的阻力常數都會降低終端速度；將它們組合起來，而不是只移動一個控制。"
+        ],
+        "targets": [
+          {
+            "label": "將質量保持在 $2.0\\,\\mathrm{kg}$ 附近。"
+          },
+          {
+            "label": "將區域提高到大約 $0.10\\,\\mathrm{m^2}$。"
+          },
+          {
+            "label": "將阻力強度提高到大約 $18$。"
+          },
+          {
+            "label": "將終端速度置於$3.2$至$3.5\\,\\mathrm{m/s}$範圍內。"
+          }
+        ],
+        "style": "參數匹配"
+      },
+      {
+        "id": "dtv-ch-freeze-near-terminal",
+        "title": "抓住臨近終點的時刻",
+        "prompt": "從阻力盤開始，當阻力幾乎等於重量且剩餘淨向下力很小時暫停。",
+        "successMessage": "你找到了接近終點的時刻。物體仍在移動，但力的不平衡現在很小，速度幾乎沒有變化。",
+        "setup": {
+          "note": "暫停下落並擦洗，直到阻力和重量讀數幾乎匹配。"
+        },
+        "hints": [
+          "尋找幾乎接觸重量線的拉力線，同時淨力線接近零。",
+          "在這個低終端速度設定的後期，即使力不平衡很小，速度仍然是正值。"
+        ],
+        "targets": [
+          {
+            "label": "使淨向下力小於約 $0.35\\,\\mathrm{N}$。"
+          },
+          {
+            "label": "將目前速度控制在終端速度的 $0.10\\,\\mathrm{m/s}$ 範圍內。"
+          }
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "拖曳與終端速度 |開放模型實驗室",
+    "description": "透過緊湊的落體模擬來學習阻力和終端速度，該模擬將力平衡、速度和終端速度權衡與一個誠實的流體模型聯繫起來。",
+    "keywords": [
+      "拖曳與終端速度",
+      "終端速度",
+      "流體阻力",
+      "二次拖曳",
+      "力平衡",
+      "質量面積阻力強度"
     ]
   }
 }

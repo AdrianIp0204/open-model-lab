@@ -71,22 +71,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 把兩部小車的動量相加"
+              "label": "1. 把兩部小車的動量相加",
+              "template": "在舞台上顯示的同一時刻使用$p_{\\mathrm{tot}} = m_Av_A + m_Bv_B$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入實際值"
+              "label": "2. 代入實際值",
+              "template": "$p_{\\mathrm{tot}} = ({{massAValue}})({{velocityAValue}}) + ({{massBValue}})({{velocityBValue}})$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算總和"
+              "label": "3. 計算總和",
+              "template": "所以$p_{\\mathrm{tot}} = {{totalMomentumValue}}\\,\\mathrm{kg\\,m/s}$。"
             }
           ],
           "resultLabel": "當前總動量",
+          "resultTemplate": "$p_{\\mathrm{tot}} = {{totalMomentumValue}}\\,\\mathrm{kg\\,m/s}$",
           "applyAction": {
             "label": "顯示移動目標",
             "observationHint": "觀察在接觸前兩部小車已經開始移動時，總動量線仍然保持平坦。"
-          }
+          },
+          "interpretationTemplate": "{{totalMomentumInterpretation}}"
         },
         {
           "id": "final-velocity-split",
@@ -117,22 +122,27 @@
           "steps": [
             {
               "id": "relations",
-              "label": "1. 由守恆律和恢復關係開始"
+              "label": "1. 由守恆律和恢復關係開始",
+              "template": "使用 $m_Au_A + m_Bu_B = m_Av_A + m_Bv_B$ 和 $v_B - v_A = e(u_A - u_B)$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前設定"
+              "label": "2. 代入當前設定",
+              "template": "此處為$m_A = {{massAValue}}$、$u_A = {{initialVelocityAValue}}$、$m_B = {{massBValue}}$、$u_B = {{initialVelocityBValue}}$、$e = {{elasticityValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 解這兩個方程式"
+              "label": "3. 解這兩個方程式",
+              "template": "接觸後立即給出 $v_A = {{finalVelocityAValue}}\\,\\mathrm{m/s}$ 和 $v_B = {{finalVelocityBValue}}\\,\\mathrm{m/s}$。"
             }
           ],
           "resultLabel": "碰撞後的速度對",
+          "resultTemplate": "$v_A = {{finalVelocityAValue}}\\,\\mathrm{m/s}, \\quad v_B = {{finalVelocityBValue}}\\,\\mathrm{m/s}$",
           "applyAction": {
             "label": "應用黏性碰撞",
             "observationHint": "請留意總動量線保持不變，而總機械能則在接觸時下降。"
-          }
+          },
+          "interpretationTemplate": "{{outcomeInterpretation}}"
         }
       ]
     },
@@ -287,6 +297,10 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "在一條誠實的軌道上碰撞兩輛車，保持總動量，並觀察彈性、質量和傳入速度如何影響反彈或粘在一起的結果。",
+    "keyTakeaway": "動量守恆屬於整個兩車系統，因此總動量線透過接觸保持平坦。"
+  },
   "equations": [
     {
       "id": "object-momentum",
@@ -337,6 +351,30 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "勢頭",
+      "primaryGraphIds": [
+        "勢頭",
+        "速度",
+        "能量"
+      ],
+      "primaryControlIds": [
+        "速度A",
+        "彈性",
+        "質量B",
+        "速度B"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "黏性碰撞",
+        "概念標籤"
+      ],
+      "starterExploreTasks": [
+        "從動量圖和碰撞區域疊加開始，然後觀察總動量線透過接觸保持平坦。",
+        "從彈性等質量切換到黏滯碰撞並比較能量圖，同時動量仍保持守恆。",
+        "將輕應用於重，並使用速度圖來查看購物車 A 的反彈，而較重的購物車則帶動系統前進。"
+      ]
+    },
     "controls": [
       {
         "id": "massA",
@@ -400,12 +438,44 @@
           "僅在接觸瞬間發生速度突變，整個過程中不會發生。",
           "碰撞點固定不動，因此比較模式從不會移動目標以適應圖像。"
         ],
-        "whyItMatters": "即使碰撞很短暫，它仍然是一個真實的物理事件，在時間上應該在同一瞬間使圖表跳躍。"
+        "whyItMatters": "即使碰撞很短暫，它仍然是一個真實的物理事件，在時間上應該在同一瞬間使圖表跳躍。",
+        "relatedControls": [
+          "速度A",
+          "速度B"
+        ],
+        "relatedGraphTabs": [
+          "速度",
+          "勢頭",
+          "能量"
+        ],
+        "relatedEquationVariables": [
+          "速度A",
+          "速度B"
+        ]
       },
       {
         "id": "centerOfMass",
         "label": "質心",
-        "shortDescription": "在小車接近、碰撞與離開時追蹤質心。"
+        "shortDescription": "在小車接近、碰撞與離開時追蹤質心。",
+        "whatToNotice": [
+          "即使當小車各自的速度跳躍時，質心也會在碰撞過程中保持穩定的漂移。",
+          "當總動量接近零時，質心幾乎保持固定。"
+        ],
+        "whyItMatters": "穩定的質心運動是一種緊湊的目視檢查，可確保系統總動量未發生變化。",
+        "relatedControls": [
+          "質量A",
+          "質量B",
+          "速度A",
+          "速度B"
+        ],
+        "relatedGraphTabs": [
+          "速度",
+          "勢頭"
+        ],
+        "relatedEquationVariables": [
+          "質量A",
+          "質量B"
+        ]
       },
       {
         "id": "relativeSpeed",
@@ -415,7 +485,21 @@
           "較低的彈性不會改變碰撞前的接近速度，但會減少碰撞後的分離速度。",
           "在彈性為零的情況下，車輛會一起離開，因此分離速度降至零。"
         ],
-        "whyItMatters": "彈性以速度比例的方式來思考更容易理解，而不是抽象標籤。"
+        "whyItMatters": "彈性以速度比例的方式來思考更容易理解，而不是抽象標籤。",
+        "relatedControls": [
+          "彈性",
+          "速度A",
+          "速度B"
+        ],
+        "relatedGraphTabs": [
+          "速度",
+          "能量"
+        ],
+        "relatedEquationVariables": [
+          "速度A",
+          "速度B",
+          "彈性"
+        ]
       },
       {
         "id": "momentumBars",
@@ -425,7 +509,19 @@
           "在接觸時，對象條可以突然變化，而總條保持固定。",
           "質量如何影響相同總動量在車輛速度中的分配。"
         ],
-        "whyItMatters": "條形圖保持系統總動量的可見性，同時您推測個別結果。"
+        "whyItMatters": "條形圖保持系統總動量的可見性，同時您推測個別結果。",
+        "relatedControls": [
+          "質量A",
+          "質量B"
+        ],
+        "relatedGraphTabs": [
+          "勢頭",
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "質量A",
+          "質量B"
+        ]
       }
     ]
   },
@@ -460,37 +556,111 @@
         "id": "col-total-flat",
         "text": "請注意總動量線保持平坦，即使小車動量線在接觸時跳變。",
         "tryThis": "在碰撞前後暫停。個別軌跡會跳變，但總體軌跡不應漂移。",
-        "whyItMatters": "動量守恆涉及系統總和，而非每個車輛保持相同的動量。"
+        "whyItMatters": "動量守恆涉及系統總和，而非每個車輛保持相同的動量。",
+        "relatedGraphTabs": [
+          "勢頭"
+        ],
+        "relatedOverlays": [
+          "動量條",
+          "碰撞區域"
+        ]
       },
       {
         "id": "col-energy-drop",
         "text": "注意降低彈性會使能量圖在接觸時下降，即使總動量線仍保持平坦。",
         "tryThis": "降低彈性，然後在同一碰撞瞬間比較能量和動量圖。",
-        "whyItMatters": "這將動量守恆與動能守恆區分開來。"
+        "whyItMatters": "這將動量守恆與動能守恆區分開來。",
+        "relatedControls": [
+          "彈性"
+        ],
+        "relatedGraphTabs": [
+          "能量",
+          "勢頭"
+        ],
+        "relatedOverlays": [
+          "碰撞區域",
+          "相對速度"
+        ],
+        "relatedEquationVariables": [
+          "彈性"
+        ]
       },
       {
         "id": "col-heavy-target",
         "text": "注意較重的目標即使遵守同一套動量守恆規則，其速度改變也會較小。",
         "tryThis": "把 B 車設得很重，然後比較碰撞後 A 與 B 的速度跳變。",
-        "whyItMatters": "學生經常混淆動量改變和速度改變。質量決定了動量改變如何反映在速度上。"
+        "whyItMatters": "學生經常混淆動量改變和速度改變。質量決定了動量改變如何反映在速度上。",
+        "relatedControls": [
+          "質量A",
+          "質量B"
+        ],
+        "relatedGraphTabs": [
+          "速度",
+          "勢頭"
+        ],
+        "relatedOverlays": [
+          "動量條"
+        ],
+        "relatedEquationVariables": [
+          "質量A",
+          "質量B"
+        ]
       },
       {
         "id": "col-elasticity-speed-ratio",
         "text": "注意彈性會改變接觸後的反彈速度，而不是接觸前的接近速度。",
         "tryThis": "啟用相對速度疊加層，然後將彈性從1調低至0並比較碰撞後的速度標籤。",
-        "whyItMatters": "彈性是一個速度比值，因此應該作為碰撞前後的比較來閱讀，而不是模糊的材料標籤。"
+        "whyItMatters": "彈性是一個速度比值，因此應該作為碰撞前後的比較來閱讀，而不是模糊的材料標籤。",
+        "relatedControls": [
+          "彈性",
+          "速度A",
+          "速度B"
+        ],
+        "relatedGraphTabs": [
+          "速度",
+          "能量"
+        ],
+        "relatedOverlays": [
+          "相對速度"
+        ],
+        "relatedEquationVariables": [
+          "彈性",
+          "速度A",
+          "速度B"
+        ]
       },
       {
         "id": "col-center-of-mass",
         "text": "注意中心質量標誌在個別車輛速度在接觸時跳變的情況下仍然保持穩定的漂移。",
         "tryThis": "在碰撞期間保留質心疊加層。CM 標誌不應出現折返或彈跳。",
-        "whyItMatters": "穩固的質心運動是系統總動量未變的另一個真實跡象。"
+        "whyItMatters": "穩固的質心運動是系統總動量未變的另一個真實跡象。",
+        "relatedGraphTabs": [
+          "速度",
+          "勢頭"
+        ],
+        "relatedOverlays": [
+          "質量中心"
+        ]
       },
       {
         "id": "col-compare-energy",
         "text": "注意，兩個設置可以擁有相同的總動量但損失不同的動能。",
         "tryThis": "比較等質量彈性碰撞與黏滯碰撞。雖然動量總和相同，但能量圖形卻不同。",
-        "whyItMatters": "比較模式在此很有用，因為它可以區分動量守恆所保證的內容與彈性變化的內容。"
+        "whyItMatters": "比較模式在此很有用，因為它可以區分動量守恆所保證的內容與彈性變化的內容。",
+        "relatedControls": [
+          "彈性"
+        ],
+        "relatedGraphTabs": [
+          "勢頭",
+          "能量"
+        ],
+        "relatedOverlays": [
+          "碰撞區域",
+          "相對速度"
+        ],
+        "relatedEquationVariables": [
+          "彈性"
+        ]
       }
     ]
   },
@@ -564,6 +734,162 @@
         "explanation": "較重的目標速度改變通常較小。較輕的 A 車可以反彈，而較重的 B 車只會小幅向前移動，但總動量仍然保持一致。",
         "observationHint": "觀看碰撞後的速度跳變，比較B的速度變化是多麼的小。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的碰撞台來證明動量守恆、彈性和質量對比是不同的想法，而不是一個模糊的反彈規則。",
+    "items": [
+      {
+        "id": "collisions-ch-sticky-energy-drop",
+        "title": "黏性但仍保守",
+        "prompt": "建構近乎黏性的等質量碰撞，保持能量圖開放，並解釋為什麼動量在動能下降時可以保持守恆。",
+        "successMessage": "您使小車一起離開，同時保持動量故事完整：能量圖發生變化，但孤立系統動量規則沒有變化。",
+        "setup": {
+          "note": "從黏性預設開始，然後使用能量圖和相對速度疊加來檢查接觸時的損耗。"
+        },
+        "hints": [
+          "彈性接近零表示接觸後的分離速度應該接近零。",
+          "不要在這裡尋找能量守恆。目標是在動能下降時保持動量守恆。"
+        ],
+        "checks": [
+          {
+            "label": "保持購物車 A 的傳入速度接近等品質參考值。"
+          },
+          {
+            "label": "使碰撞後分離速度接近零。"
+          },
+          {
+            "label": "顯示接觸時明顯的動能損失。"
+          },
+          {
+            "label": "將孤立系統動量維持在等質量值。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "保持 $0$ 和 $0.05$ 之間的彈性，使小車幾乎黏住。"
+          },
+          {
+            "label": "將購物車 A 放在 $1.5\\,\\mathrm{kg}$ 附近。"
+          },
+          {
+            "label": "將購物車 B 放在 $1.5\\,\\mathrm{kg}$ 附近。"
+          },
+          {
+            "label": "在接觸之前，讓 B 車幾乎處於靜止狀態。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "collisions-ch-light-rebound",
+        "title": "輕型車反彈",
+        "prompt": "讓輕型小車 A 從較重的小車 B 反彈，同時速度圖和動量條保持可見。",
+        "successMessage": "您將物體運動與系統動量分開：輕型小車可以反轉，而較重的小車在接觸後具有足夠的前進動量。",
+        "setup": {
+          "note": "使用強烈的質量對比和高彈性；速度圖應顯示接觸後 A 反轉。"
+        },
+        "hints": [
+          "輕型小車比重型目標更容易掉頭。",
+          "保持足夠高的彈性，以使關閉速度返回為強分離速度。"
+        ],
+        "checks": [
+          {
+            "label": "讓購物車 B 緩慢地朝購物車 A 移動，就像從輕到重的預設一樣。"
+          },
+          {
+            "label": "購物車 A 撞擊後應向左移動。"
+          },
+          {
+            "label": "購物車 B 應在撞擊後繼續前進。"
+          },
+          {
+            "label": "系統總動量應保持向右。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "讓購物車 A 亮起：$1.0$ 到 $1.2\\,\\mathrm{kg}$。"
+          },
+          {
+            "label": "使購物車 B 變重：$3.0$ 到 $3.4\\,\\mathrm{kg}$。"
+          },
+          {
+            "label": "將購物車 A 送入至少 $1.7\\,\\mathrm{m/s}$。"
+          },
+          {
+            "label": "維持高彈性：$0.85$ 至 $1.0$。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "collisions-ch-compare-elastic-sticky",
+        "title": "相同的開始，不同的能量故事",
+        "prompt": "開啟具有相同等質量起始碰撞的比較模式，然後使設定 A 具有彈性，設定 B 具有黏性，因此只有彈性會改變能量故事。",
+        "successMessage": "在改變彈性的同時保持起始質量和速度固定，因此比較可以找出動量保持受限而動能不受限的原因。",
+        "setup": {
+          "note": "比較開啟後，保持設定 A 的彈性並僅調整設定 B 以實現黏性碰撞。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "在更改彈性之前，在兩種設定中使用相同的質量和傳入速度。",
+          "設定A應保持彈性回彈；設定 B 在接觸後應該失去分離速度。"
+        ],
+        "checks": [
+          {
+            "label": "將設定 A 小車 B 保持在等品質參考附近。"
+          },
+          {
+            "label": "保持設定 B 購物車 B 與設定 A 相符。"
+          },
+          {
+            "label": "在接觸前保持裝置 B 目標車幾乎靜止。"
+          },
+          {
+            "label": "設定 A 應該幾乎不會損失動能。"
+          },
+          {
+            "label": "設定 B 應該會失去黏性碰撞能量。"
+          },
+          {
+            "label": "設定 B 應該幾乎沒有分離速度。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "保持設定 A 鬆緊：$e$ 位於 $0.95$ 和 $1.0$ 之間。"
+          },
+          {
+            "label": "使設定 B 黏滯：$e$ 位於 $0$ 和 $0.05$ 之間。"
+          },
+          {
+            "label": "將安裝 A 小車 A 保持在 $1.5\\,\\mathrm{kg}$ 附近。"
+          },
+          {
+            "label": "將設定 B 小車 A 保持在 $1.5\\,\\mathrm{kg}$ 附近。"
+          },
+          {
+            "label": "保持設定 A 傳入速度接近 $1.6\\,\\mathrm{m/s}$。"
+          },
+          {
+            "label": "保持設定 B 傳入速度接近 $1.6\\,\\mathrm{m/s}$。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "description": "互動式碰撞課程，包括兩輛小車、連結的動量和能量圖、彈性控制、預測提示和概念快速測試。",
+    "keywords": [
+      "碰撞",
+      "動量守恆",
+      "彈性碰撞",
+      "非彈性碰撞",
+      "恢復原狀",
+      "實體模擬"
     ]
   }
 }

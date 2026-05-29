@@ -67,46 +67,66 @@
           "steps": [
             {
               "id": "speed",
-              "label": "1. 開始於圓周速度"
+              "label": "1. 開始於圓周速度",
+              "template": "對於圓形錶殼，相同的重力轉動擺輪給出$v_c = \\sqrt{M/r} = \\sqrt{{{sourceMassValue}}/{{orbitRadiusValue}}}$。"
             },
             {
               "id": "period-relation",
-              "label": "2. 將速度轉換為一圈時間"
+              "label": "2. 將速度轉換為一圈時間",
+              "template": "圓週週期是周長除以圓週速度，即$T_c = 2\\pi r / v_c = 2\\pi\\sqrt{r^3/M}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算即時圓軌道週期"
+              "label": "3. 計算即時圓軌道週期",
+              "template": "對於這個長凳，$T_c = {{periodValue}}\\,\\mathrm{s}$，帶有 $\\omega_c = {{angularSpeedValue}}\\,\\mathrm{rad/s}$ 和 $T_c^2/r^3 = {{keplerRatioValue}}\\,\\mathrm{s^2/m^3}$。"
             }
           ],
           "resultLabel": "當前圓軌道週期",
+          "resultTemplate": "$T_c = {{periodValue}}\\,\\mathrm{s}$",
           "applyAction": {
             "label": "顯示外圍長週期情況",
             "observationHint": "選擇的軌道變寬時，圓軌道速度下降而圓軌道週期顯著上升。"
-          }
+          },
+          "interpretationTemplate": "{{periodInterpretation}}"
         },
         {
           "id": "radius-doubling-ratio",
           "title": "將半徑加倍會如何",
           "prompt": "保持相同的源質量，如果選擇的軌道半徑加倍，圓軌道速度和圓軌道週期會如何變化？",
+          "variables": [
+            {
+              "id": "orbitRadius",
+              "label": "目前圓半徑"
+            },
+            {
+              "id": "doubleRadius",
+              "label": "半徑加倍"
+            }
+          ],
           "steps": [
             {
               "id": "period-ratio",
-              "label": "1. 使用週期比例"
+              "label": "1. 使用週期比例",
+              "template": "在固定源質量 $T \\propto r^{3/2}$ 下，因此將半徑加倍得到 $T_2/T_1 = (2)^{3/2} = {{doubleRadiusPeriodRatioValue}}$。"
             },
             {
               "id": "speed-ratio",
-              "label": "2. 同樣使用速度比例"
+              "label": "2. 同樣使用速度比例",
+              "template": "圓週速度的比例為 $v_c \\propto r^{-1/2}$，因此為 $v_2/v_1 = 1/\\sqrt{2} = {{doubleRadiusSpeedRatioValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 把它換算到目前的即時情況"
+              "label": "3. 把它換算到目前的即時情況",
+              "template": "如果該軌道圍繞同一源從 $r = {{orbitRadiusValue}}\\,\\mathrm{m}$ 更改為 $2r = {{doubleRadiusValue}}\\,\\mathrm{m}$，則新的圓週速度將為 ${{doubleRadiusCircularSpeedValue}}\\,\\mathrm{m/s}$，新的圓週週期將為 ${{doubleRadiusPeriodValue}}\\,\\mathrm{s}$。"
             }
           ],
           "resultLabel": "半徑加倍比較",
+          "resultTemplate": "$T_2/T_1 = {{doubleRadiusPeriodRatioValue}},\\; v_2/v_1 = {{doubleRadiusSpeedRatioValue}}$",
           "applyAction": {
             "label": "顯示內圈與外圈的對比",
             "observationHint": "選擇較寬的圓軌道具有較低的速度曲線和更長的週期讀數，甚至在開啟比較模式之前。"
-          }
+          },
+          "interpretationTemplate": "{{radiusScalingInterpretation}}"
         }
       ]
     },
@@ -262,6 +282,10 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "比較圍繞一個源質量的圓形軌道，看看為什麼較大的軌道需要更長的時間：路徑更長，圓形速度更低，並且相同的即時模型使周期定律可見，而無需隱藏重力速度鏈接。",
+    "keyTakeaway": "對於圍繞一個源質量的圓形軌道，週期遵循 $T_c = 2\\pi\\sqrt{r^3/M}$，顯示單位為 $G = 1$。"
+  },
   "equations": [
     {
       "id": "gravity-acceleration",
@@ -302,18 +326,31 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "速度历史记录",
+      "primaryGraphIds": [
+        "速度历史记录"
+      ],
+      "primaryControlIds": [
+        "軌道半徑"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "sourceMass",
-        "label": "源質量"
+        "label": "源質量",
+        "description": "改變中心質量，從而更改設定圓週速度的重力。"
       },
       {
         "id": "orbitRadius",
-        "label": "參考軌道半徑"
+        "label": "參考軌道半徑",
+        "description": "設定正在比較其速度和週期的虛線圓形目標。"
       },
       {
         "id": "speedFactor",
-        "label": "速度因子"
+        "label": "速度因子",
+        "description": "1.00 表示即時速度與圓週速度相符。遠離 1.00，路徑不再是其週期由定律預測的圓形軌道。"
       }
     ],
     "presets": [
@@ -347,27 +384,101 @@
       {
         "id": "referenceOrbit",
         "label": "參考軌道",
-        "shortDescription": "顯示選定的圓軌道半徑。"
+        "shortDescription": "顯示選定的圓軌道半徑。",
+        "whatToNotice": [
+          "開普勒定律在這裡是關於停留在這條虛線圓形路徑上，而不是關於遠離它的路徑。"
+        ],
+        "whyItMatters": "它將所選的循環年份與太慢或太快而無法保持循環的情況分開。",
+        "relatedControls": [
+          "軌道半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄"
+        ],
+        "relatedEquationVariables": [
+          "軌道半徑",
+          "速度係數"
+        ]
       },
       {
         "id": "radiusLine",
         "label": "半徑線",
-        "shortDescription": "從質量源連到目前物體的位置。"
+        "shortDescription": "從質量源連到目前物體的位置。",
+        "whatToNotice": [
+          "使圓變寬的相同半徑設定也會改變允許的圓速度和週期。"
+        ],
+        "whyItMatters": "在比較計時結果時，它可以使較大軌道與較小軌道的幾何形狀保持可見。",
+        "relatedControls": [
+          "軌道半徑"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "加速平衡"
+        ],
+        "relatedEquationVariables": [
+          "軌道半徑"
+        ]
       },
       {
         "id": "velocityVector",
         "label": "速度向量",
-        "shortDescription": "標示切向運動的方向與大小。"
+        "shortDescription": "標示切向運動的方向與大小。",
+        "whatToNotice": [
+          "較寬的圓形軌道具有較短的速度向量，因為允許的圓形速度較低。"
+        ],
+        "whyItMatters": "它使較長年份故事的較慢部分可見，而不是僅將其隱藏在公式中。",
+        "relatedControls": [
+          "速度係數",
+          "軌道半徑"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录"
+        ],
+        "relatedEquationVariables": [
+          "軌道半徑",
+          "速度係數"
+        ]
       },
       {
         "id": "gravityVector",
         "label": "重力向量",
-        "shortDescription": "標示指向中心的引力方向。"
+        "shortDescription": "標示指向中心的引力方向。",
+        "whatToNotice": [
+          "同樣的向內引力使較寬的圓形軌道變慢，而較重的源圓形軌道變快。"
+        ],
+        "whyItMatters": "它將計時法則與實際力圖連結在一起，而不是讓週期感覺與重力分離。",
+        "relatedControls": [
+          "來源海量",
+          "軌道半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "加速平衡"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "軌道半徑",
+          "速度係數"
+        ]
       },
       {
         "id": "trail",
         "label": "軌跡",
-        "shortDescription": "保留最近的運動路徑，方便判斷是否仍為圓軌道。"
+        "shortDescription": "保留最近的運動路徑，方便判斷是否仍為圓軌道。",
+        "whatToNotice": [
+          "在圓形比賽中，軌跡保持穩定地追蹤一個圓圈。遠離那個匹配，路徑不再是開普勒定律所描述的周期的圓形軌道。"
+        ],
+        "whyItMatters": "它顯示您是否仍在查看圓形案例或已經離開它。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
       }
     ]
   },
@@ -402,25 +513,81 @@
         "id": "ktl-notice-two-reasons",
         "text": "外圈需要更長時間，不只是因為路徑更長，也因為圓周速度更慢。",
         "tryThis": "保持速度因子 1.00，先看內圈，再看外圈。",
-        "whyItMatters": "這正是 $T \\propto r^{3/2}$ 的直觀來源。"
+        "whyItMatters": "這正是 $T \\propto r^{3/2}$ 的直觀來源。",
+        "relatedControls": [
+          "軌道半徑"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录",
+          "半徑歷史記錄"
+        ],
+        "relatedOverlays": [
+          "參考Orbit",
+          "蹤跡"
+        ],
+        "relatedEquationVariables": [
+          "軌道半徑"
+        ]
       },
       {
         "id": "ktl-notice-kepler-constant",
         "text": "只要保持圓軌道，留意 $T^2/r^3$ 的讀數會維持穩定。",
         "tryThis": "在速度因子 = 1.00 的情況下改變半徑。",
-        "whyItMatters": "這讓你看到定律不是背誦，而是同一模型下的穩定比例。"
+        "whyItMatters": "這讓你看到定律不是背誦，而是同一模型下的穩定比例。",
+        "relatedControls": [
+          "軌道半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录"
+        ],
+        "relatedOverlays": [
+          "參考Orbit"
+        ],
+        "relatedEquationVariables": [
+          "軌道半徑",
+          "來源海量"
+        ]
       },
       {
         "id": "ktl-notice-heavier-source",
         "text": "在同一半徑下，較重的源質量會把圓軌道速度推高、把週期壓低。",
         "tryThis": "固定半徑，只調高源質量。",
-        "whyItMatters": "這能把源質量對週期常數的影響看得更清楚。"
+        "whyItMatters": "這能把源質量對週期常數的影響看得更清楚。",
+        "relatedControls": [
+          "來源海量"
+        ],
+        "relatedGraphTabs": [
+          "速度历史记录",
+          "加速平衡"
+        ],
+        "relatedOverlays": [
+          "重力向量"
+        ],
+        "relatedEquationVariables": [
+          "來源海量"
+        ]
       },
       {
         "id": "ktl-notice-law-needs-circle",
         "text": "速度因子一旦離開 1.00，這條軌跡就不再是定律討論的圓軌道案例。",
         "tryThis": "從基準軌道開始，再把速度因子略微調低。",
-        "whyItMatters": "這能區分圓軌道定律和一般軌道偏離的情況。"
+        "whyItMatters": "這能區分圓軌道定律和一般軌道偏離的情況。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "加速平衡"
+        ],
+        "relatedOverlays": [
+          "蹤跡",
+          "參考Orbit",
+          "重力向量"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
       }
     ]
   },
@@ -506,7 +673,8 @@
         "prompt": "設定兩組圓軌道，令 B 組的年份明顯長於 A 組，同時兩組都保持圓軌道。",
         "successMessage": "你成功建立了兩條同源圓軌道，並讓 B 組的週期明顯長於 A 組。",
         "setup": {
-          "note": "兩組都要保持速度因子 1.00，並使用同一個質量源。"
+          "note": "兩組都要保持速度因子 1.00，並使用同一個質量源。",
+          "interactionMode": "比較"
         },
         "hints": [
           "半徑較大的圓軌道會有較長的週期。",
@@ -538,7 +706,8 @@
           {
             "label": "B 組的週期較長嗎？"
           }
-        ]
+        ],
+        "style": "可见條件"
       },
       {
         "id": "ktl-ch-heavier-shorter-year",
@@ -568,7 +737,8 @@
           {
             "label": "週期已縮短嗎？"
           }
-        ]
+        ],
+        "style": "目標設定"
       },
       {
         "id": "ktl-ch-not-circular-anymore",
@@ -598,8 +768,20 @@
           {
             "label": "轉向需求較低嗎？"
           }
-        ]
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "開普勒第三定律與軌道周期 |開放模型實驗室",
+    "description": "透過緊湊的重力實驗室了解為什麼較大的圓形軌道需要更長的時間，該實驗室將軌道半徑、圓週速度、軌道周期、比較模式、即時讀數、引導提示和概念快速測試聯繫起來。",
+    "keywords": [
+      "開普勒第三定律",
+      "軌道周期",
+      "圓形軌道",
+      "重力",
+      "實體模擬"
     ]
   }
 }

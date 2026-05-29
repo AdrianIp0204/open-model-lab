@@ -55,51 +55,91 @@
             {
               "id": "halfLifeSeconds",
               "label": "半衰期"
+            },
+            {
+              "id": "sampleSize",
+              "label": "起始樣本"
+            },
+            {
+              "id": "time",
+              "label": "已用時間"
+            },
+            {
+              "id": "expectedRemaining",
+              "label": "預計剩餘"
             }
           ],
           "steps": [
             {
               "id": "count-half-lives",
-              "label": "1. 計算半衰期間隔"
+              "label": "1. 計算半衰期間隔",
+              "template": "存活時間為 {{timeValue}}，即每個 {{halfLifeValue}} 的 {{elapsedHalfLivesValue}} 半衰期。"
             },
             {
               "id": "apply-halving-law",
-              "label": "2. 將半衰期法則應用於預期值"
+              "label": "2. 將半衰期法則應用於預期值",
+              "template": "這表示預期的存活分數約為 {{expectedFractionPercentValue}}，因此樣本預期為 {{expectedRemainingValue}} 原子核。"
             },
             {
               "id": "compare-live-count",
-              "label": "3. 將預期值與活化樣本進行比較"
+              "label": "3. 將預期值與活化樣本進行比較",
+              "template": "托盤目前顯示 {{actualRemainingValue}} 原子核仍然存在，因此正在將樣本與預期進行比較，而不是強制使其完全相等。"
             }
           ],
           "resultLabel": "預期基準",
+          "resultTemplate": "\\(N_{\\mathrm{exp}} \\approx {{expectedRemainingValue}}\\) 核位於 \\(t = {{timeValue}}\\)",
           "applyAction": {
             "label": "展示課堂實驗樣本",
             "observationHint": "使用半衰期標記和預期曲線一起，然後拖動時間軌道。"
-          }
+          },
+          "interpretationTemplate": "{{expectedInterpretation}}"
         },
         {
           "id": "current-sample-spread",
           "title": "當前樣本分佈",
           "prompt": "在同一時間{{timeValue}}，活化樣本與平滑預期值相差多遠，這對衰變中的機率説了什麼？",
+          "variables": [
+            {
+              "id": "sampleSize",
+              "label": "起始樣本"
+            },
+            {
+              "id": "survivalProbability",
+              "label": "單核生存機會"
+            },
+            {
+              "id": "actualRemaining",
+              "label": "實際剩餘"
+            },
+            {
+              "id": "deviation",
+              "label": "實際值減去預期值"
+            }
+          ],
           "steps": [
             {
               "id": "single-particle-view",
-              "label": "1. 如實讀取單個核子的生存機率"
+              "label": "1. 如實讀取單個核子的生存機率",
+              "template": "到{{timeValue}}，一個核有存活機率{{survivalProbabilityPercentValue}}。此機率獨立地應用於每個核，而不是強迫托盤與曲線完全匹配。"
             },
             {
               "id": "compare-sample-and-curve",
-              "label": "2. 將託盤與預期值進行比較"
+              "label": "2. 將託盤與預期值進行比較",
+              "template": "即時托盤顯示 {{actualRemainingValue}} 核，相對於平滑期望是 {{signedDeviationCountValue}} 核。"
             },
             {
               "id": "state-the-spread",
-              "label": "3. 將差異轉換成樣本級別的讀數"
+              "label": "3. 將差異轉換成樣本級別的讀數",
+              "template": "此分佈大約是起始樣本的 {{deviationFractionPercentValue}}，因此該頁面顯示同一實驗台上的樣本雜訊和樣本規律性。"
             }
           ],
           "resultLabel": "當前樣本分佈",
+          "resultTemplate": "\\(N_{\\mathrm{actual}} = {{actualRemainingValue}}, \\; \\Delta N = {{signedDeviationCountValue}}\\)",
           "applyAction": {
             "label": "展示小而嘈雜的樣本",
             "observationHint": "保持單個與樣本的提示開著，同時逐步計數從平滑曲線中拉開距離。"
-          }
+          },
+          "interpretationTemplate": "{{spreadInterpretation}}"
         }
       ]
     },
@@ -253,6 +293,95 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用一個緊湊的衰變台來了解為什麼每個核會不可預測地衰變、為什麼大樣本仍然遵循規則的半衰期曲線，以及如何誠實地讀取剩餘計數圖。",
+    "whyItMatters": "半衰期是隨機核事件與約會、醫學示踪劑、輻射安全以及樣本偶然衰變但仍遵循可測量趨勢的任何情況的有用預測之間的橋樑。",
+    "keyTakeaway": "半衰期是指在每個相等的半衰期間隔內將預期樣本計數乘以二分之一。這並不意味著每個原子核都能存活一半的時間。"
+  },
+  "v2": {
+    "intuition": "將放射性衰減視為同一個長凳上的兩個故事：一個原子核產生是或否的偶然事件，而許多獨立的原子核產生您可以預測的穩定減半模式。",
+    "whyItMatters": "半衰期讓科學家可以根據隨機衰變做出實用的預測——測定舊材料的年代、規劃醫療示踪劑以及判斷輻射風險——而無需假裝任何單個原子核擁有倒數時鐘。",
+    "equationSnapshot": {
+      "title": "半衰期快照的機率",
+      "note": "首先讀取預期計數，然後將其與實際階梯式托盤進行比較。相同的衰變常數控制樣本期望和一個核的生存機會。"
+    },
+    "startSetup": {
+      "note": "從一個原子核開始，因此 50% 的值顯然是一個機率，而不是物理粒子的一半，然後生長樣本以查看曲線的出現。"
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-one-nucleus-from-the-sample",
+        "title": "從樣本中分離出一個細胞核",
+        "goal": "在使用平滑樣本曲線之前使單一事件機率可見。",
+        "doThis": "打開單核，擦洗至一個半衰期，並將是或否托盤與分數圖上的 50% 存活標記進行比較。",
+        "notice": "細胞核要麼存在，要麼消失； 50% 標記描述了生存機率和預期樣本分數，而不是半個細胞核。",
+        "explain": "放射性衰變沒有個人倒數計時鐘。每個核只有一次機會在每個間隔中生存，因此機率對於一個核來說是誠實的，而平均值對於許多核來說變得有用。",
+        "inlineCheck": {
+          "title": "檢查半衰期意味著什麼"
+        }
+      },
+      {
+        "id": "read-repeated-halving",
+        "title": "讀取重複減半",
+        "goal": "將相等的半衰期隔連接到乘以二分之一，而不是固定的減法。",
+        "doThis": "切換到類實驗室樣本，保持半衰期標記可見，並在計數和分數圖上從一個檢查點擦洗到下一個檢查點。",
+        "notice": "預期分數為 100%、50%、25%、12.5%，而實際托盤在曲線附近以整數步長下降。",
+        "explain": "半衰期在相等的時間間隔內重複相同的分數。這就是為什麼期望值會趨向於零，而不是每秒鐘失去相同數量的原子核。",
+        "inlineCheck": {
+          "title": "預測兩個半衰期"
+        }
+      },
+      {
+        "id": "compare-noisy-and-smooth-samples",
+        "title": "比較雜訊樣本和平滑樣本",
+        "goal": "了解為什麼相同的衰減定律對於小樣本看起來更跳躍，而對於大樣本則看起來更穩定。",
+        "doThis": "將小雜訊樣本與大平滑樣本進行比較，同時保持半衰期相同並讀取剩餘分數圖。",
+        "notice": "預期分數曲線保持不變，但較大的樣本更接近它，​​因為更多的獨立衰減被平均。",
+        "explain": "樣本大小改變隨機擺動的大小，而不是半衰期定律。更少的核使每個是或否事件更重要；更多的核使總體趨勢更加穩定。",
+        "inlineCheck": {
+          "title": "檢查樣本大小的噪聲"
+        }
+      },
+      {
+        "id": "judge-an-honest-decay-graph",
+        "title": "判斷誠實的衰減圖",
+        "goal": "在挑戰之前將機率、曲線和整數托盤的想法整合在一起。",
+        "doThis": "使用挑戰設定或課堂實驗室預設來決定顯示的哪些部分應該平滑，哪些部分必須保持階梯狀。",
+        "notice": "平滑線是期望，托盤是實際的整數樣本，兩者都應該接近零而不變為負值。",
+        "explain": "誠實的半衰期模型不會消除個體衰變或強制精確的托盤數。它使隨機樣本和可預測的期望保持明顯的聯繫。",
+        "inlineCheck": {
+          "title": "查看曲線故事"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "半衰期是指在相等的時間間隔內預期樣本計數重複減半。",
+        "一個原子核的衰變是一個是或否的偶然事件；它不會分割或遵循個人計時器。",
+        "小的實際樣本可能會高於或低於平滑期望，而較大的樣本看起來更穩定。",
+        "實際托盤應以整數步長下降，預期曲線應保持平滑、正向且趨於零。"
+      ],
+      "misconception": "不要將半衰期理解為使一半原子核在某一瞬間消失的時間表。它是許多獨立隨機衰減的期望定律。",
+      "freePlayPrompt": "建構三種情況：一個半衰期的單核心、同一檢查點附近的一個小雜訊樣本和一個大的平滑樣本。說出哪個讀數是機率，哪個是實際計數，哪個是期望值。",
+      "nextConcepts": [
+        {
+          "slug": "bohr-model",
+          "title": "玻爾模型",
+          "reasonLabel": "將機率衰變與量子化原子結構進行比較。"
+        },
+        {
+          "slug": "atomic-spectra",
+          "title": "原子光譜",
+          "reasonLabel": "在另一個現代物理實驗台上使用來自原子的離散證據。"
+        },
+        {
+          "slug": "photoelectric-effect",
+          "title": "光電效應",
+          "reasonLabel": "繼續討論光子和電子的機率與閾值線程。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "count-law",
@@ -283,23 +412,388 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "剩餘分數",
+      "primaryGraphIds": [
+        "剩餘分數",
+        "剩餘計數"
+      ],
+      "primaryControlIds": [
+        "樣本大小",
+        "半條命秒"
+      ],
+      "primaryPresetIds": [
+        "單核",
+        "概念標籤",
+        "班級實驗室",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ]
+    },
     "controls": [
       {
         "id": "sampleSize",
-        "label": "樣本大小"
+        "label": "樣本大小",
+        "description": "設定托盤中起始的細胞核數量，以便您可以將小樣本雜訊與大樣本規律性進行比較。"
       },
       {
         "id": "halfLifeSeconds",
-        "label": "半衰期"
+        "label": "半衰期",
+        "description": "設定定義時間軸上等間隔減半定律的半衰期。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "single-nucleus",
+        "label": "單核",
+        "description": "一個細胞核顯示出純粹是或否的存活率，而預期曲線在一個半衰期後仍顯示 50%。"
+      },
+      {
+        "id": "small-sample-noisy",
+        "label": "小雜訊樣本",
+        "description": "十幾個原子核使樣本曲線在平滑期望周圍明顯跳躍。"
+      },
+      {
+        "id": "class-lab",
+        "label": "課堂實驗室樣本",
+        "description": "中等樣本使期望可讀，同時樣本雜訊仍可見。"
+      },
+      {
+        "id": "large-sample-smooth",
+        "label": "大光滑樣品",
+        "description": "較大的托盤使階梯曲線更接近平滑的期望。"
+      },
+      {
+        "id": "short-half-life",
+        "label": "半衰期短",
+        "description": "相同的樣本現在會在更短的時間範圍內衰減，因此檢查點很快就會到達。"
+      },
+      {
+        "id": "long-half-life",
+        "label": "半衰期長",
+        "description": "相同的樣本現在會在更長的時間範圍內衰減，向外傳播相同的檢查點故事。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "recentDecays",
+        "label": "最近的衰變",
+        "shortDescription": "突顯最近衰變的原子核，因此托盤看起來不會平滑褪色。",
+        "whatToNotice": [
+          "即使預期的曲線是平滑的，托盤也會一次更換一個核。"
+        ],
+        "whyItMatters": "它使腐爛的一一本質保持可見。",
+        "relatedControls": [
+          "樣本大小"
+        ],
+        "relatedGraphTabs": [
+          "剩餘計數"
+        ],
+        "relatedEquationVariables": [
+          "樣本大小"
+        ]
+      },
+      {
+        "id": "sampleVsExpected",
+        "label": "樣本與預期",
+        "shortDescription": "同時顯示步進實際計數和平滑期望。",
+        "whatToNotice": [
+          "實際托盤可以位於平滑曲線上方或下方，同時整體上仍遵循相同的衰減定律。"
+        ],
+        "whyItMatters": "它將隨機單一事件與可預測的大樣本行為分開。",
+        "relatedControls": [
+          "樣本大小",
+          "半條命秒"
+        ],
+        "relatedGraphTabs": [
+          "剩餘計數",
+          "剩餘分數"
+        ],
+        "relatedEquationVariables": [
+          "樣本大小",
+          "半條命秒"
+        ]
+      },
+      {
+        "id": "halfLifeMarkers",
+        "label": "半衰期標記",
+        "shortDescription": "標示相等的半衰期檢查點，以便重複減半保持可見。",
+        "whatToNotice": [
+          "每個相等的檢查點再次將期望值減半，而不是減去固定數字。"
+        ],
+        "whyItMatters": "它可以防止半衰期被誤讀為線性下降。",
+        "relatedControls": [
+          "半條命秒"
+        ],
+        "relatedGraphTabs": [
+          "剩餘計數",
+          "剩餘分數"
+        ],
+        "relatedEquationVariables": [
+          "半條命秒"
+        ]
+      },
+      {
+        "id": "singleVsSample",
+        "label": "單一與樣本",
+        "shortDescription": "在樣本曲線旁保留單核心語言。",
+        "whatToNotice": [
+          "一個核要么仍然存在，要么消失，而樣本曲線是平均預期。"
+        ],
+        "whyItMatters": "它可以防止 50% 的存活率被誤讀為半個核或倒數計時器。",
+        "relatedControls": [
+          "樣本大小"
+        ],
+        "relatedGraphTabs": [
+          "剩餘分數"
+        ],
+        "relatedEquationVariables": [
+          "樣本大小"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "remaining-count",
+      "label": "剩餘原子核與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "剩餘的原子核",
+      "description": "將步進的實際計數和平滑的預期計數一起顯示，以便可以將逐一衰減與指數趨勢進行比較。"
+    },
+    {
+      "id": "remaining-fraction",
+      "label": "剩餘分數與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "剩餘分數",
+      "description": "將相同的衰變故事顯示為開始的一小部分，因此可以在不改變定律的情況下比較不同大小的樣本。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示，以便托盤、讀數卡和圖像與同一個腐爛故事保持聯繫。",
+    "items": [
+      {
+        "id": "rhl-notice-single",
+        "text": "在一個半衰期中，單一原子核還沒有「一半存在」。它要么仍然存在，要么消失。 50% 的值是一個核的生存機率和樣本的期望。",
+        "tryThis": "打開單核並擦洗至一個半衰期。",
+        "whyItMatters": "它在單核層級保持機率誠實。",
+        "relatedControls": [
+          "樣本大小"
+        ],
+        "relatedGraphTabs": [
+          "剩餘分數"
+        ],
+        "relatedOverlays": [
+          "單一與樣本",
+          "樣本與預期"
+        ]
+      },
+      {
+        "id": "rhl-notice-halving",
+        "text": "相等的半衰期隔反覆將預期樣本減半。它們每秒不會刪除固定的數量，因此曲線會彎曲而不是保持直線。",
+        "tryThis": "從實驗室樣本開始，從一個半衰期擦洗到兩個半衰期。",
+        "whyItMatters": "它可以幫助您將半衰期解讀為重複乘法，而不是線性損失。",
+        "relatedControls": [
+          "半條命秒"
+        ],
+        "relatedGraphTabs": [
+          "剩餘計數",
+          "剩餘分數"
+        ],
+        "relatedOverlays": [
+          "半條命標記",
+          "樣本與預期"
+        ]
+      },
+      {
+        "id": "rhl-notice-noise",
+        "text": "小樣本可能明顯高於或低於預期，但較大樣本更接近相同曲線，因為許多獨立衰減正在被平均。",
+        "tryThis": "在相同的半衰期下比較小雜訊樣本和大平滑樣本。",
+        "whyItMatters": "它將單一事件的隨機性與大樣本的規律性連結起來。",
+        "relatedControls": [
+          "樣本大小"
+        ],
+        "relatedGraphTabs": [
+          "剩餘計數",
+          "剩餘分數"
+        ],
+        "relatedOverlays": [
+          "樣本與預期",
+          "最近的衰變"
+        ]
+      },
+      {
+        "id": "rhl-notice-compare",
+        "text": "當半衰期不變但樣本量改變時，比較模式效果最佳。這將托盤中的隨機性與圖像中共享的衰減定律分開。",
+        "tryThis": "在小雜訊樣本上保持設定 A，在大平滑樣本上保持設定 B。",
+        "whyItMatters": "並排，您可以看到相同的衰減規律和不同的噪音量。",
+        "relatedControls": [
+          "樣本大小"
+        ],
+        "relatedGraphTabs": [
+          "剩餘計數",
+          "剩餘分數"
+        ],
+        "relatedOverlays": [
+          "樣本與預期",
+          "單一與樣本",
+          "最近的衰變"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "預測在擦洗時間或更改樣品之前會發生什麼。",
     "items": [
       {
         "id": "rhl-pred-small-vs-large",
-        "changeLabel": "樣本大小"
+        "prompt": "維持相同的半衰期，但將樣本大小從小雜訊樣本增加到大平滑樣本。頁面該做什麼？",
+        "scenarioLabel": "增加樣本量",
+        "changeLabel": "樣本大小",
+        "choices": [
+          {
+            "id": "a",
+            "label": "實際分數在相同的期望曲線上的波動應該較小，因為正在對更多獨立的衰減進行平均。"
+          },
+          {
+            "id": "b",
+            "label": "半衰期本身應該會變得更長，因為較大的樣本衰減得更慢。"
+          },
+          {
+            "id": "c",
+            "label": "預期分數曲線應向上傾斜，因為有更多的核可供開始。"
+          }
+        ],
+        "explanation": "改變樣本大小會改變實際結果的雜訊程度，而不是半衰期定律本身。分數期望保持不變，但較大的樣本看起來更穩定。",
+        "observationHint": "在預設之間跳轉或使用比較模式，然後專注於分數圖。"
+      },
+      {
+        "id": "rhl-pred-one-half-life",
+        "prompt": "從實驗室樣本開始並擦洗至一個半衰期。哪種說法應該保持誠實？",
+        "scenarioLabel": "達到一個半衰期",
+        "changeLabel": "已用時間",
+        "choices": [
+          {
+            "id": "a",
+            "label": "預期樣本被切成兩半，但實際托盤可能會落在該值附近，而不是恰好落在該值上。"
+          },
+          {
+            "id": "b",
+            "label": "恰好一半的原子核必須在那一刻消失，因為半衰期是一個時間表。"
+          },
+          {
+            "id": "c",
+            "label": "曲線應保持筆直，因為每秒都會移除相同數量的原子核。"
+          }
+        ],
+        "explanation": "一個半衰期後，預期是開始時的 50%，但實際托盤仍然會隨機地改變整個核。",
+        "observationHint": "使用半衰期標記，然後將步進計數與平滑期望進行比較。"
+      },
+      {
+        "id": "rhl-pred-two-half-lives",
+        "prompt": "從同一起始樣本中，將一個半衰期擦洗為兩個半衰期。關於期望的哪一種說法是正確的？",
+        "scenarioLabel": "達到兩個半衰期",
+        "changeLabel": "已用時間",
+        "choices": [
+          {
+            "id": "a",
+            "label": "預期樣本下降到開始時的四分之一，因為減半以相等的間隔重複。"
+          },
+          {
+            "id": "b",
+            "label": "預期樣本降至零，因為兩個半衰期意味著沒有任何東西可以保留。"
+          },
+          {
+            "id": "c",
+            "label": "預期樣本失去的核數量與第一個半衰期期間的核數量相同。"
+          }
+        ],
+        "explanation": "在第二個相等的時間間隔後，期望值再次減半，因此它變成起始樣本的四分之一。",
+        "observationHint": "一起觀察半衰期標記和分數圖。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "對緊湊的半衰期和樣本雜訊目標使用相同的有界衰變台，而不是擴展到完整的核物理系統。",
+    "items": [
+      {
+        "id": "rhl-ch-half-life-checkpoint",
+        "title": "降落在半條命檢查站",
+        "prompt": "從類實驗室樣本開始，擦洗到大約一個半衰期，這樣期望值就會減半，而即時托盤保持略低於它。",
+        "successMessage": "你到達了半條命檢查點，並誠實地保持了實際托盤和光滑的期望一致。",
+        "setup": {
+          "note": "將半衰期標記和虛線期望一起使用，然後擦洗時間欄。"
+        },
+        "hints": [
+          "將樣本保留在 64 核子類實驗室設定中。",
+          "在一個半衰期中，預期應該有大約 32 個核，而活性托盤可以稍微低一些。"
+        ],
+        "targets": [
+          {
+            "label": "將樣本大小保持在 64 個核和 64 個核之間。"
+          },
+          {
+            "label": "將半衰期保持在 2.35 秒到 2.45 秒之間。"
+          },
+          {
+            "label": "將經過的半衰期保持在 0.98 和 1.02 之間。"
+          },
+          {
+            "label": "將預期剩餘計數保持在 31.6 個原子核和 32.4 個原子核之間。"
+          },
+          {
+            "label": "將實際剩餘計數保持在 26.5 個原子核和 28.5 個原子核之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "rhl-ch-small-sample-spread",
+        "title": "捕捉一個吵雜的小樣本",
+        "prompt": "從小噪音樣本開始，擦洗到大約一個半衰期，因此活動托盤遠低於平滑預期，並且擴散很明顯。",
+        "successMessage": "您捕獲了一個真正有雜訊的小樣本，但沒有改變基本的半衰期定律。",
+        "setup": {
+          "note": "使用分數圖，以便托盤和期望之間的差距保持易於閱讀。"
+        },
+        "hints": [
+          "保持樣本較小，以便相同的半衰期定律看起來明顯更吵雜。",
+          "接近半衰期，預期為 50%，但此托盤接近四分之一。"
+        ],
+        "targets": [
+          {
+            "label": "將樣本大小保持在 12 個核和 12 個核之間。"
+          },
+          {
+            "label": "將半衰期保持在 2.35 秒到 2.45 秒之間。"
+          },
+          {
+            "label": "將經過的半衰期保持在 0.98 和 1.02 之間。"
+          },
+          {
+            "label": "將預期分數保持在 0.49 和 0.51 之間。"
+          },
+          {
+            "label": "將實際分數保持在 0.24 和 0.26 之間。"
+          },
+          {
+            "label": "將偏差計數保持在 -3.2 核和 -2.8 核之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "放射性與半衰期 |開放式模型實驗室",
+    "description": "使用緊湊的模擬優先實驗室實驗台探索放射性衰變、半衰期、機率單核存活和大樣本衰變曲線。",
+    "keywords": [
+      "放射性模擬",
+      "半衰期模擬",
+      "放射性衰變",
+      "指數衰減",
+      "機率與衰減曲線"
     ]
   }
 }

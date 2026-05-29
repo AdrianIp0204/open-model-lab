@@ -79,22 +79,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 從波的計時關係開始"
+              "label": "1. 從波的計時關係開始",
+              "template": "= [[]] / λ δt = [[]] / v_wave. 頻率"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前的波速、間距和探測器位置"
+              "label": "2. 代入目前的波速、間距和探測器位置",
+              "template": "f = {{waveSpeedValue}} / {{wavelengthValue}} = {{frequencyValue}} Hz。 Δt = {{probeXValue}} / {{waveSpeedValue}} = {{travelDelayValue}} 秒。"
             },
             {
               "id": "compute",
-              "label": "3. 解釋聲源和探測器的結果"
+              "label": "3. 解釋聲源和探測器的結果",
+              "template": "這意味著來源每秒啟動 {{frequencyValue}} 週期，每個週期持續 {{periodValue}} 秒，並且偵測包在延遲 {{travelDelayValue}} 秒後重複該運動。"
             }
           ],
           "resultLabel": "目前聲波的計時",
+          "resultTemplate": "f = {{frequencyValue}} Hz，Δt = {{travelDelayValue}} s",
           "applyAction": {
             "label": "顯示更遠的探測器",
             "observationHint": "即使每個粒子仍然只在自己的平衡位置附近振動，同一個縱向模式也會較晚到達下游位置。"
-          }
+          },
+          "interpretationTemplate": "{{travelInterpretation}}"
         },
         {
           "id": "local-compression-cue",
@@ -108,27 +113,40 @@
             {
               "id": "particle-amplitude",
               "label": "粒子振幅"
+            },
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "probe-displacement",
+              "label": "探頭位移"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 把位移連到局部間距"
+              "label": "1. 把位移連到局部間距",
+              "template": "使用 $s(x,t) = A\\sin\\!\\left(2\\pi\\left(\\dfrac{x}{\\lambda} - ft\\right)\\right)$ 並從 $-\\partial s / \\partial x$ 讀取壓縮。積極暗示意味著壓縮，消極暗示意味著稀疏。"
             },
             {
               "id": "substitute",
-              "label": "2. 讀取目前探測器附近的粒子"
+              "label": "2. 讀取目前探測器附近的粒子",
+              "template": "現在，探測包移動了 $s_p = {{probeDisplacementValue}}\\,\\mathrm{m}$，標準化壓縮提示為 {{normalizedProbeCompressionValue}}。"
             },
             {
               "id": "compute",
-              "label": "3. 如實解釋局部狀態"
+              "label": "3. 如實解釋局部狀態",
+              "template": "位移告訴您地塊相對於平衡的位置，而壓縮提示則告訴您相鄰地塊是否擁擠在一起、分散或接近其靜止間距。"
             }
           ],
           "resultLabel": "目前局部狀態",
+          "resultTemplate": "$s_p = {{probeDisplacementValue}}\\,\\mathrm{m}, \\quad \\text{compression cue} = {{normalizedProbeCompressionValue}}$",
           "applyAction": {
             "label": "顯示強烈的壓縮",
             "observationHint": "高亮粒子接近自己的中心位置，而壓縮提示達到正峰值。"
-          }
+          },
+          "interpretationTemplate": "{{compressionInterpretation}}"
         }
       ]
     },
@@ -283,6 +301,82 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "將聲音視為縱波：空氣團來回振盪，同時壓縮、稀疏和能量在介質中傳播。",
+    "whyItMatters": "這可以防止聲音看起來像物質沿著管子流動，並且它可以讓您準備好讀取音調、響度、節拍和多普勒頻移作為一種行進擾動的變化。",
+    "keyTakeaway": "在縱波中，包裹運動平行於擾動傳播的方向，但每個包裹主要圍繞其自身的靜止位置振盪。"
+  },
+  "v2": {
+    "intuition": "跟著一排空氣包裹，這樣包裹的運動方向、移動壓縮模式和探頭計時都會保持連接。",
+    "whyItMatters": "聲音很容易被誤認為是空氣流過房間。本課程展示了局部來回運動如何傳遞擾動及其能量並向前傳遞，而無需攜帶每個包裹一起行駛。",
+    "equationSnapshot": {
+      "title": "運動、間距與定時快照",
+      "note": "使用這些方程式來區分三個想法：包裹位移是局部來回運動，波長設定壓縮間距，波速控制傳播延遲。"
+    },
+    "startSetup": {
+      "note": "從基線波開始，以便在更改任何控制項之前可以看到包裹箭頭、壓力帶和來源/探頭跡線。"
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-parcel-motion-from-wave-travel",
+        "title": "將包裹運動與波浪傳播分開",
+        "goal": "了解為什麼聲波可以向右移動，而每個包裹僅局部振盪。",
+        "doThis": "從基線開始，運動方向覆蓋打開，然後觀察源和探測包幾個週期。",
+        "notice": "包裹箭頭左右反轉，但乾擾箭頭繼續將圖案向右移動。",
+        "explain": "縱向描述局部運動的方向：包裹平行於波浪方向移動。這並不意味著介質流過整個管子。"
+      },
+      {
+        "id": "read-compressions-as-crowding",
+        "title": "將壓縮視為擁擠",
+        "goal": "將壓力帶和探針圖連接到介質中的局部擁擠。",
+        "doThis": "施加強壓縮，打開探頭壓力圖，並保持壓縮/稀疏疊加可見。",
+        "notice": "即使被追蹤的地塊接近其中心位置，壓縮提示也可能呈現強正值。",
+        "explain": "壓縮取決於相鄰地塊的間距。單一包裹位置是不夠的；局部間距模式告訴您介質是擁擠還是分散。"
+      },
+      {
+        "id": "change-spacing-and-timing",
+        "title": "改變間距和時間",
+        "goal": "使用波長和波速來預測壓縮間隔、源頻率和探頭延遲。",
+        "doThis": "嘗試更短的波長，然後更快的波，同時比較位移和探頭壓力圖。",
+        "notice": "較短的波長使壓縮更加緊密。更快的波更快地到達相同的探頭，並且在相同的波長下，循環更快。",
+        "explain": "關係 v_wave = f lambda 將間距與時序連結起來。改變一個變數會對頻率和延遲產生影響，但不會改變包裹運動的縱向。"
+      },
+      {
+        "id": "prove-energy-not-matter-flow",
+        "title": "證明能量，而不是物質流",
+        "goal": "解釋聲音如何透過介質攜帶能量，而無需攜帶包裹穿過長凳。",
+        "doThis": "開啟能量轉移提示，然後將基線與更遠的探頭或更遠的一個波長進行比較。",
+        "notice": "向右移動的能量提示和延遲的探針響應繼續前進，而每個包裹不斷返回其靜止位置附近。",
+        "explain": "聲音透過鄰居之間的局部推拉來傳遞能量。波浪形態前進；事情大多在原地搖擺。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "此聲音模型中的空氣團平行於波方向振盪，而非隨波漂移。",
+        "壓縮和稀疏描述了鄰近地塊的局部擁擠和擴散。",
+        "速率, 波長, 頻率, 間距 [[]] = = / v_wave"
+      ],
+      "misconception": "如果聲音向右傳播，空氣本身也必須隨之穩定地向右流動。",
+      "freePlayPrompt": "將探頭移動到強壓縮狀態，然後打開能量轉移提示並解釋什麼在管內移動以及什麼僅在局部振盪。",
+      "nextConcepts": [
+        {
+          "slug": "pitch-frequency-loudness-intensity",
+          "title": "音高/頻率/響度/強度",
+          "reasonLabel": "將時間與聲音強度分開"
+        },
+        {
+          "slug": "beats",
+          "title": "節拍",
+          "reasonLabel": "使用附近的聲音頻率來讀取乾擾"
+        },
+        {
+          "slug": "doppler-effect",
+          "title": "多普勒效應",
+          "reasonLabel": "看看源頭或聽者的運動如何改變聽到的頻率"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "sound-displacement",
@@ -328,6 +422,28 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "位移",
+      "primaryGraphIds": [
+        "位移",
+        "探頭壓力"
+      ],
+      "primaryControlIds": [
+        "探針X",
+        "波長",
+        "波速"
+      ],
+      "primaryPresetIds": [
+        "強壓縮",
+        "更緊密的按壓",
+        "遠探針"
+      ],
+      "starterExploreTasks": [
+        "觀察包裹箭頭在幹擾向右傳播時反轉，然後解釋為什麼介質沒有沿著管子流動。",
+        "將探頭移至壓縮帶中，並將包裹位移與探頭圖像上的壓力提示進行比較。",
+        "縮短波長或將探頭移得更遠，然後連接間距、頻率和行程延遲。"
+      ]
+    },
     "controls": [
       {
         "id": "amplitude",
@@ -355,48 +471,407 @@
         "id": "baseline",
         "label": "基準設定",
         "description": "一個中等強度的聲波，探測器離聲源有一段距離，但目前不在最大壓縮點。"
+      },
+      {
+        "id": "fast-medium",
+        "label": "更快的波",
+        "description": "當包裹運動保持縱向時，擾動移動得更快，因此計時速度加快，探測延遲縮短。"
+      },
+      {
+        "id": "closer-compressions",
+        "label": "波長較短",
+        "description": "壓縮更緊密地結合在一起，因此源頻率以相同的波速上升。"
+      },
+      {
+        "id": "strong-compression",
+        "label": "強壓縮",
+        "description": "探測器位於目前相鄰地塊緊密擁擠的位置。"
+      },
+      {
+        "id": "far-probe",
+        "label": "進一步探測",
+        "description": "在較大的行程延遲後，相同的聲音模式到達下游的一個包裹。"
+      },
+      {
+        "id": "one-wavelength-farther",
+        "label": "更遠一波長",
+        "description": "探頭位於下游更遠的一個完整波長處，因此本地相位稍後會重複一個完整週期。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "motionDirections",
+        "label": "運動方向",
+        "shortDescription": "顯示來回地塊運動以及向右移動的干擾。",
+        "whatToNotice": [
+          "包裹箭頭左右顛倒，但乾擾箭頭總是指向右側。"
+        ],
+        "whyItMatters": "它將局部粒子運動與波傳播分開。",
+        "relatedControls": [
+          "探針X",
+          "波速"
+        ],
+        "relatedGraphTabs": [
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "波速",
+          "探針X"
+        ]
+      },
+      {
+        "id": "compressionBands",
+        "label": "壓縮/稀疏",
+        "shortDescription": "在色帶上標記一種局部壓縮和一種局部稀疏。",
+        "whatToNotice": [
+          "絲帶標記介質的擁擠和分散區域，而不僅僅是一個包裹所在的位置。"
+        ],
+        "whyItMatters": "它將聲音與介質中的密度變化聯繫起來，而不僅僅是與正弦圖聯繫起來。",
+        "relatedControls": [
+          "波長",
+          "探針X"
+        ],
+        "relatedGraphTabs": [
+          "探頭壓力"
+        ],
+        "relatedEquationVariables": [
+          "波長",
+          "探針X"
+        ]
+      },
+      {
+        "id": "energyTransfer",
+        "label": "能量轉移提示",
+        "shortDescription": "在舞台上方添加向右的箭頭序列，以標記通過介質的能量傳輸。",
+        "whatToNotice": [
+          "即使沒有包裹沿著管道一路傳播，能量也會隨著向右移動的擾動而移動。"
+        ],
+        "whyItMatters": "它將能量傳遞與散裝物質流區分開來。",
+        "relatedControls": [
+          "波速"
+        ],
+        "relatedGraphTabs": [
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "波速"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "源與探針粒子運動",
+      "xLabel": "時間（秒）",
+      "yLabel": "粒子位移 (m)",
+      "description": "在同一時間軸上比較來源和探頭包裹運動，以便您可以直接讀取行程延遲。"
+    },
+    {
+      "id": "probe-pressure",
+      "label": "探頭移位與壓縮提示",
+      "xLabel": "時間（秒）",
+      "yLabel": "標準化提示",
+      "description": "將一個地塊的位移與局部壓縮線索進行比較，因此您可以看到，當該地塊距離平衡最遠時，不一定會發生最強的壓縮。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示並將其連接到舞台或圖像上可見的東西。",
     "items": [
       {
-        "id": "sound-notice-compare"
-      },
-      {
-        "id": "sound-notice-compare"
-      },
-      {
-        "id": "sound-notice-compare"
-      },
-      {
-        "id": "sound-notice-compare"
-      },
-      {
-        "id": "sound-notice-compare"
-      },
-      {
-        "id": "sound-notice-compare"
+        "id": "sound-notice-compare",
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
       },
       {
         "id": "sound-notice-compare",
-        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。"
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-compare",
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-compare",
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-compare",
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-compare",
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-compare",
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-direction-split",
+        "text": "請注意，地塊箭頭是左右方向，而乾擾箭頭保持向右方向。包裹在局部振盪，但波型透過介質傳播。",
+        "tryThis": "保持運動方向覆蓋打開，並在觸摸任何控制項之前觀察探針包裹一個完整週期。",
+        "whyItMatters": "這是縱向聲波的核心物理思想。",
+        "relatedControls": [
+          "探針X"
+        ],
+        "relatedGraphTabs": [
+          "位移"
+        ],
+        "relatedOverlays": [
+          "運動方向"
+        ]
+      },
+      {
+        "id": "sound-notice-pressure-graph",
+        "text": "請注意，當探測塊靠近其中心位置時，壓縮提示通常最強，而不是在最左或最右時。",
+        "tryThis": "暫停在探頭壓力圖上，然後將一個週期內的壓縮曲線與包裹移位曲線進行比較。",
+        "whyItMatters": "壓縮取決於相鄰地塊之間的局部間距，而不是只取決於一個地塊的位移。",
+        "relatedGraphTabs": [
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-wavelength",
+        "text": "請注意，縮短 lambda 會使壓縮和稀疏更加緊密，並且在波速不變時也會使源週期更快。",
+        "tryThis": "降低波長，同時保持波速固定，然後將壓力帶間距與來源探頭時序圖進行比較。",
+        "whyItMatters": "波長是介質中的間隔，但它也透過波關係設定定時。",
+        "relatedControls": [
+          "波長",
+          "波速"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "壓縮帶"
+        ],
+        "relatedEquationVariables": [
+          "波長",
+          "波速"
+        ]
+      },
+      {
+        "id": "sound-notice-wave-speed",
+        "text": "請注意，增加波速會縮短探頭延遲，但包裹運動仍然是來回運動而不是單向漂移。",
+        "tryThis": "提高波速並比較前後的探頭延遲讀數。",
+        "whyItMatters": "更快的擾動意味著圖案更快到達探頭，而不是物質停止局部振盪。",
+        "relatedControls": [
+          "波速"
+        ],
+        "relatedGraphTabs": [
+          "位移"
+        ],
+        "relatedOverlays": [
+          "運動方向",
+          "能量傳輸"
+        ],
+        "relatedEquationVariables": [
+          "波速"
+        ]
+      },
+      {
+        "id": "sound-notice-amplitude",
+        "text": "請注意，較大的粒子振幅會使壓縮提示更強，但它本身不會改變波速、波長或傳播延遲。",
+        "tryThis": "增加振幅並將壓縮曲線上的變化與時序圖中保持固定的情況進行比較。",
+        "whyItMatters": "較大的地塊波動並不自動意味著更快的傳播。",
+        "relatedControls": [
+          "振幅"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ],
+        "relatedOverlays": [
+          "壓縮帶"
+        ],
+        "relatedEquationVariables": [
+          "振幅"
+        ]
+      },
+      {
+        "id": "sound-notice-inspect",
+        "text": "請注意，時間軌道會改變您正在檢查的地塊移位和壓縮狀態，但相同的單源聲波仍然驅動每個視圖。",
+        "tryThis": "暫停，執行一次，然後將探針壓力圖中的變化與顆粒帶上的變化進行比較。",
+        "whyItMatters": "它使舞台和圖像保持同步，而不是發明單獨的僅預覽狀態。",
+        "relatedGraphTabs": [
+          "位移",
+          "探頭壓力"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測結果。每個提示每次都會改變一個原因，因此您可以連接地塊運動、壓縮間距和時間。",
     "items": [
       {
         "id": "sound-predict-faster-wave",
-        "changeLabel": "波速"
+        "prompt": "保持 lambda 固定，使聲波透過相同的介質模型移動得更快。源定時和探測延遲會發生什麼變化？",
+        "scenarioLabel": "提高波速",
+        "changeLabel": "波速",
+        "choices": [
+          {
+            "id": "a",
+            "label": "源頻率應增加，偵測延遲應縮短。"
+          },
+          {
+            "id": "b",
+            "label": "源頻率應保持固定，因為粒子運動仍然是縱向的。"
+          },
+          {
+            "id": "c",
+            "label": "探測延遲應該變長，因為幹擾每秒傳播得更遠。"
+          }
+        ],
+        "explanation": "當 λ 固定時，$v_{wave} = f\\lambda$ 表示較大的波速需要較大的頻率。在相同的探頭位置下，速度越大，$\\Delta t = x / v_{wave}$也越小。",
+        "observationHint": "觀察時序圖循環速度更快，同時更快到達相同的探頭位置。"
       },
       {
         "id": "sound-predict-shorter-wavelength",
-        "changeLabel": "波長"
+        "prompt": "保持波速固定並縮短 lambda。按壓間隔和來源頻率會發生什麼變化？",
+        "scenarioLabel": "縮短波長",
+        "changeLabel": "波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "按壓應該更緊密地結合在一起，並且源頻率應該上升。"
+          },
+          {
+            "id": "b",
+            "label": "壓縮應該會分散，因為包裹需要更多的移動空間。"
+          },
+          {
+            "id": "c",
+            "label": "只有粒子振幅應該改變，因為波速保持不變。"
+          }
+        ],
+        "explanation": "波長越短意味著每公尺可以承受更多的壓縮。在波速固定的情況下，源必須更快地振盪才能產生更緊密的間距。",
+        "observationHint": "比較波長變化前後的壓力色帶，然後讀取源時序。"
       },
       {
         "id": "sound-predict-one-wavelength-farther",
-        "changeLabel": "探測器位置"
+        "prompt": "將探頭向下游移動一個完整波長，而不會改變波本身。探頭處的局部相位關係會發生什麼變化？",
+        "scenarioLabel": "將探頭移動一個波長",
+        "changeLabel": "探測器位置",
+        "choices": [
+          {
+            "id": "a",
+            "label": "探頭應重複相同的相位關係，但要晚一個完整週期。"
+          },
+          {
+            "id": "b",
+            "label": "探頭應該翻轉到相反的相位，因為更遠總是意味著相反。"
+          },
+          {
+            "id": "c",
+            "label": "探頭應該停止振盪，因為幹擾已經擴散。"
+          }
+        ],
+        "explanation": "將探頭再移動一個波長會增加一個完整週期的延遲。到達時間增加，但局部相位關係在整個週期後重複。",
+        "observationHint": "比較將探頭移遠一個波長之前和之後的源和探頭軌跡。"
       }
     ]
   },
@@ -429,7 +904,8 @@
           {
             "label": "讓探測器粒子接近其中心位置。"
           }
-        ]
+        ],
+        "style": "可见條件"
       },
       {
         "id": "swl-ch-one-wavelength-later",
@@ -437,7 +913,8 @@
         "prompt": "進入比較模式，令設定 B 比設定 A 沿下游遠一個完整波長，讓兩個探測器保持相同相位關係，但設定 B 會晚一個週期到達。",
         "successMessage": "設定 B 比設定 A 再下游遠一個波長。局部相位會重複，但傳播延遲和週期滯後都會多出整整一個週期。",
         "setup": {
-          "note": "把基準設定複製到 A 和 B，然後只修改設定 B。"
+          "note": "把基準設定複製到 A 和 B，然後只修改設定 B。",
+          "interactionMode": "比較"
         },
         "hints": [
           "不要改變兩個設定之間的波長或波速。",
@@ -468,8 +945,20 @@
           {
             "label": "設定 B 應位於再下游約一整個週期的位置。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "聲波與縱向運動 |開放式模型實驗室",
+    "description": "探討聲音作為縱波的粒子運動、壓縮和稀疏、探測定時、預測提示、挑戰和連結圖。",
+    "keywords": [
+      "聲波",
+      "縱波",
+      "壓縮與稀疏",
+      "粒子運動",
+      "波傳播"
     ]
   }
 }

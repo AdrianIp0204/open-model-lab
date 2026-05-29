@@ -1,5 +1,6 @@
 {
   "title": "電容與儲存的電能",
+  "shortTitle": "電容",
   "summary": "把一個平行板電容器留在畫面上，讓幾何尺寸、儲存電荷、電場強度和儲存電能都連回同一個受限的電池與極板模型。",
   "highlights": [
     "電容",
@@ -8,12 +9,723 @@
   ],
   "topic": "電學",
   "subtopic": "電荷儲存",
+  "recommendedNext": [
+    {
+      "slug": "rc-charging-and-discharging",
+      "reasonLabel": "將儲存轉換為時間響應"
+    },
+    {
+      "slug": "basic-circuits",
+      "reasonLabel": "將儲存的電荷帶入帶電循環"
+    },
+    {
+      "slug": "power-energy-circuits",
+      "reasonLabel": "將儲存連接到電力和能源"
+    }
+  ],
   "sections": {
     "explanation": {
       "paragraphs": [
         "電容描述一個裝置在每伏特電壓下可以儲存多少電荷。這個頁面把極板面積、間距和電池電壓放在同一個模型中，讓儲存電荷、電場和能量不會變成彼此分離的公式。",
         "當幾何或電壓改變時，讀數會一起更新。重點是看清楚電容器不是消耗電荷，而是在兩塊極板上分離等量相反電荷，並把能量儲存在它們之間的電場中。"
       ]
+    },
+    "keyIdeas": [
+      "對於顯示單位中 epsilon = 1 的有界模型，電容遵循 C = A / d。",
+      "在固定電壓下，儲存的電荷遵循 Q = CV。",
+      "儲存的電能遵循 U = 1/2 C V^2，因此能量隨電壓增長的速度比電荷增長得更快。"
+    ],
+    "commonMisconception": {
+      "myth": "如果兩個電容器使用相同的電池電壓，它們必須儲存相同的電荷和能量。",
+      "correction": [
+        "電壓本身並不能決定儲存。幾何形狀仍然首先設定電容。",
+        "如果兩個電容器的極板面積或間距不同，那麼它們可以儲存不同的電荷和能量。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時工作範例",
+      "intro": "直接從實驗台使用目前的極板幾何形狀和電池設定。",
+      "items": [
+        {
+          "id": "current-capacitance",
+          "title": "電流電容",
+          "prompt": "對於目前的極板面積和間距，該電容器的電容是多少？",
+          "variables": [
+            {
+              "id": "plateArea",
+              "label": "板塊面積"
+            },
+            {
+              "id": "plateSeparation",
+              "label": "板分離"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-capacitance-rule",
+              "label": "1. 從有界板規則開始",
+              "template": "使用 $C = A / d$，因為此實驗台將 $\\\\varepsilon = 1$ 保留在顯示單位中。"
+            },
+            {
+              "id": "substitute-geometry",
+              "label": "2.取代目前幾何圖像",
+              "template": "$C = {{plateAreaValue}} / {{plateSeparationValue}}$。"
+            },
+            {
+              "id": "compute-capacitance",
+              "label": "3. 計算電容",
+              "template": "這給了$C = {{capacitanceValue}}$。"
+            }
+          ],
+          "resultLabel": "電容",
+          "resultTemplate": "$C = {{capacitanceValue}}$",
+          "applyAction": {
+            "label": "展示大面積封閉板塊",
+            "observationHint": "較大的面板和較小的間隙共同提高了電容。"
+          },
+          "interpretationTemplate": "{{capacitanceInterpretation}}"
+        },
+        {
+          "id": "current-stored-energy",
+          "title": "目前儲存的電能",
+          "prompt": "對於目前的電容和電池電壓，可以儲存多少電能？",
+          "variables": [
+            {
+              "id": "capacitanceValue",
+              "label": "電容"
+            },
+            {
+              "id": "batteryVoltage",
+              "label": "電池電壓"
+            }
+          ],
+          "steps": [
+            {
+              "id": "start-energy-rule",
+              "label": "1.從能量關係開始",
+              "template": "使用$U = \\\\tfrac{1}{2} C V^2$。"
+            },
+            {
+              "id": "substitute-capacitance-voltage",
+              "label": "2.替換當前電容和電壓",
+              "template": "$U = \\\\tfrac{1}{2} \\\\times {{capacitanceValue}} \\\\times ({{batteryVoltageValue}})^2$。"
+            },
+            {
+              "id": "compute-energy",
+              "label": "3. 計算儲存的能量",
+              "template": "這給了$U = {{storedEnergyValue}}$。"
+            }
+          ],
+          "resultLabel": "儲存能量",
+          "resultTemplate": "$U = {{storedEnergyValue}}$",
+          "applyAction": {
+            "label": "顯示更高電壓儲存",
+            "observationHint": "電荷隨 V 升高，但能量提示和圖像向上彎曲得更快，因為電壓是平方的。"
+          },
+          "interpretationTemplate": "{{storedEnergyInterpretation}}"
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "兩個電容器使用相同的極板面積和相同的電池，但其中一個電容器的極板間距為一半。預測 C、Q、E 和 U 會發生什麼。",
+      "prediction": "在觸摸控制之前說出哪些數量會翻倍。",
+      "answer": "間隔減半會使電容加倍，儲存的電荷加倍，場強加倍，儲存的能量加倍。",
+      "explanation": "在這個有界模型中，幾何形狀先改變 C。然後，同一個電池將新的電容轉化為更多的儲存電荷和更多的儲存能量。"
     }
+  },
+  "quickTest": {
+    "title": "快速測試",
+    "intro": "答案來自即時電容器故事，而不是來自獨立的公式。",
+    "questions": [
+      {
+        "id": "cee-qt-area-effect",
+        "prompt": "在相同的間隙和電池電壓下，如果極板面積增加，會發生什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電容、儲存電荷和儲存能量均增加。"
+          },
+          {
+            "id": "b",
+            "label": "只有磁場會變化，因為電壓相同。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為理想電容器忽略極板面積。"
+          }
+        ],
+        "explanation": "在有界平行板模型中，C = A / d。較大的面積首先會提高電容，因此相同的電池可以儲存更多的電荷和更多的能量。",
+        "selectedWrongExplanations": {
+          "b": "在 V 和 d 固定的情況下，磁場不需要先改變。幾何形狀改變了電容，從而改變了儲存。",
+          "c": "板面積是此模型中電容的主要幾何原因之一。"
+        },
+        "showMeAction": {
+          "label": "顯示大面積設定",
+          "observationHint": "電荷提示和讀數都會上升，因為較大的極板面積會增加電容。"
+        }
+      },
+      {
+        "id": "cee-qt-voltage-doubling",
+        "prompt": "對於固定的電容器幾何形狀，電池電壓加倍。哪一種說法是正確的？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "儲存的電荷和儲存的能量都翻倍。"
+          },
+          {
+            "id": "b",
+            "label": "儲存的電荷加倍，但儲存的能量變為四倍。"
+          },
+          {
+            "id": "c",
+            "label": "由於電容不變，儲存的能量保持固定。"
+          }
+        ],
+        "explanation": "在固定幾何形狀下，Q = CV 在 V 中是線性的，而 U = 1/2 C V^2 在 V 中是二次方。",
+        "selectedWrongExplanations": {
+          "a": "這裡能量與電壓的關係並不是線性的。",
+          "c": "電容保持固定不會凍結能量。電壓仍然進入平方。"
+        },
+        "showMeAction": {
+          "label": "顯示較高電壓設定",
+          "observationHint": "能量提示比充電提示跳躍得更強烈。"
+        }
+      },
+      {
+        "id": "cee-qt-same-voltage-myth",
+        "prompt": "一名學生說：「如果兩個電容器連接到同一個 6 V 電池，它們必須儲存相同數量的電荷。」最好的修正是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "是的。電池電壓是唯一重要的事情。"
+          },
+          {
+            "id": "b",
+            "label": "不行。連接到電池的電容器根本無法儲存電荷。"
+          },
+          {
+            "id": "c",
+            "label": "不會。幾何形狀仍然決定電容，因此相同電池可以在不同的電容器上儲存不同的電荷。"
+          }
+        ],
+        "explanation": "相同的電池電壓並不能抹去電容的幾何作用。不同的C值意味著不同的Q = CV值。",
+        "selectedWrongExplanations": {
+          "a": "電壓很重要，但它是透過實驗台上已有的幾何結構的電容來運作的。",
+          "b": "電容器的全部目的是在極板上儲存相反的電荷。"
+        },
+        "showMeAction": {
+          "label": "顯示緊湊型啟動器",
+          "observationHint": "在心理上將此狀態與大面積近距離狀態進行比較。相同的電壓不會強制產生相同的儲存電荷。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示一個平行板電容器連接到一顆電池。滑塊可以改變有效板面積、板之間的間隙和電池電壓，而疊加層可以顯示場區域、板上建立的相反電荷、幾何形狀指南和儲存能量提示。",
+        "電容器圖片、讀數卡和電壓響應圖均透過相同的控制進行更新，因此幾何形狀和電壓變化始終與一個有界設定相關聯。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "電壓響應圖繪製了目前電容器幾何圖像隨著電池電壓變化而儲存的電荷和儲存的電能。電荷曲線是線性的，而能量曲線向上彎曲，因為電壓在能量關係中是平方的。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "帶電容器檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "電荷儲存檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "將儲存的電荷帶入電路"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "在螢幕上保留一個平行板電容器，以便幾何形狀、儲存的電荷、場強和儲存的電能保持與相同的有界電池和板模型相關聯。",
+    "whyItMatters": "電容器是從電場到實際電路時序的橋樑，因此一起讀取幾何形狀、電荷和儲存的能量使 RC 電路不再那麼神秘。",
+    "keyTakeaway": "在显示单位 (epsilon = 1) 中，电容随极板面积增大而随间距减小：C = A / d。"
+  },
+  "v2": {
+    "intuition": "電容器透過分離兩個相鄰板上的相反電荷來儲存能量。幾何形狀決定了在電池電壓決定實際儲存的電荷和能量之前，一伏特可以分離多少電荷。",
+    "whyItMatters": "相同的儲存模型解釋了為什麼電容器可以平滑電路、為閃光燈供電，或在添加電阻器後產生時間延遲。",
+    "equationSnapshot": {
+      "note": "首先讀取C=A/d作為幾何規則；然後使用 Q = CV 和 U = 1/2 C V^2 將電容轉換為電荷和能量。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-capacitance-from-geometry",
+        "title": "先讀取幾何圖像",
+        "goal": "在更換電池之前，請將電容視為極板面積和間隔的屬性。",
+        "doThis": "開啟緊湊型啟動器，保持電壓固定，並從狀態卡讀取板面積、間距和電容。",
+        "notice": "面積與間隙先決定C；電池還沒變，但電容已經有了蓄電能力。",
+        "explain": "在這個有界平行板模型中，較大的面板會增加 C，而較寬的間隙會減少 C，因此幾何形狀是儲存容量的原因。"
+      },
+      {
+        "id": "change-area-and-gap",
+        "title": "更換板",
+        "goal": "預測相同電池電壓下極板面積或間距如何改變 C、Q、場強和儲存能量。",
+        "doThis": "將緊湊型啟動器與大面積、緊密間隙進行比較，然後切換到寬間隙參考，同時觀看幾何指南和充電提示。",
+        "notice": "相同的 6 V 電池可以儲存不同的電荷，因為極板的幾何形狀首先改變了電容。",
+        "explain": "Q = CV 表示當 C 較大時，固定電壓仍儲存更多電荷； E≈V/d也使得較小的間隙加強了磁場。"
+      },
+      {
+        "id": "separate-charge-from-energy",
+        "title": "電荷與能量分開",
+        "goal": "使用此圖區分線性電荷故事和二次能量故事。",
+        "doThis": "保持一個幾何形狀固定，從低電壓參考移動到高電壓儲存，並將充電曲線與能量曲線進行比較。",
+        "notice": "儲存的電荷穩定地跟隨電壓，但儲存的能量上升得更快，因為電壓是平方的。",
+        "explain": "對於固定 C，當 V 加倍時 Q = CV 加倍，而 U = 1/2 C V^2 變為四倍大。"
+      },
+      {
+        "id": "check-storage-targets",
+        "title": "達到儲存目標",
+        "goal": "決定是否應透過更改幾何形狀或更換電池來達到目標。",
+        "doThis": "嘗試一項挑戰：按面積加倍儲存，然後解釋為什麼純電壓挑戰比充電更快地改變能量。",
+        "notice": "幾何改變 C 並隨之攜帶 Q 和 U；電壓使 C 保持固定，但使 U 隨著 V 的平方而增長。",
+        "explain": "在計算電荷、場和能量之前，當您說出第一個原因（幾何或電壓）時，電容器推理最為有力。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "在施加電池電壓之前，極板面積和極板間隔設定電容。",
+        "在固定電壓下，較大的電容可儲存更多的電荷和電能。",
+        "對於固定幾何形狀，儲存的電荷隨電壓線性增長，而儲存的能量隨電壓平方增長。",
+        "當電容器幾何形狀改變時，相同的電池電壓可能會導致不同的儲存電荷。"
+      ],
+      "misconception": "不要將電壓視為整個電容器的故事。幾何形狀首先設定 C，然後電池將電容轉換為 Q 和 U。",
+      "freePlayPrompt": "在移動滑桿之前，請說明您是透過幾何形狀改變電容還是透過電壓改變電荷和能量。",
+      "nextConcepts": [
+        {
+          "slug": "rc-charging-and-discharging",
+          "title": "RC 充電與放電",
+          "reasonLabel": "將儲存的電荷轉換為時間響應。"
+        },
+        {
+          "slug": "basic-circuits",
+          "title": "基本電路",
+          "reasonLabel": "將儲存理念帶入即時循環。"
+        },
+        {
+          "slug": "power-energy-circuits",
+          "title": "電路中的功率與能量",
+          "reasonLabel": "隨著時間的推移，將儲存的能量連接到電源。"
+        }
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "capacitance-rule",
+      "label": "平行板电容",
+      "meaning": "電容隨著面對面積的增加而增加，隨著分離的增加而減少。",
+      "notes": [
+        "這個有界實驗室在顯示單位中使用 \\\\varepsilon = 1，因此幾何圖像保持中心。"
+      ]
+    },
+    {
+      "id": "stored-charge-rule",
+      "label": "儲存的費用",
+      "meaning": "在固定电壓下，较大的电容会在极板上儲存更多相反的电荷。"
+    },
+    {
+      "id": "field-rule",
+      "label": "板之间的场",
+      "meaning": "较小间隙上的相同电壓会产生更强的磁场。"
+    },
+    {
+      "id": "stored-energy-rule",
+      "label": "储存电能",
+      "meaning": "儲存的能量取决于 C 的几何形状，並随电壓呈二次方增长。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "plateArea",
+      "label": "板塊面積",
+      "description": "改變面板尺寸，因此同一塊電池可以在不改變間隙的情況下儲存更多或更少的電荷。"
+    },
+    {
+      "id": "plateSeparation",
+      "label": "板分離",
+      "description": "改变极板之间的间隙，這首先改变电容，然后改变场强和儲存的能量。"
+    },
+    {
+      "id": "batteryVoltage",
+      "label": "電池電壓",
+      "description": "改變同一幾何結構上的電壓，因此電荷線性上升，而儲存的能量則更急劇地上升。"
+    }
+  ],
+  "simulation": {
+    "ui": {
+      "initialGraphId": "電壓響應",
+      "primaryGraphIds": [
+        "電壓響應"
+      ],
+      "primaryControlIds": [
+        "板區域",
+        "板分離",
+        "電池電壓"
+      ],
+      "primaryPresetIds": [
+        "緊湊型啟動器",
+        "概念標籤",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "starterExploreTasks": [
+        "在觸摸電瓶電壓之前，打開緊湊型啟動器預設並讀取目前電容。",
+        "僅提高電池電壓並比較儲存電量標記和儲存能量提示的變化。",
+        "重置，然後減少板間距並觀察場區域和能量提示一起響應。"
+      ]
+    },
+    "controls": [
+      {
+        "id": "plateArea",
+        "label": "板塊面積",
+        "description": "較大的面板會增加電容，因為在相同的間隙上會產生更多相反的電荷。"
+      },
+      {
+        "id": "plateSeparation",
+        "label": "板分離",
+        "description": "較小的間隙會提高電容並增強相同電池電壓下的磁場。"
+      },
+      {
+        "id": "batteryVoltage",
+        "label": "電池電壓",
+        "description": "線性增加儲存的電荷，但儲存的能量更陡峭，因為電壓的平方為 U = 1/2 C V^2。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "compact-starter",
+        "label": "緊湊型啟動器",
+        "description": "適度的啟動器設定，使幾何形狀和電壓易於比較。"
+      },
+      {
+        "id": "close-high-area",
+        "label": "面積大，間隙小",
+        "description": "較大的面積和較小的間隙使得在相同電池電壓下儲存明顯更強。"
+      },
+      {
+        "id": "wide-gap",
+        "label": "寬間隙參考",
+        "description": "對於相同的極板面積和電壓，加寬間隙會降低電容和場強。"
+      },
+      {
+        "id": "high-voltage-storage",
+        "label": "更高電壓儲存",
+        "description": "提高相同幾何形狀上的電壓使得儲存的能量比儲存的電荷上升得快得多。"
+      },
+      {
+        "id": "low-voltage-reference",
+        "label": "低電壓基準",
+        "description": "在能量曲線向上彎曲之前，較低電壓的情況使線性與二次比較更容易。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldRegion",
+        "label": "場區域",
+        "shortDescription": "顯示板之間近乎均勻的場。",
+        "whatToNotice": [
+          "在較窄的間隙上保持相同的電壓會使場箭頭更強。"
+        ],
+        "whyItMatters": "它將儲能故事保持在板之間的電場上。",
+        "relatedControls": [
+          "板分離",
+          "電池電壓"
+        ],
+        "relatedGraphTabs": [
+          "電壓響應"
+        ],
+        "relatedEquationVariables": [
+          "板分離",
+          "電池電壓"
+        ]
+      },
+      {
+        "id": "chargeDensityCue",
+        "label": "電荷密度提示",
+        "shortDescription": "顯示兩個板上形成相反的電荷。",
+        "whatToNotice": [
+          "更大的電容可以讓相同的電池將更多相反的電荷轉移到極板上。"
+        ],
+        "whyItMatters": "它使 Q = CV 感覺可見。",
+        "relatedControls": [
+          "板區域",
+          "電池電壓"
+        ],
+        "relatedGraphTabs": [
+          "電壓響應"
+        ],
+        "relatedEquationVariables": [
+          "板區域",
+          "電池電壓"
+        ]
+      },
+      {
+        "id": "geometryGuide",
+        "label": "幾何指南",
+        "shortDescription": "標記板區域提示和板子之間的間隙。",
+        "whatToNotice": [
+          "當幾何形狀改變時，甚至在電池電壓改變之前，電容也會改變。"
+        ],
+        "whyItMatters": "它將幾何形狀作為電容的原因。",
+        "relatedControls": [
+          "板區域",
+          "板分離"
+        ],
+        "relatedGraphTabs": [
+          "電壓響應"
+        ],
+        "relatedEquationVariables": [
+          "板區域",
+          "板分離"
+        ]
+      },
+      {
+        "id": "energyStore",
+        "label": "能量儲存提示",
+        "shortDescription": "顯示目前狀態的緊湊儲能條。",
+        "whatToNotice": [
+          "能量儲存隨電壓的成長比充電提示更快。"
+        ],
+        "whyItMatters": "它使 U = 1/2 C V^2 中的二次 V 依賴性變得可見。",
+        "relatedControls": [
+          "電池電壓"
+        ],
+        "relatedGraphTabs": [
+          "電壓響應"
+        ],
+        "relatedEquationVariables": [
+          "電池電壓"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "voltage-response",
+      "label": "電荷與能量與電壓",
+      "xLabel": "電池電壓V(V)",
+      "yLabel": "響應（任意單位）",
+      "description": "對於目前的極板面積和間距，儲存的電荷隨電壓線性增長，而儲存的能量則向上彎曲，因為電壓是平方的。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用相同的有界電容器台將幾何結構、儲存電荷、場和儲存能量保留在一層中。",
+    "items": [
+      {
+        "id": "cee-notice-geometry-first",
+        "text": "電容在電池執行其他操作之前發生變化。幾何形狀決定相同電壓可以儲存多少電荷。",
+        "tryThis": "首先僅變更板區域，然後僅變更分離。",
+        "whyItMatters": "它將幾何形狀作為原因，將儲存的電荷作為結果。",
+        "relatedControls": [
+          "板區域",
+          "板分離"
+        ],
+        "relatedGraphTabs": [
+          "電壓響應"
+        ],
+        "relatedOverlays": [
+          "幾何指南",
+          "電荷密度提示"
+        ]
+      },
+      {
+        "id": "cee-notice-voltage-quadratic",
+        "text": "當僅電池電壓變化時，儲存的電荷隨電壓線性變化，但儲存的能量上升得更快，因為電壓是平方的。",
+        "tryThis": "將電壓從約 3 V 移至約 6 V，並將充電提示與能量提示進行比較。",
+        "whyItMatters": "它將電荷故事與能量故事分開，然後電路重新使用這兩個故事。",
+        "relatedControls": [
+          "電池電壓"
+        ],
+        "relatedGraphTabs": [
+          "電壓響應"
+        ],
+        "relatedOverlays": [
+          "能量儲存",
+          "電荷密度提示"
+        ]
+      },
+      {
+        "id": "cee-notice-same-voltage-myth",
+        "text": "相同的電池電壓並不能保證相同的儲存電量。幾何形狀仍然先決定C有多大。",
+        "tryThis": "保持電壓固定，並將緊湊型啟動器設定與大面積緊密間隙設定進行比較。",
+        "whyItMatters": "它可以防止電壓吞噬整個儲存空間。",
+        "relatedControls": [
+          "板區域",
+          "板分離",
+          "電池電壓"
+        ],
+        "relatedGraphTabs": [
+          "電壓響應"
+        ],
+        "relatedOverlays": [
+          "電荷密度提示",
+          "幾何指南"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測電容器將儲存的內容。",
+    "items": [
+      {
+        "id": "cee-pred-area-increase",
+        "prompt": "在相同的間隙和電池電壓下，如果極板面積增加會發生什麼？",
+        "scenarioLabel": "增加面積",
+        "changeLabel": "幾何",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電容、儲存電荷和儲存能量都會增加，因為較大的面對面積首先會提高 C。"
+          },
+          {
+            "id": "b",
+            "label": "只有磁場發生變化，因為電池電壓相同。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為極板面積不會影響理想電容器。"
+          }
+        ],
+        "explanation": "在此平行板模型中，C = A / d。在間隙和電池電壓相同的情況下，面積越大意味著電容越大，也意味著儲存的電荷更多，儲存的能量也更多。",
+        "observationHint": "比較大面積設定載入前後的幾何引導和充電提示。"
+      },
+      {
+        "id": "cee-pred-gap-increase",
+        "prompt": "如果在電池電壓保持固定的情況下將相同的極板拉得更遠，哪種說法最好？",
+        "scenarioLabel": "拉開差距",
+        "changeLabel": "幾何",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電容、儲存電荷、場強和儲存能量均下降。"
+          },
+          {
+            "id": "b",
+            "label": "由於電池未改變，儲存的電量保持不變。"
+          },
+          {
+            "id": "c",
+            "label": "由於板之間有更多空間，磁場變得更強。"
+          }
+        ],
+        "explanation": "當極板上保持相同的電池電壓時，較寬的間隔會降低 C = A / d 和 E = V / d。",
+        "observationHint": "觀察場箭頭和能量提示在寬間隙設定中都會縮小。"
+      },
+      {
+        "id": "cee-pred-voltage-double",
+        "prompt": "對於一個固定的電容器幾何形狀，當電池電壓加倍時會發生什麼？",
+        "scenarioLabel": "升高電壓",
+        "changeLabel": "電池電壓",
+        "choices": [
+          {
+            "id": "a",
+            "label": "儲存的電荷加倍，但儲存的能量變為四倍。"
+          },
+          {
+            "id": "b",
+            "label": "儲存的電荷和儲存的能量都翻倍。"
+          },
+          {
+            "id": "c",
+            "label": "由於電容不變，儲存的能量保持固定。"
+          }
+        ],
+        "explanation": "在固定幾何形狀下，Q = CV 在 V 中是線性的，而 U = 1/2 C V^2 在 V 中是二次方。",
+        "observationHint": "連續使用低電壓和高電壓預設，並將圖像曲率與能量提示進行比較。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的有界電容器台來達到緊湊儲存目標。",
+    "items": [
+      {
+        "id": "cee-ch-double-storage-with-area",
+        "title": "將儲存面積加倍",
+        "prompt": "從緊湊型啟動器開始，僅改變極板面積，直到儲存的電荷和儲存的能量都加倍，同時電池電壓和間隙保持固定。",
+        "successMessage": "您以幾何級數增加了電容，因此同一顆電池現在可以儲存兩倍的電荷和兩倍的能量。",
+        "setup": {
+          "note": "保持電池電壓和極板間距不變。只有板區域應該移動。"
+        },
+        "hints": [
+          "如果電壓必須保持固定，請勿觸摸電池滑桿。",
+          "當間距保持固定時，面積加倍，電容加倍。"
+        ],
+        "targets": [
+          {
+            "label": "將板面積維持在 3.95 面積和 4.05 面積之間。"
+          },
+          {
+            "label": "保持板間距在 1.95 m 和 2.05 m 之間。"
+          },
+          {
+            "label": "將電池電壓保持在 3.95 V 和 4.05 V 之間。"
+          },
+          {
+            "label": "將電荷幅度保持在 7.8 和 8.2 之間。"
+          },
+          {
+            "label": "將儲存能量保持在 15.6 和 16.4 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "cee-ch-quadruple-energy-with-voltage",
+        "title": "電壓使能量增加四倍",
+        "prompt": "從低電壓參考開始，僅更改電池電壓，直到儲存的能量大約是原來的四倍，同時幾何形狀保持固定。",
+        "successMessage": "你保持幾何形狀固定並單獨使用電池，因此能量增加了大約四倍，而儲存的電荷僅增加了一倍。",
+        "setup": {
+          "note": "保留板區域和分離。只有電池電壓會改變。"
+        },
+        "hints": [
+          "在固定幾何形狀下，電池電壓加倍會使 Q 增加一倍，但 U 增加四倍。",
+          "目標需要相同的電容器和更強的電池，而不是新的幾何形狀。"
+        ],
+        "targets": [
+          {
+            "label": "將板面積維持在 2.35 面積和 2.45 面積之間。"
+          },
+          {
+            "label": "保持板間距在 1.15 m 和 1.25 m 之間。"
+          },
+          {
+            "label": "將電池電壓保持在 5.95 V 和 6.05 V 之間。"
+          },
+          {
+            "label": "將電荷幅度保持在 11.8 和 12.2 之間。"
+          },
+          {
+            "label": "將儲存能量保持在 35.4 到 36.6 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "電容與儲存電能 |開放模型實驗室",
+    "description": "使用有界平行板電容器實驗台了解電容和儲存的電能，該實驗台可在一個即時舞台上保持幾何結構、儲存的電荷、場強和能量。",
+    "keywords": [
+      "電容",
+      "電容器",
+      "儲存電能",
+      "平行板電容器",
+      "實體模擬"
+    ]
   }
 }

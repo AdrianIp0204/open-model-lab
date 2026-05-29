@@ -32,10 +32,11 @@
       ]
     },
     "keyIdeas": [
-      "表面負荷產生的壓力是力除以面積，所以同樣的力在更寬的活塞上分佈時會產生較小的壓力。",
-      "在靜止連線的流體中，在某一點上的壓力朝四個方向等量作用，同一深度處的探針箭頭分享相同的水靜壓貢獻。",
-      "隨著深度增加，水靜壓會線性增加，因為每增加一米就多了一個$\\rho g$的壓力。",
-      "密度和重力設定了壓力-深度影像的斜率，這就是為什麼更密集的流體或更強的重力在相同高度上產生更大的壓力差異。"
+      "來自活塞的表面壓力為 $P_s = F/A$，因此相同的力在分佈到較大區域時產生的壓力較小。",
+      "在靜止的連接流體中，某一點的壓力在所有方向上作用相同。",
+      "在相同深度的相同靜止流體中，靜水壓力是相同的。",
+      "靜水壓力隨深度線性增加，因為每增加一公尺就會增加相同的壓力增量。",
+      "密度和重力決定壓力深度圖的斜率，因此密度較大的流體或較強的重力會使壓力隨深度上升得更快。"
     ],
     "commonMisconception": {
       "myth": "只有上方有流體的地方，流體才會向下推壓，因此壓力隨著深度增加而增大。",
@@ -77,22 +78,27 @@
           "steps": [
             {
               "id": "surface-part",
-              "label": "1. 將活塞負載轉換為表面壓力"
+              "label": "1. 將活塞負載轉換為表面壓力",
+              "template": "活塞設定 $P_s = F/A = {{surfacePressureValue}}\\,\\mathrm{kPa}$，因此相同的力目前分佈在 {{areaInterpretationText}} 上。"
             },
             {
               "id": "hydrostatic-part",
-              "label": "2. 加上深度造成的靜水壓貢獻"
+              "label": "2. 加上深度造成的靜水壓貢獻",
+              "template": "流體柱在深度 ${{depthValue}}\\,\\mathrm{m}$ 貢獻 $P_h = \\rho g h = {{hydrostaticPressureValue}}\\,\\mathrm{kPa}$。"
             },
             {
               "id": "total-part",
-              "label": "3. 將兩者的貢獻合併"
+              "label": "3. 將兩者的貢獻合併",
+              "template": "因此探針讀取$P_{\\mathrm{probe}} = P_s + P_h = {{totalPressureValue}}\\,\\mathrm{kPa}$，{{dominantContributionText}}貢獻目前較大。"
             }
           ],
           "resultLabel": "當前探針壓力",
+          "resultTemplate": "$P_s = {{surfacePressureValue}}\\,\\mathrm{kPa}, \\quad P_h = {{hydrostaticPressureValue}}\\,\\mathrm{kPa}, \\quad P_{\\mathrm{probe}} = {{totalPressureValue}}\\,\\mathrm{kPa}$",
           "applyAction": {
             "label": "顯示更深入的探測",
             "observationHint": "表面負載保持不變，但深度指南增加且壓力箭頭加長，因為靜水部分更大。"
-          }
+          },
+          "interpretationTemplate": "{{currentPressureInterpretation}}"
         },
         {
           "id": "one-meter-deeper",
@@ -106,27 +112,40 @@
             {
               "id": "gravity",
               "label": "重力"
+            },
+            {
+              "id": "pressureGradient",
+              "label": "壓力梯度"
+            },
+            {
+              "id": "depth",
+              "label": "當前深度"
             }
           ],
           "steps": [
             {
               "id": "read-gradient",
-              "label": "1. 説明此流體和重力的壓力梯度"
+              "label": "1. 説明此流體和重力的壓力梯度",
+              "template": "這裡是 $dP/dh = \\rho g = {{pressureGradientValue}}\\,\\mathrm{kPa/m}$，因此每增加一公尺就會增加相同的壓力增量。"
             },
             {
               "id": "apply-extra-depth",
-              "label": "2. 將該斜率應用於再加一米"
+              "label": "2. 將該斜率應用於再加一米",
+              "template": "對於 $\\Delta h = {{extraDepthValue}}$，額外壓力為 $\\Delta P = (dP/dh)\\Delta h = {{extraPressureValue}}\\,\\mathrm{kPa}$。"
             },
             {
               "id": "new-total",
-              "label": "3. 更新探針讀數"
+              "label": "3. 更新探針讀數",
+              "template": "一公尺深，靜壓部分變成 ${{deeperHydrostaticPressureValue}}\\,\\mathrm{kPa}$，因此總探頭壓力變成 ${{deeperTotalPressureValue}}\\,\\mathrm{kPa}$。"
             }
           ],
           "resultLabel": "額外深度結果",
+          "resultTemplate": "$\\Delta P = {{extraPressureValue}}\\,\\mathrm{kPa}, \\quad P_{\\mathrm{deeper}} = {{deeperTotalPressureValue}}\\,\\mathrm{kPa}$",
           "applyAction": {
             "label": "開啟深度掃描",
             "observationHint": "壓力-深度圖將恆定的表面壓力與線性增長的靜水壓力和總壓力分開。"
-          }
+          },
+          "interpretationTemplate": "{{deeperInterpretation}}"
         }
       ]
     },
@@ -309,6 +328,10 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用一個活塞和水箱實驗台來連接單位面積的力、作用於各個方向的壓力以及密度、重力和深度產生靜水壓力的方式。",
+    "keyTakeaway": "探頭壓力是傳輸的表面壓力 F/A 加上靜壓增益 ρgh，因此面積會改變表面部分，而深度、密度和重力會改變壓力深度上升。"
+  },
   "equations": [
     {
       "id": "pressure-definition",
@@ -362,53 +385,492 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "壓力深度",
+      "primaryGraphIds": [
+        "壓力深度"
+      ],
+      "primaryControlIds": [
+        "深度"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "force",
-        "label": "表面力"
+        "label": "表面力",
+        "description": "改變流體表面的活塞負載。"
       },
       {
         "id": "area",
-        "label": "活塞面積"
+        "label": "活塞面積",
+        "description": "在較寬或更窄的表面上傳播相同的力。"
       },
       {
         "id": "density",
-        "label": "流體密度"
+        "label": "流體密度",
+        "description": "設定每公尺深度增加多少壓力。"
       },
       {
         "id": "gravity",
-        "label": "重力"
+        "label": "重力",
+        "description": "改變靜水壓力梯度而不改變 $F/A$。"
       },
       {
         "id": "depth",
-        "label": "探針深度"
+        "label": "探針深度",
+        "description": "在同一流體中將探頭移得更深或更淺。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "water-baseline",
+        "label": "水基線",
+        "description": "具有中等活塞負載和 1 m 探測深度的類水流體。"
+      },
+      {
+        "id": "wide-piston",
+        "label": "寬活塞",
+        "description": "相同的力分佈在更大的表面積上。"
+      },
+      {
+        "id": "deep-probe",
+        "label": "深度探測",
+        "description": "相同的表面載重，但探頭在流體中較深。"
+      },
+      {
+        "id": "dense-brine",
+        "label": "濃鹽水",
+        "description": "密度較大的流體會在不改變深度的情況下提高壓力梯度。"
+      },
+      {
+        "id": "low-gravity",
+        "label": "低重力罐",
+        "description": "較弱重力下相同的流體和深度。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "surfaceLoad",
+        "label": "表面載重",
+        "shortDescription": "顯示活塞面積和產生 $F/A$ 的向下表面力。",
+        "whatToNotice": [
+          "使活塞變寬會將相同的力分散到更多區域，因此表面壓力會下降。"
+        ],
+        "whyItMatters": "它使壓力與每個區域的力相關聯，而不是讓它感覺像是一個神秘的額外量。",
+        "relatedControls": [
+          "力",
+          "區域"
+        ],
+        "relatedGraphTabs": [
+          "壓力",
+          "壓力區域"
+        ],
+        "relatedEquationVariables": [
+          "力",
+          "區域"
+        ]
+      },
+      {
+        "id": "depthGuide",
+        "label": "深度指南",
+        "shortDescription": "標記距流體表面的探頭深度。",
+        "whatToNotice": [
+          "當密度和重力保持固定時，每增加一公尺就會增加相同的靜水壓力。"
+        ],
+        "whyItMatters": "它將$\\rho g h$中的$h$具體化。",
+        "relatedControls": [
+          "深度",
+          "密度",
+          "重力"
+        ],
+        "relatedGraphTabs": [
+          "壓力深度"
+        ],
+        "relatedEquationVariables": [
+          "深度",
+          "密度",
+          "重力"
+        ]
+      },
+      {
+        "id": "pressureArrows",
+        "label": "壓力箭頭",
+        "shortDescription": "顯示向上、向下和向側面作用的相同探頭壓力。",
+        "whatToNotice": [
+          "在靜止流體中的某一點，箭頭保持相等，因為壓力在所有方向上作用相同。"
+        ],
+        "whyItMatters": "它可以防止將靜水壓力視為僅向下推動的常見錯誤。",
+        "relatedControls": [
+          "深度",
+          "密度",
+          "重力"
+        ],
+        "relatedGraphTabs": [
+          "壓力深度",
+          "壓力-密度"
+        ],
+        "relatedEquationVariables": [
+          "深度",
+          "密度",
+          "重力"
+        ]
+      },
+      {
+        "id": "sameDepthLine",
+        "label": "相同深度的線",
+        "shortDescription": "顯示穿過探頭的水平線以強調相等的深度。",
+        "whatToNotice": [
+          "在一種相連的靜止流體中，同一水平線上的點具有相同的靜水壓力。"
+        ],
+        "whyItMatters": "它透過顯示較深的點較淺的點感受到更大的壓力來設定浮力。",
+        "relatedControls": [
+          "深度",
+          "密度",
+          "重力"
+        ],
+        "relatedGraphTabs": [
+          "壓力深度"
+        ],
+        "relatedEquationVariables": [
+          "深度",
+          "密度",
+          "重力"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "pressure-density",
-      "label": "壓力對密度"
+      "label": "壓力對密度",
+      "xLabel": "密度 (kg/m^3)",
+      "yLabel": "壓力 (kPa)",
+      "description": "僅更改流體密度。表面壓力線保持固定，而靜水壓力和總壓力隨著密度的增加而增加。"
     },
     {
       "id": "pressure-force",
-      "label": "壓力對力"
+      "label": "壓力對力",
+      "xLabel": "力 (N)",
+      "yLabel": "壓力 (kPa)",
+      "description": "僅可變更活塞力。靜壓部分保持固定，而表面壓力和總壓力一起上升。"
     },
     {
       "id": "pressure-area",
-      "label": "壓力對面積"
+      "label": "壓力對面積",
+      "xLabel": "面積 (m^2)",
+      "yLabel": "壓力 (kPa)",
+      "description": "僅更改活塞面積。將相同的力分散到更多區域會降低表面壓力和總壓力。"
+    },
+    {
+      "id": "pressure-depth",
+      "label": "壓力與深度",
+      "xLabel": "深度（公尺）",
+      "yLabel": "壓力 (kPa)",
+      "description": "僅更改探測深度。表面壓力線保持平坦，而靜水壓力和總壓力線性上升。"
     }
   ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次問一個問題：什麼是來自 $F/A$，什麼來自深度，什麼保持不變？",
+    "items": [
+      {
+        "id": "depth-builds-pressure",
+        "text": "將探頭移得更深。 $F/A$ 的表面壓力保持不變，但總探頭壓力上升，因為靜壓部分 $ ho g h$ 較大。",
+        "relatedControls": [
+          "深度"
+        ],
+        "relatedGraphTabs": [
+          "壓力深度"
+        ],
+        "relatedOverlays": [
+          "深度指南",
+          "壓力箭頭"
+        ],
+        "relatedEquationVariables": [
+          "深度"
+        ]
+      },
+      {
+        "id": "same-depth-same-pressure",
+        "text": "開啟相同深度的線。如果靠近牆壁的點和靠近中間的點在一種連接的流體中處於相同的深度，則它們具有相同的靜水壓力。",
+        "relatedControls": [
+          "深度"
+        ],
+        "relatedGraphTabs": [
+          "壓力深度"
+        ],
+        "relatedOverlays": [
+          "相同深度線",
+          "壓力箭頭"
+        ],
+        "relatedEquationVariables": [
+          "深度"
+        ]
+      },
+      {
+        "id": "area-spreads-force",
+        "text": "增加活塞面積，同時保持相同的力。活塞變寬，表面壓力下降，面積圖上的總壓力曲線下降。",
+        "relatedControls": [
+          "區域",
+          "力"
+        ],
+        "relatedGraphTabs": [
+          "壓力區域"
+        ],
+        "relatedOverlays": [
+          "表面荷載"
+        ],
+        "relatedEquationVariables": [
+          "區域",
+          "力"
+        ]
+      },
+      {
+        "id": "density-gravity-set-slope",
+        "text": "密度和重力不會改變表面壓力線。它們改變了靜水力圖和總深度圖的斜率，因為它們改變了每增加一公尺增加的壓力。",
+        "relatedControls": [
+          "密度",
+          "重力",
+          "深度"
+        ],
+        "relatedGraphTabs": [
+          "壓力深度",
+          "壓力-密度"
+        ],
+        "relatedOverlays": [
+          "深度指南"
+        ],
+        "relatedEquationVariables": [
+          "密度",
+          "重力",
+          "深度"
+        ]
+      },
+      {
+        "id": "match-total-with-different-cause",
+        "text": "使用比較模式將相同的總壓力與表面壓力較小但密度較大的流體進行匹配。相同的總壓力可能來自不同原因的組合。",
+        "tryThis": "從水基線開始，開啟比較模式，保持設定 A 不變，然後調整設定 B 直到總壓力匹配，同時設定 B 使用較小的 $F/A$ 和較大的靜壓零件。",
+        "relatedControls": [
+          "力",
+          "區域",
+          "密度"
+        ],
+        "relatedGraphTabs": [
+          "壓力-密度",
+          "壓力區域"
+        ],
+        "relatedOverlays": [
+          "表面荷載",
+          "壓力箭頭"
+        ],
+        "relatedEquationVariables": [
+          "力",
+          "區域",
+          "密度"
+        ]
+      }
+    ]
+  },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "預測哪個部分會先改變：表面壓力部分、靜水力部分或兩者。",
     "items": [
       {
         "id": "php-predict-area",
-        "changeLabel": "面積"
+        "prompt": "從水基線開始，您保持相同的力，但活塞面積加倍。哪種說法最好？",
+        "scenarioLabel": "更寬的活塞",
+        "changeLabel": "面積",
+        "choices": [
+          {
+            "id": "a",
+            "label": "表面壓力下降，因此總探頭壓力也下降。"
+          },
+          {
+            "id": "b",
+            "label": "表面壓力會上升，因為更大的面積會讓流體更用力地推動。"
+          },
+          {
+            "id": "c",
+            "label": "由於流體深度相同，因此僅靜水壓力會改變。"
+          }
+        ],
+        "explanation": "當相同的力分佈在更大的區域時，$F/A$ 變得更小。靜壓部分保持不變，因此總壓力下降相同的量。",
+        "observationHint": "活塞變寬，表面壓力讀數下降，面積圖向下傾斜。"
       },
       {
         "id": "php-predict-gravity",
-        "changeLabel": "重力"
+        "prompt": "從水基線開始，您可以降低重力，同時保持相同的活塞負載、面積、流體和深度。會發生什麼事？",
+        "scenarioLabel": "較低的重力",
+        "changeLabel": "重力",
+        "choices": [
+          {
+            "id": "a",
+            "label": "靜壓部分下降，因此總壓力也下降。"
+          },
+          {
+            "id": "b",
+            "label": "表面壓力下降，但靜壓部分不變。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為流體和深度沒有變化。"
+          }
+        ],
+        "explanation": "重力改變靜水力梯度 $ 何克$。表面壓力部分僅取決於力和麵積，因此它保持固定。",
+        "observationHint": "即使活塞負載沒有改變，壓力箭頭也會縮短，靜壓部分也會減少。"
+      },
+      {
+        "id": "php-predict-depth",
+        "prompt": "從水基線開始，將探針移得更深，而不做任何其他更改。應該發生什麼事？",
+        "scenarioLabel": "更深入的探索",
+        "changeLabel": "深度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "靜水壓力和總壓力上升，而表面壓力部分保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "只有表面壓力上升，因為有更多的流體接觸活塞。"
+          },
+          {
+            "id": "c",
+            "label": "由於流體已連接，因此所有壓力保持不變。"
+          }
+        ],
+        "explanation": "更深地移動探針只會改變 $ 何 g h$ 部分。活塞力和麵積沒有改變，因此表面壓力項保持固定。",
+        "observationHint": "深度指南變長，壓力箭頭變長，只有靜壓曲線和總曲線在深度圖上移動。"
+      },
+      {
+        "id": "php-predict-density",
+        "prompt": "從水基線開始，您可以在相同深度和表面負荷下交換更稠密的流體。接下來會發生什麼變化？",
+        "scenarioLabel": "較稠密的流體",
+        "changeLabel": "密度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "靜水壓力和總壓力會上升，因為每公尺深度都會增加更多的壓力。"
+          },
+          {
+            "id": "b",
+            "label": "只有表面壓力會上升，因為密度較大的流體對活塞的推迴力較大。"
+          },
+          {
+            "id": "c",
+            "label": "壓力下降是因為較稠密的流體可以更好地分散活塞力。"
+          }
+        ],
+        "explanation": "密度出現在此頁的流體靜力術語中。密度較大的流體使得壓力隨深度增加得更快，而不會改變表面的 $F/A$。",
+        "observationHint": "密度發生變化，但表面壓力線保持不變，而靜水壓曲線和總曲線一起上升。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用同一罐達到壓力目標並比較產生相同總壓力的不同方法。",
+    "items": [
+      {
+        "id": "php-ch-hit-24-kpa-deep",
+        "title": "僅透過改變深度即可達到 24 kPa",
+        "prompt": "從水基線開始，僅調整探頭深度，直到總壓力約 24 kPa，同時力、面積、密度和重力保持在基線附近。",
+        "successMessage": "您僅透過改變深度就達到了目標。表面壓力保持固定，而靜壓部分線性增加。",
+        "setup": {
+          "note": "保持表面載重控制和流體特性接近基線。僅移動探頭深度。"
+        },
+        "hints": [
+          "首先讀取平坦的表面壓力線，然後使用總壓力線來估計所需的深度。",
+          "如果力或面積發生變化，則不再隔離靜壓部件。"
+        ],
+        "checks": [
+          {
+            "label": "開啟壓力深度圖。"
+          },
+          {
+            "label": "保持深度指南可見。"
+          },
+          {
+            "label": "將力量保持在基線附近。"
+          },
+          {
+            "label": "將該區域保持在基線附近。"
+          },
+          {
+            "label": "使流體密度接近水。"
+          },
+          {
+            "label": "保持重力接近地球重力。"
+          },
+          {
+            "label": "將探頭移至約 1.96 m 深度。"
+          },
+          {
+            "label": "總壓力達到約 24 kPa。"
+          }
+        ],
+        "style": "參數匹配"
+      },
+      {
+        "id": "php-ch-match-total-lower-surface",
+        "title": "以較小的表面壓力匹配總和",
+        "prompt": "從水基線開始，切換到比較模式，保持設定 A 不變，僅調整設定 B，直到達到相同的總壓力（表面壓力部分較小且流體密度較大）。",
+        "successMessage": "您將相同的總壓力與不同的原因配對。設定 B 使用較小的表面壓力和較大的靜水壓力。",
+        "setup": {
+          "note": "將設定 A 固定為基線。僅編輯設定 B。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "首先將設定 B 保持在大約相同的深度，然後降低其表面壓力部分並讓密度彌補差異。",
+          "先配對總壓力，然後再考慮匹配單獨的部件。"
+        ],
+        "checks": [
+          {
+            "label": "編輯設定 B 時保持比較模式。"
+          },
+          {
+            "label": "開啟壓力-密度圖。"
+          },
+          {
+            "label": "保持壓力箭頭可見。"
+          },
+          {
+            "label": "將設定 A 保持在基線總壓力。"
+          },
+          {
+            "label": "將設定 B 保持在相同深度附近。"
+          },
+          {
+            "label": "降低裝置 B 的力。"
+          },
+          {
+            "label": "將設定 B 鋪在較寬的活塞上。"
+          },
+          {
+            "label": "在設定 B 中使用密度較大的流體。"
+          },
+          {
+            "label": "保持設定 B 的表面壓力低於設定 A。"
+          },
+          {
+            "label": "讓設定 B 的靜壓部分承載更多的總量。"
+          },
+          {
+            "label": "將設定 B 與相同的總壓力匹配。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "壓力與靜水壓力 |開放模型實驗室",
+    "description": "透過緊湊的流體罐模擬來了解壓力和靜水壓力，該模擬將單位面積的力、深度、密度、重力和流體壓力真實地連結起來。",
+    "keywords": [
+      "壓力與靜水壓力",
+      "單位面積力流體壓力",
+      "靜水壓力深度密度重力",
+      "同深同壓浮力橋",
+      "開放式模型實驗室壓力"
     ]
   }
 }

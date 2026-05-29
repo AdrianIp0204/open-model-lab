@@ -74,22 +74,27 @@
           "steps": [
             {
               "id": "direction-baseline",
-              "label": "1. 以正電荷右手規則為基礎開始"
+              "label": "1. 以正電荷右手規則為基礎開始",
+              "template": "{{chargeDirectionStepValue}}"
             },
             {
               "id": "magnitude",
-              "label": "2. 使用當前速度和場強大小計算 |F_q|"
+              "label": "2. 使用當前速度和場強大小計算 |F_q|",
+              "template": "{{chargeMagnitudeStepValue}}"
             },
             {
               "id": "radius",
-              "label": "3. 將同一狀態轉換為曲率"
+              "label": "3. 將同一狀態轉換為曲率",
+              "template": "{{radiusStepValue}}"
             }
           ],
           "resultLabel": "電荷力和半徑",
+          "resultTemplate": "{{chargeForceResultValue}}",
           "applyAction": {
             "label": "顯示場翻轉反轉",
             "observationHint": "保持發射角度不變，僅翻轉磁場符號。力箭頭和彎曲方向一起反轉。"
-          }
+          },
+          "interpretationTemplate": "{{chargeForceInterpretation}}"
         },
         {
           "id": "current-wire-force",
@@ -107,27 +112,36 @@
             {
               "id": "charge-sign-wire",
               "label": "電荷符號"
+            },
+            {
+              "id": "direction-angle-wire",
+              "label": "線段角度"
             }
           ],
           "steps": [
             {
               "id": "wire-direction",
-              "label": "1. 重複使用相同的磁場感知和段落方向"
+              "label": "1. 重複使用相同的磁場感知和段落方向",
+              "template": "{{wireDirectionStepValue}}"
             },
             {
               "id": "wire-magnitude",
-              "label": "2. 使用IBL進行1米長的導線段學習"
+              "label": "2. 使用IBL進行1米長的導線段學習",
+              "template": "{{wireMagnitudeStepValue}}"
             },
             {
               "id": "wire-compare",
-              "label": "3. 比較導線力與帶電力"
+              "label": "3. 比較導線力與帶電力",
+              "template": "{{wireComparisonStepValue}}"
             }
           ],
           "resultLabel": "導線段力",
+          "resultTemplate": "{{wireForceResultValue}}",
           "applyAction": {
             "label": "顯示帶電-向下導線-向上分隔",
             "observationHint": "負電荷只翻轉移動電荷的力。導線面板仍然遵循I L x B。"
-          }
+          },
+          "interpretationTemplate": "{{wireForceInterpretation}}"
         }
       ]
     },
@@ -283,6 +297,10 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "了解為什麼磁場會使移動的電荷向側面彎曲，為什麼更快的電荷可以產生更寬的電弧，以及相同的叉積方向規則如何推動載流導線。",
+    "keyTakeaway": "磁力指向運動的側面：在這個垂直場實驗室中，q v x B 改變電荷航向而不直接改變其速度，而 I L x B 給出 1 m 電流段上的匹配力。"
+  },
   "equations": [
     {
       "id": "charge-force-vector",
@@ -312,6 +330,11 @@
       "id": "direction-reversal",
       "label": "一個符號翻轉反轉力的方向",
       "meaning": "改變電荷符號或場方向本身會反轉力的方向。同時改變則恢復原始側。"
+    },
+    {
+      "id": "wire-force-magnitude",
+      "label": "1 m 垂直線段力",
+      "meaning": "對於本實驗室中的 1 m 段，線力隨著電流和場強而增長，而叉積則設定力的邊。"
     }
   ],
   "variableLinks": [
@@ -342,45 +365,445 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "力",
+      "primaryGraphIds": [
+        "力"
+      ],
+      "primaryControlIds": [
+        "負電荷"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "fieldStrength",
-        "label": "場強度"
+        "label": "場強度",
+        "description": "正值表示欄位指向頁面外，負值表示欄位指向頁面內。"
       },
       {
         "id": "speed",
-        "label": "電荷速度"
+        "label": "電荷速度",
+        "description": "設定磁場彎曲路徑之前的充電速度。在同一場地上，更高的速度也意味著更大的轉彎半徑。"
       },
       {
         "id": "directionAngle",
-        "label": "頁內方向"
+        "label": "頁內方向",
+        "description": "旋轉頁面內的共用啟動或目前方向。"
       },
       {
         "id": "current",
-        "label": "導線電流"
+        "label": "導線電流",
+        "description": "縮放比較面板中的目前段力。"
+      },
+      {
+        "id": "negativeCharge",
+        "label": "負電荷",
+        "description": "僅翻轉移動電荷力。線路面板仍然遵循電流段規則。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "positive-bends-down",
+        "label": "正向下彎曲",
+        "description": "在頁外區域中向右移動的正電荷向下彎曲，並且導線段指向同一側。"
+      },
+      {
+        "id": "field-flips-up",
+        "label": "翻轉字段",
+        "description": "反轉磁場會同時翻轉電荷力和線力。"
+      },
+      {
+        "id": "negative-charge-same-direction",
+        "label": "負電荷",
+        "description": "僅更改電荷符號會反轉移動電荷力，而電線面板保持同一側。"
+      },
+      {
+        "id": "faster-same-direction",
+        "label": "充電更快",
+        "description": "充電速度越快，感受到的磁力越大，但在同一磁場中也會採取更寬的圓形路徑。"
+      },
+      {
+        "id": "angled-launch",
+        "label": "傾斜發射",
+        "description": "旋轉共用方向以查看充電路徑和線力在平面中一起樞轉。"
+      },
+      {
+        "id": "charge-down-wire-up",
+        "label": "向下充電，向上接線",
+        "description": "頁面內場中的負電荷可以與同向電流段相反地彎曲。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldMarkers",
+        "label": "欄位標記",
+        "shortDescription": "使用點或十字顯示均勻磁場是指向頁面外還是指向頁面內。",
+        "whatToNotice": [
+          "點將標記欄位移出頁面，並將標記欄位劃入頁面。"
+        ],
+        "whyItMatters": "在決定力的方向之前，你需要有即時感。",
+        "relatedControls": [
+          "場強"
+        ],
+        "relatedGraphTabs": [
+          "力"
+        ],
+        "relatedEquationVariables": [
+          "場強"
+        ]
+      },
+      {
+        "id": "motionVectors",
+        "label": "電荷向量",
+        "shortDescription": "使用即時速度箭頭和磁力箭頭顯示移動電荷。",
+        "whatToNotice": [
+          "在每個檢查時刻，力箭頭都與速度箭頭保持垂直。"
+        ],
+        "whyItMatters": "這就是為什麼路徑會彎曲而磁力不會改變速度。",
+        "relatedControls": [
+          "速度",
+          "方向角度",
+          "負電荷",
+          "場強"
+        ],
+        "relatedGraphTabs": [
+          "位置",
+          "力"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "方向角度",
+          "收費簽名",
+          "場強"
+        ]
+      },
+      {
+        "id": "orbitGuide",
+        "label": "軌道指南",
+        "shortDescription": "顯示活動電荷狀態的預測圓形路徑和瞬時軌道中心。",
+        "whatToNotice": [
+          "更強的場會使軌道收緊，但更高的速度會使軌道變寬，儘管力道更大。"
+        ],
+        "whyItMatters": "它可以防止常見的錯誤，即較大的磁力必然意味著較小的曲率。",
+        "relatedControls": [
+          "速度",
+          "場強"
+        ],
+        "relatedGraphTabs": [
+          "位置"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "場強"
+        ]
+      },
+      {
+        "id": "wireForcePanel",
+        "label": "線力面板",
+        "shortDescription": "顯示具有相同方向角的 1 m 電流段及其上的磁力。",
+        "whatToNotice": [
+          "正電荷和同向電流段在力側一致，但負電荷僅反轉移動電荷力。"
+        ],
+        "whyItMatters": "它使電橋從一個移動電荷到同一台上可見的電線中的電流。",
+        "relatedControls": [
+          "目前",
+          "方向角度",
+          "場強",
+          "負電荷"
+        ],
+        "relatedEquationVariables": [
+          "目前",
+          "方向角度",
+          "場強",
+          "收費簽名"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "position",
+      "label": "充電位置與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "位置（公尺）",
+      "description": "追蹤電荷的 x 和 y 座標，同時舞台顯示相同的軌道。"
+    },
+    {
+      "id": "force",
+      "label": "磁力與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "力（縮放）",
+      "description": "顯示 x 和 y 分量在 |F_q| 時如何旋轉對於一種設定保持固定。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用這些提示在舞台、接線面板和圖像上連接相同的力量故事，然後再使用記憶的手尺。",
+    "items": [
+      {
+        "id": "mfmc-notice-positive-baseline",
+        "text": "對於在頁外欄位中向右移動的正電荷，力指向下方。同向電流段指向同一側。",
+        "tryThis": "從正極開始向下彎曲，然後切換負極電荷而不更改任何其他控制。",
+        "whyItMatters": "這會在任何符號翻轉之前建立基線。",
+        "relatedControls": [
+          "場強",
+          "方向角度",
+          "負電荷"
+        ],
+        "relatedGraphTabs": [
+          "力"
+        ],
+        "relatedOverlays": [
+          "欄位標記",
+          "運動向量",
+          "線力面板"
+        ],
+        "relatedEquationVariables": [
+          "場強",
+          "方向角度",
+          "收費簽名"
+        ]
+      },
+      {
+        "id": "mfmc-notice-sign-flip",
+        "text": "一個符號翻轉會反轉移動電荷力。翻轉 q 只改變 qv x B，而翻轉 B 會反轉電荷力和線力。",
+        "tryThis": "將負電荷與翻轉場進行比較，注意兩者都可以反轉電荷彎曲，但只有場翻轉也會反轉線力側。",
+        "whyItMatters": "它將移動電荷的作用與磁場的作用分開，而不是將每個反轉視為相同的規則。",
+        "relatedControls": [
+          "負電荷",
+          "場強"
+        ],
+        "relatedGraphTabs": [
+          "力"
+        ],
+        "relatedOverlays": [
+          "運動向量",
+          "線力面板"
+        ],
+        "relatedEquationVariables": [
+          "收費簽名",
+          "場強"
+        ]
+      },
+      {
+        "id": "mfmc-notice-speed-radius",
+        "text": "在同一場中提高速度使得 |F_q|更大，軌道更寬。更大的磁力並不自動意味著更緊密的曲率。",
+        "tryThis": "在「正極向下彎曲」和「更快充電」之間移動，同時保持軌道引導可見。",
+        "whyItMatters": "這是磁曲率中違反直覺的部分，許多學習者在第一次通過時都忽略了這一點。",
+        "relatedControls": [
+          "速度",
+          "場強"
+        ],
+        "relatedGraphTabs": [
+          "位置",
+          "力"
+        ],
+        "relatedOverlays": [
+          "運動向量",
+          "軌道指南"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "場強"
+        ]
+      },
+      {
+        "id": "mfmc-notice-force-graph",
+        "text": "在力圖上，F_q,x 和 F_q,y 在正值和負值之間旋轉，而 |F_q|對於一種設定保持固定。該圖追蹤舞台上顯示的相同側向力箭頭。",
+        "tryThis": "暫停，擦過一圈，然後觀察階段箭頭和圖像標記一起移動。",
+        "whyItMatters": "它將圖像變成強制讀取工具，而不是單獨的繪圖。",
+        "relatedControls": [
+          "場強",
+          "速度",
+          "方向角度"
+        ],
+        "relatedGraphTabs": [
+          "力"
+        ],
+        "relatedOverlays": [
+          "運動向量"
+        ],
+        "relatedEquationVariables": [
+          "場強",
+          "速度",
+          "方向角度"
+        ]
+      },
+      {
+        "id": "mfmc-notice-compare",
+        "text": "當您保持發射角度固定並僅更改一種符號或一種速度時，比較模式最強。這使得力方向和曲率尺度之間的差異更容易真實地讀取。",
+        "tryThis": "將設定 A 保持為正向向下彎曲，並將設定 B 設為向下充電，向上接線。",
+        "whyItMatters": "它揭示了物理上發生的變化，而不是將舞台變成兩張不相關的圖片。",
+        "relatedControls": [
+          "場強",
+          "負電荷",
+          "速度"
+        ],
+        "relatedGraphTabs": [
+          "位置",
+          "力"
+        ],
+        "relatedOverlays": [
+          "運動向量",
+          "線力面板",
+          "軌道指南"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測力響應。每種情況一次都會改變一個原因，因此您可以分離場符號、電荷符號和速度。",
     "items": [
       {
         "id": "mfmc-pred-field-flip",
-        "changeLabel": "場方向"
+        "prompt": "如果發射方向和電荷符號保持固定，但磁場從頁面外翻轉到頁面內，會發生什麼事？",
+        "scenarioLabel": "翻轉字段",
+        "changeLabel": "場方向",
+        "choices": [
+          {
+            "id": "a",
+            "label": "移動電荷力和線段力都反向。"
+          },
+          {
+            "id": "b",
+            "label": "只有移動電荷力會反轉，因為線尺不依賴場符號。"
+          },
+          {
+            "id": "c",
+            "label": "路徑變得更緊，但力側保持不變。"
+          }
+        ],
+        "explanation": "場向量是兩個叉積的一部分。反轉 B 會同時反轉移動電荷力和電流段力，因此舞台上的彎曲方向會翻轉，線面板也會翻轉。",
+        "observationHint": "觀察場標記、電荷力箭頭和線力箭頭一起改變方向。"
       },
       {
         "id": "mfmc-pred-speed-up",
-        "changeLabel": "電荷速度"
+        "prompt": "如果場和充電符號保持不變但充電速度增加，哪種說法最有道理？",
+        "scenarioLabel": "提高速度",
+        "changeLabel": "電荷速度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "磁力大小增加，軌道半徑也增加。"
+          },
+          {
+            "id": "b",
+            "label": "磁力大小保持固定，因為只有磁場設定力。"
+          },
+          {
+            "id": "c",
+            "label": "較大的力必定會使圓變得更緊，因此半徑會減少。"
+          }
+        ],
+        "explanation": "在這個垂直設定中|F_q|與速度成比例，因此速度越大，力越大。但在同一場中，半徑也會隨著速度而變化，因此充電速度越快，曲線就越平緩。",
+        "observationHint": "一起使用軌道指南和力圖。當路徑變寬時，力量規模會上升。"
       },
       {
         "id": "mfmc-pred-charge-sign",
+        "prompt": "如果當前段保持相同方向並且場保持固定，那麼當移動電荷從正翻轉到負時會發生什麼變化？",
+        "scenarioLabel": "翻轉充電標誌",
         "changeLabel": "電荷符號",
         "choices": [
           {
             "id": "b",
             "label": "兩種力都反轉因為發射方向沒有改變。"
+          },
+          {
+            "id": "a",
+            "label": "移動電荷力反向，但電流段力保持同側。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何重要變化，因為欄位標記沒有移動。"
           }
-        ]
+        ],
+        "explanation": "更改 q 僅反轉 qv x B。導線段仍使用具有相同電流方向的 I L x B，因此導線力側不會翻轉，除非場或電流方向也翻轉。",
+        "observationHint": "充電箭頭改變方向，而線力箭頭保持原狀。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的有界場設定來建立目標力模式。目標是將電荷符號效應與電流方向效應分開，而不是記住單一規則。",
+    "items": [
+      {
+        "id": "mfmc-ch-charge-down-wire-up",
+        "title": "向下充電，向上接線",
+        "prompt": "從正向下彎曲開始，更改設定，使移動電荷力指向下方，而線段力指向相同的向右方向。",
+        "successMessage": "您正確地分離了兩條規則：更改移動電荷的電荷符號翻轉 q v x B，但線段將 I L x B 方向保持在同一場。",
+        "setup": {
+          "note": "保持發射角度接近 0 度，以便易於讀取垂直力分配。"
+        },
+        "hints": [
+          "一項變更必須影響移動電荷，但不影響電線面板。",
+          "當共用頁內方向接近水平時，目標最容易看到。"
+        ],
+        "targets": [
+          {
+            "label": "方向角保持在 -8 度到 8 度之間。"
+          },
+          {
+            "label": "將 chargeforcex 保持在 -0.12 和 0.12 之間。"
+          },
+          {
+            "label": "將電荷力保持在 -2.2 和 -1.1 之間。"
+          },
+          {
+            "label": "將wireforcex 保持在-0.12 和0.12 之間。"
+          },
+          {
+            "label": "將wireforcey 保持在1.1 和2.2 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "mfmc-ch-faster-wider-arc",
+        "title": "力量更強，路徑更寬",
+        "prompt": "從正彎向下開啟比較模式。將設定 A 保留為基線，但僅更改速度使設定 B 顯示更大的移動電荷力和更寬的軌道。",
+        "successMessage": "你誠實地講述了磁曲率的故事：設定 B 具有更大的力和更大的半徑，因此即使在力增加時，更快的充電也可以更柔和地彎曲。",
+        "setup": {
+          "note": "從基準開啟比較模式，僅提高設定 B 速度，同時保持軌道引導和線面板可見。"
+        },
+        "hints": [
+          "保留設定 A 不變，僅編輯設定 B。",
+          "如果僅充電速度發生變化，線面板力應保持不變。"
+        ],
+        "targets": [
+          {
+            "label": "保持設定 A 接近 7.2 的基線移動電荷力。"
+          },
+          {
+            "label": "將設定 A 保持在 2.8 m 附近的基線半徑上。"
+          },
+          {
+            "label": "將設定 B 速度提高到 6.2 至 6.6 m/s 頻段。"
+          },
+          {
+            "label": "使裝置 B 的移動電荷力超過 10.0。"
+          },
+          {
+            "label": "將裝置 B 的軌道加寬至半徑接近 4.0 m。"
+          },
+          {
+            "label": "將設定 B 的線板力保持在 3.2 附近，這樣僅改變移動裝藥速度。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "移動電荷和電流上的磁力 |開放模型實驗室",
+    "description": "透過一個緊湊的模擬優先實驗室了解磁場如何彎曲移動的電荷或推動載流導線段，該實驗室將力方向、曲線運動、工作範例、預測提示和概念快速測試連結起來。",
+    "keywords": [
+      "磁力",
+      "行動費用",
+      "載流電線",
+      "q v 交叉 B",
+      "實體模擬"
     ]
   }
 }

@@ -1,5 +1,6 @@
 {
   "title": "Kirchhoff 迴路與節點規則",
+  "shortTitle": "基爾霍夫規則",
   "summary": "在同一個受限的分組電路中，於節點寫出電流平衡式，並沿迴路寫出電壓平衡式，再看這些方程如何配合即時分支電流和電壓降。",
   "highlights": [
     "節點電流平衡",
@@ -8,12 +9,742 @@
   ],
   "topic": "電路",
   "subtopic": "迴路與節點平衡",
+  "recommendedNext": [
+    {
+      "slug": "equivalent-resistance",
+      "reasonLabel": "減少同一個網絡"
+    },
+    {
+      "slug": "power-energy-circuits",
+      "reasonLabel": "比率與總後果"
+    }
+  ],
   "sections": {
     "explanation": {
       "paragraphs": [
         "Kirchhoff 節點規則說明流入一個節點的電流總量必須等於流出的總量。Kirchhoff 迴路規則則說明沿一個閉合迴路走一圈，電壓升與電壓降要互相平衡。",
         "這個頁面把兩條規則放進同一個小型分支電路。你可以把方程讀數和畫面上的電流、電壓降對照，避免把規則只當成抽象符號操作。"
       ]
+    },
+    "keyIdeas": [
+      "電荷 : 電流 , [[]] = [[]] + i_3",
+      "圍繞一個閉環，選擇一個行走方向並標誌約定；電池上升，電阻下降，然後加為零。",
+      "基爾霍夫規則不會取代歐姆定律。它們與 V = IR 一起工作，將相同的即時電流轉化為可解的方程式。"
+    ],
+    "commonMisconception": {
+      "myth": "基爾霍夫規則是您在電路已經有意義後記住的單獨公式。",
+      "correction": [
+        "這些規則是您已經看到的同一帶電電路的守恆語句：電流不會在節點處消失，並且每個電荷的能量不會在閉環周圍從任何地方出現。",
+        "仍然重要的是符號約定。如果您以相反的方向繞著同一個循環走動，每個符號都會翻轉，但平衡和仍然等於零。"
+      ]
+    },
+    "workedExamples": {
+      "title": "即時工作範例",
+      "intro": "使用螢幕上精確分組的電路。首先讀取分裂節點電流，然後使用單符號約定追蹤一個環路，以便數字和方程式保持連接。",
+      "items": [
+        {
+          "id": "junction-balance-current",
+          "title": "結平衡與缺失支路電流",
+          "prompt": "對於電流分組電路，有源節點遵循什麼電流平衡方程，流過R3的電流是多少？",
+          "variables": [
+            {
+              "id": "voltage",
+              "label": "電池電壓"
+            },
+            {
+              "id": "resistance2",
+              "label": "分組電阻 2"
+            },
+            {
+              "id": "resistance3",
+              "label": "分組電阻 3"
+            }
+          ],
+          "steps": [
+            {
+              "id": "identify-current-rule",
+              "label": "1.從即時路徑結構開始",
+              "template": "{{currentRuleIntroValue}}"
+            },
+            {
+              "id": "write-current-equation",
+              "label": "2. 寫出電流平衡方程",
+              "template": "${{junctionRuleValue}}$。"
+            },
+            {
+              "id": "substitute-current-equation",
+              "label": "3. 取代即時電流值",
+              "template": "${{junctionSubstitutionValue}}$。"
+            },
+            {
+              "id": "solve-branch-current",
+              "label": "4.讀取或求解R3支路電流",
+              "template": "剩下$I_3 = {{resistor3CurrentValue}}$。"
+            }
+          ],
+          "resultLabel": "結點平衡",
+          "resultTemplate": "${{junctionRuleValue}}, \\quad I_3 = {{resistor3CurrentValue}}$",
+          "applyAction": {
+            "label": "顯示乾淨的分割",
+            "observationHint": "分割節點顯示一個輸入電流和兩個輸出分支電流，它們乾淨地加在一起。"
+          },
+          "interpretationTemplate": "{{junctionInterpretation}}"
+        },
+        {
+          "id": "loop-balance-around-r3",
+          "title": "R3 分支周圍的循環平衡",
+          "prompt": "對於目前分組電路，突出顯示的環路遵循什麼電壓平衡方程，這對 R3 壓降意味著什麼？",
+          "variables": [
+            {
+              "id": "voltage",
+              "label": "電池電壓"
+            },
+            {
+              "id": "resistance1",
+              "label": "外部電阻"
+            },
+            {
+              "id": "resistance3",
+              "label": "分組電阻 3"
+            }
+          ],
+          "steps": [
+            {
+              "id": "choose-loop-direction",
+              "label": "1. 選擇一個循環方向和符號約定",
+              "template": "{{loopDirectionValue}}"
+            },
+            {
+              "id": "write-loop-equation",
+              "label": "2. 寫出循環方程",
+              "template": "${{loopRuleValue}}$。"
+            },
+            {
+              "id": "substitute-loop-equation",
+              "label": "3. 替換帶電電壓值",
+              "template": "${{loopSubstitutionValue}}$。"
+            },
+            {
+              "id": "read-r3-drop",
+              "label": "4. 讀取維持循環平衡的分支下降",
+              "template": "R3 分支下降為 $V_3 = {{resistor3VoltageValue}}$，代數環和保持在 {{loopBalanceValue}}。"
+            }
+          ],
+          "resultLabel": "循環平衡",
+          "resultTemplate": "${{loopRuleValue}}, \\quad V_3 = {{resistor3VoltageValue}}$",
+          "applyAction": {
+            "label": "顯示 clean 系列循環",
+            "observationHint": "切換到串聯情況可以消除分裂，但相同的符號約定仍然使全循環平衡接近零。"
+          },
+          "interpretationTemplate": "{{loopInterpretation}}"
+        }
+      ]
+    },
+    "miniChallenge": {
+      "prompt": "在乾淨分流預設中，為什麼上下支路電流不同，但都能滿足平衡基爾霍夫環路方程式？",
+      "prediction": "在檢查電壓標籤之前，確定兩個分支迴路共享哪些數量以及分支之間允許哪些數量不同。",
+      "answer": "兩個分支環路保持平衡，因為它們共享相同的電池電壓上升、相同的外部電阻壓降和相同的分組節點電壓。支路電流可能不同，因為每個支路可以有不同的電阻；相等的迴路電壓不需要相等的支路電流。",
+      "explanation": "連接規則控制分割節點處的電流守恆。循環規則控制每個閉合路徑周圍的代數電壓平衡。這兩種想法一起工作，但它們不是同一個陳述。"
     }
+  },
+  "quickTest": {
+    "title": "快速測試",
+    "intro": "來自即時分組電路的答案，而不是來自獨立公式的答案。",
+    "questions": [
+      {
+        "id": "kjr-qt-junction",
+        "prompt": "在乾淨分流預設中，哪一個電流方程式在連接處是正確的？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "I_total = I_2 + I_3"
+          },
+          {
+            "id": "b",
+            "label": "I_2 = I_3 = I_total 只是因為總共有三個電阻"
+          },
+          {
+            "id": "c",
+            "label": "I_total = I_2 - I_3 因為一個分支電流必須抵銷另一個分支電流"
+          }
+        ],
+        "explanation": "在分裂節點處，電流是守恆的。源電流變成兩個輸出支路電流並隨後重新組合。",
+        "selectedWrongExplanations": {
+          "b": "等電流是串聯的特殊情況，而不是一般的分裂節點規則。",
+          "c": "支路電流在接點處重新相加而不是抵消。"
+        },
+        "showMeAction": {
+          "label": "顯示乾淨的分割",
+          "observationHint": "節點指南顯示一個輸入電流和兩個輸出電流相加後的電流。"
+        }
+      },
+      {
+        "id": "kjr-qt-loop-signs",
+        "prompt": "使用乾淨分割預設並繞下環順時針行走，哪一個環方程式符合單符號約定？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "+V + V_1 + V_3 = 0"
+          },
+          {
+            "id": "b",
+            "label": "+V - V_1 - V_3 = 0"
+          },
+          {
+            "id": "c",
+            "label": "V = V_1 - V_3"
+          }
+        ],
+        "explanation": "將電池視為上升，將電阻下降視為負極，同時在環路中始終保持相同方向。",
+        "selectedWrongExplanations": {
+          "a": "將電阻下降視為上升來混合符號約定。",
+          "c": "這並不代表閉合路徑周圍的完整循環平衡。"
+        },
+        "showMeAction": {
+          "label": "顯示循環指南",
+          "observationHint": "下循環指南直接在舞台上寫下相同的上升和下降平衡。"
+        }
+      },
+      {
+        "id": "kjr-qt-series-current",
+        "prompt": "當分組對從乾淨分割切換到乾淨系列循環時，哪種語句最好？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "循環規則消失，因為不再有分支。"
+          },
+          {
+            "id": "b",
+            "label": "一旦電路串聯，電流守恆就不再重要。"
+          },
+          {
+            "id": "c",
+            "label": "結分裂消失，因此相同的電流流經每個電阻器，而整個環路的電壓仍然平衡。"
+          }
+        ],
+        "explanation": "刪除分離節點將電流規則更改為單電流串聯情況，但相同的環路平衡想法仍然適用於整個電路。",
+        "selectedWrongExplanations": {
+          "a": "環路平衡在單環路電路中仍然有效。",
+          "b": "目前守恆仍然成立。它只是在環路中各處顯示為相同的電流。"
+        },
+        "showMeAction": {
+          "label": "顯示 clean 系列循環",
+          "observationHint": "節點提示變成相同電流提示，而循環引導仍以零結束。"
+        }
+      },
+      {
+        "id": "kjr-qt-raise-r3",
+        "prompt": "在乾淨分流預設中，如果在電池和其他電阻保持固定的情況下增加 R3 會發生什麼情況？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "I_3 上升，因為較大的電阻迫使更多電流進入該分支。"
+          },
+          {
+            "id": "b",
+            "label": "I_3 下降，I_total 下降，並且結點規則仍然平衡拆分。"
+          },
+          {
+            "id": "c",
+            "label": "由於分支電流不再匹配，循環規則停止應用。"
+          }
+        ],
+        "explanation": "較大的電阻會削弱 R3 支路電流。然後總電流也下降，但相同的電流守恆方程式在分裂節點仍然成立。",
+        "selectedWrongExplanations": {
+          "a": "在相同的支路電壓下，電阻越大，消耗的電流越少，而不是更多。",
+          "c": "即使分支電流不同，環路平衡仍然適用於每個分支環路。"
+        },
+        "showMeAction": {
+          "label": "增加分割中的 R3",
+          "observationHint": "提高 R3 並觀察藍色分支電流收縮，而節點方程式仍然平衡。"
+        }
+      }
+    ]
+  },
+  "accessibility": {
+    "simulationDescription": {
+      "paragraphs": [
+        "模擬顯示左側有一個電池，頂部路徑有一個外部電阻器 R1，右側突出顯示了兩個電阻器組。此群組可以顯示為具有實際分割節點的兩個並行分支，也可以顯示為沒有分割節點的一個串聯路徑。",
+        "疊加層可以顯示電流箭頭、電壓標籤、節點指南、循環指南和減少提示。讀數卡和圖像從同一分組電路更新。"
+      ]
+    },
+    "graphSummary": {
+      "paragraphs": [
+        "電流圖顯示了 R3 變化時的總電流以及 R2 和 R3 支路電流。電壓共享圖顯示相同掃描的 R1 壓降、分組塊壓降和即時 R3 壓降。使用它們作為同一分組電路的反應摘要，而不是作為第二個模型。"
+      ]
+    }
+  },
+  "pageFramework": {
+    "sections": [
+      {
+        "id": "workedExamples",
+        "title": "即時基爾霍夫檢查"
+      },
+      {
+        "id": "miniChallenge",
+        "title": "循環平衡檢查點"
+      },
+      {
+        "id": "readNext",
+        "title": "使用這些規則來簡化下一步"
+      }
+    ]
+  },
+  "pageIntro": {
+    "definition": "使用一個小電路來觀察基爾霍夫的兩個習慣：電流在分流處平衡，電壓在每個閉合路徑周圍平衡上升和下降。",
+    "keyTakeaway": "基爾霍夫規則是守恆檢查：電荷不會在結點堆積，並且每個環路消耗的電壓恰好是電池提供的電壓。"
+  },
+  "equations": [
+    {
+      "id": "junction-rule",
+      "label": "連線規則",
+      "meaning": "電荷不會在節點處消失，因此輸入電流必須與輸出電流相符。"
+    },
+    {
+      "id": "parallel-junction",
+      "label": "分組節點處的目前分割",
+      "meaning": "在並聯分組的情況下，源電流分成兩個支路電流並稍後重新組合。"
+    },
+    {
+      "id": "loop-rule",
+      "label": "循環規則",
+      "meaning": "在任何閉環周圍，當一致使用一種符號約定時，電壓上升和下降必須加為零。"
+    },
+    {
+      "id": "resistor-drop",
+      "label": "歐姆定律中的電阻下降",
+      "meaning": "基爾霍夫規則仍需即時電阻關係才能將相同的電流轉換為電壓降。"
+    },
+    {
+      "id": "series-current",
+      "label": "串聯路徑中的電流相同",
+      "meaning": "當分組對切換回串聯時，分裂消失，並且相同的電流流過每個電阻。"
+    }
+  ],
+  "variableLinks": [
+    {
+      "id": "voltage",
+      "label": "電池電壓",
+      "description": "設定每個環路必須平衡電阻壓降的源上升。"
+    },
+    {
+      "id": "resistance1",
+      "label": "外部電阻",
+      "description": "位於突出顯示的群組之外，因此其下降出現在該實驗台上的每個循環方程中。"
+    },
+    {
+      "id": "resistance2",
+      "label": "分組電阻 2",
+      "description": "更改一個分支或一組電阻器，以便可以在同一電路上比較結平衡和環路壓降。"
+    },
+    {
+      "id": "resistance3",
+      "label": "分組電阻 3",
+      "description": "驅動即時分支電流分流和分支電壓降，因此當一個參數改變時，兩個基爾霍夫規則都保持可讀性。"
+    }
+  ],
+  "simulation": {
+    "ui": {
+      "initialGraphId": "目前地圖",
+      "primaryGraphIds": [
+        "目前地圖"
+      ],
+      "primaryControlIds": [
+        "群組並行",
+        "電阻3",
+        "電壓"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "概念標籤",
+        "並聯平衡"
+      ],
+      "starterExploreTasks": [
+        "在編寫連接方程式之前，打開乾淨的分割預設並讀取三個目前值。",
+        "開啟環路指南和電壓標籤，然後用一個符號約定一路追蹤一個分支環路。",
+        "切換到乾淨的系列循環並比較節點故事中消失的內容，同時循環平衡仍然有效。"
+      ]
+    },
+    "controls": [
+      {
+        "id": "voltage",
+        "label": "電池電壓",
+        "description": "在不改變電路結構的情況下設定每個環路的源上升。"
+      },
+      {
+        "id": "resistance1",
+        "label": "外部電阻 R1",
+        "description": "此電阻器位於反白的群組之外，因此其壓降出現在每個環路方程式中。"
+      },
+      {
+        "id": "resistance2",
+        "label": "分組電阻 R2",
+        "description": "變更上部分組支路或分組串聯電阻。"
+      },
+      {
+        "id": "resistance3",
+        "label": "分組電阻 R3",
+        "description": "變更分組串聯路徑中的下部分組分支或第二個電阻器。"
+      },
+      {
+        "id": "groupParallel",
+        "label": "使用平行分組對",
+        "description": "On 給出一個真正的分裂節點和兩個分支循環。關閉將刪除拆分並留下一個完整的系列循環。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "parallel-clean-split",
+        "label": "乾淨的分割",
+        "description": "平行分組對，具有用於連接規則的整齊當前編號。"
+      },
+      {
+        "id": "parallel-balanced",
+        "label": "平衡平行對",
+        "description": "匹配分組分支使分割對稱，同時連接規則仍然可見。"
+      },
+      {
+        "id": "series-clean-loop",
+        "label": "清潔系列循環",
+        "description": "一系列分組對，帶有整齊的電阻滴，用於循環規則。"
+      },
+      {
+        "id": "series-balanced",
+        "label": "平衡系列組",
+        "description": "一種單環路參考，其中分組的滴在一個電阻改變之前匹配。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentFlow",
+        "label": "電流",
+        "shortDescription": "顯示分組電路中的即時電流箭頭和充電計數器。",
+        "whatToNotice": [
+          "在並聯情況下，一個輸入電流在分裂節點處變成兩個輸出支路電流。"
+        ],
+        "whyItMatters": "它使連接規則在您以符號方式寫入之前可見。",
+        "relatedControls": [
+          "群組並行",
+          "電阻2",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedEquationVariables": [
+          "電阻2",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "voltageLabels",
+        "label": "電壓標籤",
+        "shortDescription": "標示環路周圍的電池電量上升和帶電電阻下降。",
+        "whatToNotice": [
+          "相同的源上升必須透過您追蹤的任何環路上的電阻壓降來平衡。"
+        ],
+        "whyItMatters": "它在變成手語練習之前使循環平衡可見。",
+        "relatedControls": [
+          "電壓",
+          "電阻1",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻1",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "nodeGuide",
+        "label": "節點指南",
+        "shortDescription": "反白顯示分割點和重組點並顯示目前平衡提示。",
+        "whatToNotice": [
+          "當群組平行時，分裂點和重組點建立電流守恆方程式。"
+        ],
+        "whyItMatters": "它將連接規則變成即時節點讀取任務，而不是記住的口號。",
+        "relatedControls": [
+          "群組並行",
+          "電阻2",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedEquationVariables": [
+          "電阻2",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "loopGuide",
+        "label": "循環指南",
+        "shortDescription": "繪製活動迴路路徑並在其上寫入電壓平衡提示。",
+        "whatToNotice": [
+          "使用一致的符號約定走相同的迴圈會使代數和接近零。"
+        ],
+        "whyItMatters": "它使符號約定和循環平衡在實驗台上可見，而不僅僅是在文本中。",
+        "relatedControls": [
+          "群組並行",
+          "電壓",
+          "電阻1",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻1",
+          "電阻3"
+        ]
+      },
+      {
+        "id": "reductionGuide",
+        "label": "減少指南",
+        "shortDescription": "展示如何將相同電路稍後分解為分組等效電路，然後分解為總等效電路。",
+        "whatToNotice": [
+          "基爾霍夫平衡和等效約簡是同一有界電路的不同觀點。"
+        ],
+        "whyItMatters": "它設定了下一個概念，而無需先將此頁變成簡化課程。",
+        "relatedControls": [
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖",
+          "均壓"
+        ],
+        "relatedEquationVariables": [
+          "電阻2",
+          "電阻3"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "current-map",
+      "label": "R3 變更時的當前餘額",
+      "xLabel": "分組電阻R3（歐姆）",
+      "yLabel": "電流（A）",
+      "description": "源電流和兩組電流保留在一張圖像上，因此在 R3 變化時結平衡仍然可見。"
+    },
+    {
+      "id": "voltage-share",
+      "label": "R3 改變時循環下降",
+      "xLabel": "分組電阻R3（歐姆）",
+      "yLabel": "電壓降 (V)",
+      "description": "使用相同的 R3 掃描來比較外部電阻壓降、分組塊壓降以及環路方程中出現的即時 R3 壓降。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用相同的有界分組電路來保持電流守恆和迴路平衡同時可見。",
+    "items": [
+      {
+        "id": "kjr-notice-junction",
+        "text": "電流 . , [[]] = [[]] + i_3",
+        "tryThis": "開啟乾淨的分流預設，並將琥珀色和藍色分支電流與青色總電流進行比較。",
+        "whyItMatters": "在寫方程式之前，它使電流守恆可見。",
+        "relatedControls": [
+          "群組並行",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedOverlays": [
+          "電流流量",
+          "節點指南"
+        ]
+      },
+      {
+        "id": "kjr-notice-loop",
+        "text": "一致地使用一個循環方向。電池上升以一位符號計數，電阻器下降以相反符號計數，代數和接近零。",
+        "tryThis": "開啟電壓標籤和循環指南，然後讀取相同的頂部或完整循環一次，而不要在中途改變方向。",
+        "whyItMatters": "它將符號慣例變成一種閱讀習慣，而不是記住的警告。",
+        "relatedControls": [
+          "群組並行",
+          "電壓",
+          "電阻3"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedOverlays": [
+          "電壓標籤",
+          "循環指南"
+        ]
+      },
+      {
+        "id": "kjr-notice-series-special-case",
+        "text": "電流 [[]] = [[]] = i_3",
+        "tryThis": "在乾淨分流和乾淨串聯循環預設之間切換，無需更改電池電壓。",
+        "whyItMatters": "它顯示基爾霍夫平衡隨著路徑結構而變化，而不是隨著新的公式章節而變化。",
+        "relatedControls": [
+          "群組並行"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖",
+          "均壓"
+        ],
+        "relatedOverlays": [
+          "節點指南",
+          "循環指南"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在套用變更之前預測餘額。每個場景一次都會改變一個電路想法，因此同一分組的實驗台保持可讀性。",
+    "items": [
+      {
+        "id": "kjr-pred-switch-to-parallel",
+        "prompt": "從乾淨的串聯循環開始，當突出顯示的群組切換到並聯時會發生什麼變化？",
+        "scenarioLabel": "建立分割節點",
+        "changeLabel": "群組模式",
+        "choices": [
+          {
+            "id": "a",
+            "label": "出現真正的結點，源電流可以分為 I_2 和 I_3，並且每個分支環路仍然必須平衡源電流上升與電阻壓降。"
+          },
+          {
+            "id": "b",
+            "label": "電流可以分流，但環路平衡不再適用，因為現在有兩個環路而不是一個。"
+          },
+          {
+            "id": "c",
+            "label": "沒有什麼重要的變化，因為相同的三個電阻仍然存在。"
+          }
+        ],
+        "explanation": "將分組對從串聯更改為並聯會創建一個真實的分割節點和兩個真實的分支循環。連接規則和循環規則在該新結構上保持有效。",
+        "observationHint": "建立分割時，觀察節點指南和循環指南一起出現。"
+      },
+      {
+        "id": "kjr-pred-raise-r3-parallel",
+        "prompt": "在乾淨分流預設中，如果 R3 增加而電池和其他電阻保持固定，會發生什麼情況？",
+        "scenarioLabel": "增加R3",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "R3支路電流下降，總電流下降，結點規則仍平衡分流。"
+          },
+          {
+            "id": "b",
+            "label": "R3 支路電流上升，因為較大的電阻儲存較多的電流。"
+          },
+          {
+            "id": "c",
+            "label": "由於兩個分支電流不再相等，環路規則被破壞。"
+          }
+        ],
+        "explanation": "電阻 電流. 電流 , [[]] = [[]] + i_3",
+        "observationHint": "目前圖上的藍色支路電流縮小，而拓樸規則本身保持不變。"
+      },
+      {
+        "id": "kjr-pred-raise-voltage-series",
+        "prompt": "在乾淨的串聯迴路中，如果電池電壓上升而電阻值保持固定，會發生什麼情況？",
+        "scenarioLabel": "提高來源",
+        "changeLabel": "電池電壓",
+        "choices": [
+          {
+            "id": "a",
+            "label": "迴路電流增加，每個電阻壓降也增加，但整個迴路仍以相同的符號約定平衡為零。"
+          },
+          {
+            "id": "b",
+            "label": "僅電池變化。電阻壓降保持固定，因為電阻沒有變化。"
+          },
+          {
+            "id": "c",
+            "label": "循環規則失敗，因為電池現在大於電阻壓降。"
+          }
+        ],
+        "explanation": "在環路電阻固定的情況下，電池電壓越高，迴路電流越大。電阻器隨著該電流的上升而下降，因此環路仍然保持一致的平衡。",
+        "observationHint": "即使每次幅度增加，循環引導仍保持相同的符號結構。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "對緊湊型基爾霍夫目標使用相同的分組電路。檢查表讀取真實實驗台上的即時電流和電壓降。",
+    "items": [
+      {
+        "id": "kjr-ch-clean-split",
+        "title": "建構乾淨的目前拆分",
+        "prompt": "從平衡並聯對開始，僅更改 R3，直到分割讀數約為 I_total = 1.5 A、I_2 = 1.0 A 和 I_3 = 0.5 A。",
+        "successMessage": "您創建了乾淨的結情況，其中總電流分成兩個分支電流，然後精確地加在一起。",
+        "setup": {
+          "note": "保持電池和其他電阻固定。只有 R3 應該移動。"
+        },
+        "hints": [
+          "您正在建立乾淨的分割案例，而不是更改拓撲本身。",
+          "較大電阻器中的支路電流最終應較小。"
+        ],
+        "targets": [
+          {
+            "label": "將電阻 3 保持在 11.8 歐姆和 12.2 歐姆之間。"
+          },
+          {
+            "label": "將總電流保持在 1.48 A 和 1.52 A 之間。"
+          },
+          {
+            "label": "將電阻 2 電流保持在 0.98 A 和 1.02 A 之間。"
+          },
+          {
+            "label": "將電阻 3 電流保持在 0.48 A 和 0.52 A 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "kjr-ch-clean-loop",
+        "title": "建立乾淨的循環平衡",
+        "prompt": "從平衡串聯組開始，僅更改 R3，直到完整環路讀數約為 V_1 = 3 V、V_2 = 3 V 和 V_3 = 6 V（具有一致的環路方程式）。",
+        "successMessage": "您建立了一個乾淨的串聯環路情況，其中電阻下降通過一個穩定的符號約定加回電池上升。",
+        "setup": {
+          "note": "保持電池和其他電阻固定。只有 R3 應該移動。"
+        },
+        "hints": [
+          "目標是單循環情況，而不是並行拆分。",
+          "如果整個迴路的電流相同，則較大的電阻必須承受較大的壓力降。"
+        ],
+        "targets": [
+          {
+            "label": "將電阻 3 保持在 7.8 歐姆和 8.2 歐姆之間。"
+          },
+          {
+            "label": "將總電流保持在 0.73 A 和 0.77 A 之間。"
+          },
+          {
+            "label": "將電阻器 1 電壓保持在 2.9 V 和 3.1 V 之間。"
+          },
+          {
+            "label": "將電阻 2 電壓保持在 2.9 V 和 3.1 V 之間。"
+          },
+          {
+            "label": "將電阻 3 電壓保持在 5.9 V 和 6.1 V 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "基爾霍夫環路與連接規則 |開放模型實驗室",
+    "description": "透過一個有界分組電路了解基爾霍夫的環路和結點規則，該電路可在同一個實驗台上保持電流平衡、環路電壓平衡、符號約定和帶電分支下降。",
+    "keywords": [
+      "基爾霍夫定律",
+      "連線規則",
+      "循環規則",
+      "電流保護",
+      "電壓平衡",
+      "電路仿真"
+    ]
   }
 }

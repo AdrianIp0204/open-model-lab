@@ -30,8 +30,9 @@
     "commonMisconception": {
       "myth": "最大的面積必須發生在最寬的長方形上，因為更大的寬度總是意味著更大的面積。",
       "correction": [
-        "更寬的長方形也必須在周長固定時變短，所以寬度和高度之間存在交易關係。",
-        "超過最佳正方形後，失去的高度比增加的寬度對產品造成的傷害更大，因此面積曲線向下轉折。"
+        "在此長凳上，增大寬度總是會迫使高度變小，因為週長固定為 24 公尺。",
+        "面積是寬度乘以高度，因此一旦損失的高度變得過於昂貴，較長的底座就不再有幫助。",
+        "這就是為什麼即使寬度仍在增加，目標曲線最終也會向下轉。"
       ]
     },
     "workedExamples": {
@@ -46,27 +47,36 @@
             {
               "id": "width",
               "label": "矩形寬度"
+            },
+            {
+              "id": "height",
+              "label": "矩形高度"
             }
           ],
           "steps": [
             {
               "id": "split-the-constraint",
-              "label": "1. 重寫周長限制條件"
+              "label": "1. 重寫周長限制條件",
+              "template": "對於 $2w + 2h = 24$，固定半週長為 $w + h = 12$。"
             },
             {
               "id": "solve-for-height",
-              "label": "2. 解出匹配的高度"
+              "label": "2. 解出匹配的高度",
+              "template": "在 $w = {{widthValue}}$ 處，匹配高度為 $h = 12 - {{widthValue}} = {{heightValue}}$。"
             },
             {
               "id": "compute-area",
-              "label": "3. 計算受限面積"
+              "label": "3. 計算受限面積",
+              "template": "所以$A = wh = {{widthValue}}({{heightValue}}) = {{areaValue}}$。"
             }
           ],
           "resultLabel": "當前受限面積",
+          "resultTemplate": "$A = {{areaValue}} \\\\text{ m}^2$",
           "applyAction": {
             "label": "顯示狹窄的長方形",
             "observationHint": "目標曲線仍然在上升的一側，所以寬度比失去的高度更有幫助。"
-          }
+          },
+          "interpretationTemplate": "{{areaInterpretation}}"
         },
         {
           "id": "current-area-slope",
@@ -81,22 +91,27 @@
           "steps": [
             {
               "id": "read-the-objective",
-              "label": "1. 開始從目標函式"
+              "label": "1. 開始從目標函式",
+              "template": "對於這個固定週長，面積規則為 $A(w) = w(12 - w)$，因此導數為 $A'(w) = 12 - 2w$。"
             },
             {
               "id": "substitute-the-square",
-              "label": "2. 代入當前寬度"
+              "label": "2. 代入當前寬度",
+              "template": "在 $w = {{widthValue}}$ 處，局部區域斜率為 $A'({{widthValue}}) = {{areaSlopeValue}}$，因此導數為 {{slopeSignWord}}。"
             },
             {
               "id": "interpret-the-flat-point",
-              "label": "3. 解釋零斜率"
+              "label": "3. 解釋零斜率",
+              "template": "這意味著使矩形稍微寬一點會 {{slopeDirectionText}} 區域。"
             }
           ],
           "resultLabel": "當前區域性面積斜率",
+          "resultTemplate": "$A'({{widthValue}}) = {{areaSlopeValue}}$",
           "applyAction": {
             "label": "顯示峯值正方形",
             "observationHint": "正方形位於目標曲線的頂點，而面積斜率圖在相同寬度處穿越零。"
-          }
+          },
+          "interpretationTemplate": "{{slopeInterpretation}}"
         }
       ]
     },
@@ -157,6 +172,7 @@
         ],
         "explanation": "在峯值的窄邊上，面積斜率是正的，所以向右移動會增加目標值。",
         "selectedWrongExplanations": {
+          "a": "將已經很窄的長方形變窄會遠離正方形。",
           "c": "相同的周長下，不同的寬度可以有非常不同的面積。"
         },
         "showMeAction": {
@@ -183,6 +199,7 @@
         ],
         "explanation": "整個最最佳化問題就是權衡：更多的寬度意味著更少的高度，所以乘積最終會轉向下降。",
         "selectedWrongExplanations": {
+          "a": "面積取決於寬度和高度。此約束僅允許我們根據寬度重寫高度。",
           "b": "面積取決於寬度和高度。限制條件只允許我們用寬度來重新寫高度。"
         },
         "showMeAction": {
@@ -232,6 +249,74 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "在固定的 24 公尺週長下移動一個矩形寬度，觀察高度、面積和局部坡度一起響應，以便從同一個長凳中出現平方最大值。",
+    "keyTakeaway": "在固定週長約束下，寬度和高度透過 h = 12 - w 連接，因此每種寬度選擇都已將您承諾為一個高度。"
+  },
+  "v2": {
+    "intuition": "更改固定 24 公尺週長下的一個矩形寬度，並觀察強制高度、面積點和局部坡度的移動作為一種權衡。",
+    "whyItMatters": "当您可以命名约束、将其转化為一个目标变量並使用导數符号来决定改进設计的方向時，优化就变得可重用。",
+    "guidedSteps": [
+      {
+        "id": "read-the-constraint-tradeoff",
+        "title": "讀取約束",
+        "goal": "請注意，固定的周界只留下一種自由的設計選擇。",
+        "doThis": "从窄矩形开始，移動宽度一次，然后觀察相反方向的高度变化。",
+        "notice": "宽度每增加一米，高度就会减少一米，因為 w + h 必须保持為 12。",
+        "explain": "约束不是额外的装饰；它是将两个变量的矩形转变為一个链接的权衡。"
+      },
+      {
+        "id": "connect-width-to-area",
+        "title": "將寬度連接到面積",
+        "goal": "將目標圖視為重寫為 A(w) 的相同矩形實驗台。",
+        "doThis": "保持区域参考線可见，並将宽度从窄边滑向正方形。",
+        "notice": "矩形区域和 A(w) 上的點一起上升，但宽度仍然太小。",
+        "explain": "A(w) = w(12 - w) 不是一個新問題；它是周長約束選擇高度後的面積公式。"
+      },
+      {
+        "id": "use-slope-to-find-the-maximum",
+        "title": "使用斜坡標誌",
+        "goal": "使用 A'(w) 來決定使矩形變寬是有益還是有害。",
+        "doThis": "開啟局部區域斜率圖，比較窄矩形和寬矩形，然後移動到正方形。",
+        "notice": "導數在平方之前為正，平方之後為負，在峰值處為零。",
+        "explain": "零導數標誌著轉折點，因為任一方向的微小移動都無法改善受限區域。"
+      },
+      {
+        "id": "prove-the-square-is-best",
+        "title": "證明方獲勝",
+        "goal": "將幾何形狀和衍生證據納入一項最大面積聲明。",
+        "doThis": "使用挑戰模式降落在 w = 6 附近，然後說出為什麼該點擊敗較窄和較寬的矩形。",
+        "notice": "在正方形、寬度和高度匹配處，A(w) 位於曲線的頂部，且 A'(w) 基本上為零。",
+        "explain": "正方形在這个约束中获胜，因為宽度和高度的权衡在那里得到平衡，而不是因為更宽的矩形自然会更好。",
+        "inlineCheck": {
+          "title": "你能平衡權衡嗎？",
+          "note": "求矩形為正方形、面積達到峰值且局部斜率幾乎為零時的寬度。"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "固定的 24 公尺週長透過 h = 12 - w 連接寬度和高度。",
+        "目標 A(w) = w(12 - w) 是限制刪除額外變數後的矩形區域。",
+        "導數符號顯示面積增大的方向，A'(w) = 0 標示平方最大值。",
+        "最寬的矩形不會獲勝，因為額外的寬度最終會花費太多的高度。"
+      ],
+      "misconception": "最大寬度不是最大面積；在固定週長下，寬度和高度權衡，因此產品在平衡正方形處達到峰值。",
+      "freePlayPrompt": "找出一個對加寬有幫助的寬度，一個對加寬不利的寬度，以及一個導數幾乎為零的平方。",
+      "nextConcepts": [
+        {
+          "slug": "derivative-as-slope-local-rate-of-change",
+          "title": "導數為斜率/局部變化率",
+          "reasonLabel": "查看最大值後方的本地斜率訊號"
+        },
+        {
+          "slug": "integral-as-accumulation-area",
+          "title": "積分作為累積/面積",
+          "reasonLabel": "從最佳化本地變更轉向追蹤累計總數"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "perimeter-constraint",
@@ -257,17 +342,266 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "概念標籤",
+      "primaryGraphIds": [
+        "概念標籤"
+      ],
+      "primaryControlIds": [
+        "寬度"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "width",
-        "label": "矩形寬度"
+        "label": "矩形寬度",
+        "description": "移動寬度，同時固定 24 公尺週長強制匹配高度。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "too-narrow",
+        "label": "太窄",
+        "description": "一個高而窄的矩形，使其更寬仍然有幫助。"
+      },
+      {
+        "id": "best-square",
+        "label": "最佳廣場",
+        "description": "在固定週長下達到峰值面積的正方形。"
+      },
+      {
+        "id": "too-wide",
+        "label": "太寬",
+        "description": "已經過了峰值的寬矩形。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "constraintBand",
+        "label": "約束帶",
+        "shortDescription": "保持固定周界在目前矩形上可見。",
+        "whatToNotice": [
+          "每次寬度增加，高度都必須縮小，因為週長固定為 24 公尺。"
+        ],
+        "whyItMatters": "它透過顯示權衡而不是將其隱藏在符號後面來保持最佳化故事的誠實。",
+        "relatedControls": [
+          "寬度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "寬度"
+        ]
+      },
+      {
+        "id": "bestRectangle",
+        "label": "最佳矩形疊加",
+        "shortDescription": "顯示達到此固定週長峰值面積的正方形。",
+        "whatToNotice": [
+          "最好的矩形是正方形，並且目標曲線在寬度和高度匹配的相同寬度處達到峰值。"
+        ],
+        "whyItMatters": "它將幾何圖片直接與圖像上的最大值聯繫起來，而不是讓最好的情況感覺很神奇。",
+        "relatedControls": [
+          "寬度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "面積坡度"
+        ],
+        "relatedEquationVariables": [
+          "寬度"
+        ]
+      },
+      {
+        "id": "areaGuides",
+        "label": "區域指南",
+        "shortDescription": "顯示目標圖上的目前點以及矩形上的寬度和高度參考線。",
+        "whatToNotice": [
+          "矩形尺寸和目標點只是相同寬度選擇的兩個視圖。"
+        ],
+        "whyItMatters": "它將變化的參數、候選形狀和麵積值保存在一個緊湊的實驗台上。",
+        "relatedControls": [
+          "寬度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "寬度"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "area-slope",
-      "label": "區域性面積斜率"
+      "label": "區域性面積斜率",
+      "xLabel": "寬度w（公尺）",
+      "yLabel": "A'(w)",
+      "description": "顯示使矩形變寬是否會對目前寬度的區域有幫助或損害：正值有幫助，負值有損害，零標記峰值。"
+    },
+    {
+      "id": "area-vs-width",
+      "label": "客觀圖",
+      "xLabel": "寬度w（公尺）",
+      "yLabel": "面積 A (m^2)",
+      "description": "顯示 24 公尺週長的約束面積 A(w)。它的最高點是最大可能的面積。"
+    },
+    {
+      "id": "height-vs-width",
+      "label": "限制衡量",
+      "xLabel": "寬度w（公尺）",
+      "yLabel": "高度 h (米)",
+      "description": "顯示固定週長權衡 h = 12 - w，因此每增加一公尺的寬度就會增加一公尺的高度。"
     }
-  ]
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用矩形、權衡線和麵積圖作為一個相互關聯的故事。",
+    "items": [
+      {
+        "id": "oc-notice-rising-side",
+        "text": "這個長方形仍然太窄。稍微多一點的寬度所返回的區域比失去的高度所消除的區域要多。",
+        "relatedControls": [
+          "寬度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "面積坡度"
+        ],
+        "relatedOverlays": [
+          "約束帶",
+          "區域指南"
+        ]
+      },
+      {
+        "id": "oc-notice-near-peak",
+        "text": "在正方形附近，面積圖變平。接近零的斜率表明最好的矩形就在這裡，而不是在極端寬度之一。",
+        "relatedControls": [
+          "寬度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "面積坡度"
+        ],
+        "relatedOverlays": [
+          "最佳矩形"
+        ]
+      },
+      {
+        "id": "oc-notice-wide-side",
+        "text": "經過正方形，額外的寬度會造成傷害，因為高度現在下降得太快。",
+        "relatedControls": [
+          "寬度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "面積坡度"
+        ],
+        "relatedOverlays": [
+          "最佳矩形",
+          "區域指南"
+        ]
+      },
+      {
+        "id": "oc-notice-constraint-line",
+        "text": "約束線 h = 12 - w 直接顯示了一對一的權衡：寬度每增加一米，高度就會增加一米。",
+        "relatedControls": [
+          "寬度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "約束帶"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "首先使用固定週長權衡，然後測試目標曲線應該做什麼。",
+    "items": [
+      {
+        "id": "oc-predict-wider-from-narrow",
+        "prompt": "在這個狹窄的矩形中，如果寬度增加一點而周長保持固定，會發生什麼情況？",
+        "scenarioLabel": "從一個狹窄的矩形開始",
+        "choices": [
+          {
+            "id": "a",
+            "label": "面積應增加。"
+          },
+          {
+            "id": "b",
+            "label": "面積應立即減少。"
+          },
+          {
+            "id": "c",
+            "label": "此面積幾乎應保持不變，因為週長是固定的。"
+          }
+        ],
+        "explanation": "在峰的窄側，面積斜率仍然為正，因此稍寬一點的寬度會增加目標值。",
+        "observationHint": "隨著寬度從狹窄的起始情況增長，一起觀察目標點和局部坡度。"
+      },
+      {
+        "id": "oc-predict-past-the-peak",
+        "prompt": "一旦寬度已經超過正方形，如果寬度增加更多會發生什麼？",
+        "scenarioLabel": "剛剛過了高峰期就開始",
+        "choices": [
+          {
+            "id": "a",
+            "label": "面積應該要不斷增加，因為底座越來越長。"
+          },
+          {
+            "id": "b",
+            "label": "該區域應向下轉動，因為損失了太多高度。"
+          },
+          {
+            "id": "c",
+            "label": "由於週長是固定的，該區域應鎖定在相同的值。"
+          }
+        ],
+        "explanation": "超過峰值後，導數為負。現在，額外的寬度所花費的高度比增加的面積還要多。",
+        "observationHint": "目標曲線已經處於下降側，最佳方形疊加使此轉折點可見。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "最佳化挑戰",
+    "intro": "一起使用矩形、目標圖和斜率圖。目標是達到最大值，因為權衡在那裡，而不僅僅是猜測 36。",
+    "items": [
+      {
+        "id": "oc-ch-find-the-square-maximum",
+        "title": "求面積最大的長方形",
+        "prompt": "移動寬度，直到矩形達到最大面積且局部區域斜率基本上為零。",
+        "successMessage": "您找到了平方最大值。矩形、A(w) 的峰值和 A'(w) 的零點都具有相同的寬度。",
+        "setup": {
+          "note": "從狹窄的矩形開始，然後向正方形移動，同時觀察高度權衡和目標曲線變平。"
+        },
+        "hints": [
+          "最好的長方形是這個固定週長下的正方形。",
+          "斜率應穩定在零附近，且寬度與面積圖達到峰值的位置相同。"
+        ],
+        "targets": [
+          {
+            "label": "將寬度帶入 $5.85$ 和 $6.15$ 公尺之間的方形帶內。"
+          }
+        ],
+        "style": "最大化"
+      }
+    ]
+  },
+  "seo": {
+    "title": "最佳化/最大值、最小值和約束",
+    "description": "在緊湊的最佳化平台上探索固定週長的矩形、其面積目標曲線以及最大值的局部斜率測試。",
+    "keywords": [
+      "最佳化",
+      "最大值",
+      "最小值",
+      "限制",
+      "微積分"
+    ]
+  }
 }

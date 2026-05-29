@@ -71,22 +71,27 @@
           "steps": [
             {
               "id": "measure-distance",
-              "label": "1. 測量現場源到探測器距離"
+              "label": "1. 測量現場源到探測器距離",
+              "template": "從原點到探針，$r = \\sqrt{x_p^2 + y_p^2} = {{distanceValue}}\\,\\mathrm{m}$，所以$r^2 = {{distanceSquaredValue}}$和$r^3 = {{distanceCubedValue}}$。"
             },
             {
               "id": "apply-field-relation",
-              "label": "2. 應用單質量場關係"
+              "label": "2. 應用單質量場關係",
+              "template": "對於此有界實驗室，在顯示單位中使用 $G = 1$，$\\vec{g} = -M\\vec{r}/r^3 = -{{sourceMassValue}}\\,( {{probeXValue}}, {{probeYValue}} ) / {{distanceCubedValue}}$。"
             },
             {
               "id": "resolve-components",
-              "label": "3. 分解當前場分量"
+              "label": "3. 分解當前場分量",
+              "template": "給出 $g_x = {{fieldXValue}}$ 和 $g_y = {{fieldYValue}}$，因此向內磁場強度為 $|\\vec{g}| = {{fieldMagnitudeValue}}$。"
             }
           ],
           "resultLabel": "重力場",
+          "resultTemplate": "$\\vec{g} = ({{fieldXValue}}, {{fieldYValue}}), \\quad |\\vec{g}| = {{fieldMagnitudeValue}}$",
           "applyAction": {
             "label": "顯示雙倍距離軸情況",
             "observationHint": "保持探測器在軸上，比較1米和2米處的強度。2米的情況應該約為1米場的一 Quarter。"
-          }
+          },
+          "interpretationTemplate": "{{fieldInterpretation}}"
         },
         {
           "id": "current-probe-force",
@@ -101,22 +106,27 @@
           "steps": [
             {
               "id": "force-relation",
-              "label": "1. 開始從場到力的關係"
+              "label": "1. 開始從場到力的關係",
+              "template": "使用$\\vec{F} = m_{\\text{test}}\\vec{g}$。"
             },
             {
               "id": "substitute-force",
-              "label": "2. 代入當前探測質量和場"
+              "label": "2. 代入當前探測質量和場",
+              "template": "$\\vec{F} = {{testMassValue}}\\,( {{fieldXValue}}, {{fieldYValue}} )$。"
             },
             {
               "id": "compute-force",
-              "label": "3. 計算力分量"
+              "label": "3. 計算力分量",
+              "template": "給出 $F_x = {{forceXValue}}$ 和 $F_y = {{forceYValue}}$，所以 $|\\vec{F}| = {{forceMagnitudeValue}}$。"
             }
           ],
           "resultLabel": "探測力",
+          "resultTemplate": "$\\vec{F} = ({{forceXValue}}, {{forceYValue}}), \\quad |\\vec{F}| = {{forceMagnitudeValue}}$",
           "applyAction": {
             "label": "將探測質量加倍",
             "observationHint": "珊瑚力箭頭和力曲線變長，但青色場箭頭和場曲線保持不變，因為只有探測質量改變了。"
-          }
+          },
+          "interpretationTemplate": "{{forceInterpretation}}"
         }
       ]
     },
@@ -272,6 +282,77 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "了解一個源質量如何創建向內引力場、源質量和距離如何設定場強，以及探針質量如何在不改變場本身的情況下將該場轉化為力。",
+    "keyTakeaway": "重力場是每公斤的力。圍繞著一個源質量，它向內指向並遵循 |g| = GM/r^2，而探頭質量僅將現有場變成 F = m_test g。"
+  },
+  "v2": {
+    "intuition": "重力場是某一點的局部重力指令：在您選擇特定的探針質量之前，一公斤將被拉向哪個方向，以及拉動的強度。",
+    "whyItMatters": "這將重力的原因與其反應分開。源質量和距離設定場；探測器質量僅縮放力，力是通往軌道和能量的橋樑。",
+    "equationSnapshot": {
+      "note": "依序閱讀這些：來源創建向內場，距離給出平方反比大小，探針質量將場轉換為力。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-field-arrow",
+        "title": "讀取字段箭頭",
+        "goal": "將青色箭頭視為探針點處的引力場，而不是探針質量選擇的力。",
+        "doThis": "從基線對​​角線開始，保持場組件打開，然後拖曳探頭，同時場向量和掃描線保持可見。",
+        "notice": "青色箭頭總是指向源質量。它的組成部分隨著位置而變化，因為方向是場的一部分。",
+        "explain": "重力場是某個位置每公斤的力。在這個單源實驗室中，源質量和源到探頭向量在探頭質量起作用之前設定了場。"
+      },
+      {
+        "id": "test-the-inverse-square-drop",
+        "title": "雙倍距離",
+        "goal": "在將平方反比法則用作公式之前，請將其視為可見比。",
+        "doThis": "在軸近距和雙倍距離之間切換，同時距離環以及場和力大小可見。",
+        "notice": "在同一軸上 2 m 處，場強約為 1 m 值的四分之一，而不是二分之一。",
+        "explain": "對於一個源質量，|g| = GM/r^2。 r 加倍會使 r^2 變大四倍，因此場和固定探針質量力都下降到四分之一。"
+      },
+      {
+        "id": "separate-field-from-force",
+        "title": "場與力",
+        "goal": "將重寫場的變更與僅重新縮放探頭上的力的變更分開。",
+        "doThis": "將較重的源與較重的探頭進行比較，同時青色字段箭頭、珊瑚力箭頭和強度圖可見。",
+        "notice": "較重的源會增強場和力。較重的探頭不會影響磁場，只會使力量更大。",
+        "explain": "該場由源質量和距離創建。此力是所選探頭的反應：F = m_test g。"
+      },
+      {
+        "id": "check-the-field-story",
+        "title": "檢查故事",
+        "goal": "使用相同的模型來預測方向、平方反比強度和力響應，而不會混淆它們。",
+        "doThis": "回答快速檢查，然後嘗試挑戰目標，其中加倍距離必須將場力和固定質量力四分之一。",
+        "notice": "最有力的解釋首先指出原因：源質量和距離集 g；探針質量將 g 轉變為 F。",
+        "explain": "如果您可以將場方向、平方反比幅值和 F = m_test g 分開，那麼您就可以將該場模型與位能和圓形軌道連接起來。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "重力場是一點上每公斤的力，因此它在您選擇特定探測器質量之前就存在。",
+        "在一個源質量周圍，場指向內，其大小遵循平方反比規則 |g| = GM/r^2。",
+        "改變探頭質量會改變力 F = m_test g，但不會改變由源質量和距離產生的場。"
+      ],
+      "misconception": "較重的探針不會使該有界模型中的場更強。由於相同的磁場乘以更大的探頭質量，因此感覺起來更力。",
+      "freePlayPrompt": "建立您自己的三種情況比較：將探頭移得更遠，將來源質量加倍，然後僅將探頭質量加倍。說出哪個改變了場，哪個只改變了力道。",
+      "nextConcepts": [
+        {
+          "slug": "gravitational-potential-energy",
+          "title": "重力位能與位能",
+          "reasonLabel": "將相同的領域想法轉化為能量視圖。"
+        },
+        {
+          "slug": "circular-orbits-orbital-speed",
+          "title": "圓形軌道與軌道速度",
+          "reasonLabel": "使用向內重力場作為軌道轉動的原因。"
+        },
+        {
+          "slug": "electric-fields",
+          "title": "電場",
+          "reasonLabel": "將重力場邏輯與電荷場進行比較。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "distance-relation",
@@ -320,22 +401,37 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "即時組件",
+      "primaryGraphIds": [
+        "即時組件"
+      ],
+      "primaryControlIds": [
+        "探針X",
+        "探針Y"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "sourceMass",
-        "label": "來源質量"
+        "label": "來源質量",
+        "description": "改變產生場的質量，因此向內場和力在每個點都隨 M 變化。"
       },
       {
         "id": "probeX",
-        "label": "探測器 x 軸位置"
+        "label": "探測器 x 軸位置",
+        "description": "在載物台和連結的掃描圖上向左或向右移動探頭。"
       },
       {
         "id": "probeY",
-        "label": "探測器 y 軸位置"
+        "label": "探測器 y 軸位置",
+        "description": "將探頭移至新的水平掃描線，以便圖像對不同的場切片進行取樣。"
       },
       {
         "id": "testMass",
-        "label": "探測器質量"
+        "label": "探測器質量",
+        "description": "僅變更探頭上的力。它不會改變源質量產生的引力場。"
       }
     ],
     "presets": [
@@ -343,58 +439,490 @@
         "id": "baseline-diagonal",
         "label": "基準斜向位置",
         "description": "探針位於斜向位置，讓向內的重力場可清楚分成水平與垂直分量。"
+      },
+      {
+        "id": "axis-near",
+        "label": "軸近",
+        "description": "1 m 同軸探頭提供了乾淨的平方反比參考案例。"
+      },
+      {
+        "id": "axis-double-distance",
+        "label": "雙倍距離",
+        "description": "在同一軸上 2 m 處，磁場應降至 1 m 情況下的約四分之一。"
+      },
+      {
+        "id": "heavy-source",
+        "label": "較重的來源",
+        "description": "將源質量加倍會增強同一探測點處的場和力。"
+      },
+      {
+        "id": "heavy-probe",
+        "label": "較重的探頭",
+        "description": "較大的探頭質量僅縮放力響應，同時場保持固定。"
+      },
+      {
+        "id": "vertical-overhead",
+        "label": "垂直頭頂",
+        "description": "源正上方的點使場點筆直向下。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "fieldGrid",
+        "label": "場網格",
+        "shortDescription": "顯示舞台上的範例欄位箭頭。",
+        "whatToNotice": [
+          "每個箭頭都向內指向源，但隨著距離的增加，箭頭會迅速縮小。"
+        ],
+        "whyItMatters": "它使場方向成為整個區域的模式，而不是僅從一個探測點推斷出的方向。",
+        "relatedControls": [
+          "來源海量",
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時組件",
+          "強度-反應"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "fieldVector",
+        "label": "場向量",
+        "shortDescription": "顯示即時場箭頭和從源頭到探頭的徑向線。",
+        "whatToNotice": [
+          "在每一點，青色箭頭都沿著線指向源質量。"
+        ],
+        "whyItMatters": "它將階段方向直接與組件圖和場方程式連結起來。",
+        "relatedControls": [
+          "來源海量",
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時組件",
+          "強度-反應"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "forceVector",
+        "label": "力向量",
+        "shortDescription": "使用相同的即時場顯示所選探頭質量上的力。",
+        "whatToNotice": [
+          "僅更改探頭質量會重新調整珊瑚力箭頭的大小，而青色場箭頭保持固定。"
+        ],
+        "whyItMatters": "它將場本身與放置在該場中的物件的反應分開。",
+        "relatedControls": [
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedEquationVariables": [
+          "測試質量"
+        ]
+      },
+      {
+        "id": "distanceRings",
+        "label": "距離環",
+        "shortDescription": "標記源周圍的等距圓以進行平方反比比較。",
+        "whatToNotice": [
+          "1 m、2 m 和 3 m 環可以更輕鬆地比較 $|\\vec{g}|$ 隨著 $r$ 增長而下降的速度。"
+        ],
+        "whyItMatters": "它將平方反比推理轉換為您可以在計算之前看到的幾何比較。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "scanLine",
+        "label": "圖像掃描線",
+        "shortDescription": "標記兩個圖像取樣的水平切片。",
+        "whatToNotice": [
+          "改變探頭的 y 位置會改變整個圖像，因為圖像現在正在對場的不同切片進行取樣。"
+        ],
+        "whyItMatters": "它保持圖像到階段的連結誠實，而不是使圖像感覺分開。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時組件",
+          "強度-反應"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "field-components",
+      "label": "掃描線上的場分量",
+      "xLabel": "探頭 x 位置 (m)",
+      "yLabel": "重力場分量",
+      "description": "顯示向內場如何沿著目前水平切片分成 x 和 y 分量。"
+    },
+    {
+      "id": "strength-response",
+      "label": "場與力的大小",
+      "xLabel": "探頭 x 位置 (m)",
+      "yLabel": "反應幅度",
+      "description": "將場強與所選探頭上的力分開，因此源質量和探頭質量變化不會混淆。"
+    }
+  ],
   "noticePrompts": {
+    "title": "即時注意事項",
+    "intro": "使用這些提示將階段連接到圖像。將三個想法分開：來源質量創建場，距離設定平方反比大小，探針質量將場轉換為力。",
     "items": [
       {
-        "id": "gf-notice-compare-source-vs-probe"
-      },
-      {
-        "id": "gf-notice-compare-source-vs-probe"
-      },
-      {
-        "id": "gf-notice-compare-source-vs-probe"
-      },
-      {
-        "id": "gf-notice-compare-source-vs-probe"
+        "id": "gf-notice-compare-source-vs-probe",
+        "text": "比較模式在一個設定改變源質量、另一個設定改變探測質量時最有啟發性。前者同時改變重力場和受力，後者只改變受力。",
+        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。",
+        "whyItMatters": "這是領域原因和領域反應之間最快的誠實對比。",
+        "relatedControls": [
+          "來源海量",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "力向量"
+        ]
       },
       {
         "id": "gf-notice-compare-source-vs-probe",
         "text": "比較模式在一個設定改變源質量、另一個設定改變探測質量時最有啟發性。前者同時改變重力場和受力，後者只改變受力。",
-        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。"
+        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。",
+        "whyItMatters": "這是領域原因和領域反應之間最快的誠實對比。",
+        "relatedControls": [
+          "來源海量",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "力向量"
+        ]
+      },
+      {
+        "id": "gf-notice-compare-source-vs-probe",
+        "text": "比較模式在一個設定改變源質量、另一個設定改變探測質量時最有啟發性。前者同時改變重力場和受力，後者只改變受力。",
+        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。",
+        "whyItMatters": "這是領域原因和領域反應之間最快的誠實對比。",
+        "relatedControls": [
+          "來源海量",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "力向量"
+        ]
+      },
+      {
+        "id": "gf-notice-compare-source-vs-probe",
+        "text": "比較模式在一個設定改變源質量、另一個設定改變探測質量時最有啟發性。前者同時改變重力場和受力，後者只改變受力。",
+        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。",
+        "whyItMatters": "這是領域原因和領域反應之間最快的誠實對比。",
+        "relatedControls": [
+          "來源海量",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "力向量"
+        ]
+      },
+      {
+        "id": "gf-notice-compare-source-vs-probe",
+        "text": "比較模式在一個設定改變源質量、另一個設定改變探測質量時最有啟發性。前者同時改變重力場和受力，後者只改變受力。",
+        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。",
+        "whyItMatters": "這是領域原因和領域反應之間最快的誠實對比。",
+        "relatedControls": [
+          "來源海量",
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "力向量"
+        ]
+      },
+      {
+        "id": "gf-notice-inward-direction",
+        "text": "場方向首先：重力場總是指向源質量。",
+        "tryThis": "在來源周圍拖曳探針並保持青色字段箭頭可見。方向應保持向內向中心旋轉。",
+        "whyItMatters": "方向是領域的一部分，而不是事後的想法。先讀幾何，再讀震級。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "即時組件"
+        ],
+        "relatedOverlays": [
+          "字段網格",
+          "字段向量"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "gf-notice-distance-ratio",
+        "text": "在同一條徑向線上，從 1 m 移動到 2 m 將 $|\\vec{g}|$ 減少到大約四分之一。",
+        "tryThis": "在軸近和雙倍距離之間切換，同時保持環和強度圖可見。",
+        "whyItMatters": "它將平方反比轉換為視覺距離比較。",
+        "relatedControls": [
+          "探針X",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedOverlays": [
+          "距離環",
+          "扫描線"
+        ]
+      },
+      {
+        "id": "gf-notice-probe-mass",
+        "text": "僅更改探頭質量會移動力曲線和力箭頭，而不是場曲線或場箭頭。",
+        "tryThis": "保持來源質量和探頭位置固定，然後向上拖曳探頭質量滑桿。",
+        "whyItMatters": "它將來源產生的場與所選物件的回應分開。",
+        "relatedControls": [
+          "測試質量"
+        ],
+        "relatedGraphTabs": [
+          "強度-反應"
+        ],
+        "relatedOverlays": [
+          "字段向量",
+          "力向量"
+        ],
+        "relatedEquationVariables": [
+          "測試質量"
+        ]
+      },
+      {
+        "id": "gf-notice-source-mass",
+        "text": "改變源質量會縮放整個場模式，同時每個箭頭仍然指向內。",
+        "tryThis": "保持探頭固定並將源質量從 2 kg 增加到 4 kg。此時場和力的大小都應加倍。",
+        "whyItMatters": "在組合源強度概念和距離概念之前，它將它們分開。",
+        "relatedControls": [
+          "來源海量"
+        ],
+        "relatedGraphTabs": [
+          "即時組件",
+          "強度-反應"
+        ],
+        "relatedOverlays": [
+          "字段網格",
+          "字段向量"
+        ],
+        "relatedEquationVariables": [
+          "來源海量"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測重力響應。每種情況都隔離一個原因：源質量改變場，距離通過平方反比縮放改變場，而探針質量僅改變力。",
     "items": [
       {
         "id": "gf-pred-source-mass",
+        "prompt": "在一個固定探測點，如果源質量加倍而探測器位置和探測器質量保持固定，會發生什麼情況？",
+        "scenarioLabel": "源質量加倍",
         "changeLabel": "來源質量",
         "choices": [
           {
             "id": "b",
             "label": "增加源質量會使場強在每個點上按比例增大。探針質量不變時，力也會以相同的因子增大，因為它由該場構成。"
+          },
+          {
+            "id": "a",
+            "label": "場強度和力強度均加倍，且方向保持向內。"
+          },
+          {
+            "id": "c",
+            "label": "方向翻轉，因為較大的源質量將重力指向外側。"
           }
-        ]
+        ],
+        "explanation": "源質量創建了場，因此增加 M 會縮放該點的整個場。對於相同的探頭質量，力以相同的係數縮放，因為 F = m_test g。",
+        "observationHint": "青色野箭和珊瑚力箭都應該生長，同時保持相同的向內方向。"
       },
       {
         "id": "gf-pred-heavy-probe",
+        "prompt": "如果只有探針質量在同一點加倍，哪種說法最有道理？",
         "scenarioLabel": "將探測質量加倍",
-        "changeLabel": "探測器質量"
+        "changeLabel": "探測器質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "力加倍，而場保持不變，因為只有反應品質發生了變化。"
+          },
+          {
+            "id": "b",
+            "label": "場加倍，因為引力交互作用現在涉及更多的總質量。"
+          },
+          {
+            "id": "c",
+            "label": "場方向發生翻轉，因為探頭現在比以前更重。"
+          }
+        ],
+        "explanation": "源質量和幾何形狀決定了場。僅改變探頭質量會改變 F = m_test g，因此力會重新調整，而場本身保持固定。",
+        "observationHint": "珊瑚力曲線應該會上升，而青色場曲線保持不變。"
+      },
+      {
+        "id": "gf-pred-double-distance",
+        "prompt": "從 1 m 軸的情況開始，當探頭在同一軸上移動到 2 m 並且質量保持固定時會發生什麼？",
+        "scenarioLabel": "雙倍距離",
+        "changeLabel": "距離",
+        "choices": [
+          {
+            "id": "a",
+            "label": "場和力均降至 1 m 情況的約四分之一。"
+          },
+          {
+            "id": "b",
+            "label": "由於距離加倍，場和力都下降到大約一半。"
+          },
+          {
+            "id": "c",
+            "label": "只有垂直分量發生變化，因為探頭停留在軸上。"
+          }
+        ],
+        "explanation": "對於一個源質量，|g|遵循平方反比法則。距離加倍會使分母乘以四，因此當探頭質量保持固定時，場和力都會下降到大約四分之一。",
+        "observationHint": "將距離環和強度圖結合使用。 2 m 點應落在 1 m 場地的四分之一附近。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "將相同的單質量場調整為緊湊目標。檢查讀取即時平方反比模型，而不是獨立的答案鍵。",
     "items": [
       {
-        "id": "gf-ch-double-force-not-field"
+        "id": "gf-ch-double-force-not-field",
+        "title": "雙倍力，而非場",
+        "prompt": "由基準斜向位置開始，只改變探測質量，使受力大小加倍，但重力場保持不變。",
+        "successMessage": "您在未重寫字段的情況下更改了響應：珊瑚力加倍，而青色字段保持不變，因為只有 m_test 發生了變化。",
+        "setup": {
+          "note": "保留源質量和探頭位置。只有探頭質量應該移動。"
+        },
+        "hints": [
+          "若場應保持固定，請勿觸摸來源質量或探頭位置。",
+          "加倍 m_test 加倍 |F|因為 F = m_test g。"
+        ],
+        "targets": [
+          {
+            "label": "將測試品質維持在 1.95 公斤到 2.05 公斤之間。"
+          },
+          {
+            "label": "將場幅值維持在 0.49 到 0.51 之間。"
+          },
+          {
+            "label": "將力大小保持在 0.98 到 1.02 之間。"
+          }
+        ],
+        "style": "目標設定"
       },
       {
         "id": "gf-ch-double-force-not-field",
-        "prompt": "由基準斜向位置開始，只改變探測質量，使受力大小加倍，但重力場保持不變。"
+        "title": "雙倍力，而非場",
+        "prompt": "由基準斜向位置開始，只改變探測質量，使受力大小加倍，但重力場保持不變。",
+        "successMessage": "您在未重寫字段的情況下更改了響應：珊瑚力加倍，而青色字段保持不變，因為只有 m_test 發生了變化。",
+        "setup": {
+          "note": "保留源質量和探頭位置。只有探頭質量應該移動。"
+        },
+        "hints": [
+          "若場應保持固定，請勿觸摸來源質量或探頭位置。",
+          "加倍 m_test 加倍 |F|因為 F = m_test g。"
+        ],
+        "targets": [
+          {
+            "label": "將測試品質維持在 1.95 公斤到 2.05 公斤之間。"
+          },
+          {
+            "label": "將場幅值維持在 0.49 到 0.51 之間。"
+          },
+          {
+            "label": "將力大小保持在 0.98 到 1.02 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "gf-ch-quarter-field-by-distance",
+        "title": "以距離將場地四等分",
+        "prompt": "從近軸開始，將探頭移動到同一水平線上的雙倍距離情況，以便場強度降至 1 m 參考值的大約四分之一。",
+        "successMessage": "你誠實地使用了相同的單質量場：將同一條徑向線切割 |g| 上的距離加倍到大約四分之一。",
+        "setup": {
+          "note": "保持源質量和探針質量固定。將環和響應圖一起使用。"
+        },
+        "hints": [
+          "保持在水平軸上，以便比較僅關於距離，而不是方向。",
+          "目標不在場地的一半。對於一個質量，r 加倍會使平方反比分母增加四。"
+        ],
+        "targets": [
+          {
+            "label": "將探頭保持在 1.95 m 到 2.05 m 之間。"
+          },
+          {
+            "label": "將探頭保持在 -0.05 m 和 0.05 m 之間。"
+          },
+          {
+            "label": "將場幅值維持在 0.48 到 0.52 之間。"
+          },
+          {
+            "label": "將力大小保持在 0.48 到 0.52 之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "重力場 |開放模型實驗室",
+    "description": "透過緊湊的單質量實驗室學習重力場，該實驗室將內向場方向、平方反比強度、探針力響應、掃描圖、引導疊加、預測提示和概念快速測試連結起來。",
+    "keywords": [
+      "重力場",
+      "重力",
+      "平方反比定律",
+      "測試質量",
+      "實體模擬"
     ]
   }
 }

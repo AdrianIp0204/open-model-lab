@@ -59,22 +59,27 @@
           "steps": [
             {
               "id": "read-mixture",
-              "label": "1. 閱讀目前的混合物份量"
+              "label": "1. 閱讀目前的混合物份量",
+              "template": "實驗台目前有酸量{{acidAmountValue}}、鹼量{{baseAmountValue}}和水量{{waterVolumeValue}}。"
             },
             {
               "id": "read-character",
-              "label": "2. 比較兩種混合物特性"
+              "label": "2. 比較兩種混合物特性",
+              "template": "給出酸性字元 {{acidCharacterValue}} 和基本字元 {{baseCharacterValue}}。"
             },
             {
               "id": "read-ph",
-              "label": "3. 一起讀取pH尺度和混合物條形圖"
+              "label": "3. 一起讀取pH尺度和混合物條形圖",
+              "template": "所得 pH 值約為 {{pHValue}}，酸份額為 {{acidShareValue}}%，鹼份額為 {{baseShareValue}}%。"
             }
           ],
           "resultLabel": "當前pH讀數",
+          "resultTemplate": "$\\mathrm{pH} \\approx {{pHValue}}$",
           "applyAction": {
             "label": "應用近中性情況",
             "observationHint": "pH試紙和特性條形圖應該一起保持在中間附近。"
-          }
+          },
+          "interpretationTemplate": "{{acidityInterpretation}}"
         }
       ]
     },
@@ -106,7 +111,11 @@
             "label": "僅液體總量。"
           }
         ],
-        "explanation": "pH讀數總結了當前的酸鹼平衡。"
+        "explanation": "pH讀數總結了當前的酸鹼平衡。",
+        "selectedWrongExplanations": {
+          "b": "條帶顏色報告 pH 值；它本身並不是潛在的酸鹼量。",
+          "c": "總液體量本身並不能決定酸/鹼特性。"
+        }
       },
       {
         "id": "abph-qt-water",
@@ -125,19 +134,25 @@
             "label": "它始終會使混合物更鹼性。"
           }
         ],
-        "explanation": "更多的水將相同的酸和鹼影響擴散到更大的體積中。"
+        "explanation": "更多的水將相同的酸和鹼影響擴散到更大的體積中。",
+        "selectedWrongExplanations": {
+          "a": "加水稀釋；它並不總是使混合物變得更酸性。",
+          "c": "加水稀釋；它並不總是使混合物變得更鹼性。"
+        }
       }
     ]
   },
   "accessibility": {
     "simulationDescription": {
       "paragraphs": [
-        "模擬顯示一個酸鹼容器、一張pH試紙以及調節酸量、鹼量和水量的控制項。"
+        "模擬顯示一個溶液容器、一條 pH 條、酸鹼影響條以及酸量、鹼量和水量的滑塊。",
+        "改變滑桿會更新目前 pH 值和混合物的可見平衡。"
       ]
     },
     "graphSummary": {
       "paragraphs": [
-        "一張圖表顯示 pH 隨著酸量變化，另一張則顯示 pH 隨著鹼量變化。"
+        "一張圖顯示 pH 值與酸量的關係，另一張圖則顯示 pH 值與鹼量的關係。",
+        "使用它們來比較每個控制項如何將混合物推離或推向中性。"
       ]
     }
   },
@@ -154,6 +169,73 @@
         "description": "開啟一個接近中性的案例並比較酸性和鹼性特性的條形圖。"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "將 pH 值讀取為即時平衡：酸量、鹼量和水量均移動相同的條帶和字元條。",
+    "whyItMatters": "這使得中和和緩衝液感覺像是可見的混合物變化，而不是記憶的 pH 標籤。",
+    "keyTakeaway": "pH 值總結了目前混合物的哪一側更強，而水控制了不平衡感覺的強度。"
+  },
+  "v2": {
+    "intuition": "當條帶、字元條、酸量、鹼量和水量留在一個即時實驗台上時，pH 不再感覺像標籤。",
+    "whyItMatters": "這使得酸鹼平衡在您進入中和、緩衝或更正式的化學語言之前可讀。",
+    "equationSnapshot": {
+      "note": "保持故事的定性：天平顯示哪一方更強，而水則將雙方軟化。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-live-mixture",
+        "title": "讀取即時混合物",
+        "goal": "將 pH 試紙和混合物條作為一張圖片輕鬆閱讀。",
+        "doThis": "從酸性混合物開始，保持 pH 條和字符條可見，並僅移動第一遍的基本量。",
+        "notice": "當酸性特徵明顯較強時，pH 標記位於中性中間下方。條帶和條應該一致。",
+        "explain": "pH 讀數不是分離的標籤。它總結了當前混合物的哪一方現在更強。"
+      },
+      {
+        "id": "push-the-mixture-toward-neutral",
+        "title": "將混合物推向中性",
+        "goal": "看看平衡另一側如何將天平移回中間。",
+        "doThis": "應用接近中性，然後沿相反方向移動酸量和鹼量，同時 pH 圖保持打開狀態。",
+        "notice": "當兩個字元靠得更近時，pH 標記和字元條都會向後移向中間。",
+        "explain": "中性首先不是一個記住的標籤。這是現實中的情況，雙方都沒有很強的統治力。"
+      },
+      {
+        "id": "see-what-water-changes",
+        "title": "看看水發生了什麼變化",
+        "goal": "將平衡混合物與簡單稀釋分開。",
+        "doThis": "暫時保持相同的酸和鹼量，然後僅改變水體積，並與條一起讀取條帶。",
+        "notice": "加水可以軟化兩面。即使您沒有直接添加更多的酸或更多的鹼，pH 值也會向中間漂移。",
+        "explain": "水會改變現有混合物的顯示強度；它本身並不會神奇地創造新的酸鹼平衡。"
+      },
+      {
+        "id": "check-your-ph-story",
+        "title": "檢查您的 pH 故事",
+        "goal": "在繼續之前，請確認您可以解釋 pH 值所概括的內容。",
+        "doThis": "使用快速檢查，然後在同一個實驗台上建立您自己的酸性、鹼性和近中性案例之一。",
+        "notice": "最有力的解釋是將條帶與混合物故事聯繫在一起，而不是將 pH 視為獨立的詞彙標籤。",
+        "explain": "如果您能說出酸量、鹼量和水各自對試紙條的作用，則您已準備好進行完整的概念測試和緩衝液後續工作。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "pH 試紙正在總結當前酸性特徵或鹼性特徵是否更強。",
+        "改變酸和鹼會在一個尺度上將相同的活性混合物推向相反的方向。",
+        "加水可以軟化兩面，並且可以使相同的混合物恢復到中性。"
+      ],
+      "misconception": "pH 不僅僅是一個記住的標籤。這個數字很重要，因為它總結了混合物中的即時酸鹼平衡。",
+      "freePlayPrompt": "留在長凳上，製作一種酸性情況、一種鹼性情況和一種近中性情況，直到您可以在觸摸控制之前預測條帶將如何移動。",
+      "nextConcepts": [
+        {
+          "slug": "buffers-and-neutralization",
+          "title": "緩衝液與中和",
+          "reasonLabel": "保持相同的 pH 實驗台，看看為什麼緩衝液儲備無法改變。"
+        },
+        {
+          "slug": "dynamic-equilibrium-le-chateliers-principle",
+          "title": "動態平衡/勒夏特列原理",
+          "reasonLabel": "將酸鹼平衡與擾動後系統穩定性的更廣泛概念連結起來。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -185,6 +267,23 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "概念標籤",
+      "primaryGraphIds": [
+        "概念標籤",
+        "概念標籤"
+      ],
+      "primaryControlIds": [
+        "基本金額",
+        "酸量",
+        "水量"
+      ],
+      "primaryPresetIds": [
+        "酸性混合物",
+        "接近中性",
+        "基本組合"
+      ]
+    },
     "controls": [
       {
         "id": "acid-amount",
@@ -222,9 +321,24 @@
         "label": "性質條",
         "shortDescription": "同時顯示酸性與鹼性兩邊的強弱。",
         "whatToNotice": [
-          "pH 試紙和混合物性質條應該一起指向同一邊較強。"
+          "當酸棒較大時，pH 標記應坐得較低；當基桿較大時，它應該坐得較高。",
+          "加水可以減少不匹配的大小，而無需改變哪一側較大。"
         ],
-        "whyItMatters": "它把 pH 讀數重新連回實際的混合物性質。"
+        "whyItMatters": "它把 pH 讀數重新連回實際的混合物性質。",
+        "relatedControls": [
+          "酸量",
+          "基本金額",
+          "水量"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "酸量",
+          "基本金額",
+          "水量"
+        ]
       },
       {
         "id": "phScale",
@@ -233,7 +347,19 @@
         "whatToNotice": [
           "當酸或鹼一方變強時，刻度位置會向那一側移動。"
         ],
-        "whyItMatters": "它讓 pH 不再只是抽象數字，而是混合狀態的即時讀數。"
+        "whyItMatters": "它讓 pH 不再只是抽象數字，而是混合狀態的即時讀數。",
+        "relatedControls": [
+          "酸量",
+          "基本金額"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "酸量",
+          "基本金額"
+        ]
       },
       {
         "id": "particleMotion",
@@ -242,7 +368,17 @@
         "whatToNotice": [
           "即使 pH 接近中性，燒杯裡仍然是實際可見的混合過程。"
         ],
-        "whyItMatters": "它提醒你這不是靜止標籤，而是持續混合中的溶液。"
+        "whyItMatters": "它提醒你這不是靜止標籤，而是持續混合中的溶液。",
+        "relatedControls": [
+          "水量"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "水量"
+        ]
       }
     ]
   },
@@ -266,11 +402,38 @@
     "items": [
       {
         "id": "abph-notice-acid",
-        "text": "當你慢慢增加酸量時，pH 會向較低的一側移動，而酸性條也會變得更長。"
+        "text": "當你慢慢增加酸量時，pH 會向較低的一側移動，而酸性條也會變得更長。",
+        "relatedControls": [
+          "酸量"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "酸鹼度",
+          "角色混合"
+        ],
+        "relatedEquationVariables": [
+          "酸量"
+        ]
       },
       {
         "id": "abph-notice-water",
-        "text": "加水不會把酸或鹼變成另一種東西，但會把兩邊的影響都拉向較溫和，令 pH 靠近中間。"
+        "text": "加水不會把酸或鹼變成另一種東西，但會把兩邊的影響都拉向較溫和，令 pH 靠近中間。",
+        "relatedControls": [
+          "水量"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "酸鹼度",
+          "角色混合"
+        ],
+        "relatedEquationVariables": [
+          "水量"
+        ]
       }
     ]
   },
@@ -309,8 +472,30 @@
         "id": "abph-ch-land-near-neutral",
         "title": "調到接近中性",
         "prompt": "把目前的混合物調整到接近中性，令 pH 回到中間附近，同時保留清楚的酸鹼平衡。",
-        "successMessage": "你已把混合物拉回接近中性，pH 試紙與性質條都顯示兩邊影響接近平衡。"
+        "successMessage": "你已把混合物拉回接近中性，pH 試紙與性質條都顯示兩邊影響接近平衡。",
+        "targets": [
+          {
+            "label": "將 pH 值保持在 6.6 至 7.4 之間。"
+          },
+          {
+            "label": "將酸份額保持在 0.45 到 0.55 之間。"
+          },
+          {
+            "label": "將基礎份額保持在 0.45 到 0.55 之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "酸鹼 / pH 直覺",
+    "description": "探討酸鹼特性、作為即時尺度的 pH 值，以及酸、鹼和水如何改變有界化學系統。",
+    "keywords": [
+      "酸鹼",
+      "pH 值",
+      "化學",
+      "中和"
     ]
   }
 }

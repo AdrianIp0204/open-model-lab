@@ -24,6 +24,14 @@
     }
   ],
   "sections": {
+    "explanation": {
+      "paragraphs": [
+        "簡諧振動是加速度始終指向平衡並隨著位移而增長的運動。將質量移到一側，恢復加速度指向中心，試圖將其拉回來。",
+        "質量不會停止在平衡狀態，因為它的速度在平衡狀態下最大。它穿過中心，超調，同樣的恢復規則減慢它的速度，反轉它，並重複這個循環。",
+        "舞台和圖像顯示同一時刻。在轉折點，位移最大，速度為零，恢復加速度也最大。在平衡交叉處，位移和加速度為零，而速度最大。",
+        "一次只使用一個想法的控制項。振幅設定轉折點和能量比例，角頻率改變循環重複的速度，相位僅改變循環的起點。"
+      ]
+    },
     "keyIdeas": [
       "物體在平衡位置附近速度最快，在轉折點附近會慢下來。",
       "加速度永遠指回平衡位置，而不是指向物體當下的運動方向。",
@@ -52,51 +60,75 @@
             {
               "id": "phase",
               "label": "相位"
+            },
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "omega",
+              "label": "角頻率"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別關係式"
+              "label": "1. 識別關係式",
+              "template": "使用即時位移關係式 $x(t) = A\\cos(\\omega t + \\phi)$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前數值"
+              "label": "2. 代入目前數值",
+              "template": "$x({{timeValue}}) = {{amplitudeValue}}\\cos({{omegaValue}}\\cdot {{timeValue}} + {{phaseValue}})$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算相位角"
+              "label": "3. 計算相位角",
+              "template": "目前相位角為$\\omega t + \\phi = {{phaseAngleValue}}$，因此位移變成$x = {{displacementValue}}\\,\\mathrm{m}$。"
             }
           ],
           "resultLabel": "目前位移",
+          "resultTemplate": "$x({{timeValue}}) = {{displacementValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "套用平穩起步",
             "observationHint": "振子會從乾淨的參考狀態開始，因此更容易把計算結果和舞台及圖表對照。"
-          }
+          },
+          "interpretationTemplate": "{{displacementInterpretation}}"
         },
         {
           "id": "current-period",
           "title": "由角頻率求週期",
           "prompt": "對目前的角頻率而言，完成一個完整週期需要多久？",
+          "variables": [
+            {
+              "id": "omega",
+              "label": "角頻率"
+            }
+          ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別關係式"
+              "label": "1. 識別關係式",
+              "template": "對於簡諧振動，週期為 $T = \\dfrac{2\\pi}{\\omega}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前頻率"
+              "label": "2. 代入目前頻率",
+              "template": "$T = \\dfrac{2\\pi}{ {{omegaValue}} }$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算週期"
+              "label": "3. 計算週期",
+              "template": "這給了一次完整振盪的 $T = {{periodValue}}\\,\\mathrm{s}$。"
             }
           ],
           "resultLabel": "目前週期",
+          "resultTemplate": "$T = {{periodValue}}\\,\\mathrm{s}$",
           "applyAction": {
             "label": "套用快速迴圈",
             "observationHint": "當角頻率提高時，圖表上的峯值會靠得更近，因為週期縮短了。"
-          }
+          },
+          "interpretationTemplate": "{{periodInterpretation}}"
         }
       ]
     },
@@ -240,6 +272,74 @@
     "whyItMatters": "加速度永遠指回平衡位置，而不是指向物體當下的運動方向。",
     "keyTakeaway": "物體在平衡位置附近速度最快，在轉折點附近會慢下來。"
   },
+  "v2": {
+    "intuition": "將質量推離平衡一次，然後使用舞台和圖像來觀察相同的恢復拉力如何保持運動重複。",
+    "whyItMatters": "這是彈簧、振動和後來的波浪思想背後的可重複使用的模式，因此值得將其視為一個連貫的循環，而不是四個單獨的公式。",
+    "equationSnapshot": {
+      "title": "正在恢復圖案",
+      "note": "閱讀循環時，請注意一個位移方程式和一個加速度方程式。"
+    },
+    "startSetup": {
+      "note": "從適度、可讀的振盪開始，以便在更改控制之前可以看到轉折點和平衡線。",
+      "interactionMode": "探索"
+    },
+    "guidedSteps": [
+      {
+        "id": "see-one-full-cycle",
+        "title": "看一個完整週期",
+        "goal": "在分析圖像之前，在即時實驗台上建立第一張圖片。",
+        "doThis": "按播放鍵，保持位移圖可見，然後增加一次振幅。",
+        "notice": "質量擺動離平衡更遠，位移峰值隨著那些較寬的轉折點移動。",
+        "explain": "振幅會改變運動伸展的距離，但恢復拉力每次仍指向中心。",
+        "inlineCheck": {
+          "title": "預測下一個更廣泛的波動"
+        }
+      },
+      {
+        "id": "link-stage-and-graphs",
+        "title": "連結舞台與圖像",
+        "goal": "匹配區塊、位移圖、速度圖和加速度圖上的一個暫停瞬間。",
+        "doThis": "在轉折點和平衡交叉點暫停一次，然後將區塊位置與速度和加速度圖進行比較。",
+        "notice": "轉折點以零速度和大恢復加速度排列；平衡交叉點顯示零位移、峰值速度和零加速度。",
+        "explain": "速度取決於質量移動通過中心的速度，但加速度取決於質量距離中心的位移多遠。",
+        "inlineCheck": {
+          "title": "回答前先閱讀圖像"
+        }
+      },
+      {
+        "id": "explain-the-restoring-rule",
+        "title": "解釋恢復規則",
+        "goal": "大聲說出決定加速度方向的因素。",
+        "doThis": "使用角頻率收緊週期，然後在不隱藏活動實驗台的情況下回答快速檢查。",
+        "notice": "改變時間並不會改變規則：加速度仍然指向平衡，而不是目前的行進方向。",
+        "explain": "簡諧振動受平衡位移控制，因此即使物體仍在向另一個方向移動，位置也會告訴您恢復拉力。",
+        "inlineCheck": {
+          "title": "再使用一張簡短的支票"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "轉折點是指同一時刻的最大位移、零速度和最強恢復加速度。",
+        "平衡交叉意味著零位移、零加速度和最大速度。",
+        "振幅改變運動的大小，而角頻率只改變時間。"
+      ],
+      "misconception": "SHM 中的加速度遵循位移，而不是質量目前移動的方向。",
+      "freePlayPrompt": "讓實驗台繼續運作並發明你自己的一對轉折點和平衡交叉比較。",
+      "nextConcepts": [
+        {
+          "slug": "oscillation-energy",
+          "title": "振盪能量",
+          "reasonLabel": "能量視圖"
+        },
+        {
+          "slug": "wave-interference",
+          "title": "波幹擾",
+          "reasonLabel": "疊加鏈接"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "shm-displacement",
@@ -249,7 +349,8 @@
         "A 決定運動的大小。",
         "\\omega 決定週期重複得有多快。",
         "\\phi 決定從週期中的哪裡開始。"
-      ]
+      ],
+      "readAloud": "時間 t 處的位置等於振幅乘以 omega 的餘弦乘以時間加上 phi"
     },
     {
       "id": "shm-velocity",
@@ -265,7 +366,8 @@
       "meaning": "把系統拉回平衡位置的回復加速度。",
       "notes": [
         "加速度永遠和位移方向相反。"
-      ]
+      ],
+      "readAloud": "時間 t 的加速度等於 t 的 omega 平方乘以 x"
     },
     {
       "id": "shm-energy",
@@ -291,6 +393,22 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "位移",
+      "primaryGraphIds": [
+        "位移"
+      ],
+      "primaryControlIds": [
+        "振幅",
+        "歐米茄"
+      ],
+      "primaryPresetIds": [],
+      "starterExploreTasks": [
+        "改變振幅並觀察質量偏離平衡的距離。",
+        "保持位移圖可見，並將即時轉折點與圖像峰值進行比較。",
+        "增加角頻率，並注意週期收緊，而峰值位移保持不變。"
+      ]
+    },
     "controls": [
       {
         "id": "amplitude",
@@ -333,7 +451,12 @@
         "whatToNotice": [
           "振子每次穿過中心時都會經過這條線。"
         ],
-        "whyItMatters": "它把整段運動固定在清楚的中心上，讓位移正負一眼可見。"
+        "whyItMatters": "它把整段運動固定在清楚的中心上，讓位移正負一眼可見。",
+        "relatedGraphTabs": [
+          "位移",
+          "速度",
+          "加速度"
+        ]
       },
       {
         "id": "motionTrail",
@@ -342,7 +465,20 @@
         "whatToNotice": [
           "在轉折點附近，軌跡會顯得更密，因為那裡的運動較慢。"
         ],
-        "whyItMatters": "它讓你能直接從舞台看出速度變化。"
+        "whyItMatters": "它讓你能直接從舞台看出速度變化。",
+        "relatedControls": [
+          "振幅",
+          "歐米茄",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "歐米茄",
+          "階段"
+        ]
       },
       {
         "id": "velocityVector",
@@ -351,7 +487,20 @@
         "whatToNotice": [
           "振子穿過平衡位置時，速度向量會翻轉方向。"
         ],
-        "whyItMatters": "它把圖上斜率和舞台上的真實運動連在一起。"
+        "whyItMatters": "它把圖上斜率和舞台上的真實運動連在一起。",
+        "relatedControls": [
+          "振幅",
+          "歐米茄",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "振幅",
+          "歐米茄",
+          "階段"
+        ]
       },
       {
         "id": "accelerationVector",
@@ -360,7 +509,20 @@
         "whatToNotice": [
           "這支箭頭永遠指向位移的反方向。"
         ],
-        "whyItMatters": "它讓回復力這個概念在舞台上一直保持可見。"
+        "whyItMatters": "它讓回復力這個概念在舞台上一直保持可見。",
+        "relatedControls": [
+          "歐米茄",
+          "振幅",
+          "階段"
+        ],
+        "relatedGraphTabs": [
+          "加速度"
+        ],
+        "relatedEquationVariables": [
+          "歐米茄",
+          "振幅",
+          "階段"
+        ]
       }
     ]
   },
@@ -402,37 +564,100 @@
         "id": "shm-notice-equilibrium-speed",
         "text": "留意：質點穿過平衡位置時最快，靠近轉折點時最慢。",
         "tryThis": "看質點穿過中心，再把那一刻和速度圖的峯值對照起來。",
-        "whyItMatters": "它能把位移和速率分清楚：離平衡最遠時，並不是速度最大。"
+        "whyItMatters": "它能把位移和速率分清楚：離平衡最遠時，並不是速度最大。",
+        "relatedControls": [
+          "振幅",
+          "歐米茄"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "速度"
+        ],
+        "relatedOverlays": [
+          "運動軌跡",
+          "速度向量"
+        ]
       },
       {
         "id": "shm-notice-velocity-graph",
         "text": "留意：速度圖的峯值出現在位移穿越平衡位置時，而不是出現在最外側。",
         "tryThis": "切到速度圖，再把圖上的標記和舞台中質點的位置一起對照。",
-        "whyItMatters": "這是看見位移和速度相差四分之一個週期最清楚的方法。"
+        "whyItMatters": "這是看見位移和速度相差四分之一個週期最清楚的方法。",
+        "relatedGraphTabs": [
+          "速度",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "速度向量"
+        ],
+        "relatedEquationVariables": [
+          "歐米茄",
+          "階段"
+        ]
       },
       {
         "id": "shm-notice-acceleration",
         "text": "留意：即使質點還在往外移動，加速度也已經指回平衡位置。",
         "tryThis": "開啟加速度向量，在轉折點附近暫停，對照位移和回復方向。",
-        "whyItMatters": "正是這個回復加速度，讓運動會反向，而不是一路漂出去。"
+        "whyItMatters": "正是這個回復加速度，讓運動會反向，而不是一路漂出去。",
+        "relatedGraphTabs": [
+          "加速度"
+        ],
+        "relatedOverlays": [
+          "加速度向量"
+        ],
+        "relatedEquationVariables": [
+          "歐米茄",
+          "振幅"
+        ]
       },
       {
         "id": "shm-notice-omega-change",
         "text": "留意：提高角頻率改變的是迴圈速度，而不是質點走多遠。",
         "tryThis": "先提高角頻率，再看位移圖峯值之間的間距如何改變，之後才去碰振幅。",
-        "whyItMatters": "頻率控制時間節奏，而振幅才決定轉折點位置。"
+        "whyItMatters": "頻率控制時間節奏，而振幅才決定轉折點位置。",
+        "relatedControls": [
+          "歐米茄",
+          "振幅"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "歐米茄",
+          "振幅"
+        ]
       },
       {
         "id": "shm-notice-inspect",
         "text": "留意：當你暫停並拖曳時間時，舞台、圖表標記和目前讀數其實都在描述同一個瞬間。",
         "tryThis": "先暫停，再前進一步，觀察位移、速度和加速度如何一起更新，而不是被當成三件獨立的事。",
-        "whyItMatters": "這是把運動、圖表和方程式真正連在一起的最清楚橋樑。"
+        "whyItMatters": "這是把運動、圖表和方程式真正連在一起的最清楚橋樑。",
+        "relatedGraphTabs": [
+          "位移",
+          "速度",
+          "加速度"
+        ],
+        "relatedControls": [
+          "階段",
+          "歐米茄"
+        ]
       },
       {
         "id": "shm-notice-compare",
         "text": "留意：哪一組設定更早到達同一個轉折點；那一組的週期就更短。",
         "tryThis": "讓 A 和 B 的振幅差不多，再只改其中一組的角頻率，觀察時間節奏如何分開。",
-        "whyItMatters": "比較模式能在不改變空間畫面的情況下，把時間差異直接攤開。"
+        "whyItMatters": "比較模式能在不改變空間畫面的情況下，把時間差異直接攤開。",
+        "relatedControls": [
+          "歐米茄"
+        ],
+        "relatedGraphTabs": [
+          "位移"
+        ],
+        "relatedOverlays": [
+          "運動軌跡"
+        ]
       }
     ]
   },
@@ -507,7 +732,8 @@
           {
             "label": "把振幅維持在 $1.1$ 到 $1.3\\,\\mathrm{m}$ 之間。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       },
       {
         "id": "shm-ch-compare-frequency",
@@ -531,8 +757,19 @@
           {
             "label": "把 設定 B 的角頻率提高到超過 $2.6\\,\\mathrm{rad/s}$。"
           }
-        ]
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "簡諧振動",
+    "description": "互動式簡諧振動，具有即時圖像、可調節相位以及位移、速度和加速度之間的清晰聯繫。",
+    "keywords": [
+      "簡諧振動",
+      "振盪",
+      "SHM",
+      "實體模擬"
     ]
   }
 }

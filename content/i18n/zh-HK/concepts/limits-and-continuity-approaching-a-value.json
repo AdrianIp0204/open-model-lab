@@ -13,6 +13,10 @@
     {
       "slug": "integral-as-accumulation-area",
       "reasonLabel": "將可視的接近行為帶入積累，而不離開影像為先的分支"
+    },
+    {
+      "slug": "optimization-maxima-minima-and-constraints",
+      "reasonLabel": "使用相同的圖優先微積分語言在一個矩形實驗台上捕捉受約束的轉折點"
     }
   ],
   "sections": {
@@ -55,22 +59,27 @@
           "steps": [
             {
               "id": "read-case",
-              "label": "1. 閱讀活躍案例和距離"
+              "label": "1. 閱讀活躍案例和距離",
+              "template": "將實驗台設定在 {{caseLabelValue}} 箱上，樣品標記距 $x = 0$ 的距離為 $h = {{hValue}}$。"
             },
             {
               "id": "read-sides",
-              "label": "2. 閱讀兩個單側值"
+              "label": "2. 閱讀兩個單側值",
+              "template": "從圖中，左側樣本約為 {{leftValueValue}}，右側樣本約為 {{rightValueValue}}。"
             },
             {
               "id": "decide-limit-story",
-              "label": "3. 再決定這對極限故事有何説法"
+              "label": "3. 再決定這對極限故事有何説法",
+              "template": "{{twoSidedDecision}}"
             }
           ],
           "resultLabel": "單側接近讀數",
+          "resultTemplate": "$f(0^-) \\approx {{leftValueValue}}, \\quad f(0^+) \\approx {{rightValueValue}}$",
           "applyAction": {
             "label": "應用可移除空洞情況",
             "observationHint": "即使填入點放在別處，兩邊仍然已經逼近同一個高度。"
-          }
+          },
+          "interpretationTemplate": "{{oneSidedInterpretation}}"
         },
         {
           "id": "limit-versus-the-actual-point",
@@ -85,22 +94,27 @@
           "steps": [
             {
               "id": "read-limit",
-              "label": "1. 讀取極限值"
+              "label": "1. 讀取極限值",
+              "template": "讀取的兩側極限為 {{twoSidedLimitSentence}}。"
             },
             {
               "id": "read-point",
-              "label": "2. 讀取目標點的實際函式值"
+              "label": "2. 讀取目標點的實際函式值",
+              "template": "在 $x = 0$ 處，圖像顯示 {{actualPointSentence}}。"
             },
             {
               "id": "decide-continuity",
-              "label": "3. 判斷連續性"
+              "label": "3. 判斷連續性",
+              "template": "{{continuityDecisionSentence}}"
             }
           ],
           "resultLabel": "極限值與點的比較",
+          "resultTemplate": "$L = {{twoSidedLimitValueMath}}, \\quad f(0) = {{actualPointValueMath}}$",
           "applyAction": {
             "label": "應用跳躍情況",
             "observationHint": "左側和右側趨向不同高度，因此沒有單一的雙側極限可供填入點匹配。"
-          }
+          },
+          "interpretationTemplate": "{{continuityInterpretation}}"
         }
       ]
     },
@@ -161,6 +175,7 @@
         ],
         "explanation": "連續性需要兩個條件：極限存在，而且實際函式值正好落在同一個值上。",
         "selectedWrongExplanations": {
+          "a": "一個可拆卸的孔說明了為什麼它不完整。當點仍然未達極限時，極限可能存在。",
           "c": "單獨一個填滿的點仍可能位於附近趨勢行為之外。"
         },
         "showMeAction": {
@@ -187,6 +202,7 @@
         ],
         "explanation": "爆發情況不會趨向一個真實的有限高度，所以有限雙邊極限失敗。",
         "selectedWrongExplanations": {
+          "a": "缺失點不會強制限制為零。附近的值是決定因素。",
           "b": "缺少的點不強制極限為零。附近的值是決定因素。"
         },
         "showMeAction": {
@@ -252,6 +268,71 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "從兩側向內移動一個目標距離滑塊，將有限極限引導與實際點進行比較，並在一個圖像優先實驗台上分離連續的、可移動的孔、跳躍和爆炸行為。",
+    "whyItMatters": "極限是導數、積分和連續性檢查背後的語言，因此在符號開始變得抽象之前，此頁面使「接近」可見。",
+    "keyTakeaway": "先分別讀取左右手標記；只有當這些單方面的故事達成一致後，才允許進行雙面限制。"
+  },
+  "v2": {
+    "intuition": "將兩個樣本點從相對側向 x = 0 移動，使極限成為可見的著陸故事，而不是需要記住的定義。",
+    "whyItMatters": "連續性是第一個微積分檢查點：在單方面接近一致之後，實際點仍然必須符合該限制高度。",
+    "guidedSteps": [
+      {
+        "id": "read-the-one-sided-approach",
+        "title": "閱讀雙面",
+        "goal": "在命名兩側極限之前，將左側和右側標記視為單獨的證據。",
+        "doThis": "從連續配對開始，保持標記和有限限制指南可見，並將 h 向目標縮小。",
+        "notice": "兩個標記都向相同高度移動，因此在這種情況下允許兩側限制。",
+        "explain": "極限不是由 x = 0 處的點決定的。它是由從每一側接近時的附近值決定的。"
+      },
+      {
+        "id": "separate-limit-from-point",
+        "title": "將點與極限分開",
+        "goal": "了解為什麼圖可以有有限極限，但在目標處仍無法連續。",
+        "doThis": "切換到可移動孔預設並將有限極限參考線與 x = 0 處的實際點進行比較。",
+        "notice": "單側標記仍然一致，但實際點不再落在該限制高度。",
+        "explain": "連續性同時要求兩個事實：有限極限必須存在且函數值必須等於它。"
+      },
+      {
+        "id": "catch-a-one-sided-split",
+        "title": "抓住分裂",
+        "goal": "在檢查連續性之前，使用跳轉情況來決定兩側限制何時失敗。",
+        "doThis": "開啟跳躍分割，縮小 h，然後比較左側和右側標記的高度。",
+        "notice": "使h變小並不能使雙方達成一致；他們趨於不同的水平。",
+        "explain": "兩側限制需要一個共享的著陸高度。取平均值或選擇填充點將掩蓋單方面的分歧。"
+      },
+      {
+        "id": "classify-the-continuity-story",
+        "title": "將故事分類",
+        "goal": "根据每个行為破裂的证据对连续的、可移動的孔、跳跃和爆炸行為进行排序。",
+        "doThis": "使用四個預設作為分類組，然後設定限制存在但連續性失敗的情況。",
+        "notice": "連續匹配所有內容，可移動孔僅破壞實際點，跳躍破壞側面協議，並且爆炸會失去任何有限的著陸高度。",
+        "explain": "這個順序使推理保持清晰：向左和向右讀取，確定是否存在有限極限，然後將該極限與 f(0) 進行比較。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "在命名兩側極限之前，將左手和右手方法作為單獨的證據進行閱讀。",
+        "解釋為什麼可移動孔可以在連續性失效的情況下保持相同的有限極限。",
+        "透過詢問附近的值是否穩定到一個有限高度來區分跳躍和爆炸。",
+        "按顺序使用连续性測试：首先是有限极限，其次是匹配实際值。"
+      ],
+      "misconception": "目標處的填充點本身並不會決定極限；附近的接近行為決定極限，該點僅進入連續性檢查。",
+      "freePlayPrompt": "選擇每個預設一次，縮小 h，並說出哪些證據失敗：側面一致、有限著陸高度或實際點匹配。",
+      "nextConcepts": [
+        {
+          "slug": "derivative-as-slope-local-rate-of-change",
+          "title": "導數為斜率/局部變化率",
+          "reasonLabel": "使用相同的逼近語言將割線斜率轉換為局部導數。"
+        },
+        {
+          "slug": "integral-as-accumulation-area",
+          "title": "積分作為累積/面積",
+          "reasonLabel": "一旦限制了視覺感受，就將變化的界線與累積連結起來。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "one-sided-limits",
@@ -282,29 +363,288 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "概念標籤",
+      "primaryGraphIds": [
+        "概念標籤"
+      ],
+      "primaryControlIds": [
+        "案例模式",
+        "接近距離"
+      ],
+      "primaryPresetIds": [
+        "連續匹配",
+        "可拆卸孔",
+        "跳躍分割",
+        "概念標籤"
+      ],
+      "starterExploreTasks": [
+        "從連續配對開始並縮小 h 以使兩個標記趨向相同的高度。",
+        "切換到可移動孔並將有限極限指南與實際點進行比較。",
+        "嘗試跳躍分割，看看為什麼兩個單方面的故事必須一致才能有兩側限制。",
+        "完成放大並注意「附近較大值」和一個有限著陸高度之間的差異。"
+      ]
+    },
     "controls": [
       {
         "id": "case-mode",
-        "label": "行為案例"
+        "label": "行為案例",
+        "description": "在連續圖、可移動孔、跳躍和漸近線式爆炸之間切換。",
+        "displayValueLabels": [
+          {
+            "label": "連續"
+          },
+          {
+            "label": "可拆卸孔"
+          },
+          {
+            "label": "跳轉"
+          },
+          {
+            "label": "放大"
+          }
+        ]
+      },
+      {
+        "id": "approach-distance",
+        "label": "到目標的距離",
+        "description": "將左側和右側取樣點移近或遠離 $x = 0$ 處的目標。"
       }
     ],
     "presets": [
       {
         "id": "continuous-match",
-        "label": "一致的匹配"
+        "label": "一致的匹配",
+        "description": "兩側和實際點在目標處對齊。"
       },
       {
         "id": "removable-hole",
-        "label": "可移除的孔"
+        "label": "可移除的孔",
+        "description": "兩側都接近一個高度，但填充點移動到其他地方。"
       },
       {
         "id": "jump-split",
-        "label": "跳躍分裂"
+        "label": "跳躍分裂",
+        "description": "左側和右側的高度不同。"
       },
       {
         "id": "vertical-blow-up",
-        "label": "爆發"
+        "label": "爆發",
+        "description": "雙方都朝著目標附近相反的標誌奮力奔跑。"
       }
+    ],
+    "overlays": [
+      {
+        "id": "sampleMarkers",
+        "label": "接近標記",
+        "shortDescription": "顯示左側和右側樣本點以及它們在圖像上的位置。",
+        "whatToNotice": [
+          "隨著 $h$ 的縮小，兩個標記顯示出兩側是朝著一個值、不同的值還是根本沒有有限值移動。"
+        ],
+        "whyItMatters": "它使方法的想法變得可見，而不是將其作為定義來記憶。",
+        "relatedControls": [
+          "接近距離"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "接近距離"
+        ]
+      },
+      {
+        "id": "limitGuide",
+        "label": "有限極限指南",
+        "shortDescription": "顯示案例有一個時的共享有限限制高度。",
+        "whatToNotice": [
+          "連續孔和可移動孔情況可以共享相同的有限極限指南。"
+        ],
+        "whyItMatters": "它將極限與實際點是否匹配的單獨問題分開。",
+        "relatedControls": [
+          "案例索引",
+          "接近距離"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "案例模式",
+          "接近距離"
+        ]
+      },
+      {
+        "id": "actualPoint",
+        "label": "實際點",
+        "shortDescription": "顯示$x = 0$處的實際函數值，或顯示那裡沒有定義任何值。",
+        "whatToNotice": [
+          "連續性取決於在存在有限極限時與極限值相符的點。"
+        ],
+        "whyItMatters": "它將 $f(0)$ 與附近的接近行為分開。",
+        "relatedControls": [
+          "案例索引"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "案例模式"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "one-sided-approach",
+      "label": "片面做法",
+      "xLabel": "到目標的距離",
+      "yLabel": "值",
+      "description": "顯示當樣本點從兩側向目標移動時左側和右側值的行為方式。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用這些提示將三個問題分開：左側發生的情況、右側發生的情況以及目標處發生的情況。",
+    "items": [
+      {
+        "id": "lc-notice-same-height-different-point",
+        "text": "在連續孔箱和可移動孔箱之間切換。在這兩種情況下，附近的值可以接近相同的高度，即使只有一個具有該高度的實際點。",
+        "relatedControls": [
+          "案例索引"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "限制指南",
+          "實際點"
+        ],
+        "relatedEquationVariables": [
+          "案例模式"
+        ]
+      },
+      {
+        "id": "lc-notice-one-sided-split",
+        "text": "在跳轉情況下，將 $h$ 變小並不能使雙方達成協議。每邊接近不同的高度。",
+        "relatedControls": [
+          "案例索引",
+          "接近距離"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "樣本標記"
+        ],
+        "relatedEquationVariables": [
+          "案例模式",
+          "接近距離"
+        ]
+      },
+      {
+        "id": "lc-notice-blow-up",
+        "text": "在爆炸情況下，隨著 $h$ 收縮，這些值不會穩定到任何有限高度。相反，它們的規模仍在不斷增長。",
+        "relatedControls": [
+          "案例索引",
+          "接近距離"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "樣本標記"
+        ],
+        "relatedEquationVariables": [
+          "案例模式",
+          "接近距離"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測極限故事",
+    "intro": "在切換案例或向內移動樣本點之前預測圖像應該做什麼。",
+    "items": [
+      {
+        "id": "lc-predict-removable",
+        "prompt": "如果雙方都朝著相同的有限高度前進，但實際點位於其他地方，那是什麼類型的行為？",
+        "scenarioLabel": "附近相同高度，不同點",
+        "choices": [
+          {
+            "id": "a",
+            "label": "可移除的不連續性。"
+          },
+          {
+            "id": "b",
+            "label": "跳躍不連續性。"
+          },
+          {
+            "id": "c",
+            "label": "自動连续性。"
+          }
+        ],
+        "explanation": "這是一个可移除的不连续性。极限存在，但目标处的函數值与其不匹配。",
+        "observationHint": "保持极限指南和实際點可见，以便您可以直接比较它们。"
+      },
+      {
+        "id": "lc-predict-jump",
+        "prompt": "如果随着 $h$ 的缩小，左侧和右侧的值接近不同的高度，那么两侧极限会發生什么？",
+        "scenarioLabel": "双方不同意",
+        "choices": [
+          {
+            "id": "a",
+            "label": "没有单一双面限制。"
+          },
+          {
+            "id": "b",
+            "label": "兩側限制必須等於兩個高度的平均值。"
+          },
+          {
+            "id": "c",
+            "label": "兩側限制自動等於填充點。"
+          }
+        ],
+        "explanation": "双边限制需要双方同意。如果两侧接近不同的高度，则不存在单一的两侧限制。",
+        "observationHint": "使用小 $h$ 並排比较两个标记。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用该圖作為分类基准。目標是將「極限存在」與「函數連續」分開。",
+    "items": [
+      {
+        "id": "lc-ch-agreeing-sides-broken-continuity",
+        "title": "存在限制，连续性失败",
+        "prompt": "切換到左手值和右手值在一個有限極限上一致的情況，但函數在 $x = 0$ 處仍然不連續。",
+        "successMessage": "您找到了可拆卸孔的盒子。极限存在，但实際點与极限不符。",
+        "setup": {
+          "note": "从连续的情况开始，然后寻找在不突破限制的情况下破坏连续性的最小变化。"
+        },
+        "hints": [
+          "跳跃不是正确的情况，因為双方不再达成一致。",
+          "您希望出现限制指南保持不变但实際點移开的情况。"
+        ],
+        "targets": [
+          {
+            "label": "透過將行為案例移至 $0.9$ 和 $1.1$ 之間的區域來選擇可移動孔案例。"
+          },
+          {
+            "label": "將樣本距離縮小到近讀波段，從 $0.1$ 到 $0.18$。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "極限與連續性/逼近某個值",
+    "description": "使用緊湊的圖優先微積分實驗台探索單邊極限、有限極限、孔、跳躍、爆炸行為和連續性。",
+    "keywords": [
+      "限制",
+      "連續性",
+      "片面限制",
+      "可移除的不連續性",
+      "微積分"
     ]
   }
 }

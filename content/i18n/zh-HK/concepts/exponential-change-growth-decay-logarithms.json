@@ -34,8 +34,9 @@
     "commonMisconception": {
       "myth": "指數變化意味著影像總是快速上升，而對數是一個獨立的章節，與曲線沒有直接聯絡。",
       "correction": [
-        "負的速率提供真實的指數衰減，所以同一模型可以向零下降而不是從起點開始上升。",
-        "當你解決指數目標方程式的時間時，對數才出現。它是逆問題，而不是一個分離的新物件。"
+        "負利率會產生誠實的指數衰減，因此相同模型可以下降到零，而不是從一開始就上升。",
+        "當您求解時間的 y_0 e^{kt} = T 時，自然會出現對數。",
+        "所以這裡的對數不是一個斷開連接的新物件。這是同一指數曲線的反問題。"
       ]
     },
     "workedExamples": {
@@ -58,26 +59,35 @@
             {
               "id": "target",
               "label": "目標"
+            },
+            {
+              "id": "target-ratio",
+              "label": "目標比率"
             }
           ],
           "steps": [
             {
               "id": "ratio",
-              "label": "1. 將目標與起始值比較"
+              "label": "1. 將目標與起始值比較",
+              "template": "目標是起始值的四倍，因此 \\(T / y_0 = 12 / 3 = 4\\)。"
             },
             {
               "id": "log-step",
-              "label": "2. 使用逆時間規則"
+              "label": "2. 使用逆時間規則",
+              "template": "解 \\(t_* = \\ln(T / y_0) / k\\)，得到 \\(t_* = \\ln 4 / 0.25 \\approx 5.55\\)。"
             },
             {
               "id": "graph-check",
-              "label": "3. 檢查影像與節奏"
+              "label": "3. 檢查影像與節奏",
+              "template": "因為 \\(\\ln 4 = 2 \\ln 2\\)，這個目標剛好位於兩倍倍數的時間，所以命中標記應該落在略高於 5.5 個時間單位的位置。"
             }
           ],
           "resultLabel": "目標到達時間",
+          "resultTemplate": "曲線在大約 5.55 個時間單位後達到目標。",
           "applyAction": {
             "label": "應用生長目標案例"
-          }
+          },
+          "interpretationTemplate": "這使得對數與一個可見的交叉點相關聯：成長曲線必須翻倍兩次才能將 3 變成 12。"
         }
       ]
     },
@@ -253,6 +263,74 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用一條即時指數曲線將成長、衰減、倍增或半衰期以及回答目標時間問題的對數連結起來。",
+    "whyItMatters": "它將對數附加到圖像上的可見交叉處，因此反時限工作感覺就像閱讀同一條曲線而不是切換章節。",
+    "keyTakeaway": "在 y(t) = y_0 e^{kt} 中，k 的符號決定成長或衰減，重複乘法設定倍增/半衰期節奏，ln(T / y_0) 解決目標時間問題。"
+  },
+  "v2": {
+    "intuition": "當同一條曲線顯示方向、重複乘法以及達到目標所需的時間時，指數變化就變成了一個故事。",
+    "whyItMatters": "在學習者將成長/衰退、倍增/半衰期和對數作為單獨的公式練習之前，這會將它們聯繫起來。",
+    "equationSnapshot": {
+      "note": "首先將模型作為即時曲線讀取，然後僅在問題反轉時使用對數方程式來求解時間。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-growth-case",
+        "title": "閱讀一個成長案例",
+        "goal": "將起始值、陽性率、目標線和加倍指南綁定到一條曲線上。",
+        "doThis": "從成長開始到目標，保持數量與時間開放，並在目標標記和加倍引導線保持可見的情況下移動目標。",
+        "notice": "曲線稍後達到更高的目標，但加倍步驟仍然標誌著相同的乘法節奏。",
+        "explain": "正比率會在相等的時間間隔內將金額乘以相同的因子，因此目標交叉取決於目標與起始比率。"
+      },
+      {
+        "id": "flip-growth-to-decay",
+        "title": "將成長翻轉為衰退",
+        "goal": "使用 k 的符號來決定金額是上升還是下降以及目標是否可以達到。",
+        "doThis": "切換到衰減半衰期，然後將下降曲線與相同起始值的相反速率比較進行比較。",
+        "notice": "半衰期指南取代了加倍指南，起點上方的目標現在位於運動的錯誤一側。",
+        "explain": "生長和衰退在這裡不是單獨的規則。它們是相同的指數模型，但 k 符號相反。"
+      },
+      {
+        "id": "solve-target-time-with-logs",
+        "title": "用日誌解時間",
+        "goal": "將對數與反問題連結起來：這條曲線何時達到該目標？",
+        "doThis": "返回“增長至目標”，開啟“日誌目標”視圖，並在日誌指南保持開啟狀態時升高目標。",
+        "notice": "彎曲的數量圖和直的日誌視圖指向相同的目標命中時間。",
+        "explain": "因為時間是指數，所以解 y_0 e^{kt} = T 表示在除以 k 之前先取 ln(T / y_0)。"
+      },
+      {
+        "id": "check-cadence-against-target",
+        "title": "檢視節奏與目標",
+        "goal": "使用倍增時間或半衰期而不是僅代入公式來解釋目標命中。",
+        "doThis": "使用快速檢查，然後嘗試挑戰：建立一個衰變案例，其中四分之一目標大約需要兩個半衰期。",
+        "notice": "開始的四分之一是兩個減半步驟，因此目標命中時間應與大約兩個半衰期隔一致。",
+        "explain": "強指數推理使比率、圖像交叉和固定乘法時間尺度一致。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "k 的符號將相同的指數模型轉變為成長或衰減。",
+        "相等的時間步長會乘以數量，從而創建固定的倍增時間或半衰期節奏。",
+        "目標時間問題是對數的，因為它們詢問指數曲線何時達到選定的比率。",
+        "圖像交叉、對數視圖交叉和加倍/半衰期讀數應該講述相同的故事。"
+      ],
+      "misconception": "不要在這裡將對數視為一個獨立的新主題。對數是同一指數曲線的反時間問題。",
+      "freePlayPrompt": "建構一個成長情況和一個衰減情況，在閱讀公式之前可以根據比率解釋目標命中時間。",
+      "nextConcepts": [
+        {
+          "slug": "derivative-as-slope-local-rate-of-change",
+          "title": "導數為斜率/局部變化率",
+          "reasonLabel": "將變化的陡度帶入圖像上的局部斜率"
+        },
+        {
+          "slug": "radioactivity-half-life",
+          "title": "放射性與半衰期",
+          "reasonLabel": "使用真實的半衰期語言在實體台內查看相同的衰變定律"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "exponential-rule",
@@ -288,19 +366,347 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "變化曲線",
+      "primaryGraphIds": [
+        "變化曲線",
+        "日誌視圖"
+      ],
+      "primaryControlIds": [
+        "初始值",
+        "率",
+        "目標值"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "initial-value",
-        "label": "起始值"
+        "label": "起始值",
+        "description": "設定時間 0 處的起始量 y_0。"
       },
       {
         "id": "rate",
-        "label": "速率"
+        "label": "速率",
+        "description": "使用正值表示成長，使用負值表示衰減。"
       },
       {
         "id": "target-value",
-        "label": "目標"
+        "label": "目標",
+        "description": "選擇曲線試圖達到的量。"
       }
+    ],
+    "presets": [
+      {
+        "id": "growth-to-target",
+        "label": "達到目標的成長",
+        "description": "一種生長情況，其中目標位於起始點之上並且交叉發生在可見視窗內。"
+      },
+      {
+        "id": "decay-half-life",
+        "label": "衰變半衰期",
+        "description": "在衰變情況下，目標位於起點以下，半衰期提示立即有用。"
+      },
+      {
+        "id": "slow-growth",
+        "label": "成長緩慢",
+        "description": "正值率越小，曲線上升越慢，因此同類目標需要更長的時間才能達到。"
+      },
+      {
+        "id": "unreachable-target",
+        "label": "無法到達的目標",
+        "description": "目標高於起點的衰減情況，因此曲線遠離目標而不是到達目標。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "targetMarker",
+        "label": "目標標記",
+        "shortDescription": "顯示目標線以及曲線實際上可以到達的交叉點。",
+        "whatToNotice": [
+          "只有當目標位於與生長或衰退相符的起點一側時，生命值才會出現。"
+        ],
+        "whyItMatters": "它將反時限問題與曲線上的一個可見交叉點連結起來。",
+        "relatedControls": [
+          "目標值",
+          "率"
+        ],
+        "relatedGraphTabs": [
+          "變化曲線"
+        ],
+        "relatedEquationVariables": [
+          "目標值",
+          "率"
+        ]
+      },
+      {
+        "id": "pairedRate",
+        "label": "相反利率比較",
+        "shortDescription": "顯示相同的起始值，但速率的符號相反。",
+        "whatToNotice": [
+          "保持相同的起點但翻轉 k 的符號會使成長變成衰退，或衰退變成成長。"
+        ],
+        "whyItMatters": "它使成長和衰退成為同一模型的兩個版本，而不是兩個單獨的主題。",
+        "relatedControls": [
+          "率"
+        ],
+        "relatedGraphTabs": [
+          "變化曲線",
+          "日誌視圖"
+        ],
+        "relatedEquationVariables": [
+          "率"
+        ]
+      },
+      {
+        "id": "doublingHalfLife",
+        "label": "加倍或半衰期指南",
+        "shortDescription": "當此指引存在時，在曲線上標示一個倍增時間或一個半衰期。",
+        "whatToNotice": [
+          "一個固定的時間步長總是使增長量加倍或使衰退量減半。"
+        ],
+        "whyItMatters": "它使倍增節奏變得可見，而不是將倍增時間和半衰期作為口號。",
+        "relatedControls": [
+          "率"
+        ],
+        "relatedGraphTabs": [
+          "變化曲線"
+        ],
+        "relatedEquationVariables": [
+          "率"
+        ]
+      },
+      {
+        "id": "logGuide",
+        "label": "日誌指南",
+        "shortDescription": "在拉直日誌檢視中顯示目標等級。",
+        "whatToNotice": [
+          "直線達到目標對數水準的同時，曲線圖達到目標。"
+        ],
+        "whyItMatters": "它說明了為什麼求解時間變成了對數。",
+        "relatedControls": [
+          "目標值",
+          "率"
+        ],
+        "relatedGraphTabs": [
+          "日誌視圖"
+        ],
+        "relatedEquationVariables": [
+          "目標值",
+          "率"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "change-curve",
+      "label": "數量與時間",
+      "xLabel": "時間",
+      "yLabel": "金額",
+      "description": "在相同的量與時間圖上顯示當前指數曲線、相反速率比較和目標交叉。"
+    },
+    {
+      "id": "log-view",
+      "label": "日誌目標視圖",
+      "xLabel": "時間",
+      "yLabel": "ln(金額/初始)",
+      "description": "顯示 ln(amount/initial) 隨時間線性變化，因此目標時間問題變成了一個跨線問題。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用這些提示可以將曲線、目標線和反時限讀數保持在同一個故事上。",
+    "items": [
+      {
+        "id": "exp-notice-sign",
+        "text": "翻轉 k 的符號，同時保持相同的起始位置。一條曲線上升，另一條曲線下降，因此相同目標可能會達到或無法達到。",
+        "relatedControls": [
+          "率",
+          "目標值"
+        ],
+        "relatedGraphTabs": [
+          "變化曲線"
+        ],
+        "relatedOverlays": [
+          "配對率",
+          "目標標記"
+        ],
+        "relatedEquationVariables": [
+          "率",
+          "目標值"
+        ]
+      },
+      {
+        "id": "exp-notice-log",
+        "text": "在日誌視圖中，彎曲的目標問題變成了直線交叉，因為 ln(y / y_0) = kt。",
+        "relatedControls": [
+          "率",
+          "目標值"
+        ],
+        "relatedGraphTabs": [
+          "日誌視圖"
+        ],
+        "relatedOverlays": [
+          "日誌指南"
+        ],
+        "relatedEquationVariables": [
+          "率",
+          "目標值"
+        ]
+      },
+      {
+        "id": "exp-notice-cadence",
+        "text": "固定的正 k 給出一倍的節奏。固定的負 k 給出一個半衰期節奏。",
+        "relatedControls": [
+          "率"
+        ],
+        "relatedGraphTabs": [
+          "變化曲線"
+        ],
+        "relatedOverlays": [
+          "加倍半條命"
+        ],
+        "relatedEquationVariables": [
+          "率"
+        ]
+      },
+      {
+        "id": "exp-notice-unreachable",
+        "text": "嘗試使用無法到達的目標預設，並在尋找命中時間之前檢查目標位於起點的哪一側。",
+        "tryThis": "套用無法到達的目標預設，然後將目標線與衰減曲線的方向進行比較，然後讀取反時間卡。",
+        "relatedControls": [
+          "率",
+          "目標值"
+        ],
+        "relatedGraphTabs": [
+          "變化曲線",
+          "日誌視圖"
+        ],
+        "relatedOverlays": [
+          "目標標記",
+          "日誌指南"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測目標行為",
+    "intro": "在更改速率或目標之前，確定曲線和命中時間應執行的操作。",
+    "items": [
+      {
+        "id": "exp-predict-sign-flip",
+        "prompt": "如果比率從正值變為負值，而起始值和目標值保持固定在起始值之上，那麼首先會發生什麼？",
+        "scenarioLabel": "翻轉匯率符號",
+        "changeLabel": "使 k 為負值",
+        "choices": [
+          {
+            "id": "a",
+            "label": "曲線開始衰減，不再達到更高的目標。"
+          },
+          {
+            "id": "b",
+            "label": "曲線持續成長，但對數消失。"
+          },
+          {
+            "id": "c",
+            "label": "只有目標線移動，而曲線保持不變。"
+          }
+        ],
+        "explanation": "僅更改 k 的符號會將成長轉變為衰退，因此在此實驗台上無法達到高於起點的目標。",
+        "observationHint": "一起觀察目標標記和相反速率比較。"
+      },
+      {
+        "id": "exp-predict-harder-target",
+        "prompt": "在成長情況下，如果在速率保持固定的情況下將目標推得比起始時間更遠，目標時間會發生什麼情況？",
+        "scenarioLabel": "提高目標",
+        "changeLabel": "提高 T",
+        "choices": [
+          {
+            "id": "a",
+            "label": "目標時間增加，因為相同的速率需要乘法運算得更遠。"
+          },
+          {
+            "id": "b",
+            "label": "目標時間減少，因為目標線較高。"
+          },
+          {
+            "id": "c",
+            "label": "目標時間保持完全相同，因為 k 沒有改變。"
+          }
+        ],
+        "explanation": "在相同的陽性率下，目標比率越大意味著對數越大，因此命中時間也越大。",
+        "observationHint": "比較目標變更之前和之後的目標日誌行。"
+      },
+      {
+        "id": "exp-predict-faster-rate",
+        "prompt": "如果在起始值和目標值保持固定的情況下正值加倍，那麼加倍時間會發生什麼變化？",
+        "scenarioLabel": "加速成長",
+        "changeLabel": "雙k",
+        "choices": [
+          {
+            "id": "a",
+            "label": "倍增時間變短。"
+          },
+          {
+            "id": "b",
+            "label": "倍增時間變長。"
+          },
+          {
+            "id": "c",
+            "label": "倍增時間維持固定，因為倍增只取決於起始值。"
+          }
+        ],
+        "explanation": "倍增時間為 ln 2 / k，因此較大的正 k 會使固定時間更短。",
+        "observationHint": "隨著速率增加，倍增時間指南會向左移動。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "將季度目標解讀為兩個半衰期",
+    "intro": "一起使用曲線、目標線和半衰期指南。我們的目標是將季度目標視為兩個乘法步驟，而不僅僅是公式中的數字。",
+    "items": [
+      {
+        "id": "exp-ch-quarter-target-two-half-lives",
+        "title": "使目標為開始時的四分之一",
+        "prompt": "建構一個衰變情況，其中目標約為開始的四分之一，因此曲線在大約兩個半衰期內達到它。",
+        "successMessage": "您建立了一個衰變案例，其中兩個半衰期步驟落在目標上，因此比率、半衰期指南和命中時間都一致。",
+        "setup": {
+          "note": "從一個簡單的衰減情況開始，然後降低目標，直到它位於起始位置的四分之一處。"
+        },
+        "hints": [
+          "四分之一的開始意味著兩次減半，而不是一次。",
+          "如果命中時間只有一個半衰期，則目標仍然太高。"
+        ],
+        "targets": [
+          {
+            "label": "將起始值保持在 $8$ 附近，介於 $7.9$ 和 $8.1$ 之間。"
+          },
+          {
+            "label": "將連續衰減率保持在 $-0.24$ 和 $-0.22$ 之間。"
+          },
+          {
+            "label": "將目標設在起點的四分之一附近，位於 $1.95$ 和 $2.05$ 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "指數變化/成長、衰減與對數",
+    "description": "透過一條即時曲線、目標標記、倍增時間或半衰期讀數以及可回答達到目標所需時間的日誌視圖來探索指數增長和衰減。",
+    "keywords": [
+      "指數變化",
+      "指數成長",
+      "指數衰減",
+      "對數",
+      "加倍時間",
+      "半衰期",
+      "數學"
     ]
   }
 }

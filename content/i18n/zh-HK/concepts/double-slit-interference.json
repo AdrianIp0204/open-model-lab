@@ -68,22 +68,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 從幹渉關係開始"
+              "label": "1. 從幹渉關係開始",
+              "template": "使用$\\Delta \\phi = \\dfrac{2\\pi \\Delta r}{\\lambda}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入實時幾何形狀"
+              "label": "2. 代入實時幾何形狀",
+              "template": "$\\Delta \\phi = \\dfrac{2\\pi({{pathDifferenceValue}})}{{wavelengthValue}}$。"
             },
             {
               "id": "interpret",
-              "label": "3. 包裹比較角"
+              "label": "3. 包裹比較角",
+              "template": "此路徑差約為額外行程的 {{pathDifferenceWavelengthsValue}} 波長，因此包裹的相位比較為 {{phaseDifferenceValue}} rad。"
             }
           ],
           "resultLabel": "當前相位分裂",
+          "resultTemplate": "$\\Delta \\phi = {{phaseDifferenceValue}}\\,\\mathrm{rad}$",
           "applyAction": {
             "label": "顯示第一個暗條紋",
             "observationHint": "探針位於路徑差接近半個波長的位置，因此縫的貢獻幾乎相互抵消。"
-          }
+          },
+          "interpretationTemplate": "{{phaseInterpretation}}"
         },
         {
           "id": "fringe-spacing-geometry",
@@ -106,22 +111,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始使用小角間距規則"
+              "label": "1. 開始使用小角間距規則",
+              "template": "使用$\\Delta y \\approx \\dfrac{\\lambda L}{d}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前的工作台幾何形狀"
+              "label": "2. 代入當前的工作台幾何形狀",
+              "template": "$\\Delta y \\approx \\dfrac{({{wavelengthValue}})({{screenDistanceValue}})}{{slitSeparationValue}}$。"
             },
             {
               "id": "read",
-              "label": "3. 將其與可見的條紋連線起來"
+              "label": "3. 將其與可見的條紋連線起來",
+              "template": "這給出了 {{fringeSpacingValue}} 米的亮條紋間距，因此第一個暗帶應該距中心約 {{firstDarkValue}} 米。"
             }
           ],
           "resultLabel": "當前的條紋間距",
+          "resultTemplate": "$\\Delta y \\approx {{fringeSpacingValue}}\\,\\mathrm{m}$",
           "applyAction": {
             "label": "顯示寬廣的條紋",
             "observationHint": "寬廣的條紋來自於 lambda 乘以 L 除以 d 的較大值，而不是單獨移動探針。"
-          }
+          },
+          "interpretationTemplate": "{{spacingInterpretation}}"
         }
       ]
     },
@@ -276,6 +286,87 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "在一個緊湊的光學實驗台上使用兩個相干狹縫和一個屏幕將路徑差、相位差和條紋間距與波長、狹縫間隔和屏幕距離聯繫起來。",
+    "keyTakeaway": "當光程差接近波長的整數倍時，螢幕點亮，當光程差接近波長的半數倍時，螢幕點暗。"
+  },
+  "v2": {
+    "intuition": "將中心明亮條紋作為零路徑差參考，然後移動探頭和幾何控制以查看路徑差、相位和間距如何保持關聯。",
+    "whyItMatters": "雙縫干涉是從波疊加到真實光學圖案的清晰橋樑：一種幾何規則解釋了明帶和暗帶出現的位置以及如何加寬或收緊它們。",
+    "equationSnapshot": {
+      "title": "路徑、相位與間距",
+      "note": "在將探頭與整個螢幕圖案進行比較時，將路徑與相位關係保留在小角度間距規則旁邊。"
+    },
+    "startSetup": {
+      "note": "從中心亮條紋開始，因此相等的路徑長度可以在偏離軸之前為您提供清晰的參考。"
+    },
+    "guidedSteps": [
+      {
+        "id": "anchor-the-center-bright-fringe",
+        "title": "錨定中心明亮的邊緣",
+        "goal": "使用螢幕中心作為最容易看到相等路徑長度和相長干涉的位置。",
+        "doThis": "應用中心明亮，保持光程差引導打開，並將中心螢幕帶與圖案圖進行比較。",
+        "notice": "在中心，兩條狹縫到螢幕的路徑相等，相位分裂接近於零，且螢幕很亮。",
+        "explain": "明亮的中心不是特殊的額外光束；這是兩個相干狹縫貢獻同相到達並增強的點。",
+        "inlineCheck": {
+          "title": "預測第一個暗點"
+        }
+      },
+      {
+        "id": "move-the-probe-into-a-dark-fringe",
+        "title": "將探頭移至黑暗邊緣",
+        "goal": "將一個取樣螢幕點連接到該確切點的路徑差和相位讀數。",
+        "doThis": "切換到第一暗，顯示相位輪，並在查看探測場圖之前讀取波長的路徑差。",
+        "notice": "在第一個暗條紋附近，路徑差約為半個波長，而這兩個貢獻在探頭處幾乎抵消。",
+        "explain": "暗帶仍接收來自兩個狹縫的光。它是黑暗的，因為到達的相位幾乎相反，而不是因為一條狹縫停止了貢獻。",
+        "inlineCheck": {
+          "title": "讀取路徑差異，而不僅僅是亮度"
+        }
+      },
+      {
+        "id": "tune-fringe-spacing-with-geometry",
+        "title": "使用幾何形狀調整條紋間距",
+        "goal": "獨立的控制項實際上拓寬了整個模式，而探針控制僅對一處進行取樣。",
+        "doThis": "打開條紋間距嚮導，比較窄條紋和寬條紋，並一次更改一個波長、狹縫間距或屏幕距離。",
+        "notice": "較長的波長或更遠的螢幕會將波段分開，而較大的狹縫間隔則將較多的波段打包到相同的高度。",
+        "explain": "間距規則連結所有三個幾何控制：間距隨 λ 和 L 增大，但隨著 d 變大而縮小。",
+        "inlineCheck": {
+          "title": "預測間距移動的方向"
+        }
+      },
+      {
+        "id": "compare-local-probe-with-whole-pattern",
+        "title": "比較探針和整個圖案",
+        "goal": "將一個探測點的時間軌跡與螢幕上的空間強度圖案分開。",
+        "doThis": "在探測場圖上逐步瀏覽時間，然後回到螢幕圖案圖，而不移動幾何控制。",
+        "notice": "局部場隨時間振盪，但圖案圖仍是相同幾何形狀的亮度與螢幕高度的映射。",
+        "explain": "探測場回答了兩個波在一個選定點所做的事情；圖案圖回答了所有亮帶和暗帶所在的位置。",
+        "inlineCheck": {
+          "title": "檢查模式與探針的差異"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "亮帶和暗帶來自以波長測量的路徑差，而不是來自任一狹縫的關閉。",
+        "相位差是用角度表示的路徑差故事，因此半個波長意味著接近相反的相位。",
+        "條紋間距隨著波長或螢幕距離的增加而變寬，並隨著狹縫間距的增加而變緊。",
+        "探針高度對圖案上的一個點進行取樣；它不會改變圖案本身的間距。"
+      ],
+      "misconception": "暗條紋並不表示沒有光線到達該螢幕點；而是表示沒有光線到達該螢幕點。這意味著兩個連貫的貢獻在那裡相互抵消。",
+      "freePlayPrompt": "嘗試在不移動探頭的情況下使條紋變寬；然後僅使用探頭來驗證一個明亮或黑暗的位置。",
+      "nextConcepts": [
+        {
+          "slug": "refraction-snells-law",
+          "reasonLabel": "從干涉幾何體轉向邊界彎曲"
+        },
+        {
+          "slug": "photoelectric-effect",
+          "reasonLabel": "對比波光學與光子證據"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "path-difference",
@@ -329,45 +420,405 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "圖案",
+      "primaryGraphIds": [
+        "圖案"
+      ],
+      "primaryControlIds": [
+        "探針Y"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "wavelength",
-        "label": "波長"
+        "label": "波長",
+        "description": "對於相同的狹縫幾何形狀，較長的波長會加寬條紋間距。"
       },
       {
         "id": "slitSeparation",
-        "label": "狹縫間距"
+        "label": "狹縫間距",
+        "description": "增加狹縫間距可以透過增加光程差梯度來收緊條紋。"
       },
       {
         "id": "screenDistance",
-        "label": "螢幕距離"
+        "label": "螢幕距離",
+        "description": "進一步移動螢幕會將相同的干涉角變成更大的條紋間距。"
       },
       {
         "id": "probeY",
-        "label": "探針高度"
+        "label": "探針高度",
+        "description": "移動採樣的螢幕點而不更改底層的條紋圖案。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "center-bright",
+        "label": "中心明亮",
+        "description": "中心線具有相等的路徑長度，因此它是明亮的條紋。"
+      },
+      {
+        "id": "first-dark",
+        "label": "第一次黑暗",
+        "description": "探頭靠近第一個暗條紋，其中路徑差約為半個波長。"
+      },
+      {
+        "id": "wide-fringes",
+        "label": "寬流蘇",
+        "description": "更長的波長、較小的狹縫間隔以及更遠的螢幕將亮帶分開。"
+      },
+      {
+        "id": "tight-fringes",
+        "label": "緊流蘇",
+        "description": "更短的波長、更大的狹縫間隔以及更近的篩網將譜帶封裝在一起。"
+      },
+      {
+        "id": "far-screen",
+        "label": "遠屏",
+        "description": "進一步移動螢幕會加寬相同的干涉圖案的垂直間距。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "geometryGuide",
+        "label": "幾何指南",
+        "shortDescription": "直接在舞台上標記狹縫間距和螢幕距離。",
+        "whatToNotice": [
+          "舞台上繪製的相同 d 和 L 是出現在邊緣間距規則中的量。"
+        ],
+        "whyItMatters": "它將可見設定與條紋間距方程式連結起來。",
+        "relatedControls": [
+          "狹縫分離",
+          "螢幕距離"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedEquationVariables": [
+          "狹縫分離",
+          "螢幕距離"
+        ]
+      },
+      {
+        "id": "pathDifference",
+        "label": "路徑差指南",
+        "shortDescription": "顯示兩個狹縫到探針的路徑及其電流差異。",
+        "whatToNotice": [
+          "當您移動探頭時，兩個狹縫到探頭的距離都會發生變化，但乾涉條件取決於它們的差異。"
+        ],
+        "whyItMatters": "它使幾何到相位步驟在同一個實驗台上保持可見。",
+        "relatedControls": [
+          "探針Y",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "圖案",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "探針Y",
+          "波長"
+        ]
+      },
+      {
+        "id": "fringeSpacingGuide",
+        "label": "邊緣間距指南",
+        "shortDescription": "標示目前幾何體的近似亮到亮間距和第一個暗位置。",
+        "whatToNotice": [
+          "改變波長、螢幕距離或狹縫間隔會將這些標記移到一起，因為所有三個標記都遵循相同的間距規則。"
+        ],
+        "whyItMatters": "它將條紋間距從公式轉換為螢幕測量值。",
+        "relatedControls": [
+          "波長",
+          "螢幕距離",
+          "狹縫分離"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedEquationVariables": [
+          "波長",
+          "螢幕距離",
+          "狹縫分離"
+        ]
+      },
+      {
+        "id": "phaseWheel",
+        "label": "相位輪",
+        "shortDescription": "顯示電流探頭處兩個狹縫貢獻之間的相對相位角。",
+        "whatToNotice": [
+          "當相位差接近0時，結果較大。當接近\\(\\pi\\)時，合力向零收縮。"
+        ],
+        "whyItMatters": "它使路徑差異故事透過相位比較可見。",
+        "relatedControls": [
+          "探針Y",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "圖案"
+        ],
+        "relatedEquationVariables": [
+          "探針Y",
+          "波長"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "pattern",
-      "label": "螢幕圖案"
+      "label": "螢幕圖案",
+      "xLabel": "螢幕高度（公尺）",
+      "yLabel": "相對強度",
+      "description": "全螢幕顯示強度，因此您可以直接讀取條紋間距以及亮或暗位置。"
+    },
+    {
+      "id": "displacement",
+      "label": "探測場",
+      "xLabel": "時間（秒）",
+      "yLabel": "場/位移（a.u.）",
+      "description": "顯示兩個狹縫貢獻及其在一個選定螢幕點的總和，因此您可以檢查本地振盪，而不會失去幹擾故事。"
     }
   ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。將狹縫幾何形狀、電流探頭和螢幕圖案圖放在一起查看。",
+    "items": [
+      {
+        "id": "dsi-notice-center-bright",
+        "text": "請注意，中心是明亮的，因為那裡兩條狹縫到螢幕的路徑相等，因此相位差接近零。",
+        "tryThis": "從中心亮開始，然後向上移動探頭，直到條帶先變暗。",
+        "whyItMatters": "它為您提供了圖案其餘部分的清晰參考點。",
+        "relatedControls": [
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "路徑差異"
+        ]
+      },
+      {
+        "id": "dsi-notice-slit-separation",
+        "text": "請注意，增加狹縫間距會收緊條紋，因為螢幕上相同的垂直移動現在會更快地產生路徑差。",
+        "tryThis": "將緊密邊緣與中心明亮進行比較，並觀察有多少明亮帶適合相同的螢幕高度。",
+        "whyItMatters": "它使 d 與路徑差幾何相關聯，而不是將其視為裝飾性間距滑桿。",
+        "relatedControls": [
+          "狹縫分離"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "幾何指南",
+          "邊緣間距指南"
+        ],
+        "relatedEquationVariables": [
+          "狹縫分離"
+        ]
+      },
+      {
+        "id": "dsi-notice-wavelength",
+        "text": "請注意，增加波長會加寬條紋，因為相同的路徑差表示相變的波長較少。",
+        "tryThis": "在保持 d 和 L 固定的情況下提高 lambda，然後比較模式圖上明亮峰值的距離。",
+        "whyItMatters": "它使波長與每米相位相關，而不僅僅是與顏色語言相關。",
+        "relatedControls": [
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "路徑差異",
+          "邊緣間距指南"
+        ],
+        "relatedEquationVariables": [
+          "波長"
+        ]
+      },
+      {
+        "id": "dsi-notice-screen-distance",
+        "text": "請注意，進一步移動螢幕不會改變干涉角，但會將這些相同的角度擴展到更大的螢幕高度。",
+        "tryThis": "在變更任何其他控制項之前，將中心亮度與遠端螢幕進行比較。",
+        "whyItMatters": "它將角度幹擾條件與螢幕上以公尺為單位測量的間距分開。",
+        "relatedControls": [
+          "螢幕距離"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "幾何指南",
+          "邊緣間距指南"
+        ],
+        "relatedEquationVariables": [
+          "螢幕距離"
+        ]
+      },
+      {
+        "id": "dsi-notice-time-vs-pattern",
+        "text": "請注意，時間軌道改變了瞬時探測場，但圖案圖保持基於位置，因為條紋圖案是跨空間的強度圖。",
+        "tryThis": "在探頭場圖上暫停，單步執行一次，然後將探頭處的變化與模式圖上保持固定的情況進行比較。",
+        "whyItMatters": "它誠實地將局部振盪與空間條紋圖案分開。",
+        "relatedGraphTabs": [
+          "位移",
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "相輪"
+        ]
+      },
+      {
+        "id": "dsi-notice-compare",
+        "text": "當一種設定改變狹縫間距而另一種設定改變波長或螢幕距離時，比較模式效果最佳。然後您可以看到擴大或收緊相同圖案的不同方法。",
+        "tryThis": "複製即時設定，在讀取圖像之前用較大的 d 收緊一行，並用更大的 lambda 加寬另一行。",
+        "whyItMatters": "它將條紋間距與一種共享的幾何規則聯繫在一起，而不是與一種模糊的擴散效果聯繫在一起。",
+        "relatedControls": [
+          "波長",
+          "狹縫分離",
+          "螢幕距離"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "幾何指南",
+          "邊緣間距指南"
+        ]
+      }
+    ]
+  },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測條紋間距或局部亮度應如何變化。每個提示一次改變一個原因。",
     "items": [
       {
         "id": "dsi-pred-larger-separation",
-        "changeLabel": "狹縫間距"
+        "prompt": "保持波長和螢幕距離固定，但增加狹縫間距。亮條紋間距會發生什麼變化？",
+        "scenarioLabel": "增加狹縫間距",
+        "changeLabel": "狹縫間距",
+        "choices": [
+          {
+            "id": "a",
+            "label": "邊緣應該收緊，因為相同的螢幕移動現在會產生更多的路徑差。"
+          },
+          {
+            "id": "b",
+            "label": "邊緣應該變寬，因為狹縫間隔較遠。"
+          },
+          {
+            "id": "c",
+            "label": "只有探測場圖應該改變。圖案間距應保持固定。"
+          }
+        ],
+        "explanation": "因為 \\(\\Delta y \\approx \\lambda L / d\\)，增加 d 會使相鄰的亮條紋更靠近。",
+        "observationHint": "當狹縫距離較遠時，明亮的山峰會靠得更近。"
       },
       {
         "id": "dsi-pred-farther-screen",
-        "changeLabel": "螢幕距離"
+        "prompt": "不考慮波長和狹縫間隔，但將螢幕移得更遠。螢幕上以公尺為單位的條紋間距會發生什麼變化？",
+        "scenarioLabel": "將螢幕移得更遠",
+        "changeLabel": "螢幕距離",
+        "choices": [
+          {
+            "id": "a",
+            "label": "條紋應該變寬，因為相同的干涉角現在跨越更多的垂直距離。"
+          },
+          {
+            "id": "b",
+            "label": "邊緣應該收緊，因為路徑變長。"
+          },
+          {
+            "id": "c",
+            "label": "條紋應保持固定，因為只有波長很重要。"
+          }
+        ],
+        "explanation": "增加 L 會在更大的高度範圍內傳播相同的干涉角，因此以公尺為單位的條紋間距會增加。",
+        "observationHint": "當螢幕遠離狹縫時，亮帶和暗帶會垂直分開。"
       },
       {
         "id": "dsi-pred-half-wavelength",
-        "changeLabel": "探針高度"
+        "prompt": "從中心亮條紋開始，移動探頭，直到路徑差約為半個波長。那時應該發生什麼事？",
+        "scenarioLabel": "達到半波長分裂",
+        "changeLabel": "探針高度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "該點應該變暗，因為兩個狹縫貢獻的相位幾乎相反。"
+          },
+          {
+            "id": "b",
+            "label": "該點應該保持明亮，因為兩個狹縫仍然到達螢幕。"
+          },
+          {
+            "id": "c",
+            "label": "該點應該更亮，因為路徑差較大。"
+          }
+        ],
+        "explanation": "接近半個波長的路徑差會在 \\(\\pi\\) 附近產生相位分裂，因此兩個相等的狹縫貢獻相互抵消，並且該點變暗。",
+        "observationHint": "觀察在相同探針高度處變暗的條帶和圖案圖，其中路徑差標籤達到約 0.5 lambda。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用即時幾何體來尋找條紋。這些任務讀取實驗台上顯示的相同波長、狹縫間距、螢幕距離和探頭位置。",
+    "items": [
+      {
+        "id": "dsi-ch-find-first-dark",
+        "title": "找出第一個暗條紋",
+        "prompt": "從中心亮開始，將探頭移動到第一個暗條紋上，而不改變波長、狹縫間隔或螢幕距離。",
+        "successMessage": "您透過更改真實螢幕點發現了第一個暗條紋，而不是透過發明單獨的預覽狀態。幾何標籤、探測場和圖案現在在相消干涉上一致。",
+        "setup": {
+          "note": "僅移動探頭時，請使用模式圖作為指引。"
+        },
+        "hints": [
+          "您正在尋找接近半波長的路徑差。",
+          "第一個暗條紋應該比第一個亮間距標記更靠近中心。"
+        ],
+        "targets": [
+          {
+            "label": "使路徑差接近半個波長。"
+          },
+          {
+            "label": "將相對強度控制在 0.08 以下。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "dsi-ch-wide-fringe-spacing",
+        "title": "設定寬邊",
+        "prompt": "從緊條紋開始，調整幾何形狀，直到亮條紋間距落在 1.8 m 和 2.1 m 之間。",
+        "successMessage": "您透過更改共享幾何規則 \\(\\lambda L / d\\) 而不是透過移動探頭來加寬條紋。階段標籤和間距指南現在支援相同的目標。",
+        "setup": {
+          "note": "在調整波長、狹縫間距和螢幕距離時，請結合使用間距指南和圖像。"
+        },
+        "hints": [
+          "您需要比緊密條紋預設給出的更大的 lambda 乘以 L 除以 d 的值。",
+          "增加波長或螢幕距離會有所幫助。減少狹縫間距也有幫助。"
+        ],
+        "targets": [
+          {
+            "label": "將亮條紋間距設定在 1.8 m 和 2.1 m 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "雙縫干涉",
+    "description": "具有路徑差、相位差、條紋間距、即時探針運動和鏈結的螢幕圖案圖的互動式雙縫干涉。",
+    "keywords": [
+      "雙縫干涉",
+      "干涉條紋",
+      "路徑差異",
+      "條紋間距",
+      "波動光學"
     ]
   }
 }

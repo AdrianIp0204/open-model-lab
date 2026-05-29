@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { LocaleDocumentSync } from "@/components/layout/LocaleDocumentSync";
+import { ZhHkVisibleTextLocalizer } from "@/components/layout/ZhHkVisibleTextLocalizer";
 import { isAppLocale, routing } from "@/i18n/routing";
 import { getLocaleMessages } from "@/i18n/server";
 
@@ -33,6 +34,7 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider key={locale} locale={locale} messages={messages}>
       <LocaleDocumentSync locale={locale} />
+      <ZhHkVisibleTextLocalizer locale={locale} />
       {children}
     </NextIntlClientProvider>
   );

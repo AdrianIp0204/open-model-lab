@@ -62,51 +62,79 @@
             {
               "id": "sourceMass",
               "label": "來源質量"
+            },
+            {
+              "id": "launchRadius",
+              "label": "發射半徑"
             }
           ],
           "steps": [
             {
               "id": "set-threshold",
-              "label": "1. 先寫出門檻條件"
+              "label": "1. 先寫出門檻條件",
+              "template": "處於逃脫閾值，$0 = \\\\dfrac{v_{\\\\text{esc}}^2}{2} - \\\\dfrac{M}{r_0}$。"
             },
             {
               "id": "solve",
-              "label": "2. 解出門檻速度"
+              "label": "2. 解出門檻速度",
+              "template": "因此顯示的 $G = 1$ 單位為 $v_{\\\\text{esc}} = \\\\sqrt{2M/r_0} = \\\\sqrt{2({{sourceMassValue}})/{{launchRadiusValue}}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 代入目前數值"
+              "label": "3. 代入目前數值",
+              "template": "給出$v_{\\\\text{esc}} = {{launchEscapeSpeedValue}}\\\\,\\\\mathrm{m/s}$，而相同半徑處的圓週速度比較是$v_c = {{launchCircularSpeedValue}}\\\\,\\\\mathrm{m/s}$。"
             }
           ],
           "resultLabel": "逃逸速度",
+          "resultTemplate": "$v_{\\\\text{esc}} = {{launchEscapeSpeedValue}}\\\\,\\\\mathrm{m/s}$",
           "applyAction": {
             "label": "顯示較大發射半徑的門檻案例",
             "observationHint": "發射點拉遠後，重力井會變淺，所以門檻速度也會下降。"
-          }
+          },
+          "interpretationTemplate": "{{escapeSpeedInterpretation}}"
         },
         {
           "id": "current-energy-check",
           "title": "目前能量判讀",
           "prompt": "在當前時間下，動能、勢能與總比能量告訴你這次發射會逃逸還是保持受束縛？",
+          "variables": [
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "currentRadius",
+              "label": "目前半徑"
+            },
+            {
+              "id": "currentSpeed",
+              "label": "目前速度"
+            }
+          ],
           "steps": [
             {
               "id": "read-state",
-              "label": "1. 讀出目前半徑與速度"
+              "label": "1. 讀出目前半徑與速度",
+              "template": "在 $t = {{timeValue}}\\\\,\\\\mathrm{s}$，發射位於 $r = {{currentRadiusValue}}\\\\,\\\\mathrm{m}$，速度為 $v = {{currentSpeedValue}}\\\\,\\\\mathrm{m/s}$。"
             },
             {
               "id": "compute-energy-parts",
-              "label": "2. 計算比動能與比勢能"
+              "label": "2. 計算比動能與比勢能",
+              "template": "給出 $K/m = v^2/2 = {{kineticEnergyValue}}$ 和 $U/m = -M/r = {{potentialEnergyValue}}$。"
             },
             {
               "id": "add-and-interpret",
-              "label": "3. 相加後判斷"
+              "label": "3. 相加後判斷",
+              "template": "將它們相加得到 $E/m = {{totalEnergyValue}}$。那裡的局部逃逸速度為${{localEscapeSpeedValue}}\\\\,\\\\mathrm{m/s}$，因此模型預測為{{turnaroundInterpretation}}。"
             }
           ],
           "resultLabel": "目前比能量狀態",
+          "resultTemplate": "$K/m = {{kineticEnergyValue}},\\\\; U/m = {{potentialEnergyValue}},\\\\; E/m = {{totalEnergyValue}}$",
           "applyAction": {
             "label": "顯示高但仍受束縛的案例",
             "observationHint": "留意軌跡雖然伸得很遠，但總比能量仍維持負值，因此折返點仍然存在。"
-          }
+          },
+          "interpretationTemplate": "{{energyInterpretation}} 此設定意味著 {{turnaroundInterpretation}}。"
         }
       ]
     },
@@ -262,38 +290,552 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "從一個有界重力源向外發射，看看源質量、發射半徑和總比能如何決定物體是逃逸還是最終返回。",
+    "whyItMatters": "逃逸速度是拋射運動、圓形軌道和重力位能之間的橋樑：可以容納軌道的同一口井也設定了避免轉向所需的發射速度。",
+    "keyTakeaway": "逃逸是一個能量閾值，而不是重力關閉的地方。"
+  },
+  "v2": {
+    "intuition": "逃逸速度不是重力停止時的速度。正是發射速度為物體提供了足夠的總比能量，以避免任何有限的周轉半徑。",
+    "whyItMatters": "這會將逃逸從記憶的公式變成一個能量故事，您可以將其重新用於射彈、軌道、火箭和引力井。",
+    "equationSnapshot": {
+      "note": "將這些視為一項測試：發射以動能開始，井貢獻負位能，E/m 的符號決定是否存在有限週轉。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-energy-threshold",
+        "title": "讀取閾值",
+        "goal": "在更改任何控制項之前，將逃逸視為零能量邊界。",
+        "doThis": "從閾值啟動開始，並開啟比能圖。比較發射速度、逃逸速度讀數、總能量線和缺失的有限週轉標記。",
+        "notice": "由於重力不斷向內拉，該物體仍然減速，但總能量線接近於零，並且沒有標記有限的周轉半徑。",
+        "explain": "在閾值處，v_0 等於 v_esc 且 E/m = v_0^2/2 - M/r_0 為零。這並不能消除重力；它消除了物體在有限半徑內反轉方向的需要。"
+      },
+      {
+        "id": "make-a-high-bound-launch",
+        "title": "使高但受限",
+        "goal": "將戲劇性的向外攀爬與真正的逃脫分開。",
+        "doThis": "應用“高但有界”，保持半徑和比能圖可用，然後沿著軌跡走向周轉標記。",
+        "notice": "發射可以遠遠超過其起點，甚至超過圓週速度比較，而負總比能仍然預示著有限的周轉。",
+        "explain": "圓週速度是本地側向軌道基準。只有當總比能達到零或以上時，徑向發射才會逸出；低於此值，井最終會贏得動議。"
+      },
+      {
+        "id": "change-the-well-depth",
+        "title": "更改井深",
+        "goal": "預測源質量和發射半徑如何改變逃逸速度閾值。",
+        "doThis": "當速度閾值和比能量圖像開啟時，在較重源閾值和較寬發射閾值之間切換。",
+        "notice": "較重的源會提高閾值；更寬的發射點會降低它。由於速度因子仍為 1.00，兩種情況仍接近零能量邊界。",
+        "explain": "公式 v_esc = sqrt(2M/r_0) 是一個能量深度表述：M 越大，井越深，而 r_0 越大，井的起點越高。"
+      },
+      {
+        "id": "check-the-escape-verdict",
+        "title": "查看判決結果",
+        "goal": "使用即時實驗台有意在界限、閾值和逃避結果之間移動。",
+        "doThis": "從高位開始但受限制，然後僅提高速度因子，直到總能量線達到零並且有限週轉標記消失。",
+        "notice": "改變速度因子直接改變發射動力學項。總能量跨越零是界限判決轉變為閾值或逃逸的時刻。",
+        "explain": "如果你能說出相同設定的能量符號、速度閾值關係和周轉結果，你就有了逃逸速度的想法。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "逃逸速度是使起始半徑處的總比能為零的發射速度。",
+        "重力不斷減慢逃逸的發射速度；逃脫意味著沒有有限的周轉半徑，而不是重力消失。",
+        "增加源質量會提高閾值，而從較大半徑發射會降低閾值。",
+        "如果總比能仍然為負，則比圓週速度快不足以進行徑向逃逸。"
+      ],
+      "misconception": "遠離源頭並不等於逃避。如果 E/m 保持為負值，高邊界發射可以向外傳播很​​遠，並且仍然返回。",
+      "freePlayPrompt": "建構三個具有相同源質量和發射半徑的情況：限制低於閾值、速度因子為 1.00 的閾值以及高於閾值的明確逃逸。對於每一個，說出 E/m 的符號以及週轉標記發生了什麼。",
+      "nextConcepts": [
+        {
+          "slug": "circular-orbits-orbital-speed",
+          "title": "圓形軌道與軌道速度",
+          "reasonLabel": "將逃逸與保持圓圈的速度進行比較。"
+        },
+        {
+          "slug": "gravitational-potential-energy",
+          "title": "重力位能與位能",
+          "reasonLabel": "查看閾值後面的能量井圖。"
+        },
+        {
+          "slug": "projectile-motion",
+          "title": "抛射運動",
+          "reasonLabel": "將普通的返回地面運動與逃離重力井進行比較。"
+        }
+      ]
+    }
+  },
+  "equations": [
+    {
+      "id": "specific-total-energy",
+      "label": "比總能量",
+      "meaning": "這個量的符號決定結果：負數是有界的，零是閾值，正數是逃逸。"
+    },
+    {
+      "id": "escape-threshold",
+      "label": "閾值條件",
+      "meaning": "這是所選起始半徑處的束縛發射和逃逸發射之間的邊界。"
+    },
+    {
+      "id": "escape-speed",
+      "label": "逃脫速度",
+      "meaning": "較深的井需要較大的閾值速度，而較淺的起點需要較小的閾值速度。"
+    },
+    {
+      "id": "circular-speed-comparison",
+      "label": "圓週速度比較",
+      "meaning": "局部圓週速度是一個有用的基準，但僅超過它並不能保證逃脫。"
+    },
+    {
+      "id": "turnaround-radius",
+      "label": "有限週轉半徑",
+      "meaning": "當 $E < 0$ 時，這給出了綁定發射必須掉頭之前的最大半徑。"
+    }
+  ],
   "variableLinks": [
     {
       "id": "sourceMass",
-      "label": "來源質量"
+      "label": "來源質量",
+      "description": "加深重力井，因此局部逃逸速度和局部圓週速度比較都會上升。"
     },
     {
       "id": "speedFactor",
-      "label": "速度因子"
+      "label": "速度因子",
+      "description": "僅更改相對於逃逸閾值的啟動動力學項，因此它直接控制啟動是綁定、閾值還是逃逸。"
+    },
+    {
+      "id": "launchRadius",
+      "label": "發射半徑",
+      "description": "起點越遠意味著負值越小，因此達到閾值所需的發射速度越小。"
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "比能",
+      "primaryGraphIds": [
+        "比能"
+      ],
+      "primaryControlIds": [
+        "速度係數"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "sourceMass",
-        "label": "來源質量"
+        "label": "來源質量",
+        "description": "改變重力井的深度，從而改變局部逃逸閾值。"
       },
       {
         "id": "speedFactor",
-        "label": "速度因子"
+        "label": "速度因子",
+        "description": "1.00 表示發射速度與目前源質量和發射半徑的逃逸閾值完全匹配。以下1為綁定；以上1個逃逸。"
+      },
+      {
+        "id": "launchRadius",
+        "label": "發射半徑",
+        "description": "設定向外發射開始時距源的距離。起始半徑越大意味著發射時的井越淺。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "threshold-launch",
+        "label": "閾值啟動",
+        "description": "發射正好以逃逸速度開始，因此總比能為零。"
+      },
+      {
+        "id": "high-but-bound",
+        "label": "高但受限",
+        "description": "這次發射遠高於起始速度，但仍低於逃逸速度並保持有限的周轉半徑。"
+      },
+      {
+        "id": "clear-escape",
+        "label": "清除逃生",
+        "description": "高於閾值的發射保持正的總比能，因此它永遠不需要有限的周轉半徑。"
+      },
+      {
+        "id": "heavier-source-threshold",
+        "label": "較重的源閾值",
+        "description": "在相同的發射半徑下，較重的源會提高閾值速度，而總能量線仍為零。"
+      },
+      {
+        "id": "wider-launch-threshold",
+        "label": "更寬的啟動門檻",
+        "description": "距離源較遠的發射會降低閾值速度，因為那裡的井較淺。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "launchMarker",
+        "label": "啟動標記",
+        "shortDescription": "標記閾值方程式和軌跡使用的起始半徑。",
+        "whatToNotice": [
+          "向外移動發射點會立即降低閾值速度，因為起始電位的負值較小。"
+        ],
+        "whyItMatters": "它使 $r_0$ 作為啟動條件可見。",
+        "relatedControls": [
+          "發射半徑"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "速度閾值"
+        ],
+        "relatedEquationVariables": [
+          "發射半徑"
+        ]
+      },
+      {
+        "id": "turnaroundMarker",
+        "label": "週轉標記",
+        "shortDescription": "顯示綁定發射的預測有限週轉半徑。",
+        "whatToNotice": [
+          "此標記僅在總比能量為負時出現。",
+          "在閾值或以上，沒有有限的周轉半徑可供標記。"
+        ],
+        "whyItMatters": "它將長途外出旅行與真正的逃離分開。",
+        "relatedControls": [
+          "來源海量",
+          "發射半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "比能"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "發射半徑",
+          "速度係數"
+        ]
+      },
+      {
+        "id": "velocityVector",
+        "label": "速度向量",
+        "shortDescription": "顯示發射質量的目前徑向運動。",
+        "whatToNotice": [
+          "瞬間較大的向外速度不足以證明逃脫。",
+          "能量星座仍決定稍後發射是否必須反轉。"
+        ],
+        "whyItMatters": "它將速度比較與相同的移動狀態連結起來。",
+        "relatedControls": [
+          "來源海量",
+          "發射半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "速度閾值"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "發射半徑",
+          "速度係數"
+        ]
+      },
+      {
+        "id": "gravityVector",
+        "label": "重力向量",
+        "shortDescription": "顯示了即使在逃逸情況下也會持續減慢發射速度的向內引力。",
+        "whatToNotice": [
+          "即使在閾值和逃逸發射中，重力也始終指向內。"
+        ],
+        "whyItMatters": "它修正了「逃逸意味著重力消失」的觀點。",
+        "relatedControls": [
+          "來源海量",
+          "發射半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "速度閾值"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "發射半徑"
+        ]
+      },
+      {
+        "id": "trail",
+        "label": "軌跡軌跡",
+        "shortDescription": "離開訪問過的徑向路徑，因此繼續向外和返回之間的差異隨著時間的推移保持可見。",
+        "whatToNotice": [
+          "長長的向外蹤跡並不能證明逃跑。綁定發射可以在返回之前行駛很遠。"
+        ],
+        "whyItMatters": "它讓運動和能量圖講述同一個故事。",
+        "relatedControls": [
+          "來源海量",
+          "發射半徑",
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "比能"
+        ],
+        "relatedEquationVariables": [
+          "來源海量",
+          "發射半徑",
+          "速度係數"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "radius-history",
+      "label": "半徑與發射半徑",
+      "xLabel": "時間（秒）",
+      "yLabel": "半徑（公尺）",
+      "description": "顯示發射器是繼續向外移動還是在返回之前接近有限的最大半徑。"
+    },
+    {
+      "id": "speed-thresholds",
+      "label": "實際速度與閾值速度",
+      "xLabel": "時間（秒）",
+      "yLabel": "速度（公尺/秒）",
+      "description": "將即時速度與相同半徑處的本地逃逸速度和圓週速度基準進行比較。"
+    },
+    {
+      "id": "specific-energy",
+      "label": "特定能量平衡",
+      "xLabel": "時間（秒）",
+      "yLabel": "比能",
+      "description": "顯示總比能是保持在零以下、達到零還是變成正值。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "逃生要注意什麼",
+    "intro": "使用這些提示來區分三個容易混淆的想法：遠離源頭、高於圓週速度以及實際逃脫。",
+    "items": [
+      {
+        "id": "ev-notice-energy-sign",
+        "text": "總能量線給出了結論：低於零是界限，零是閾值，高於零是逃逸。",
+        "tryThis": "在開啟比能圖的情況下，在「閾值啟動」、「高但受限」和「清除逃逸」之間切換。",
+        "whyItMatters": "它將逃生與能量符號連結在一起，而不是僅僅與距離連結在一起。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "比能"
+        ],
+        "relatedOverlays": [
+          "週轉標記",
+          "蹤跡"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
+      },
+      {
+        "id": "ev-notice-high-bound",
+        "text": "如果發射速度低於逃逸速度並保持負總比能，則發射可以高於局部圓週速度曲線，並且仍然保持束縛。",
+        "tryThis": "應用「高但有界」並將速度閾值圖與比能圖進行比較，然後再確定發射是否真正逃脫。",
+        "whyItMatters": "它將本地循環基準與實際逃逸閾值分開。",
+        "relatedControls": [
+          "速度係數"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "速度閾值",
+          "比能"
+        ],
+        "relatedOverlays": [
+          "速度向量",
+          "週轉標記",
+          "蹤跡"
+        ],
+        "relatedEquationVariables": [
+          "速度係數"
+        ]
+      },
+      {
+        "id": "ev-notice-heavier-source",
+        "text": "在相同的發射半徑下，增加源質量會加深井並提高閾值速度。",
+        "tryThis": "使用較重的源閾值並觀察發射速度讀數隨逃逸速度曲線上升，同時總能量線保持為零。",
+        "whyItMatters": "它將閾值直接與重力井的深度連結起來。",
+        "relatedControls": [
+          "來源海量"
+        ],
+        "relatedGraphTabs": [
+          "速度閾值",
+          "比能"
+        ],
+        "relatedOverlays": [
+          "重力向量",
+          "速度向量"
+        ],
+        "relatedEquationVariables": [
+          "來源海量"
+        ]
+      },
+      {
+        "id": "ev-notice-wider-launch",
+        "text": "距離源較遠的發射會降低閾值速度，因為起點在引力井中位置較高。",
+        "tryThis": "使用更寬的發射閾值，並將新的發射標記與較低的閾值速度和較小的負啟動位能進行比較。",
+        "whyItMatters": "它將半徑依賴性轉變為能量深度故事，而不是記憶的公式。",
+        "relatedControls": [
+          "發射半徑"
+        ],
+        "relatedGraphTabs": [
+          "半徑歷史記錄",
+          "速度閾值",
+          "比能"
+        ],
+        "relatedOverlays": [
+          "啟動標記",
+          "蹤跡"
+        ],
+        "relatedEquationVariables": [
+          "發射半徑"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測逃跑結果",
+    "intro": "在應用預設之前預測能量判定。然後使用速度閾值和比能量圖檢查結果。",
     "items": [
       {
         "id": "ev-pred-heavier-source-threshold",
-        "changeLabel": "來源質量"
+        "prompt": "在相同的發射半徑下，如果源質量增加而速度因子保持在 1.00，會發生什麼？",
+        "scenarioLabel": "較重的源，相同的閾值因子",
+        "changeLabel": "來源質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "閾值速度上升，但總能量線保持在零附近，因為實際發射速度與逃逸速度目標成比例。"
+          },
+          {
+            "id": "b",
+            "label": "只有重力箭頭發生變化，因為逃脫速度不取決於來源質量。"
+          },
+          {
+            "id": "c",
+            "label": "發射會立即受到限制，因為較重的源必須使相同的速度係數太小。"
+          }
+        ],
+        "explanation": "當速度係數固定為 1.00 時，實際發射速度會隨著新的逃逸閾值而更新。較重的源使井更深並提高 $v_{\text{esc}}$，但總比能仍保持為零。",
+        "observationHint": "發射速度讀數隨逃逸速度曲線上升，而總能量線保持為零。"
       },
       {
         "id": "ev-pred-high-bound-not-escape",
-        "changeLabel": "速度因子"
+        "prompt": "發射開始速度比本地圓週速度比較快，但仍低於逃逸速度。哪種說法最有道理？",
+        "scenarioLabel": "爬升速度夠快，但逃跑速度不夠",
+        "changeLabel": "速度因子",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它可以上升到遠離源頭的位置並且仍然保持束縛狀態，因為負總比能保證了有限的周轉半徑。"
+          },
+          {
+            "id": "b",
+            "label": "它必須逃逸，因為任何高於圓週速度的速度都會自動高於逃逸速度。"
+          },
+          {
+            "id": "c",
+            "label": "它應該進入圓形軌道，因為圓形速度是主要的軌道閾值。"
+          }
+        ],
+        "explanation": "逃逸取決於 $E/m$ 的符號，而不取決於發射是否超過本地循環速度比較。在本頁中，運動是徑向的，而不是側向軌道。",
+        "observationHint": "速度閾值圖可以顯示高於圓週速度的發射，而比能圖仍保持在零度以下。"
+      },
+      {
+        "id": "ev-pred-wider-launch-threshold",
+        "prompt": "在相同的源質量下，如果發射半徑增加而速度因子保持在 1.00 會發生什麼？",
+        "scenarioLabel": "更寬的啟動門檻",
+        "changeLabel": "發射半徑",
+        "choices": [
+          {
+            "id": "a",
+            "label": "閾值速度降低，因為發射是在重力井的較淺部分開始的，但總能量線仍然保持在零附近。"
+          },
+          {
+            "id": "b",
+            "label": "閾值速度會增加，因為較大的半徑總是需要更大的速度才能繼續向外移動。"
+          },
+          {
+            "id": "c",
+            "label": "沒有什麼重要的變化，因為相同的源質量仍然存在。"
+          }
+        ],
+        "explanation": "增加 $r_0$ 會使啟動電位的負值減小，因此達到零能量閾值所需的發射速度會更小。在速度係數 1.00 時，總比能仍保持為零。",
+        "observationHint": "發射標記向外移動，閾值速度下降，總能量線保持在零附近。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的單源啟動平台從即時能量邏輯中建立界限、閾值和逃脫情況。",
+    "items": [
+      {
+        "id": "ev-ch-remove-turnaround",
+        "title": "刪除有限週轉",
+        "prompt": "從高值開始但有界，在相同的源質量和發射半徑下將發射提高到閾值情況，這樣總比能量大約為零，並且有限週轉消失。",
+        "successMessage": "您達到了閾值情況：總能量線爬升至零，而不改變源質量或發射半徑，因此有限週轉消失了。",
+        "setup": {
+          "note": "保持相同的源質量和發射半徑。只有發射速度應該改變。"
+        },
+        "hints": [
+          "在源質量和發射半徑固定的情況下，閾值情況是總能量線落在零的位置。",
+          "不要更改來源質量或發射半徑。"
+        ],
+        "targets": [
+          {
+            "label": "將源質量維持在 3.95 公斤到 4.05 公斤之間。"
+          },
+          {
+            "label": "保持發射半徑在 1.55 m 到 1.65 m 之間。"
+          },
+          {
+            "label": "將速度係數維持在 0.99 到 1.01 之間。"
+          },
+          {
+            "label": "將總能量保持在 -0.02 和 0.02 之間。"
+          },
+          {
+            "label": "將發射速度保持在 2.22 m/s 和 2.25 m/s 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "ev-ch-high-climb-still-bound",
+        "title": "爬高，仍然束縛",
+        "prompt": "從閾值發射開始，調整發射，該發射仍然從 4 kg 源周圍的 1.6 m 開始，爬高，但仍然受到 10.4 m 附近有限週轉的限制。",
+        "successMessage": "您誠實地建立了高但受限的情況：向外旅行很大，但負總能量線仍然預測有限的周轉。",
+        "setup": {
+          "note": "保持相同的源質量和發射半徑，然後降低發射速度，剛好足以恢復有限的周轉。"
+        },
+        "hints": [
+          "高界行程仍需負總比能。",
+          "瞄準逃生閾值以下，但不要太低，以免轉向崩潰回到發射點。"
+        ],
+        "targets": [
+          {
+            "label": "將源質量維持在 3.95 公斤到 4.05 公斤之間。"
+          },
+          {
+            "label": "保持發射半徑在 1.55 m 到 1.65 m 之間。"
+          },
+          {
+            "label": "將速度係數保持在 0.91 和 0.93 之間。"
+          },
+          {
+            "label": "將總能量保持在 -0.4 和 -0.36 之間。"
+          },
+          {
+            "label": "保持轉彎半徑在 10.2 m 到 10.6 m 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "逃脫速度 |開放模型實驗室",
+    "description": "透過緊湊的單源重力實驗室了解逃逸速度，該實驗室將發射半徑、源質量、總比能、閾值速度和高但束縛的發射聯繫起來。",
+    "keywords": [
+      "逃逸速度",
+      "重力位能",
+      "總能量",
+      "軌道速度",
+      "實體模擬"
     ]
   }
 }

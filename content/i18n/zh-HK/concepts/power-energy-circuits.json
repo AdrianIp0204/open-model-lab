@@ -25,6 +25,10 @@
     {
       "slug": "momentum-impulse",
       "reasonLabel": "速率與總量類比"
+    },
+    {
+      "slug": "internal-resistance-and-terminal-voltage",
+      "reasonLabel": "使來源不理想"
     }
   ],
   "sections": {
@@ -67,54 +71,76 @@
           "steps": [
             {
               "id": "start-ohms-law",
-              "label": "1. 首先使用一個環路負載的歐姆定律"
+              "label": "1. 首先使用一個環路負載的歐姆定律",
+              "template": "$I = \\dfrac{V}{R_{\\text{load}}}$。"
             },
             {
               "id": "substitute-live-values",
-              "label": "2. 代入電源和負載值"
+              "label": "2. 代入電源和負載值",
+              "template": "$I = \\dfrac{{voltageValue}}{ {{loadResistanceValue}} }$。"
             },
             {
               "id": "solve-current",
-              "label": "3. 計算當前電流"
+              "label": "3. 計算當前電流",
+              "template": "這給了$I = {{currentValue}}$。"
             },
             {
               "id": "use-power-relation",
-              "label": "4. 使用同一電路的功率關係"
+              "label": "4. 使用同一電路的功率關係",
+              "template": "$P = VI = {{voltageValue}} \\times {{currentValue}}$。"
             },
             {
               "id": "solve-power",
-              "label": "5. 計算負載功率"
+              "label": "5. 計算負載功率",
+              "template": "所以$P = {{powerValue}}$。"
             }
           ],
           "resultLabel": "電流和功率",
+          "resultTemplate": "$I = {{currentValue}}, \\quad P = {{powerValue}}$",
           "applyAction": {
             "label": "顯示增強源",
             "observationHint": "當僅電源電壓上升時，相同的 8 歐姆負載拉取更多的電流和多得多的功率。"
-          }
+          },
+          "interpretationTemplate": "{{powerInterpretation}}"
         },
         {
           "id": "energy-over-time",
           "title": "電流在時間內交付的能量",
           "prompt": "在當前檢視的時間點，源已向負載交付了多少能量？",
+          "variables": [
+            {
+              "id": "power",
+              "label": "負載功率"
+            },
+            {
+              "id": "time",
+              "label": "已用時間"
+            }
+          ],
           "steps": [
             {
               "id": "start-energy-relation",
-              "label": "__OML_I18N_TOKEN_0000__。"
+              "label": "__OML_I18N_TOKEN_0000__。",
+              "template": "$E = Pt$。"
             },
             {
               "id": "substitute-live-power-time",
-              "label": "2. 代入實時功率和電流時間"
+              "label": "2. 代入實時功率和電流時間",
+              "template": "$E = {{powerValue}} \\times {{timeValue}}$。"
             },
             {
               "id": "solve-energy",
-              "label": "3. 計算累積能量"
+              "label": "3. 計算累積能量",
+              "template": "這給了$E = {{energyValue}}$。"
             }
           ],
           "resultLabel": "交付的能量",
+          "resultTemplate": "$E = {{energyValue}}$",
           "applyAction": {
             "label": "顯示低阻抗加熱器",
             "observationHint": "由於負載的阻抗較低，能量線變得更陡峭，因為每秒負載取用更多的功率。"
-          }
+          },
+          "interpretationTemplate": "{{energyInterpretation}}"
         }
       ]
     },
@@ -297,6 +323,79 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "保持一個電源和一個電阻負載在視野範圍內，同時電流、功率和隨著時間的推移累積的能量保持與同一誠實電路相關。",
+    "whyItMatters": "燈泡、加熱器、充電器和保險絲關心當前的傳輸速率和一段時間後的總能量；此頁面將這兩個讀數連接到一個可見電路。",
+    "keyTakeaway": "功率是一個速率，而能量是該速率作用一段時間後傳輸的總量。"
+  },
+  "v2": {
+    "intuition": "功率是電路的能量傳輸速度計：電壓和電流設定負載每秒接收多少焦耳，而能量是此速率持續作用後的運行總量。",
+    "whyItMatters": "一旦速率和總量分開，您就可以解釋為什麼更亮的負載可能會更快地耗盡電池，為什麼更長的運行可以在不改變功率的情況下傳輸更多的能量，以及為什麼更大的電阻並不自動意味著更多的功率。",
+    "equationSnapshot": {
+      "note": "使用歐姆定律找到帶電電流，現在使用 P = VI 作為傳輸速率，然後讓 E = Pt 將穩定速率轉換為累積能量。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-power-as-the-rate",
+        "title": "將功率讀取為速率",
+        "goal": "在時間進入故事之前連接電壓、電阻、電流和功率。",
+        "doThis": "從穩定發光開始，目前箭頭和電源發光可見。讀取 12 V 電源、8 歐姆負載、電流標籤和電源條作為一種帶電電路狀態。",
+        "notice": "負載功率不是額外設定。它來自迴路上已顯示的相同電壓和電流。",
+        "explain": "對於一個歐姆負載，歐姆定律首先決定電流。然後，功率會告訴負載現在接收能量的速度。"
+      },
+      {
+        "id": "separate-rate-from-total",
+        "title": "與總額分開的比率",
+        "goal": "了解為什麼功率可以保持固定，而能量卻隨著時間不斷增加。",
+        "doThis": "保持相同的穩定電路，並隨著檢查時間的推移遵循能量表或能量傳輸圖。",
+        "notice": "能量條保持在某一速率，但能量條和圖像不斷攀升，因為相同的速率作用時間更長。",
+        "explain": "能量是累積總量：E = Pt。僅更改運行時間會更改總能量，而不會更改電路的功率率。"
+      },
+      {
+        "id": "boost-the-source",
+        "title": "升壓源",
+        "goal": "將一個固定負載的線性電流響應與快速增長的功率響應進行比較。",
+        "doThis": "加載柔和的輝光，然後僅將電源電壓提高到穩定輝光或升壓源，同時 8 歐姆負載保持固定。比較電流-電壓和功率-電壓圖。",
+        "notice": "電流隨電壓變化，但功率上升得更快，因為 P = VI 時電壓和電流都較大。",
+        "explain": "在固定電阻下，電壓加倍，電流加倍，因此功率變得四倍，而不僅僅是加倍。"
+      },
+      {
+        "id": "judge-a-power-target",
+        "title": "判斷功率目標",
+        "goal": "在嘗試挑戰之前，請同時使用電壓、電阻、電流、功率和能量斜率。",
+        "doThis": "比較高電阻負載與低電阻加熱器，然後嘗試挑戰：保持 8 歐姆負載並調整源，直到負載達到約 18 W。",
+        "notice": "較低電阻的負載在相同的電源電壓下需要更多的電流並具有更陡的能量線，而挑戰目標是透過改變電源電壓而不改變負載來實現的。",
+        "explain": "強大的電路功率解釋首先命名電路狀態，然後將瞬時速率與隨時間累積的總能量分開。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "電流來自同一單環電路中的電源電壓和負載電阻。",
+        "功率是瞬時能量傳輸速率，因此更亮或更熱的負載每秒會消耗更多焦耳。",
+        "能量是指此功率在選定時間內作用後的累計總量。",
+        "在固定電電源電壓下，較大的歐姆負載電阻可以降低而不是提高電流和功率。"
+      ],
+      "misconception": "請勿將能量和功率用作可互換的字。相同的功率意味著相同的速率，但運行時間較長的電路仍然傳輸更多的總能量。",
+      "freePlayPrompt": "在移動控制項之前，預測您是否要變更現在的速率、一段時間內的累計總數或兩者。",
+      "nextConcepts": [
+        {
+          "slug": "internal-resistance-and-terminal-voltage",
+          "title": "內阻與端電壓",
+          "reasonLabel": "使電源不理想並追蹤浪費電力的地方。"
+        },
+        {
+          "slug": "series-parallel-circuits",
+          "title": "串聯和並聯電路",
+          "reasonLabel": "了解分支結構如何重新分配電流、電壓和功率。"
+        },
+        {
+          "slug": "equivalent-resistance",
+          "title": "等效電阻",
+          "reasonLabel": "在判斷電流和功率之前減少混合負載。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "ohms-law",
@@ -337,23 +436,389 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "能量轉移",
+      "primaryGraphIds": [
+        "能量轉移",
+        "功率電壓",
+        "功率電阻"
+      ],
+      "primaryControlIds": [
+        "電壓",
+        "負載電阻"
+      ],
+      "primaryPresetIds": [
+        "穩定發光",
+        "柔和的光芒",
+        "增強源",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ]
+    },
     "controls": [
       {
         "id": "voltage",
-        "label": "源電壓"
+        "label": "源電壓",
+        "description": "升高或降低電電源電壓而不改變負載本身。"
       },
       {
         "id": "loadResistance",
-        "label": "負載電阻"
+        "label": "負載電阻",
+        "description": "變更此單負載歐姆電路模型中負載限制電流的強度。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "steady-glow",
+        "label": "穩定發光",
+        "description": "使用中等源和負載進行平衡參考運轉。"
+      },
+      {
+        "id": "gentle-glow",
+        "label": "柔和的光芒",
+        "description": "相同的 8 歐姆負載在較低的電電源電壓下顯示出較小的電流和低得多的功率。"
+      },
+      {
+        "id": "boosted-source",
+        "label": "增強源",
+        "description": "相同的 8 歐姆負載由較大的電源電壓驅動，因此電流和功率均大幅增加。"
+      },
+      {
+        "id": "high-resistance-load",
+        "label": "高阻負載",
+        "description": "使用相同的 12 V 電源，較大的負載電阻會產生較小的電流和較低的功率。"
+      },
+      {
+        "id": "low-resistance-heater",
+        "label": "低電阻加熱器",
+        "description": "較小的負載電阻會消耗更多電流，消耗更多功率，並使能量每秒上升得更快。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentArrows",
+        "label": "目前箭頭",
+        "shortDescription": "顯示單迴路電流方向和電線上的帶電電流標籤。",
+        "whatToNotice": [
+          "對於一個固定負載，當您改變電壓或電阻時，電流會立即改變。"
+        ],
+        "whyItMatters": "功率公式僅在電流保持與相同可見電路相連時才有意義。",
+        "relatedControls": [
+          "電壓",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "電流-電壓",
+          "功率電壓"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "負載電阻"
+        ]
+      },
+      {
+        "id": "voltageLabels",
+        "label": "電壓標籤",
+        "shortDescription": "標記此單負載迴路中的電源電壓和匹配負載壓降。",
+        "whatToNotice": [
+          "在此有界模型中，在一個負載上出現相同的電源電壓。"
+        ],
+        "whyItMatters": "它使功率公式與組件上的實際電壓保持一致。",
+        "relatedControls": [
+          "電壓"
+        ],
+        "relatedGraphTabs": [
+          "電流-電壓",
+          "功率電壓"
+        ],
+        "relatedEquationVariables": [
+          "電壓"
+        ]
+      },
+      {
+        "id": "powerGlow",
+        "label": "電源發光",
+        "shortDescription": "在舞台上顯示負載響應和瞬時功率條。",
+        "whatToNotice": [
+          "對於一種固定設定，即使電能表不斷增長，功率條也保持恆定。"
+        ],
+        "whyItMatters": "它將目前的傳輸速率與迄今為止傳輸的總能量分開。",
+        "relatedControls": [
+          "電壓",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "功率電壓",
+          "功率電阻"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "負載電阻"
+        ]
+      },
+      {
+        "id": "energyMeter",
+        "label": "電能表",
+        "shortDescription": "顯示舞台上的累積能量條和目前經過的時間。",
+        "whatToNotice": [
+          "在固定功率下，電能表在相同的時間間隔內以相同的量增長。"
+        ],
+        "whyItMatters": "能量是累積的總量，而不是第二份能量。",
+        "relatedControls": [
+          "電壓",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "能量轉移"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "負載電阻"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "energy-transfer",
+      "label": "能量隨時間轉移",
+      "xLabel": "時間（秒）",
+      "yLabel": "能量轉移 (J)",
+      "description": "對於一種固定設定，線是直的，其斜率是功率。更陡的線意味著電路每秒傳輸更多的能量。"
+    },
+    {
+      "id": "current-voltage",
+      "label": "電流與電電源電壓",
+      "xLabel": "電源電壓（V）",
+      "yLabel": "電流（A）",
+      "description": "掃描電電源電壓，同時保持負載電阻固定。直線顯示了這一負載的歐姆定律響應。"
+    },
+    {
+      "id": "power-voltage",
+      "label": "功率與電電源電壓",
+      "xLabel": "電源電壓（V）",
+      "yLabel": "功率（W）",
+      "description": "在負載保持固定的情況下僅掃描電電源電壓。曲線向上彎曲，因為對於一個固定電阻，功率會像 V^2 一樣增長。"
+    },
+    {
+      "id": "power-resistance",
+      "label": "功率與負載電阻",
+      "xLabel": "負載電阻（歐姆）",
+      "yLabel": "功率（W）",
+      "description": "在電源保持固定的情況下僅掃描負載電阻。在此模型中，較大的電阻會降低電流，從而降低功率。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "將每個提示用作簡短的調查。進行一項更改，然後將舞台顯示的內容與圖像顯示的內容連結起來。",
+    "items": [
+      {
+        "id": "pec-notice-energy-slope",
+        "text": "在能量圖上，斜率就是功率。更陡的線意味著每秒傳輸更多的能量，而不僅僅是流逝更多的時間。",
+        "tryThis": "暫停運行，比較穩定發光和低電阻加熱器設定的線斜率，然後比較階段功率條。",
+        "whyItMatters": "這是在不離開相同電路的情況下將功率與能量分離的最清晰方法。",
+        "relatedControls": [
+          "電壓",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "能量轉移"
+        ],
+        "relatedOverlays": [
+          "功率輝光",
+          "能量計"
+        ]
+      },
+      {
+        "id": "pec-notice-current-line",
+        "text": "對於一個固定負載，電流-電壓圖是一條直線，因為電阻保持恆定。",
+        "tryThis": "將滑鼠懸停在較低和較高的電源電壓上，並比較線電流標籤在舞台上的縮放情況。",
+        "whyItMatters": "電流是源設定和功率公式之間的連結。",
+        "relatedControls": [
+          "電壓"
+        ],
+        "relatedGraphTabs": [
+          "電流-電壓"
+        ],
+        "relatedOverlays": [
+          "目前箭頭"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "負載電阻"
+        ]
+      },
+      {
+        "id": "pec-notice-power-curve",
+        "text": "功率-電壓圖像向上彎曲，因為在相同負載下提高 V 也會提高 I，因此功率增長速度快於線性增長。",
+        "tryThis": "比較柔和的發光和增強源預設。電壓增加是適度的，但功率增加卻更顯著。",
+        "whyItMatters": "它可以幫助您了解功率不僅僅是電流的另一個副本。",
+        "relatedControls": [
+          "電壓"
+        ],
+        "relatedGraphTabs": [
+          "功率電壓"
+        ],
+        "relatedOverlays": [
+          "功率輝光"
+        ],
+        "relatedEquationVariables": [
+          "電壓"
+        ]
+      },
+      {
+        "id": "pec-notice-resistance-limit",
+        "text": "在一個固定的電電源電壓下，增加負載電阻會降低該模型中的電流和功率。",
+        "tryThis": "僅將負載電阻從低電阻加熱器預設向上拖動，然後觀察當前標籤、電源條和輝光全部落在一起。",
+        "whyItMatters": "這修正了一個常見錯誤，即較大的電阻值必然意味著組件使用更多的功率。",
+        "relatedControls": [
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "功率電阻"
+        ],
+        "relatedOverlays": [
+          "目前箭頭",
+          "功率輝光"
+        ],
+        "relatedEquationVariables": [
+          "負載電阻"
+        ]
+      },
+      {
+        "id": "pec-notice-compare",
+        "text": "同時檢查兩個設定但使用不同的電壓或電阻值時，比較模式在這裡最有用。",
+        "tryThis": "將穩定發光設定克隆到設定 B 中，然後僅降低設定 B 的電阻並比較虛線幽靈電路、電源徽章和能量線斜率。",
+        "whyItMatters": "隔離因果參數變化，而不是將時間差異與電路差異混合。",
+        "relatedControls": [
+          "電壓",
+          "負載電阻"
+        ],
+        "relatedGraphTabs": [
+          "能量轉移",
+          "功率電阻"
+        ],
+        "relatedOverlays": [
+          "功率輝光",
+          "能量計"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測電路響應。每種情況每次都會改變一個原因，因此電流、功率和能量消耗率保持與相同設定相關。",
     "items": [
       {
         "id": "pec-pred-double-voltage",
-        "changeLabel": "電壓"
+        "prompt": "在柔和的輝光設定中，如果電源電壓從 6 V 上升到 12 V，同時 8 歐姆負載保持固定，哪種說法最有道理？",
+        "scenarioLabel": "提高電電源電壓",
+        "changeLabel": "電壓",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電流加倍，功率增加四倍，因為相同的負載現在獲得更多的電壓和電流。"
+          },
+          {
+            "id": "b",
+            "label": "電流加倍，但功率不變，因為電阻沒有變化。"
+          },
+          {
+            "id": "c",
+            "label": "功率只加倍，因為電壓加倍一次。"
+          }
+        ],
+        "explanation": "在固定電阻下，電流與電壓成正比。由於 P = VI，因此將 V 和 I 加倍會使功率增加四倍。",
+        "observationHint": "當前點加倍，但功率圖上升得更快。"
+      },
+      {
+        "id": "pec-pred-raise-resistance",
+        "prompt": "在 12 V 電壓下，如果負載電阻從 4 歐姆升至 16 歐姆，會發生什麼情況？",
+        "scenarioLabel": "增加負載電阻",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電流和功率都下降，因此能量線變得不那麼陡峭。"
+          },
+          {
+            "id": "b",
+            "label": "電流下降，但功率上升，因為電阻值較大。"
+          },
+          {
+            "id": "c",
+            "label": "電流不變，因為電電源電壓沒有改變。"
+          }
+        ],
+        "explanation": "當電源固定時，電阻越大，電流限制越強。較低的電流意味著較低的功率，因此電路每秒傳輸能量的速度會較慢。",
+        "observationHint": "觀察目前標籤、能量條和能量圖斜率都一起縮小。"
+      },
+      {
+        "id": "pec-pred-low-resistance-energy-rate",
+        "prompt": "兩種設定使用相同的 12 V 電源。一個負載為 16 歐姆，另一個負載為 4 歐姆。哪種設定每秒傳輸更多能量？",
+        "scenarioLabel": "更換為較低電阻的負載",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "4 歐姆負載，因為相同的源可以驅動更多電流，因此功率更大。"
+          },
+          {
+            "id": "b",
+            "label": "16歐姆負載，因為電阻越大代表功率越大。"
+          },
+          {
+            "id": "c",
+            "label": "由於電源電壓相同，它們每秒以相同的速率傳輸能量。"
+          }
+        ],
+        "explanation": "每秒傳輸的能量就是功率。在一個固定的電電源電壓下，電阻較低的負載吸收較大的電流，因此功率較大。",
+        "observationHint": "較低電阻的設定具有更陡峭的能量線，因為它的功率條更高。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "對緊湊型電源目標使用相同的單負載電路。檢查來自即時電流和功率，因此速率和總功率保持連接到一個誠實的設定。",
+    "items": [
+      {
+        "id": "pec-ch-steady-eighteen-watt-load",
+        "title": "建立穩定的 18 W 負載",
+        "prompt": "從柔和的輝光開始，保持 8 歐姆負載並提高光源，直到舞台功率條約為 18 W。",
+        "successMessage": "您在未改變負載的情況下擊中了目標。更強的源同時提高了電流和功率，正如圖像和階段所應一致的那樣。",
+        "setup": {
+          "note": "升高電源時，請同時使用功率-電壓圖和舞台功率條。"
+        },
+        "hints": [
+          "請勿變更負載。目標來自於升高電壓，同時保持相同的 8 歐姆電阻。",
+          "在目標處，電流應約為 1.5 A，同時功率約為 18 W。"
+        ],
+        "targets": [
+          {
+            "label": "將電壓保持在 11.8 V 和 12.2 V 之間。"
+          },
+          {
+            "label": "將負載電阻保持在 7.8 歐姆和 8.2 歐姆之間。"
+          },
+          {
+            "label": "將電流保持在 1.45 A 和 1.55 A 之間。"
+          },
+          {
+            "label": "將功率保持在 17.5 W 到 18.5 W 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "電路中的功率與能量 |開放模型實驗室",
+    "description": "透過即時電流和功率讀數、能量隨時間變化的圖像、引導疊加、預測提示和概念性快速測試，了解一個有界源負載電路中的電力和能量。",
+    "keywords": [
+      "電路中的電源",
+      "電路中的能量",
+      "P 等於 IV",
+      "E 等於 Pt",
+      "歐姆定律功率"
     ]
   }
 }

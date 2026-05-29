@@ -64,22 +64,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始使用沒有滑動的滾動加速度規則"
+              "label": "1. 開始使用沒有滑動的滾動加速度規則",
+              "template": "對於此有界傾斜，請使用 $a_{\\mathrm{cm}} = \\dfrac{g\\sin\\theta}{1 + k}$、$g = {{gravityValue}}\\,\\mathrm{m/s^2}$ 和 $k = {{inertiaFactorValue}}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 插入實時斜面和形狀回應"
+              "label": "2. 插入實時斜面和形狀回應",
+              "template": "對於 $\\theta = {{slopeAngleValue}}^\\circ$，目前形狀或自訂質量分佈的質心加速度變成 $a_{\\mathrm{cm}} = {{accelerationValue}}\\,\\mathrm{m/s^2}$。"
             },
             {
               "id": "compute",
-              "label": "3. 將加速度轉換為斜面時間"
+              "label": "3. 將加速度轉換為斜面時間",
+              "template": "斜坡長度為 $L = {{trackLengthValue}}\\,\\mathrm{m}$，因此從其餘位置使用 $L = \\tfrac{1}{2}at^2$。這給出了 ${{travelTimeValue}}\\,\\mathrm{s}$ 的行程時間。"
             }
           ],
           "resultLabel": "當前加速度和斜面時間",
+          "resultTemplate": "$a_{\\mathrm{cm}} = {{accelerationValue}}\\,\\mathrm{m/s^2}, \\quad t_{\\mathrm{bottom}} = {{travelTimeValue}}\\,\\mathrm{s}$",
           "applyAction": {
             "label": "應用環形物對比",
             "observationHint": "保持加速度圖和質量佈局覆層顯示。傾斜角度不變，較大的慣性係數會減慢行程。"
-          }
+          },
+          "interpretationTemplate": "{{accelerationInterpretation}}"
         },
         {
           "id": "current-no-slip-state",
@@ -93,27 +98,36 @@
             {
               "id": "inertiaFactor",
               "label": "慣性因子"
+            },
+            {
+              "id": "time",
+              "label": "時間"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用無打滑連結"
+              "label": "1. 使用無打滑連結",
+              "template": "滾動而不打滑會保持 $v_{\\mathrm{cm}} = r\\omega$，因此一個即時速度會立即修復另一個即時速度。"
             },
             {
               "id": "substitute",
-              "label": "2. 閱讀當前活躍狀態"
+              "label": "2. 閱讀當前活躍狀態",
+              "template": "對於目前半徑 $r = {{radiusValue}}\\,\\mathrm{m}$，即時速度為 $v_{\\mathrm{cm}} = {{linearSpeedValue}}\\,\\mathrm{m/s}$ 和 $\\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}$。"
             },
             {
               "id": "compute",
-              "label": "3. 閱讀動能分配"
+              "label": "3. 閱讀動能分配",
+              "template": "在同一時刻，動能是 ${{translationalEnergyValue}}\\,\\mathrm{J}$ 平移動能加上 ${{rotationalEnergyValue}}\\,\\mathrm{J}$ 旋轉動能，總共為 ${{totalKineticEnergyValue}}\\,\\mathrm{J}$。"
             }
           ],
           "resultLabel": "當前連結速度和能量分配",
+          "resultTemplate": "$v_{\\mathrm{cm}} = {{linearSpeedValue}}\\,\\mathrm{m/s}, \\quad \\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}, \\quad K = {{translationalEnergyValue}} + {{rotationalEnergyValue}}\\,\\mathrm{J}$",
           "applyAction": {
             "label": "應用小型快速旋轉球體",
             "observationHint": "一起觀看速度連結圖和無打滑覆層。中心速度保持在同一滾動故事中，但較小的半徑需要更大的角速度。"
-          }
+          },
+          "interpretationTemplate": "{{rollingStateInterpretation}}"
         }
       ]
     },
@@ -268,6 +282,72 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "將球體、圓柱體、環或自訂質量分佈沿著一個斜坡滾動，看看如何在不打滑的情況下滾動將平移、旋轉和轉動慣量與相同的誠實運行聯繫起來。",
+    "keyTakeaway": "滾動而不滑動意味著質心速度和角速度保持由$v_{\\mathrm{cm}} = r\\omega$鎖定。"
+  },
+  "v2": {
+    "intuition": "將一個形狀滾下一個斜坡，以便平移、旋轉和防滑保持與同一個可見軌跡相關。",
+    "whyItMatters": "滾動運動是旋轉慣性最終改變明顯比賽結果的地方。在相同的語言進入角動量之前，它是從質量分佈到真實運動物體的最清晰的橋樑。",
+    "equationSnapshot": {
+      "note": "首先保持防滑連結在視野中，然後使用加速度和能量分配來解釋為什麼不同形狀的比賽不同。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-no-slip-run",
+        "title": "閱讀一篇防滑運行",
+        "goal": "從穩定的跑步開始，以便學習者可以看到中心速度和旋轉在滾動過程中鎖定在一起而不會打滑。",
+        "doThis": "使用實心圓柱基線，保持速度連結圖可見，並在啟用防滑覆蓋的情況下運行一個完整的剪輯。",
+        "notice": "中心速度和 $r\\omega$ 保持匹配，同時同一個滾輪既沿斜坡向下平移又向上旋轉。",
+        "explain": "滾動而不滑動通過 $v_{\\mathrm{cm}} = r\\omega$ 將平移和旋轉故事聯繫在一起。長凳上沒有顯示兩個單獨的動作；它以兩種方式顯示一種受約束的運動。"
+      },
+      {
+        "id": "race-shapes-on-the-same-ramp",
+        "title": "同一條坡道上的種族形狀",
+        "goal": "使用相同的斜度來表示形狀很重要，因為旋轉慣性會改變下坡拉力的分配方式。",
+        "doThis": "在同一斜面上切換實心球和環，並將距離圖與加速度圖進行比較。",
+        "notice": "球體更快到達底部，而環則滯後，儘管兩者感受到相同的下坡重力分量。",
+        "explain": "不同的形狀滾動的方式不同，因為相同的下坡拉力必須同時建立平移和旋轉。慣性係數越大，可用於質心加速的拉力就越小。"
+      },
+      {
+        "id": "separate-radius-from-shape",
+        "title": "將半徑與形狀分開",
+        "goal": "防止學習者將每次滾動變化僅歸咎於半徑。",
+        "doThis": "應用小球體快速旋轉預設並將其速度連結圖與基線球體進行比較。",
+        "notice": "較小的球體不會獲勝，因為半徑改變了加速度公式。它主要改變保持無滑動連結真實所需的角速度。",
+        "explain": "對於相同斜坡上的相同形狀，質心加速度仍然與慣性因子相關。半徑對於旋轉簿記仍然很重要，因為$\\omega = v/r$。"
+      },
+      {
+        "id": "use-friction-and-energy-to-explain-it",
+        "title": "用摩擦力和能量來解釋它",
+        "goal": "最後透過實際力和能量簿記而不是表面外觀來解釋滾動座圈。",
+        "doThis": "將一個基線滾筒保持在同一坡道上，打開能量分割圖，並在推理運行時打開摩擦扭矩疊加。",
+        "notice": "靜摩擦點向上，但物體仍加速下坡，同時部分相同的能量預算被引導至旋轉。",
+        "explain": "靜摩擦力提供滾動而不打滑所需的扭矩。比賽結果來自於相同的重力驅動預算如何在平移和旋轉之間分配，而不是來自一種形狀比另一種形狀獲得更多的重力。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "滾動而不打滑可保持中心速度和角速度由 $v_{\\mathrm{cm}} = r\\omega$ 鎖定。",
+        "形狀改變了比賽，因為慣性因素改變了相同的下坡拉力在平移和旋轉之間的分配方式。",
+        "即使物體仍加速下坡，靜摩擦力也會提供滾動扭力。"
+      ],
+      "misconception": "較大或看起來較重的滾動物體一定會失敗，因為尺寸本身就決定了比賽。",
+      "freePlayPrompt": "製作兩個保持相同坡度但完成時間明顯不同的滾輪，然後解釋是形狀、半徑還是兩者造成了差異。",
+      "nextConcepts": [
+        {
+          "slug": "angular-momentum",
+          "title": "角動量",
+          "reasonLabel": "將相同的循環簿記保存到一個保守的數量中。"
+        },
+        {
+          "slug": "rotational-inertia",
+          "title": "轉動慣量/轉動慣量",
+          "reasonLabel": "回到塑造滾動競賽的大規模分配概念。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "inertia-factor",
@@ -308,21 +388,490 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "距離",
+      "primaryGraphIds": [
+        "距離",
+        "加速圖",
+        "快速鏈接"
+      ],
+      "primaryControlIds": [
+        "慣性係數",
+        "坡度角度",
+        "半徑"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "箍基線",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "starterExploreTasks": [
+        "從實心圓柱開始，讀取防滑連結：中心速度和角速度由半徑綁定，無法自由選擇。",
+        "在實心球和環之間切換，同時保持相同的坡道和半徑；由於質量分佈發生變化，加速度圖應該會改變 $k$。",
+        "施加小型快速旋轉球體並在運行結束時進行檢查：中心速度保持球狀，但較小的半徑需要較大的角速度。"
+      ]
+    },
     "controls": [
       {
         "id": "slopeAngle",
-        "label": "傾角"
+        "label": "傾角",
+        "description": "改變下坡重力分量，而不會改變相同的防滑滾動模型。"
       },
       {
         "id": "radius",
-        "label": "半徑"
+        "label": "半徑",
+        "description": "改變滾筒尺寸。在這個有界模型中，它主要改變角速度需求，而不是固定形狀的質心加速度。"
+      },
+      {
+        "id": "inertiaFactor",
+        "label": "大量分發",
+        "description": "從中心加載的球狀響應滑動到邊緣加載的環形響應，或完全落在指定的形狀預設上。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "solid-sphere-baseline",
+        "label": "實心球體",
+        "description": "中心負載足以快速滾動，同時仍將一些能量分解為旋轉。"
+      },
+      {
+        "id": "solid-cylinder-baseline",
+        "label": "實心圓柱體",
+        "description": "在此斜坡上滾動而不打滑的基準中間箱。"
+      },
+      {
+        "id": "hoop-baseline",
+        "label": "箍",
+        "description": "輪緣重的質量分佈使得相同斜坡上的質心加速度明顯較小。"
+      },
+      {
+        "id": "steep-sphere",
+        "label": "更陡的球體",
+        "description": "更陡的角度會提高共享的下坡拉力，但相同的球體慣性因子仍然會設定平移-旋轉分離。"
+      },
+      {
+        "id": "small-sphere-fast-spin",
+        "label": "小型快速旋轉球體",
+        "description": "中心以相同的球體響應保持滾動，但較小的半徑需要較大的角速度。"
+      },
+      {
+        "id": "custom-rim-loaded",
+        "label": "客製化輪圈裝載",
+        "description": "自訂分佈位於圓柱體和箍之間，同時保持相同的傾斜度。"
       }
     ],
     "overlays": [
       {
         "id": "noSlipLink",
-        "label": "無滑動連線"
+        "label": "無滑動連線",
+        "shortDescription": "在滾動物件旁邊顯示即時關係 $v_{\\mathrm{cm}} = r\\omega$。",
+        "whatToNotice": [
+          "一旦物體滾動而不滑動，中心速度和角速度就不再獨立。",
+          "對於相同的中心速度，較小的半徑需要較大的角速度。"
+        ],
+        "whyItMatters": "它將平移和旋轉保持在相同的物理狀態。",
+        "relatedControls": [
+          "半徑"
+        ],
+        "relatedGraphTabs": [
+          "快速鏈接"
+        ],
+        "relatedEquationVariables": [
+          "半徑"
+        ]
+      },
+      {
+        "id": "massLayout",
+        "label": "品質佈局提示",
+        "shortDescription": "顯示球體、圓柱體、環或自訂質量分佈如何改變慣性係數 $k$。",
+        "whatToNotice": [
+          "斜率和總質量可以保持不變，而只有繞軸的分佈會改變。",
+          "更多的輪圈加載佈局意味著更大的慣性係數和更慢的質心加速度。"
+        ],
+        "whyItMatters": "不同形狀的滾動方式不同，因為轉動慣量發生變化，而不是因為重力對它們的作用不同。",
+        "relatedControls": [
+          "慣性係數"
+        ],
+        "relatedGraphTabs": [
+          "加速圖",
+          "距離"
+        ],
+        "relatedEquationVariables": [
+          "慣性係數"
+        ]
+      },
+      {
+        "id": "energySplit",
+        "label": "能量分割條",
+        "shortDescription": "顯示相同的重力位能下降如何在平移和旋轉之間分配。",
+        "whatToNotice": [
+          "所有能量都來自同一個高度下降。",
+          "慣性係數越大，旋轉能量中的比例就越大。"
+        ],
+        "whyItMatters": "它用能量語言解釋了比賽結果，而不僅僅是作為運動學規則。",
+        "relatedControls": [
+          "坡度角度",
+          "慣性係數"
+        ],
+        "relatedGraphTabs": [
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "坡度角度",
+          "慣性係數"
+        ]
+      },
+      {
+        "id": "frictionTorque",
+        "label": "靜摩擦扭矩",
+        "shortDescription": "顯示上坡靜摩擦力及其在接觸點提供的扭矩。",
+        "whatToNotice": [
+          "在此無滑移模型中，物體加速下坡時的上坡靜摩擦點。",
+          "相同的摩擦力提供產生角加速度所需的扭力。"
+        ],
+        "whyItMatters": "它修正了一個常見錯誤，即摩擦力必須始終與質心的運動相反。",
+        "relatedControls": [
+          "坡度角度",
+          "慣性係數"
+        ],
+        "relatedGraphTabs": [
+          "快速鏈接",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "坡度角度",
+          "慣性係數"
+        ]
       }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "distance",
+      "label": "距離下降斜坡與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "下坡道距離（公尺）",
+      "description": "距離向上彎曲，因為當物體滾下斜坡時質心會加速。"
+    },
+    {
+      "id": "speed-link",
+      "label": "防滑速度鏈接",
+      "xLabel": "時間（秒）",
+      "yLabel": "速度（公尺/秒）",
+      "description": "只要滿足無滑移條件，質心速度和 $r\\omega$ 就會保持在彼此之上。"
+    },
+    {
+      "id": "energy-split",
+      "label": "動能分裂",
+      "xLabel": "時間（秒）",
+      "yLabel": "能量（J）",
+      "description": "高度的損失會提供平移動能和旋轉動能，分裂取決於形狀。"
+    },
+    {
+      "id": "acceleration-map",
+      "label": "加速度與慣性係數",
+      "xLabel": "慣性係數 k",
+      "yLabel": "中心加速度 (m/s^2)",
+      "description": "對於目前的傾斜角度，慣性係數越大，質心加速度越小。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "滾動時要注意什麼",
+    "intro": "一次記住一個問題：防滑規則將什麼鎖定在一起，以及改變形狀實際上會改變什麼。",
+    "items": [
+      {
+        "id": "rolling-motion-notice-shape-race",
+        "text": "球體、圓柱體和環的傾斜度相同，但慣性係數較小的球體仍會更快到達底部。",
+        "tryThis": "在實心球體、實心圓柱體和環形預設之間切換，而不更改傾斜角度。",
+        "whyItMatters": "這將旋轉慣性隔離為比賽順序改變的原因。",
+        "relatedControls": [
+          "慣性係數"
+        ],
+        "relatedGraphTabs": [
+          "距離",
+          "加速圖"
+        ],
+        "relatedOverlays": [
+          "品質佈局"
+        ],
+        "relatedEquationVariables": [
+          "慣性係數"
+        ]
+      },
+      {
+        "id": "rolling-motion-notice-no-slip",
+        "text": "在速度連結圖上，兩條曲線彼此重疊，因為無滑移滾動將線性運動和角運動連結在一起。",
+        "tryThis": "打開防滑疊加，然後減少半徑，觀察相同的中心速度需要更大的角速度。",
+        "whyItMatters": "這表明旋轉並不是一個單獨的額外故事。它被鎖定到翻譯。",
+        "relatedControls": [
+          "半徑"
+        ],
+        "relatedGraphTabs": [
+          "快速鏈接"
+        ],
+        "relatedOverlays": [
+          "無滑動連結"
+        ],
+        "relatedEquationVariables": [
+          "半徑"
+        ]
+      },
+      {
+        "id": "rolling-motion-notice-energy-split",
+        "text": "能量分配會隨著形狀的變化而變化，即使在每種情況下相同的高度下降都能提供整個預算。",
+        "tryThis": "比較相同斜率的實心球和箍。籃框在旋轉時保留了較大份額的能量。",
+        "whyItMatters": "這解釋了為什麼相同的重力並不意味著相同的比賽時間。",
+        "relatedControls": [
+          "慣性係數",
+          "坡度角度"
+        ],
+        "relatedGraphTabs": [
+          "能量分裂"
+        ],
+        "relatedOverlays": [
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "慣性係數",
+          "坡度角度"
+        ]
+      },
+      {
+        "id": "rolling-motion-notice-compare",
+        "text": "在比較模式下，僅更改慣性係數就足以區分同一斜坡上的完成時間。",
+        "tryThis": "將實心球預設複製為比較模式，然後僅將設定 B 變成箍。",
+        "whyItMatters": "它使關鍵思想變得明確：形狀很重要，因為它改變了轉動慣量。",
+        "relatedControls": [
+          "慣性係數"
+        ],
+        "relatedGraphTabs": [
+          "距離",
+          "加速圖"
+        ],
+        "relatedOverlays": [
+          "品質佈局",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "慣性係數"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測滾動響應",
+    "intro": "在觸控控制之前預測會發生什麼變化。然後在舞台、讀數和圖像上測試相同的預測。",
+    "items": [
+      {
+        "id": "rolling-motion-predict-shape-race",
+        "prompt": "如果傾斜角度和半徑保持不變，但您從圓環切換到實心球體，應該改變什麼？",
+        "scenarioLabel": "相同的斜坡，較小的慣性係數",
+        "changeLabel": "從圓環切換到球體",
+        "choices": [
+          {
+            "id": "a",
+            "label": "質心加速度應該會上升，行程時間應該會下降。"
+          },
+          {
+            "id": "b",
+            "label": "任何重要的事情都不應改變，因為無滑動條件仍然成立。"
+          },
+          {
+            "id": "c",
+            "label": "球體應該滾動得更慢，因為它的大部分運動是平移的。"
+          }
+        ],
+        "explanation": "兩者仍然服從滾動而不打滑，但球體的慣性係數較小，因此用於旋轉它的相同下坡拉力較少，而更多可用於質心加速。",
+        "observationHint": "觀看切換後的加速度圖和距離圖。球體應該更快建立中心速度。"
+      },
+      {
+        "id": "rolling-motion-predict-steeper-ramp",
+        "prompt": "如果保持相同的實心球但增加傾斜角度，應該改變什麼？",
+        "scenarioLabel": "形狀相同，坡度更陡",
+        "changeLabel": "提高傾斜角度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "加速度和中心速度應該會上升，因為下坡重力分量較大。"
+          },
+          {
+            "id": "b",
+            "label": "加速度應該保持不變，因為形狀沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "在較陡的斜坡上，防滑關係應自動失效。"
+          }
+        ],
+        "explanation": "透過 $k$，形狀仍然很重要，但更陡的傾斜使得 $g\\sin\\theta$ 對於每個設定來說都更大。防滑連桿仍然有效，因此中心速度和旋轉速度都更快。",
+        "observationHint": "比較施加較陡球體後的距離曲線和速度連結圖。"
+      },
+      {
+        "id": "rolling-motion-predict-smaller-radius",
+        "prompt": "如果保持相同的實心球和相同的斜率但使半徑更小，中心加速度和角速度會發生什麼變化？",
+        "scenarioLabel": "形狀相同，半徑更小",
+        "changeLabel": "縮小半徑",
+        "choices": [
+          {
+            "id": "a",
+            "label": "中心加速度應保持在同一球體曲線上，但角速度應變大。"
+          },
+          {
+            "id": "b",
+            "label": "中心加速度和角速度都應該變小。"
+          },
+          {
+            "id": "c",
+            "label": "由於物體較小，中心加速度應該變得更大。"
+          }
+        ],
+        "explanation": "對於相同的形狀，加速度公式不變，但防滑連結需要$\\omega = v/r$。在相同中心速度下，半徑越小意味著角速度越大。",
+        "observationHint": "保持防滑覆蓋層可見，並將即時中心速度與較大的旋轉速率進行比較。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用一個緊湊的斜坡來證明您可以推理滾動響應，而不是記住哪種形狀獲勝。",
+    "items": [
+      {
+        "id": "rolling-motion-ch-fast-run",
+        "title": "快速運行，相同的斜坡",
+        "prompt": "保持坡道接近其基線角度並調整滾輪，使其在大約 $1.85\\,\\mathrm{s}$ 下方到達底部。",
+        "successMessage": "您保持相同的傾斜度，並透過降低慣性係數而不是假裝重力變化來建立更快的滾筒。",
+        "setup": {
+          "note": "當您向更中心負載的形狀移動時，請使用加速度圖保持相同的傾斜度。"
+        },
+        "hints": [
+          "不要將坡度調得太陡來解決這個問題。保持斜率接近基線並首先改變質量分佈。",
+          "在相同的斜坡上，球形響應應該擊敗環形響應。"
+        ],
+        "checks": [
+          {
+            "label": "對於同一斜坡，將質心加速度保持在類似球體的範圍內。"
+          },
+          {
+            "label": "使用正常的基線半徑，以便快速完成來自較低的慣性係數，而不是半徑技巧。"
+          },
+          {
+            "label": "將靜摩擦力保持在球形滾動扭力範圍內。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "保持傾斜角度在 $11.5^\\circ$ 和 $12.5^\\circ$ 之間。"
+          },
+          {
+            "label": "將慣性係數設定在 $0.4$ 和 $0.43$ 之間。"
+          },
+          {
+            "label": "使全坡道行駛時間落在 $1.78$ 和 $1.86\\,\\mathrm{s}$ 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "rolling-motion-ch-compare-race",
+        "title": "相同的坡道，不同的表面處理",
+        "prompt": "開啟比較模式，使設定 B 比設定 A 晚得多完成，同時保持兩個設定相同的斜率和半徑。",
+        "successMessage": "您只使用形狀來分隔完成時間。斜坡保持不變，但設定 B 中較大的慣性因數減慢了質心加速度。",
+        "setup": {
+          "note": "克隆球體，然後僅將設定 B 變成圓環，同時保持相同的坡度和半徑。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "保持兩個半徑匹配，以便競賽比較保持在形狀和慣性係數方面。",
+          "設定 A 應保持球形。設定 B 應朝籃框極限方向移動。"
+        ],
+        "checks": [
+          {
+            "label": "設定 A 應保持较大的球状中心加速度。"
+          },
+          {
+            "label": "設定 A 應保持快速的球状行进時间。"
+          },
+          {
+            "label": "設定 B 在相同斜坡上應具有较小的环状中心加速度。"
+          },
+          {
+            "label": "設定 B 應该需要更多的静摩擦扭矩来旋转边缘加载的形状。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "保持 $11.5^\\circ$ 和 $12.5^\\circ$ 之间的倾斜角度。"
+          },
+          {
+            "label": "將設定 B 傾斜角度保持在 $11.5^\\circ$ 和 $12.5^\\circ$ 之間。"
+          },
+          {
+            "label": "保持 $0.21$ 和 $0.23\\,\\mathrm{m}$ 之间的設定半径。"
+          },
+          {
+            "label": "將設定 B 半徑保持在 $0.21$ 和 $0.23\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "保持設定 $0.4$ 和 $0.43$ 之間的球形。"
+          },
+          {
+            "label": "將設定 B 移向 $0.98$ 和 $1.0$ 之間的籃子。"
+          },
+          {
+            "label": "使設定 B 行程時间落在 $2.12$ 和 $2.22\\,\\mathrm{s}$ 之间。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "rolling-motion-ch-small-radius-spin",
+        "title": "相同的滾動，更快的旋轉",
+        "prompt": "檢查接近終點的運行並調整一個小球體，使其保持相同的滾動邏輯但達到高角速度。",
+        "successMessage": "在相同的无滑移链接下，您保持了类似球体的滚動响應，同時使用较小的半径将角速度推得更高。",
+        "setup": {
+          "note": "將檢查遊標保持在運轉末端附近，並使用防滑連結來調整角速度。"
+        },
+        "hints": [
+          "不要把它變成一個箍。保持形狀為球形並使用半徑來驅動角速度。",
+          "中心速度保持在相同的球體滾動曲線上，但較小的半徑提高了$\\omega$。"
+        ],
+        "checks": [
+          {
+            "label": "改變半徑時保持全坡道旅行時間呈球體狀。"
+          },
+          {
+            "label": "保持中心速度接近後期運行球體值，因此 $\\omega$ 會上升，因為半徑較小。"
+          },
+          {
+            "label": "通过$a/r$使小半径需要高角加速度。"
+          },
+          {
+            "label": "讓小半径通过检查的最终状态产生许多旋转弧度。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將慣性係數保持在 $0.4$ 和 $0.43$ 之間。"
+          },
+          {
+            "label": "保持半径在 $0.16$ 和 $0.18\\,\\mathrm{m}$ 之间。"
+          },
+          {
+            "label": "使後期運轉角速度落在$15.5$和$17.5\\,\\mathrm{rad/s}$之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "description": "互動式滾動運動課程，包括在一個斜坡上的球體、圓柱體、環和自訂品質分佈。探索滾動而​​不打滑、慣性因子、能量分割、比較模式、預測提示和概念快速測試。",
+    "keywords": [
+      "滾動運動",
+      "滾動不打滑",
+      "轉動慣量",
+      "傾斜",
+      "實體模擬"
     ]
   }
 }

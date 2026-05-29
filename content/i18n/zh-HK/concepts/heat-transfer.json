@@ -72,51 +72,83 @@
             {
               "id": "totalRate",
               "label": "總傳熱率"
+            },
+            {
+              "id": "temperatureContrast",
+              "label": "溫度對比"
             }
           ],
           "steps": [
             {
               "id": "read-contrast",
-              "label": "1. 閱讀驅動差異"
+              "label": "1. 閱讀驅動差異",
+              "template": "此區塊位於 $T_{\\mathrm{hot}} = {{hotTemperatureValue}}\\,\\mathrm{degC}$，而房間為 $T_{\\mathrm{room}} = {{ambientTemperatureValue}}\\,\\mathrm{degC}$，因此目前對比為 $\\Delta T = {{temperatureContrastValue}}\\,\\mathrm{degC}$。"
             },
             {
               "id": "read-pathways",
-              "label": "2. 閱讀每條路徑速率"
+              "label": "2. 閱讀每條路徑速率",
+              "template": "目前即時匯率為 $\\dot q_{\\mathrm{cond}} = {{conductionRateValue}}\\,\\mathrm{u/s}$、$\\dot q_{\\mathrm{conv}} = {{convectionRateValue}}\\,\\mathrm{u/s}$ 和 $\\dot q_{\\mathrm{rad}} = {{radiationRateValue}}\\,\\mathrm{u/s}$。"
             },
             {
               "id": "sum-total",
-              "label": "3. 用部分重建總體"
+              "label": "3. 用部分重建總體",
+              "template": "將三個可見路徑相加所得的總傳輸率為 $\\dot q_{\\mathrm{total}} = {{totalRateValue}}\\,\\mathrm{u/s}$。"
             }
           ],
           "resultLabel": "活動通路分隔",
+          "resultTemplate": "$\\dot q_{\\mathrm{cond}} = {{conductionRateValue}}\\,\\mathrm{u/s}, \\quad \\dot q_{\\mathrm{conv}} = {{convectionRateValue}}\\,\\mathrm{u/s}, \\quad \\dot q_{\\mathrm{rad}} = {{radiationRateValue}}\\,\\mathrm{u/s}$",
           "applyAction": {
             "label": "顯示金屬工作台",
             "observationHint": "由於熱塊有強烈的材料接觸路徑進入冷的工作台，導熱通路變寬。"
-          }
+          },
+          "interpretationTemplate": "{{dominantPathwayInterpretation}}"
         },
         {
           "id": "cooling-over-time",
           "title": "隨著時間冷卻",
           "prompt": "截至當前檢視時刻$t = {{timeValue}}\\,\\mathrm{s}$，有多少能量已經離開塊體？為什麼傳輸率與開始時不同?",
+          "variables": [
+            {
+              "id": "time",
+              "label": "已用時間"
+            },
+            {
+              "id": "totalEnergyTransferred",
+              "label": "到目前為止已傳輸的能量"
+            },
+            {
+              "id": "hotTemperature",
+              "label": "當前熱塊溫度"
+            },
+            {
+              "id": "totalRate",
+              "label": "目前總傳輸速率"
+            }
+          ],
           "steps": [
             {
               "id": "read-cumulative",
-              "label": "1. 説明累積的傳輸"
+              "label": "1. 説明累積的傳輸",
+              "template": "到當前檢查時刻，該物塊已向周圍移動了約$E_{\\mathrm{out}} = {{totalEnergyTransferredValue}}\\,\\mathrm{u}$。"
             },
             {
               "id": "read-current-state",
-              "label": "2. 説明當前的熱狀態"
+              "label": "2. 説明當前的熱狀態",
+              "template": "此區塊已冷卻至 $T_{\\mathrm{hot}} = {{hotTemperatureValue}}\\,\\mathrm{degC}$，因此即時對比度現在為 $\\Delta T = {{temperatureContrastValue}}\\,\\mathrm{degC}$。"
             },
             {
               "id": "connect-rate-drop",
-              "label": "3. 將較小的對比分配給當前速率"
+              "label": "3. 將較小的對比分配給當前速率",
+              "template": "由於對比比開始時小，當前總速率已降至 $\\dot q_{\\mathrm{total}} = {{totalRateValue}}\\,\\mathrm{u/s}$。"
             }
           ],
           "resultLabel": "累積傳輸和當前速率",
+          "resultTemplate": "$E_{\\mathrm{out}} = {{totalEnergyTransferredValue}}\\,\\mathrm{u}, \\quad T_{\\mathrm{hot}} = {{hotTemperatureValue}}\\,\\mathrm{degC}, \\quad \\dot q_{\\mathrm{total}} = {{totalRateValue}}\\,\\mathrm{u/s}$",
           "applyAction": {
             "label": "顯示風中的房間",
             "observationHint": "隨著塊體冷卻，每條通路的速率都會向下彎曲，因為共同溫度差在不斷縮小。"
-          }
+          },
+          "interpretationTemplate": "{{coolingInterpretation}}"
         }
       ]
     },
@@ -282,6 +314,74 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "將熱量視為由溫差驅動的能量傳遞，而傳導、對流和輻射在一個緊湊的實驗台上以誠實的路徑速率競爭。",
+    "whyItMatters": "透過這種區別，您可以預測熱物體是否會因為溫差、接觸路徑、氣流、面積或輻射變化而冷卻得更快。",
+    "keyTakeaway": "熱量是由於溫差而產生的能量傳遞，而不是熱物體所包含的物質。"
+  },
+  "v2": {
+    "intuition": "當您先讀取溫度差距，然後詢問哪種路徑使能量最快穿過邊界時，傳熱問題會變得更容易。",
+    "whyItMatters": "同一個熱塊可能因不同原因而冷卻。本課程為您提供了一種方法，將更大的驅動差異與更好的傳導路徑、更強的氣流、更大的面積或高溫下的輻射分開。",
+    "equationSnapshot": {
+      "note": "使用總速率將三個路徑保持在一起，然後將接觸驅動的傳導趨勢與高對比輻射趨勢進行比較。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-temperature-gap",
+        "title": "讀取溫度差距",
+        "goal": "將熱視為能量交叉，因為裝置的兩個部分處於不同的溫度。",
+        "doThis": "從冷台上的 Metal 開始，保持路徑速率圖打開，並在接觸任何控制之前將熱塊晶片與房間晶片進行比較。",
+        "notice": "箭頭從較熱的方向指向較冷的方向，且路徑條的總數不為零，因為兩個溫度不相等。",
+        "explain": "熱塊儲存內部能量，但熱是跨邊界傳遞的。溫度差是傳導、對流和輻射的共同驅動因素。"
+      },
+      {
+        "id": "separate-contact-from-air",
+        "title": "與空氣分開接觸",
+        "goal": "使用一種控制變化來區分固體傳導和其他途徑。",
+        "doThis": "切換到鬆散接觸，然後僅提高接觸質量，同時觀察接觸響應圖和路徑分裂。",
+        "notice": "由於固體接觸路徑發生變化，傳導段首先發生變化；氣流和輻射設定不必改變。",
+        "explain": "路徑屬性與溫度差距一樣重要。更好的材料接觸使能量更容易從塊體中排出。"
+      },
+      {
+        "id": "compare-airflow-and-area",
+        "title": "比較空氣和麵積",
+        "goal": "將對流和麵積視為單獨的槓桿，而不是將每個速率變化歸咎於傳導。",
+        "doThis": "使用有風的房間，更改氣流，然後更改表面積，同時路徑速率圖保持打開狀態。",
+        "notice": "氣流主要移動對流路徑，而較大的面積提高了路徑可用的整個邊界。",
+        "explain": "對流是運動流體所攜帶的能量。區域更廣泛：它改變了傳輸可以使用的邊界範圍。"
+      },
+      {
+        "id": "judge-the-dominant-pathway",
+        "title": "判斷主導路徑",
+        "goal": "確定哪個途徑正在設定總速率，然後使用挑戰將途徑效應與 delta-T 效應分開。",
+        "doThis": "開啟輻射主導，將對比反應曲線與即時路徑分割進行比較，然後嘗試挑戰模式。",
+        "notice": "在高溫對比和弱接觸下，即使傳導和對流仍然存在，輻射也可能成為最大的一塊。",
+        "explain": "一個好的傳熱解釋會同時提及驅動因素和路徑：溫度差距啟動傳熱，路徑條件決定每條路徑貢獻的速度。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "熱是跨越邊界的能量，因為有溫差。",
+        "總速率是由傳導、對流和輻射而不是由一個隱藏的熱路徑建構的。",
+        "接觸質量和材料電導率主要改變傳導，而氣流主要改變對流。",
+        "大的溫度對比會使輻射變得更加重要，特別是當接觸和氣流較弱時。"
+      ],
+      "misconception": "不要說熱的物體含有熱量。假設它包含內部能量，熱量是當周圍環境處於不同溫度時發生的傳遞。",
+      "freePlayPrompt": "保持溫度差幾乎相同，然後使一種設定以傳導為主，另一種設定以對流或輻射為主。解釋哪一條途徑改變了總速率。",
+      "nextConcepts": [
+        {
+          "slug": "specific-heat-and-phase-change",
+          "title": "比熱和相變",
+          "reasonLabel": "追蹤傳遞的能量並詢問它對溫度或相位有何影響。"
+        },
+        {
+          "slug": "temperature-and-internal-energy",
+          "title": "溫度與內部能量",
+          "reasonLabel": "重新檢視熱量與溫度差異的儲存能量面。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "total-rate",
@@ -348,63 +448,498 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "途徑速率",
+      "primaryGraphIds": [
+        "途徑速率",
+        "聯繫響應",
+        "對比響應"
+      ],
+      "primaryControlIds": [
+        "高溫",
+        "環境溫度",
+        "材料電導率",
+        "聯絡質量",
+        "氣流"
+      ],
+      "primaryPresetIds": [
+        "金屬長凳",
+        "接觸不良",
+        "有風的房間",
+        "輻射為主"
+      ]
+    },
     "controls": [
       {
         "id": "hotTemperature",
-        "label": "熱塊溫度"
+        "label": "熱塊溫度",
+        "description": "設定塊的起始溫度，因此它設定初始溫度間隙。"
       },
       {
         "id": "ambientTemperature",
-        "label": "房間溫度"
+        "label": "房間溫度",
+        "description": "改變方塊周圍的房間和實驗台溫度。"
       },
       {
         "id": "materialConductivity",
-        "label": "材料導熱性"
+        "label": "材料導熱性",
+        "description": "改變固體傳導路徑的強度。"
       },
       {
         "id": "contactQuality",
-        "label": "接觸質量"
+        "label": "接觸質量",
+        "description": "改變方塊實際接觸長椅的程度。"
       },
       {
         "id": "surfaceArea",
-        "label": "表面面積"
+        "label": "表面面積",
+        "description": "改變能量可以離開的邊界的大小。"
+      },
+      {
+        "id": "airflow",
+        "label": "氣流",
+        "description": "使周圍的空氣更加靜止或更強烈地流動。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "metal-bench",
+        "label": "冷長凳上的金屬",
+        "description": "強大的導電性和良好的接觸使傳導早期占主導地位。"
+      },
+      {
+        "id": "loose-contact",
+        "label": "接觸不良",
+        "description": "弱接觸會減少傳導，因此對流和輻射更重要。"
+      },
+      {
+        "id": "windy-room",
+        "label": "有風的房間",
+        "description": "儘管傳導路徑仍然存在，但強大的氣流使對流成為最大的路徑。"
+      },
+      {
+        "id": "radiation-dominant",
+        "label": "輻射為主",
+        "description": "接觸較弱且空氣靜止的非常熱的方塊可以使輻射成為最大的路徑。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "deltaBridge",
+        "label": "溫度間隙橋",
+        "shortDescription": "顯示共享溫差和從較熱處流向較冷處的淨流向。",
+        "whatToNotice": [
+          "當兩個溫度晶片靠得更近時，所有三個路徑速率都會縮小，因為它們具有相同的驅動溫差。"
+        ],
+        "whyItMatters": "它將熱量與溫差聯繫起來，而不是將熱量視為存放在塊中的東西。",
+        "relatedControls": [
+          "高溫",
+          "環境溫度"
+        ],
+        "relatedGraphTabs": [
+          "溫度歷史記錄",
+          "對比響應"
+        ],
+        "relatedEquationVariables": [
+          "高溫",
+          "環境溫度"
+        ]
+      },
+      {
+        "id": "pathwaySplit",
+        "label": "路徑分裂",
+        "shortDescription": "顯示單獨的傳導、對流和輻射通道以及由它們建構的總數。",
+        "whatToNotice": [
+          "總速率只是三個可見路徑的總和，而不是第四個隱藏過程。"
+        ],
+        "whyItMatters": "它可以幫助您隨時了解哪一條途徑實際上在設定總數。",
+        "relatedControls": [
+          "材料電導率",
+          "聯絡質量",
+          "表面積",
+          "氣流"
+        ],
+        "relatedGraphTabs": [
+          "途徑速率",
+          "聯繫響應",
+          "對比響應"
+        ],
+        "relatedEquationVariables": [
+          "材料電導率",
+          "聯絡質量",
+          "表面積",
+          "氣流"
+        ]
+      },
+      {
+        "id": "areaCue",
+        "label": "區域提示",
+        "shortDescription": "突顯接觸面和暴露的輪廓，以便表面積控制具有可見的意義。",
+        "whatToNotice": [
+          "增加面積會提高所有三個速率，因為它為能量提供了更多可以跨越的邊界。"
+        ],
+        "whyItMatters": "它賦予區域控制可見的物理意義。",
+        "relatedControls": [
+          "表面積",
+          "聯絡質量"
+        ],
+        "relatedGraphTabs": [
+          "聯繫響應",
+          "對比響應"
+        ],
+        "relatedEquationVariables": [
+          "表面積",
+          "聯絡質量"
+        ]
+      },
+      {
+        "id": "environmentCue",
+        "label": "環境提示",
+        "shortDescription": "顯示房間水槽和氣流箭頭，以便對流保持附著在周圍的流體上。",
+        "whatToNotice": [
+          "改變氣流使固體接觸路徑幾乎不變，而對流箭頭和對流速率立即響應。"
+        ],
+        "whyItMatters": "它將移動空氣的對流與實驗台的傳導分開。",
+        "relatedControls": [
+          "環境溫度",
+          "氣流"
+        ],
+        "relatedGraphTabs": [
+          "途徑速率"
+        ],
+        "relatedEquationVariables": [
+          "環境溫度",
+          "氣流"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "temperature-history",
+      "label": "塊溫度和室溫",
+      "xLabel": "時間（秒）",
+      "yLabel": "溫度（攝氏度）",
+      "description": "追蹤房間內的熱塊。隨著溫度差距縮小，下面的路徑速率也應該縮小。"
+    },
+    {
+      "id": "pathway-rates",
+      "label": "隨時間變化的路徑速率",
+      "xLabel": "時間（秒）",
+      "yLabel": "傳輸速率（u/s）",
+      "description": "比較一個軸上的傳導、對流、輻射和總量。總線應與三條途徑線的總和相符。"
+    },
+    {
+      "id": "contact-response",
+      "label": "聯絡回复",
+      "xLabel": "聯絡質量",
+      "yLabel": "傳輸速率（u/s）",
+      "description": "僅更改聯繫品質。這隔離了固體接觸路徑對總速率的影響程度。"
+    },
+    {
+      "id": "contrast-response",
+      "label": "速率與溫度對比",
+      "xLabel": "溫度對比 (°C)",
+      "yLabel": "傳輸速率（u/s）",
+      "description": "僅更改起始溫差。輻射在這裡比傳導和對流更強烈地向上彎曲。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每一個都將一個控制變化與溫度差距和路徑分裂連結起來。",
     "items": [
       {
-        "id": "ht-notice-compare-rate"
-      },
-      {
-        "id": "ht-notice-compare-rate"
-      },
-      {
-        "id": "ht-notice-compare-rate"
-      },
-      {
-        "id": "ht-notice-compare-rate"
+        "id": "ht-notice-compare-rate",
+        "text": "比較模式在設定 A 和設定 B 保持幾乎相同溫差、但接觸品質或面積不同時最有用。這樣總傳熱率的差異就來自傳熱路徑，而不是被隱藏的 ΔT 改變。",
+        "tryThis": "把「金屬放在冷台面上」複製到比較模式，只削弱設定 B 的接觸品質，觀察兩個總傳熱率標籤如何分開，同時 ΔT 標籤仍然相近。",
+        "whyItMatters": "在後來的概念詢問傳輸能量如何改變溫度或支持相變之前，它現在將傳輸速率原因分開。",
+        "relatedControls": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ],
+        "relatedGraphTabs": [
+          "聯繫響應",
+          "途徑速率"
+        ],
+        "relatedOverlays": [
+          "三角洲橋",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ]
       },
       {
         "id": "ht-notice-compare-rate",
         "text": "比較模式在設定 A 和設定 B 保持幾乎相同溫差、但接觸品質或面積不同時最有用。這樣總傳熱率的差異就來自傳熱路徑，而不是被隱藏的 ΔT 改變。",
-        "tryThis": "把「金屬放在冷台面上」複製到比較模式，只削弱設定 B 的接觸品質，觀察兩個總傳熱率標籤如何分開，同時 ΔT 標籤仍然相近。"
+        "tryThis": "把「金屬放在冷台面上」複製到比較模式，只削弱設定 B 的接觸品質，觀察兩個總傳熱率標籤如何分開，同時 ΔT 標籤仍然相近。",
+        "whyItMatters": "在後來的概念詢問傳輸能量如何改變溫度或支持相變之前，它現在將傳輸速率原因分開。",
+        "relatedControls": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ],
+        "relatedGraphTabs": [
+          "聯繫響應",
+          "途徑速率"
+        ],
+        "relatedOverlays": [
+          "三角洲橋",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ]
+      },
+      {
+        "id": "ht-notice-compare-rate",
+        "text": "比較模式在設定 A 和設定 B 保持幾乎相同溫差、但接觸品質或面積不同時最有用。這樣總傳熱率的差異就來自傳熱路徑，而不是被隱藏的 ΔT 改變。",
+        "tryThis": "把「金屬放在冷台面上」複製到比較模式，只削弱設定 B 的接觸品質，觀察兩個總傳熱率標籤如何分開，同時 ΔT 標籤仍然相近。",
+        "whyItMatters": "在後來的概念詢問傳輸能量如何改變溫度或支持相變之前，它現在將傳輸速率原因分開。",
+        "relatedControls": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ],
+        "relatedGraphTabs": [
+          "聯繫響應",
+          "途徑速率"
+        ],
+        "relatedOverlays": [
+          "三角洲橋",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ]
+      },
+      {
+        "id": "ht-notice-compare-rate",
+        "text": "比較模式在設定 A 和設定 B 保持幾乎相同溫差、但接觸品質或面積不同時最有用。這樣總傳熱率的差異就來自傳熱路徑，而不是被隱藏的 ΔT 改變。",
+        "tryThis": "把「金屬放在冷台面上」複製到比較模式，只削弱設定 B 的接觸品質，觀察兩個總傳熱率標籤如何分開，同時 ΔT 標籤仍然相近。",
+        "whyItMatters": "在後來的概念詢問傳輸能量如何改變溫度或支持相變之前，它現在將傳輸速率原因分開。",
+        "relatedControls": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ],
+        "relatedGraphTabs": [
+          "聯繫響應",
+          "途徑速率"
+        ],
+        "relatedOverlays": [
+          "三角洲橋",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ]
+      },
+      {
+        "id": "ht-notice-compare-rate",
+        "text": "比較模式在設定 A 和設定 B 保持幾乎相同溫差、但接觸品質或面積不同時最有用。這樣總傳熱率的差異就來自傳熱路徑，而不是被隱藏的 ΔT 改變。",
+        "tryThis": "把「金屬放在冷台面上」複製到比較模式，只削弱設定 B 的接觸品質，觀察兩個總傳熱率標籤如何分開，同時 ΔT 標籤仍然相近。",
+        "whyItMatters": "在後來的概念詢問傳輸能量如何改變溫度或支持相變之前，它現在將傳輸速率原因分開。",
+        "relatedControls": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ],
+        "relatedGraphTabs": [
+          "聯繫響應",
+          "途徑速率"
+        ],
+        "relatedOverlays": [
+          "三角洲橋",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ]
+      },
+      {
+        "id": "ht-notice-contact-path",
+        "text": "改變材料電導率或接觸質量僅直接改變傳導路徑。這是最明顯的跡象，表明傳導取決於牢固的連接，而不是氣流。",
+        "tryThis": "在冷卻台上切換鬆散接觸和金屬，然後比較傳導線和接觸響應圖。",
+        "whyItMatters": "它將接觸路徑與空氣路徑分開，之後的主題會詢問傳遞的能量的作用。",
+        "relatedControls": [
+          "材料電導率",
+          "聯絡質量"
+        ],
+        "relatedGraphTabs": [
+          "聯繫響應",
+          "途徑速率"
+        ],
+        "relatedOverlays": [
+          "途徑分裂",
+          "區域提示"
+        ],
+        "relatedEquationVariables": [
+          "材料電導率",
+          "聯絡質量"
+        ]
+      },
+      {
+        "id": "ht-notice-airflow",
+        "text": "改變氣流使固體接觸路徑幾乎不變，而對流箭頭和對流曲線立即響應。這是分離對流和傳導的最乾淨的方法。",
+        "tryThis": "從有風的房間開始，然後僅降低氣流，觀察藍色對流曲線下降，而傳導線幾乎沒有變化。",
+        "whyItMatters": "對流是指移動的流體帶走能量，而不是隱藏的固體橋。",
+        "relatedControls": [
+          "氣流"
+        ],
+        "relatedGraphTabs": [
+          "途徑速率",
+          "對比響應"
+        ],
+        "relatedOverlays": [
+          "環境提示",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "氣流"
+        ]
+      },
+      {
+        "id": "ht-notice-area",
+        "text": "更大的面積會提升所有三個路徑，因為它為能量提供了更多的邊界來跨越。面積不只是一個傳導概念。",
+        "tryThis": "僅提高表面積並比較前後的路徑條。整個條形都在成長，而不僅僅是某一部分。",
+        "whyItMatters": "當以後的熱問題比較以不同速率冷卻或加熱的小型和大型物體時，面積將再次變得重要。",
+        "relatedControls": [
+          "表面積"
+        ],
+        "relatedGraphTabs": [
+          "對比響應",
+          "途徑速率"
+        ],
+        "relatedOverlays": [
+          "區域提示",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "表面積"
+        ]
+      },
+      {
+        "id": "ht-notice-radiation-curve",
+        "text": "在比較圖中，輻射向上彎曲的程度比傳導和對流更強。這表明輻射在溫差較大的情況下變得更加重要。",
+        "tryThis": "將小 Delta T 和大 Delta T 懸停在對比圖上，然後比較琥珀色輻射曲線趕上其他曲線的程度。",
+        "whyItMatters": "這讓您對為什麼非常熱的物體可以強烈輻射有正確的早期直覺。",
+        "relatedControls": [
+          "高溫",
+          "環境溫度",
+          "表面積"
+        ],
+        "relatedGraphTabs": [
+          "對比響應"
+        ],
+        "relatedOverlays": [
+          "三角洲橋",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "高溫",
+          "環境溫度",
+          "表面積"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在移動控制項之前預測路徑分裂。更改一個原因，然後檢查速率欄的哪一部分有回應。",
     "items": [
       {
         "id": "ht-predict-better-contact",
-        "changeLabel": "接觸質量"
+        "prompt": "從鬆散接觸開始，您只能在保持相同溫度的同時提高接觸品質。首先該改變什麼？",
+        "scenarioLabel": "改善接觸路徑",
+        "changeLabel": "接觸質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "傳導急劇上升，總速率上升，而對流和輻射在那一刻的變化則小得多。"
+          },
+          {
+            "id": "b",
+            "label": "只有輻射會上升，因為更好的接觸使方塊發光更強烈。"
+          },
+          {
+            "id": "c",
+            "label": "在方塊冷卻一段時間之前不會發生任何變化。"
+          }
+        ],
+        "explanation": "較好的接觸可以立即加強固體傳導路徑。由於開始時溫度差距相同，因此傳導是最先跳躍的部分。",
+        "observationHint": "首先觀察傳導棒的生長，而兩個溫度晶片仍然幾乎不變。"
       },
       {
         "id": "ht-predict-larger-contrast",
-        "changeLabel": "熱塊溫度"
+        "prompt": "從有風的房間開始，您只提高熱塊溫度。在大溫度對比下，哪一種變化最重要？",
+        "scenarioLabel": "升高熱塊",
+        "changeLabel": "熱塊溫度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "所有三個速率都上升，但輻射在圖像的大對比端增長得更強烈。"
+          },
+          {
+            "id": "b",
+            "label": "只有傳導上升，因為溫度對比不會影響對流或輻射。"
+          },
+          {
+            "id": "c",
+            "label": "總速率必須保持不變，因為室溫沒有變化。"
+          }
+        ],
+        "explanation": "較大的溫差會增加所有三個路徑，但由於四次方依賴性，輻射在高對比度下增加最為強烈。",
+        "observationHint": "開啟對比響應圖並將琥珀色曲線與幾乎筆直的傳導線和對流線進行比較。"
+      },
+      {
+        "id": "ht-predict-more-airflow",
+        "prompt": "從輻射主導，您只打開氣流，同時保持塊同樣熱。哪一種說法最有力？",
+        "scenarioLabel": "調高氣流",
+        "changeLabel": "氣流",
+        "choices": [
+          {
+            "id": "a",
+            "label": "對流增強並可能超過輻射，而接觸路徑幾乎保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "傳導性上升最多，因為流動的空氣改善了實驗台接觸。"
+          },
+          {
+            "id": "c",
+            "label": "所有三個路徑保持固定，因為溫度沒有改變。"
+          }
+        ],
+        "explanation": "氣流屬於對流，而非固體接觸路徑。在相同的溫度下，僅改變氣流主要改變對流份額。",
+        "observationHint": "首先觀察對流箭頭和藍色曲線。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用即時實驗台建立目標熱流情況。檢查讀取當前的溫度差距和路徑速率，因此物理保持與一種可見狀態連結在一起。",
     "items": [
       {
         "id": "ht-ch-slower-same-contrast",
@@ -412,9 +947,74 @@
         "prompt": "由「金屬放在冷台面上」開始，切換到比較模式，只修改設定 B，令它在保持與設定 A 幾乎相同的溫差下，以不到一半的速率流失能量。",
         "successMessage": "你保留了相同的驅動溫差，同時削弱了傳熱路徑。這正是把 ΔT 影響和材料、接觸影響分開的最乾淨做法。",
         "setup": {
-          "note": "把設定 A 保持在強接觸的基準狀態，只修改設定 B。"
-        }
+          "note": "把設定 A 保持在強接觸的基準狀態，只修改設定 B。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "保持熱塊和室溫相匹配，以便 delta-T 徽章保持靠近。",
+          "使用接觸質量或材料電導率來改變傳導路徑，而不會改變溫度間隙。"
+        ],
+        "targets": [
+          {
+            "label": "保持 123 攝氏度和 127 攝氏度之間的溫度對比。"
+          },
+          {
+            "label": "將設定 B 溫度對比保持在攝氏 123 度和 127 度之間。"
+          },
+          {
+            "label": "將設定 B 接觸質量保持在 0.15 到 0.3 之間。"
+          },
+          {
+            "label": "將設定 B 總速率保持在 18 u/s 和 30 u/s 之間。"
+          }
+        ],
+        "style": "參數匹配"
+      },
+      {
+        "id": "ht-ch-make-radiation-largest",
+        "title": "讓輻射成為最大路徑",
+        "prompt": "調整即時設定，直到輻射成為最大的路徑，同時方塊仍然明顯比房間更熱。",
+        "successMessage": "您創建了一個案例，其中弱接觸和靜止空氣使傳導和對流保持足夠小，足以使輻射占主導地位。",
+        "setup": {
+          "note": "保持路徑速率圖打開，以便您可以看到琥珀色輻射線超過其他輻射線。"
+        },
+        "hints": [
+          "輻射喜歡大的溫度對比。",
+          "為了維持最大輻射，請勿意外地過度加強接觸路徑或氣流。"
+        ],
+        "targets": [
+          {
+            "label": "將高溫保持在攝氏 165 度到 18 度之間。"
+          },
+          {
+            "label": "將接觸品質維持在 0 到 0.12 之間。"
+          },
+          {
+            "label": "將氣流維持在 0.3 到 0.5 之間。"
+          },
+          {
+            "label": "將輻射率保持在 8 u/s 和 13 u/s 之間。"
+          },
+          {
+            "label": "將電導率保持在 0 u/s 和 3 u/s 之間。"
+          },
+          {
+            "label": "將對流速率保持在 0 u/s 和 7 u/s 之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "description": "在一個緊湊的模擬台上了解傳導、對流和輻射溫差導致的熱傳遞作為能量流。",
+    "keywords": [
+      "熱傳遞",
+      "傳導對流輻射",
+      "溫差熱流",
+      "熱速率直覺",
+      "比熱橋",
+      "相變電橋"
     ]
   }
 }

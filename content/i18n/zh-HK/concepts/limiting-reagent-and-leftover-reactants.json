@@ -63,22 +63,27 @@
           "steps": [
             {
               "id": "compare-batch-caps",
-              "label": "1. 將每個供應轉換為可能的批次"
+              "label": "1. 將每個供應轉換為可能的批次",
+              "template": "A可以支援{{reactantAAmountValue}} / {{recipeAValue}} = {{maxBatchesFromAValue}}全批次，而B可以支援{{reactantBAmountValue}} / {{recipeBValue}} = {{maxBatchesFromBValue}}。"
             },
             {
               "id": "name-the-limiting-side",
-              "label": "2. 閱讀較低的上限作為限制反應物"
+              "label": "2. 閱讀較低的上限作為限制反應物",
+              "template": "因為 {{theoreticalBatchesValue}} 批次是較小的上限，所以 {{limitingReagentValue}} 是限制試劑。"
             },
             {
               "id": "read-the-leftover",
-              "label": "3. 使用食譜並閱讀剩餘什麼"
+              "label": "3. 使用食譜並閱讀剩餘什麼",
+              "template": "在完全良率運作後，{{excessReagentValue}} 的 {{leftoverValue}} 資料包仍保留，而 {{limitingReagentValue}} 已完全使用。"
             }
           ],
           "resultLabel": "限制反應物一方",
+          "resultTemplate": "{{limitingReagentValue}} 限制； {{leftoverValue}} {{excessReagentValue}} 資料包仍然存在。",
           "applyAction": {
             "label": "顯示A限制執行",
             "observationHint": "較低的上限線屬於A，而B儲存箱在執行後仍然顯示剩餘的包裝。"
-          }
+          },
+          "interpretationTemplate": "{{limitingInterpretation}}"
         }
       ]
     },
@@ -139,6 +144,7 @@
         ],
         "explanation": "限制反應物在最後一個完整批次中被用盡，所以剩餘出現於過剩的一邊。",
         "selectedWrongExplanations": {
+          "a": "限制邊是最先用完的邊，因此它也不能是保留最大剩餘量的邊。",
           "c": "即使過剩一邊在執行後仍有包裝剩下，限制反應物仍然可能存在。"
         },
         "showMeAction": {
@@ -182,6 +188,88 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用配方台來查看哪種反應物首先限制輸出以及為什麼另一種反應物會保持過量。",
+    "whyItMatters": "當您在詢問還剩下什麼之前比較配方支援的批次上限時，限制試劑變得可預測。",
+    "keyTakeaway": "當您除以每批次所需的配方包時，每個反應物供應都支援其自己可能的批次計數。"
+  },
+  "v2": {
+    "intuition": "每個反應物供應都有自己的批次上限。限制試劑只是具有較小配方支持蓋的一側，剩餘的包屬於另一側。",
+    "whyItMatters": "這將一個常見的化學計量難題轉變為一個可見的比較：將每個供應轉換為可能的批次，選擇較低的上限，然後讀取多餘的剩餘部分。",
+    "equationSnapshot": {
+      "title": "限制試劑快照",
+      "note": "首先將兩種供應品轉換為可能的配方批次；較小的上限設定理論輸出並決定哪一方可以有剩餘。"
+    },
+    "startSetup": {
+      "note": "從 2:3 配方中的 8 個 A 和 15 個 B 開始，因此 A 支援四批，而 B 支援五批。"
+    },
+    "guidedSteps": [
+      {
+        "id": "compare-recipe-supported-caps",
+        "title": "比較配方支持的上限",
+        "goal": "將每個供應量轉換為它可以支援的完整批次數。",
+        "doThis": "使用 A 限制預設並將 2 A + 3 B 配方卡放在兩個供應箱旁。",
+        "notice": "A 支援 8 ÷ 2 = 4 個完整批次，而 B 支援 15 ÷ 3 = 5 個完整批次。",
+        "explain": "限制試劑不是從原始資料包計數中選擇的。它是應用配方後具有較低可能批次上限的反應物。",
+        "inlineCheck": {
+          "title": "命名下限大寫字母"
+        }
+      },
+      {
+        "id": "read-the-excess-leftover",
+        "title": "讀取多餘的剩餘內容",
+        "goal": "將耗盡的限制側連接到超出側的剩餘資料包。",
+        "doThis": "保持 A 限制運作並在四個完整批次完成後讀取剩餘托盤。",
+        "notice": "A在第四批時已全部用完； B 開始時有足夠五批的量，因此 B 是剩餘的部分。",
+        "explain": "剩餘的反應物屬於可以支持更多批次的一方。限制方不能保留剩菜，因為它是最先用完的一方。",
+        "inlineCheck": {
+          "title": "將剩餘的"
+        }
+      },
+      {
+        "id": "flip-which-side-limits",
+        "title": "翻轉哪一邊限制",
+        "goal": "請注意，當一個供應上限低於另一個供應上限時，限制側可能會發生變化。",
+        "doThis": "切換到 B 限制預設，其中 A 為高，B 丟棄至 9 個資料包。",
+        "notice": "A 現在支援六個批次，但 B 僅支援三個批次，因此 B 設定了輸出上限，而 A 則保留下來。",
+        "explain": "更改供應會更改其批次上限。限制性試劑始終是較小的蓋子，即使另一個托盤的原始計數看起來更大。",
+        "inlineCheck": {
+          "title": "預測翻轉"
+        }
+      },
+      {
+        "id": "build-a-target-leftover",
+        "title": "建構目標剩餘物",
+        "goal": "選擇使 B 受到限制同時恰好留下三個 A 資料包的電源。",
+        "doThis": "保留 2:3 配方，然後調整供應量，直到 B 支援三個批次，並且 A 在這些批次之後還剩下三包。",
+        "notice": "三批花費 6 A 和 9 B。從 9 A 和 9 B 開始，B 會用完，留下 3 A。",
+        "explain": "目標剩餘物問題從限制上限開始向後推算：決定已完成的批次數量，花費配方，然後添加所需的多餘剩餘物。",
+        "inlineCheck": {
+          "title": "嘗試B限制挑戰"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "每個反應物供應都有其自己的配方支持的批次上限。",
+        "較小的蓋子是限制試劑，用於設定理論輸出。",
+        "剩餘的資料包屬於超額側，因為限制側首先被花費。",
+        "目標剩餘問題可以透過選擇批次上限、花費配方並添加所需的多餘量來建構。"
+      ],
+      "misconception": "不要從原始資料包計數或單獨從較大係數中選擇限制試劑；比較每個供應商可能的完整批次。",
+      "freePlayPrompt": "建立一個 A 限制運行和一個 B 限制運行，然後在檢查讀數之前說明哪個托盤仍應顯示剩餘資料包。",
+      "nextConcepts": [
+        {
+          "slug": "percent-yield-and-reaction-extent",
+          "reasonLabel": "將實際輸出降低到限制上限以下。"
+        },
+        {
+          "slug": "concentration-and-dilution",
+          "reasonLabel": "將金額簿記納入解決方案。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "reactant-caps",
@@ -222,6 +310,24 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "用這個步驟把模擬、圖像和概念連接起來。",
+      "primaryGraphIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "反應物A量",
+        "反應物B量",
+        "食譜A",
+        "食譜B"
+      ],
+      "primaryPresetIds": [
+        "a-限制",
+        "b 限制",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "reactantAAmount",
@@ -284,7 +390,19 @@
         "whatToNotice": [
           "限制試劑只可以相對於配方卡去理解，不能只看原始數量。"
         ],
-        "whyItMatters": "這樣會把限制試劑的判斷綁在一張可見的配方卡上，而不是變成抽離的算術技巧。"
+        "whyItMatters": "這樣會把限制試劑的判斷綁在一張可見的配方卡上，而不是變成抽離的算術技巧。",
+        "relatedControls": [
+          "食譜A",
+          "食譜B"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "食譜-a",
+          "食譜-b"
+        ]
       },
       {
         "id": "limitingCue",
@@ -293,7 +411,19 @@
         "whatToNotice": [
           "較低的上限線，就是會先把批次數卡住的那一方。"
         ],
-        "whyItMatters": "它讓你直接看見誰先耗盡，而不是靠背公式猜答案。"
+        "whyItMatters": "它讓你直接看見誰先耗盡，而不是靠背公式猜答案。",
+        "relatedControls": [
+          "反應物A量",
+          "反應物B量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "概念標籤",
+          "概念標籤"
+        ]
       },
       {
         "id": "yieldGap",
@@ -302,7 +432,13 @@
         "whatToNotice": [
           "完成理論批次後，剩餘一定落在過量的一邊，而不是限制的一邊。"
         ],
-        "whyItMatters": "它把「剩餘反應物」和「限制試劑」放回同一個可見的批次故事。"
+        "whyItMatters": "它把「剩餘反應物」和「限制試劑」放回同一個可見的批次故事。",
+        "relatedControls": [
+          "产量百分比"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ]
       }
     ]
   },
@@ -335,11 +471,40 @@
     "items": [
       {
         "id": "lr-notice-lower-cap",
-        "text": "先比較兩種反應物各自能支援多少個完整批次；較低那條上限就是限制反應物。"
+        "text": "先比較兩種反應物各自能支援多少個完整批次；較低那條上限就是限制反應物。",
+        "relatedControls": [
+          "反應物A量",
+          "反應物B量",
+          "食譜A",
+          "食譜B"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "食譜卡",
+          "限制提示"
+        ],
+        "relatedEquationVariables": [
+          "概念標籤",
+          "概念標籤"
+        ]
       },
       {
         "id": "lr-notice-leftover",
-        "text": "完成最後一個完整批次後，注意剩餘一定留在過量的一邊。"
+        "text": "完成最後一個完整批次後，注意剩餘一定留在過量的一邊。",
+        "relatedControls": [
+          "反應物A量",
+          "反應物B量"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "限制提示"
+        ]
       }
     ]
   },
@@ -399,8 +564,20 @@
           {
             "label": "把產率保持在 100%，讓剩餘只來自過量反應物。"
           }
-        ]
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "限制試劑與剩餘反應物",
+    "description": "透過一個配方台探索限制試劑，其中下批次蓋、剩餘反應物和成品托盤保持在一起可見。",
+    "keywords": [
+      "限制試劑",
+      "化學計量",
+      "剩餘的反應物",
+      "化學",
+      "過量的反應物"
     ]
   }
 }

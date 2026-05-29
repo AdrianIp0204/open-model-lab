@@ -72,22 +72,27 @@
           "steps": [
             {
               "id": "identify-jump",
-              "label": "1. 先辨認目前躍遷"
+              "label": "1. 先辨認目前躍遷",
+              "template": "實驗台目前顯示 {{activeLabelValue}}，因此電子在 n = {{upperLevelValue}} 和 n = {{lowerLevelValue}} 之間變化。"
             },
             {
               "id": "read-gap",
-              "label": "2. 讀出量子化能隙"
+              "label": "2. 讀出量子化能隙",
+              "template": "允許的氫間隙是帶電階梯和讀數卡片上的 {{gapValue}}。"
             },
             {
               "id": "convert-gap",
-              "label": "3. 把能隙轉成光子波長"
+              "label": "3. 把能隙轉成光子波長",
+              "template": "使用 $\\lambda = hc / \\Delta E$，此跳轉在 {{bandValue}} 中給出 {{wavelengthValue}}。"
             }
           ],
           "resultLabel": "目前躍遷",
+          "resultTemplate": "$\\Delta E = {{gapValue}}, \\; \\lambda = {{wavelengthValue}}, \\; {{bandValue}}$",
           "applyAction": {
             "label": "顯示紅色巴耳末線",
             "observationHint": "留意能級梯箭頭、波長帶與圖上的標記如何同時對齊到同一條紅色巴耳末線。"
-          }
+          },
+          "interpretationTemplate": "{{transitionInterpretation}}"
         },
         {
           "id": "current-series-scale",
@@ -110,22 +115,27 @@
           "steps": [
             {
               "id": "identify-series",
-              "label": "1. 固定較低能級"
+              "label": "1. 固定較低能級",
+              "template": "由於目前較低等級為 n = {{lowerLevelValue}}，因此即時頁面正在追蹤 {{seriesNameValue}} 系列。"
             },
             {
               "id": "compare-scales",
-              "label": "2. 比較軌道尺度改變"
+              "label": "2. 比較軌道尺度改變",
+              "template": "對於主動跳躍，玻爾半徑比為{{radiusRatioValue}}，因此上允許軌道比下允許軌道大得多。"
             },
             {
               "id": "read-limit",
-              "label": "3. 解釋譜線為何擠近"
+              "label": "3. 解釋譜線為何擠近",
+              "template": "隨著較高的 n_i 值在接近零能量的情況下聚集得更緊密，線族會向 {{seriesLimitValue}} 聚集，而不是永遠均勻分佈。"
             }
           ],
           "resultLabel": "目前系列連結",
+          "resultTemplate": "{{seriesNameValue}} 系列、\\(\\lambda_{\\text{limit}} = {{seriesLimitValue}}\\)、\\(r_i / r_f = {{radiusRatioValue}}\\)",
           "applyAction": {
             "label": "顯示高 n 的巴耳末案例",
             "observationHint": "比較目前譜線與巴耳末 α 線，觀察它如何向系列極限擠近，同時反向激發仍保持同一波長。"
-          }
+          },
+          "interpretationTemplate": "{{seriesInterpretation}}"
         }
       ]
     },
@@ -279,6 +289,96 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用緊密的氫實驗台連接量子能階、允許的躍遷和命名的譜線系列，同時明確玻爾是一個有用的歷史模型而不是最終的量子描述。",
+    "whyItMatters": "玻爾的氫模型是測量譜線和量子規則之間的橋樑：一旦每條譜線與一個允許的能隙相關聯，系列名稱、波長和模型極限就不再感覺像是獨立的事實。",
+    "keyTakeaway": "對於玻爾模型中的氫，允許的能量遵循 E_n = -13.6 eV / n^2，因此僅存在某些躍遷間隙。"
+  },
+  "v2": {
+    "intuition": "將玻爾的氫原子視為僅具有某些梯級的能階梯。只有當電子使用一個允許的間隙時才會出現譜線，並且反轉跳躍在相反方向上使用相同的間隙。",
+    "whyItMatters": "玻爾並不是最終的量子影像，但它是一個強大的檢查點：它將氫的測量線系列轉化為量化能量、波長和模型範圍的具體規則。",
+    "equationSnapshot": {
+      "title": "波長快照的能階間隙",
+      "note": "首先選擇兩個允許的氫水平。能隙決定光子波長；保持較低水平固定會創建一個命名系列，而反轉跳躍則保持波長幅度固定。"
+    },
+    "startSetup": {
+      "note": "從紅色 Balmer-alpha 線開始，這樣水平對、梯形箭頭、波長條和圖像標記都可以作為一個躍遷來讀取。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-balmer-jump",
+        "title": "閱讀一次巴爾默跳躍",
+        "goal": "在比較系列模式之前，將一個允許的能階對連接到一個光子能量和波長。",
+        "doThis": "從巴爾默α開始，然後沿著能級階梯從3 -> 2的箭頭追蹤到波長條和光譜圖。",
+        "notice": "讀數、箭頭、線條標籤和圖像標記都描述了相同的允許氫間隙。",
+        "explain": "玻爾模型不會讓電子下降任何數量。選定的能階對固定一個間隙，而該間隙固定一個光子波長。",
+        "inlineCheck": {
+          "title": "檢查為什麼線條是離散的"
+        }
+      },
+      {
+        "id": "crowd-toward-a-series-limit",
+        "title": "人群走向系列極限",
+        "goal": "了解為什麼更改一個系列內的上層會將活動線移向極限，而不是均勻地間隔線。",
+        "doThis": "從巴爾瑪α切換到高階巴爾瑪，同時保持 n_f = 2，然後將活動波長與巴爾瑪極限標記進行比較。",
+        "notice": "由於高 n 能量在接近零時聚集在一起，因此該線移動得更短並且更接近相同的級數極限。",
+        "explain": "命名系列是透過固定下層來製作的。提高 n_i 會改變間隙，但間隙接近該系列的最大值，而不是無限制地增長。",
+        "inlineCheck": {
+          "title": "預測巴爾默起點更高"
+        }
+      },
+      {
+        "id": "switch-the-series-family",
+        "title": "切換系列家族",
+        "goal": "將改變下層與僅僅沿著一個巴爾默家族移動分開。",
+        "doThis": "保持 n_i = 3，但將 n_f 從 2 更改為 1，然後讀取系列標籤和波長區域如何變化。",
+        "notice": "降至 n = 1 會產生較大的間隙，因此活性譜線移入紫外線萊曼族。",
+        "explain": "較低階定義了系列家族。改變它會同時改變目標能量、間隙大小和波長區域。",
+        "inlineCheck": {
+          "title": "檢查系列開關"
+        }
+      },
+      {
+        "id": "reverse-with-the-same-wavelength",
+        "title": "與相同波長相反",
+        "goal": "使用發射和吸收作為具有相反能量流方向的相同允許間隙。",
+        "doThis": "將巴爾默α線翻轉成逆激發，觀察實驗台的哪些部分會改變，以及哪個波長讀數保持鎖定。",
+        "notice": "箭頭方向相反，但能階間距和波長幅度不變。",
+        "explain": "發射為光子提供了間隙能量；激發吸收相同的光子能量。方向改變能量流的符號，而不是允許間隙的大小。",
+        "inlineCheck": {
+          "title": "檢查反面情況"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "氫的玻爾能階是量子化的，因此只有某些躍遷間隙和波長可用。",
+        "固定較低等級會建立命名系列，例如 Lyman、Balmer 和 Paschen。",
+        "在一個系列中，較高的起始能階會趨向波長極限，因為較高的能量會聚集在一起。",
+        "相同兩個能階之間的匹配發射和激發使用相同的波長幅度。",
+        "玻爾是一個有界氫模型，它指向但不取代更全面的量子力學。"
+      ],
+      "misconception": "請勿將軌道圖片視為任何半徑或任何顏色的許可。在此頁面上，唯一誠實的轉變是允許的氫水平間隙，並且文字軌道模型的範圍有限。",
+      "freePlayPrompt": "建構一個沿著巴爾默系列移動的案例，一個切換到萊曼的案例，以及一個反向勵磁案例。解釋哪個滑塊改變了間隙，哪個改變了族，哪個僅改變了方向。",
+      "nextConcepts": [
+        {
+          "slug": "photoelectric-effect",
+          "title": "光電效應",
+          "reasonLabel": "在不同的量子實驗中使用光子能量。"
+        },
+        {
+          "slug": "de-broglie-matter-waves",
+          "title": "德布羅意物質波",
+          "reasonLabel": "將玻爾式站立擬合與物質波連結起來。"
+        },
+        {
+          "slug": "radioactivity-half-life",
+          "title": "放射性半衰期",
+          "reasonLabel": "繼續進入另一個具有機率行為的現代物理模型。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "bohr-energy",
@@ -319,6 +419,22 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "系列-光谱",
+      "primaryGraphIds": [
+        "系列-光谱"
+      ],
+      "primaryControlIds": [
+        "上層",
+        "下層",
+        "激励模式"
+      ],
+      "primaryPresetIds": [
+        "巴尔默-阿尔法",
+        "概念標籤",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ]
+    },
     "controls": [
       {
         "id": "upperLevel",
@@ -376,7 +492,16 @@
         "whatToNotice": [
           "較高的所選軌道會比下層軌道遠離原子核得多。"
         ],
-        "whyItMatters": "它讓歷史上的軌道影像仍然和同一個量子化能級梯綁在一起，而不是變成獨立圖示。"
+        "whyItMatters": "它讓歷史上的軌道影像仍然和同一個量子化能級梯綁在一起，而不是變成獨立圖示。",
+        "relatedControls": [
+          "上層"
+        ],
+        "relatedGraphTabs": [
+          "系列-光谱"
+        ],
+        "relatedEquationVariables": [
+          "上層"
+        ]
       },
       {
         "id": "lineLabels",
@@ -385,7 +510,18 @@
         "whatToNotice": [
           "同一個譜系中，較高的起始能級會把譜線推向極限，而不是永遠平均間隔。"
         ],
-        "whyItMatters": "它讓譜系模式可讀，而不會把整頁拆成獨立表格。"
+        "whyItMatters": "它讓譜系模式可讀，而不會把整頁拆成獨立表格。",
+        "relatedControls": [
+          "上層",
+          "下層"
+        ],
+        "relatedGraphTabs": [
+          "系列-光谱"
+        ],
+        "relatedEquationVariables": [
+          "上層",
+          "下層"
+        ]
       },
       {
         "id": "seriesFamily",
@@ -394,7 +530,16 @@
         "whatToNotice": [
           "改變 n_f 會改變整個譜系，而不只是目前那一條譜線。"
         ],
-        "whyItMatters": "它把命名的譜系列和同一個緊湊實驗台連在一起。"
+        "whyItMatters": "它把命名的譜系列和同一個緊湊實驗台連在一起。",
+        "relatedControls": [
+          "下層"
+        ],
+        "relatedGraphTabs": [
+          "系列-光谱"
+        ],
+        "relatedEquationVariables": [
+          "下層"
+        ]
       },
       {
         "id": "reverseTransition",
@@ -403,7 +548,16 @@
         "whatToNotice": [
           "把箭頭方向反轉並不會改變能級差的大小。"
         ],
-        "whyItMatters": "它可阻止一個常見誤解：向上的躍遷需要和對應向下躍遷不同的波長。"
+        "whyItMatters": "它可阻止一個常見誤解：向上的躍遷需要和對應向下躍遷不同的波長。",
+        "relatedControls": [
+          "激励模式"
+        ],
+        "relatedGraphTabs": [
+          "系列-光谱"
+        ],
+        "relatedEquationVariables": [
+          "激励模式"
+        ]
       }
     ]
   },
@@ -424,25 +578,68 @@
         "id": "bm-notice-allowed",
         "text": "這裡只存在某些特定的氫能級差，所以光譜會呈現與允許能級相連的一組譜線，而不是平滑的彩虹。",
         "tryThis": "先從 Balmer α 開始，再沿圖表檢視各條譜線之間的區域。",
-        "whyItMatters": "它讓量子化在談更深的量子力學之前已經先變得可見。"
+        "whyItMatters": "它讓量子化在談更深的量子力學之前已經先變得可見。",
+        "relatedControls": [
+          "上層",
+          "下層"
+        ],
+        "relatedGraphTabs": [
+          "系列-光谱"
+        ],
+        "relatedOverlays": [
+          "行標籤",
+          "系列家庭"
+        ]
       },
       {
         "id": "bm-notice-crowding",
         "text": "在同一個譜系內，提高 n_i 會帶來更短的波長，並因上層波耳能級互相靠近而向同一個極限擠近。",
         "tryThis": "比較 Balmer α 和高 n Balmer。",
-        "whyItMatters": "它解釋了為甚麼命名的氫譜系會有極限，而不是永遠等距排列。"
+        "whyItMatters": "它解釋了為甚麼命名的氫譜系會有極限，而不是永遠等距排列。",
+        "relatedControls": [
+          "上層"
+        ],
+        "relatedGraphTabs": [
+          "系列-光谱"
+        ],
+        "relatedOverlays": [
+          "系列家庭",
+          "行標籤"
+        ]
       },
       {
         "id": "bm-notice-reverse",
         "text": "切換到反向激發時，箭頭方向會反轉，但波長保持不變，因為允許的能量差沒有改變。",
         "tryThis": "由 Balmer α 切換到 Balmer 反向激發。",
-        "whyItMatters": "它讓發射和吸收都牢牢鎖定在同一個能級差故事上。"
+        "whyItMatters": "它讓發射和吸收都牢牢鎖定在同一個能級差故事上。",
+        "relatedControls": [
+          "激励模式"
+        ],
+        "relatedGraphTabs": [
+          "系列-光谱"
+        ],
+        "relatedOverlays": [
+          "反向轉換",
+          "行標籤"
+        ]
       },
       {
         "id": "bm-notice-compare",
         "text": "比較模式最適合用來把其中一組設定改變同一譜系內的 n_i，另一組改變譜系之間的 n_f，這樣就能把譜系內部的擠近和譜系切換清楚分開。",
         "tryThis": "讓設定 A 保持在高 n Balmer，而設定 B 切到 Lyman α。",
-        "whyItMatters": "並排檢視能避免把譜系身分和目前波長混在一起。"
+        "whyItMatters": "並排檢視能避免把譜系身分和目前波長混在一起。",
+        "relatedControls": [
+          "上層",
+          "下層"
+        ],
+        "relatedGraphTabs": [
+          "系列-光谱"
+        ],
+        "relatedOverlays": [
+          "系列家庭",
+          "行標籤",
+          "反向轉換"
+        ]
       }
     ]
   },
@@ -553,7 +750,8 @@
           {
             "label": "保持在可見光譜線範圍內。"
           }
-        ]
+        ],
+        "style": "目標設定"
       },
       {
         "id": "bm-ch-ultraviolet-reverse",
@@ -586,8 +784,20 @@
           {
             "label": "保持在紫外線範圍，而不是可見光。"
           }
-        ]
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "玻爾模型 |開放模型實驗室",
+    "description": "透過緊密的玻爾模型模擬來探索量化的氫能階、允許的躍遷、級數限制和譜線。",
+    "keywords": [
+      "玻爾模型模擬",
+      "氫譜線",
+      "巴爾默系列",
+      "量子化能階",
+      "氫躍遷"
     ]
   }
 }

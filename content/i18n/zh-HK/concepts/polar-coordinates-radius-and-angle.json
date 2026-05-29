@@ -64,22 +64,27 @@
           "steps": [
             {
               "id": "read-polar-data",
-              "label": "1. 閱讀當前極坐標資料"
+              "label": "1. 閱讀當前極坐標資料",
+              "template": "參考點預設設定$r = 3.2$ 和$\\theta = 55^\\circ$。"
             },
             {
               "id": "resolve-components",
-              "label": "2. 使用相同的幾何圖形分解 x 和 y"
+              "label": "2. 使用相同的幾何圖形分解 x 和 y",
+              "template": "水平分量是$x = r\\cos\\theta = 3.2(0.57) \\approx 1.84$，垂直分量是$y = r\\sin\\theta = 3.2(0.82) \\approx 2.62$。"
             },
             {
               "id": "write-point",
-              "label": "3. 撰寫笛卡爾座標點"
+              "label": "3. 撰寫笛卡爾座標點",
+              "template": "因此同一點落在像 I 的 $(x, y) \\approx (1.84, 2.62)$ 處。"
             }
           ],
           "resultLabel": "當前笛卡爾座標點",
+          "resultTemplate": "$(x, y) \\approx (1.84, 2.62)$",
           "applyAction": {
             "label": "應用連結點檢視",
             "observationHint": "保持引導線開啟，以便半徑射線和笛卡爾投影始終與同一點連結。"
-          }
+          },
+          "interpretationTemplate": "角度設定象限和分量符號，而半徑則沿著同一射線縮放兩個投影。"
         }
       ]
     },
@@ -112,6 +117,10 @@
           }
         ],
         "explanation": "極座標和笛卡爾坐標是同一點的兩種視角，所以兩個坐標都來自相同的半徑和角度。",
+        "selectedWrongExplanations": {
+          "b": "直角座標和極座標描述同一點。",
+          "c": "x 和 y 都取決於餘弦和正弦的半徑和角度。"
+        },
         "showMeAction": {
           "label": "顯示連結點檢視",
           "observationHint": "引導線會顯示 x 和 y 是怎樣從同一條射線投影出來的。"
@@ -134,7 +143,11 @@
             "label": "x 座標應該保持不變，只有 y 座標改變。"
           }
         ],
-        "explanation": "改變半徑會沿同一條射線把點拉近或拉遠，所以 θ 和象限保持不變，改變的是點離原點的距離。"
+        "explanation": "改變半徑會沿同一條射線把點拉近或拉遠，所以 θ 和象限保持不變，改變的是點離原點的距離。",
+        "selectedWrongExplanations": {
+          "a": "以固定角度改變半徑可保持相同的光線和象限。",
+          "c": "當半徑以固定角度變化時，兩個座標通常都會縮放。"
+        }
       }
     ]
   },
@@ -170,6 +183,74 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "同時在極座標和直角座標視圖中保持一個點可見，以便半徑和角度直接轉換為平面上的 x 和 y。",
+    "whyItMatters": "極座標是平面幾何、複數旋轉和後來的運動曲線之間的橋樑：一個距離和一個角度可以在不放棄x和y的情況下定位同一點。",
+    "keyTakeaway": "極點由原點的距離 r 和距正 x 軸的角度 θ 來設定。"
+  },
+  "v2": {
+    "intuition": "極座標透過將兩個作業分開來定位點：r 表示與原點的距離，θ 表示射線指向的方向。",
+    "whyItMatters": "一旦您可以將 r、θ、x 和 y 作為一張連結的圖片來讀取，轉換就不再感覺像是記憶的公式，而是成為複數、單位圓三角函數和參數運動的可重複使用的幾何圖像。",
+    "equationSnapshot": {
+      "note": "使用 x = r cos θ 和 y = r sin θ 作為相同半徑射線的投影；向後移動時，在相信反正切角之前，請保持象限可見。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-linked-point",
+        "title": "讀數一個連結點",
+        "goal": "在更改任何內容之前連接極坐標讀數和笛卡爾投影。",
+        "doThis": "從參考點預設開始，保持座標參考線和角度弧可見，並將極座標讀數與 x-y 讀數進行比較。",
+        "notice": "半徑射線、角弧、x 軸和 y 軸都指向同一平面上的同一點。",
+        "explain": "極座標和直角座標是對一個點的兩種描述：r 和 θ 定位射線，而 x 和 y 是該射線的水平和垂直陰影。"
+      },
+      {
+        "id": "scale-the-radius",
+        "title": "縮放半徑",
+        "goal": "將 r 視為沿相同方向拉伸點的距離控制。",
+        "doThis": "保持 θ 固定，僅移動半徑滑桿，然後觀察兩個投影一起增加或縮小。",
+        "notice": "僅r變化時象限不變；該點沿著同一條射線滑動並保持相同的角度。",
+        "explain": "半徑將兩個投​​影相乘，因此 x 和 y 一起縮放，而方向和符號圖案保持固定。"
+      },
+      {
+        "id": "rotate-through-quadrants",
+        "title": "透過象限旋轉",
+        "goal": "在閱讀公式之前，使用 θ 預測 x 和 y 的符號。",
+        "doThis": "套用第二象限預設或將 θ 移到像限 II，同時座標參考線保持開啟。",
+        "notice": "此點向 y 軸左側移動，但仍位於 x 軸上方，因此 x 變為負值，而 y 保持正值。",
+        "explain": "角度先設定象限。方程式中的餘弦和正弦符號與此象限的幾何形狀相符。"
+      },
+      {
+        "id": "check-one-point-two-languages",
+        "title": "檢查兩種語言",
+        "goal": "使用半徑角度語言和 x-y 投影語言一起解釋一點。",
+        "doThis": "使用快速檢查，然後嘗試挑戰：建立一個象限 II 點，其中向左 x 投影的幅度大於向上 y 投影的幅度。",
+        "notice": "一個好的答案會同時命名象限符號圖案和投影尺寸，而不僅僅是滑桿值。",
+        "explain": "當 r、θ、x 和 y 與一個可見點保持聯繫並且每個公式都有一項幾何工作時，極坐標推理最強。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "極點使用 r 表示原點的距離，使用 θ 表示正 x 軸的方向。",
+        "x = r cos θ 和 y = r sin θ 是相同半徑射線在座標軸上的投影。",
+        "更改 r 會縮放相同方向，而更改 θ 會旋轉射線並可以更改 x 和 y 的符號。",
+        "從 x 和 y 轉換回來時，象限必須保留為角度決策的一部分。"
+      ],
+      "misconception": "不要將極座標形式和笛卡兒形式視為單獨的點。它們是針對同一點的兩種語言，即時光線加指南顯示了為何這些公式有效。",
+      "freePlayPrompt": "首先選擇一個象限，預測 x 和 y 的符號，然後移動 r 和 θ，直到即時點證明或修正您的預測。",
+      "nextConcepts": [
+        {
+          "slug": "inverse-trig-angle-from-ratio",
+          "title": "反三角/比率角度",
+          "reasonLabel": "當必須根據 x 和 y 重建方向時，請使用象限感知角度恢復。"
+        },
+        {
+          "slug": "parametric-curves-motion-from-equations",
+          "title": "參數曲線/方程式運動",
+          "reasonLabel": "將同一個連結的 x-y 平面帶入運動，其中一個參數驅動兩個座標。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "polar-to-x",
@@ -203,15 +284,223 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "座標掃描",
+      "primaryGraphIds": [
+        "座標掃描"
+      ],
+      "primaryControlIds": [
+        "半徑",
+        "角度"
+      ],
+      "primaryPresetIds": [
+        "參考點",
+        "第二象限"
+      ]
+    },
     "controls": [
       {
         "id": "radius",
-        "label": "半徑"
+        "label": "半徑",
+        "description": "控制點與原點的距離，同時保持相同的方向。"
       },
       {
         "id": "angle",
-        "label": "角度"
+        "label": "角度",
+        "description": "控制從正 x 軸測量的點的方向。"
       }
+    ],
+    "presets": [
+      {
+        "id": "reference-point",
+        "label": "參考點",
+        "description": "兩個分量都清晰可見的第一象限點。"
+      },
+      {
+        "id": "second-quadrant",
+        "label": "第二象限",
+        "description": "第二象限中較長的光線使得 x 和 y 的符號變化易於讀取。"
+      },
+      {
+        "id": "long-shallow-ray",
+        "label": "長淺射線",
+        "description": "較大的半徑和較小的角度使 x 保持較大，而 y 保持正值但較小。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "coordinateGuides",
+        "label": "座標參考線",
+        "shortDescription": "從點到 x 軸和 y 軸放置垂直參考線。",
+        "whatToNotice": [
+          "兩個引導長度恰好是同一極點的 x 和 y 座標。"
+        ],
+        "whyItMatters": "它使轉換以幾何形式可見，而不是單獨的計算。",
+        "relatedControls": [
+          "半徑",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "座標掃描"
+        ],
+        "relatedEquationVariables": [
+          "半徑",
+          "角度"
+        ]
+      },
+      {
+        "id": "angleArc",
+        "label": "角度圓弧",
+        "shortDescription": "顯示從正 x 軸到目前射線的角度。",
+        "whatToNotice": [
+          "放置點的相同 θ 也決定了 x 和 y 應該有哪個象限符號。"
+        ],
+        "whyItMatters": "它將角度保留為幾何方向，而不僅僅是公式輸入。",
+        "relatedControls": [
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "座標掃描"
+        ],
+        "relatedEquationVariables": [
+          "角度"
+        ]
+      },
+      {
+        "id": "radiusSweep",
+        "label": "半徑掃描",
+        "shortDescription": "顯示在 θ 變化時保持目前半徑固定所描繪的圓。",
+        "whatToNotice": [
+          "當 r 固定時，改變 θ 會使點繞一圈移動，而不是改變其與原點的距離。"
+        ],
+        "whyItMatters": "它將半徑作業與角度作業分開。",
+        "relatedControls": [
+          "半徑",
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "座標掃描"
+        ],
+        "relatedEquationVariables": [
+          "半徑",
+          "角度"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "coordinate-sweep",
+      "label": "x 和 y 與角度",
+      "xLabel": "θ（度）",
+      "yLabel": "座標值",
+      "description": "顯示當 θ 以當前半徑繞平面掃描時 x 和 y 如何變化，因此圖像與座標平面上的移動點相符。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "保持光線、引導線和 x-y 掃描一起可見，以便一個移動點解釋兩個座標系。",
+    "items": [
+      {
+        "id": "polar-notice-quadrant-signs",
+        "text": "改變 θ 會改變 x 和 y 的符號，因為光線移動到不同的象限，而不是因為公式改變了。",
+        "relatedControls": [
+          "角度"
+        ],
+        "relatedGraphTabs": [
+          "座標掃描"
+        ],
+        "relatedOverlays": [
+          "座標指南",
+          "角度弧"
+        ],
+        "relatedEquationVariables": [
+          "角度"
+        ]
+      },
+      {
+        "id": "polar-notice-radius-scaling",
+        "text": "增加 r 會沿著相同射線縮放 x 和 y，因此當點遠離原點時方向保持不變。",
+        "relatedControls": [
+          "半徑"
+        ],
+        "relatedGraphTabs": [
+          "座標掃描"
+        ],
+        "relatedOverlays": [
+          "座標指南",
+          "半徑掃描"
+        ],
+        "relatedEquationVariables": [
+          "半徑"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測跡象",
+    "intro": "在將點移到新象限之前預測 x 和 y 的符號。",
+    "items": [
+      {
+        "id": "polar-predict-second-quadrant",
+        "prompt": "如果 θ 移動到像限 II 而半徑保持固定，x 和 y 會發生什麼事？",
+        "scenarioLabel": "進入第二象限",
+        "choices": [
+          {
+            "id": "a",
+            "label": "x 應為負數，而 y 保持正數。"
+          },
+          {
+            "id": "b",
+            "label": "x 和 y 都應該為負數。"
+          },
+          {
+            "id": "c",
+            "label": "x 應保持正值，而 y 變為負值。"
+          }
+        ],
+        "explanation": "象限 II 位於 y 軸左側、x 軸上方，因此 x 為負，y 為正。",
+        "observationHint": "觀察相同的半徑射線移動到左上角區域，同時座標參考線顯示負 x 和正 y。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "一起使用半徑射線、座標參考線和 x-y 掃描。這個檢查點是在不離開長凳的情況下用極地語言和笛卡爾語言閱讀一個點。",
+    "items": [
+      {
+        "id": "polar-ch-second-quadrant-xy-bridge",
+        "title": "象限 II 座標檢查",
+        "prompt": "在像限 II 中建立一個點，其中向左的 x 投影的振幅大於向上的 y 投影的幅值。保持座標參考線不變，以便 r、θ、x 和 y 保持在同一點上。",
+        "successMessage": "您透過從 x 和 y 投影推理來匹配一個極點。射線和座標參考線現在講述相同的故事。",
+        "setup": {
+          "note": "使用即時 x 和 y 讀數來比較兩個投影的大小。"
+        },
+        "hints": [
+          "象限 II 表示 x 為負值，而 y 為正值。",
+          "使|x|大於 y，使 θ 更接近 180°，而不是 90°。"
+        ],
+        "targets": [
+          {
+            "label": "將半徑保持在 $3.7$ 附近，以便該點停留在較長的第二象限射線上。"
+          },
+          {
+            "label": "設定 $136^\\circ$ 和 $144^\\circ$ 之間的角度，使該點停留在像限 II 中，並具有更大的 x 投影。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "極座標/半徑與角度",
+    "description": "同時查看極座標和直角座標視圖中的一個點，並使用即時半徑和角度控制來顯示 x 和 y 如何從相同幾何圖像中出現。",
+    "keywords": [
+      "極座標",
+      "半徑與角度",
+      "x 等於 r 乘以 cos θ",
+      "y 等於 r sin θ",
+      "數學"
     ]
   }
 }

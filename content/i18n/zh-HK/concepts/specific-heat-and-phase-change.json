@@ -56,49 +56,95 @@
           "id": "same-input-different-temperature-rise",
           "title": "相同輸入，不同溫度上升",
           "prompt": "在當前檢查時間 $t = {{timeValue}}\\,\\mathrm{min}$，有多少能量被新增，其中多少能量實際上改變了當前樣品的溫度？",
+          "variables": [
+            {
+              "id": "mass",
+              "label": "樣品質量"
+            },
+            {
+              "id": "specificHeat",
+              "label": "比熱"
+            },
+            {
+              "id": "power",
+              "label": "加熱或冷卻功率"
+            },
+            {
+              "id": "thermalCapacity",
+              "label": "熱容量"
+            }
+          ],
           "steps": [
             {
               "id": "read-total-input",
-              "label": "1. 計算總能量轉移"
+              "label": "1. 計算總能量轉移",
+              "template": "使用 $Q = P t = {{powerValue}} \\times {{timeValue}}$，因此總能量传递為 {{totalAddedEnergyValue}}\\,\\mathrm{kJ}$。"
             },
             {
               "id": "build-capacity",
-              "label": "2. 建立樣品的熱容量"
+              "label": "2. 建立樣品的熱容量",
+              "template": "對於此範例，$m c = {{massValue}} \\times {{specificHeatValue}} = {{thermalCapacityValue}}\\,\\mathrm{kJ/degC}$。"
             },
             {
               "id": "separate-sensible-and-latent",
-              "label": "3. 分開顯熱部分與相變部分"
+              "label": "3. 分開顯熱部分與相變部分",
+              "template": "現在 {{sensibleEnergyChangeValue}}\\,\\mathrm{kJ}$ 正在改變溫度，而 {{latentEnergyChangeValue}}\\,\\mathrm{kJ}$ 正在改變相態，因此即時溫度變化是 {{temperatureChangeValue}}\\,\\mathrm{degC}$。"
             }
           ],
           "resultLabel": "目前的能量分配與溫度反應",
+          "resultTemplate": "$Q = {{totalAddedEnergyValue}}\\,\\mathrm{kJ}, \\quad Q_{\\mathrm{sensible}} = {{sensibleEnergyChangeValue}}\\,\\mathrm{kJ}, \\quad \\Delta T = {{temperatureChangeValue}}\\,\\mathrm{degC}$",
           "applyAction": {
             "label": "顯示高比熱容樣品",
             "observationHint": "相同的功率仍然在執行，但較大的比熱容使得溫度上升的速度要慢得多。"
-          }
+          },
+          "interpretationTemplate": "{{capacityInterpretation}}"
         },
         {
           "id": "reading-the-shelf",
           "title": "正確讀取平台",
           "prompt": "在當前檢查時間 $t = {{timeValue}}\\,\\mathrm{min}$，樣品已經走完了多少相變平台寬度？而這段平坦的溫度現在代表甚麼？",
+          "variables": [
+            {
+              "id": "phaseFraction",
+              "label": "架上的相分數"
+            },
+            {
+              "id": "latentHeat",
+              "label": "潛熱"
+            },
+            {
+              "id": "phaseChangeEnergy",
+              "label": "貨架能量寬度"
+            },
+            {
+              "id": "temperature",
+              "label": "當前溫度"
+            }
+          ],
           "steps": [
             {
               "id": "read-shelf-width",
-              "label": "1. 讀取平台總寬度"
+              "label": "1. 讀取平台總寬度",
+              "template": "目前樣本需要 $m L = {{phaseChangeEnergyValue}}\\,\\mathrm{kJ}$ 才能穿過整個架子。"
             },
             {
               "id": "read-current-progress",
-              "label": "2. 讀取目前的相變進度"
+              "label": "2. 讀取目前的相變進度",
+              "template": "現在樣本是 {{phaseFractionPercentValue}}\\% 通過架子，因此潛在能量變化是 {{latentEnergyChangeValue}}\\,\\mathrm{kJ}$。"
             },
             {
               "id": "interpret-flat-temperature",
-              "label": "3. 正確解釋平坦溫度"
+              "label": "3. 正確解釋平坦溫度",
+              "template": "溫度仍為 $T = {{temperatureValue}}\\,\\mathrm{degC}$，因為目前的能量轉移正在改變相分數，而不是將樣品在加熱曲線的傾斜部分進一步向上或向下推動。"
             }
           ],
           "resultLabel": "平台進度與意義",
+          "resultTemplate": "$T = {{temperatureValue}}\\,\\mathrm{degC}, \\quad f = {{phaseFractionPercentValue}}\\%, \\quad Q_{\\mathrm{latent}} = {{latentEnergyChangeValue}}\\,\\mathrm{kJ}$",
           "applyAction": {
             "label": "顯示平台狀態",
             "observationHint": "溫度線可以保持平坦，而平台進度條和潛熱讀數仍然會繼續變化。"
-          }
+          },
+          "interpretationTemplate": "{{shelfInterpretation}}"
         }
       ]
     },
@@ -264,6 +310,80 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "了解為什麼相同的能量脈衝會以不同的溫度量改變不同的材料，以及為什麼相變架可以吸收或釋放能量而不改變一個緊湊的熱台上的溫度。",
+    "whyItMatters": "加熱曲線不僅僅是需要記住的形狀：它們告訴您傳入的能量是否會升高溫度、擴大相變架，或在真實材料中同時執行這兩種操作。",
+    "keyTakeaway": "樣品的熱容量為 m c，因此當樣品質量較大或比熱較大時，相同的能量輸入對溫度的影響較小。"
+  },
+  "v2": {
+    "intuition": "追蹤一個能量脈衝並詢問它去了哪裡。現成的能量透過熱容量 m c 傳播並改變溫度。在架子上，相同的能量會改變相分數，而溫度可以保持不變。",
+    "whyItMatters": "這種分割可以讓您解釋日常加熱曲線：為什麼水加熱緩慢，為什麼融化的冰可以吸收熱量而不變得更熱，以及為什麼潛熱與比熱不同。",
+    "equationSnapshot": {
+      "title": "加熱曲線上的能量分裂",
+      "note": "使用 m c 讀取傾斜溫度響應，使用 m L 讀取擱架寬度，並使用總能量簿記連接曲線的兩個部分。"
+    },
+    "startSetup": {
+      "note": "從遠離架子的地方開始，以便在相變平台出現之前可以看到相同能量、不同溫度的比較。"
+    },
+    "guidedSteps": [
+      {
+        "id": "same-pulse-different-rise",
+        "title": "比較相同的脈衝",
+        "goal": "將比熱視為相同能量輸入下較小的溫升。",
+        "doThis": "從低 c 溫樣品開始，然後切換到高 c 溫樣品，同時保持質量、功率和 4 分鐘脈衝想法相同。",
+        "notice": "高 c 樣品的加熱曲線不太陡峭，並且比熱響應圖隨著 c 的增加而下降。",
+        "explain": "比熱越大，m c 越大。相同的顯能分佈在更大的熱容量上，因此 Delta T 更小而不是更大。"
+      },
+      {
+        "id": "build-thermal-capacity",
+        "title": "建構 m c",
+        "goal": "分離質量和比熱，同時保留一個熱容故事。",
+        "doThis": "將品質從 Warming 提升，然後比較 m c 晶片和架子寬度 m L 晶片的變化。",
+        "notice": "質量會改變傾斜響應和架子寬度，而僅改變 c 主要會改變傾斜溫度響應。",
+        "explain": "熱容量為 m c，因此更多樣本或更大的 c 意味著每度需要更多能量。質量也以 m L 為單位，因此它也會改變相變能量。"
+      },
+      {
+        "id": "catch-the-shelf",
+        "title": "抓住架子",
+        "goal": "解釋一條平坦的溫度線，但不說能量轉移停止。",
+        "doThis": "使用 在架子上，將加熱曲線和能量簿視圖放在附近，並觀察當溫度保持在 0 攝氏度附近時相分數的變化。",
+        "notice": "溫度標記可以位於相變線上，而潛能條和架子分數不斷變化。",
+        "explain": "在架子上，傳遞的能量正在改變相分數。即使 Delta T 幾乎為零，加熱器仍然可以工作。"
+      },
+      {
+        "id": "separate-c-from-l",
+        "title": "將 c 與 L 分開",
+        "goal": "決定更改屬於坡度或貨架寬度。",
+        "doThis": "在潛伏響應圖開啟時變更潛熱，然後將其與響應圖上變化的比熱進行比較。",
+        "notice": "潛熱使能量架變寬或變窄；比熱改變了遠離架子的坡度。",
+        "explain": "比熱屬於 Q_sensible = m c delta T。潛熱屬於 Q_phase = m L。良好的加熱曲線解釋指出了哪個項目正在做功。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "當 m c 較大時，相同的能量脈衝產生較小的溫度變化。",
+        "質量影響熱容量 m c 和相變架寬度 m L。",
+        "平坦的架子仍然可以涉及真正的能量傳遞，因為相分數正在變化。",
+        "比熱控制加熱曲線的傾斜部分；潛熱控制能量的擱​​板寬度。"
+      ],
+      "misconception": "平坦的溫度線並不能證明能量轉移已停止；在架子上，能量進入相變而不是溫度變化。",
+      "freePlayPrompt": "進行一次運行，其中相同的脈衝快速改變溫度，另一次運行主要移動架。解釋在每種情況下哪個方程項發生了變化。",
+      "nextConcepts": [
+        {
+          "slug": "power-energy-circuits",
+          "reasonLabel": "比較速率和總能量"
+        },
+        {
+          "slug": "ideal-gas-law-and-kinetic-theory",
+          "reasonLabel": "氣態模型中的使用溫度"
+        },
+        {
+          "slug": "heat-transfer",
+          "reasonLabel": "追蹤能量如何跨越邊界"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "thermal-capacity",
@@ -323,49 +443,456 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "加熱曲線",
+      "primaryGraphIds": [
+        "加熱曲線",
+        "用這個步驟把模擬、圖像和概念連接起來。"
+      ],
+      "primaryControlIds": [
+        "比熱"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "mass",
-        "label": "質量"
+        "label": "質量",
+        "description": "改變樣本量。"
       },
       {
         "id": "startingTemperature",
-        "label": "起始溫度"
+        "label": "起始溫度",
+        "description": "將起點移到架子下方、架子上或架子上方。"
+      },
+      {
+        "id": "specificHeat",
+        "label": "比熱容 c",
+        "description": "改變每度溫度變化每公斤需要多少能量。"
+      },
+      {
+        "id": "heaterPower",
+        "label": "加熱或冷卻功率",
+        "description": "正值加熱樣品，負值冷卻樣品。"
+      },
+      {
+        "id": "latentHeat",
+        "label": "潛熱 L",
+        "description": "改變溫度再次開始變化之前架子吸收或釋放的能量。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "low-c-liquid",
+        "label": "低溫c溫樣品",
+        "description": "架子上方具有較低的比熱，因此相同的功率產生較快的溫升。"
+      },
+      {
+        "id": "high-c-liquid",
+        "label": "高c溫暖樣品",
+        "description": "與低c樣品相同的質量和功率，但比熱更大，使得溫度上升更慢。"
+      },
+      {
+        "id": "warming-toward-shelf",
+        "label": "貨架升溫",
+        "description": "開始低於相變溫度，升溫到該溫度，然後開始穿過架子。"
+      },
+      {
+        "id": "melting-on-the-shelf",
+        "label": "上架",
+        "description": "從平架上開始，因此相分數會在溫度保持在攝氏 0 度附近時發生變化。"
+      },
+      {
+        "id": "freezing-on-the-shelf",
+        "label": "架上冷卻",
+        "description": "在架子上啟動並具有冷卻能力，因此相分數在溫度降至 0 攝氏度以下之前下降。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "capacityCue",
+        "label": "熱容量提示",
+        "shortDescription": "顯示即時 m c 值和溫度變化率，以便您可以將比熱與曲線的斜率連結起來。",
+        "whatToNotice": [
+          "m c 越大，相同功率下加熱曲線的傾斜部分越不陡峭。"
+        ],
+        "whyItMatters": "它將比熱與可見的溫度變化率連結起來。",
+        "relatedControls": [
+          "質量",
+          "比熱",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "加熱曲線",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "質量",
+          "比熱",
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "shelfCue",
+        "label": "貨架提示",
+        "shortDescription": "顯示同一實驗台上目前的相位分數和全 m L 層架寬度。",
+        "whatToNotice": [
+          "當溫度標記保持在相變溫度附近時，架桿可以保持移動。"
+        ],
+        "whyItMatters": "它使潛熱可見，而不是讓曲線的平坦部分無法解釋。",
+        "relatedControls": [
+          "潛熱",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "加熱曲線",
+          "潛在反應"
+        ],
+        "relatedEquationVariables": [
+          "潛熱",
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "energySplit",
+        "label": "能量分裂",
+        "shortDescription": "顯示目前傳輸的能量如何在顯性部分和潛在部分之間分配。",
+        "whatToNotice": [
+          "即使大部分變化僅進入潛在條，總傳輸能量也會持續增加。"
+        ],
+        "whyItMatters": "它將傾斜部分和平架連接到一個共享的能源簿記。",
+        "relatedControls": [
+          "加熱器功率",
+          "比熱",
+          "潛熱"
+        ],
+        "relatedGraphTabs": [
+          "能量分配",
+          "加熱曲線"
+        ],
+        "relatedEquationVariables": [
+          "加熱器功率",
+          "比熱",
+          "潛熱"
+        ]
+      },
+      {
+        "id": "curveGuide",
+        "label": "曲線引導",
+        "shortDescription": "顯示相變溫度線，因此階段和加熱曲線使用相同的架子參考。",
+        "whatToNotice": [
+          "達到相變線並不總是意味著溫度立即改變。這可能意味著該運行已進入貨架。"
+        ],
+        "whyItMatters": "它使階段和圖像保持對齊，因此加熱曲線的平坦部分具有明確的物理意義。",
+        "relatedControls": [
+          "起始溫度",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "加熱曲線"
+        ],
+        "relatedEquationVariables": [
+          "起始溫度",
+          "加熱器功率"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "energy-allocation",
-      "label": "能量帳目記錄"
+      "label": "能量帳目記錄",
+      "xLabel": "時間（分鐘）",
+      "yLabel": "能量變化（kJ）",
+      "description": "將總傳輸能量與顯熱部分和潛在部分進行比較。使用此圖檢查溫度平穩是否確實意味著架子處於活動狀態。"
+    },
+    {
+      "id": "heating-curve",
+      "label": "加熱曲線",
+      "xLabel": "時間（分鐘）",
+      "yLabel": "溫度（攝氏度）",
+      "description": "將即時溫度與相變溫度進行比較。傾斜部分意味著顯熱加熱或顯冷，平坦的擱架意味著潛能變化。"
+    },
+    {
+      "id": "specific-heat-response",
+      "label": "溫度變化與比熱",
+      "xLabel": "比熱 (kJ/kg degC)",
+      "yLabel": "4 分鐘後溫度變化 (°C)",
+      "description": "僅更改比熱，同時保持目前質量和功率。當 c 較大時，相同的 4 分鐘脈衝會產生較小的溫度變化，除非運轉已停止運轉。"
+    },
+    {
+      "id": "latent-response",
+      "label": "擱板寬度與潛熱",
+      "xLabel": "潛熱 (kJ/kg)",
+      "yLabel": "相變能量（kJ）",
+      "description": "僅更改潛熱。潛熱越大，能量架越寬，因此在相同功率下，樣品可以在接近恆溫狀態下停留更長時間。"
     }
   ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每一項都將一項控制變更與加熱曲線和即時能量分配相關聯。",
     "items": [
       {
-        "id": "shpc-notice-compare-mode"
-      },
-      {
-        "id": "shpc-notice-compare-mode"
-      },
-      {
-        "id": "shpc-notice-compare-mode"
-      },
-      {
-        "id": "shpc-notice-compare-mode"
+        "id": "shpc-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相同質量與功率、但比熱容不同時最有用。這樣溫度變化的差別就來自 m c，而不是被隱藏的能量輸入差異。",
+        "tryThis": "把「低比熱暖樣本」複製到比較模式，只提高設定 B 的比熱容，然後在同一時間暫停兩個設定。",
+        "whyItMatters": "在架子添加另一層推理之前，它隔離了比熱概念。",
+        "relatedControls": [
+          "比熱",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "加熱曲線"
+        ],
+        "relatedOverlays": [
+          "容量提示",
+          "曲線指南"
+        ],
+        "relatedEquationVariables": [
+          "比熱",
+          "加熱器功率"
+        ]
       },
       {
         "id": "shpc-notice-compare-mode",
         "text": "比較模式在設定 A 和設定 B 保持相同質量與功率、但比熱容不同時最有用。這樣溫度變化的差別就來自 m c，而不是被隱藏的能量輸入差異。",
-        "tryThis": "把「低比熱暖樣本」複製到比較模式，只提高設定 B 的比熱容，然後在同一時間暫停兩個設定。"
+        "tryThis": "把「低比熱暖樣本」複製到比較模式，只提高設定 B 的比熱容，然後在同一時間暫停兩個設定。",
+        "whyItMatters": "在架子添加另一層推理之前，它隔離了比熱概念。",
+        "relatedControls": [
+          "比熱",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "加熱曲線"
+        ],
+        "relatedOverlays": [
+          "容量提示",
+          "曲線指南"
+        ],
+        "relatedEquationVariables": [
+          "比熱",
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "shpc-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相同質量與功率、但比熱容不同時最有用。這樣溫度變化的差別就來自 m c，而不是被隱藏的能量輸入差異。",
+        "tryThis": "把「低比熱暖樣本」複製到比較模式，只提高設定 B 的比熱容，然後在同一時間暫停兩個設定。",
+        "whyItMatters": "在架子添加另一層推理之前，它隔離了比熱概念。",
+        "relatedControls": [
+          "比熱",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "加熱曲線"
+        ],
+        "relatedOverlays": [
+          "容量提示",
+          "曲線指南"
+        ],
+        "relatedEquationVariables": [
+          "比熱",
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "shpc-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相同質量與功率、但比熱容不同時最有用。這樣溫度變化的差別就來自 m c，而不是被隱藏的能量輸入差異。",
+        "tryThis": "把「低比熱暖樣本」複製到比較模式，只提高設定 B 的比熱容，然後在同一時間暫停兩個設定。",
+        "whyItMatters": "在架子添加另一層推理之前，它隔離了比熱概念。",
+        "relatedControls": [
+          "比熱",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "加熱曲線"
+        ],
+        "relatedOverlays": [
+          "容量提示",
+          "曲線指南"
+        ],
+        "relatedEquationVariables": [
+          "比熱",
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "shpc-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相同質量與功率、但比熱容不同時最有用。這樣溫度變化的差別就來自 m c，而不是被隱藏的能量輸入差異。",
+        "tryThis": "把「低比熱暖樣本」複製到比較模式，只提高設定 B 的比熱容，然後在同一時間暫停兩個設定。",
+        "whyItMatters": "在架子添加另一層推理之前，它隔離了比熱概念。",
+        "relatedControls": [
+          "比熱",
+          "加熱器功率"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "加熱曲線"
+        ],
+        "relatedOverlays": [
+          "容量提示",
+          "曲線指南"
+        ],
+        "relatedEquationVariables": [
+          "比熱",
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "shpc-notice-specific-heat",
+        "text": "只改變比熱會改變傾斜部分的陡度，但不會改變架子的能量寬度。這表明 c 控制溫度響應，而不是潛在的擱架能。",
+        "tryThis": "在低 c 溫樣品和高 c 溫樣品之間切換，然後比較加熱曲線和比熱響應圖。",
+        "whyItMatters": "這將 Q = m c delta T 與可見的溫度響應聯繫起來。",
+        "relatedControls": [
+          "比熱"
+        ],
+        "relatedGraphTabs": [
+          "加熱曲線",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "容量提示"
+        ],
+        "relatedEquationVariables": [
+          "比熱"
+        ]
+      },
+      {
+        "id": "shpc-notice-mass",
+        "text": "m c 晶片和 m L 架寬晶片的品質發生變化。較大的樣品升溫速度較慢，還需要更多的能量來完成相變。",
+        "tryThis": "僅增加質量，觀察 m c 晶片和 m L 晶片一起增加。",
+        "whyItMatters": "它顯示品質會影響傾斜部分和架子。",
+        "relatedControls": [
+          "質量"
+        ],
+        "relatedGraphTabs": [
+          "加熱曲線",
+          "潛在反應"
+        ],
+        "relatedOverlays": [
+          "容量提示",
+          "架子提示"
+        ],
+        "relatedEquationVariables": [
+          "質量"
+        ]
+      },
+      {
+        "id": "shpc-notice-shelf-flat",
+        "text": "平坦的架子並不表示加熱器已停止。檢查能量記圖和架子欄：當溫度保持在相變溫度附近時，潛能仍然可以改變。",
+        "tryThis": "使用 在架上擦洗平坦區域，並將溫度線與潛能線進行比較。",
+        "whyItMatters": "這是誠實讀取加熱曲線的關鍵習慣。",
+        "relatedControls": [
+          "加熱器功率",
+          "潛熱"
+        ],
+        "relatedGraphTabs": [
+          "加熱曲線",
+          "能量分配"
+        ],
+        "relatedOverlays": [
+          "架子提示",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "加熱器功率",
+          "潛熱"
+        ]
+      },
+      {
+        "id": "shpc-notice-latent-response",
+        "text": "在潛在響應圖上，增加 L 會使能量架更寬。在相同功率下，樣品可以在接近恆溫狀態下停留更長時間。",
+        "tryThis": "將滑鼠懸停在小 L 和大 L 點上，然後比較舞台上的預覽徽章和貨架寬度晶片。",
+        "whyItMatters": "它將寬的架子與大的比熱分開。",
+        "relatedControls": [
+          "潛熱"
+        ],
+        "relatedGraphTabs": [
+          "潛在反應",
+          "加熱曲線"
+        ],
+        "relatedOverlays": [
+          "架子提示"
+        ],
+        "relatedEquationVariables": [
+          "潛熱"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在改變控制項之前預測下一點能量的去向。它會改變溫度、相分數還是兩者都改變？",
     "items": [
       {
         "id": "shpc-predict-shelf-heating",
-        "changeLabel": "加熱功率"
+        "prompt": "樣品已放在架子上並且加熱器保持開啟。在貨架完成之前接下來應該發生什麼？",
+        "scenarioLabel": "保持架子上的加熱",
+        "changeLabel": "加熱功率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "當溫度保持在相變溫度附近時，相分數持續增加。"
+          },
+          {
+            "id": "b",
+            "label": "溫度必須立即升高，因為任何添加的能量總是先改變溫度。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為溫度平穩意味著沒有能量進入。"
+          }
+        ],
+        "explanation": "在架子上，轉移的能量改變相分數。即使潛能項不斷變化，溫度也可以保持幾乎不變。",
+        "observationHint": "首先觀察架子欄和潛能線。"
+      },
+      {
+        "id": "shpc-predict-higher-c",
+        "prompt": "從低 c 溫樣本開始，您只增加比熱，同時保持相同的質量和功率。在同樣的 4 分鐘脈衝之後，哪一個陳述最強烈？",
+        "scenarioLabel": "提高比熱",
+        "changeLabel": "比熱",
+        "choices": [
+          {
+            "id": "a",
+            "label": "溫度變化變得更小，因為相同的能量分佈在更大的熱容量上。"
+          },
+          {
+            "id": "b",
+            "label": "溫度變化變得更大，因為比熱越大意味著樣品更容易儲存能量。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為功率保持不變。"
+          }
+        ],
+        "explanation": "在固定質量和功率下，較大的比熱會增加 m c，因此相同的 4 分鐘脈衝在曲線的傾斜部分產生較小的溫度變化。",
+        "observationHint": "對於相同的脈衝，較高 c 的設定在加熱曲線的傾斜部分上爬升較小。"
+      },
+      {
+        "id": "shpc-predict-reverse-power",
+        "prompt": "從架子上的冷卻開始，您不斷地消除能量。在溫度降到架子以下之前首先發生什麼變化？",
+        "scenarioLabel": "放在架子上保持冷卻",
+        "changeLabel": "電源方向",
+        "choices": [
+          {
+            "id": "a",
+            "label": "當溫度保持在架子附近時，相分數先降低。"
+          },
+          {
+            "id": "b",
+            "label": "溫度必須立即下降，因為冷卻總是在階段之前改變溫度。"
+          },
+          {
+            "id": "c",
+            "label": "相分數增加是因為冷卻使擱板變寬。"
+          }
+        ],
+        "explanation": "冷卻反轉了相同的擱置邏輯：能量首先離開潛在儲存，因此相分數在樣品降至相變溫度以下之前下降。",
+        "observationHint": "貨架分數縮小，而溫度標記保持在攝氏 0 度附近。"
       }
     ]
   },
@@ -379,7 +906,8 @@
         "prompt": "由「低比熱暖樣本」開始，切換到比較模式，只修改設定 B，令兩個設定都使用同樣的 4 分鐘加熱脈衝，但設定 B 因比熱容較大而升溫得少得多。",
         "successMessage": "你在保持相同加熱脈衝的前提下改變了熱容量。設定 B 升溫較少，因為較大的比熱容把相同能量分散到更大的 m c 上。",
         "setup": {
-          "note": "把兩個設定都暫停在 4 分鐘，然後只修改設定 B。"
+          "note": "把兩個設定都暫停在 4 分鐘，然後只修改設定 B。",
+          "interactionMode": "比較"
         },
         "hints": [
           "保持質量與加熱功率相同，讓比熱容成為主要的解釋因素。",
@@ -413,7 +941,8 @@
           {
             "label": "在相同脈衝下，設定 B 應升溫少得多。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       },
       {
         "id": "shpc-ch-catch-the-real-shelf",
@@ -449,8 +978,20 @@
           {
             "label": "令溫度變化率接近零。"
           }
-        ]
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "比熱與相變 |開放模型實驗室",
+    "description": "透過一台緊湊型熱實驗台、即時能量記帳、引導疊加、預測提示和概念快速測試來學習比熱、潛熱和加熱曲線讀數。",
+    "keywords": [
+      "比熱和相變",
+      "潛熱加熱曲線",
+      "Q 等於 mc delta T",
+      "相變溫度平台",
+      "加熱曲線解讀"
     ]
   }
 }

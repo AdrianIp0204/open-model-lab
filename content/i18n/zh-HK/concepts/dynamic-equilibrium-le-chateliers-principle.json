@@ -50,27 +50,36 @@
             {
               "id": "product-amount",
               "label": "初始產品數量"
+            },
+            {
+              "id": "time",
+              "label": "時間"
             }
           ],
           "steps": [
             {
               "id": "read-current-mix",
-              "label": "1. 閱讀當前混合物"
+              "label": "1. 閱讀當前混合物",
+              "template": "在 t = {{timeValue}} s 時，實驗台顯示約 {{currentReactantValue}} 反應物單位和 {{currentProductValue}} 產物單位。"
             },
             {
               "id": "read-current-rates",
-              "label": "2. 閱讀競爭速率"
+              "label": "2. 閱讀競爭速率",
+              "template": "正向速率約為 {{forwardRateValue}}/s，反向速率約為 {{reverseRateValue}}/s."
             },
             {
               "id": "read-gap",
-              "label": "3. 閱讀系統接近平衡的程度"
+              "label": "3. 閱讀系統接近平衡的程度",
+              "template": "這留下了大約 {{rateGapValue}} 的匯率差距，它告訴您混合物離平衡交換還有多遠。"
             }
           ],
           "resultLabel": "當前的平衡",
+          "resultTemplate": "$r_f \\approx {{forwardRateValue}}, \\quad r_r \\approx {{reverseRateValue}}$",
           "applyAction": {
             "label": "應用生成物豐富的開始",
             "observationHint": "混合物可能從生成物側面開始，但平衡條顯示反向變化的需要是否需要追上。"
-          }
+          },
+          "interpretationTemplate": "{{balanceInterpretation}}"
         },
         {
           "id": "read-the-new-settled-mix",
@@ -85,22 +94,27 @@
           "steps": [
             {
               "id": "read-current-share",
-              "label": "1. 閱讀當前產品份額"
+              "label": "1. 閱讀當前產品份額",
+              "template": "目前，混合物中的產品約為 {{currentProductShareValue}}%。"
             },
             {
               "id": "read-target-share",
-              "label": "2. 閱讀這些條件下的穩定目標"
+              "label": "2. 閱讀這些條件下的穩定目標",
+              "template": "在目前偏好設定下，系統穩定在 {{equilibriumProductShareValue}}% 產品附近。"
             },
             {
               "id": "connect-shift",
-              "label": "3. 將當前混合物連線到新目標"
+              "label": "3. 將當前混合物連線到新目標",
+              "template": "如果目前份額和目標不同，則正向和反向速率保持不相等，直到混合物向該目標移動。"
             }
           ],
           "resultLabel": "穩定的產品份額",
+          "resultTemplate": "$\\text{settled product share} \\approx {{equilibriumProductShareValue}}\\%$",
           "applyAction": {
             "label": "應用有利於產品的情況",
             "observationHint": "穩定目標會朝向更多產品移動，隨著時間推移，濃度歷史將彎曲向新的混合。"
-          }
+          },
+          "interpretationTemplate": "{{targetInterpretation}}"
         }
       ]
     },
@@ -161,6 +175,7 @@
         ],
         "explanation": "如果當前混合物在新的目標之下，正向側有空間佔主導地位直到穩定份額達到。",
         "selectedWrongExplanations": {
+          "a": "平衡可能會改變。新的干擾會產生新的目標組合。",
           "c": "方向取決於擾動和新目標，而不是關於產品的固定規則"
         },
         "showMeAction": {
@@ -187,6 +202,7 @@
         ],
         "explanation": "正向和逆向速率相等或接近相等是實際的平衡測試。",
         "selectedWrongExplanations": {
+          "a": "兩種物質同時存在並不能保證平衡。",
           "b": "兩種物質的存在並不保證達到平衡。"
         },
         "showMeAction": {
@@ -217,6 +233,84 @@
         "title": "將平衡帶入下一分支"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "觀察可逆化學實驗台在顯微鏡下不斷變化，同時混合物在每次擾動後趨向新的平衡。",
+    "whyItMatters": "當您看到擾動造成速率失衡，然後觀察系統重新平衡時，勒夏特列的原理就會變得更少被記住。",
+    "keyTakeaway": "在動態平衡時，正向和反向變化仍在發生，但它們相互平衡。"
+  },
+  "v2": {
+    "intuition": "平衡是一種移動平衡：混合物看起來穩定是因為正向和反向變化匹配，而不是因為粒子停止變化。",
+    "whyItMatters": "當您可以看到每次擾動將速率分開，然後觀察混合物走向新的平衡時，Le Chatelier 的原理就變成了一個因果故事。",
+    "equationSnapshot": {
+      "title": "匯率餘額快照",
+      "note": "首先使用速率差距，然後讀取目前混合物相對於平衡目標的偏移方向。"
+    },
+    "startSetup": {
+      "note": "從反應物重的混合物開始，這樣第一次向平衡的轉變是可見的。"
+    },
+    "guidedSteps": [
+      {
+        "id": "see-equilibrium-as-motion",
+        "title": "將平衡視為運動",
+        "goal": "從停止的反應中分離出看起來穩定的混合物。",
+        "doThis": "讓反應物重開始運行，交換脈衝可見，然後在量曲線的平坦部分附近暫停。",
+        "notice": "金額可能會緩慢變化或看起來穩定，同時正向和反向交換提示仍然出現。",
+        "explain": "動態平衡意味著兩個方向持續以匹配的速率發生；這並不意味著微觀反應已經停止。",
+        "inlineCheck": {
+          "title": "檢視移動平衡的想法"
+        }
+      },
+      {
+        "id": "disturb-the-current-mix",
+        "title": "幹擾當前混音",
+        "goal": "將幹擾讀取為目前混合物與目標平衡混合物之間的不匹配。",
+        "doThis": "更改一次反應物量並將目前產物份額與平衡目標帶進行比較。",
+        "notice": "當幹擾將當前混合拉離當前條件下的目標時，幹擾就很重要。",
+        "explain": "只有在當前狀態與平衡目標不一致時，混合物才會發生變化；比率差距表明哪個方向首先獲勝。",
+        "inlineCheck": {
+          "title": "預測第一個班次"
+        }
+      },
+      {
+        "id": "change-the-equilibrium-target",
+        "title": "更改目標餘額",
+        "goal": "將 Le Chatelier 的原則視為朝著新的平衡重新平衡，而不是瞬間跳躍。",
+        "doThis": "切換到產品有利的條件，然後觀察費率條在重新組合在一起之前分開。",
+        "notice": "更改產品偏好設定首先會移動目標；隨著時間的推移，混合和速率欄會趕上。",
+        "explain": "條件變化會創造新的平衡目標，因此系統會發生變化，直到在這些條件下正向和反向速率再次匹配。",
+        "inlineCheck": {
+          "title": "讀取新目標"
+        }
+      },
+      {
+        "id": "judge-the-new-equilibrium",
+        "title": "判斷新的均衡",
+        "goal": "使用費率匹配而不是等額來確定是否已達到新餘額。",
+        "doThis": "讓產品青睞的案例運行足夠長的時間以使費率差距縮小，然後將最終費率條與產品份額進行比較。",
+        "notice": "產物可以保持在反應物之上，而最誠實的平衡線索是正向和反向速率之間的接近匹配。",
+        "explain": "用這個步驟把模擬、圖像和概念連接起來。",
+        "inlineCheck": {
+          "title": "檢查平衡提示"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "動態平衡意味著持續的正向和反向變化以及匹配率。",
+        "當目前混合物不再符合條件的平衡目標時，幹擾就會產生影響。",
+        "Le Chatelier 原理描述了擾動後向新平衡的轉變。",
+        "最佳平衡線索是正向-反向速率匹配，而不是相等的反應物和產物量。"
+      ],
+      "misconception": "不要將平坦的量圖視為停止的反應或假設平衡需要等量的反應物和產物。",
+      "freePlayPrompt": "嘗試在有利於產物和有利於反應物的預設之間切換，然後等到速率條告訴您實際上達到了新的平衡。",
+      "nextConcepts": [
+        {
+          "slug": "ideal-gas-law-kinetic-theory",
+          "reasonLabel": "在熱力學實驗台中重複使用運動粒子圖片。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -253,23 +347,344 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "濃度歷史",
+      "primaryGraphIds": [
+        "濃度歷史",
+        "匯率餘額",
+        "均衡份額"
+      ],
+      "primaryControlIds": [
+        "反應物量",
+        "產品數量",
+        "產品青睞"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "產品青睞",
+        "反應物有利"
+      ],
+      "starterExploreTasks": [
+        "以大量反應物啟動並讓系統運作：混合物發生變化，但可逆脈衝永遠不會停止。",
+        "切換到速率平衡並等待運行接近結束；均衡意味著正向和反向利率幾乎匹配，而不是兩個利率都消失。",
+        "應用有利於產物的條件，然後施加有利於反應物的條件；目標帶應該移動，因為產品偏好設定改變了平衡位置。",
+        "使用以產品為主的開始，首先看到相反方向的勝利，然後將確定的組合與早期的均衡目標進行比較。"
+      ]
+    },
     "controls": [
       {
         "id": "product-favor",
-        "label": "產品傾斜設定"
+        "label": "產品傾斜設定",
+        "description": "將平衡目標轉向產物或反應物。"
+      },
+      {
+        "id": "reactant-amount",
+        "label": "反應物量",
+        "description": "改變起始反應物的量以擾亂電流平衡。"
+      },
+      {
+        "id": "product-amount",
+        "label": "產品數量",
+        "description": "更改起始產品數量以擾亂當前平衡。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "reactant-heavy-start",
+        "label": "反應物重啟動",
+        "description": "反應物側開始遠離平衡，因此前向速率首先領先。"
+      },
+      {
+        "id": "product-heavy-start",
+        "label": "以產品為主的開始",
+        "description": "產品方面一開始就遠離平衡，因此反向率首先領先。"
+      },
+      {
+        "id": "product-favored",
+        "label": "產品有利條件",
+        "description": "使用使平衡目標向產物更豐富的混合物移動的條件。"
+      },
+      {
+        "id": "reactant-favored",
+        "label": "有利於反應物的條件",
+        "description": "使用將平衡目標移回反應物的條件。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "dynamicExchange",
+        "label": "交換脈衝",
+        "shortDescription": "保持正向和反向交換脈衝可見。",
+        "whatToNotice": [
+          "即使金額曲線幾乎趨於平坦，交換脈衝也可以保持活動狀態。"
+        ],
+        "whyItMatters": "它表明平衡是動態的而不是停止的。",
+        "relatedControls": [
+          "反應物數量",
+          "產品數量"
+        ],
+        "relatedGraphTabs": [
+          "匯率餘額"
+        ],
+        "relatedEquationVariables": [
+          "反應物量",
+          "產品數量"
+        ]
+      },
+      {
+        "id": "balanceBars",
+        "label": "利率餘額條",
+        "shortDescription": "並排顯示正向和反向匯率。",
+        "whatToNotice": [
+          "接近平衡時，即使反應物和產物的量不必相等，兩個速率條也幾乎匹配。"
+        ],
+        "whyItMatters": "它將均衡的定義與利率平衡連結在一起，而不是與等量或凍結系統連結在一起。",
+        "relatedControls": [
+          "反應物數量",
+          "產品數量"
+        ],
+        "relatedGraphTabs": [
+          "匯率餘額"
+        ],
+        "relatedEquationVariables": [
+          "反應物量",
+          "產品數量"
+        ]
+      },
+      {
+        "id": "targetBand",
+        "label": "平衡目標",
+        "shortDescription": "保持目前混合物和平衡目標一起可見。",
+        "whatToNotice": [
+          "只有在當前混合物仍與這些條件下的平衡目標不同時，系統才會保持移動。"
+        ],
+        "whyItMatters": "它使 Le Chatelier 轉變可視為朝向新平衡的運動。",
+        "relatedControls": [
+          "產品收藏"
+        ],
+        "relatedGraphTabs": [
+          "濃度歷史",
+          "均衡份額"
+        ],
+        "relatedEquationVariables": [
+          "產品青睞"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "rate-balance",
-      "yLabel": "速率"
+      "label": "隨時間變化的正向和反向利率",
+      "xLabel": "時間",
+      "yLabel": "速率",
+      "description": "顯示擾動後速率分離，然後在接近平衡時恢復在一起。"
     },
     {
       "id": "equilibrium-share",
       "label": "穩定的產品份額",
       "xLabel": "產品傾斜設定",
-      "yLabel": "穩定的產品份額"
+      "yLabel": "穩定的產品份額",
+      "description": "顯示改變產品偏好設定如何改變平衡混合物。"
+    },
+    {
+      "id": "concentration-history",
+      "label": "隨著時間的推移反應物和產物",
+      "xLabel": "時間",
+      "yLabel": "金額",
+      "description": "顯示擾動後反應物和產物的量如何趨向平衡。"
     }
-  ]
+  ],
+  "noticePrompts": {
+    "title": "平衡時要注意什麼",
+    "intro": "在同一個平台上一起讀取速率條、目前組合和均衡目標。",
+    "items": [
+      {
+        "id": "de-notice-dynamic",
+        "text": "當兩個交換脈衝仍處於活動狀態時，金額曲線可能會變平。平衡意味著正向和反向速率相等，而不是反應停止。",
+        "whyItMatters": "這是動態平衡的核心思想：穩定的數量仍然可以來自持續的正向和反向變化。",
+        "relatedOverlays": [
+          "動態交換",
+          "平衡條"
+        ]
+      },
+      {
+        "id": "de-notice-disturbance",
+        "text": "當幹擾使目前組合不同於平衡目標時，它就很重要。一起觀察目標頻段和時間圖。",
+        "relatedControls": [
+          "反應物數量",
+          "產品數量",
+          "產品收藏"
+        ],
+        "relatedOverlays": [
+          "目標帶"
+        ]
+      },
+      {
+        "id": "de-notice-le-chatelier",
+        "text": "擾動後，速率首先分離，然後混合物發生變化，直到後來速率才恢復到一起。",
+        "tryThis": "套用預設，然後切換到相反的偏好設定並觀察速率圖和濃度圖，直到達到新的平衡。",
+        "relatedGraphTabs": [
+          "匯率餘額",
+          "濃度歷史"
+        ],
+        "relatedOverlays": [
+          "平衡條",
+          "目標帶"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測移動的方向",
+    "intro": "在測試變更之前，請先詢問它如何使目前組合相對於新條件的平衡目標發生變化。",
+    "items": [
+      {
+        "id": "de-predict-add-reactants",
+        "prompt": "從反應物較多的情況開始，您可以在不更改偏好設定的情況下添加更多反應物。首先應該發生什麼事？",
+        "scenarioLabel": "在相同條件下加入更多反應物",
+        "changeLabel": "增加反應物擾動",
+        "choices": [
+          {
+            "id": "a",
+            "label": "遠期利率應該首先變大，因此系統轉向產品。"
+          },
+          {
+            "id": "b",
+            "label": "反應應該停止，因為混合物離平衡太遠。"
+          },
+          {
+            "id": "c",
+            "label": "反向率應立即占主導地位。"
+          }
+        ],
+        "explanation": "在相同條件下，反應物越多，正向反應首先具有越大的速率。因此，系統轉向產品，直到價格再次匹配。",
+        "observationHint": "首先觀察遠期利率的拉升，然後觀察產品數量上升到新均衡組合的方向。"
+      },
+      {
+        "id": "de-predict-lower-favor",
+        "prompt": "您從有利於產物的條件改為有利於反應物的條件，同時保持相同的起始量。平衡混合物該做什麼？",
+        "scenarioLabel": "改變條件以有利於反應物",
+        "changeLabel": "降低產品偏好設定",
+        "choices": [
+          {
+            "id": "a",
+            "label": "均衡產品份額應減少，且在轉變過程中反向率應領先。"
+          },
+          {
+            "id": "b",
+            "label": "平衡產物份額應保持不變，因為起始量沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "兩個費率應立即降至零。"
+          }
+        ],
+        "explanation": "改變條件會改變平衡目標。然後系統轉向新的目標，因此反向利率可以領先，直到達到新的平衡。",
+        "observationHint": "將均衡份額圖與切換後的比率條進行比較。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰：幹擾然後重新平衡",
+    "intro": "進行真正的擾動，然後給系統時間以達到新的平衡，而不是像瞬時切換一樣對待平衡。",
+    "items": [
+      {
+        "id": "de-ch-disturb-then-rebalance",
+        "title": "建立一個班次，然後讓它重新平衡",
+        "prompt": "從反應物較多的混合物開始，選擇明顯有利於產物的條件，並等到正向和反向速率幾乎再次匹配，同時混合物保持產物豐富。",
+        "successMessage": "你創造了真正的平衡轉變並讓系統穩定下來。此混合物對產品有利，最明顯的平衡線索是正向和反向速率再次幾乎相等。",
+        "setup": {
+          "note": "更改起始組合或偏好設定，然後讓替補運行足夠長的時間以接近新的平衡。"
+        },
+        "hints": [
+          "從反應物重的混合物開始，然後選擇將平衡目標置於產物豐富一側的條件。",
+          "只有當系統有時間使遠期和反向利率再次接近時，挑戰才算數。"
+        ],
+        "checks": [
+          {
+            "label": "將新的均衡目標明確設定在百分之六十的產品之上。"
+          },
+          {
+            "label": "保留一些反應物，以便正向反應仍活躍。"
+          },
+          {
+            "label": "將產品保持在新的結算金額附近，而不是原始的開始金額。"
+          },
+          {
+            "label": "遠期利率在接近均衡狀態時仍應為非零。"
+          },
+          {
+            "label": "反向速率應該幾乎與正向速率匹配，而不是消失。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將產品偏好設定設定在 1.28 和 1.4 之間，以便新的均衡明顯有利於產品。"
+          },
+          {
+            "label": "讓目前的產品份額穩定在58%到70%之間。"
+          },
+          {
+            "label": "等待正向-反向利率差距降至0.14以下後再判斷結果。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "de-ch-reactant-favored-rebalance",
+        "title": "以另一種方式重新平衡",
+        "prompt": "將同一個可逆實驗台移向反應物並等待，直到速率幾乎再次匹配。產品份額應該會下降，因為平衡目標發生了變化，而不是因為反應停止了。",
+        "successMessage": "你將平衡目標推向反應物，並且仍然保持兩個反應方向活躍。幾乎相匹配的速率使新的平衡具有動態性。",
+        "setup": {
+          "note": "等待運行接近結束。產品份額應穩定在較低目標附近，同時兩個比率仍然可見。"
+        },
+        "hints": [
+          "使用低於 1 的產物偏好值，以便確定的目標會向反應物移動。",
+          "如果產品份額仍遠離目標，請讓即時時脈運行更長的時間，然後再檢查速率差距。"
+        ],
+        "checks": [
+          {
+            "label": "將平衡目標設定為接近百分之四十的產品。"
+          },
+          {
+            "label": "即使在有利於反應物的轉變之後，仍保持產物群存在。"
+          },
+          {
+            "label": "遠期匯率在新餘額附近保持活躍。"
+          },
+          {
+            "label": "反向利率仍然活躍且幾乎匹配。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "使用 0.80 到 0.86 之間明顯有利於反應物的設定。"
+          },
+          {
+            "label": "將目前產品份額維持在較低的穩定區間，即 39% 至 43% 之間。"
+          },
+          {
+            "label": "讓反向方向仍稍微領先，但淨變動接近零。"
+          },
+          {
+            "label": "將正向-反向利率差距控制在 0.08 以下。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "動態平衡/勒夏特列原理",
+    "description": "在即時化學實驗台上探索動態平衡、正向和反向速率平衡以及向新平衡的可見轉變。",
+    "keywords": [
+      "動態平衡",
+      "勒夏特列原理",
+      "化學平衡",
+      "正向與反向反應",
+      "化學"
+    ]
+  }
 }

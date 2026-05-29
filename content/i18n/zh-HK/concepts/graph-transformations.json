@@ -63,22 +63,27 @@
           "steps": [
             {
               "id": "inside-change",
-              "label": "1. 對基底 x 位置應用內部變更"
+              "label": "1. 對基底 x 位置應用內部變更",
+              "template": "基礎頂點從 $x_0 = {{baseVertexXValue}}$ 開始。經過選購的 y 軸反射後，內部地標位於 ${{reflectedBaseVertexXValue}}$。"
             },
             {
               "id": "horizontal-placement",
-              "label": "2. 使用水平移動放置該標誌點"
+              "label": "2. 使用水平移動放置該標誌點",
+              "template": "變換後的頂點 x 座標為 $x_v = h + {{reflectedBaseVertexXValue}} = {{horizontalShiftValue}} + {{reflectedBaseVertexXValue}} = {{vertexXValue}}$。"
             },
             {
               "id": "vertical-placement",
-              "label": "3. 對基底 y 值應用垂直比例和移動"
+              "label": "3. 對基底 y 值應用垂直比例和移動",
+              "template": "變換後的頂點 y 座標為 $y_v = a({{baseVertexYValue}}) + k = {{verticalScaleValue}}({{baseVertexYValue}}) + {{verticalShiftValue}} = {{vertexYValue}}$。"
             }
           ],
           "resultLabel": "當前轉換後的頂點",
+          "resultTemplate": "$(x_v, y_v) = ({{vertexXValue}}, {{vertexYValue}})$",
           "applyAction": {
             "label": "應用向右翻轉的情況",
             "observationHint": "觀看基底頂點先沿著 y 軸翻轉，然後向右移動，同時垂直比例將它拉到軸下。"
-          }
+          },
+          "interpretationTemplate": "{{vertexInterpretation}}"
         },
         {
           "id": "scale-and-reflect-the-height",
@@ -97,22 +102,27 @@
           "steps": [
             {
               "id": "start-base-height",
-              "label": "1. 開始於基點高度"
+              "label": "1. 開始於基點高度",
+              "template": "基本曲線具有 $y_0 = {{baseVertexYValue}}$。"
             },
             {
               "id": "apply-scale",
-              "label": "2. 施加垂直比例"
+              "label": "2. 施加垂直比例",
+              "template": "縮放得到$a y_0 = {{verticalScaleValue}}({{baseVertexYValue}})$。"
             },
             {
               "id": "apply-shift",
-              "label": "3. 施加外側垂直位移"
+              "label": "3. 施加外側垂直位移",
+              "template": "加上垂直位移得到$y_v = {{verticalScaleValue}}({{baseVertexYValue}}) + {{verticalShiftValue}} = {{vertexYValue}}$。"
             }
           ],
           "resultLabel": "當前頂點高度",
+          "resultTemplate": "$y_v = {{vertexYValue}}$",
           "applyAction": {
             "label": "應用拉伸上移的情況",
             "observationHint": "圖形向上開口得更尖，頂點高度圖表會顯示 $a$ 如何在目前的 $k$ 下提高或壓低這個標誌點。"
-          }
+          },
+          "interpretationTemplate": "{{scaleInterpretation}}"
         }
       ]
     },
@@ -242,12 +252,74 @@
           "note": "使用此設定來追蹤 y 軸反轉，再觀察水平位移如何落點。"
         }
       }
-    ]
+    ],
+    "entryGuidance": {
+      "watchFor": "觀察頂點保持相同的高度，直到您觸摸外部控制。水平移動僅改變該地標落在 x 上的位置。"
+    }
   },
   "pageIntro": {
     "definition": "用同一組控制移動父函式影像，讓平移、垂直縮放與反射始終和同一條參考曲線及標誌點連在一起。",
     "whyItMatters": "當一條參考影像始終保持可見，而且每次引數變化都作用在同一個形狀上時，影像變換就更容易建立直覺。這個模組會把基底曲線留在畫面上，再用水平位移、垂直位移、垂直縮放和可選的 y 軸反射，在同一個動態坐標平面裡重新塑造它。",
     "keyTakeaway": "水平移動改變了圖形在 x 軸上的位置，然後才應用外側的垂直比例和垂直移動到 y 值。"
+  },
+  "v2": {
+    "intuition": "將父曲線視為一個可以滑動、拉伸和翻轉的對象，然後在其移動時繼續觀察相同的標誌點。",
+    "whyItMatters": "這使得圖像轉換感覺像是可見的幾何圖像，而不是您必須記住的符號約定。",
+    "equationSnapshot": {
+      "title": "轉換規則",
+      "note": "對 x 使用一種地標規則，對 y 使用一種地標規則，以便即時圖像保持可見運動的基礎。"
+    },
+    "guidedSteps": [
+      {
+        "id": "slide-the-parent-curve",
+        "title": "滑動父曲線",
+        "goal": "在新增更多選項之前，請將父曲線和變換後的曲線視為相同的形狀。",
+        "doThis": "左右移動水平移動，同時頂點標記保持可見。",
+        "notice": "整個曲線一起移動，並且地標 x 位置在涉及任何垂直效果之前發生變化。",
+        "explain": "內部移位會改變輸入首先落在 x 上的位置，因此頂點的可見移動是最容易追蹤的東西。",
+        "inlineCheck": {
+          "title": "預測下一個水平移動"
+        }
+      },
+      {
+        "id": "separate-vertical-effects",
+        "title": "分離垂直效果",
+        "goal": "區分垂直位移和垂直比例，同時相同的地標保持在視野中。",
+        "doThis": "一次更改一個垂直位移和垂直比例，然後將函數圖與高度圖進行比較。",
+        "notice": "平移將整個圖像提升到一起，但比例會改變點與軸的距離。",
+        "explain": "選擇 x 位置後，外部變更會作用於 y 值，因此它們會移動或重新縮放輸出，而不是更改輸入位置。",
+        "inlineCheck": {
+          "title": "讀取變換後的地標"
+        }
+      },
+      {
+        "id": "explain-a-reflection",
+        "title": "解釋一下反射",
+        "goal": "描述當函數內部的符號翻轉時會發生什麼變化。",
+        "doThis": "在回答快速檢查之前，切換 y 軸反射並將其與另一個水平移動進行比較。",
+        "notice": "鏡像圖保持相同的距離模式，但地標點在軸上交換兩側。",
+        "explain": "反射會在 y 軸上翻轉輸入位置，這與簡單地向左或向右平移圖像不同。",
+        "inlineCheck": {
+          "title": "檢視標誌故事"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "內部變更會移到圖像計算 y 之前讀取 x 的位置。",
+        "選擇輸入後，外部變更會移動或重新縮放 y 值。",
+        "反射會改變出現相同地標的軸的一側，而不僅僅是整個圖像的位置。"
+      ],
+      "misconception": "括號內的正向改變不只是左右口號；這是 x 值提供給函數的變化。",
+      "freePlayPrompt": "保持參考曲線可見，並發明一個無需先查看公式即可描述的轉換故事。",
+      "nextConcepts": [
+        {
+          "slug": "rational-functions-asymptotes-and-behavior",
+          "title": "有理函數/漸近線與行為",
+          "reasonLabel": "相同的圖像閱讀習慣"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -289,22 +361,36 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "函數圖",
+      "primaryGraphIds": [
+        "函數圖"
+      ],
+      "primaryControlIds": [
+        "水平移動"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "horizontal-shift",
-        "label": "水平移動"
+        "label": "水平移動",
+        "description": "透過變更所選 x 地標的著陸位置來向左或向右移動變換後的圖像。"
       },
       {
         "id": "vertical-shift",
-        "label": "垂直移動"
+        "label": "垂直移動",
+        "description": "在垂直刻度作用後，將變換後的圖像向上或向下移動。"
       },
       {
         "id": "vertical-scale",
-        "label": "垂直比例"
+        "label": "垂直比例",
+        "description": "沿 x 軸拉伸、壓縮或反射圖像。"
       },
       {
         "id": "mirror-y",
-        "label": "沿y軸反射"
+        "label": "沿y軸反射",
+        "description": "在水平移動生效之前，沿著 y 軸左右反轉圖像。"
       }
     ],
     "presets": [
@@ -315,14 +401,229 @@
       {
         "id": "reflected-right",
         "label": "反轉並向右移動"
+      },
+      {
+        "id": "baseline",
+        "label": "基礎圖"
+      },
+      {
+        "id": "compressed-left",
+        "label": "向左壓縮"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "referenceCurve",
+        "label": "參考曲線",
+        "shortDescription": "保持基本圖在轉換後的圖後面可見。",
+        "whatToNotice": [
+          "轉換後的圖像始終與相同的原始形狀進行比較。",
+          "當基曲線停留在螢幕上時，y 軸反射最容易讀取。"
+        ],
+        "whyItMatters": "固定參考圖使參數效果可讀而非抽象。",
+        "relatedControls": [
+          "水平移動",
+          "垂直縮放",
+          "鏡子Y"
+        ],
+        "relatedGraphTabs": [
+          "函數圖"
+        ],
+        "relatedEquationVariables": [
+          "鏡像輸入",
+          "水平移動"
+        ]
+      },
+      {
+        "id": "vertexMarkers",
+        "label": "頂點標記",
+        "shortDescription": "標記基礎頂點和變換後的頂點。",
+        "whatToNotice": [
+          "變換後的頂點遵循內部水平移動和外部垂直移動。",
+          "頂點是檢視轉變或反射故事是否正確的最快地標。"
+        ],
+        "relatedControls": [
+          "水平移動",
+          "垂直移位",
+          "垂直縮放"
+        ],
+        "relatedGraphTabs": [
+          "函數圖",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "水平移動",
+          "垂直移位",
+          "垂直比例"
+        ]
+      },
+      {
+        "id": "shiftGuide",
+        "label": "換檔指南",
+        "shortDescription": "顯示地標如何從基礎頂點水平和垂直移動。",
+        "whatToNotice": [
+          "水平放置首先設定 x 位置，然後垂直縮放和移位設定最終高度。",
+          "負垂直比例可以在添加垂直平移之前翻轉高度。"
+        ],
+        "relatedControls": [
+          "水平移動",
+          "垂直移位",
+          "垂直縮放"
+        ],
+        "relatedGraphTabs": [
+          "函數圖"
+        ],
+        "relatedEquationVariables": [
+          "水平移動",
+          "垂直移位",
+          "垂直比例"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "function-graph",
+      "label": "功能圖",
+      "xLabel": "x",
+      "yLabel": "是",
+      "description": "比較同一軸上的基礎曲線和變換曲線，以便地標移動保持可見。"
+    },
+    {
+      "id": "vertex-height-map",
+      "label": "頂點高度與垂直比例",
+      "xLabel": "一個",
+      "yLabel": "y 頂點",
+      "description": "顯示更改垂直比例如何變更目前垂直移位的變換頂點高度。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "當路標開始打滑時，請使用這些提示。每一個都指向圖像上的一個可見地標。",
+    "items": [
+      {
+        "id": "gt-notice-horizontal",
+        "text": "僅更改水平移動，觀察變換後的頂點向側面滑動，同時其高度保持固定。",
+        "relatedControls": [
+          "水平移動"
+        ],
+        "relatedGraphTabs": [
+          "函數圖"
+        ],
+        "relatedOverlays": [
+          "頂點標記",
+          "移位指南"
+        ],
+        "relatedEquationVariables": [
+          "水平移動"
+        ]
+      },
+      {
+        "id": "gt-notice-negative-a",
+        "text": "當垂直比例變成負值時，圖像會在垂直平移放置前沿著 x 軸翻轉。",
+        "relatedControls": [
+          "垂直縮放",
+          "垂直移位"
+        ],
+        "relatedGraphTabs": [
+          "函數圖",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "垂直比例",
+          "垂直移位"
+        ]
+      },
+      {
+        "id": "gt-notice-mirror-y",
+        "text": "在水平移動發生之前，打開 y 軸反射並將基本頂點與反射的內部地標進行比較。",
+        "relatedControls": [
+          "鏡子Y",
+          "水平移動"
+        ],
+        "relatedGraphTabs": [
+          "函數圖"
+        ],
+        "relatedOverlays": [
+          "參考曲線",
+          "頂點標記"
+        ],
+        "relatedEquationVariables": [
+          "鏡像輸入",
+          "水平移動"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測地標移動",
+    "intro": "在應用新變換之前先進行地標移動。",
     "items": [
       {
         "id": "gt-predict-mirror-y",
-        "scenarioLabel": "沿y軸反射"
+        "prompt": "如果打開 y 軸反射而不更改任何其他控件，首先會發生什麼？",
+        "scenarioLabel": "沿y軸反射",
+        "changeLabel": "開啟鏡像Y",
+        "choices": [
+          {
+            "id": "a",
+            "label": "在水平移動放置基礎圖之前，它會反轉基本圖的左右方向。"
+          },
+          {
+            "id": "b",
+            "label": "它會自動將垂直刻度改為負值。"
+          },
+          {
+            "id": "c",
+            "label": "它將圖像向上提升一個單位。"
+          }
+        ],
+        "explanation": "內部輸入反轉左右方向。它本身不會改變垂直比例或垂直移位。",
+        "observationHint": "一起使用參考曲線和目前頂點標記。"
+      },
+      {
+        "id": "gt-predict-right",
+        "prompt": "如果 $h$ 增加而其他一切保持不變，則變換後的頂點首先會發生什麼？",
+        "scenarioLabel": "增加水平移動",
+        "changeLabel": "增加 h",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它向右移動，同時保持相同的高度。"
+          },
+          {
+            "id": "b",
+            "label": "它向上移動，因為內部符號改變。"
+          },
+          {
+            "id": "c",
+            "label": "它沿著 x 軸反射。"
+          }
+        ],
+        "explanation": "僅變更 $h$ 會水平移動圖像。頂點高度保持固定，直到 $a$ 或 $k$ 改變。",
+        "observationHint": "追蹤變換後的頂點標記，而不是單獨追蹤公式中的符號。"
+      },
+      {
+        "id": "gt-predict-negative-a",
+        "prompt": "如果$a$隨著$|a| > 1$從正變負，最清楚的視覺結果是什麼？",
+        "scenarioLabel": "翻轉垂直刻度",
+        "changeLabel": "做一個負數",
+        "choices": [
+          {
+            "id": "a",
+            "label": "此圖反映了 x 軸並變得更陡。"
+          },
+          {
+            "id": "b",
+            "label": "圖像向右移動，但保持相同的方向。"
+          },
+          {
+            "id": "c",
+            "label": "此圖僅反映 y 軸。"
+          }
+        ],
+        "explanation": "負垂直比例反映了 x 軸上的圖像，大於 1 的幅度會使反射圖像更陡峭。",
+        "observationHint": "一起觀察開口方向和頂點高度。"
       }
     ]
   },
@@ -355,8 +656,21 @@
           {
             "label": "讓轉換後的頂點 y 值落在 $2.25$ 到 $2.55$ 之間。"
           }
-        ]
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "圖轉換",
+    "description": "透過即時變換圖和基於地標的工作範例探索水平移位、垂直移位、垂直比例和反射。",
+    "keywords": [
+      "圖像轉換",
+      "函數轉換",
+      "水平移動",
+      "垂直移位",
+      "垂直拉伸",
+      "反射"
     ]
   }
 }

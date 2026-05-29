@@ -67,26 +67,32 @@
           "steps": [
             {
               "id": "topology-rule",
-              "label": "1. 開始於活躍的拓撲結構"
+              "label": "1. 開始於活躍的拓撲結構",
+              "template": "此設定使用 {{topologyLabelValue}}，因此 ${{equivalentRuleValue}}$。"
             },
             {
               "id": "substitute-live-values",
-              "label": "2. 現在將螢幕上的電阻值代入"
+              "label": "2. 現在將螢幕上的電阻值代入",
+              "template": "與 $R_A = {{resistanceAValue}}$ 和 $R_B = {{resistanceBValue}}$、${{equivalentSubstitutionValue}}$，所以 $R_{\\text{eq}} = {{equivalentResistanceValue}}$。"
             },
             {
               "id": "whole-circuit-ohms-law",
-              "label": "3. 在整個電路中使用歐姆定律"
+              "label": "3. 在整個電路中使用歐姆定律",
+              "template": "$I_{\\text{total}} = \\dfrac{V}{R_{\\text{eq}}} = \\dfrac{{voltageValue}}{ {{equivalentResistanceValue}} }$。"
             },
             {
               "id": "total-current-result",
-              "label": "4. 計算總電流"
+              "label": "4. 計算總電流",
+              "template": "這給了$I_{\\text{total}} = {{totalCurrentValue}}$。"
             }
           ],
           "resultLabel": "等效電阻和總電流",
+          "resultTemplate": "$R_{\\text{eq}} = {{equivalentResistanceValue}}, \\quad I_{\\text{total}} = {{totalCurrentValue}}$",
           "applyAction": {
             "label": "顯示不均勻的分段分割符",
             "observationHint": "迴路電流透過兩個電阻保持一致，但較大的電阻會取得更多的來源電壓份額。"
-          }
+          },
+          "interpretationTemplate": "{{equivalentInterpretation}}"
         },
         {
           "id": "branch-b-current-and-voltage",
@@ -100,31 +106,41 @@
             {
               "id": "resistanceB",
               "label": "電阻B"
+            },
+            {
+              "id": "totalCurrent",
+              "label": "總電流"
             }
           ],
           "steps": [
             {
               "id": "branch-current-rule",
-              "label": "1. 使用電阻 B 的實時拓樸規則"
+              "label": "1. 使用電阻 B 的實時拓樸規則",
+              "template": "${{branchCurrentRuleValue}}$"
             },
             {
               "id": "branch-current-substitute",
-              "label": "2. 代入實時值"
+              "label": "2. 代入實時值",
+              "template": "${{branchCurrentSubstitutionValue}}$，所以$I_B = {{branchBCurrentValue}}$。"
             },
             {
               "id": "branch-voltage-rule",
-              "label": "3. 寫出匹配的電壓關係"
+              "label": "3. 寫出匹配的電壓關係",
+              "template": "${{branchVoltageRuleValue}}$"
             },
             {
               "id": "branch-voltage-substitute",
-              "label": "4. 完成支路 B 的電壓"
+              "label": "4. 完成支路 B 的電壓",
+              "template": "${{branchVoltageSubstitutionValue}}$，所以$V_B = {{branchBVoltageValue}}$。"
             }
           ],
           "resultLabel": "支路 B 電流和電壓",
+          "resultTemplate": "$I_B = {{branchBCurrentValue}}, \\quad V_B = {{branchBVoltageValue}}$",
           "applyAction": {
             "label": "顯示支路分叉",
             "observationHint": "並聯時，藍色支路保持完整的電池電壓，但因為其阻抗較大而流過的電流較少。"
-          }
+          },
+          "interpretationTemplate": "{{branchBInterpretation}}"
         }
       ]
     },
@@ -307,6 +323,79 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "保持一顆電池和兩個電阻器在視野中，同時電流、電壓、電阻、歐姆定律以及串聯和並聯之間的對比都與一個可靠的電路相關聯。",
+    "whyItMatters": "這是後來每個電路想法的基本模型：一旦您可以一起讀取一個電池、兩個電阻器、等效電阻和支路電流，分壓器和電路電源就不再那麼神秘了。",
+    "keyTakeaway": "對於一個固定電路，歐姆定律意味着電流與電壓成線性關係，與等效電阻成反比。"
+  },
+  "v2": {
+    "intuition": "基本電路是一條閉合路徑，其中電池設定電推力，等效電阻設定可以流過的電流量。系列提供充電一條路徑；並聯為它提供了跨同一電池的多條路徑。",
+    "whyItMatters": "如果您可以將電壓、電流、電阻和拓撲與一張即時圖片聯繫起來，那麼以後的電路想法就會變成您已經信任的模型的變體，而不是需要記住單獨的公式。",
+    "equationSnapshot": {
+      "note": "從拓樸開始找到電池看到的一位數電阻，然後使用歐姆定律將此負載連接到總電流。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-series-loop",
+        "title": "讀取一系列循環",
+        "goal": "在進行任何變更之前，請連接電池、等效電阻和一個共享迴路電流。",
+        "doThis": "從匹配的串聯對開始，保持電流箭頭和壓降標籤打開，並一起讀取電池電壓、等效電阻和總電流。",
+        "notice": "由於只有一條路徑，兩個電阻器承載相同的電流，而電池電壓則在兩個電壓降之間共用。",
+        "explain": "串聯時，電阻會加到一個更大的負載中，因此歐姆定律使用該等效電阻來設定單迴路電流。"
+      },
+      {
+        "id": "change-the-push",
+        "title": "更改推送",
+        "goal": "使用電流圖將歐姆定律視為一個固定電路的比例關係。",
+        "doThis": "加載低電壓檢查，然後將其與電阻值相同但電池電壓較高的匹配串聯對進行比較。",
+        "notice": "循環保持不變，因此電流標籤隨電池電壓縮放，而不是隨機改變形狀。",
+        "explain": "對於固定的等效電阻，歐姆定律是線性的：電池電壓加倍，同一迴路中各處的電流加倍。"
+      },
+      {
+        "id": "split-into-branches",
+        "title": "分成分支",
+        "goal": "將拓樸的影響與改變電阻值的影響分開。",
+        "doThis": "從匹配的串聯對切換到匹配的並聯對，同時保持電池和電阻值不變。開啟電壓共享圖和節點指南。",
+        "notice": "每個支路都保持滿電池電壓，並且由於等效電阻變小，總電流上升。",
+        "explain": "並聯支路不會像串聯電阻那樣劃分電電源電壓。它們在相同的兩個節點之間建立多個路徑，因此分支電流會增加更大的總電流。"
+      },
+      {
+        "id": "judge-the-circuit-story",
+        "title": "判斷電路故事",
+        "goal": "說明電路變化是否會影響電壓共享、電流共享、等效電阻或同時影響其中多個。",
+        "doThis": "將不均勻串聯分壓器與分支分裂進行比較，然後嘗試挑戰：保持電阻值匹配並使每個分支獲得完整的電池電壓。",
+        "notice": "一旦拓樸發生變化，相同的兩個電阻值可能意味著非常不同的總電流和電壓標籤。",
+        "explain": "有用的電路解釋從拓撲開始，命名電池看到的等效電阻，然後使用歐姆定律和分支規則來解釋標籤。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "歐姆定律將電池電壓、等效電阻和帶電電路的總電流連結起來。",
+        "串聯電阻共享一個環路電流，並在其壓降上分流電源電壓。",
+        "每個並聯支路都跨越整個電池電壓，而它們的支路電流則添加到總電流中。",
+        "即使電池和電阻值不變，改變拓樸也會改變等效電阻。"
+      ],
+      "misconception": "不要將電流視為每個電阻都會耗盡的東西。在穩定的串聯迴路中，電流到處都是相同的；電壓降說明了每次充電的能量。",
+      "freePlayPrompt": "在觸控控制之前，預測您的變更是否會影響電池推動、等效電阻、電流共享或電壓共享。",
+      "nextConcepts": [
+        {
+          "slug": "series-parallel-circuits",
+          "title": "串並聯電路",
+          "reasonLabel": "將單環路和兩個分支的想法擴展到混合電阻網路。"
+        },
+        {
+          "slug": "equivalent-resistance",
+          "title": "等效電阻",
+          "reasonLabel": "練習將電路結構簡化為一個源看到的負載。"
+        },
+        {
+          "slug": "power-energy-circuits",
+          "title": "電路中的功率與能量",
+          "reasonLabel": "使用相同的電壓和電流讀數來推理能量轉移。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "ohms-law",
@@ -357,27 +446,377 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "目前地圖",
+      "primaryGraphIds": [
+        "目前地圖",
+        "均壓"
+      ],
+      "primaryControlIds": [
+        "電壓",
+        "平行模式",
+        "電阻B"
+      ],
+      "primaryPresetIds": [
+        "配套系列",
+        "匹配並行",
+        "分支分裂",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "voltage",
-        "label": "電池電壓"
+        "label": "電池電壓",
+        "description": "在不改變電阻值的情況下增加電池的推動力。"
       },
       {
         "id": "resistanceA",
-        "label": "電阻A"
+        "label": "電阻A",
+        "description": "設定串聯迴路或上部並聯支路中的琥珀色電阻。"
       },
       {
         "id": "resistanceB",
-        "label": "電阻B"
+        "label": "電阻B",
+        "description": "設定藍色電阻，讓您測試不等串聯分流和不等並聯電流分流。"
+      },
+      {
+        "id": "parallelMode",
+        "label": "使用平行分支",
+        "description": "關閉保持一系列循环。打開可對同一電池的兩個分支進行充電。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "matched-series",
+        "label": "配套系列对",
+        "description": "一个回路中的两个相等的电阻使电流和电壓共享易于讀取。"
+      },
+      {
+        "id": "matched-parallel",
+        "label": "匹配的並联对",
+        "description": "相同的兩個電阻現在並聯，因此每個分支都能看到完整的電池電壓。"
+      },
+      {
+        "id": "uneven-series-divider",
+        "label": "不均匀系列分隔線",
+        "description": "一个小的和一个大的串联电阻显示出相等的电流但不相等的壓降。"
+      },
+      {
+        "id": "branch-split",
+        "label": "分支分裂",
+        "description": "不等並聯支路保持相同的電壓，但拉動不同的電流。"
+      },
+      {
+        "id": "low-voltage-check",
+        "label": "低电壓检查",
+        "description": "較小的電池使相同的匹配串聯對拉出一半的電流。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "currentArrows",
+        "label": "目前箭頭",
+        "shortDescription": "直接在电路上显示總电流和支路电流。",
+        "whatToNotice": [
+          "串联显示各处都有一个环路电流，而並联则显示一个總电流，该總电流分為支路电流並重新组合。"
+        ],
+        "whyItMatters": "電流方向和均流保持與一個可靠的電路相關，而不是漂移到斷開的數字。",
+        "relatedControls": [
+          "電壓",
+          "電阻A",
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻A",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "voltageDrops",
+        "label": "電壓下降",
+        "shortDescription": "標示舞台上的電池電壓和電阻或支路電壓。",
+        "whatToNotice": [
+          "串聯時共享電電源電壓，但並聯時每個分支保持完整的電池電壓。"
+        ],
+        "whyItMatters": "電壓成為電路周圍的真正差異，而不是一個獨立的符號。",
+        "relatedControls": [
+          "電壓",
+          "電阻A",
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻A",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "nodeGuide",
+        "label": "節點指南",
+        "shortDescription": "標記共享節點電壓，解釋並聯的相等支路電壓和串聯的內部節點。",
+        "whatToNotice": [
+          "兩個並聯電阻器連接在相同的頂部和底部節點上，因此它們必須共享相同的支路電壓。"
+        ],
+        "whyItMatters": "節點思維有助於電壓感覺像是位置與位置之間的差異，而不是附著在一個電阻上的神秘屬性。",
+        "relatedControls": [
+          "平行模式",
+          "電阻A",
+          "電阻B"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedEquationVariables": [
+          "電阻A",
+          "電阻B"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "current-map",
+      "label": "欧姆定律电流圖",
+      "xLabel": "电池电壓（V）",
+      "yLabel": "電流（A）",
+      "description": "掃描電池電壓，同時保持電阻值和拓撲固定。直線表明，對於一個固定電路，電流隨電壓線性變化。"
+    },
+    {
+      "id": "voltage-share",
+      "label": "電壓共享與電阻器 B",
+      "xLabel": "电阻 B（欧姆）",
+      "yLabel": "電阻器或支路兩端的電壓 (V)",
+      "description": "僅掃描電阻 B，同時保持電池和電阻 A 固定。串聯時，電壓份額取決於電阻比，而並聯時，兩個支路都保持在電池電壓。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "將每個提示用作簡短的調查。進行更改，然後將電路在舞台上顯示的內容與圖像顯示的內容連接起來。",
+    "items": [
+      {
+        "id": "bc-notice-ohms-law-line",
+        "text": "對於一個固定電路，電流圖保持線性，因為電流與電壓成正比。",
+        "tryThis": "打開電流圖，將滑鼠懸停在較低的電壓上，然後再懸停在較高的電壓上，然後比較舞台上每個電流標籤如何以相同的直線趨勢進行縮放。",
+        "whyItMatters": "這是在添加額外的電路複雜度之前歐姆定律最清晰的圖像版本。",
+        "relatedControls": [
+          "電壓"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedOverlays": [
+          "目前箭頭"
+        ],
+        "relatedEquationVariables": [
+          "電壓"
+        ]
+      },
+      {
+        "id": "bc-notice-series-current",
+        "text": "串聯時，相同的迴路電流流經兩個電阻。改變任一電阻器都會改變環路中各處相同的電流。",
+        "tryThis": "保持在相符的系列預設中，然後僅向上拖曳電阻器 B，觀察兩個目前標籤一起收縮。",
+        "whyItMatters": "它可以防止將電流視為部分被第一個電阻器消耗的量的常見錯誤。",
+        "relatedControls": [
+          "電阻A",
+          "電阻B",
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖"
+        ],
+        "relatedOverlays": [
+          "目前箭頭"
+        ],
+        "relatedEquationVariables": [
+          "電阻A",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "bc-notice-parallel-voltage",
+        "text": "在並聯模式下，兩個支路連接在相同的兩個節點上，因此即使支路電流不同，每個支路也能保持完整的電池電壓。",
+        "tryThis": "切換到分支分割預設，並將平坦的分壓線與舞台上的不等電流箭頭進行比較。",
+        "whyItMatters": "只有當相等的支路電壓和不等的支路電流可以共存於同一張圖中時，並聯電路才變得直觀。",
+        "relatedControls": [
+          "平行模式",
+          "電阻B"
+        ],
+        "relatedGraphTabs": [
+          "均壓"
+        ],
+        "relatedOverlays": [
+          "電壓下降",
+          "節點指南"
+        ],
+        "relatedEquationVariables": [
+          "電壓",
+          "電阻B"
+        ]
+      },
+      {
+        "id": "bc-notice-topology-switch",
+        "text": "從串聯切換到並聯不會增加更多的電池電壓。它改變了電池的等效電阻。",
+        "tryThis": "僅切換拓撲，同時電池和電阻值保持固定。觀察讀數卡片：電池保持不變，但 R_eq 和 I_total 立即跳躍。",
+        "whyItMatters": "許多初學者的錯誤來自於將電流增加歸咎於更強的電源而不是更小的等效電阻。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖",
+          "均壓"
+        ],
+        "relatedOverlays": [
+          "目前箭頭",
+          "節點指南"
+        ]
+      },
+      {
+        "id": "bc-notice-compare-mode",
+        "text": "當兩種設定保持相同的電池和電阻值但使用不同的拓撲時，比較模式在這裡最有用。",
+        "tryThis": "將匹配的串聯設定克隆到設定 B 中，僅將設定 B 切換為並聯，然後比較幻影電路、讀數標記和虛線圖。",
+        "whyItMatters": "這將拓樸隔離為因果變化，而不是同時將拓樸變化與電阻變化混合在一起。",
+        "relatedControls": [
+          "平行模式"
+        ],
+        "relatedGraphTabs": [
+          "目前地圖",
+          "均壓"
+        ],
+        "relatedOverlays": [
+          "目前箭頭",
+          "電壓下降"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測電路響應。每種情況每次都會改變一個原因，因此您可以追蹤電壓、電流和等效電阻之間的關係。",
     "items": [
       {
         "id": "bc-pred-raise-voltage",
-        "changeLabel": "電壓"
+        "prompt": "從低壓串聯檢查來看，如果電池從 6 V 上升到 12 V，而兩個串聯電阻保持在 6 歐姆，會發生什麼？",
+        "scenarioLabel": "提高電池電壓",
+        "changeLabel": "電壓",
+        "choices": [
+          {
+            "id": "a",
+            "label": "總電流加倍，因為相同的 12 歐姆串聯負載現在兩端的電壓是原來的兩倍。"
+          },
+          {
+            "id": "b",
+            "label": "總電流不變，因為電阻沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "只有分壓圖發生變化，因為電流只取決於電阻。"
+          }
+        ],
+        "explanation": "對於一個固定電阻，歐姆定律是線性的。將電池電壓加倍會使同一串聯迴路中各處的電流加倍。",
+        "observationHint": "電流圖上的線條保持相同的斜率系列，並且即時電流標籤從 0.5 A 跳到 1 A。"
+      },
+      {
+        "id": "bc-pred-switch-parallel",
+        "prompt": "如果相同的 6 歐姆和 6 歐姆對在 12 V 下從串聯切換到並聯，哪種說法最有道理？",
+        "scenarioLabel": "切換到並行",
+        "changeLabel": "拓撲",
+        "choices": [
+          {
+            "id": "a",
+            "label": "等效電阻下降，總電流上升，每個支路保持滿 12V。"
+          },
+          {
+            "id": "b",
+            "label": "等效電阻不變，但電池電壓在支路之間分成兩半。"
+          },
+          {
+            "id": "c",
+            "label": "總電流下降，因為現在有兩個電阻器而不是一個迴路。"
+          }
+        ],
+        "explanation": "並聯分支降低了電池的等效電阻。相同的電電源電壓現在驅動更大的總電流，每個分支仍然跨越完整的電池電壓。",
+        "observationHint": "比較匹配的串聯和匹配的並聯預設：電池電量不變，而 R_eq 和 I_total 則不變。"
+      },
+      {
+        "id": "bc-pred-raise-rb-series",
+        "prompt": "在 VIN = 12 V 且 R_A = 4 歐姆的串聯模式下，如果 R_B 從 4 歐姆增加到 12 歐姆，會發生什麼情況？",
+        "scenarioLabel": "增加電阻B",
+        "changeLabel": "電阻",
+        "choices": [
+          {
+            "id": "a",
+            "label": "總電流下降，電阻器 B 佔據電電源電壓的較大份額。"
+          },
+          {
+            "id": "b",
+            "label": "總電流上升，因為電阻器 B 現在儲存了更多電荷。"
+          },
+          {
+            "id": "c",
+            "label": "電流保持固定，但電阻器 A 佔據較大的電壓份額。"
+          }
+        ],
+        "explanation": "提高一個串聯電阻會提高等效電阻，因此相同的電池驅動更少的環路電流。當流過兩個電阻的電流相同時，電阻越大，壓降越大。",
+        "observationHint": "電流箭頭一起收縮，藍色電壓標籤比琥珀色電壓標籤變大。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的緊湊型電池電阻模型來建構電路目標。檢查來自即時舞台，而不是單獨的答案鍵。",
+    "items": [
+      {
+        "id": "bc-ch-full-voltage-parallel-pair",
+        "title": "建構全電壓並聯對",
+        "prompt": "從匹配的串聯對開始，僅更改所需的電路結構，以便每個分支獲得完整的電池電壓，總電流約為 4 A。",
+        "successMessage": "您將一個共用串聯迴路變成了真正的並聯對。支路電壓保持在電池值，而較小的等效電阻提高了總電流。",
+        "setup": {
+          "note": "重新連接相等線對時，請同時使用均壓圖和節點指南。"
+        },
+        "hints": [
+          "保持電阻值匹配。目標來自改變拓撲，而不是改變負載值。",
+          "如果每個支路保持滿電池電壓，則總電流應躍升至串聯環路值之上。"
+        ],
+        "targets": [
+          {
+            "label": "將電阻保持在 5.8 歐姆和 6.2 歐姆之間。"
+          },
+          {
+            "label": "將電阻 b 保持在 5.8 歐姆和 6.2 歐姆之間。"
+          },
+          {
+            "label": "將等效電阻保持在 2.9 歐姆和 3.1 歐姆之間。"
+          },
+          {
+            "label": "將總電流保持在 3.9 A 和 4.1 A 之間。"
+          },
+          {
+            "label": "將支路電壓保持在 11.8 V 和 12.2 V 之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "基本電路 |開放模型實驗室",
+    "description": "透過一個有限的電池和電阻器實驗室、引導覆蓋、預測提示和概念性快速測試，了解電流、電壓、電阻、歐姆定律以及串聯和並聯電路之間的差異。",
+    "keywords": [
+      "基本電路",
+      "歐姆定律",
+      "串聯電路",
+      "並聯電路",
+      "電壓與電流"
     ]
   }
 }

@@ -67,22 +67,27 @@
           "steps": [
             {
               "id": "matrix-columns",
-              "label": "1. 直接讀取矩陣的列"
+              "label": "1. 直接讀取矩陣的列",
+              "template": "矩陣列是 $\\langle 1, 0 \\rangle$ 和 $\\langle 1, 1 \\rangle$。"
             },
             {
               "id": "basis-1-image",
-              "label": "2. 將其應用於第一個基底向量"
+              "label": "2. 將其應用於第一個基底向量",
+              "template": "因為$e_1 = \\langle 1, 0 \\rangle$，第一列是它的影像，所以$M e_1 = \\langle 1, 0 \\rangle$。"
             },
             {
               "id": "basis-2-image",
-              "label": "3. 將其應用於第二基底向量"
+              "label": "3. 將其應用於第二基底向量",
+              "template": "因為$e_2 = \\langle 0, 1 \\rangle$，第二列是它的影像，所以$M e_2 = \\langle 1, 1 \\rangle$。"
             }
           ],
           "resultLabel": "當前基底像點",
+          "resultTemplate": "$M e_1 = \\langle 1, 0 \\rangle, \\quad M e_2 = \\langle 1, 1 \\rangle$",
           "applyAction": {
             "label": "應用剪下情況",
             "observationHint": "第一列靠近 x 軸，而第二列向右傾斜。"
-          }
+          },
+          "interpretationTemplate": "第一基本方向保持不變，而第二基本方向向右傾斜，因此單位正方形變成向右傾斜的平行四邊形。"
         },
         {
           "id": "send-the-tracked-point-through-the-matrix",
@@ -109,22 +114,27 @@
           "steps": [
             {
               "id": "write-the-rule",
-              "label": "1. 使用矩陣作用於一般點"
+              "label": "1. 使用矩陣作用於一般點",
+              "template": "$M\\langle x, y \\rangle = \\langle ax + by, cx + dy \\rangle$。"
             },
             {
               "id": "plug-in-point",
-              "label": "2. 代入追蹤點"
+              "label": "2. 代入追蹤點",
+              "template": "對於 $p = \\langle 1.6, 1.1 \\rangle$，新的 x 值為 $-1(1.6) + 0(1.1) = -1.6$。"
             },
             {
               "id": "finish-point",
-              "label": "3. 完成 y 值"
+              "label": "3. 完成 y 值",
+              "template": "新的 y 值為 $0(1.6) + 1(1.1) = 1.1$。"
             }
           ],
           "resultLabel": "追蹤點像點",
+          "resultTemplate": "$M p = \\langle -1.6, 1.1 \\rangle$",
           "applyAction": {
             "label": "應用反射情況",
             "observationHint": "由於第一個基底方向已翻轉，追蹤點會移至對側。"
-          }
+          },
+          "interpretationTemplate": "這裡只有 x 方向翻轉符號，因此點在 y 軸上鏡像，同時保持相同的高度。"
         }
       ]
     },
@@ -156,7 +166,11 @@
             "label": "它們只是用來記錄數值，因此幾何影像是獨立的。"
           }
         ],
-        "explanation": "正因如此，這兩列已經決定了單位正方形和整個變換後網格的樣子。"
+        "explanation": "正因如此，這兩列已經決定了單位正方形和整個變換後網格的樣子。",
+        "selectedWrongExplanations": {
+          "b": "柱作用於整個平面，而不僅僅是範例三角形。",
+          "c": "矩陣項是基本向量著陸位置的幾何指令。"
+        }
       },
       {
         "id": "mt-qt-shear",
@@ -175,7 +189,11 @@
             "label": "把兩個對角元素都設為零。"
           }
         ],
-        "explanation": "這樣會把 $e_2$ 向右傾斜，同時讓 $e_1$ 仍接近原本的方向。"
+        "explanation": "這樣會把 $e_2$ 向右傾斜，同時讓 $e_1$ 仍接近原本的方向。",
+        "selectedWrongExplanations": {
+          "a": "更改第一列 x 條目會更改 e1 的圖像，而不是預期的第二列剪切。",
+          "c": "將兩條對角線歸零會折疊基本比例方向，而不是建立乾淨的右剪切。"
+        }
       },
       {
         "id": "mt-qt-reflection",
@@ -194,7 +212,57 @@
             "label": "反射需要第三個維度，網格才會察覺。"
           }
         ],
-        "explanation": "這個工作台展示的是同一個矩陣如何作用於整個平面，而不是隻有某個圖形收到特殊待遇。"
+        "explanation": "這個工作台展示的是同一個矩陣如何作用於整個平面，而不是隻有某個圖形收到特殊待遇。",
+        "selectedWrongExplanations": {
+          "a": "追蹤點並非特殊；相同的平面變換適用於任何地方。",
+          "b": "2D 反射在網格和基礎向量中已經可見。"
+        }
+      },
+      {
+        "id": "mt-qt-diagonal-scale",
+        "prompt": "如果兩個非對角線條目都保持在零附近，而對角線條目大於 1，那麼最乾淨的平面讀數是多少？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "平面必須變成反射，因為只有對角線發生了變化。"
+          },
+          {
+            "id": "b",
+            "label": "基本方向保持其軸，但平面沿著這些相同的方向延伸。"
+          },
+          {
+            "id": "c",
+            "label": "除非剪下項非零，否則單位正方形無法變更。"
+          }
+        ],
+        "explanation": "隨著非對角線目的安靜，列保持與軸對齊，可見的變化是軸對齊的拉伸或壓縮。",
+        "selectedWrongExplanations": {
+          "a": "反射來自於方向上的符號翻轉，而不是來自每個對角線的變化。",
+          "c": "即使沒有剪切，單位正方形也可以拉長。"
+        }
+      },
+      {
+        "id": "mt-qt-basis-first",
+        "prompt": "為什麼先讀取基底向量比從一個變換後的樣本點開始更好？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為樣本點完全忽略了矩陣。"
+          },
+          {
+            "id": "b",
+            "label": "因為變換後的形狀從不依賴矩陣的列。"
+          },
+          {
+            "id": "c",
+            "label": "因為基底向量定義了整個平面動作，所以所有其他變換後的形狀都遵循它們。"
+          }
+        ],
+        "explanation": "一旦知道 e1 和 e2 落在哪裡，變換後的網格、正方形、三角形和探測點都會遵循相同的矩陣操作。",
+        "selectedWrongExplanations": {
+          "a": "取樣點仍然會回應相同的矩陣動作。",
+          "b": "這些列正是設定轉換後的基礎方向的內容。"
+        }
       }
     ]
   },
@@ -231,6 +299,53 @@
         }
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "使用一個 2 x 2 矩陣作為整個平面上的可見動作：讀取基底向量列，然後觀察網格、單位正方形和樣本三角形一起拉伸、剪切或反射。",
+    "keyTakeaway": "矩陣的列是基底向量的圖像，因此它們已經告訴您單位正方形和網格將如何傾斜、拉伸或反射。"
+  },
+  "v2": {
+    "intuition": "將矩陣列視為兩個基底向量著陸點，然後觀察整個平面遵循這兩個移動。",
+    "whyItMatters": "當每個條目在網格、正方形和樣本形狀上都有可見的工作時，矩陣變換不再感覺像表格算術。",
+    "equationSnapshot": {
+      "title": "列優先地圖",
+      "note": "在追蹤單點之前閱讀各列。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-two-columns",
+        "title": "閱讀兩列",
+        "goal": "在觀察範例三角形之前，先命名兩個基底向量落在的位置。",
+        "doThis": "保持基底向量和單位平方可見，然後比較第一和第二矩陣列。",
+        "notice": "顯示的兩個基本箭頭已經預測了單位正方形如何傾斜、拉伸或翻轉。",
+        "explain": "2 x 2 矩陣是整個平面的規則，因為 e1 和 e2 的圖像定義了每個線性組合。"
+      },
+      {
+        "id": "make-a-shear-visible",
+        "title": "使剪刀可見",
+        "goal": "更改一個非對角線條目並解釋為什麼正方形傾斜而不是簡單地縮放。",
+        "doThis": "應用右剪切設定，然後在第一列保持錨定的同時抬起第二列 x 條目。",
+        "notice": "頂部邊緣向側面滑動，單位正方形變成平行四邊形，而網格線保持直線。",
+        "explain": "當一個基本方向獲得另一個方向的分量時會出現剪切，因此平面傾斜而不失去線性結構。"
+      },
+      {
+        "id": "explain-a-whole-plane-flip",
+        "title": "解釋一下全平面翻轉",
+        "goal": "使用反射案例來說明為什麼矩陣會改變整個座標平面，而不僅僅是一個形狀。",
+        "doThis": "打開 y 軸反射並將基礎箭頭、參考網格和範例三角形放在一起進行比較。",
+        "notice": "樣本三角形翻轉是因為第一個基列翻轉；網格和單位正方形講述了同一個故事。",
+        "explain": "一旦基礎影像列發生變化，每個點都遵循相同的矩陣規則，因此可見形狀只是平面作用的範例。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "兩個矩陣列是兩個基底向量的圖像。",
+        "剪切、拉伸和反射是可見的整個平面動作，而不是單獨的技巧。",
+        "樣本點或三角形是移動網格的相同線性規則的證據。"
+      ],
+      "misconception": "不要從一個孤立點開始而忽略基礎箭頭；這些專欄是更清晰的第一讀。",
+      "freePlayPrompt": "建立一個矩陣，其中單位正方形傾斜但不翻轉，然後大聲解釋這兩列。"
+    }
   },
   "equations": [
     {
@@ -272,6 +387,21 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "概念標籤",
+      "primaryGraphIds": [
+        "概念標籤",
+        "概念標籤"
+      ],
+      "primaryControlIds": [
+        "m12",
+        "m22"
+      ],
+      "primaryPresetIds": [
+        "向右剪切",
+        "反射-y"
+      ]
+    },
     "controls": [
       {
         "id": "m11",
@@ -329,7 +459,23 @@
         "whatToNotice": [
           "整張網格都依照同一組列向量規則一起變形。"
         ],
-        "whyItMatters": "它讓矩陣作用保持為整個平面的幾何變換。"
+        "whyItMatters": "它讓矩陣作用保持為整個平面的幾何變換。",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ]
       },
       {
         "id": "basisVectors",
@@ -338,7 +484,22 @@
         "whatToNotice": [
           "只要看兩個基底向量去哪裡，就能預測整個方格會怎樣變。"
         ],
-        "whyItMatters": "它把矩陣的列重新連回最核心的幾何意義。"
+        "whyItMatters": "它把矩陣的列重新連回最核心的幾何意義。",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ]
       },
       {
         "id": "unitSquare",
@@ -347,7 +508,22 @@
         "whatToNotice": [
           "正方形的四個角都跟隨同一套線性規則移動。"
         ],
-        "whyItMatters": "它讓面積與形狀改變變得比單看箭頭更直觀。"
+        "whyItMatters": "它讓面積與形狀改變變得比單看箭頭更直觀。",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ]
       },
       {
         "id": "sampleShape",
@@ -356,7 +532,22 @@
         "whatToNotice": [
           "樣本圖形和網格、基底向量會一起被同一矩陣變換。"
         ],
-        "whyItMatters": "它提醒你矩陣不是隻改變幾條基底箭頭，而是改變整個平面上的所有點。"
+        "whyItMatters": "它提醒你矩陣不是隻改變幾條基底箭頭，而是改變整個平面上的所有點。",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ]
       }
     ]
   },
@@ -382,15 +573,62 @@
     "items": [
       {
         "id": "mt-notice-columns",
-        "text": "先看兩條列向量去哪裡，因為它們已經決定了整個網格和樣本圖形會怎樣被拖動。"
+        "text": "先看兩條列向量去哪裡，因為它們已經決定了整個網格和樣本圖形會怎樣被拖動。",
+        "relatedControls": [
+          "m11",
+          "m21",
+          "m12",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "基礎向量",
+          "單位平方"
+        ],
+        "relatedEquationVariables": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ]
       },
       {
         "id": "mt-notice-shear",
-        "text": "當第二列的 x 分量增加時，e2 會向右偏，整張網格也會出現明顯的錯切效果。"
+        "text": "當第二列的 x 分量增加時，e2 會向右偏，整張網格也會出現明顯的錯切效果。",
+        "relatedControls": [
+          "m12"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "基礎向量",
+          "樣本形狀"
+        ],
+        "relatedEquationVariables": [
+          "m12"
+        ]
       },
       {
         "id": "mt-notice-blend",
-        "text": "留意插值滑動時的變化：t = 0 是起點，t = 1 是完整矩陣作用，中間每一刻都在同一條變換路徑上。"
+        "text": "留意插值滑動時的變化：t = 0 是起點，t = 1 是完整矩陣作用，中間每一刻都在同一條變換路徑上。",
+        "relatedControls": [
+          "m11",
+          "m12",
+          "m21",
+          "m22"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "基礎向量",
+          "單位平方",
+          "樣本形狀"
+        ]
       }
     ]
   },
@@ -471,8 +709,20 @@
           {
             "label": "把第二列 y 分量保持在 1 附近以保留高度"
           }
-        ]
+        ],
+        "style": "參數匹配"
       }
+    ]
+  },
+  "seo": {
+    "title": "矩陣變換/拉伸、剪切、反射",
+    "description": "探索 2 x 2 矩陣如何在一個即時平面上拉伸、剪切、反射和組合網格上的動作、基本向量和樣本形狀。",
+    "keywords": [
+      "矩陣變換",
+      "2 x 2 矩陣",
+      "線性變換",
+      "拉伸剪切反射",
+      "數學向量"
     ]
   }
 }

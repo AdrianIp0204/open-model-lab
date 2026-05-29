@@ -58,27 +58,36 @@
             {
               "id": "torque",
               "label": "應用扭力"
+            },
+            {
+              "id": "totalMass",
+              "label": "總移動質量"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始於慣性模型"
+              "label": "1. 開始於慣性模型",
+              "template": "對於此有界轉子，請使用 $I = I_{\\mathrm{hub}} + Mr^2$，其中 $I_{\\mathrm{hub}} = {{hubInertiaValue}}\\,\\mathrm{kg\\,m^2}$ 和移動質量為 $M = {{totalMassValue}}\\,\\mathrm{kg}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 插入當前半徑"
+              "label": "2. 插入當前半徑",
+              "template": "對於 $r = {{massRadiusValue}}\\,\\mathrm{m}$，環貢獻為 $Mr^2 = {{ringContributionValue}}\\,\\mathrm{kg\\,m^2}$，因此總轉動慣量為 $I = {{momentOfInertiaValue}}\\,\\mathrm{kg\\,m^2}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算加速反應"
+              "label": "3. 計算加速反應",
+              "template": "然後是 $\\alpha = \\tau/I = {{appliedTorqueValue}} / {{momentOfInertiaValue}}$，所以角加速度是 ${{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$。"
             }
           ],
           "resultLabel": "當前的軸子慣性和角加速度",
+          "resultTemplate": "$I = {{momentOfInertiaValue}}\\,\\mathrm{kg\\,m^2}, \\quad \\alpha = {{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$",
           "applyAction": {
             "label": "應用寬邊設定",
             "observationHint": "保持半徑指南和緊湊參考覆蓋層顯示。總質量和扭力保持不變，而慣性和加速反應則有顯著變化。"
-          }
+          },
+          "interpretationTemplate": "{{inertiaInterpretation}}"
         },
         {
           "id": "current-spin-up-state",
@@ -88,27 +97,40 @@
             {
               "id": "inertia",
               "label": "軸子慣性"
+            },
+            {
+              "id": "time",
+              "label": "時間"
+            },
+            {
+              "id": "acceleration",
+              "label": "角加速度"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用恆定扭力運動規則"
+              "label": "1. 使用恆定扭力運動規則",
+              "template": "由於此有界轉子在每個固定設定的一個恆定扭矩下從靜止開始，因此使用 $\\omega = \\alpha t$ 和 $\\theta = \\tfrac{1}{2}\\alpha t^2$。"
             },
             {
               "id": "substitute",
-              "label": "2. 插入當前的實時值"
+              "label": "2. 插入當前的實時值",
+              "template": "在$t = {{timeValue}}\\,\\mathrm{s}$處使用$\\alpha = {{angularAccelerationValue}}\\,\\mathrm{rad/s^2}$，從相同狀態計算角速度和旋轉角度。"
             },
             {
               "id": "compute",
-              "label": "3. 調整旋轉加速"
+              "label": "3. 調整旋轉加速",
+              "template": "給出 $\\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}$ 和 $\\theta = {{rotationAngleValue}}\\,\\mathrm{rad}$。"
             }
           ],
           "resultLabel": "當前角速度和旋轉角度",
+          "resultTemplate": "$\\omega = {{angularSpeedValue}}\\,\\mathrm{rad/s}, \\quad \\theta = {{rotationAngleValue}}\\,\\mathrm{rad}$",
           "applyAction": {
             "label": "應用緊湊核心",
             "observationHint": "在片段的末尾暫停，並將角速度和旋轉角度圖形與中半徑或寬輪緣情況進行比較。"
-          }
+          },
+          "interpretationTemplate": "{{spinUpInterpretation}}"
         }
       ]
     },
@@ -236,6 +258,76 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "保持相同的總質量和扭矩，然後向內或向外滑動相同的質量，看看為什麼慣性矩使某些轉子比其他轉子更難旋轉。",
+    "keyTakeaway": "慣性矩取決於質量所在的位置，而不僅僅是質量的大小。每一塊都透過 $mr^2$ 做出貢獻，因此距離軸越遠的質量就越重要。"
+  },
+  "v2": {
+    "intuition": "使用一個等質量轉子來了解為什麼向外移動相同的質量會使相同的馬達扭轉感覺效率低得多。",
+    "whyItMatters": "這是將總質量與質量分佈分開的最乾淨的地方。一旦畫面清晰，後來的滾動運動和角動量想法就不再像是獨立的主題。",
+    "equationSnapshot": {
+      "note": "首先追蹤佈局如何變化 $I$，然後讀取 $\\alpha = \\tau/I$ 後面的旋轉。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-baseline-rotor",
+        "title": "讀取基線轉子",
+        "goal": "將即時讀數連接到一個故事：相同的移動質量、相同的馬達扭矩以及由質量放置設定的旋轉響應。",
+        "doThis": "從實驗室基線轉子開始，保持旋轉圖可見，並在應用扭矩保持在基線附近時移動質量半徑一次。",
+        "notice": "當僅質量半徑變化時，相同的馬達扭轉會產生明顯不同的角加速度和剪輯結束速度。",
+        "explain": "慣性矩屬於質量佈局，而非僅是質量總量。改變相同的六個質量的位置會改變轉子旋轉的頑固程度。"
+      },
+      {
+        "id": "compare-compact-vs-wide-rim",
+        "title": "比較緊湊型與寬型輪圈",
+        "goal": "比較最緊湊和最分散的佈局，因此相同的總質量在一種情況下感覺很容易旋轉，而在另一種情況下感覺很頑固。",
+        "doThis": "在保持扭矩固定的情況下從緊湊核心切換到寬輪輞，然後將旋轉圖與角速度圖進行比較。",
+        "notice": "儘管總質量和扭矩沒有改變，但寬輪圈的角加速度和剪輯末端旋轉速度要小得多。",
+        "explain": "向外推相同的品質會提高 $I$，因為每個貢獻都由 $mr^2$ 加權。相同的扭力必須移動更具阻力的佈局。"
+      },
+      {
+        "id": "separate-torque-from-inertia",
+        "title": "將扭矩與慣性分開",
+        "goal": "分開兩個容易混淆的想法：扭矩改變響應，而轉動慣量來自質量佈局。",
+        "doThis": "將質量保持在寬輪圈上，並應用寬輪圈強馬達預設，並將旋轉圖與慣性圖進行比較。",
+        "notice": "當扭力上升時，響應曲線向上移動，但相同寬輪圈佈局的慣性圖保持固定。",
+        "explain": "扭力透過 $\\alpha = \\tau/I$ 改變反應，但不會重寫版面。即使馬達變得更強，相同的寬輪緣轉子也保持相同的$I$。"
+      },
+      {
+        "id": "test-the-same-torque-claim",
+        "title": "測試相同扭力聲明",
+        "goal": "使用一次傳遞檢查來確定在質量塊移得更遠後，相同的扭矩是否可以保持相同的旋轉。",
+        "doThis": "將馬達返回到接近基線扭矩，向外移動質量，並測試僅佈局變化時角加速度是否可以保持不變。",
+        "notice": "隨著轉子變寬，相同的扭力不再保持相同的旋轉。您將需要額外的扭矩來保持較早的角加速度。",
+        "explain": "這就是轉動慣量的核心思想：相同的總質量在其分佈發生變化時需要不同的轉動力。佈局（而不僅僅是品質）控制著相同扭曲的工作強度。",
+        "inlineCheck": {
+          "title": "同樣的扭力能承受嗎？",
+          "note": "嘗試將質量半徑加倍，同時將馬達保持在基線附近，然後決定是否可以在不增加更多扭矩的情況下維持相同的角加速度。"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "當質量分佈在不同的半徑時，相同的總質量可能會以非常不同的方式旋轉。",
+        "向外移動相等的質量會強烈提高 $I$，因為每個貢獻都由 $mr^2$ 加權。",
+        "扭力透過 $\\alpha = \\tau/I$ 改變反應，但轉子佈局決定其轉動慣量。"
+      ],
+      "misconception": "如果兩個轉子具有相同的總質量和相同的施加扭矩，它們必須以相同的方式響應。",
+      "freePlayPrompt": "建造一個緊湊型轉子和一個展開型轉子，它們以幾乎相同的夾端角速度完成，然後解釋哪些變化來自扭矩，哪些變化來自質量放置。",
+      "nextConcepts": [
+        {
+          "slug": "angular-momentum",
+          "title": "角動量",
+          "reasonLabel": "將相同的慣性圖片帶入持續的旋轉運動中。"
+        },
+        {
+          "slug": "rolling-motion",
+          "title": "滾動運動",
+          "reasonLabel": "當平移和旋轉共享相同的能量預算時，再次使用質量分佈。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "moment-of-inertia-sum",
@@ -271,15 +363,426 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "概念標籤",
+      "primaryGraphIds": [
+        "概念標籤",
+        "慣性圖",
+        "角速度"
+      ],
+      "primaryControlIds": [
+        "質量半徑",
+        "施加扭矩"
+      ],
+      "primaryPresetIds": [
+        "實驗室基線",
+        "緊湊型核心",
+        "寬邊"
+      ],
+      "starterExploreTasks": [
+        "從實驗室基線和旋轉圖開始，然後向內滑動相同的相同質量而不接觸扭矩並觀察角加速度跳躍。",
+        "切換到寬輪圈和慣性圖以證明轉子沒有增加質量；同樣的六個冰球只是計數更多，因為它們離軸更遠。",
+        "在比較模式下使用緊湊核心與寬輪​​輞，保持馬達扭矩匹配，並解釋角速度曲線分開的原因。"
+      ]
+    },
     "controls": [
       {
         "id": "appliedTorque",
-        "label": "應用扭力"
+        "label": "應用扭力",
+        "description": "更改馬達扭矩而不更改總質量或其佈局。"
       },
       {
         "id": "massRadius",
-        "label": "質量半徑"
+        "label": "質量半徑",
+        "description": "向內或向外滑動相同的六個相同質量，同時保持總移動質量固定。"
       }
+    ],
+    "presets": [
+      {
+        "id": "lab-baseline",
+        "label": "實驗室基線",
+        "description": "適中的半徑使轉子保持靈敏，但看起來幾乎沒有質量。"
+      },
+      {
+        "id": "compact-core",
+        "label": "緊湊型核心",
+        "description": "相同的質量保持在靠近軸的位置，因此轉子快速旋轉。"
+      },
+      {
+        "id": "middle-spread",
+        "label": "中間價差",
+        "description": "中半徑佈局保持相同的質量，但顯著提高了旋轉慣量。"
+      },
+      {
+        "id": "wide-rim",
+        "label": "寬輪圈",
+        "description": "相同的總質量遠離軸，因此相同的扭矩會產生更溫和的旋轉。"
+      },
+      {
+        "id": "wide-rim-strong-motor",
+        "label": "寬輪圈，更強電機",
+        "description": "更多的扭矩可以部分恢復旋轉，但較大的慣性矩仍然存在於展開佈局中。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "radiusGuides",
+        "label": "半徑指南",
+        "shortDescription": "顯示等質量距軸的目前距離。",
+        "whatToNotice": [
+          "相同的質量可以遠離軸移動，而無需添加任何額外的質量。",
+          "距軸的距離是慣性矩所依賴的關鍵幾何形狀。"
+        ],
+        "whyItMatters": "它使質量分佈變得可見，而不是將其保留為抽象公式。",
+        "relatedControls": [
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "慣性圖",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑"
+        ]
+      },
+      {
+        "id": "equalMassMarkers",
+        "label": "等質量標記",
+        "shortDescription": "標記每個冰球具有相同的質量，因此只有分佈發生變化。",
+        "whatToNotice": [
+          "當圓盤向外移動時，轉子不會獲得額外的質量。",
+          "變化的是相同質量的放置位置，而不是質量的多寡。"
+        ],
+        "whyItMatters": "它有助於將總質量與質量分佈分開。",
+        "relatedControls": [
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "角速度",
+          "旋轉角度"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑"
+        ]
+      },
+      {
+        "id": "referenceCore",
+        "label": "緊湊參考",
+        "shortDescription": "新增幻影緊湊佈局，以便您可以將電流分佈與保持在軸附近的相同品質進行比較。",
+        "whatToNotice": [
+          "幻影參考保持相同數量的質量，但將它們擠得更靠近軸。",
+          "當活動質量遠離此參考時，慣性和旋轉響應迅速分離。"
+        ],
+        "whyItMatters": "它可以在不改變總質量或扭矩的情況下立即進行緊湊型與分散型的比較。",
+        "relatedControls": [
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "慣性圖",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "angular-speed",
+      "label": "角速度與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "角速度（rad/s）",
+      "description": "對於每種固定佈局，角速度線性上升，因為一個恆定扭矩產生一個恆定角加速度。"
+    },
+    {
+      "id": "rotation-angle",
+      "label": "旋轉角度與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "旋轉角度（rad）",
+      "description": "旋轉角度向上彎曲，因為轉子在旋轉時會持續獲得角速度。"
+    },
+    {
+      "id": "inertia-map",
+      "label": "轉動慣量與質量半徑",
+      "xLabel": "質量半徑（公尺）",
+      "yLabel": "轉動慣量 (kg·m^2)",
+      "description": "對於這種等質量轉子，隨著相同質量被推離軸更遠，轉動慣量會迅速上升。"
+    },
+    {
+      "id": "spin-up-map",
+      "label": "角加速度與質量半徑",
+      "xLabel": "質量半徑（公尺）",
+      "yLabel": "角加速度 (rad/s^2)",
+      "description": "在扭力保持固定的情況下，向外移動相同的質量會降低角加速度，因為慣性矩會增加。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "旋轉時要注意什麼",
+    "intro": "一次只進行一項比較：相同的總質量、相同的扭矩以及距軸的距離的變化。",
+    "items": [
+      {
+        "id": "rotational-inertia-notice-same-torque",
+        "text": "當相同的質量向外移動時，扭矩可以保持不變，而轉子旋轉速度要慢得多。",
+        "tryThis": "在緊湊核心和寬邊框預設之間切換。馬達扭力保持在 $4\\, \\mathrm{N\\,m}$，但當相同的質量位於更遠的位置時，角速度圖會變得更淺。",
+        "whyItMatters": "這將慣性矩與扭矩隔離。當旋轉阻力改變時，原因保持不變。",
+        "relatedControls": [
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "角速度",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "半徑指南",
+          "參考核心"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑",
+          "施加扭矩"
+        ]
+      },
+      {
+        "id": "rotational-inertia-notice-r-squared",
+        "text": "在慣性圖上，向外擴散質量會比半徑本身更快地提升 $I$，因為每個貢獻都按 $r^2$ 進行加權。",
+        "tryThis": "沿著慣性圖從 $r = 0.3\\, \\mathrm{m}$ 左右向 $r = 1.0\\, \\mathrm{m}$ 移動，觀察曲線上升的速度。",
+        "whyItMatters": "平方依賴性就是為什麼即使是適度的向外轉變也會產生很大影響。",
+        "relatedControls": [
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "慣性圖"
+        ],
+        "relatedOverlays": [
+          "半徑指南"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑"
+        ]
+      },
+      {
+        "id": "rotational-inertia-notice-compare-branch",
+        "text": "在比較模式下，緊湊型轉子和寬輪緣轉子可以在相同的扭力下啟動，但在角速度上立即分離。",
+        "tryThis": "克隆緊湊核心設定，然後僅向外移動設定 B，同時保持扭矩匹配。",
+        "whyItMatters": "差異來自於轉動慣量，而不是來自較弱的馬達。",
+        "relatedControls": [
+          "質量半徑",
+          "施加扭矩"
+        ],
+        "relatedGraphTabs": [
+          "角速度",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "參考核心"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑",
+          "施加扭矩"
+        ]
+      },
+      {
+        "id": "rotational-inertia-notice-torque-compensation",
+        "text": "增加扭矩可以部分恢復旋轉，但不會改變佈局的轉動慣量。",
+        "tryThis": "從寬輪圈設定開始，然後提高扭力。旋轉加速圖向上移動，但慣性圖保持在原來的位置。",
+        "whyItMatters": "轉動慣量是質量佈局的屬性，而不是馬達的屬性。",
+        "relatedControls": [
+          "施加扭矩",
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "慣性圖",
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "等質量標記"
+        ],
+        "relatedEquationVariables": [
+          "施加扭矩",
+          "質量半徑"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測旋轉",
+    "intro": "在移動質量或更改馬達扭矩之前預測響應。然後將即時轉子與讀數和圖像進行比較。",
+    "items": [
+      {
+        "id": "rotational-inertia-predict-wide-rim",
+        "prompt": "如果相同的扭矩持續作用，同時相同的六個質量從緊湊的核心移動到寬的邊緣，會發生什麼？",
+        "scenarioLabel": "相同的質量，更寬的半徑",
+        "changeLabel": "將物體向外推",
+        "choices": [
+          {
+            "id": "a",
+            "label": "轉動慣量應上升，夾末端角速度應下降。"
+          },
+          {
+            "id": "b",
+            "label": "任何重要的事情都不應該改變，因為總質量保持不變。"
+          },
+          {
+            "id": "c",
+            "label": "角加速度應該會上升，因為質量現在離軸更遠了。"
+          }
+        ],
+        "explanation": "向外移動相同的質量會增加慣性矩。在相同扭矩的情況下，角加速度變小，因此轉子建立角速度和旋轉的速度較慢。",
+        "observationHint": "觀察慣性圖上升，而角速度圖變淺。"
+      },
+      {
+        "id": "rotational-inertia-predict-stronger-motor",
+        "prompt": "如果將品質保持在寬輪圈上，但給予轉子更強的扭矩，應該改變什麼？",
+        "scenarioLabel": "相同佈局，扭力更強",
+        "changeLabel": "提高馬達扭矩",
+        "choices": [
+          {
+            "id": "a",
+            "label": "角加速度應上升，但轉動慣量應保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "慣性矩應該縮小，因為轉子現在旋轉得更快。"
+          },
+          {
+            "id": "c",
+            "label": "寬輪圈佈局應該會消失，因為更強的扭矩抵消了質量分佈。"
+          }
+        ],
+        "explanation": "更強的馬達透過 $\\alpha = \\tau/I$ 改變響應，但質量佈局和轉動慣量保持不變。",
+        "observationHint": "當旋轉圖向上移動時，慣性圖應保持固定。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的活動轉子來證明您可以推斷質量分佈和旋轉反應，而不是像記憶標籤一樣處理慣性矩。",
+    "items": [
+      {
+        "id": "rotational-inertia-ch-compact-spin-up",
+        "title": "緊湊、快速",
+        "prompt": "保持馬達接近基線扭矩，然後僅更改質量佈局使轉子急劇旋轉。",
+        "successMessage": "您透過將相同的質量移近軸而不是假裝轉子變輕來建造快速旋轉。",
+        "setup": {
+          "note": "使用旋轉貼圖將角加速度目標保持在相同的即時佈局上。"
+        },
+        "hints": [
+          "不要用更強的馬達來解決這個問題。保持扭矩接近基線並首先改變分佈。",
+          "目標是緊湊的佈局，而不是幾乎沒有改變的中間半徑設定。"
+        ],
+        "checks": [
+          {
+            "label": "保持總轉動慣量緊湊，而不僅僅是半徑滑塊接近緊湊。"
+          },
+          {
+            "label": "使相同的基線扭力產生急遽增加的角加速度。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "保持扭力在 $3.9$ 和 $4.1\\,\\mathrm{N\\,m}$ 之間。"
+          },
+          {
+            "label": "將質量半徑設定在 $0.22$ 和 $0.27\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "使角加速度落在 $4.2$ 和 $5.4\\,\\mathrm{rad/s^2}$ 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "rotational-inertia-ch-compare-same-torque",
+        "title": "相同的扭矩，截然不同的反應",
+        "prompt": "開啟比較模式，在不改變任一設定中扭力的情況下，使設定 B 比設定 A 更難旋轉。",
+        "successMessage": "您保持相同的馬達扭矩和相同的總質量，同時僅使用質量分佈在設定 B 中創建更慢的旋轉速度。",
+        "setup": {
+          "note": "克隆緊湊設定，然後僅向外移動設定 B，同時保持兩個扭矩匹配。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "設定 A 可以保持緊湊。主要工作是將設定 B 向外展開，而不潛入不同的扭力。",
+          "您試圖透過更改 $I$ 來分離回應，而不是透過更改原因。"
+        ],
+        "checks": [
+          {
+            "label": "設定 A 應保持緊湊且慣性矩較小。"
+          },
+          {
+            "label": "設定 A 應在匹配扭矩下快速旋轉。"
+          },
+          {
+            "label": "設定 B 應在寬質量半徑下承載較大的轉動慣量。"
+          },
+          {
+            "label": "即使扭矩仍然匹配，設定 B 也應該緩慢旋轉。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將設定 A 扭力保持在 $3.95$ 和 $4.05\\,\\mathrm{N\\,m}$ 之間。"
+          },
+          {
+            "label": "將設定 B 扭力保持在 $3.95$ 和 $4.05\\,\\mathrm{N\\,m}$ 之間。"
+          },
+          {
+            "label": "將設定 A 保持在 $0.22$ 和 $0.27\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "將設定 B 在 $0.9$ 和 $1.0\\,\\mathrm{m}$ 之間向外移動。"
+          },
+          {
+            "label": "使設定 B 角加速度落在 $0.6$ 和 $0.8\\,\\mathrm{rad/s^2}$ 之間。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "rotational-inertia-ch-strong-motor-rim",
+        "title": "強勁電機，相同慣量",
+        "prompt": "在片段末端暫停並調整仍達到適度最終角速度的寬輪緣轉子。",
+        "successMessage": "您使用額外的扭矩來恢復一些旋轉，同時保持寬輪圈佈局的大慣性矩。",
+        "setup": {
+          "note": "保持佈局較寬，然後使用剪輯結束檢查狀態來調整最終角速度。"
+        },
+        "hints": [
+          "不要透過將群眾向內移動來解決這個問題。寬邊佈局應保持寬度。",
+          "扭力可以提供幫助，但它無法消除展開佈局的慣性。"
+        ],
+        "checks": [
+          {
+            "label": "檢查剪輯的末端，以便最終角速度有意義。"
+          },
+          {
+            "label": "保持寬輪圈佈局高慣性，同時增加扭力。"
+          },
+          {
+            "label": "以更強的扭矩恢復旋轉，而不消除慣性損失。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將質量半徑保持在 $0.9$ 和 $1.0\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "將扭力設定在 $5.6$ 和 $6.0\\,\\mathrm{N\\,m}$ 之間。"
+          },
+          {
+            "label": "使最終角速度落在$2.2$和$2.5\\,\\mathrm{rad/s}$之間。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "description": "互動式旋轉慣量和轉動慣量課程，具有相同質量的轉子、可調節的質量半徑和扭矩、比較模式、引導疊加、預測提示和概念快速測試。",
+    "keywords": [
+      "轉動慣量",
+      "轉動慣量",
+      "質量分佈",
+      "角加速度",
+      "實體模擬"
     ]
   }
 }

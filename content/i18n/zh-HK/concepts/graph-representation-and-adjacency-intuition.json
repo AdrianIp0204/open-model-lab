@@ -63,22 +63,27 @@
           "steps": [
             {
               "id": "read-adjacent-neighbors",
-              "label": "1. 首先只讀取直接鄰居"
+              "label": "1. 首先只讀取直接鄰居",
+              "template": "節點 A 直接接觸 B 和 C，因此這兩個節點是第一個相鄰候選節點。"
             },
             {
               "id": "name-the-frontier",
-              "label": "2. 將這個鄰居轉換為前沿"
+              "label": "2. 將這個鄰居轉換為前沿",
+              "template": "第一次展開後，聲稱的下一步前緣是 [B, C] 而不是整個圖。"
             },
             {
               "id": "connect-to-later-search",
-              "label": "3. 指出後來什麼保持不變"
+              "label": "3. 指出後來什麼保持不變",
+              "template": "廣度優先和深度優先搜尋將以不同的方式組織該邊界，但它們仍然從相同的局部鄰接圖開始。"
             }
           ],
           "resultLabel": "第一個鄰居區域讀取",
+          "resultTemplate": "從 A 開始，第一個邊界是 B 和 C。",
           "applyAction": {
             "label": "顯示分層校園圖",
             "observationHint": "保持鄰居面板和前沿提示一起可見，以便第一個鄰居區域從未轉化為術語。"
-          }
+          },
+          "interpretationTemplate": "鄰接是每個後續搜尋規則都必須遵守的局部結構。"
         }
       ]
     },
@@ -110,7 +115,11 @@
             "label": "鄰接意味著節點已經被訪問過。"
           }
         ],
-        "explanation": "鄰接是一條直接邊緣關係，而不是對整個地圖的視覺猜測。"
+        "explanation": "鄰接是一條直接邊緣關係，而不是對整個地圖的視覺猜測。",
+        "selectedWrongExplanations": {
+          "b": "視覺佈局不相鄰；邊緣連結才是最重要的。",
+          "c": "存取狀態是遍歷記賬，不是鄰接的定義。"
+        }
       },
       {
         "id": "grai-qt-first-frontier",
@@ -129,7 +138,80 @@
             "label": "目標是否在繪製的右側。"
           }
         ],
-        "explanation": "前沿以當前節點的鄰居為開始，所以起始節點立即重要。"
+        "explanation": "前沿以當前節點的鄰居為開始，所以起始節點立即重要。",
+        "selectedWrongExplanations": {
+          "a": "總圖大小並不能確定從所選起點開始首先可到達哪些節點。",
+          "c": "螢幕位置未定義第一邊界。"
+        }
+      },
+      {
+        "id": "grai-qt-neighborhood",
+        "prompt": "讀取一個節點目前鄰域的最簡潔方法是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "計算圖像中任意位置的每個節點。"
+          },
+          {
+            "id": "b",
+            "label": "只查看先前已經造訪過的節點。"
+          },
+          {
+            "id": "c",
+            "label": "現在列出透過一條邊連接到它的節點。"
+          }
+        ],
+        "explanation": "節點的鄰域是單邊局部圖片，而不是整個圖或僅是存取的子集。",
+        "selectedWrongExplanations": {
+          "a": "這將描述整個圖的大小，而不是目前的鄰域。",
+          "b": "存取狀態與相鄰節點是分開的。"
+        }
+      },
+      {
+        "id": "grai-qt-local-before-global",
+        "prompt": "為什麼先從鄰接開始，然後再考慮完全遍歷策略？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為鄰接只在遍歷完成後才重要。"
+          },
+          {
+            "id": "b",
+            "label": "因為遍歷決策是根據鄰接公開的下一步選項建構的。"
+          },
+          {
+            "id": "c",
+            "label": "因為遍歷策略取代了圖的邊結構。"
+          }
+        ],
+        "explanation": "邊界只能從鄰接可見的本地鄰居選項建構。",
+        "selectedWrongExplanations": {
+          "a": "鄰接是第一個有用的局部事實，而不是完成後的細節。",
+          "c": "遍歷組織邊；它不會刪除它們。"
+        }
+      },
+      {
+        "id": "grai-qt-frontier-purpose",
+        "prompt": "這張圖台上的邊界是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它標記了圖永遠無法存取的節點。"
+          },
+          {
+            "id": "b",
+            "label": "這只是完成的存取集的另一個名稱。"
+          },
+          {
+            "id": "c",
+            "label": "它追蹤已發現並準備好進行下一個擴展步驟的節點。"
+          }
+        ],
+        "explanation": "邊界是活動的等待工作，而不是不可達的節點或已經完成的集合。",
+        "selectedWrongExplanations": {
+          "a": "前沿節點是仍可用於下一個處理的節點。",
+          "b": "訪問和前沿是不同的簿記角色。"
+        }
       }
     ]
   },
@@ -172,6 +254,66 @@
     "whyItMatters": "一個圖形應該感覺像是一個活躍的鄰居地圖，而不是抽象的一系列圓圈和線條。這個試驗台保持一個標籤化的圖形、一個活動的前沿和一個鄰接讀出一起可見，以便在搜尋語言變得更正式之前，區域性連線保持可讀。",
     "keyTakeaway": "一個圖形由節點和邊構成，但有用的閱讀是區域性鄰接。"
   },
+  "v2": {
+    "intuition": "將一張圖、一個局部鄰域和一個邊界提示放在一起可見，以便在遍歷規則正式化之前，圖結構感覺可讀。",
+    "whyItMatters": "鄰接是每個後來的圖演算法所依賴的局部事實，因此邊界應該從鄰域圖片中生長出來，而不是像魔法列表一樣出現。",
+    "guidedSteps": [
+      {
+        "id": "read-one-neighborhood",
+        "title": "閱讀一處社區",
+        "goal": "使用鄰接提示查看哪些節點可以從目前起始節點立即到達。",
+        "doThis": "從分層校園鄰裡視圖開始，保持鄰接提示可見，然後移動「開始」節點一次。",
+        "notice": "第一個邊界直接隨著連接到目前節點的鄰居而改變。",
+        "explain": "在任何遍歷規則運作之前，圖僅提供沿著真實邊相鄰的節點。本地圖片是後續每個搜尋步驟的原料。",
+        "inlineCheck": {
+          "note": "首先從局部圖結構中選擇：找出距離目前節點一邊的節點。"
+        }
+      },
+      {
+        "id": "widen-the-first-frontier",
+        "title": "拓寬第一前沿",
+        "goal": "將窄起點與中心起點進行比較，以便邊界寬度成為可見的圖像屬性。",
+        "doThis": "開啟集線器並從 C 設定繞行，並比較新的起始節點出現了多少個第一鄰居。",
+        "notice": "樞紐起點比走廊式起點創建更寬的第一個邊界，因為更多相鄰節點立即可用。",
+        "explain": "邊界寬度並不是遍歷之謎。在任何 BFS 或 DFS 排序決定接下來剩下什麼之前，它從局部度和鄰接開始。",
+        "inlineCheck": {
+          "note": "在開啟集線器預設之前進行預測，然後比較直接鄰居的數量。"
+        }
+      },
+      {
+        "id": "separate-structure-from-traversal",
+        "title": "將結構與遍歷分開",
+        "goal": "使用相同的圖來區分鄰接資訊和探索它的規則。",
+        "doThis": "開啟遍歷模式控件，觀察 BFS 或 DFS 重複使用相同的圖，同時僅變更邊界順序。",
+        "notice": "圖本身保持不變，而前沿歷史由於探索規則發生了變化而改變。",
+        "explain": "鄰接告訴您哪些節點可用。遍歷模式告訴您接下來要探索哪個可用節點。",
+        "inlineCheck": {
+          "note": "決定哪些資訊屬於圖本身，哪些部分屬於搜尋規則。"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "鄰接是目前節點可用的本地鄰居資訊。",
+        "第一個邊界變寬或變窄，因為不同的圖起點有不同的鄰居集。",
+        "遍歷規則重複使用相同的圖結構，但改變邊界的處理順序。"
+      ],
+      "misconception": "圖演算法首先在本地結構發揮作用之前應用佇列或堆疊規則。",
+      "freePlayPrompt": "在提到 BFS 或 DFS 之前，選擇一個新的起始節點，列出其直接鄰居，並解釋該鄰居集如何更改第一個邊界。",
+      "nextConcepts": [
+        {
+          "slug": "breadth-first-search-and-layered-frontiers",
+          "title": "廣度優先搜尋與分層前沿",
+          "reasonLabel": "使用隊列邊界的鄰接"
+        },
+        {
+          "slug": "depth-first-search-and-backtracking-paths",
+          "title": "深度優先搜尋與回溯路徑",
+          "reasonLabel": "使用堆疊邊界的鄰接"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "neighbor-set",
@@ -212,41 +354,328 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "用這個步驟把模擬、圖像和概念連接起來。",
+      "primaryGraphIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "已訪問與前沿紀錄"
+      ],
+      "primaryControlIds": [
+        "圖像索引",
+        "起始節點"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "start-node",
-        "label": "起始節點"
+        "label": "起始節點",
+        "description": "選擇遍歷開始的位置，然後先讀取該節點的鄰居。",
+        "displayValueLabels": [
+          {
+            "label": "一個"
+          },
+          {
+            "label": "B"
+          },
+          {
+            "label": "C"
+          },
+          {
+            "label": "D"
+          },
+          {
+            "label": "E"
+          },
+          {
+            "label": "F"
+          },
+          {
+            "label": "G"
+          },
+          {
+            "label": "H"
+          }
+        ]
       },
       {
         "id": "target-node",
-        "label": "目標節點"
+        "label": "目標節點",
+        "description": "選擇稍後搜尋嘗試到達的節點。",
+        "displayValueLabels": [
+          {
+            "label": "一個"
+          },
+          {
+            "label": "B"
+          },
+          {
+            "label": "C"
+          },
+          {
+            "label": "D"
+          },
+          {
+            "label": "E"
+          },
+          {
+            "label": "F"
+          },
+          {
+            "label": "G"
+          },
+          {
+            "label": "H"
+          }
+        ]
       },
       {
         "id": "traversal-mode",
-        "label": "遍歷模式"
+        "label": "遍歷模式",
+        "description": "在同一張圖上比較廣度優先擴展和深度優先分支追蹤。",
+        "displayValueLabels": [
+          {
+            "label": "BFS"
+          },
+          {
+            "label": "DFS"
+          }
+        ]
+      },
+      {
+        "id": "graph-index",
+        "label": "圖像佈局",
+        "description": "在圖像場景之間切換並比較它們的連接模式如何改變第一個鄰域。",
+        "displayValueLabels": [
+          {
+            "label": "分層校園"
+          },
+          {
+            "label": "橋循環"
+          },
+          {
+            "label": "樞紐與彎路"
+          }
+        ]
       }
     ],
     "presets": [
       {
         "id": "layered-campus-bfs",
-        "label": "分層校園BFS"
+        "label": "分層校園BFS",
+        "description": "一個簡單的圖像，其中 A 的第一個邊界很容易閱讀。"
       },
       {
         "id": "layered-campus-dfs",
-        "label": "層次校園 DFS"
+        "label": "層次校園 DFS",
+        "description": "同一張圖，可用於比較 DFS 如何以不同的方式組織相同的鄰居。"
       },
       {
         "id": "bridge-cycle-bfs",
-        "label": "橋梁迴圈BFS"
+        "label": "橋梁迴圈BFS",
+        "description": "附有循環的圖像，有助於了解訪問狀態為何重要。"
       },
       {
         "id": "bridge-cycle-dfs",
-        "label": "橋迴圈 DFS"
+        "label": "橋迴圈 DFS",
+        "description": "分支優先遍歷循環圖，其中重複避免仍然很重要。"
       },
       {
         "id": "hub-detours-bfs",
-        "label": "鄰居集合"
+        "label": "鄰居集合",
+        "description": "樞紐啟動，使第一個邊界立即變寬。"
       }
+    ],
+    "overlays": [
+      {
+        "id": "adjacencyCue",
+        "label": "鄰接提示",
+        "shortDescription": "保持目前節點的直接鄰居可見。",
+        "whatToNotice": [
+          "在考慮 BFS 或 DFS 之前，先讀取目前節點的一邊觸及哪些節點。"
+        ],
+        "whyItMatters": "它使鄰接成為一個可見的局部事實，而不是一個模糊的圖像術語。",
+        "relatedControls": [
+          "圖索引",
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局",
+          "起始節點"
+        ]
+      },
+      {
+        "id": "frontierCue",
+        "label": "前緣提示",
+        "shortDescription": "顯示哪些已發現的節點正在等待下一步探索。",
+        "whatToNotice": [
+          "BFS 和 DFS 的主要差異在於它們從該邊界取得下一個等待節點。"
+        ],
+        "whyItMatters": "它將抽象佇列或堆疊轉換為一組可見的下一個候選者。",
+        "relatedControls": [
+          "遍歷模式",
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "已訪問與前沿紀錄"
+        ],
+        "relatedEquationVariables": [
+          "起始節點",
+          "遍歷模式"
+        ]
+      },
+      {
+        "id": "visitedCue",
+        "label": "已存取提示",
+        "shortDescription": "標記哪些節點已被完全探索。",
+        "whatToNotice": [
+          "已存取標記會阻止再次新增已宣告的節點，尤其是在循環中。"
+        ],
+        "whyItMatters": "它使重複避免在圖像本身上可見。",
+        "relatedControls": [
+          "圖索引",
+          "目標節點索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "深度史"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局",
+          "目標節點"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "visited-frontier-history",
+      "label": "存取節點與邊界大小",
+      "xLabel": "步驟",
+      "yLabel": "節點",
+      "description": "比較已探索的節點數量和仍在等待的已發現節點數量。"
+    },
+    {
+      "id": "depth-history",
+      "label": "當前深度與聲稱的最深深度",
+      "xLabel": "步驟",
+      "yLabel": "深度",
+      "description": "查看搜尋是停留在起點附近還是沿著一個分支深入。"
+    },
+    {
+      "id": "neighbor-check-history",
+      "label": "新發現與重複跳過",
+      "xLabel": "步驟",
+      "yLabel": "檢查",
+      "description": "將首次發現與指向已存取節點的邊分開。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使圖像和一個歷史圖像一起可見，然後在考慮整個地圖之前讀取當前節點。",
+    "items": [
+      {
+        "id": "grai-notice-local-neighbors",
+        "text": "從本地開始：現在哪些節點距離目前節點只有一邊？",
+        "relatedControls": [
+          "圖索引",
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "已訪問與前沿紀錄"
+        ],
+        "relatedOverlays": [
+          "鄰接提示",
+          "邊境提示"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局",
+          "起始節點"
+        ]
+      },
+      {
+        "id": "grai-notice-hub-widens-frontier",
+        "text": "從集線器開始立即拓寬第一個邊界，因為一個節點可以同時發現多個鄰居。",
+        "relatedControls": [
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "已訪問與前沿紀錄",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "邊境提示"
+        ],
+        "relatedEquationVariables": [
+          "起始節點"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測",
+    "intro": "在移動起始節點之前預測第一個邊界將如何變化。",
+    "items": [
+      {
+        "id": "grai-predict-hub-frontier",
+        "prompt": "如果將起始節點從中心-繞道圖上的邊緣移動到中心，那麼我們應該改變什麼？",
+        "scenarioLabel": "將起點移至輪轂",
+        "choices": [
+          {
+            "id": "a",
+            "label": "第一個邊界應該會擴大，因為樞紐有更多的直接鄰居。"
+          },
+          {
+            "id": "b",
+            "label": "在目標節點移動之前，不應發生任何變化。"
+          },
+          {
+            "id": "c",
+            "label": "圖像應該不再有重複的邊。"
+          }
+        ],
+        "explanation": "中心節點具有更大的本地鄰域，因此第一個邊界在第一次擴展時會變得更寬。",
+        "observationHint": "開啟集線器預設，讀取C的鄰居，然後看著他們一起進入邊界。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用圖像台來證明第一個邊界來自直接鄰居，而不是來自全圖猜測。",
+    "items": [
+      {
+        "id": "grai-ch-build-a-wide-first-frontier",
+        "title": "建立更廣闊的第一前沿",
+        "prompt": "從 C 處的中心繞道圖開始，保持鄰接提示可見，並解釋哪些直接鄰居使第一個邊界比邊緣起點更寬。",
+        "successMessage": "您使用本地鄰接來拓寬第一個邊界。在任何 BFS 或 DFS 排序決策發生之前，集線器啟動會暴露幾個直接鄰居。",
+        "hints": [
+          "使用 C 預設中的 Hub 和 detours，然後在命名遍歷規則之前讀取鄰接提示。",
+          "較寬的第一個邊界來自 C 的直接鄰居，而不是來自繪製目標的位置。"
+        ],
+        "targets": [
+          {
+            "label": "使用樞紐和繞道圖。"
+          },
+          {
+            "label": "從中心節點 C 開始。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "圖像示和鄰接直覺",
+    "description": "透過一個即時實驗台探索圖像表示，其中鄰接、第一邊界和當前鄰域保持在一起可見。",
+    "keywords": [
+      "圖像表示",
+      "鄰接",
+      "圖遍歷",
+      "電腦科學",
+      "邊境"
     ]
   }
 }

@@ -50,27 +50,36 @@
             {
               "id": "pattern",
               "label": "輸入模式"
+            },
+            {
+              "id": "algorithm",
+              "label": "選定的演算法"
             }
           ],
           "steps": [
             {
               "id": "name-the-setup",
-              "label": "1. 設定活躍狀態"
+              "label": "1. 設定活躍狀態",
+              "template": "實驗台正在 {{patternLabelValue}} 清單上執行 {{algorithmLabelValue}}。"
             },
             {
               "id": "read-the-counters",
-              "label": "2. 閱讀可見的成本"
+              "label": "2. 閱讀可見的成本",
+              "template": "到目前為止，追蹤已使用 {{comparisonsValue}} 比較和 {{writeCountValue}} 寫入。"
             },
             {
               "id": "read-the-disorder",
-              "label": "3. 閱讀還剩多少混亂"
+              "label": "3. 閱讀還剩多少混亂",
+              "template": "剩下 {{inversionsRemainingValue}} 反轉，所以 {{sortingInterpretation}}"
             }
           ],
           "resultLabel": "當前權衡讀取",
+          "resultTemplate": "$A = {{algorithmLabelValue}}, C = {{comparisonsValue}}, W = {{writeCountValue}}$",
           "applyAction": {
             "label": "在近乎有序的列表上應用插入排序",
             "observationHint": "觀看當下一鍵已經接近應屬位置時，列表實際上需要移動多少。"
-          }
+          },
+          "interpretationTemplate": "{{statusLineValue}}"
         }
       ]
     },
@@ -102,7 +111,11 @@
             "label": "因為只有當列表已經排序時，排序才會有意義。"
           }
         ],
-        "explanation": "有趣的部分是到達排好序的列表的過程和成本，而不僅僅是最終答案。"
+        "explanation": "有趣的部分是到達排好序的列表的過程和成本，而不僅僅是最終答案。",
+        "selectedWrongExplanations": {
+          "b": "正確的排序演算法應該就最終順序達成一致，即使它們的步驟模式不同。",
+          "c": "排序對於混亂或顛倒的清單也很重要；起始順序會改變成本，而不是相關性。"
+        }
       },
       {
         "id": "sat-qt-input-order",
@@ -121,7 +134,80 @@
             "label": "只有圖表顏色。"
           }
         ],
-        "explanation": "輸入順序改變了演算法在列表安定前實際需要做的工作量。"
+        "explanation": "輸入順序改變了演算法在列表安定前實際需要做的工作量。",
+        "selectedWrongExplanations": {
+          "a": "清單大小很重要，但起始順序可以大幅改變相同演算法的工作。",
+          "c": "圖像顏色不會設定演算法成本。"
+        }
+      },
+      {
+        "id": "sat-qt-nearly-sorted",
+        "prompt": "為什麼插入排序在接近排序的清單上看起來比在反向清單上便宜得多？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為插入排序會忽略幾乎已排序的輸入的所有比較。"
+          },
+          {
+            "id": "b",
+            "label": "因為反向清單已經針對插入排序進行了排序。"
+          },
+          {
+            "id": "c",
+            "label": "由於大多數項目已經接近其最終位置，因此所需的寫入次數較少。"
+          }
+        ],
+        "explanation": "當只需要短的局部修復而不是整個清單的長移位時，插入排序有好處。",
+        "selectedWrongExplanations": {
+          "a": "演算法仍然比較項目；它只是通常需要較少的運動。",
+          "b": "反向清單是最難看到的情況之一，而不是已經完成的情況。"
+        }
+      },
+      {
+        "id": "sat-qt-cost-metrics",
+        "prompt": "為什麼要在圖像中保持比較和寫入可見，而不是只追蹤一個數字？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為比較和寫入總是被迫完全匹配。"
+          },
+          {
+            "id": "b",
+            "label": "因為兩種演算法可以在檢查和重寫之間進行不同的權衡，對同一列表進行排序。"
+          },
+          {
+            "id": "c",
+            "label": "因為最終的排序清單只取決於圖軸。"
+          }
+        ],
+        "explanation": "這個實驗台的要點是相同的最終訂單可以來自不同的成本模式。",
+        "selectedWrongExplanations": {
+          "a": "根據演算法和輸入順序，計數可能會有很大差異。",
+          "c": "圖像報告了這個過程；他們不建立排序清單。"
+        }
+      },
+      {
+        "id": "sat-qt-settled-region",
+        "prompt": "跑步時固定區域可以幫助您看到什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "哪些條高於圖像軸允許的高度。"
+          },
+          {
+            "id": "b",
+            "label": "基準測試接下來將自行選擇哪一種演算法。"
+          },
+          {
+            "id": "c",
+            "label": "清單的哪些部分已經完成，哪些部分仍在進行中。"
+          }
+        ],
+        "explanation": "固定區域是完成位置和仍在變化的活動部分之間的視覺分離。",
+        "selectedWrongExplanations": {
+          "a": "確定的提示是關於演算法進度，而不是圖像限制。",
+          "b": "基準測試不會因為某個區域被標記為已解決而自動切換演算法。"
+        }
       }
     ]
   },
@@ -155,7 +241,78 @@
           "note": "使用這個來保持成本故事的清晰。"
         }
       }
-    ]
+    ],
+    "entryGuidance": {
+      "firstAction": "切換演算法，保持比較和寫入打開，然後重新運行相同的清單形狀。",
+      "watchFor": "觀察相同的未排序清單驅動不同的比較並在最終排序順序匹配之前寫入追蹤。"
+    }
+  },
+  "pageIntro": {
+    "definition": "將排序視為即時清單上的可見工作，以便輸入順序、比較和寫入保持具體，而不是崩潰為一個最終答案。",
+    "whyItMatters": "這變成了「哪種演算法最快？」在記住 Big-O 表之前，您可以推理出一個可見的權衡。",
+    "keyTakeaway": "最佳排序選擇取決於輸入模式以及您關心的成本（比較或寫入）。"
+  },
+  "v2": {
+    "intuition": "當您觀看正在修復的同一個清單時，排序更容易比較：標記顯示本地決策，計數器顯示成本，最終順序只是最後一幀。",
+    "whyItMatters": "這為您提供了一種選擇或解釋排序演算法的實用方法：詢問輸入已經是什麼樣子，然後閱讀成本追蹤而不是相信口號。",
+    "equationSnapshot": {
+      "note": "一起閱讀比較、寫作和剩餘混亂：每個都講述了權衡故事的不同部分。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-first-trace",
+        "title": "讀取第一條追蹤",
+        "goal": "將排序視為重複的本地工作，而不是即時的前後結果。",
+        "doThis": "從 Bubble 開始打亂，保持比較和寫入打開，並緩慢逐步運行進行一些比較。",
+        "notice": "清單一次更改一個本地比較，而計數器甚至在最終排序順序出現之前就會攀升。",
+        "explain": "排序演算法是選擇下一個本地比較或移動的規則。痕跡是該規則如何花費工作的證據。"
+      },
+      {
+        "id": "compare-same-list-different-rule",
+        "title": "改變規則，而不是目標",
+        "goal": "比較演算法，同時以學習者為導向的目標保持不變：對清單進行排序。",
+        "doThis": "保持相同的輸入形狀，然後在觀察標記和成本圖的同時在氣泡、選擇和插入之間切換演算法。",
+        "notice": "最終順序相同，但標記運動、固定區域、比較和寫入留下不同的痕跡。",
+        "explain": "演算法選擇會改變每一步提出的本地問題。這就是為什麼兩個正確的演算法可以在不同的地方花費工作。"
+      },
+      {
+        "id": "exploit-nearly-sorted-input",
+        "title": "利用簡單的輸入",
+        "goal": "了解為什麼輸入順序與演算法名稱一樣重要。",
+        "doThis": "將接近排序套用插入，然後將低寫入計數與同一圖上的逆序運算進行比較。",
+        "notice": "當項目開始接近其最終位置時，插入可以修復簡短的局部錯誤，而無需重寫清單的大部分內容。",
+        "explain": "接近排序的資料幾乎沒有留下任何混亂。使用短局部修復的演算法可以將此優勢轉化為較低的可見成本。"
+      },
+      {
+        "id": "judge-the-trade-off",
+        "title": "判斷權衡",
+        "goal": "將追蹤轉變為可防禦的演算法選擇。",
+        "doThis": "使用快速檢查，然後在開始挑戰之前建立一個低寫入案例和一個高工作案例。",
+        "notice": "一個好的答案是命名輸入模式和成本指標，而不僅僅是演算法標籤。",
+        "explain": "權衡思維意味著說出您正在優化的目標。在這裡，比較、書寫和混亂可以指向不同的優勢。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "排序的輸出可以隱藏非常不同的比較、寫入和標記追蹤。",
+        "輸入順序改變了初始無序性，因此相同的演算法可能會讓人感覺便宜或昂貴。",
+        "一個有用的排序解釋列出了正在優化的演算法和成本指標。"
+      ],
+      "misconception": "不要只根據最終的排序清單來判斷排序演算法。流程追蹤是權衡變得可見的地方。",
+      "freePlayPrompt": "坐在板凳上，先假設寫入量維持在較低水平，然後再假設比較率不斷攀升。解釋哪個控制導致了成本變化。",
+      "nextConcepts": [
+        {
+          "slug": "binary-search-halving-the-search-space",
+          "title": "二分找出/將搜尋空間減半",
+          "reasonLabel": "重複使用有序列表思維來了解為什麼搜尋可以在每一步丟棄一半的可能性。"
+        },
+        {
+          "slug": "graph-representation-and-adjacency-intuition",
+          "title": "圖像示和鄰接直覺",
+          "reasonLabel": "將可見的演算法痕跡帶入圖搜尋和鄰域結構中。"
+        }
+      ]
+    }
   },
   "equations": [
     {
@@ -192,21 +349,264 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "操作歷史記錄",
+      "primaryGraphIds": [
+        "操作歷史記錄",
+        "疾病史"
+      ],
+      "primaryControlIds": [
+        "演算法索引",
+        "模式索引",
+        "陣列大小"
+      ],
+      "primaryPresetIds": [
+        "氣泡洗牌",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "反向氣泡"
+      ]
+    },
     "controls": [
       {
         "id": "pattern-index",
-        "label": "輸入模式"
+        "label": "輸入模式",
+        "displayValueLabels": [
+          {
+            "label": "已洗牌"
+          },
+          {
+            "label": "即將排序"
+          },
+          {
+            "label": "顛倒順序"
+          }
+        ]
       },
       {
         "id": "array-size",
         "label": "陣列大小"
+      },
+      {
+        "id": "algorithm-index",
+        "label": "演算法",
+        "displayValueLabels": [
+          {
+            "label": "泡泡"
+          },
+          {
+            "label": "選擇"
+          },
+          {
+            "label": "插入"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "id": "bubble-shuffled",
+        "label": "洗牌時出現氣泡",
+        "description": "一個有用的基準案例，其中重複掃描、交換和成本上升很容易遵循。"
+      },
+      {
+        "id": "insertion-nearly-sorted",
+        "label": "幾乎已排序的插入",
+        "description": "一種低無序情況，其中插入通常可以透過很少的寫入來修復短的本地錯誤。"
+      },
+      {
+        "id": "reverse-bubble",
+        "label": "逆序冒泡",
+        "description": "一種高度無序的情況，其中 bubble 必須在清單穩定之前進行多次傳遞。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "intervalWindow",
+        "label": "活動間隔",
+        "shortDescription": "突顯演算法仍在積極處理的清單部分。",
+        "whatToNotice": [
+          "隨著運行的進行，觀察未求解區域是否從左側或右側縮小。"
+        ],
+        "whyItMatters": "它可以幫助您將行動標記連接到清單中仍對成本產生影響的部分。",
+        "relatedControls": [
+          "演算法索引",
+          "圖案索引",
+          "陣列大小"
+        ],
+        "relatedGraphTabs": [
+          "疾病史"
+        ],
+        "relatedEquationVariables": [
+          "模式索引",
+          "陣列大小"
+        ]
+      },
+      {
+        "id": "settledRegion",
+        "label": "定居地區",
+        "shortDescription": "將目前演算法已視為固定的項目標記為固定。",
+        "whatToNotice": [
+          "插入通常會產生一個固定的前綴，而氣泡通常會產生一個固定的後綴。"
+        ],
+        "whyItMatters": "它使每個演算法的本地策略在列表本身上可見。",
+        "relatedControls": [
+          "演算法索引",
+          "圖案索引"
+        ],
+        "relatedGraphTabs": [
+          "疾病史"
+        ],
+        "relatedEquationVariables": [
+          "演算法索引",
+          "模式索引"
+        ]
+      },
+      {
+        "id": "pointerMarkers",
+        "label": "指標標記",
+        "shortDescription": "在即時清單上顯示目前掃描位置。",
+        "whatToNotice": [
+          "標記的移動方式不同，因為每種演算法在每一步都會提出不同的比較問題。"
+        ],
+        "whyItMatters": "他們直接在清單上揭示決策過程，而不是將其隱藏在偽代碼後面。",
+        "relatedControls": [
+          "演算法索引"
+        ],
+        "relatedGraphTabs": [
+          "操作歷史記錄"
+        ],
+        "relatedEquationVariables": [
+          "演算法索引"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "operations-history",
-      "label": "比較和寫入"
+      "label": "比較和寫入",
+      "xLabel": "時間",
+      "yLabel": "運行計數"
+    },
+    {
+      "id": "disorder-history",
+      "label": "無序與穩定的物品",
+      "xLabel": "時間",
+      "yLabel": "項目"
+    },
+    {
+      "id": "disorder-share",
+      "label": "剩餘的紊亂分數",
+      "xLabel": "時間",
+      "yLabel": "分數"
     }
-  ]
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "保持即時清單和一張圖像一起可見，然後一次僅更改一個控制項。",
+    "items": [
+      {
+        "id": "sat-notice-pattern-matters",
+        "text": "在相同的清單大小下，近似排序的輸入可以使插入看起來高效，而相反的順序使 bubble 進行重複的掃描和交換。",
+        "relatedControls": [
+          "演算法索引",
+          "圖案索引"
+        ],
+        "relatedGraphTabs": [
+          "操作歷史記錄",
+          "疾病史"
+        ],
+        "relatedOverlays": [
+          "指標標記",
+          "定居地區"
+        ],
+        "relatedEquationVariables": [
+          "演算法索引",
+          "模式索引"
+        ]
+      },
+      {
+        "id": "sat-notice-same-answer-different-trace",
+        "text": "所有三種演算法都達到相同的排序列表，但標記運動和計數器線揭示了非常不同的路徑和成本。",
+        "relatedControls": [
+          "演算法索引"
+        ],
+        "relatedGraphTabs": [
+          "操作歷史記錄"
+        ],
+        "relatedOverlays": [
+          "指標標記"
+        ],
+        "relatedEquationVariables": [
+          "演算法索引"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測",
+    "intro": "在切換設定之前，預測哪種成本模式應保持較低以及原因。",
+    "items": [
+      {
+        "id": "sat-predict-nearly-sorted",
+        "prompt": "如果清單開始時幾乎已排序，則哪種演算法通常應在此實驗台上產生最少的寫入次數？",
+        "scenarioLabel": "幾乎排序開始",
+        "choices": [
+          {
+            "id": "a",
+            "label": "插入排序，因為大多數項目已經接近它們所屬的位置。"
+          },
+          {
+            "id": "b",
+            "label": "冒泡排序，因為先解決右邊緣應該消除大部分工作。"
+          },
+          {
+            "id": "c",
+            "label": "選擇排序，因為較少的比較自動意味著較少的寫入。"
+          }
+        ],
+        "explanation": "插入排序可以利用近排序清單上的短局部修復，因此它通常可以透過更少的寫入達到相同的結果。",
+        "observationHint": "開啟接近排序的插入預設，然後觀察寫入計數緩慢上升，而無序行快速下降。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "建立低成本運作是有原因的，而不是靠運氣。一起使用列表和圖像。",
+    "items": [
+      {
+        "id": "sat-ch-use-nearly-sorted-insertion",
+        "title": "讓插入獲得回報",
+        "prompt": "建立一個運行，其中插入排序以很少的寫入完成幾乎已排序的清單。",
+        "successMessage": "您建立了很好的案例插入排序處理。由於清單開始接近排序，因此大多數項目只需要短距離移動，因此寫入計數保持較低水準。",
+        "targets": [
+          {
+            "label": "將演算法索引保持在 2 到 2 之間。"
+          },
+          {
+            "label": "將模式索引保持在 1 和 1 之間。"
+          },
+          {
+            "label": "保持填入在 1 和 1 之間。"
+          },
+          {
+            "label": "將 writecount 保持在 0 到 10 之間。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "排序與演算法權衡",
+    "description": "觀察排序演算法逐步瀏覽同一個列表，並比較輸入順序如何改變比較、寫入和剩餘無序。",
+    "keywords": [
+      "排序",
+      "演算法",
+      "冒泡排序",
+      "選擇排序",
+      "插入排序",
+      "電腦科學"
+    ]
+  }
 }

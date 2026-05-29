@@ -58,27 +58,36 @@
             {
               "id": "driveFrequency",
               "label": "驅動頻率"
+            },
+            {
+              "id": "time",
+              "label": "時間"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別當前模式關係"
+              "label": "1. 識別當前模式關係",
+              "template": "在{{modeLabel}}中，使用${{modeFormula}}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前值"
+              "label": "2. 代入當前值",
+              "template": "$x({{timeValue}}) = {{substitutionFormula}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算位移"
+              "label": "3. 計算位移",
+              "template": "在目前模式下給出$x = {{displacementValue}}$。"
             }
           ],
           "resultLabel": "當前位移",
+          "resultTemplate": "$x({{timeValue}}) = {{displacementValue}}$",
           "applyAction": {
             "label": "應用自由擺動",
             "observationHint": "在瞬態模式下，封包會隨著時間縮小，因此同一公式在運動的後期給出較小的位移。"
-          }
+          },
+          "interpretationTemplate": "{{displacementInterpretation}}"
         },
         {
           "id": "response-amplitude",
@@ -105,22 +114,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別響應關係"
+              "label": "1. 識別響應關係",
+              "template": "使用$A(\\omega_d) = \\dfrac{F_0}{\\sqrt{(\\omega_0^2-\\omega_d^2)^2 + (2\\beta\\omega_d)^2}}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前驅動值"
+              "label": "2. 代入當前驅動值",
+              "template": "$A = \\dfrac{{driveAmplitudeValue}}{\\sqrt{({{naturalFrequencyValue}}^2-{{driveFrequencyValue}}^2)^2 + (2\\cdot{{dampingValue}}\\cdot{{driveFrequencyValue}})^2}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算響應振幅"
+              "label": "3. 計算響應振幅",
+              "template": "預測的穩態幅度為 $A = {{responseAmplitudeValue}}$。"
             }
           ],
           "resultLabel": "穩態振幅",
+          "resultTemplate": "$A(\\omega_d) = {{responseAmplitudeValue}}$",
           "applyAction": {
             "label": "應用接近共振",
             "observationHint": "切換到響應曲線並比較當前驅動頻率與峯值標記。當驅動器靠近共振時，振幅會增長。"
-          }
+          },
+          "interpretationTemplate": "{{responseInterpretation}}"
         }
       ]
     },
@@ -259,6 +273,89 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "探討阻尼如何消除能量、驅動頻率如何改變振幅，以及為何共振在自然頻率附近變得劇烈。",
+    "whyItMatters": "它解釋了為什麼真實機器中的擺動會減弱，為什麼橋樑和樂器可以產生大的運動，以及為什麼工程師調整阻尼而不是僅僅避免共振。",
+    "keyTakeaway": "阻尼控制能量洩漏的速度；共振控制驅動器回饋能量的效率。當輕阻尼系統接近其自然頻率驅動時，會發生最大的反應。"
+  },
+  "v2": {
+    "intuition": "將振盪器視為鞦韆：阻尼是每個週期竊取一點能量的消耗，而驅動器是定時推動，可以在接近自然節奏的情況下最有效地替換該能量。",
+    "whyItMatters": "同樣的權衡解釋了樂器、車輛懸吊、建築振動，以及為什麼工程師經常添加阻尼而不是假裝永遠不會達到共振。",
+    "equationSnapshot": {
+      "title": "能量輸入，能量輸出",
+      "note": "將時間軌跡與共振曲線進行比較時，請保持阻尼項、固有頻率和響應振幅公式可見。"
+    },
+    "startSetup": {
+      "note": "在一個阻尼自由擺動上打開，因此第一個任務在共振響應比較之前從可見的能量損失開始。"
+    },
+    "guidedSteps": [
+      {
+        "id": "watch-energy-leak-away",
+        "title": "觀察能量洩漏",
+        "goal": "首先將阻尼理解為一次運動隨時間的能量損失。",
+        "doThis": "從阻尼運動圖像開始，保持響應包絡可見，並提高阻尼比一次。",
+        "notice": "早期的擺動仍然很大，但隨著阻尼的增加，包絡線崩潰得更快。",
+        "explain": "阻尼不會移動平衡線。它消除了機械能，因此後面的周期比前面的周期具有更小的振幅。",
+        "inlineCheck": {
+          "title": "檢查阻尼真正發生了什麼變化"
+        }
+      },
+      {
+        "id": "separate-time-from-response",
+        "title": "與反應時間分開",
+        "goal": "請勿將反應曲線與相同運動的後續部分混淆。",
+        "doThis": "在移動任何滑桿之前打開共振響應並比較圖像軸。",
+        "notice": "橫軸隨著時間和驅動頻率的變化而變化，因此曲線上的每個點都是不同的工作條件。",
+        "explain": "瞬態圖隨著時間流逝而跟隨一個振盪器。響應圖詢問對於許多可能的驅動頻率來說最終的運動有多大。",
+        "inlineCheck": {
+          "title": "回答前先閱讀軸"
+        }
+      },
+      {
+        "id": "tune-toward-resonance",
+        "title": "調向共振",
+        "goal": "使用響應曲線來了解為什麼匹配頻率會使驅動運動增大。",
+        "doThis": "施加近共振，然後將驅動頻率稍微遠離峰值標記並向後移動。",
+        "notice": "響應在自然頻率附近最強，並且當駕駛員停止按照首選節奏排列時響應下降。",
+        "explain": "接近共振時，每次推動都與振盪器同步到達，因此能量傳輸非常有效率。遠離共振，推力部分地對抗運動。",
+        "inlineCheck": {
+          "title": "預測偏共振響應"
+        }
+      },
+      {
+        "id": "use-damping-to-control-the-peak",
+        "title": "控制峰值",
+        "goal": "將時間衰減故事與共振峰的高度和寬度連結起來。",
+        "doThis": "保持響應圖打開並將阻尼比從較輕的值增加到較重的值。",
+        "notice": "峰值變得更短、更寬，而不是立即消失。",
+        "explain": "更大的阻尼會在每個週期中消耗能量，因此振盪器無法建立盡可能多的穩態振幅，並且對一個精確頻率變得不那麼挑剔。",
+        "inlineCheck": {
+          "title": "使用阻尼諧振權衡"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "阻尼會消除能量，因此一種自由運動會隨著時間的推移而失去振幅，而不會移動平衡線。",
+        "響應圖比較了驅動頻率下的穩態振幅，而不是一次運行中的秒數。",
+        "共振在固有頻率附近最強，阻尼會降低並加寬峰值，而不是簡單地刪除它。"
+      ],
+      "misconception": "高響應峰值不是無限時間峰值；它是在其固有頻率附近驅動的阻尼系統的有限穩態響應。",
+      "freePlayPrompt": "選擇圖像視圖，僅變更阻尼或僅變更驅動頻率，並說明您是否變更了能量損耗、頻率匹配或兩者都變更。",
+      "nextConcepts": [
+        {
+          "slug": "simple-harmonic-motion",
+          "title": "簡諧振動",
+          "reasonLabel": "回顧振盪器基礎"
+        },
+        {
+          "slug": "wave-interference",
+          "title": "波幹擾",
+          "reasonLabel": "下一個波形"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "damped-oscillator",
@@ -309,29 +406,385 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "瞬態",
+      "primaryGraphIds": [
+        "瞬態",
+        "回复"
+      ],
+      "primaryControlIds": [
+        "阻尼比",
+        "驅動頻率",
+        "自然頻率"
+      ],
+      "primaryPresetIds": [
+        "自由擺動",
+        "近共振"
+      ],
+      "starterExploreTasks": [
+        "在阻尼運動視圖中提高阻尼，觀察包絡線塌陷得更快。",
+        "切換到響應圖並將驅動頻率移向峰值標記。",
+        "比較輕阻尼和重阻尼，看看共振峰變得更高/更窄或更短/更寬。"
+      ]
+    },
     "controls": [
       {
         "id": "dampingRatio",
-        "label": "阻尼比"
+        "label": "阻尼比",
+        "description": "控制運動中能量損失的速度。"
       },
       {
         "id": "naturalFrequency",
-        "label": "自然頻率"
+        "label": "自然頻率",
+        "description": "設定係統的首選振盪速率。"
       },
       {
         "id": "driveFrequency",
-        "label": "驅動頻率"
+        "label": "驅動頻率",
+        "description": "控制外力推動系統的速度。"
       },
       {
         "id": "driveAmplitude",
-        "label": "驅動振幅"
+        "label": "驅動振幅",
+        "description": "控制驅動器的強度。"
+      },
+      {
+        "id": "responseMode",
+        "label": "共振響應",
+        "description": "在隨時間追蹤一次振盪和跨多個驅動頻率掃描穩態幅度之間切換。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "free-swing",
+        "label": "自由擺動",
+        "description": "低驅動和溫和阻尼，可實現清晰的瞬態衰減。"
+      },
+      {
+        "id": "near-resonance",
+        "label": "近共振",
+        "description": "驅動頻率接近固有頻率。"
+      },
+      {
+        "id": "heavily-damped",
+        "label": "嚴重阻尼",
+        "description": "系統快速失去能量且反應保持受控。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "forcingArrow",
+        "label": "驅動力",
+        "shortDescription": "顯示外部驅動器將能量輸入系統。",
+        "whatToNotice": [
+          "此箭頭顯示外部驅動器，即使阻尼正在消除能量，它也可以增加能量。"
+        ],
+        "whyItMatters": "它將力源與振盪器本身的首選運動分開。",
+        "relatedControls": [
+          "驅動頻率",
+          "驅動幅度"
+        ],
+        "relatedGraphTabs": [
+          "瞬態",
+          "回复"
+        ],
+        "relatedEquationVariables": [
+          "驅動頻率",
+          "驅動幅度"
+        ]
+      },
+      {
+        "id": "responseEnvelope",
+        "label": "回覆信封",
+        "shortDescription": "概述衰減或驅動幅度。",
+        "whatToNotice": [
+          "在瞬態模式下，更強的阻尼使包絡更快收緊。",
+          "在反應模式下，可見振幅保持有界，而不是無限制地成長。"
+        ],
+        "whyItMatters": "它可以幫助您將阻尼理解為能量損失，而不僅僅是看起來較小的運動。",
+        "relatedControls": [
+          "阻尼比",
+          "反應模式"
+        ],
+        "relatedGraphTabs": [
+          "瞬態",
+          "回复"
+        ],
+        "relatedEquationVariables": [
+          "阻尼比",
+          "自然頻率"
+        ]
+      },
+      {
+        "id": "peakMarker",
+        "label": "共振標記",
+        "shortDescription": "標記為電流阻尼和固有頻率提供最強穩態響應的驅動頻率。",
+        "whatToNotice": [
+          "此標記屬於響應曲線，而不是稍後的時刻。",
+          "改變阻尼可以降低峰值並改變其銳度，但不會消除它。"
+        ],
+        "whyItMatters": "它使共振條件可讀為頻率比較而不是神秘尖峰。",
+        "relatedControls": [
+          "自然頻率",
+          "驅動頻率",
+          "反應模式"
+        ],
+        "relatedGraphTabs": [
+          "回复"
+        ],
+        "relatedEquationVariables": [
+          "自然頻率",
+          "驅動頻率",
+          "阻尼比"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "response",
-      "label": "振幅響應"
+      "label": "振幅響應",
+      "xLabel": "驅動頻率 (rad/s)",
+      "yLabel": "反應幅度（a.u.）",
+      "description": "這不是時間軌跡。每個點都顯示一個驅動頻率的穩態振幅，因此峰值顯示共振最強的位置。"
+    },
+    {
+      "id": "transient",
+      "label": "阻尼運動",
+      "xLabel": "時間（秒）",
+      "yLabel": "相對位移（a.u.）",
+      "description": "這跟隨一個振盪器隨時間變化，並顯示阻尼如何使包絡在週期之間收縮。"
     }
-  ]
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使用提示來符合目前視圖。在瞬態模式下，您會隨著時間的推移跟隨一個動作。在響應模式下，您可以比較不同驅動頻率下許多可能的穩態響應。",
+    "items": [
+      {
+        "id": "dr-notice-transient-decay",
+        "text": "阻尼會消除每個週期的能量，因此即使振盪器保持交叉平衡，包絡也會縮小。",
+        "tryThis": "留在阻尼運動視圖中，將前幾次擺動與後面的幾次擺動進行比較，而不是只查看某一瞬間。",
+        "whyItMatters": "這是最明顯的跡象，表示系統仍在振盪，同時穩定地損失能量。",
+        "relatedControls": [
+          "阻尼比"
+        ],
+        "relatedGraphTabs": [
+          "瞬態"
+        ],
+        "relatedOverlays": [
+          "回應信封"
+        ]
+      },
+      {
+        "id": "dr-notice-damping-change",
+        "text": "增加阻尼會使時間痕跡消失得更快，並使共振峰更低更寬。",
+        "tryThis": "增加阻尼比，然後比較更緊的瞬態包絡或更短、更寬的響應峰值。",
+        "whyItMatters": "它將一個控制項連接到時間歷史視圖和頻率響應視圖。",
+        "relatedControls": [
+          "阻尼比",
+          "反應模式"
+        ],
+        "relatedGraphTabs": [
+          "瞬態",
+          "回复"
+        ],
+        "relatedOverlays": [
+          "回應信封",
+          "峰值標記"
+        ]
+      },
+      {
+        "id": "dr-notice-response-graph",
+        "text": "回應圖不是動議的後續部分。它的橫軸是驅動頻率，因此每個點都是不同的工作條件。",
+        "tryThis": "在載物台和響應曲線之間切換，並詢問您是否遵循時間或掃描操作條件。",
+        "whyItMatters": "如果沒有這種區別，共振可能看起來像是基於時間的尖峰，而不是依賴頻率的效應。",
+        "relatedControls": [
+          "驅動頻率",
+          "反應模式"
+        ],
+        "relatedGraphTabs": [
+          "回复"
+        ],
+        "relatedOverlays": [
+          "峰值標記"
+        ]
+      },
+      {
+        "id": "dr-notice-near-resonance",
+        "text": "當驅動頻率接近固有頻率時，響應最大。",
+        "tryThis": "將驅動頻率移向峰值，觀察響應曲線標記和階段振幅一起增強。",
+        "whyItMatters": "共振是在匹配頻率附近的有效能量傳遞，而不僅僅是出於任何原因的「大運動」。",
+        "relatedControls": [
+          "自然頻率",
+          "驅動頻率"
+        ],
+        "relatedGraphTabs": [
+          "回复"
+        ],
+        "relatedOverlays": [
+          "峰值標記",
+          "強迫箭頭"
+        ],
+        "relatedEquationVariables": [
+          "自然頻率",
+          "驅動頻率",
+          "阻尼比"
+        ]
+      },
+      {
+        "id": "dr-notice-inspect",
+        "text": "當您在運動後期暫停時，即使包絡已經縮小，舞台和圖像標記仍指向同一時刻。",
+        "tryThis": "在運動後期暫停，並將較小的位移與您在即時回放中看到的早期擺動進行比較。",
+        "whyItMatters": "隨著時間的推移，阻尼可見為週期與週期之間的振幅下降。",
+        "relatedGraphTabs": [
+          "瞬態"
+        ],
+        "relatedOverlays": [
+          "回應信封"
+        ]
+      },
+      {
+        "id": "dr-notice-compare",
+        "text": "響應較高或衰減較慢的設定通常是阻尼較低或驅動頻率接近共振的設定。",
+        "tryThis": "保留一個設定作為基線，然後僅更改另一個設定中的阻尼比或驅動頻率並比較響應標記。",
+        "whyItMatters": "比較模式有助於將阻尼引起的變化與頻率匹配引起的變化分開。",
+        "relatedControls": [
+          "阻尼比",
+          "驅動頻率",
+          "自然頻率"
+        ],
+        "relatedGraphTabs": [
+          "瞬態",
+          "回复"
+        ],
+        "relatedOverlays": [
+          "回應信封",
+          "峰值標記"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "預測變化是否主要影響時間衰減或穩態共振峰值，然後在即時圖像上進行測試。",
+    "items": [
+      {
+        "id": "dr-predict-1",
+        "prompt": "如果在驅動器保持在諧振附近時減少阻尼，響應峰值會發生什麼？",
+        "scenarioLabel": "減少共振附近的阻尼",
+        "choices": [
+          {
+            "id": "a",
+            "label": "山峰變得更高更窄。"
+          },
+          {
+            "id": "b",
+            "label": "峰值完全消失。"
+          },
+          {
+            "id": "c",
+            "label": "固有頻率改變。"
+          }
+        ],
+        "explanation": "較低的阻尼意味著每個週期損失的能量較少，因此振盪器可以在諧振附近建立更大的穩態響應。這使得山峰更高更窄。",
+        "observationHint": "在反應模式下，比較峰的高度以及峰集中在一個頻率周圍的緊密程度。"
+      },
+      {
+        "id": "dr-predict-2",
+        "prompt": "如果驅動頻率偏離固有頻率，響應會發生什麼事？",
+        "scenarioLabel": "移開共振",
+        "choices": [
+          {
+            "id": "a",
+            "label": "反應下降，因為驅動程式和系統也停止排隊。"
+          },
+          {
+            "id": "b",
+            "label": "反應變得無限。"
+          },
+          {
+            "id": "c",
+            "label": "阻尼消失。"
+          }
+        ],
+        "explanation": "將驅動器移離固有頻率會使驅動器和振盪器不太匹配，因此能量傳遞變得不那麼有效且響應下降。",
+        "observationHint": "峰值保持在固有頻率附近，但隨著驅動頻率遠離固有頻率，標記會沿著曲線向下移動。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的響應曲線和檢查時間工具來調整驅動振盪器，而不是被動地觀察它。",
+    "items": [
+      {
+        "id": "dr-ch-lock-near-resonance",
+        "title": "鎖定近共振",
+        "prompt": "從自由擺動開始，切換到響應視圖並調整驅動器，直到其非常接近具有強穩態響應的共振。",
+        "successMessage": "您將驅動器調整到諧振峰值，而不是僅僅盲目地增加振幅。響應曲線和階段現在講述相同的頻率故事。",
+        "setup": {
+          "note": "開啟響應視圖，然後將磁碟機移向峰值標記。"
+        },
+        "hints": [
+          "目標不僅僅是做出巨大的回應。驅動頻率也必須接近峰值頻率。",
+          "一點阻尼仍然會留下峰值，但您必須將驅動器與它對齊。"
+        ],
+        "checks": [
+          {
+            "label": "開啟幅度響應圖。"
+          },
+          {
+            "label": "保持共振標記可見。"
+          },
+          {
+            "label": "將驅動器保持在峰值頻率的 $0.08\\,\\mathrm{rad/s}$ 範圍內。"
+          },
+          {
+            "label": "達到 $1.7$ 與 $2.2$ 之間的反應幅度。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "dr-ch-late-small-motion",
+        "title": "後期小動作",
+        "prompt": "從自由擺動，使瞬態衰減足夠快，以便後期檢查的樣本僅顯示非常小的位移。",
+        "successMessage": "你誠實地使用了阻尼來控制後來的運動。振盪器仍然存在，但包絡已崩潰為一個小的後期響應。",
+        "setup": {
+          "note": "提高阻尼，然後稍後在運動中暫停以檢查剩餘振幅。"
+        },
+        "hints": [
+          "此任務需要檢查模式。在前幾次揮桿之後暫停，而不是在發射附近。",
+          "如果包絡線仍然很寬，則阻尼比太小。"
+        ],
+        "checks": [
+          {
+            "label": "保持阻尼運動圖處於活動狀態。"
+          },
+          {
+            "label": "暫停進入檢查模式。"
+          },
+          {
+            "label": "檢視 $4$ 和 $6\\,\\mathrm{s}$ 之間的晚期樣本。"
+          },
+          {
+            "label": "提高 $0.4$ 至 $0.6$ 頻段的阻尼比。"
+          },
+          {
+            "label": "使剩餘位移幅度小於$0.15$。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "阻尼與共振",
+    "description": "互動阻尼和共振，具有時間視圖、響應曲線以及對自然頻率、驅動頻率和阻尼的清晰控制。",
+    "keywords": [
+      "阻尼",
+      "共振",
+      "驅動振盪器",
+      "實體模擬"
+    ]
+  }
 }

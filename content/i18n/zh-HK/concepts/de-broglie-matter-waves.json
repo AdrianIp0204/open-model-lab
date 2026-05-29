@@ -31,9 +31,10 @@
       ]
     },
     "keyIdeas": [
-      "物質波透過\\(\\lambda = h / p\\)與動量相關聯，因此關鍵的逆關係是波長與動量之間的關係，而不是波長與每秒移動距離之間的關係。",
-      "對於這裡的非相對論性模型，\\(p = mv\\)，所以提高質量或速度會使波長變短。",
-      "當一個固定迴圈剛好容納整數個波長時，就會出現一個乾淨的閉合匹配。這個整數倍迴圈提示，是通往量子化行為與玻爾分支的一道有用橋樑，即使它不是完整的現代量子圖景。"
+      "德布羅意波長透過 \\(\\lambda = h / p\\) 與動量連結在一起，因此主要的反比關係是波長和動量之間的關係。",
+      "在這個有界非相對論頁面上，\\(p = mv\\)，因此增加質量或速度會增加動量並縮短波長。",
+      "條帶和環路是同一個 \\(\\lambda\\) 的兩個視圖：當條帶上的間距縮小時，更多的波長適合環路周圍。",
+      "整數循環擬合是通往量化行為和玻爾模型的有用橋樑，但它並不是完整的現代量子圖景。"
     ],
     "commonMisconception": {
       "myth": "較快的粒子應該具有更長的波長，因為它每秒覆蓋更多的距離。",
@@ -62,51 +63,83 @@
             {
               "id": "momentum",
               "label": "動量"
+            },
+            {
+              "id": "wavelength",
+              "label": "物質波長"
             }
           ],
           "steps": [
             {
               "id": "momentum-link",
-              "label": "1. 將質量和速度合併成一個動量"
+              "label": "1. 將質量和速度合併成一個動量",
+              "template": "在此有界模型中，即時設定給出 \\(p = mv = {{momentumValue}}\\times10^{-24}\\,\\mathrm{kg\\,m/s}\\)。"
             },
             {
               "id": "wavelength-link",
-              "label": "2. 使用德布羅意關係式"
+              "label": "2. 使用德布羅意關係式",
+              "template": "然後是\\(\\lambda = h / p\\)，所以目前物質波長是\\({{wavelengthValue}}\\,\\mathrm{nm}\\)。"
             },
             {
               "id": "read-stage",
-              "label": "3. 如實地使用工作台"
+              "label": "3. 如實地使用工作台",
+              "template": "此波長是您在局部條帶上看到的間距，相同的 \\(\\lambda\\) 是環路面板測試整數擬合的波長。"
             }
           ],
           "resultLabel": "當前物質的波長",
+          "resultTemplate": "\\(p = {{momentumValue}}\\times10^{-24}\\,\\mathrm{kg\\,m/s}, \\quad \\lambda = {{wavelengthValue}}\\,\\mathrm{nm}\\)",
           "applyAction": {
             "label": "顯示較短波長的情況",
             "observationHint": "當地間距變得更緊密，迴圈計數同時上升，因為兩種觀測方式都在讀取同一個較小的波長。"
-          }
+          },
+          "interpretationTemplate": "{{wavelengthInterpretation}}"
         },
         {
           "id": "current-loop-fit",
           "title": "當前整數迴圈匹配",
           "prompt": "隨著固定的迴圈周長\\(L = {{loopCircumferenceValue}}\\,\\mathrm{nm}\\)，現在有多少個波長能圍繞迴圈，並且這個值接近一個整數匹配嗎？",
+          "variables": [
+            {
+              "id": "loopCircumference",
+              "label": "環週長"
+            },
+            {
+              "id": "wavelength",
+              "label": "物質波長"
+            },
+            {
+              "id": "fitCount",
+              "label": "適合數量"
+            },
+            {
+              "id": "nearestFit",
+              "label": "最近的整體擬合"
+            }
+          ],
           "steps": [
             {
               "id": "fit-relation",
-              "label": "1. 使用迴圈匹配關係式"
+              "label": "1. 使用迴圈匹配關係式",
+              "template": "循環計數為 \\(N = L / \\lambda\\)，因此此實驗台將一個固定路徑長度與目前物質波長進行比較。"
             },
             {
               "id": "fit-substitute",
-              "label": "2. 代入實時值"
+              "label": "2. 代入實時值",
+              "template": "對於 \\(L = {{loopCircumferenceValue}}\\,\\mathrm{nm}\\) 和 \\(\\lambda = {{wavelengthValue}}\\,\\mathrm{nm}\\)，目前擬合為 \\(N = {{fitCountValue}}\\)。"
             },
             {
               "id": "fit-interpret",
-              "label": "3. 與最近的整數進行比較"
+              "label": "3. 與最近的整數進行比較",
+              "template": "最接近的整數擬合是 \\(n = {{nearestFitValue}}\\)，不匹配是 \\(\\Delta n = {{fitMismatchValue}}\\)。"
             }
           ],
           "resultLabel": "當前迴圈匹配",
+          "resultTemplate": "\\(N = {{fitCountValue}}, \\quad n = {{nearestFitValue}}, \\quad \\Delta n = {{fitMismatchValue}}\\)",
           "applyAction": {
             "label": "顯示接近一個匹配的情況",
             "observationHint": "觀察迴圈接縫如何清理，當匹配計數接近一個完整波長時。"
-          }
+          },
+          "interpretationTemplate": "{{fitInterpretation}}"
         }
       ]
     },
@@ -260,6 +293,11 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用一個緊密的物質波實驗台來了解粒子動量如何設定波長、為什麼較重或較快的粒子會獲得較短的波長，以及整數環擬合如何形成通往早期量子行為的有界橋樑。",
+    "whyItMatters": "這種動量優先的觀點解釋了為什麼電子尺度的波長可以塑造光譜和原子模型，而日常物體的物質波卻太小而無法注意到。",
+    "keyTakeaway": "物質波透過 \\(\\lambda = h / p\\) 與動量連結在一起，因此關鍵的反比關係是波長和動量之間的關係，而不是波長和每秒傳播的距離之間的關係。"
+  },
   "equations": [
     {
       "id": "momentum",
@@ -295,32 +333,297 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "環配合",
+      "primaryGraphIds": [
+        "環配合",
+        "波長動量"
+      ],
+      "primaryControlIds": [
+        "速度彩信"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "massMultiple",
-        "label": "粒子質量"
+        "label": "粒子質量",
+        "description": "以電子質量單位設定粒子質量。"
       },
       {
         "id": "speedMms",
-        "label": "速度"
+        "label": "速度",
+        "description": "改變速度並觀察動量、波長和環配合一起更新。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "slow-electron",
+        "label": "慢電子",
+        "description": "具有相對較長物質波長的低動量電子。"
+      },
+      {
+        "id": "bohr-like-n1",
+        "label": "近乎一體的電子",
+        "description": "使固定環接近一個波長的電子速度。"
+      },
+      {
+        "id": "bohr-like-n2",
+        "label": "近二擬合電子",
+        "description": "動量大約加倍，因此波長大約是一半長，環路擬合計數接近 2。"
+      },
+      {
+        "id": "heavier-same-speed",
+        "label": "較重相同速度",
+        "description": "保持相似的速度，但增加質量，因此波長僅因動量而縮短。"
+      },
+      {
+        "id": "same-momentum-swap",
+        "label": "相同的動量交換",
+        "description": "將質量加倍並將速度減半，以便動量、波長和環擬合保持大致相同。"
       }
     ],
     "overlays": [
       {
         "id": "momentumLink",
-        "label": "動量連結"
+        "label": "動量連結",
+        "shortDescription": "顯示在設定波長之前質量和速度合併為一個動量。",
+        "whatToNotice": [
+          "不同的質量速度對可以產生相同的動量，從而產生相同的波長。"
+        ],
+        "whyItMatters": "它將焦點集中在作為波長背後的變數的動量上。",
+        "relatedControls": [
+          "質量倍數",
+          "速度彩信"
+        ],
+        "relatedGraphTabs": [
+          "波長動量",
+          "環配合"
+        ],
+        "relatedEquationVariables": [
+          "質量倍數",
+          "速度彩信"
+        ]
+      },
+      {
+        "id": "wavelengthGuide",
+        "label": "波長指南",
+        "shortDescription": "在局部物質波帶上標記一個波峰到波峰的間距。",
+        "whatToNotice": [
+          "當動量增加時，條帶上的標記間距會縮小，並且環配合計數會增加。"
+        ],
+        "whyItMatters": "它使波長可視為舞台上的間距，而不僅僅是方程式中的數字。",
+        "relatedControls": [
+          "速度彩信"
+        ],
+        "relatedGraphTabs": [
+          "波長動量"
+        ],
+        "relatedEquationVariables": [
+          "速度彩信"
+        ]
+      },
+      {
+        "id": "wholeNumberFit",
+        "label": "整數擬合",
+        "shortDescription": "將目前循環計數與最接近的整數匹配進行比較。",
+        "whatToNotice": [
+          "在整數處，包裹波乾淨利落地相遇；它們之間的接縫不匹配。"
+        ],
+        "whyItMatters": "它提供了從波長​​到早期量化行為的緊湊視覺橋樑。",
+        "relatedControls": [
+          "質量倍數",
+          "速度彩信"
+        ],
+        "relatedGraphTabs": [
+          "環配合"
+        ],
+        "relatedEquationVariables": [
+          "速度彩信"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "wavelength-momentum",
+      "label": "波長與動量",
+      "xLabel": "動量 (10^-24 kg m/s)",
+      "yLabel": "波長（nm）",
+      "description": "直接閱讀德布羅意反關係：移動到更大的動量意味著移動到更短的波長。"
+    },
+    {
+      "id": "loop-fit",
+      "label": "循環擬合與動量",
+      "xLabel": "動量 (10^-24 kg m/s)",
+      "yLabel": "擬合計數 N = L / lambda",
+      "description": "隨著動量增加，固定環路會容納更多波長，因為波長會變短。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示，以便條帶、循環和圖像都保持與相同的基於動量的狀態相關聯。",
+    "items": [
+      {
+        "id": "dbmw-notice-two-views",
+        "text": "條帶和環路顯示相同的波長。當條帶上的間距縮小時，環配合數就會增加。",
+        "tryThis": "從近一體電子開始，然後提高速度並一起觀察兩個面板。",
+        "whyItMatters": "它可以幫助您將長凳視為一個相互關聯的故事，而不是兩張單獨的圖片。",
+        "relatedControls": [
+          "速度彩信"
+        ],
+        "relatedGraphTabs": [
+          "波長動量",
+          "環配合"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "整體號碼適合"
+        ]
+      },
+      {
+        "id": "dbmw-notice-graph-preview",
+        "text": "將滑鼠停留在任一圖像上都可以預覽該動量下的相同實驗台，而不是單獨的範例。",
+        "tryThis": "將滑鼠懸停在任一圖像的右側，並將更緊密的間距與更大的循環計數進行比較。",
+        "whyItMatters": "圖像和實驗台是同一基於動量狀態的兩個視圖。",
+        "relatedGraphTabs": [
+          "波長動量",
+          "環配合"
+        ],
+        "relatedOverlays": [
+          "動量鏈接",
+          "整體號碼適合"
+        ]
+      },
+      {
+        "id": "dbmw-notice-speed",
+        "text": "在固定質量下，增加速度會提高動量，縮短波長，並將環路推向更大的擬合計數。",
+        "tryThis": "從近一擬合電子向近二擬合電子移動。",
+        "whyItMatters": "它將\\(\\lambda = h / p\\)變成你可以在舞台上看到的東西。",
+        "relatedControls": [
+          "速度彩信"
+        ],
+        "relatedGraphTabs": [
+          "波長動量",
+          "環配合"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "整體號碼適合"
+        ],
+        "relatedEquationVariables": [
+          "速度彩信"
+        ]
+      },
+      {
+        "id": "dbmw-notice-mass",
+        "text": "在固定速度下，增加質量仍然會縮短波長，因為質量也會改變動量。",
+        "tryThis": "比較近擬合電子與較重的相同速度。",
+        "whyItMatters": "它可以防止常見的錯誤，即只有速度對德布羅意波長很重要。",
+        "relatedControls": [
+          "質量倍數",
+          "速度彩信"
+        ],
+        "relatedGraphTabs": [
+          "波長動量",
+          "環配合"
+        ],
+        "relatedOverlays": [
+          "動量鏈接",
+          "整體號碼適合"
+        ],
+        "relatedEquationVariables": [
+          "質量倍數"
+        ]
+      },
+      {
+        "id": "dbmw-notice-compare-same-p",
+        "text": "將較重較慢的箱子與較輕較快但保持相同動量的箱子進行比較。波長應保持相同。",
+        "tryThis": "將設定 A 放在近擬合電子上，將設定 B 放在相同動量交換上。",
+        "whyItMatters": "它表明動量（而不僅僅是質量或速度）是波長背後的控制變數。",
+        "relatedControls": [
+          "質量倍數",
+          "速度彩信"
+        ],
+        "relatedGraphTabs": [
+          "波長動量",
+          "環配合"
+        ],
+        "relatedOverlays": [
+          "動量鏈接"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在實驗台上測試之前預測動量和波長變化。",
     "items": [
       {
         "id": "dbmw-pred-faster-same-mass",
-        "changeLabel": "速度"
+        "prompt": "從近擬合電子開始，僅提高速度，同時保持質量固定。波長和環路配合計數會發生什麼變化？",
+        "scenarioLabel": "提高速度",
+        "changeLabel": "速度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "波長變得更短，更多的波長適合環路。"
+          },
+          {
+            "id": "b",
+            "label": "波長變長，因為粒子每秒移動的距離較長。"
+          },
+          {
+            "id": "c",
+            "label": "波長保持不變，因為質量沒有變化。"
+          }
+        ],
+        "explanation": "在固定質量下，速度越大代表動量越大。從\\(\\lambda = h / p\\)開始，波長變短，\\(N = L / \\lambda\\)上升。",
+        "observationHint": "局部間距縮小，同時循環計數從大約 1 次變為約 2 次。"
       },
       {
         "id": "dbmw-pred-heavier-same-speed",
-        "changeLabel": "粒子質量"
+        "prompt": "保持速度大致相同，但使粒子更重。在這個有界模型中哪一個陳述是誠實的？",
+        "scenarioLabel": "提高質量",
+        "changeLabel": "粒子質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "動量上升，因此波長變短，環路配合數增加。"
+          },
+          {
+            "id": "b",
+            "label": "沒有任何變化，因為只有速度對波長很重要。"
+          },
+          {
+            "id": "c",
+            "label": "波長變長，因為較重的粒子需要更多的空間。"
+          }
+        ],
+        "explanation": "質量也透過動量進入。在相同速度下，較重的粒子具有較大的\\(p\\)，因此德布羅意波長較短。",
+        "observationHint": "首先觀察動量讀數的變化，然後讀取較短的波長和較高的循環計數。"
+      },
+      {
+        "id": "dbmw-pred-same-momentum",
+        "prompt": "從近擬合電子中，將質量加倍並將速度減半，以便動量保持大致相同。波長會發生什麼變化？",
+        "scenarioLabel": "保持同樣的勢頭",
+        "changeLabel": "質量和速度在一起",
+        "choices": [
+          {
+            "id": "a",
+            "label": "波長應該保持大致相同，因為動量保持大致相同。"
+          },
+          {
+            "id": "b",
+            "label": "波長應該變短，因為粒子比較重。"
+          },
+          {
+            "id": "c",
+            "label": "波長應該變長，因為粒子速度較慢。"
+          }
+        ],
+        "explanation": "德布羅意波長取決於動量，而不是分別取決於質量或速度。如果 \\(mv\\) 保持不變，\\(\\lambda\\) 也保持不變。",
+        "observationHint": "將動量讀數和波長圖結合使用。該點應保持在曲線上同一位置附近。"
       }
     ]
   },
@@ -339,7 +642,22 @@
         "hints": [
           "把質量維持在電子的基準值。",
           "你的目標是 $N \\approx 1$，而不只是把波長調短。"
-        ]
+        ],
+        "targets": [
+          {
+            "label": "用這個步驟把模擬、圖像和概念連接起來。"
+          },
+          {
+            "label": "將速度毫米保持在 2.1 Mm/s 和 2.3 Mm/s 之間。"
+          },
+          {
+            "label": "將波長保持在 0.315 nm 和 0.35 nm 之間。"
+          },
+          {
+            "label": "將 fitcount 保持在 0.95 到 1.05 之間。"
+          }
+        ],
+        "style": "目標設定"
       },
       {
         "id": "dbmw-ch-heavy-shorter-wave",
@@ -352,8 +670,34 @@
         "hints": [
           "把速度保持在接近單圈擬合電子的水平。",
           "你的目標是透過增加質量提升動量，從而把波長縮短。"
-        ]
+        ],
+        "targets": [
+          {
+            "label": "用這個步驟把模擬、圖像和概念連接起來。"
+          },
+          {
+            "label": "將速度毫米保持在 2.1 Mm/s 和 2.3 Mm/s 之間。"
+          },
+          {
+            "label": "將波長保持在 0.155 nm 和 0.175 nm 之間。"
+          },
+          {
+            "label": "將 fitcount 保持在 1.9 到 2.1 之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "title": "德布羅意物質波 |開放模型實驗室",
+    "description": "探索粒子動量如何設定德布羅意波長以及為什麼整數環擬合有助於將波思想與早期量子行為聯繫起來。",
+    "keywords": [
+      "德布羅意物質波",
+      "物質波長",
+      "量子波長",
+      "動量與波長",
+      "德布羅意關係"
     ]
   }
 }

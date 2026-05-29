@@ -32,6 +32,14 @@
     }
   ],
   "sections": {
+    "explanation": {
+      "paragraphs": [
+        "保持光程差嚮導和組合幅度嚮導可見，並將探頭固定在一個螢幕高度。探針圖隨著時間的推移追蹤來源 A、來源 B 及其在該點的組合波，而模式圖則顯示每個螢幕高度的長期亮度。一條明亮的帶子並不是時間上凍結的波峰。這是組合波在一個又一個週期中保持大的位置。",
+        "關鍵量是總相位差：兩個到達點相遇時的失步程度。路徑差異指南顯示了它的一部分來自哪裡。當移動探頭時，r1 和 r2 發生變化，因此額外距離 Delta r 也會發生變化。如果 Delta r 為 0，則一個波長、兩個波長等等，相等的源會增強。如果 Delta r 約為半個波長、一個半波長等，則相同的光源到達時相位幾乎相反，螢幕會變暗。",
+        "來源控制項可讓您測試相位差的哪一部分發生了變化。源相位偏移可以將中心從亮變為暗，而根本不改變幾何形狀，因為它直接添加相位。改變波長也不會影響幾何形狀，但它會改變每米路徑差代表的相位，因此條紋在圖案圖上擠在一起或散開。",
+        "在您相信暗帶之前，最後一項檢查很重要：破壞性相位不能保證完美的零，除非來源振幅匹配。如果來源 A 和來源 B 不相等，則組合振幅指南（添加的波可以達到多大的輪廓）不會完全閉合。同樣的想法後來又出現在駐波、雜訊消除和光學干涉。接下來，透過移動探頭高度來製作暗帶，返回中心並僅使用來源相位偏移再次將其變暗，然後使幅度不平衡並觀察空值填充回來。"
+      ]
+    },
     "keyIdeas": [
       "建設性干涉發生在總相位差接近整數倍的 2π 時，因此兩個到達波會互相增強。",
       "破壞性干涉發生在總相位差接近奇數倍的 π 時，所以等振幅的到達波可以幾乎互相抵消。",
@@ -73,22 +81,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別關係"
+              "label": "1. 識別關係",
+              "template": "使用$\\Delta \\phi = \\dfrac{2\\pi \\Delta r}{\\lambda} + \\phi_0$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前幾何"
+              "label": "2. 代入目前幾何",
+              "template": "$\\Delta \\phi = \\dfrac{2\\pi({{pathDifferenceValue}})}{{wavelengthValue}} + {{phaseOffsetValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 包裹到有用的比較角"
+              "label": "3. 包裹到有用的比較角",
+              "template": "這給出了 ${{wrappedPhaseValue}}\\,\\mathrm{rad}$ 的包裹相位差，或在添加源相位偏移之前大約 {{pathDifferenceCyclesValue}} 額外行程的波長。"
             }
           ],
           "resultLabel": "目前相位差",
+          "resultTemplate": "$\\Delta \\phi = {{wrappedPhaseValue}}\\,\\mathrm{rad}$",
           "applyAction": {
             "label": "顯示暗紋",
             "observationHint": "路徑差接近半個波長，因此探針位於螢幕上的暗區域附近。"
-          }
+          },
+          "interpretationTemplate": "{{phaseInterpretation}}"
         },
         {
           "id": "resultant-envelope",
@@ -111,22 +124,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 識別疊加關係"
+              "label": "1. 識別疊加關係",
+              "template": "使用$A_{\\mathrm{res}} = \\sqrt{A_1^2 + A_2^2 + 2A_1A_2\\cos(\\Delta \\phi)}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入目前振幅"
+              "label": "2. 代入目前振幅",
+              "template": "$A_{\\mathrm{res}} = \\sqrt{{{amplitudeAValue}}^2 + {{amplitudeBValue}}^2 + 2({{amplitudeAValue}})({{amplitudeBValue}})\\cos({{wrappedPhaseValue}})}$。"
             },
             {
               "id": "compute",
-              "label": "3. 解讀結果包絡"
+              "label": "3. 解讀結果包絡",
+              "template": "探頭支援 $A_{\\mathrm{res}} = {{resultantAmplitudeValue}}\\,\\mathrm{a.u.}$ 的組合幅度，它對應於 {{intensityValue}} 的相對螢幕強度。"
             }
           ],
           "resultLabel": "目前結果振幅",
+          "resultTemplate": "$A_{\\mathrm{res}} = {{resultantAmplitudeValue}}\\,\\mathrm{a.u.}$",
           "applyAction": {
             "label": "顯示不完全抵消",
             "observationHint": "相位差仍接近破壞性，但不相等的振幅會留下剩餘運動，而不是完美歸零。"
-          }
+          },
+          "interpretationTemplate": "{{amplitudeInterpretation}}"
         }
       ]
     },
@@ -265,6 +283,90 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "探討兩個穩定波如何重疊，比較每個波傳播的距離，並查看它們在哪裡相加或抵消。",
+    "keyTakeaway": "圖案圖顯示整個螢幕的亮度；探測圖追蹤波在某一選定點隨時間的上下移動。"
+  },
+  "v2": {
+    "intuition": "從兩個相等的來源開始，在螢幕上移動一個探測點，然後觀察兩個到達的波如何添加到明亮或黑暗區域。",
+    "whyItMatters": "干涉是波如何將距離和時間差異轉換為可見模式，從雜訊消除到雙縫光學。",
+    "equationSnapshot": {
+      "note": "首先使用路徑差，然後將額外的行程轉換為決定亮或暗的相位差。"
+    },
+    "startSetup": {
+      "note": "在中心明亮帶上打開，幾何形狀和組合幅度指南可見，因此學習者可以在觸摸文字之前先閱讀圖案。"
+    },
+    "guidedSteps": [
+      {
+        "id": "compare-probe-and-screen",
+        "title": "比較一點和螢幕",
+        "goal": "將螢幕圖案和探針圖讀取為相同重疊的兩個視圖。",
+        "doThis": "從中心明亮開始，保持圖案圖可見，緩慢移動探針高度，並將螢幕圖案與探針圖進行比較。",
+        "notice": "明亮的螢幕區域與探頭處的大組合運動對齊；黑暗區域與較小的組合運動對齊。",
+        "explain": "螢幕圖案顯示多個位置的亮度，而探針圖顯示波在一個選定位置隨時間上下移動。",
+        "setup": {
+          "note": "從中心亮帶開始，然後僅移動探頭高度以將螢幕點與完整圖案進行比較。"
+        },
+        "inlineCheck": {
+          "title": "預報中心翻轉"
+        }
+      },
+      {
+        "id": "turn-distance-into-phase",
+        "title": "將距離轉換為相位",
+        "goal": "將一波行進的額外距離與到達是否加強或取消連結起來。",
+        "doThis": "降低波長一次，然後在亮帶和暗帶之間移動探頭高度。",
+        "notice": "當波長較短時，相同的路徑差會產生更多的相位，因此亮暗間距會變緊。",
+        "explain": "光程差只有在與波長比較後才變得有用：對於相同的光源，全波長差異會增強，而半波長差異會抵消。",
+        "setup": {
+          "note": "從較短波長圖案開始，因此幾何形狀到相位的轉換在視覺上足夠擁擠以引起注意。"
+        },
+        "inlineCheck": {
+          "title": "讀取亮帶或暗帶"
+        }
+      },
+      {
+        "id": "test-cancellation-limits",
+        "title": "測試取消限制",
+        "goal": "檢視為什麼反相不足以形成完美的暗點。",
+        "doThis": "從相位翻轉暗點開始，然後在不移動探頭的情況下使來源 B 小於來源 A。",
+        "notice": "該點部分地被填回，因為較強的源留下了剩餘的組合運動。",
+        "explain": "完美的暗條紋需要破壞性相位和匹配的源振幅；否則，波仍然重疊，但不會完全抵消到零。",
+        "setup": {
+          "note": "從居中的破壞性情況開始，然後打破幅度相等來測試為什麼填充空值。"
+        },
+        "inlineCheck": {
+          "title": "解釋一下不完美的暗點"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "亮區和暗區來自同一螢幕點重疊的兩個波，而不是來自一個波的消失。",
+        "路徑差和源相位偏移都提供決定到達是加強還是取消的總相位差。",
+        "完全消除需要相反的相位和匹配的幅度；不平等的來源會留下剩餘的運動。"
+      ],
+      "misconception": "暗帶意味著一個源停止到達該點。",
+      "freePlayPrompt": "保持螢幕圖案打開，並使用幾何體發明一種從亮到暗的變化，然後使用源相位發明一種變化。",
+      "nextConcepts": [
+        {
+          "slug": "diffraction",
+          "title": "衍射",
+          "reasonLabel": "單縫擴散"
+        },
+        {
+          "slug": "double-slit-interference",
+          "title": "雙縫干涉",
+          "reasonLabel": "光橋"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "駐波",
+          "reasonLabel": "站立圖案"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "wave-path",
@@ -272,12 +374,14 @@
       "meaning": "一個到達波相對另一個到達波多走的距離；兩者會在同一個螢幕點相遇。",
       "notes": [
         "一旦選定探針高度，幾何就會固定 r1 和 r2。"
-      ]
+      ],
+      "readAloud": "路徑差等於距離源二的距離減去距離源一的距離"
     },
     {
       "id": "wave-phase",
       "label": "總相位差",
-      "meaning": "螢幕點比較兩條幾何路徑的相位以及任何明確的源相位偏移。"
+      "meaning": "螢幕點比較兩條幾何路徑的相位以及任何明確的源相位偏移。",
+      "readAloud": "總相位差等於 2 pi 乘以波長上的路徑差，加上源相位偏移"
     },
     {
       "id": "wave-resultant",
@@ -285,12 +389,14 @@
       "meaning": "兩個到達波疊加後，隨時間變化的探針運動會落在這個振幅包絡內。",
       "notes": [
         "只有在振幅相同且相位差接近 π 時，才會完全抵消。"
-      ]
+      ],
+      "readAloud": "組合幅度等於源一平方的平方根加上源二平方加上它們乘積的兩倍乘以相位差的餘弦"
     },
     {
       "id": "wave-intensity",
       "label": "螢幕強度",
-      "meaning": "明亮和暗淡區域遵循結果振幅的平方，而不是瞬時位移。"
+      "meaning": "明亮和暗淡區域遵循結果振幅的平方，而不是瞬時位移。",
+      "readAloud": "強度與組合振幅的平方成正比"
     }
   ],
   "variableLinks": [
@@ -321,45 +427,387 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "圖案",
+      "primaryGraphIds": [
+        "圖案",
+        "位移"
+      ],
+      "primaryControlIds": [
+        "探針Y",
+        "相位偏移"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "amplitudeA",
-        "label": "波源 A 振幅"
+        "label": "波源 A 振幅",
+        "description": "控制源 A 對組合運動的貢獻程度。"
       },
       {
         "id": "amplitudeB",
-        "label": "波源 B 振幅"
+        "label": "波源 B 振幅",
+        "description": "控制源 B 對組合運動的貢獻程度。"
       },
       {
         "id": "wavelength",
-        "label": "波長"
+        "label": "波長",
+        "description": "較短的波長使得相同的路徑差產生較大的相移。"
       },
       {
         "id": "phaseOffset",
-        "label": "源相位偏移"
+        "label": "源相位偏移",
+        "description": "在兩個源之間加入直接相移，而不改變幾何形狀。"
       },
       {
         "id": "probeY",
-        "label": "探針高度"
+        "label": "探針高度",
+        "description": "向上或向下移動螢幕點以使路徑差改變。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "center-bright",
+        "label": "中心明亮",
+        "description": "等路徑和等相位在螢幕中間得到加強。"
+      },
+      {
+        "id": "off-center-dark",
+        "label": "偏移暗",
+        "description": "探頭位於路徑差接近半個波長的位置。"
+      },
+      {
+        "id": "phase-flip",
+        "label": "相位翻轉",
+        "description": "π 的源相移將中心從亮變為暗。"
+      },
+      {
+        "id": "unequal-sources",
+        "label": "來源不平等",
+        "description": "相位分裂具有破壞性，但不等的幅度會留下剩餘訊號。"
+      },
+      {
+        "id": "short-wave",
+        "label": "短波長",
+        "description": "較短的波長會使同一螢幕上的亮區和暗區更靠近。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "pathDifference",
+        "label": "路徑差指南",
+        "shortDescription": "標記兩個行駛距離以及它們之間的額外距離。",
+        "whatToNotice": [
+          "移動探頭會改變兩個路徑長度，但乾擾取決於它們的差異，而不是分別取決於兩個長度。"
+        ],
+        "whyItMatters": "它展示了螢幕位置如何變成相位差，而不是讓亮帶和暗帶看起來神秘。",
+        "relatedControls": [
+          "探針Y",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedEquationVariables": [
+          "探針Y",
+          "波長"
+        ]
+      },
+      {
+        "id": "resultEnvelope",
+        "label": "組合振幅指南",
+        "shortDescription": "顯示探頭處組合運動的最大尺寸。",
+        "whatToNotice": [
+          "即使在亮點處，瞬時位移也可能過零，但指南仍會顯示該點隨著時間的推移是大部分是亮的還是暗的。"
+        ],
+        "whyItMatters": "它將快速的上下運動與長期的干涉圖案分開。",
+        "relatedControls": [
+          "振幅A",
+          "振幅B",
+          "相位偏移"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "圖案"
+        ],
+        "relatedEquationVariables": [
+          "振幅A",
+          "振幅B",
+          "相位偏移"
+        ]
+      },
+      {
+        "id": "phaseWheel",
+        "label": "相位輪",
+        "shortDescription": "將兩個來源貢獻顯示為新增至最終結果的箭頭。",
+        "whatToNotice": [
+          "隨著相位差的變化，兩個箭頭分開或一起擺動，最後一個箭頭隨該角度收縮或增大。"
+        ],
+        "whyItMatters": "它將幅度公式變成了向量加法的圖像，而不是單純的代數。",
+        "relatedControls": [
+          "相位偏移",
+          "波長",
+          "振幅A",
+          "振幅B"
+        ],
+        "relatedGraphTabs": [
+          "圖案",
+          "位移"
+        ],
+        "relatedEquationVariables": [
+          "相位偏移",
+          "波長",
+          "振幅A",
+          "振幅B"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "pattern",
-      "label": "螢幕圖樣"
+      "label": "螢幕圖樣",
+      "xLabel": "螢幕高度（公尺）",
+      "yLabel": "相對強度",
+      "description": "顯示每個螢幕高度的平均亮度，因此您可以將選定的探測點與完整干涉圖樣進行比較。"
+    },
+    {
+      "id": "displacement",
+      "label": "探頭運動",
+      "xLabel": "時間（秒）",
+      "yLabel": "位移（a.u.）",
+      "description": "隨著時間的推移，在一個選定的螢幕點上追蹤來源 A、來源 B 及其組合波，以便您可以看到隨時間變化的波仍然產生的明亮或黑暗區域。"
     }
   ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。每個提示都應該指向您可以在舞台或圖像上實際看到的變化。",
+    "items": [
+      {
+        "id": "wave-notice-probe-and-pattern",
+        "text": "請注意，探頭點和螢幕帶講述了相同的故事：探頭處較大的組合幅度引導意味著螢幕上的區域更亮。",
+        "tryThis": "保持振幅相等，緩慢移動探頭，並觀察螢幕條隨著組合振幅指南的變化而變亮和變暗。",
+        "whyItMatters": "此模式是您在某一點觀察到的相同波浪相加的長期結果。",
+        "relatedControls": [
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "結果信封"
+        ]
+      },
+      {
+        "id": "wave-notice-pattern-preview",
+        "text": "請注意，將滑鼠停留在模式圖上會將即時探針移動到相同的螢幕高度。圖像和階段連結到同一點。",
+        "tryThis": "將滑鼠懸停在明亮的峰值上，然後將滑鼠懸停在黑暗的山谷上，然後比較探頭處的組合幅度指南。",
+        "whyItMatters": "它使圖像、幾何圖像和探針運動保持同步。",
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "路徑差異",
+          "結果信封"
+        ]
+      },
+      {
+        "id": "wave-notice-wavelength",
+        "text": "請注意，縮短波長會使相同的路徑差對更多相位產生影響，因此亮帶和暗帶會更接近。",
+        "tryThis": "降低波長，同時保持探頭高度固定，並比較圖案圖移動的距離。",
+        "whyItMatters": "波長設定條紋間距，因為它將路徑差轉換為相位差。",
+        "relatedControls": [
+          "波長",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedEquationVariables": [
+          "波長",
+          "探針Y"
+        ]
+      },
+      {
+        "id": "wave-notice-unequal-amplitudes",
+        "text": "請注意，當源振幅不相等時，破壞性相位分裂不會迫使組合波為零。",
+        "tryThis": "透過相位翻轉將中心點設為暗，然後降低源 B 幅度並觀察空值填充回來。",
+        "whyItMatters": "完美的零位需要正確的相位差和相等的振幅。",
+        "relatedControls": [
+          "振幅A",
+          "振幅B",
+          "相位偏移"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "結果信封",
+          "相輪"
+        ]
+      },
+      {
+        "id": "wave-notice-inspect",
+        "text": "請注意，時間軌道會改變瞬時探頭運動，但模式圖保持不變，因為強度是一段時間內的平均值，而不是時間軌跡。",
+        "tryThis": "暫停在探針圖上，向前一步，然後將探針處的變化與模式視圖中保持固定的內容進行比較。",
+        "whyItMatters": "這將瞬時位移與時間平均干涉圖案分開。",
+        "relatedGraphTabs": [
+          "位移",
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "結果信封"
+        ]
+      },
+      {
+        "id": "wave-notice-compare",
+        "text": "請注意哪一種設定會使螢幕上的亮峰相距更遠。此設定具有較大的波長或每米路徑差的較小的相位變化。",
+        "tryThis": "複製目前狀態，在一個設定中縮短波長，並在讀取圖像之前逐行比較圖案條。",
+        "whyItMatters": "比較模式使邊緣間距變化易於查看，而無需隱藏下面的幾何圖像。",
+        "relatedControls": [
+          "波長",
+          "探針Y"
+        ],
+        "relatedGraphTabs": [
+          "圖案"
+        ],
+        "relatedOverlays": [
+          "路徑差異"
+        ]
+      }
+    ]
+  },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測結果。每個提示一次改變一個原因，以便您可以連接幾何、相位和亮度。",
     "items": [
       {
         "id": "wave-predict-phase-flip",
-        "changeLabel": "相位移"
+        "prompt": "探頭居中且兩個源振幅相等。如果加入 π 的來源相位偏移，在同一螢幕點會發生什麼事？",
+        "scenarioLabel": "將一個源翻轉 π",
+        "changeLabel": "相位移",
+        "choices": [
+          {
+            "id": "a",
+            "label": "中心點應該向黑暗區域塌陷，因為到達訊號現在異相。"
+          },
+          {
+            "id": "b",
+            "label": "中心點應該保持明亮，因為路徑長度仍然相等。"
+          },
+          {
+            "id": "c",
+            "label": "中心點應在螢幕上向上移動，但保持相同的強度。"
+          }
+        ],
+        "explanation": "在中心，路徑差為零，因此幾何形狀不會產生相位分裂。但 pi 的源相位偏移仍然使兩個到達點在同一點彼此相反。",
+        "observationHint": "即使路徑長度保持相等，也會觀察中心帶變暗。"
       },
       {
         "id": "wave-predict-shorter-wavelength",
-        "changeLabel": "波長"
+        "prompt": "將探頭保持在原位並縮短波長。螢幕上的明暗間距會發生什麼變化？",
+        "scenarioLabel": "縮短波長",
+        "changeLabel": "波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "圖案應該收緊，因為相同的路徑差現在會產生更多的相位變化。"
+          },
+          {
+            "id": "b",
+            "label": "這個圖案應該會展開，因為較短的波浪需要更多的空間。"
+          },
+          {
+            "id": "c",
+            "label": "只有探針圖應該改變。螢幕圖案應保持固定。"
+          }
+        ],
+        "explanation": "波長較短意味著相同的額外距離會產生較大的相位變化，因此條紋會更接近。",
+        "observationHint": "當 λ 縮小時，圖案圖上的亮峰和暗峰向內堆積。"
+      },
+      {
+        "id": "wave-predict-unequal-null",
+        "prompt": "你已經發生了破壞性的相分裂。如果光源 B 變得小於光源 A，暗點會發生什麼事？",
+        "scenarioLabel": "振幅不等",
+        "changeLabel": "振幅平衡",
+        "choices": [
+          {
+            "id": "a",
+            "label": "暗點應部分填充，因為較強的光源會留下剩餘的組合運動。"
+          },
+          {
+            "id": "b",
+            "label": "該點應保持完全黑暗，因為相位差比幅度更重要。"
+          },
+          {
+            "id": "c",
+            "label": "整個模式應該會消失，因為一個來源較弱。"
+          }
+        ],
+        "explanation": "破壞性階段本身並不會產生完全無效。如果一個來源更強，它的部分貢獻會被留下，而不是完全取消。",
+        "observationHint": "相位分裂仍然具有破壞性，但組合幅度引導會重新打開，因為幅度不符。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "將螢幕圖案和探頭運動轉變為從相同即時幾何圖像更新的小幹擾搜尋。",
+    "items": [
+      {
+        "id": "wi-ch-find-dark-band",
+        "title": "找到暗帶",
+        "prompt": "從中心明亮處開始，將探頭移動到螢幕強度幾乎消失的黑暗區域。",
+        "successMessage": "您改變實際路徑差而不是切換裝飾效果發現了相消干涉。圖案圖和舞台現在在暗帶上一致。",
+        "setup": {
+          "note": "將探頭移離中心線時，請使用螢幕圖案圖作為指引。"
+        },
+        "hints": [
+          "您需要一個路徑差接近半波長的地方。",
+          "保持路徑差覆蓋打開，以便在搜尋時幾何圖像保持可見。"
+        ],
+        "targets": [
+          {
+            "label": "驅動相對強度低於 $0.1$。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "wi-ch-bright-zero-crossing",
+        "title": "明亮的過零",
+        "prompt": "從中心亮起，在組合振幅仍然很大但瞬時探頭位移已過零時暫停。",
+        "successMessage": "您將振幅與瞬時位移分開。即使在亮點處，探頭也可以通過零，而乾擾仍然具有很強的建設性。",
+        "setup": {
+          "note": "將探頭保持在明亮的位置，然後利用檢查時間捕捉過零。"
+        },
+        "hints": [
+          "這是時間挑戰，而不是模式挑戰。暫停探針運動而不是先移動幾何體。",
+          "您希望在同一點處具有較大的組合振幅和接近零的瞬時位移。"
+        ],
+        "targets": [
+          {
+            "label": "將組合幅度保持在 $1.8$ 和 $2.05$ 之間。"
+          },
+          {
+            "label": "使瞬時合成位移接近零。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "波幹擾",
+    "description": "具有路徑差、相位差、即時探頭運動和螢幕上連結的干涉圖案的交互波干涉。",
+    "keywords": [
+      "波幹擾",
+      "相長干涉",
+      "相消干涉",
+      "相位差",
+      "路徑差異"
     ]
   }
 }

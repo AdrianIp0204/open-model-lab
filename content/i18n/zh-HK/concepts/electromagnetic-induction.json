@@ -68,31 +68,41 @@
             {
               "id": "speed",
               "label": "磁體速度"
+            },
+            {
+              "id": "magnet-position",
+              "label": "磁鐵位置"
             }
           ],
           "steps": [
             {
               "id": "read-motion",
-              "label": "1. 説明活躍的磁鐵移動"
+              "label": "1. 説明活躍的磁鐵移動",
+              "template": "磁鐵位於 $x_m = {{positionValue}}\\,\\mathrm{m}$ 和 $v = {{speedValue}}\\,\\mathrm{m/s}$，因此它是 {{motionStateValue}} 線圈。"
             },
             {
               "id": "field-at-coil",
-              "label": "2. 選擇透過線圈的帶號場"
+              "label": "2. 選擇透過線圈的帶號場",
+              "template": "極點符號為 $s = {{poleSignValue}}$，有界場模型給出 $B_{\\text{coil}} = {{fieldValue}}\\,\\mathrm{T}$。"
             },
             {
               "id": "flux-linkage",
-              "label": "3. 建立磁通聯接"
+              "label": "3. 建立磁通聯接",
+              "template": "使用 $N = {{coilTurnsValue}}$ 和 $A = {{coilAreaValue}}\\,\\mathrm{m^2}$，線圈在此有界設定中連結 $\\Lambda = N A B_{\\text{coil}} = {{fluxLinkageValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn}$。"
             },
             {
               "id": "faraday-law",
-              "label": "4. 將變化的磁通轉換為電動勢和電流"
+              "label": "4. 將變化的磁通轉換為電動勢和電流",
+              "template": "法拉第定律給出 $\\mathcal{E} = -d\\Lambda/dt = {{emfValue}}\\,\\mathrm{V}$，因此環路電流為 $I = {{currentValue}}\\,\\mathrm{A}$。"
             }
           ],
           "resultLabel": "感生狀態",
+          "resultTemplate": "$\\Lambda = {{fluxLinkageValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn}, \\quad \\mathcal{E} = {{emfValue}}\\,\\mathrm{V}, \\quad I = {{currentValue}}\\,\\mathrm{A}$",
           "applyAction": {
             "label": "顯示更快的移動",
             "observationHint": "磁通的故事保持基本形狀不變，但較快的移動使電動勢峯值更高，因為相同的變化發生在更短的時間內。"
-          }
+          },
+          "interpretationTemplate": "{{fieldInterpretation}}"
         },
         {
           "id": "flux-peak-versus-emf",
@@ -106,27 +116,40 @@
             {
               "id": "emf",
               "label": "感應電動勢"
+            },
+            {
+              "id": "position",
+              "label": "磁鐵位置"
+            },
+            {
+              "id": "field",
+              "label": "場通線圈"
             }
           ],
           "steps": [
             {
               "id": "read-flux",
-              "label": "1. 説明當前的磁通聯接"
+              "label": "1. 説明當前的磁通聯接",
+              "template": "現在線圈處於 $\\Lambda = {{fluxLinkageValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn}$，而磁鐵位於 $x_m = {{positionValue}}\\,\\mathrm{m}$。"
             },
             {
               "id": "check-slope",
-              "label": "2. 問是否該磁通正在變化"
+              "label": "2. 問是否該磁通正在變化",
+              "template": "變化率為$d\\Lambda/dt = {{fluxRateValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn/s}$，因此此時的通量為{{fluxTrendValue}}。"
             },
             {
               "id": "compare-response",
-              "label": "3. 將磁通本身與感生反應進行比較"
+              "label": "3. 將磁通本身與感生反應進行比較",
+              "template": "即使通過線圈的磁場仍然是 $B_{\\text{coil}} = {{fieldValue}}\\,\\mathrm{T}$，也會產生 $\\mathcal{E} = {{emfValue}}\\,\\mathrm{V}$ 和 $I = {{currentValue}}\\,\\mathrm{A}$。"
             }
           ],
           "resultLabel": "磁通量與反應",
+          "resultTemplate": "$\\Lambda = {{fluxLinkageValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn}, \\quad d\\Lambda/dt = {{fluxRateValue}}\\,\\mathrm{Wb\\!\\cdot\\!turn/s}, \\quad \\mathcal{E} = {{emfValue}}\\,\\mathrm{V}$",
           "applyAction": {
             "label": "顯示居中的零值",
             "observationHint": "磁場仍然存在，但電表歸零，因為連線的磁通量不再變化。"
-          }
+          },
+          "interpretationTemplate": "{{relativeChangeInterpretation}}"
         }
       ]
     },
@@ -159,6 +182,10 @@
           }
         ],
         "explanation": "感應現象需要磁通量的變化。一個穩定的磁場條件可以讓線圈連結著磁場而不產生電動勢。",
+        "selectedWrongExplanations": {
+          "b": "一個大的穩定場是不夠的。法拉第感應需要變化的通量，而不僅僅是非零通量。",
+          "c": "除非鏈結的通量隨時間變化，否則符號無法交替。"
+        },
         "showMeAction": {
           "label": "顯示靜止情況",
           "observationHint": "磁場帶仍然可見，而電表則接近歸零。"
@@ -182,6 +209,10 @@
           }
         ],
         "explanation": "最大磁通量值並不一定意味著最大的導數。在磁通量曲線的頂點時斜率為零，所以感應電動勢透過零。",
+        "selectedWrongExplanations": {
+          "a": "電動勢遵循磁通變化率，因此磁通峰值可以與零斜率和零電動勢一致。",
+          "c": "場在中心時刻尚未消失；通量暫時變化最慢。"
+        },
         "showMeAction": {
           "label": "顯示居中的零值",
           "observationHint": "一起閱讀磁通量圖和感應響應圖，而不是僅僅比較磁場大小。"
@@ -205,6 +236,10 @@
           }
         ],
         "explanation": "電動勢的符號取決於相連磁通量的變化方向。翻轉磁極方向或運動方向會反轉這種變化，從而反轉電動勢的符號。",
+        "selectedWrongExplanations": {
+          "a": "如果極性和運動保持不變，更多的匝數會改變反應的大小，而不是符號。",
+          "b": "較大的面積會改變磁通量比例，但不會反轉通過方向或磁極方向。"
+        },
         "showMeAction": {
           "label": "顯示磁極翻轉",
           "observationHint": "相同的時間點保持不變，但場、電動勢和電流的符號都反轉。"
@@ -228,6 +263,10 @@
           }
         ],
         "explanation": "相同的磁鐵透過意味著更多的圈數會帶來更大的相連磁通量和更快速度的變化率，線上圈模型中，所以感應回應按比例放大。",
+        "selectedWrongExplanations": {
+          "a": "速度很重要，但鏈結匝數也會影響磁鏈。",
+          "c": "增加匝數不會消除磁場；它改變了磁鏈的計算量。"
+        },
         "showMeAction": {
           "label": "顯示更多圈數",
           "observationHint": "磁鐵路徑保持不變，但相連磁通量和反應軌跡增長。"
@@ -264,6 +303,10 @@
         "title": "保持電磁學故事的進展"
       }
     ]
+  },
+  "pageIntro": {
+    "definition": "追蹤經過一個線圈的一顆磁鐵，看看變化的磁通鏈如何產生感應電動勢，同時楞次定律固定響應方向，平台、檢流計和圖像均由相同的有界運動驅動。",
+    "keyTakeaway": "感應電動勢取決於變化的磁鏈 $\\Lambda = N\\Phi$，而不是僅僅取決於磁場的存在。"
   },
   "equations": [
     {
@@ -329,43 +372,437 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "誘導反應",
+      "primaryGraphIds": [
+        "誘導反應"
+      ],
+      "primaryControlIds": [
+        "速度",
+        "開始偏移"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "magnetStrength",
-        "label": "磁體強度"
+        "label": "磁體強度",
+        "description": "改變有界磁鐵模型中穿過線圈的磁場比例。"
       },
       {
         "id": "coilTurns",
-        "label": "線圈匝數"
+        "label": "線圈匝數",
+        "description": "在同一迴路中新增或刪除匝數，這會在不改變基本通道的情況下改變磁鏈。"
       },
       {
         "id": "coilArea",
-        "label": "線圈面積"
+        "label": "線圈面積",
+        "description": "改變透過線圈連接磁場的環路的大小。"
       },
       {
         "id": "speed",
-        "label": "磁體速度"
+        "label": "磁體速度",
+        "description": "正值從左側開始向右移動。負值從右側開始並向左移動。"
       },
       {
         "id": "startOffset",
-        "label": "起始偏移"
+        "label": "起始偏移",
+        "description": "設定 t = 0 時距線圈中心的初始磁鐵距離。"
+      },
+      {
+        "id": "northFacingCoil",
+        "label": "北極面向線圈",
+        "description": "翻轉哪個極點指向線圈以反轉感應故事的符號。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "approach-and-pass",
+        "label": "接近並透過",
+        "description": "乾淨地從左到右穿過預設感應故事的線圈。"
+      },
+      {
+        "id": "paused-at-center",
+        "label": "暫停在中心",
+        "description": "將磁鐵保持在線圈中心，以表示當感應電流消失時磁通量可以非零。"
+      },
+      {
+        "id": "fast-pass",
+        "label": "快速通行證",
+        "description": "使用相同的幾何形狀，但提高速度，以便通量變化更快。"
+      },
+      {
+        "id": "wide-coil",
+        "label": "更寬的線圈",
+        "description": "增加環路面積，以便相同的磁場連結更多的線圈。"
+      },
+      {
+        "id": "more-turns",
+        "label": "更多回合",
+        "description": "在同一通道上堆疊更多匝數，以便磁鍊和感應響應都會增長。"
+      },
+      {
+        "id": "reverse-polarity",
+        "label": "反向極",
+        "description": "保持相同的路徑，但翻轉面向線圈的極，以便符號相反。"
       }
     ],
     "overlays": [
       {
         "id": "coilArea",
-        "label": "線圈面積"
+        "label": "線圈面積",
+        "shortDescription": "突顯有多少循環區域可用於連結欄位。",
+        "whatToNotice": [
+          "較大的環不會改變磁鐵通道本身。它改變了線圈連結即時故事的程度。"
+        ],
+        "whyItMatters": "它使 $\\Lambda = N A B$ 中的面積係數在舞台上變得有形。",
+        "relatedControls": [
+          "線圈區域",
+          "線圈匝數"
+        ],
+        "relatedGraphTabs": [
+          "場通量",
+          "誘導反應"
+        ],
+        "relatedEquationVariables": [
+          "線圈區域",
+          "線圈匝數"
+        ]
+      },
+      {
+        "id": "fieldBand",
+        "label": "即時樂隊",
+        "shortDescription": "顯示當前時刻穿過線圈的帶符號磁場。",
+        "whatToNotice": [
+          "當面對線圈的極翻轉時，即使幾何體的其餘部分保持不變，帶的顏色也會翻轉。"
+        ],
+        "whyItMatters": "它使感應故事的磁性部分保持可見，而不是將其隱藏在儀表後面。",
+        "relatedControls": [
+          "磁鐵強度",
+          "朝北線圈"
+        ],
+        "relatedGraphTabs": [
+          "場通量"
+        ],
+        "relatedEquationVariables": [
+          "磁鐵強度",
+          "朝北線圈"
+        ]
+      },
+      {
+        "id": "motionCue",
+        "label": "動作提示",
+        "shortDescription": "顯示運動方向和鏈結磁通的當前變化率。",
+        "whatToNotice": [
+          "當磁鐵移動得更快時，相同的磁場模式會產生不同的電動勢，因為變化發生的時間較短。"
+        ],
+        "whyItMatters": "感應是一個變化的故事，因此運動和通量斜率需要同時保持可見。",
+        "relatedControls": [
+          "速度",
+          "開始偏移"
+        ],
+        "relatedGraphTabs": [
+          "場通量",
+          "誘導反應"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "開始偏移"
+        ]
+      },
+      {
+        "id": "currentLoop",
+        "label": "電流環路",
+        "shortDescription": "顯示來自相同感應反應的環路電流方向和檢流計符號。",
+        "whatToNotice": [
+          "正負電流符號是本階段約定中循環箭頭的方向標籤。",
+          "當電動勢過零時，箭頭會折疊，然後當感應反應的符號翻轉時，箭頭會反轉。"
+        ],
+        "whyItMatters": "它使楞次定律方向與圖像和讀數中顯示的相同電動勢符號相關聯，而不是僅將符號視為數字。",
+        "relatedControls": [
+          "速度",
+          "朝北線圈"
+        ],
+        "relatedGraphTabs": [
+          "誘導反應"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "朝北線圈"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "field-flux",
+      "label": "場與磁鏈",
+      "xLabel": "時間（秒）",
+      "yLabel": "有符號的磁連動響應",
+      "description": "穿過線圈的磁場跡線和鏈結磁通跡線來自同一磁鐵通道。磁通曲線是按線圈匝數和麵積縮放的磁場故事。"
+    },
+    {
+      "id": "induced-response",
+      "label": "感應電動勢與電流",
+      "xLabel": "時間（秒）",
+      "yLabel": "誘導反應",
+      "description": "電動勢和電流軌跡來自於磁鏈曲線變化的速度。正值和負值是相反的環路電流方向，響應峰值與陡峭的磁通斜率對齊，而不僅僅是與最大磁通值對齊。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "將每個提示用作一項小型調查。連接磁鐵運動、磁通圖和檢流計，而不是只讀取一個值。",
+    "items": [
+      {
+        "id": "emi-notice-centered-zero",
+        "text": "在零感應電動勢的情況下可以存在大的鏈磁通。重要的是磁鏈曲線是否在那一刻改變。",
+        "tryThis": "使用「在中心暫停」預設並將可見場帶與幾乎平坦的誘導反應圖進行比較。",
+        "whyItMatters": "這打破了將射野大小單獨視為感應原因的常見錯誤。",
+        "relatedControls": [
+          "速度",
+          "開始偏移"
+        ],
+        "relatedGraphTabs": [
+          "場通量",
+          "誘導反應"
+        ],
+        "relatedOverlays": [
+          "字段帶",
+          "目前循環"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "開始偏移"
+        ]
+      },
+      {
+        "id": "emi-notice-stationary-field",
+        "text": "如果磁鐵相對於線圈保持固定，則磁場和磁通可以保持非零，同時感應電流降至零。",
+        "tryThis": "將速度設為零，然後觀察檢流計和電流環箭頭穩定，即使場帶仍然可見。",
+        "whyItMatters": "感應是關於相對變化，而不是僅僅關於附近的磁鐵。",
+        "relatedControls": [
+          "速度",
+          "朝北線圈"
+        ],
+        "relatedGraphTabs": [
+          "誘導反應"
+        ],
+        "relatedOverlays": [
+          "字段帶",
+          "目前循環"
+        ],
+        "relatedEquationVariables": [
+          "速度",
+          "朝北線圈"
+        ]
+      },
+      {
+        "id": "emi-notice-speed",
+        "text": "更快的傳遞不會產生不同的通量故事。它使得相同的磁通變化在更短的時間內發生，因此電動勢峰值變得更高。",
+        "tryThis": "將接近和通過與快速通過進行比較，同時保持所有其他控制不變。",
+        "whyItMatters": "這將法拉第定律與同一階段的圖像斜率連結起來。",
+        "relatedControls": [
+          "速度"
+        ],
+        "relatedGraphTabs": [
+          "場通量",
+          "誘導反應"
+        ],
+        "relatedOverlays": [
+          "運動提示",
+          "目前循環"
+        ],
+        "relatedEquationVariables": [
+          "速度"
+        ]
+      },
+      {
+        "id": "emi-notice-area-turns",
+        "text": "更多的線圈面積或更多的匝數可以向上擴展鏈結磁通層，而不改變磁鐵路徑本身。",
+        "tryThis": "將預設通道複製到比較模式，然後僅變更設定 B 中的線圈面積或線圈匝數。",
+        "whyItMatters": "它將幾何連結因素與運動因素分開。",
+        "relatedControls": [
+          "線圈區域",
+          "線圈匝數"
+        ],
+        "relatedGraphTabs": [
+          "場通量",
+          "誘導反應"
+        ],
+        "relatedOverlays": [
+          "線圈區域",
+          "目前循環"
+        ],
+        "relatedEquationVariables": [
+          "線圈區域",
+          "線圈匝數"
+        ]
+      },
+      {
+        "id": "emi-notice-sign-reversal",
+        "text": "翻轉桿或反轉運動，反應符號翻轉。將符號視為循環方向標籤，然後使用楞次定律來確定哪個方向與變化的通量相反。",
+        "tryThis": "保持相同的路徑並使用反向桿。觀察場帶、儀表符號和電流環箭頭一起反轉。",
+        "whyItMatters": "它將符號慣例、當前方向和反對派聯繫在一起，形成一張共享的圖片。",
+        "relatedControls": [
+          "朝北線圈",
+          "速度"
+        ],
+        "relatedGraphTabs": [
+          "場通量",
+          "誘導反應"
+        ],
+        "relatedOverlays": [
+          "字段帶",
+          "目前循環"
+        ],
+        "relatedEquationVariables": [
+          "朝北線圈",
+          "速度"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在應用變更之前預測感應響應。每個場景每次都會改變一個原因，因此階段、通量圖和檢流計可以確認相同的情況。",
+    "items": [
+      {
+        "id": "emi-pred-centered-zero",
+        "prompt": "如果磁鐵保持在線圈中心而不是穿過線圈，那麼感應響應圖應該做什麼？",
+        "scenarioLabel": "在中心暫停",
+        "changeLabel": "停止相對變化",
+        "choices": [
+          {
+            "id": "a",
+            "label": "磁場和磁通量可以保持非零，但感應電動勢和電流會趨於零。"
+          },
+          {
+            "id": "b",
+            "label": "居中的磁鐵必須最大化電動勢，因為通過線圈的磁場在那裡最大。"
+          },
+          {
+            "id": "c",
+            "label": "電動勢保持不變，因為線圈匝數和麵積沒有改變。"
+          }
+        ],
+        "explanation": "法拉第定律取決於連結通量的變化率。居中暫停可以離開線圈連結場，而不會及時改變該連結。",
+        "observationHint": "當感應響應圖穩定在軸附近時，通量跡線可以遠離零。"
+      },
+      {
+        "id": "emi-pred-fast-pass",
+        "prompt": "如果磁鐵在相同的極性和幾何形狀下使相同的通過速度更快，則最好支持哪種圖像變化？",
+        "scenarioLabel": "更快通過",
+        "changeLabel": "變化率",
+        "choices": [
+          {
+            "id": "a",
+            "label": "電動勢和電流峰值變得更高，因為相同的磁通故事在更短的時間內發生變化。"
+          },
+          {
+            "id": "b",
+            "label": "只有磁場穿過線圈的曲線會改變符號，因為磁鐵移動得更快。"
+          },
+          {
+            "id": "c",
+            "label": "沒有什麼重要的變化，因為峰值通量值僅由磁鐵強度設定。"
+          }
+        ],
+        "explanation": "速度會改變鏈結通量上升和下降的速度。即使峰值通量保持相似，這也會使時間導數變陡並增加電動勢幅度。",
+        "observationHint": "將磁鏈曲線的斜率與電動勢峰值的高度進行比較。"
+      },
+      {
+        "id": "emi-pred-pole-flip",
+        "prompt": "如果重複相同的路徑但相反的磁極面向線圈，感應故事會發生什麼？",
+        "scenarioLabel": "反向極",
+        "changeLabel": "標誌翻轉",
+        "choices": [
+          {
+            "id": "a",
+            "label": "磁場、磁鏈、電動勢和電流的符號全部相反，而整體時序保持相似。"
+          },
+          {
+            "id": "b",
+            "label": "僅字段帶顏色變更。電動勢和電流方向保持不變。"
+          },
+          {
+            "id": "c",
+            "label": "反應消失，因為北極和南極產生相等的感應力並抵消。"
+          }
+        ],
+        "explanation": "改變面向線圈的磁極會翻轉通過線圈的磁場符號。這會翻轉連結的通量和感應響應，同時保持通過的基本時間。",
+        "observationHint": "當磁極方向翻轉時，觀察儀表符號和電流迴路箭頭是否反轉。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的有界磁鐵和線圈通道來建立目標感應狀態。檢查來自即時磁通量和電動勢，而不是來自獨立的答案鍵。",
     "items": [
       {
         "id": "emi-ch-high-flux-zero-emf",
         "title": "磁通量很大，但感應電動勢為零",
         "prompt": "把磁鐵與線圈調整成磁通量本身很大，但磁通量不再改變的情況。重點不是把磁場做大，而是讓變化率停下來。",
-        "successMessage": "你做到了：磁通量可以很大，但只要不再改變，感應電動勢仍然會降到零。"
+        "successMessage": "你做到了：磁通量可以很大，但只要不再改變，感應電動勢仍然會降到零。",
+        "setup": {
+          "note": "一起使用場帶和感應響應圖。目標不是零場；磁鏈變化率幾乎為零。"
+        },
+        "hints": [
+          "減少相對變化而不是削弱磁鐵。",
+          "保持磁鐵距離線圈夠近，以便在檢流計穩定在中心附近時場帶保持較強。"
+        ],
+        "targets": [
+          {
+            "label": "將速度保持在 -0.05 m/s 和 0.05 m/s 之間。"
+          },
+          {
+            "label": "將起始偏移保持在 0 m 和 0.12 m 之間。"
+          },
+          {
+            "label": "保持磁鏈至少 2.2 Wb 匝。"
+          },
+          {
+            "label": "將電動勢維持在 -0.06 V 和 0.06 V 之間。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "emi-ch-oppose-rising-flux",
+        "title": "捕捉上升通量楞次響應",
+        "prompt": "在左側接近期間暫停，因此磁鐵仍然位於線圈外部，鏈結磁通正在增加，並且感應電流以順時針楞次響應運行。",
+        "successMessage": "您清楚地捕捉到了楞次定律力矩：在磁鐵到達中心之前，線圈看到磁通量上升並驅動相反的順時針響應。",
+        "setup": {
+          "note": "從預設通道開始，在左側方法處暫停，並讀取電流環箭頭和場通量圖。"
+        },
+        "hints": [
+          "不要等待磁鐵到達中心。中心的通量很大，但其斜率已經趨於零。",
+          "在左側方法中，北極面向線圈，上升的正磁通意味著在此階段慣例中感應電流必須順時針方向移動。"
+        ],
+        "targets": [
+          {
+            "label": "將磁鐵保持在中心左側，大約 x = -0.55 到 -0.3 m。"
+          },
+          {
+            "label": "將連結磁通增加至 1.6 Wb-turn/s 以上。"
+          },
+          {
+            "label": "將感應電流保持在順時針帶內，約-0.95至-0.65 A。"
+          }
+        ],
+        "style": "可见條件"
       }
+    ]
+  },
+  "seo": {
+    "title": "法拉第定律與楞次定律",
+    "description": "透過一個緊湊的動磁體模擬、連結圖、工作範例、預測提示和檢查點挑戰，了解改變通過線圈的磁通量如何感應電動勢，以及為什麼響應會反對這種變化。",
+    "keywords": [
+      "電磁感應",
+      "法拉第定律",
+      "楞次定律",
+      "磁通量",
+      "感應電動勢",
+      "線圈與磁鐵"
     ]
   }
 }

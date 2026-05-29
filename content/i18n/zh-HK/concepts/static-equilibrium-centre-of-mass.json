@@ -59,27 +59,36 @@
             {
               "id": "cargoPosition",
               "label": "貨物位置"
+            },
+            {
+              "id": "plankMass",
+              "label": "木板質量"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始使用加權平均質心規則"
+              "label": "1. 開始使用加權平均質心規則",
+              "template": "使用 $x_{\\mathrm{CM}} = \\dfrac{m_{\\mathrm{plank}}x_{\\mathrm{plank}} + m_c x_c}{m_{\\mathrm{plank}} + m_c}$，木板中點位於 $x_{\\mathrm{plank}} = 0$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入實時質量和貨物位置"
+              "label": "2. 代入實時質量和貨物位置",
+              "template": "對於 $m_{\\mathrm{plank}} = {{plankMassValue}}\\,\\mathrm{kg}$、$m_c = {{cargoMassValue}}\\,\\mathrm{kg}$ 和 $x_c = {{cargoPositionValue}}\\,\\mathrm{m}$，總質量為 ${{totalMassValue}}\\,\\mathrm{kg}$。"
             },
             {
               "id": "compute",
-              "label": "3. 讀取總體重量位置"
+              "label": "3. 讀取總體重量位置",
+              "template": "這給了$x_{\\mathrm{CM}} = {{centerOfMassXValue}}\\,\\mathrm{m}$。則支撐的總重量為$W = Mg = {{totalWeightValue}}\\,\\mathrm{N}$。"
             }
           ],
           "resultLabel": "總體質心和總重量",
+          "resultTemplate": "$x_{\\mathrm{CM}} = {{centerOfMassXValue}}\\,\\mathrm{m}, \\quad W = {{totalWeightValue}}\\,\\mathrm{N}$",
           "applyAction": {
             "label": "應用向右的負載",
             "observationHint": "保持總體質心和支撐區域疊加。貨物將總重量線拉到支撐區域的右側。"
-          }
+          },
+          "interpretationTemplate": "{{centerOfMassInterpretation}}"
         },
         {
           "id": "current-support-check",
@@ -102,22 +111,27 @@
           "steps": [
             {
               "id": "edges",
-              "label": "1. 確定支援範圍"
+              "label": "1. 確定支援範圍",
+              "template": "對於 $x_s = {{supportCenterValue}}\\,\\mathrm{m}$ 和 $w = {{supportWidthValue}}\\,\\mathrm{m}$，支撐邊為 $x_L = {{supportLeftEdgeValue}}\\,\\mathrm{m}$ 和 $x_R = {{supportRightEdgeValue}}\\,\\mathrm{m}$。"
             },
             {
               "id": "force-and-torque",
-              "label": "2. 檢查保持平衡所需的反作用力"
+              "label": "2. 檢查保持平衡所需的反作用力",
+              "template": "靜態平衡需要$\\sum F_y = 0$和$\\sum \\tau = 0$。對於這種即時狀態，所需的反應是 $R_L = {{requiredLeftReactionValue}}\\,\\mathrm{N}$ 和 $R_R = {{requiredRightReactionValue}}\\,\\mathrm{N}$。 {{supportFeasibilityValue}}"
             },
             {
               "id": "margin",
-              "label": "3. 閱讀穩定度餘量"
+              "label": "3. 閱讀穩定度餘量",
+              "template": "到最近邊緣的目前邊距為 {{stabilityMarginValue}}\\,\\mathrm{m}，因此 {{supportResultSummary}}"
             }
           ],
           "resultLabel": "支撐判決",
+          "resultTemplate": "{{supportResultSummary}}",
           "applyAction": {
             "label": "應用僅微穩定設定",
             "observationHint": "同時開啟支撐反作用力和支撐範圍。木板仍然穩定，但重心線僅僅在右邊緣內側。"
-          }
+          },
+          "interpretationTemplate": "{{supportInterpretation}}"
         }
       ]
     },
@@ -245,6 +259,98 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "將一個支撐區域移動到一塊負載木板下方，看看質心、支撐反作用力和扭矩平衡如何決定物體是保持穩定還是傾斜。",
+    "whyItMatters": "它是扭矩方程式和日常穩定性判斷之間的橋樑：組合重量的作用決定了長凳、架子、起重機負載或傾斜在壁架上的人是否可以保持支撐。",
+    "keyTakeaway": "組合質心是總重量可視為作用的點：$x_{\\mathrm{CM}} = \\dfrac{\\sum m_i x_i}{\\sum m_i}$。"
+  },
+  "v2": {
+    "intuition": "將所有重量視為一條向下線，然後詢問支撐區域是否可以位於該線下方，而無需從空中進行不可能的向上拉力。",
+    "whyItMatters": "這將靜態平衡計算變成了長凳、架子、腳手架、起重機以及任何在其質心移出底座時可能翻倒的物體的可見穩定性規則。",
+    "equationSnapshot": {
+      "title": "平衡與支援窗口",
+      "note": "移動負載時，保持加權平均質心、力平衡和支撐區域規則可見。"
+    },
+    "startSetup": {
+      "note": "從組合的質心線和可見的支撐區域開始，以便在數字之前從幾何結構中讀取穩定性判定。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-the-weight-line",
+        "title": "讀取重量線",
+        "goal": "在判斷穩定性之前，將木板和貨物折疊成一條組合的質心線。",
+        "doThis": "保持重量線和組合質心打開，然後左右滑動貨物位置一次。",
+        "notice": "單獨的木板和貨物重量合併為一條線；即使支撐區域沒有改變，貨物的移動也會移動這條線。",
+        "explain": "質心是質量所在位置的加權平均值，因此較重或較遠的貨物會將總重量線拉向自身。",
+        "inlineCheck": {
+          "title": "預測體重線移動"
+        }
+      },
+      {
+        "id": "place-support-under-weight",
+        "title": "將支撐置於重物下方",
+        "goal": "透過將支撐中心移動到組合重量線下方，使用扭矩平衡來恢復傾斜設定。",
+        "doThis": "向右應用提示，切換到支撐扭矩圖，然後拖曳支撐中心，直到標記到達零線。",
+        "notice": "貨物並未移動，但隨著支撐中心接近組合質心，扭力臂會收縮。",
+        "explain": "力平衡不足以讓木板保持靜止。總重量產生的扭矩也必須消失或透過可能的支撐反作用力來平衡。",
+        "setup": {
+          "note": "從不穩定的情況開始，因此零扭力目標具有明顯的目的。"
+        },
+        "inlineCheck": {
+          "title": "預測救援行動"
+        }
+      },
+      {
+        "id": "shrink-the-support-window",
+        "title": "縮小支援窗口",
+        "goal": "透過在不移動質心的情況下縮小支撐件，將質量分佈與支撐件幾何形狀分開。",
+        "doThis": "從負載下的支撐開始，將貨物保持固定，並縮小支撐寬度，同時觀察穩定性裕度圖。",
+        "notice": "質心線保持在同一位置，但支撐邊緣向內移動，並且到最近邊緣的邊距變小。",
+        "explain": "支撐寬度改變允許的穩定性窗口，而不是加權平均質量位置。即使總重量相同，較窄的底座也可能更快翻倒。",
+        "inlineCheck": {
+          "title": "抓住寬度誤解"
+        }
+      },
+      {
+        "id": "prove-the-edge-case",
+        "title": "證明邊緣情況",
+        "goal": "結合使用反應和裕度來決定靜態平衡何時在物理上不再可能。",
+        "doThis": "開啟支撐反應，將「勉強穩定」與「提示」進行比較，並解釋在越過邊緣後哪種反應必須變為負值。",
+        "notice": "在支撐區域內，兩種反應都可以保持向上。在它之外，所需的反應力降至零以下，因此木板無法保持接觸和傾斜。",
+        "explain": "支撐區域規則是寫為實際接觸條件的力和扭矩條件：兩個支撐反作用力必須是物理上可能的向上推力。",
+        "setup": {
+          "note": "首先使用勉強穩定的狀態，然後將其與傾斜預設進行比較。"
+        },
+        "inlineCheck": {
+          "title": "檢查小費判決"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "組合質心是一條線，其中總重量可視為起作用。",
+        "靜態平衡需要垂直力平衡和扭矩平衡；相等的總向上和向下力本身是不夠的。",
+        "只有當組合質心線落在其邊緣之間時，支撐區域才能支撐木板。",
+        "縮小或移動支撐會改變穩定裕度，而不是改變質心本身。"
+      ],
+      "misconception": "力平衡本身並不能保證穩定性；剩餘扭矩或不可能的負反應意味著木板傾斜。",
+      "freePlayPrompt": "嘗試以兩種不同的方式使重載穩定：將支撐中心移至重量線下方，然後在不移動貨物的情況下加寬支撐區域。",
+      "nextConcepts": [
+        {
+          "slug": "rotational-inertia",
+          "reasonLabel": "大規模分佈響應"
+        },
+        {
+          "slug": "rolling-motion",
+          "reasonLabel": "支撐接觸橋"
+        },
+        {
+          "slug": "angular-momentum",
+          "reasonLabel": "發揚輪換理念"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "centre-of-mass",
@@ -290,45 +396,520 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "貨物穩定性",
+      "primaryGraphIds": [
+        "貨物穩定性",
+        "支撐扭矩",
+        "支持反應"
+      ],
+      "primaryControlIds": [
+        "貨物位置",
+        "支援中心",
+        "支援寬度"
+      ],
+      "primaryPresetIds": [
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "概念標籤",
+        "提示-正確"
+      ],
+      "starterExploreTasks": [
+        "從平衡移動支撐開始，在移動任何東西之前將單獨的重量線追蹤到組合的質心線。",
+        "向右施加提示，然後僅移動支撐中心，直到扭矩圖過零並且質心線返回到支撐區域內。",
+        "切換到勉強穩定並將支撐反應與邊際圖進行比較：一側可以在非常接近失去聯繫的同時保持積極。"
+      ]
+    },
     "controls": [
       {
         "id": "cargoMass",
-        "label": "貨物質量"
+        "label": "貨物質量",
+        "description": "增加或減少貨物質量，看看它如何改變總重量和質心位置。"
       },
       {
         "id": "cargoPosition",
-        "label": "貨物位置"
+        "label": "貨物位置",
+        "description": "向左或向右滑動貨物以移動組合質心。"
       },
       {
         "id": "supportCenter",
-        "label": "支撐中心"
+        "label": "支撐中心",
+        "description": "將支撐區域移到木板下方，而不改變質量分佈。"
       },
       {
         "id": "supportWidth",
-        "label": "支撐寬度"
+        "label": "支撐寬度",
+        "description": "擴大或縮小支撐區域以僅改變穩定裕度。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "balanced-shifted-support",
+        "label": "平衡移動支撐",
+        "description": "支撐件移動到組合質心下方，因此即使貨物位於中心右側，反應也接近匹配。"
+      },
+      {
+        "id": "bare-plank",
+        "label": "裸木板",
+        "description": "在沒有添加貨物的情況下，木板本身的品質保持在中心，穩定性問題完全由支撐區域控制。"
+      },
+      {
+        "id": "support-under-load",
+        "label": "負載下的支撐",
+        "description": "較重的貨物放置在中心右側，但支撐件直接移動到組合質心下方。"
+      },
+      {
+        "id": "narrow-near-edge",
+        "label": "勉強穩定",
+        "description": "相同的重右側負載仍然穩定，但質心線僅位於右側支撐邊緣內側。"
+      },
+      {
+        "id": "tips-right",
+        "label": "提示正確",
+        "description": "組合質心已越過右側支撐邊緣，因此木板無法再保持平坦。"
+      },
+      {
+        "id": "heavier-inboard-load",
+        "label": "較重但較近",
+        "description": "如果較重的貨物靠近中間，它仍然可以產生相同的組合質心。"
       }
     ],
     "overlays": [
       {
         "id": "combinedCenterOfMass",
-        "label": "總中心質量"
+        "label": "總中心質量",
+        "shortDescription": "繪製總重量作用處的單條垂直線。",
+        "whatToNotice": [
+          "改變貨物品質或貨物位置會移動這條線，因為質量分佈發生變化。",
+          "改變支撐中心或支撐寬度不會移動該線。它只會改變支持的比較方式。"
+        ],
+        "whyItMatters": "這條線是質心計算和扭矩平衡之間的橋樑。",
+        "relatedControls": [
+          "货物质量",
+          "貨物位置"
+        ],
+        "relatedGraphTabs": [
+          "支撐扭矩",
+          "貨物穩定性"
+        ],
+        "relatedEquationVariables": [
+          "货物质量",
+          "貨物位置"
+        ]
       },
       {
         "id": "supportRegion",
-        "label": "支撐區域"
+        "label": "支撐區域",
+        "shortDescription": "標記兩個支撐邊緣並顯示組合質心線在傾斜之前仍有多少空間。",
+        "whatToNotice": [
+          "只有當組合的質心線落在兩個邊緣之間時，木板才是穩定的。",
+          "如果線到達邊緣，則邊距為零。如果它越過邊緣，則開始傾倒。"
+        ],
+        "whyItMatters": "它將抽象的穩定性規則轉化為一個可見的幾何測試。",
+        "relatedControls": [
+          "支援中心",
+          "支援寬度"
+        ],
+        "relatedGraphTabs": [
+          "支撐扭矩",
+          "貨物穩定性"
+        ],
+        "relatedEquationVariables": [
+          "支援中心",
+          "支援寬度"
+        ]
+      },
+      {
+        "id": "weightLines",
+        "label": "重量線",
+        "shortDescription": "在將木板重量和貨物重量合併為一條有效重量線之前，分別顯示它們。",
+        "whatToNotice": [
+          "單獨的權重箭頭解釋了為什麼質量放置在將它們折疊成一個組合質心之前很重要。",
+          "較重的貨物同時做兩件事：它增加了總重量並將總重量線拉向自身。"
+        ],
+        "whyItMatters": "當您可以看到總重量來自哪裡而不是像魔術一樣對待質心時，靜態平衡推理會更清晰。",
+        "relatedControls": [
+          "货物质量",
+          "貨物位置"
+        ],
+        "relatedGraphTabs": [
+          "支撐扭矩",
+          "貨物穩定性"
+        ],
+        "relatedEquationVariables": [
+          "货物质量",
+          "貨物位置"
+        ]
+      },
+      {
+        "id": "supportReactions",
+        "label": "支持反應",
+        "shortDescription": "顯示支撐邊緣的向上反應以及一側是否需要變為負值。",
+        "whatToNotice": [
+          "當組合的質心線位於支撐中心上方時，兩個反應最為平衡。",
+          "如果線穿過一條邊，則所需的反應必須變為負值，以便該邊不再支撐木板。"
+        ],
+        "whyItMatters": "這將支援區域規則連接迴力平衡。",
+        "relatedControls": [
+          "支援中心",
+          "支援寬度"
+        ],
+        "relatedGraphTabs": [
+          "支持反應"
+        ],
+        "relatedEquationVariables": [
+          "支援中心",
+          "支援寬度"
+        ]
+      },
+      {
+        "id": "torqueArms",
+        "label": "扭力臂",
+        "shortDescription": "標記從支撐中心到組合質心線的水平距離。",
+        "whatToNotice": [
+          "此偏移量是圍繞支撐中心的總重量的槓桿臂。",
+          "當偏移量為零時，總重量圍繞該點的扭矩為零。"
+        ],
+        "whyItMatters": "它將質心故事與扭矩概念聯繫在一起，而不是將其變成單獨的規則。",
+        "relatedControls": [
+          "貨物位置",
+          "支援中心"
+        ],
+        "relatedGraphTabs": [
+          "支撐扭矩"
+        ],
+        "relatedEquationVariables": [
+          "貨物位置",
+          "支援中心"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "support-torque",
+      "label": "支撐中心扭矩",
+      "xLabel": "支撐中心x（公尺）",
+      "yLabel": "支撐中心扭力 (N·m)",
+      "description": "顯示當您移動支撐中心時總重量產生的扭矩如何變化。零交叉標示了組合質心正下方的支撐位置。"
+    },
+    {
+      "id": "support-reactions",
+      "label": "所需的支持反應",
+      "xLabel": "支撐中心x（公尺）",
+      "yLabel": "所需反應 (N)",
+      "description": "顯示平衡所需的左右反應。負值意味著該側必須向下拉，因此木板會傾斜。"
+    },
+    {
+      "id": "cargo-stability",
+      "label": "穩定裕度與貨物位置",
+      "xLabel": "貨物位置x（公尺）",
+      "yLabel": "穩定裕度 (m)",
+      "description": "顯示從組合質心線到目前支撐幾何體的最近支撐邊緣的距離。正值表示穩定，零表示邊緣情況，負值表示傾斜。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "天平設定中的注意事項",
+    "intro": "使用這些提示連接相同情況的四個視圖：質心、扭矩、反作用力和支撐區域幾何形狀。",
+    "items": [
+      {
+        "id": "secm-notice-inside-region",
+        "text": "請注意，穩定性是一項幾何測試：組合的質心線必須落在支撐區域內。",
+        "tryThis": "在滑動貨塊時保持組合的質心和支撐區域覆蓋。",
+        "whyItMatters": "它將小費問題變成了可見的條件，而不是記憶的短語。",
+        "relatedControls": [
+          "貨物位置",
+          "支援中心",
+          "支援寬度"
+        ],
+        "relatedGraphTabs": [
+          "貨物穩定性"
+        ],
+        "relatedOverlays": [
+          "组合质心",
+          "支持区域"
+        ],
+        "relatedEquationVariables": [
+          "貨物位置",
+          "支援中心",
+          "支援寬度"
+        ]
+      },
+      {
+        "id": "secm-notice-zero-torque",
+        "text": "請注意，當支撐中心位於組合質心正下方時，支撐扭力圖會過零。",
+        "tryThis": "拖曳支撐中心直到圖像標記落在零上，然後將支撐中心與組合的質心線進行比較。",
+        "whyItMatters": "這與樞軸的扭矩理念相同，現在應用於總重量。",
+        "relatedControls": [
+          "支援中心"
+        ],
+        "relatedGraphTabs": [
+          "支撐扭矩"
+        ],
+        "relatedOverlays": [
+          "组合质心",
+          "扭力臂"
+        ],
+        "relatedEquationVariables": [
+          "支援中心",
+          "貨物位置"
+        ]
+      },
+      {
+        "id": "secm-notice-width-margin",
+        "text": "改變支撐寬度會改變傾斜前的邊距，但不會移動組合質心。",
+        "tryThis": "保持貨物和支撐中心固定，然後縮小支撐寬度。現在，同一條質心線在該區域內的空間越來越小。",
+        "whyItMatters": "它將質量分佈與支撐幾何形狀分開。",
+        "relatedControls": [
+          "支援寬度"
+        ],
+        "relatedGraphTabs": [
+          "貨物穩定性",
+          "支持反應"
+        ],
+        "relatedOverlays": [
+          "支持区域",
+          "支持反應"
+        ],
+        "relatedEquationVariables": [
+          "支援寬度"
+        ]
+      },
+      {
+        "id": "secm-notice-negative-reaction",
+        "text": "如果一個所需的反應變成負值，木板就會傾斜，而不是保持靜態平衡。",
+        "tryThis": "將支撐中心移離組合質心線，觀察一條反應曲線降至零以下。",
+        "whyItMatters": "這是相同支援區域規則的力平衡版本。",
+        "relatedControls": [
+          "支援中心"
+        ],
+        "relatedGraphTabs": [
+          "支持反應"
+        ],
+        "relatedOverlays": [
+          "支持反應",
+          "支持区域"
+        ],
+        "relatedEquationVariables": [
+          "支援中心",
+          "支援寬度"
+        ]
+      },
+      {
+        "id": "secm-notice-same-com-compare",
+        "text": "在比較模式下，放置較近的較重的貨物可以與放置較遠的較輕的貨物共享相同的組合質心。",
+        "tryThis": "將設定 A 保持在負載下的支撐上，然後將設定 B 調整為較重但更靠近並比較質心線。",
+        "whyItMatters": "它顯示質心是加權平均值，而不僅僅是視覺中點。",
+        "relatedControls": [
+          "货物质量",
+          "貨物位置"
+        ],
+        "relatedGraphTabs": [
+          "支撐扭矩",
+          "貨物穩定性"
+        ],
+        "relatedOverlays": [
+          "组合质心",
+          "支持区域"
+        ],
+        "relatedEquationVariables": [
+          "货物质量",
+          "貨物位置"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測餘額",
+    "intro": "在更改設定之前預測平衡結果。然後檢查舞台上的相同想法、反應箭頭和圖像。",
     "items": [
       {
         "id": "secm-predict-shift-support",
-        "changeLabel": "支撐中心"
+        "prompt": "從向右傾斜設定開始，如果將支撐中心直接移動到組合質心線下方，同時保持貨物固定，會發生什麼情況？",
+        "scenarioLabel": "支撐移至重量線下方",
+        "changeLabel": "支撐中心",
+        "choices": [
+          {
+            "id": "a",
+            "label": "圍繞支撐中心的扭力應下降至零，且木板應變得靜態穩定。"
+          },
+          {
+            "id": "b",
+            "label": "扭力應保持不變，因為貨物品質和貨物位置沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "只有總重量發生變化，因為支撐件已移動。"
+          }
+        ],
+        "explanation": "移動支撐會改變扭力臂，而不是質量分佈。當支撐中心與組合質心對齊時，圍繞該點的總重量的扭矩變為零。",
+        "observationHint": "觀察扭矩標記達到零且兩個反應都變成非負值。"
       },
       {
         "id": "secm-predict-narrow-support",
-        "changeLabel": "支撐寬度"
+        "prompt": "從負載下支撐設定開始，如果縮小支撐區域同時保持貨物和支撐中心固定，會發生什麼情況？",
+        "scenarioLabel": "相同的質心，較窄的支撐",
+        "changeLabel": "支撐寬度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "質心和總重量不變，但穩定性裕度縮小。"
+          },
+          {
+            "id": "b",
+            "label": "由於支撐區域較窄，質心向外移動。"
+          },
+          {
+            "id": "c",
+            "label": "兩個反應必須相等，因為支撐較窄。"
+          }
+        ],
+        "explanation": "縮小支撐區域不會改變總重量或組合質心。它只會使支撐邊緣更接近相同的權重線，因此邊距會縮小。",
+        "observationHint": "質心線保持不變，而支撐區域在其周圍閉合。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的實驗台來展示您可以協調質心、支撐區域、扭矩和反作用力，而不是將它們視為單獨的規則。",
+    "items": [
+      {
+        "id": "secm-ch-balance-heavy-right-load",
+        "title": "恢復平衡",
+        "prompt": "從提示右側開始，移動支撐中心，直到木板再次穩定。",
+        "successMessage": "您將支撐中心置於組合質心下方。這使得支撐件周圍的重量扭矩消失，並且使這兩種反應在物理上成為可能。",
+        "setup": {
+          "note": "將扭矩過零點與支撐區域疊加一起使用。"
+        },
+        "hints": [
+          "請勿移動貨物。透過僅更改支撐幾何形狀來解決該問題。",
+          "目標位置是支撐中心與組合質心線對齊的位置。"
+        ],
+        "checks": [
+          {
+            "label": "保持右側較重的貨物固定，以便透過移動支撐物而不是負載來恢復平衡。"
+          },
+          {
+            "label": "將貨物保持在右側裝載位置。"
+          },
+          {
+            "label": "將組合質心直接放在移動的支撐中心上方。"
+          },
+          {
+            "label": "使左側反應物理上為正並接近右側反應。"
+          },
+          {
+            "label": "使右側反應物理上呈正值並接近左側反應。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將支撐中心放置在組合質心線下方。"
+          },
+          {
+            "label": "使圍繞支撐中心的扭矩基本為零。"
+          },
+          {
+            "label": "在支撐區域內恢復明顯的正值。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "secm-ch-barely-stable",
+        "title": "穩定邊緣",
+        "prompt": "從負載下的支撐開始，向左移動支撐區域，直到木板剛好穩定。",
+        "successMessage": "您將組合質心線保留在支撐區域內，但僅保留了很小的餘裕。",
+        "setup": {
+          "note": "固定重貨。一起使用支撐中心和穩定裕度圖。"
+        },
+        "hints": [
+          "目標是小的正利潤。零是精確的傾斜邊緣。",
+          "保持支撐寬度固定，以便您測試支撐位置，而不是支撐尺寸。"
+        ],
+        "checks": [
+          {
+            "label": "保持重負載固定，以便邊緣情況來自支撐移位。"
+          },
+          {
+            "label": "將貨物保持在右側裝載位置。"
+          },
+          {
+            "label": "讓左邊的反應幾乎為正，而不是讓木板傾斜。"
+          },
+          {
+            "label": "保持正確的反應，以承受穩定邊緣附近的大部分負載。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將支撐寬度維持在 1.0 m。"
+          },
+          {
+            "label": "將支撐區域向左移動，但不要超過臨界點。"
+          },
+          {
+            "label": "只為最近的邊緣留一個小的正邊距。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "secm-ch-same-com-compare",
+        "title": "符合相同的質心",
+        "prompt": "開啟比較模式。將設定 A 保持在負載下，然後調整設定 B，以便將較重的貨物放置得更近，從而提供相同的組合質心。",
+        "successMessage": "您配對了兩種不同質量分佈中的組合質心，因此平衡點保持不變。",
+        "setup": {
+          "note": "克隆設定 A，然後使設定 B 更重，但將貨物移近中間。"
+        },
+        "hints": [
+          "較重的貨物不需要坐那麼遠就能產生相同的加權平均值。",
+          "您正在配對 $x_{\\mathrm{CM}}$，而不僅僅是使兩個貨物塊看起來相似。"
+        ],
+        "checks": [
+          {
+            "label": "設定 A 應保持原重的右側負載質心。"
+          },
+          {
+            "label": "設定 B 應落在同一組合質心上。"
+          },
+          {
+            "label": "設定 A 保留 8 公斤木板加上 4 公斤貨物。"
+          },
+          {
+            "label": "設定 B 整體應該更重，同時符合相同的質心。"
+          },
+          {
+            "label": "設定 B 也應該在同一移動支撐中心周圍保持平衡。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將設定 A 保持在參考組合質心位置。"
+          },
+          {
+            "label": "使設定 B 明顯比設定 A 重。"
+          },
+          {
+            "label": "將較重的貨物移至靠近中間的位置。"
+          },
+          {
+            "label": "將設定 B 與相同的組合質心配對。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "靜態平衡與質心",
+    "description": "互動式靜態平衡課程，包括支撐區域實驗台、質心推理、支撐反應、扭矩平衡、預測提示、挑戰模式和概念快速測試。",
+    "keywords": [
+      "靜態平衡",
+      "質心",
+      "質心",
+      "扭矩平衡",
+      "支援區域",
+      "穩定性"
     ]
   }
 }

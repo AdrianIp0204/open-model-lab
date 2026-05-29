@@ -31,9 +31,10 @@
       ]
     },
     "keyIdeas": [
-      "解析度受到有限孔徑衍射光的限制。即使焦距正確聚焦，一個點也應該始終完美地分開。",
-      "更大的孔徑可以透過縮小衍射模糊來改善解析度，而更長的波長則會使它變得更寬。",
-      "瑞利限值 θ_R 大約等於 1.22 lambda / D，對於圓形孔徑而言，因此當兩個點源的角分離降至該尺度以下時，它們變得更難分辨。"
+      "有限孔徑將每個物點變成繞射模糊，而不是完美的點。",
+      "較大的光圈或較短的波長會縮小模糊效果，而較小的光圈或較長的波長會使其變寬。",
+      "當偵測器間距比模糊寬度大時，兩點更容易解析。",
+      "瑞利極限給出了兩個相等點源僅可區分時的實用尺度。"
     ],
     "commonMisconception": {
       "myth": "如果透鏡焦距正確，兩個鄰近的點應該始終完美地分開。",
@@ -67,22 +68,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始使用瑞利估計"
+              "label": "1. 開始使用瑞利估計",
+              "template": "使用 $\\theta_R \\approx 1.22\\lambda / D$ 作為圓形光圈。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入當前波長和孔徑"
+              "label": "2. 代入當前波長和孔徑",
+              "template": "{{thresholdStepText}}"
             },
             {
               "id": "image-plane",
-              "label": "3. 將該模糊尺度對映到檢測器上"
+              "label": "3. 將該模糊尺度對映到檢測器上",
+              "template": "{{imagePlaneStepText}}"
             }
           ],
           "resultLabel": "當前瑞利限值",
+          "resultTemplate": "$\\theta_R \\approx {{rayleighLimitMradValue}}$ 和 $r_R \\approx {{airyRadiusUmValue}}$。",
           "applyAction": {
             "label": "應用閾值對",
             "observationHint": "點間距設定接近瑞利極限，因此組合檢測器輪廓剛剛開始分裂。"
-          }
+          },
+          "interpretationTemplate": "{{thresholdInterpretation}}"
         },
         {
           "id": "current-separation-versus-threshold",
@@ -96,27 +102,36 @@
             {
               "id": "image-separation",
               "label": "像平面間距"
+            },
+            {
+              "id": "ratio",
+              "label": "分辨率"
             }
           ],
           "steps": [
             {
               "id": "ratio",
-              "label": "1. 將點間距與瑞利尺度進行比較"
+              "label": "1. 將點間距與瑞利尺度進行比較",
+              "template": "{{ratioStepText}}"
             },
             {
               "id": "detector-spacing",
-              "label": "2. 在檢測器上讀取相同的比較結果"
+              "label": "2. 在檢測器上讀取相同的比較結果",
+              "template": "對於固定焦距，偵測器間距為 $s \\approx {{imageSeparationUmValue}}$，而第一最小半徑為 $r_R \\approx {{airyRadiusUmValue}}$。"
             },
             {
               "id": "dip",
-              "label": "3. 檢查輪廓是否保持可見分裂"
+              "label": "3. 檢查輪廓是否保持可見分裂",
+              "template": "{{dipStepText}}"
             }
           ],
           "resultLabel": "當前解析度比值",
+          "resultTemplate": "$\\Delta \\theta / \\theta_R = {{separationRatioValue}}$",
           "applyAction": {
             "label": "應用模糊的點對",
             "observationHint": "兩個模糊圖案現在重疊得非常緊密，檢測器輪廓表現得像一個寬峯。"
-          }
+          },
+          "interpretationTemplate": "{{ratioInterpretation}}"
         }
       ]
     },
@@ -255,6 +270,92 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "使用一個有限光圈來決定兩個附近的點源何時看起來是分離的、勉強解析的或合併成一個模糊的。",
+    "whyItMatters": "相同的繞射極限解釋了為什麼顯微鏡、望遠鏡、相機和眼睛無法僅透過更努力地聚焦來揭示細節。",
+    "keyTakeaway": "解析度是一個比較：與波長和孔徑設定的繞射模糊相比，點間距必須足夠大。"
+  },
+  "v2": {
+    "intuition": "聚焦鏡頭仍然將每個點繪製為小的繞射模糊。解析度詢問兩個模糊中心是否相距足夠遠，以使偵測器輪廓保持可見的傾斜。",
+    "whyItMatters": "這種比較是從瑞利公式到實​​際成像選擇的實用橋樑：打開光圈，使用較短的波長，或接受兩個細節低於系統限制。",
+    "equationSnapshot": {
+      "title": "分辨率比较",
+      "note": "一起讀取點間距和瑞利模糊尺度；沒有人能單獨告訴您這對是否已解決。"
+    },
+    "guidedSteps": [
+      {
+        "id": "compare-spacing-with-blur",
+        "title": "比较间距和模糊",
+        "goal": "將解析度視為源間距和衍射寬度之間的並排比較。",
+        "doThis": "負載接近閾值，保持瑞利波導和組件中心可見，然後讀取偵測器輪廓旁的分離比。",
+        "notice": "兩個影像中心是不同的，但它們的繞射核心重疊得足夠多，以至於中間的凹陷僅可見。",
+        "explain": "聚焦將影像置於右側平面；剩餘的模糊寬度來自通過有限孔徑的繞射。",
+        "inlineCheck": {
+          "title": "焦點是否会消除限制？"
+        }
+      },
+      {
+        "id": "shrink-the-diffraction-blur",
+        "title": "缩小衍射模糊",
+        "goal": "使用光圈作為最乾淨的光學移動，使同一對更容易解析。",
+        "doThis": "從接近閾值對開始，擴大孔徑並觀察瑞利波導在每個點周圍收緊。",
+        "notice": "物體間距保持固定，而模糊變窄，因此中心凹陷變得更加清晰。",
+        "explain": "由於 theta_R 與 lambda / D 成正比，因此增加 D​​ 會降低瑞利極限並提高解析度。",
+        "inlineCheck": {
+          "title": "预測光圈变化"
+        }
+      },
+      {
+        "id": "broaden-the-blur",
+        "title": "扩大模糊范围",
+        "goal": "透過增加波長或擁擠兩個來源中心，使相同的探測器輪廓變得更糟。",
+        "doThis": "施加長波模糊，然後與在光學元件保持固定的情況下將點間距移得更近進行比較。",
+        "notice": "較長的波長會使每個模糊變寬；較小的間隔將模糊中心移動在一起。兩者都填補了中間的低谷，但出於不同的原因。",
+        "explain": "波長和光圈設定模糊大小，而來源分離設定中心間距。分辨率取決於這兩個量之間的比率。",
+        "inlineCheck": {
+          "title": "將兩個原因分開"
+        }
+      },
+      {
+        "id": "judge-the-limit-honestly",
+        "title": "誠實地判斷極限",
+        "goal": "使用瑞利比和中心傾角來確定貨幣對是否低於、接近或高於解析極限。",
+        "doThis": "從模糊對開始，調整孔徑或波長，直到比率接近 1，並避免使用檢測器樣本，就好像它改變了光學器件一樣。",
+        "notice": "移動樣本讀數會改變一個測量值，但整個輪廓和解析度限制保持不變。",
+        "explain": "值得信賴的分辨率聲明指出了改變模糊寬度的光學變化或改變中心間距的源間距。",
+        "inlineCheck": {
+          "title": "不要玩弄偵測器樣本"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "有限的孔徑使每個聚焦點都成為具有可測量寬度的繞射模糊。",
+        "較大的光圈或較短的波長會縮小模糊範圍；較長的波長或較小的孔徑會使其變寬。",
+        "只有當兩個點的間距與瑞利模糊尺度相比足夠大時，才會解析它們。",
+        "移動式偵測器樣本可讀取輪廓，但不會變更光學解析度限制。"
+      ],
+      "misconception": "正確的對焦是必要的，但這還不夠：有限孔徑的繞射仍然限制了影像可以分離的細節。",
+      "freePlayPrompt": "建構一個勉強解決的案例和一個明顯失敗的案例。解釋您是否變更了模糊寬度、點間距或僅變更了偵測器讀數。",
+      "nextConcepts": [
+        {
+          "slug": "double-slit-interference",
+          "title": "雙縫干涉",
+          "reasonLabel": "比較另一個孔徑圖案"
+        },
+        {
+          "slug": "lens-imaging",
+          "title": "鏡頭成像",
+          "reasonLabel": "將對焦與清晰度分開"
+        },
+        {
+          "slug": "diffraction",
+          "title": "衍射",
+          "reasonLabel": "回顧傳播機制"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "rayleigh-limit",
@@ -295,39 +396,352 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "影像設定檔",
+      "primaryGraphIds": [
+        "影像設定檔"
+      ],
+      "primaryControlIds": [
+        "孔徑mm",
+        "波長Nm",
+        "分離Mrad"
+      ],
+      "primaryPresetIds": [
+        "接近閾值",
+        "用這個步驟把模擬、圖像和概念連接起來。",
+        "概念標籤"
+      ]
+    },
     "controls": [
       {
         "id": "wavelengthNm",
-        "label": "波長"
+        "label": "波長",
+        "description": "較長的波長會拓展每個點擴散模糊。"
       },
       {
         "id": "apertureMm",
-        "label": "光圈直徑"
+        "label": "光圈直徑",
+        "description": "較大的通光孔徑可以縮小每個繞射模糊並提高解析度。"
       },
       {
         "id": "separationMrad",
-        "label": "點間距"
+        "label": "點間距",
+        "description": "設定物件點之間的角度間隙。當模糊寬度固定時，較小的間隙更難保留。"
       },
       {
         "id": "probeYUm",
-        "label": "檢測器樣本"
+        "label": "檢測器樣本",
+        "description": "沿著偵測器輪廓移動即時讀數，而不改變光學影像本身。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "blurred-pair",
+        "label": "模糊的一對",
+        "description": "衍射模糊仍然比點間距寬，因此探測器輪廓大部分被合併。"
+      },
+      {
+        "id": "near-threshold",
+        "label": "接近閾值",
+        "description": "間距接近瑞利極限，因此分裂才剛開始出現。"
+      },
+      {
+        "id": "wide-aperture-split",
+        "label": "大光圈分光",
+        "description": "較大的孔徑使兩個峰清晰可見。"
+      },
+      {
+        "id": "long-wave-blur",
+        "label": "長波模糊",
+        "description": "較長的波長會使模糊變寬，足以消除原本可見的裂痕。"
+      },
+      {
+        "id": "detector-off-center",
+        "label": "偏心樣本",
+        "description": "採樣點移動到偵測器輪廓的一側，而不是停留在中間凹陷處。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "apertureGuide",
+        "label": "光圈指南",
+        "shortDescription": "直接在鏡頭上標記通光孔徑。",
+        "whatToNotice": [
+          "改變 D 會改變繞射寬度本身，而不僅僅是影像的亮度。"
+        ],
+        "whyItMatters": "它使解析度保持與孔徑幾何形狀相關，而不是使模糊看起來像神秘的探測器效應。",
+        "relatedControls": [
+          "孔徑mm"
+        ],
+        "relatedGraphTabs": [
+          "影像設定檔"
+        ],
+        "relatedEquationVariables": [
+          "光圈"
+        ]
+      },
+      {
+        "id": "rayleighGuide",
+        "label": "瑞利指南",
+        "shortDescription": "顯示目前影像點中心及其周圍的第一個最小模糊比例。",
+        "whatToNotice": [
+          "在瑞利極限附近，一個影像點中心靠近另一個模糊圖案的第一最小尺度。"
+        ],
+        "whyItMatters": "它將瑞利準則轉變為偵測器上的可見比較。",
+        "relatedControls": [
+          "波長Nm",
+          "孔徑mm",
+          "分離Mrad"
+        ],
+        "relatedGraphTabs": [
+          "影像設定檔"
+        ],
+        "relatedEquationVariables": [
+          "波長",
+          "光圈",
+          "分離"
+        ]
+      },
+      {
+        "id": "componentProfiles",
+        "label": "組件中心",
+        "shortDescription": "標記兩個單獨的點擴散圖案的中心。",
+        "whatToNotice": [
+          "該對是否被解析取決於中心間距與模糊寬度的比較，而不僅取決於焦點。"
+        ],
+        "whyItMatters": "它使合併與分離的過渡看起來像兩個真實模糊圖案之間的重疊。",
+        "relatedControls": [
+          "分離Mrad",
+          "探針YUm"
+        ],
+        "relatedGraphTabs": [
+          "影像設定檔"
+        ],
+        "relatedEquationVariables": [
+          "分離",
+          "探頭位置"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "image-profile",
+      "label": "像平面輪廓",
+      "xLabel": "像平面高度（um）",
+      "yLabel": "標準化曝光",
+      "description": "顯示組合的偵測器曝光以及兩個單獨的點擴散輪廓，以便您可以查看它們的重疊是否仍然留下中心凹陷。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示，並將孔徑、偵測器條和圖像與同一個衍射極限影像關聯。",
+    "items": [
+      {
+        "id": "or-notice-aperture",
+        "text": "請注意，擴大光圈不會移動點中心。它縮小了每個衍射模糊，因此峰值之間的間隙更容易保留。",
+        "tryThis": "從模糊對開始，然後在接觸點分離之前擴大光圈。",
+        "whyItMatters": "解析度提高是因為模糊縮小，而不是因為物點移得更遠。",
+        "relatedControls": [
+          "孔徑mm"
+        ],
+        "relatedGraphTabs": [
+          "影像設定檔"
+        ],
+        "relatedOverlays": [
+          "光圈指南",
+          "瑞利指南"
+        ]
+      },
+      {
+        "id": "or-notice-wavelength",
+        "text": "請注意，即使鏡頭、偵測器和點間距保持固定，增加波長也會使每個模糊變寬。",
+        "tryThis": "將近閾值與長波模糊進行比較，然後觀察中間凹陷如何填充。",
+        "whyItMatters": "它將 λ 除以 D 轉化為可見的成像極限，而不是需要記住的公式。",
+        "relatedControls": [
+          "波長Nm"
+        ],
+        "relatedGraphTabs": [
+          "影像設定檔"
+        ],
+        "relatedOverlays": [
+          "瑞利指南"
+        ],
+        "relatedEquationVariables": [
+          "波長"
+        ]
+      },
+      {
+        "id": "or-notice-separation",
+        "text": "請注意，減少點間隔不會改變模糊寬度。它只會將相同的兩個模糊中心推得更近。",
+        "tryThis": "降低點間距，同時保持孔徑和波長固定，然後比較兩個虛線組件中心如何擠在一起。",
+        "whyItMatters": "它清楚地將物體間距與光學模糊寬度分開。",
+        "relatedControls": [
+          "分離Mrad"
+        ],
+        "relatedGraphTabs": [
+          "影像設定檔"
+        ],
+        "relatedOverlays": [
+          "元件設定檔",
+          "瑞利指南"
+        ],
+        "relatedEquationVariables": [
+          "分離"
+        ]
+      },
+      {
+        "id": "or-notice-graph",
+        "text": "請注意，此圖是偵測器位置與曝光的關係，而非時間軌跡。將其懸停在當前影像平面上移動樣本。",
+        "tryThis": "將輪廓懸停在中心凹陷附近，然後懸停在一個峰值附近，並比較即時探測器樣本讀數。",
+        "whyItMatters": "解析度存在於探測器的空間輪廓中，而不是存在於較晚與較早時間的故事中。",
+        "relatedGraphTabs": [
+          "影像設定檔"
+        ]
+      },
+      {
+        "id": "or-notice-compare",
+        "text": "當一個設定改變孔徑而另一種設定改變波長時，比較模式效果最佳。然後你可以看到兩種不同的方式來改變相同的繞射寬度。",
+        "tryThis": "克隆 接近閾值，在讀取輪廓之前擴大一行中的孔徑，並延長另一行中的波長。",
+        "whyItMatters": "它可以阻止成像限制崩潰為一個模糊的模糊滑桿。",
+        "relatedControls": [
+          "孔徑mm",
+          "波長Nm",
+          "分離Mrad"
+        ],
+        "relatedGraphTabs": [
+          "影像設定檔"
+        ],
+        "relatedOverlays": [
+          "瑞利指南",
+          "元件設定檔"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測影像是否應該更清晰地分割或更強烈地合併。每個提示一次改變一個原因。",
     "items": [
       {
         "id": "or-predict-wider-aperture",
-        "changeLabel": "光圈直徑"
+        "prompt": "保持波長和點間距固定，然後擴大孔徑。探測器輪廓會發生什麼變化？",
+        "scenarioLabel": "擴大光圈",
+        "changeLabel": "光圈直徑",
+        "choices": [
+          {
+            "id": "a",
+            "label": "模糊寬度應該會縮小，這樣這對影像就更容易分開。"
+          },
+          {
+            "id": "b",
+            "label": "即使物體間距保持固定，偵測器上的點也應移動得更遠。"
+          },
+          {
+            "id": "c",
+            "label": "只有偵測器樣本值應該改變。完整的設定檔應保持不變。"
+          }
+        ],
+        "explanation": "較大的光圈會降低瑞利極限並縮小每個繞射模糊。點間距本身不會改變。",
+        "observationHint": "觀察瑞利導向收緊，同時兩個峰分離得更乾淨。"
       },
       {
         "id": "or-predict-longer-wavelength",
-        "changeLabel": "波長"
+        "prompt": "保持孔徑和點間距固定，然後增加波長。應該發生什麼事？",
+        "scenarioLabel": "增加波長",
+        "changeLabel": "波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "模糊應該變寬，因此中間的凹陷會被填充，並且這對影像會變得更難區分。"
+          },
+          {
+            "id": "b",
+            "label": "模糊應該縮小，因為較長的波透過鏡頭保持較直。"
+          },
+          {
+            "id": "c",
+            "label": "圖像應向左或向右移動，但峰值重疊應保持不變。"
+          }
+        ],
+        "explanation": "較長的波長會提高瑞利極限並擴大每個繞射模糊，因此附近的點更容易合併。",
+        "observationHint": "點中心保持在原來的位置，但隨著模糊變寬，中間的凹陷會填滿。"
       },
       {
         "id": "or-predict-closer-pair",
-        "changeLabel": "點間距"
+        "prompt": "保留光學元件，但將兩個點源移得更近。探測器該做什麼？",
+        "scenarioLabel": "拉近兩人的距離",
+        "changeLabel": "點間距",
+        "choices": [
+          {
+            "id": "a",
+            "label": "兩個模糊圖案應該重疊更多，因此中央凹陷會填滿到一個寬闊的駝峰。"
+          },
+          {
+            "id": "b",
+            "label": "模糊寬度應該會縮小，因為兩者靠得更近。"
+          },
+          {
+            "id": "c",
+            "label": "任何重要的事情都不應改變，因為孔徑和波長保持不變。"
+          }
+        ],
+        "explanation": "改變點間距會使模糊中心更靠近或更遠。模糊寬度本身由波長和光圈決定。",
+        "observationHint": "觀察兩個中心擠在一起，同時相同的模糊大小試圖保持較小的間隙。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用即時探測器設定檔來達到解析度目標。任務是改變光學或點間距，而不是對偵測器樣本進行遊戲。",
+    "items": [
+      {
+        "id": "or-ch-hit-rayleigh-threshold",
+        "title": "達到瑞利閾值",
+        "prompt": "從模糊對開始，調整孔徑或波長，直到點間距正好位於瑞利極限上。",
+        "successMessage": "您誠實地匹配了閾值：物體間距沒有移動，但衍射比例現在與其對齊。",
+        "setup": {
+          "note": "將瑞利導軌和輪廓傾角一起使用。"
+        },
+        "targets": [
+          {
+            "label": "將 Delta θ / theta_R 控制在 0.97 到 1.03 之間。"
+          },
+          {
+            "label": "將中心峰比保持在 0.7 和 0.9 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "or-ch-open-a-clear-gap",
+        "title": "打開一個明顯的中央凹陷",
+        "prompt": "從近閾值開始，在不更改偵測器樣品控制的情況下使分割清晰可見。",
+        "successMessage": "您透過更改光學元件或點間距本身來建立了清晰解析的對，而不是透過將偵測器樣本滑動到更友善的位置。",
+        "setup": {
+          "note": "範例滑桿僅讀取設定檔。使用光學元件或點間距來改變實際的分割。"
+        },
+        "targets": [
+          {
+            "label": "用這個步驟把模擬、圖像和概念連接起來。"
+          },
+          {
+            "label": "將中心峰值比推至 0.8 以下。"
+          }
+        ],
+        "style": "目標設定"
+      }
+    ]
+  },
+  "seo": {
+    "title": "光學解析度/成像限制",
+    "description": "互動式光學解析度課程，包括孔徑直徑、波長、點間隔、瑞利極限讀數和連結的偵測器輪廓。",
+    "keywords": [
+      "光學分辨率",
+      "影像限制",
+      "瑞利準則",
+      "繞射極限",
+      "孔徑與波長"
     ]
   }
 }

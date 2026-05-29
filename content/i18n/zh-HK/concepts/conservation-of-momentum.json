@@ -67,22 +67,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 將物體動量相加"
+              "label": "1. 將物體動量相加",
+              "template": "在舞台上顯示的同一時刻使用$p_{\\mathrm{tot}} = p_A + p_B$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入實時值"
+              "label": "2. 代入實時值",
+              "template": "$p_{\\mathrm{tot}} = {{momentumAValue}} + {{momentumBValue}}$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算總動量"
+              "label": "3. 計算總動量",
+              "template": "所以$p_{\\mathrm{tot}} = {{totalMomentumValue}}\\,\\mathrm{kg\\,m/s}$。"
             }
           ],
           "resultLabel": "當前總動量",
+          "resultTemplate": "$p_{\\mathrm{tot}} = {{totalMomentumValue}}\\,\\mathrm{kg\\,m/s}$",
           "applyAction": {
             "label": "顯示移動中的系統",
             "observationHint": "留意保持平坦的總動量線，並觀察質心標記如何與整體漂移保持一致，同時車廂向兩邊分開。"
-          }
+          },
+          "interpretationTemplate": "{{totalMomentumInterpretation}}"
         },
         {
           "id": "final-momentum-split",
@@ -109,22 +114,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用等值反向動量變化"
+              "label": "1. 使用等值反向動量變化",
+              "template": "對於一個孤立的交互，$\\Delta p_A = -F_{\\mathrm{int}}\\Delta t$ 和 $\\Delta p_B = +F_{\\mathrm{int}}\\Delta t$。"
             },
             {
               "id": "substitute",
-              "label": "2. 將這些變化加到初始分佈上"
+              "label": "2. 將這些變化加到初始分佈上",
+              "template": "$p_{A,f} = {{initialMomentumAValue}} + ({{deltaMomentumAValue}})$ 和 $p_{B,f} = {{initialMomentumBValue}} + ({{deltaMomentumBValue}})$。"
             },
             {
               "id": "compute",
-              "label": "3. 計算最終動量"
+              "label": "3. 計算最終動量",
+              "template": "給出 $p_{A,f} = {{finalMomentumAValue}}\\,\\mathrm{kg\\,m/s}$ 和 $p_{B,f} = {{finalMomentumBValue}}\\,\\mathrm{kg\\,m/s}$。"
             }
           ],
           "resultLabel": "最終動量分佈",
+          "resultTemplate": "$p_{A,f} = {{finalMomentumAValue}}\\,\\mathrm{kg\\,m/s}, \\quad p_{B,f} = {{finalMomentumBValue}}\\,\\mathrm{kg\\,m/s}$",
           "applyAction": {
             "label": "顯示較長而柔和的互動",
             "observationHint": "比較較低、較寬的力對，並確認它仍會導向相同的最終動量分配。"
-          }
+          },
+          "interpretationTemplate": "{{redistributionInterpretation}}"
         }
       ]
     },
@@ -279,6 +289,10 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用兩輛小車來查看守恆定律的作用：在沒有外部推動的情況下，即使每輛小車的動量和速度發生變化，系統的總動量也保持不變。",
+    "keyTakeaway": "動量守恆適用於整個孤立系統，而不是單獨適用於每個物件。"
+  },
   "equations": [
     {
       "id": "object-momentum",
@@ -329,15 +343,486 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "動量",
+      "primaryGraphIds": [
+        "動量",
+        "力量",
+        "速度"
+      ],
+      "primaryControlIds": [
+        "互動力",
+        "系統速度",
+        "質量B",
+        "互動持續時間"
+      ],
+      "primaryPresetIds": [
+        "概念標籤",
+        "概念標籤",
+        "移動系統"
+      ],
+      "starterExploreTasks": [
+        "从動量圖开始，觀察 p_A 和 p_B 向相反方向倾斜，而 p_tot 保持平坦。",
+        "将短的强分裂与长的溫和分裂进行比较，以查看隐藏在不同力-時间形状下的相同脉冲。",
+        "應用移動系統，然後加強內力，直到A車反轉，同時質心保持向右漂移。"
+      ]
+    },
     "controls": [
       {
         "id": "massA",
-        "label": "A的質量"
+        "label": "A的質量",
+        "description": "更改 A 的质量並比较相同動量变化在速度圖上的显示情况。"
       },
       {
         "id": "massB",
-        "label": "B的質量"
+        "label": "B的質量",
+        "description": "更改 B 的质量並将其速度响應与 A 进行比较。"
+      },
+      {
+        "id": "systemVelocity",
+        "label": "系統速度",
+        "description": "在内部推動开始之前，讓整个隔离系统向左或向右漂移。"
+      },
+      {
+        "id": "interactionForce",
+        "label": "內力",
+        "description": "設定内力对的大小和方向。正值將 A 向左推，B 向右推；負值則相反。"
+      },
+      {
+        "id": "interactionDuration",
+        "label": "互動持續時間",
+        "description": "設定內力對在互動視窗期間作用的時間長度。"
       }
+    ],
+    "presets": [
+      {
+        "id": "short-strong-split",
+        "label": "短強分裂",
+        "description": "總動量為零的短暂而强烈的内部推動。"
+      },
+      {
+        "id": "long-gentle-split",
+        "label": "長款溫柔開叉",
+        "description": "更長、更弱的推力，可提供相同的總動量傳遞。"
+      },
+      {
+        "id": "equal-mass-rest",
+        "label": "靜止時質量相等",
+        "description": "從總動量為零開始的對稱情況。"
+      },
+      {
+        "id": "heavy-right-cart",
+        "label": "重型小車 B",
+        "description": "购物车 B 重得多，因此相同的動量变化会给 B 带来较小的速度变化。"
+      },
+      {
+        "id": "moving-system",
+        "label": "移動系統",
+        "description": "整个隔离系统在推车开始交换動量之前發生漂移。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "systemBoundary",
+        "label": "系統邊界",
+        "shortDescription": "標示哪兩個小車屬於隔離系統。",
+        "whatToNotice": [
+          "保護聲明同時適用於兩輛小車，而不是一次適用於一輛小車。",
+          "改變邊界內部發生的情況會在內部重新分配動量，但不會產生外在衝動。"
+        ],
+        "whyItMatters": "當您閱讀總動量時，它會使單字系統保持具體。",
+        "relatedControls": [
+          "系統速度"
+        ],
+        "relatedGraphTabs": [
+          "動量",
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "系統速度"
+        ]
+      },
+      {
+        "id": "forcePair",
+        "label": "力對",
+        "shortDescription": "顯示交互視窗期間大小相等且方向相反的內力。",
+        "whatToNotice": [
+          "箭头以相同的大小和相反的方向一起出现。",
+          "在力圖上，一條力線是另一條力線的負值。"
+        ],
+        "whyItMatters": "這是系統總量中動量變化抵消的局部原因。",
+        "relatedControls": [
+          "互動力",
+          "互動持續時間"
+        ],
+        "relatedGraphTabs": [
+          "力量",
+          "動量"
+        ],
+        "relatedEquationVariables": [
+          "互動力",
+          "互動持續時間"
+        ]
+      },
+      {
+        "id": "centerOfMass",
+        "label": "質心",
+        "shortDescription": "當小車交換動量時追蹤質心。",
+        "whatToNotice": [
+          "即使各個小車加速或減速，質心也能保持穩定的漂移。",
+          "如果總動量為零，即使小車可以分開，質心也保持固定。"
+        ],
+        "whyItMatters": "它可以目視檢查系統上的淨外力為零。",
+        "relatedControls": [
+          "系統速度"
+        ],
+        "relatedGraphTabs": [
+          "速度",
+          "動量"
+        ],
+        "relatedEquationVariables": [
+          "系統速度"
+        ]
+      },
+      {
+        "id": "momentumBars",
+        "label": "動量條",
+        "shortDescription": "在一張有符號的刻度上顯示購物車 A、購物車 B 和總動量。",
+        "whatToNotice": [
+          "購物車欄向相反方向變化，而總欄保持固定。",
+          "不同的質量可以將相同的動量變化轉換成不同的速度變化。"
+        ],
+        "whyItMatters": "當您比較兩個購物車發生的情況時，它使系統整體可見。",
+        "relatedControls": [
+          "質量A",
+          "質量B"
+        ],
+        "relatedGraphTabs": [
+          "動量",
+          "速度"
+        ],
+        "relatedEquationVariables": [
+          "質量A",
+          "質量B"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "forces",
+      "label": "內力與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "力 (N)",
+      "description": "顯示大小相等且方向相反的內力對和零外力基線。"
+    },
+    {
+      "id": "momenta",
+      "label": "物體和總動量",
+      "xLabel": "時間（秒）",
+      "yLabel": "動量 (kg m/s)",
+      "description": "顯示購物車動量的相反變化，而總動量保持不變。"
+    },
+    {
+      "id": "velocity",
+      "label": "速度與質心速度",
+      "xLabel": "時間（秒）",
+      "yLabel": "速度（公尺/秒）",
+      "description": "展示了相同的動量交換如何在質心速度保持不變的情況下產生不同的速度變化。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "當您一次變更一個控制項時，請使用這些簡短的提示。將您在舞台上看到的內容與解釋它的圖像或疊加層相匹配。",
+    "items": [
+      {
+        "id": "cm-notice-total-flat",
+        "text": "請注意，總動量線保持平坦，而各個動量線則向相反方向傾斜。",
+        "tryThis": "瀏覽互動視窗並將移動的 $p_A$ 和 $p_B$ 線與平坦的匯流排進行比較。",
+        "whyItMatters": "這是系統級動量守恆的圖像形式。",
+        "relatedGraphTabs": [
+          "動量"
+        ],
+        "relatedOverlays": [
+          "動量條"
+        ],
+        "relatedEquationVariables": [
+          "系統速度"
+        ]
+      },
+      {
+        "id": "cm-notice-force-pair",
+        "text": "請注意，力圖顯示了一對大小相等且方向相反的力，而不是一個力壓倒另一個力。",
+        "tryThis": "一起觀看舞台上的力箭頭和力圖。一條線每時每刻都應該反映另一條線。",
+        "whyItMatters": "這些大小相等且方向相反的內力是系統總動量不變的原因。",
+        "relatedControls": [
+          "互動力",
+          "互動持續時間"
+        ],
+        "relatedGraphTabs": [
+          "力量",
+          "動量"
+        ],
+        "relatedOverlays": [
+          "力對"
+        ],
+        "relatedEquationVariables": [
+          "互動力",
+          "互動持續時間"
+        ]
+      },
+      {
+        "id": "cm-notice-heavy-cart",
+        "text": "請注意，使一輛小車變重對速度分配的影響大於對動量分配的影響。",
+        "tryThis": "僅增加購物車 B 的品質。動量條仍以相等且相反的量變化，但 B 的速度變化較小。",
+        "whyItMatters": "學生常混淆動量變化和速度變化。較重的車通常速度變化較小。",
+        "relatedControls": [
+          "質量A",
+          "質量B"
+        ],
+        "relatedGraphTabs": [
+          "速度",
+          "動量"
+        ],
+        "relatedOverlays": [
+          "動量條"
+        ],
+        "relatedEquationVariables": [
+          "質量A",
+          "質量B"
+        ]
+      },
+      {
+        "id": "cm-notice-moving-system",
+        "text": "請注意，即使一輛小車最終向左移動，移動系統也可以保持正的總動量。",
+        "tryThis": "給整個系統一個向右的漂移，然後加強內部推力，直到A車反轉。",
+        "whyItMatters": "守恆限制了總和。它並不要求每個物體都朝同一方向移動。",
+        "relatedControls": [
+          "系統速度",
+          "互動力"
+        ],
+        "relatedGraphTabs": [
+          "動量",
+          "速度"
+        ],
+        "relatedOverlays": [
+          "質量中心",
+          "系統邊界"
+        ],
+        "relatedEquationVariables": [
+          "系統速度"
+        ]
+      },
+      {
+        "id": "cm-notice-center-of-mass",
+        "text": "請注意，即使小車在其周圍加速和減速，質心標記也會保持穩定的漂移。",
+        "tryThis": "當您觀察小車分開時，保持質心覆蓋。 CM 標記應以穩定的速度移動。",
+        "whyItMatters": "質心提供了另一個緊湊的檢查，表明系統沒有淨外力。",
+        "relatedGraphTabs": [
+          "速度",
+          "動量"
+        ],
+        "relatedOverlays": [
+          "質量中心"
+        ],
+        "relatedEquationVariables": [
+          "系統速度"
+        ]
+      },
+      {
+        "id": "cm-notice-equal-impulse-compare",
+        "text": "請注意，更短、更強的相互作用和更長、更溫和的相互作用可以產生相同的最終動量分裂。",
+        "tryThis": "比較短的強力劈腿和長的溫和劈腿。即使最終動量條匹配，力圖像狀也會有所不同。",
+        "whyItMatters": "這將力-時間交互作用與動量傳遞連結起來，同時又不忽略系統守恆。",
+        "relatedControls": [
+          "互動力",
+          "互動持續時間"
+        ],
+        "relatedGraphTabs": [
+          "力量",
+          "動量"
+        ],
+        "relatedOverlays": [
+          "力對",
+          "動量條"
+        ],
+        "relatedEquationVariables": [
+          "互動力",
+          "互動持續時間"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測模式",
+    "intro": "在運作設定之前預測系統總量、動量分配和質心運動。然後在舞台和圖像上測試預測。",
+    "items": [
+      {
+        "id": "cm-predict-heavy-cart",
+        "prompt": "如果購物車 B 變得更重，而係統仍從靜止狀態啟動，那麼在相同的內部推動後會發生什麼？",
+        "scenarioLabel": "靜止的重型小車 B",
+        "changeLabel": "相同的動量交換，不同的質量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "總動量保持為零，動量變化保持相等且方向相反，購物車 B 的速度變化較小。"
+          },
+          {
+            "id": "b",
+            "label": "較重的小車必須承受更大的總動量，因為它的質量更大。"
+          },
+          {
+            "id": "c",
+            "label": "總動量變為正值，因為較重的購物車在系統中占主導地位。"
+          }
+        ],
+        "explanation": "內力仍會產生相等且相反的動量變化。較重的車子只是將相同的動量變化轉換為較小的速度變化。",
+        "observationHint": "應用重右小車預設後，一起觀察速度圖和動量條。"
+      },
+      {
+        "id": "cm-predict-moving-system",
+        "prompt": "如果整個系統在小車相互推動之前就已經發生漂移，那麼在交互過程中總動量和質心應該如何變化？",
+        "scenarioLabel": "行動隔離系統",
+        "changeLabel": "非零系統漂移",
+        "choices": [
+          {
+            "id": "a",
+            "label": "總動量保持正值，質心繼續以穩定的速度向右移動。"
+          },
+          {
+            "id": "b",
+            "label": "內部推力迫使總動量在視窗結束時回到零。"
+          },
+          {
+            "id": "c",
+            "label": "當小車交換動量時，質心必須停止。"
+          }
+        ],
+        "explanation": "內力可以重新分配動量，但它們不會改變孤立系統的總動量。因此質心保持相同的漂移。",
+        "observationHint": "在應用移動系統預設後，觀察平坦的總動量線和穩定的 CM 標記。"
+      },
+      {
+        "id": "cm-predict-equal-impulse",
+        "prompt": "如果您在同一輛小車上從短的強劈叉切換到長的溫和劈叉，什麼應該保持不變？",
+        "scenarioLabel": "長時間溫和的等量轉移互動",
+        "changeLabel": "相同的交互脈衝，不同的形狀",
+        "choices": [
+          {
+            "id": "a",
+            "label": "儘管力圖變得更低更寬，但最終動量分配保持不變。"
+          },
+          {
+            "id": "b",
+            "label": "最終動量分割必須縮小，因為峰值力較低。"
+          },
+          {
+            "id": "c",
+            "label": "沒有任何變化，因為內力永遠不會影響物體動量。"
+          }
+        ],
+        "explanation": "在兩種情況下，內部交互作用傳遞相同的有符號動量，因此即使力-時間形狀發生變化，最終動量分裂也保持相同。",
+        "observationHint": "比較動量圖的末端和施加長平緩分割後的最終動量條。"
+      }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用兩台車台將物體動量、總動量、內衝量和質心運動分開。",
+    "items": [
+      {
+        "id": "cm-ch-reverse-a-total-positive",
+        "title": "反轉 A，維持總正值",
+        "prompt": "使小車 A 最終向左移動，而孤立的兩車系統仍然具有正的總動量和向右的質心漂移。",
+        "successMessage": "車 A 反轉，但係統總量仍為正，因為車 B 具有足夠的向右動量。守恆定律限制了總和，而不是每輛車的方向。",
+        "setup": {
+          "note": "從動系預設開始，然後增加內力。觀察總行和 CM 標記，而不是只觀察購物車 A。"
+        },
+        "hints": [
+          "使系統向右漂移約 0.5 m/s。",
+          "使用強大的正內力約半秒，使小車 A 反轉，同時質心保持向右移動。"
+        ],
+        "checks": [
+          {
+            "label": "保持物件和總動量圖打開。"
+          },
+          {
+            "label": "保持系統邊界可見。"
+          },
+          {
+            "label": "保持質心標記可見。"
+          },
+          {
+            "label": "使整個系統向右漂移。"
+          },
+          {
+            "label": "使用強大的積極內力。"
+          },
+          {
+            "label": "購物車 A 應該完成向左移動。"
+          },
+          {
+            "label": "系統總動量仍應為正。"
+          },
+          {
+            "label": "質心應保持向右漂移。"
+          }
+        ],
+        "style": "參數匹配"
+      },
+      {
+        "id": "cm-ch-same-impulse-different-shape",
+        "title": "相同的衝量，不同的力形狀",
+        "prompt": "進入比較模式：將設定 A 保持為短而強的分割，並使設定 B 為具有相同總內部脈衝的較長且溫和的分割。",
+        "successMessage": "兩種設定都提供相同的脈衝幅度，因此即使力圖像狀不同，最終的動量分配也是匹配的。",
+        "setup": {
+          "note": "匹配 FΔt，而不是峰值力。設定 B 應以較低的力換取較長的持續時間。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "設定 A 可以在 2.0 N 下保持 0.40 秒，大約為 0.80 N s。",
+          "對於設定 B，嘗試 1.0 N 持續 0.80 秒。矩形變得更低更寬，但面積保持不變。"
+        ],
+        "checks": [
+          {
+            "label": "切換到比較模式並編輯設定 B。"
+          },
+          {
+            "label": "保持內力圖打開。"
+          },
+          {
+            "label": "保持設定 A 力接近短強值。"
+          },
+          {
+            "label": "保持設定 A 持續時間較短。"
+          },
+          {
+            "label": "降低設定 B 力。"
+          },
+          {
+            "label": "延長設定 B 的持續時間。"
+          },
+          {
+            "label": "設定脈衝幅度約為 0.80 N s。"
+          },
+          {
+            "label": "設定 B 脈衝幅度符合約 0.80 N s。"
+          },
+          {
+            "label": "設定B 最終車-A 動量應與相同的向左轉移相符。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "description": "動量守恆互動課程展示了為什麼兩車系統在沒有外部衝動時保持相同的總動量，即使兩車交換動量也是如此。",
+    "keywords": [
+      "動量守恆",
+      "隔離系統",
+      "內力",
+      "質心",
+      "實體模擬"
     ]
   }
 }

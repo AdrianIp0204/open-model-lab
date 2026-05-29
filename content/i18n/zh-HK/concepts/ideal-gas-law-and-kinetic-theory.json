@@ -73,22 +73,27 @@
           "steps": [
             {
               "id": "read-density",
-              "label": "1. 將數量和體積轉換為密度提示"
+              "label": "1. 將數量和體積轉換為密度提示",
+              "template": "目前盒子的密度為 $n = N/V = {{densityValue}}$，因此粒子是 {{densityLabelText}}，而不是分散得很遠。"
             },
             {
               "id": "apply-state-law",
-              "label": "2. 使用狀態變數關係"
+              "label": "2. 使用狀態變數關係",
+              "template": "對於這個有界模型，$P = \\beta NT/V$，因此當前狀態給出 $P = {{pressureValue}}\\,\\mathrm{u}$。"
             },
             {
               "id": "connect-back-to-wall-hits",
-              "label": "3. 檢查動能影像與計算結果的一致性"
+              "label": "3. 檢查動能影像與計算結果的一致性",
+              "template": "相同的狀態也顯示 $v_{\\mathrm{avg}} = {{averageSpeedValue}}\\,\\mathrm{u/s}$ 和 {{collisionRateValue}}\\,\\mathrm{hits/s}$ 的牆壁碰撞率，這就是壓力表讀取 {{pressureLabelText}} 值的原因。"
             }
           ],
           "resultLabel": "當前氣體壓力",
+          "resultTemplate": "$P = {{pressureValue}}\\,\\mathrm{u}, \\quad v_{\\mathrm{avg}} = {{averageSpeedValue}}\\,\\mathrm{u/s}, \\quad R_{\\mathrm{wall}} = {{collisionRateValue}}\\,\\mathrm{hits/s}$",
           "applyAction": {
             "label": "顯示壓縮的盒子",
             "observationHint": "容器縮小，碰撞提示變亮，壓力-體積圖移動到更高的壓力值，在同一溫度下。"
-          }
+          },
+          "interpretationTemplate": "{{pressureInterpretation}}"
         },
         {
           "id": "current-kinetic-link",
@@ -98,27 +103,44 @@
             {
               "id": "temperature",
               "label": "溫度"
+            },
+            {
+              "id": "averageSpeed",
+              "label": "平均粒子速度"
+            },
+            {
+              "id": "collisionRate",
+              "label": "牆壁碰撞率"
+            },
+            {
+              "id": "pressure",
+              "label": "壓力"
             }
           ],
           "steps": [
             {
               "id": "read-speed",
-              "label": "1. 閱讀溫度-速度聯絡"
+              "label": "1. 閱讀溫度-速度聯絡",
+              "template": "目前溫度給出的平均速度為 $v_{\\mathrm{avg}} = {{averageSpeedValue}}\\,\\mathrm{u/s}$，因此粒子正在移動 {{speedLabelText}}，而不是懶惰地移動。"
             },
             {
               "id": "read-hit-rate",
-              "label": "2. 閱讀牆壁被擊中的頻率"
+              "label": "2. 閱讀牆壁被擊中的頻率",
+              "template": "在目前密度和盒子尺寸的情況下，牆壁碰撞率為 {{collisionRateValue}}\\,\\mathrm{hits/s}$。"
             },
             {
               "id": "connect-micro-to-macro",
-              "label": "3. 將微觀故事轉換為壓力"
+              "label": "3. 將微觀故事轉換為壓力",
+              "template": "快速粒子和頻繁撞擊牆壁共同產生當前壓力 $P = {{pressureValue}}\\,\\mathrm{u}$，因此這種狀態最好描述為 {{kineticStoryText}}。"
             }
           ],
           "resultLabel": "動能解釋",
+          "resultTemplate": "$v_{\\mathrm{avg}} = {{averageSpeedValue}}\\,\\mathrm{u/s}, \\quad R_{\\mathrm{wall}} = {{collisionRateValue}}\\,\\mathrm{hits/s}, \\quad P = {{pressureValue}}\\,\\mathrm{u}$",
           "applyAction": {
             "label": "顯示較熱的盒子",
             "observationHint": "速度提示變長，碰撞溫度圖上升，儘管盒子大小和粒子數量保持不變。"
-          }
+          },
+          "interpretationTemplate": "{{kineticInterpretation}}"
         }
       ]
     },
@@ -285,6 +307,80 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "將壓力、體積、溫度和粒子數連接到一個有界粒子盒上，然後讀取相同的壓力變化作為粒子速度和壁碰撞率的變化。",
+    "whyItMatters": "氣壓出現在註射器、輪胎、天氣和引擎；此實驗台可協助您解釋壓力變化是否來自擠壓氣體、加熱氣體或添加顆粒。",
+    "keyTakeaway": "在固定顆粒數量和溫度下，減少體積會增加壓力，因為相同的顆粒更頻繁地撞擊牆壁。"
+  },
+  "v2": {
+    "intuition": "將壓力解讀為符號背後的牆面碰撞故事。粒子數量決定可以發生多少次撞擊，溫度決定粒子撞擊的速度和強度，體積決定相同粒子到達牆壁的頻率。",
+    "whyItMatters": "一旦將這三個原因分開，理想氣體定律就不再是一個需要記憶的公式，而是成為一種預測為什麼注射器、輪胎和加熱容器向後推得更厲害的方法。",
+    "equationSnapshot": {
+      "title": "撞牆的狀態變數",
+      "note": "依此順序使用方程式：N/V 給出擁擠提示，溫度設定速度提示，並且兩者都透過壁面碰撞提供壓力讀數。"
+    },
+    "startSetup": {
+      "note": "從房間基準開始，因此壓縮、加熱和添加顆粒都有清晰的前後比較。"
+    },
+    "guidedSteps": [
+      {
+        "id": "compress-the-box",
+        "title": "壓缩盒子",
+        "goal": "解釋由較小的體積而不是由更快的粒子引起的壓力升高。",
+        "doThis": "從房間基線開始，然後切換到壓縮箱，同時保持顆粒計數和溫度固定。",
+        "notice": "運動條紋的長度大致相同，但粒子被壓縮到更小的空間中，並且撞牆閃光變得更加頻繁。",
+        "explain": "較小的體積會提高 N/V。相同的顆粒更頻繁地到達壁，因此即使平均顆粒速度不需要改變，壓力也會升高。"
+      },
+      {
+        "id": "heat-the-same-box",
+        "title": "加熱同一個盒子",
+        "goal": "將溫度與固定 N 和 V 下更快的粒子和更強的壁碰撞聯繫起來。",
+        "doThis": "切換回房間基線，然後應用更熱的同一個盒子並比較壓力-溫度和碰撞-溫度圖。",
+        "notice": "儘管盒子大小和粒子數保持固定，但速度提示會延長，牆壁碰撞率會上升，壓力也會增加。",
+        "explain": "溫度決定速度範圍。較熱的粒子每次撞擊會傳遞更多動量，並更快地穿過盒子，因此壓力會在不增加粒子的情況下上升。"
+      },
+      {
+        "id": "add-particles-only",
+        "title": "僅添加粒子",
+        "goal": "將顆粒數與溫度分開作為升壓的另一種方法。",
+        "doThis": "在同一個盒子中應用更多粒子，並保持溫度讀數與基線相符。",
+        "notice": "密度提示和撞壁速率增加，但平均速度提示保持不變，因為氣體沒有被加熱。",
+        "explain": "更多的粒子意味著每秒更多的牆壁碰撞。在理想氣體關係中，當體積保持固定時，N 可以獨立於 T 升高壓力。"
+      },
+      {
+        "id": "same-pressure-different-story",
+        "title": "同樣的壓力，不同的故事",
+        "goal": "使用即時提示來決定壓力本身會告訴您什麼，不會告訴您什麼。",
+        "doThis": "使用比較模式或預設使一種狀態更熱，另一種狀態更擁擠，然後找出類似的壓力讀數。",
+        "notice": "壓力表可以匹配，但速度提示、密度提示和撞牆故事不匹配。",
+        "explain": "壓力是多种原因共同作用的结果。等壓並不能证明等溫、等顆粒數或等体积；你需要微觀線索来讲述這个故事。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "壓缩通过在相同粒子速度下增加撞壁频率来提高壓力。",
+        "加热使顆粒移動得更快，並在固定的顆粒數量和体积下撞击得更猛烈，从而提高壓力。",
+        "添加粒子會透過增加牆壁碰撞次數來提高壓力，而不會改變平均速度提示。",
+        "相同的壓力可能来自速度、拥挤度和盒子尺寸的不同组合。"
+      ],
+      "misconception": "壓力不仅是拥挤，也不仅仅是溫度；它是 N、T 和 V 的墙壁碰撞结果的组合。",
+      "freePlayPrompt": "选择一个壓力目标，通过壓缩达到目标一次，通过加热或添加顆粒达到目标一次，然后解释為什么壓力表可以在微觀情况發生变化時匹配。",
+      "nextConcepts": [
+        {
+          "slug": "heat-transfer",
+          "reasonLabel": "邊界能流"
+        },
+        {
+          "slug": "specific-heat-and-phase-change",
+          "reasonLabel": "加熱響應"
+        },
+        {
+          "slug": "temperature-and-internal-energy",
+          "reasonLabel": "能源簿記"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "ideal-gas-state",
@@ -336,45 +432,452 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "壓力-體積",
+      "primaryGraphIds": [
+        "壓力-體積"
+      ],
+      "primaryControlIds": [
+        "卷"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "particleCount",
-        "label": "粒子數量"
+        "label": "粒子數量",
+        "description": "改變共享同一個盒子的氣體粒子數量。"
       },
       {
         "id": "temperature",
-        "label": "溫度"
+        "label": "溫度",
+        "description": "改變平均粒子速度尺度。"
       },
       {
         "id": "volume",
-        "label": "體積"
+        "label": "體積",
+        "description": "改變相同氣體必須移動的空間大小。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "room-baseline",
+        "label": "房間基線",
+        "description": "中等溫度的盒子中的中溫氣體。"
+      },
+      {
+        "id": "compressed-box",
+        "label": "壓縮盒",
+        "description": "相同的顆粒數量和溫度，但空間較小。"
+      },
+      {
+        "id": "hotter-same-box",
+        "label": "更熱的同框",
+        "description": "相同的顆粒數量和體積，但氣體溫度較高。"
+      },
+      {
+        "id": "more-particles-same-box",
+        "label": "同盒更多顆粒",
+        "description": "相同的體積和溫度，但顆粒較多。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "speedCue",
+        "label": "速度提示",
+        "shortDescription": "顯示運動條紋和平均速度晶片。",
+        "whatToNotice": [
+          "在您查看圖像之前，升高溫度就會延長運動條紋。"
+        ],
+        "whyItMatters": "它使溫度-壓力關聯在舞台上可見。",
+        "relatedControls": [
+          "溫度"
+        ],
+        "relatedGraphTabs": [
+          "壓力-溫度",
+          "碰撞溫度"
+        ],
+        "relatedEquationVariables": [
+          "溫度"
+        ]
+      },
+      {
+        "id": "densityCue",
+        "label": "密度提示",
+        "shortDescription": "顯示盒子的密度陰影和密度晶片的包裝。",
+        "whatToNotice": [
+          "即使平均速度保持不變，減少體積或添加顆粒也會增加密度。"
+        ],
+        "whyItMatters": "它使法律的 $N/V$ 部分可見。",
+        "relatedControls": [
+          "粒子計數",
+          "卷"
+        ],
+        "relatedGraphTabs": [
+          "壓力-體積",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "卷"
+        ]
+      },
+      {
+        "id": "wallHitCue",
+        "label": "撞牆提示",
+        "shortDescription": "顯示牆壁閃爍和牆壁碰撞率。",
+        "whatToNotice": [
+          "當牆壁撞擊變得更加頻繁時，壓力就會上升，而不僅僅是當粒子移動得更快時。"
+        ],
+        "whyItMatters": "它將壓力計與粒子壁碰撞連接起來。",
+        "relatedControls": [
+          "粒子計數",
+          "溫度",
+          "卷"
+        ],
+        "relatedGraphTabs": [
+          "壓力-體積",
+          "碰撞溫度"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "溫度",
+          "卷"
+        ]
+      },
+      {
+        "id": "pressureGauge",
+        "label": "壓力表",
+        "shortDescription": "在即時撞牆速率旁顯示目前壓力。",
+        "whatToNotice": [
+          "即使其中一個更熱而另一個更擁擠，兩個設定也可能具有相似的壓力。"
+        ],
+        "whyItMatters": "它提醒您壓力是一種結果，而不是整個微觀故事。",
+        "relatedControls": [
+          "粒子計數",
+          "溫度",
+          "卷"
+        ],
+        "relatedGraphTabs": [
+          "壓力-體積",
+          "壓力-溫度",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "溫度",
+          "卷"
+        ]
       }
     ]
   },
   "graphs": [
     {
       "id": "pressure-volume",
-      "label": "壓力對體積"
+      "label": "壓力對體積",
+      "xLabel": "卷",
+      "yLabel": "壓力 (u)",
+      "description": "僅變更音量。這是了解壓縮如何提高壓力的最清晰的圖像。"
     },
     {
       "id": "pressure-particle-count",
-      "label": "壓力對粒子數量"
+      "label": "壓力對粒子數量",
+      "xLabel": "顆粒計數",
+      "yLabel": "壓力 (u)",
+      "description": "僅更改粒子數。這表明，即使平均速度保持大致相同，更多的粒子也會提高壓力。"
+    },
+    {
+      "id": "pressure-temperature",
+      "label": "壓力與溫度",
+      "xLabel": "溫度",
+      "yLabel": "壓力 (u)",
+      "description": "僅更改溫度。使用此圖檢查較熱的氣體在固定 $N$ 和 $V$ 下是否會產生較高的壓力。"
+    },
+    {
+      "id": "collision-temperature",
+      "label": "牆壁碰撞速率與溫度",
+      "xLabel": "溫度",
+      "yLabel": "每秒牆壁撞擊次數",
+      "description": "僅更改溫度。該圖顯示了速度更快的粒子如何更頻繁地到達牆壁。"
     }
   ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示。更改一個變量，然後檢查平台、壓力表和匹配圖像。",
+    "items": [
+      {
+        "id": "igkt-notice-compress",
+        "text": "即使速度提示保持大致相同，僅降低音量也會增加壓力。在較小的盒子中，相同的顆粒更頻繁地到達牆壁。",
+        "tryThis": "在房間基線和壓縮框之間切換。比較運動條紋、撞牆閃光和壓力-容積圖。",
+        "whyItMatters": "它將體積效應與溫度效應分開。",
+        "relatedControls": [
+          "卷"
+        ],
+        "relatedGraphTabs": [
+          "壓力-體積"
+        ],
+        "relatedOverlays": [
+          "密度提示",
+          "撞牆提示",
+          "壓力表"
+        ],
+        "relatedEquationVariables": [
+          "卷"
+        ]
+      },
+      {
+        "id": "igkt-notice-heating",
+        "text": "僅提高溫度會延長運動條紋並增加撞壁率，因此即使盒子尺寸和顆粒計數保持不變，壓力也會升高。",
+        "tryThis": "將滑鼠停留在碰撞溫度圖像上的冷點和暖點，然後觀看舞台上預覽值的更新。",
+        "whyItMatters": "它將壓力-溫度定律與粒子速度和碰撞連結起來。",
+        "relatedControls": [
+          "溫度"
+        ],
+        "relatedGraphTabs": [
+          "碰撞溫度",
+          "壓力-溫度"
+        ],
+        "relatedOverlays": [
+          "速度提示",
+          "撞牆提示"
+        ],
+        "relatedEquationVariables": [
+          "溫度"
+        ]
+      },
+      {
+        "id": "igkt-notice-more-particles",
+        "text": "在固定溫度下加入粒子會提高壓力，而不會太大改變平均速度提示。更多的粒子意味著每秒有更多的牆壁撞擊。",
+        "tryThis": "在房間基線和更多粒子相同框之間切換，然後比較密度線索和壓力粒子計數圖。",
+        "whyItMatters": "它避免了每次壓力變化都必須來自溫度的捷徑。",
+        "relatedControls": [
+          "粒子計數"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "密度提示",
+          "壓力表"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數"
+        ]
+      },
+      {
+        "id": "igkt-notice-same-pressure-different-story",
+        "text": "相同的盒子溫度較高，同一個盒子的顆粒較多可以達到相似的壓力。儀表可以匹配，而速度提示和密度提示則講述不同的微觀故事。",
+        "tryThis": "在比較模式下，保持一個設定較熱，而另一個設定較擁擠，直到兩個壓力讀數接近。",
+        "whyItMatters": "它說明了為什麼壓力不能單獨決定溫度或顆粒數量。",
+        "relatedControls": [
+          "粒子計數",
+          "溫度"
+        ],
+        "relatedGraphTabs": [
+          "壓力-溫度",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "速度提示",
+          "密度提示",
+          "壓力表"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "溫度"
+        ]
+      },
+      {
+        "id": "igkt-notice-state-law",
+        "text": "將理想氣體定律理解為速度、擁擠度和盒子大小的總結，而不是理解為四個不相關的符號。",
+        "tryThis": "固定兩個變量，移動一個滑桿，並使用匹配的響應圖來解釋壓力變化。",
+        "whyItMatters": "它將定律變成因果模型，而不是需要記憶的公式。",
+        "relatedControls": [
+          "粒子計數",
+          "溫度",
+          "卷"
+        ],
+        "relatedGraphTabs": [
+          "壓力-體積",
+          "壓力-溫度",
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "壓力表"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "溫度",
+          "卷"
+        ]
+      }
+    ]
+  },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在移動滑桿之前進行預測。每個場景都會詢問壓力故事的哪個微觀部分正在改變。",
     "items": [
       {
         "id": "igkt-predict-compress",
-        "changeLabel": "體積"
+        "prompt": "從房間基線開始，您僅減少體積，同時保持相同的粒子數和溫度。哪种说法最符合替补席？",
+        "scenarioLabel": "壓缩盒子",
+        "changeLabel": "體積",
+        "choices": [
+          {
+            "id": "a",
+            "label": "壓力升高是因為相同的顆粒在較小的盒子中更頻繁地撞擊牆壁。"
+          },
+          {
+            "id": "b",
+            "label": "壓力不變，因為粒子單獨速度並不快。"
+          },
+          {
+            "id": "c",
+            "label": "壓力下降是因為顆粒的行進距離較短。"
+          }
+        ],
+        "explanation": "在固定的顆粒數量和溫度下，壓縮會增加密度並縮短與牆壁的距離，因此牆壁撞擊變得更加頻繁，壓力也會上升。",
+        "observationHint": "運動條紋保持相似，但撞牆提示和壓力表都增加。"
       },
       {
         "id": "igkt-predict-heat",
-        "changeLabel": "溫度"
+        "prompt": "從房間基線開始，您僅提高溫度。壓力會發生什麼事？",
+        "scenarioLabel": "加熱氣體",
+        "changeLabel": "溫度",
+        "choices": [
+          {
+            "id": "a",
+            "label": "壓力升高是因為粒子移動速度較快，撞擊牆壁的頻率較高，且每次撞擊時傳遞的動量較多。"
+          },
+          {
+            "id": "b",
+            "label": "壓力保持不變，因為顆粒數量和盒子尺寸沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "壓力下降是因為速度較快的粒子在壁面附近停留的時間較少。"
+          }
+        ],
+        "explanation": "在固定的 $N$ 和 $V$ 下，更熱的氣體意味著更快的粒子。這會提高碰撞率和每次撞擊的動量變化，因此壓力會上升。",
+        "observationHint": "運動條紋變長，撞擊牆壁變得更頻繁，壓力-溫度圖像上升。"
       },
       {
         "id": "igkt-predict-more-particles",
-        "changeLabel": "粒子數量"
+        "prompt": "從房間基線開始，您僅增加粒子計數。哪種說法最符合替補席？",
+        "scenarioLabel": "添加粒子",
+        "changeLabel": "粒子數量",
+        "choices": [
+          {
+            "id": "a",
+            "label": "即使平均粒子速度保持大致相同，壓力也會升高。"
+          },
+          {
+            "id": "b",
+            "label": "壓力保持不變，因為溫度決定了粒子速度，而溫度沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "壓力下降是因為擁擠的盒子留給每個粒子的加速空間較小。"
+          }
+        ],
+        "explanation": "在固定的溫度和體積下，平均速度與溫度有關，但更多的顆粒意味著更多的壁面撞擊，因此壓力仍然會上升。",
+        "observationHint": "速度提示變化不大，但密度和壓力都上升。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用活氣箱擊中壓力目標。檢查會讀取目前狀態，因此您必須出於正確的原因施加正確的壓力。",
+    "items": [
+      {
+        "id": "igkt-ch-compress-doubles-pressure",
+        "title": "通过壓缩使壓力加倍",
+        "prompt": "從房間基線開始，僅降低體積，直到壓力大約增加一倍，同時溫度和顆粒計數保持在基線值附近。",
+        "successMessage": "僅透過壓縮就使壓力加倍。粒子的速度並不是單獨的，而是更快。他們只是在較小的盒子裡更頻繁地到達牆壁。",
+        "setup": {
+          "note": "請勿使用溫度或顆粒計數來提供協助。重點是仅通过壓缩来提高壓力。"
+        },
+        "hints": [
+          "首先使用壓力-體積圖。將基線體積減半是最乾淨的路線。",
+          "如果溫度偏離基線，您將同時改變兩個原因。"
+        ],
+        "checks": [
+          {
+            "label": "開啟壓力-體積圖像。"
+          },
+          {
+            "label": "保持壓力表可見。"
+          },
+          {
+            "label": "將粒子計數保持在基線附近。"
+          },
+          {
+            "label": "將溫度保持在基線附近。"
+          },
+          {
+            "label": "將氣體壓縮到原體積的一半左右。"
+          },
+          {
+            "label": "達到原始壓力的兩倍左右。"
+          }
+        ],
+        "style": "參數匹配"
+      },
+      {
+        "id": "igkt-ch-same-pressure-different-cause",
+        "title": "將壓力與不同的原因相匹配",
+        "prompt": "從更熱的同一個盒子開始，切換到比較模式，然後僅編輯設定 B，直到達到大約相同的壓力，同時保持較冷並使用更多粒子而不是更多溫度。",
+        "successMessage": "您將壓力與不同的微觀原因相符。設定 A 使用較快的粒子，而設定 B 在同一盒子中使用更多粒子。",
+        "setup": {
+          "note": "讓設定 A 保持熱狀態。讓B組更涼爽、更擁擠。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "在兩個設定中保持盒子大小接近相同，然後讓粒子計數在設定 B 中進行補償工作。",
+          "壓力標記應在速度提示和密度提示之前匹配。"
+        ],
+        "checks": [
+          {
+            "label": "編輯設定 B 時保持比較模式。"
+          },
+          {
+            "label": "開啟壓力-粒子計數圖。"
+          },
+          {
+            "label": "保持壓力表可見。"
+          },
+          {
+            "label": "保持設定 A 熱。"
+          },
+          {
+            "label": "將設定 A 保持在目標壓力附近。"
+          },
+          {
+            "label": "保持設定 B 的盒子大小幾乎相同。"
+          },
+          {
+            "label": "保持設定 B 比設定 A 涼爽。"
+          },
+          {
+            "label": "改為提高設定 B 的粒子數。"
+          },
+          {
+            "label": "將設定 B 與大約相同的壓力相符。"
+          }
+        ],
+        "style": "參數匹配"
+      }
+    ]
+  },
+  "seo": {
+    "title": "理想氣體定律與動力學理論|開放模型實驗室",
+    "description": "透過有界粒子箱模擬學習理想氣體定律，該模擬將壓力、體積、溫度和粒子數量與粒子速度和壁面碰撞聯繫起來。",
+    "keywords": [
+      "理想氣體定律動力學理論",
+      "壓力體積溫度顆粒數",
+      "動力學理論壁碰撞",
+      "粒子運動所產生的壓力",
+      "開放模型實驗室理想氣體"
     ]
   }
 }

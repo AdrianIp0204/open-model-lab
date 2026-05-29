@@ -3,7 +3,9 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import subprocess
 import sys
+from typing import Any
 
 try:
     from .common import (
@@ -58,6 +60,76 @@ def _path_label(path: Path) -> str:
         return path.resolve().as_posix()
 
 
+def _effective_validation_overlay(task) -> dict[str, Any]:
+    if task.kind != "concept":
+        return task.canonical_overlay
+
+    runtime_overlays = _load_runtime_concept_validation_overlays()
+    runtime_overlay = runtime_overlays.get(task.key)
+    if isinstance(runtime_overlay, dict):
+        return runtime_overlay
+
+    optimized_path = CONTENT_ROOT / "optimized" / "concepts" / f"{task.key}.json"
+    if not optimized_path.exists():
+        return task.canonical_overlay
+    optimized_overlay = read_json(optimized_path)
+    return merge_overlay(task.canonical_overlay, optimized_overlay)
+
+
+_RUNTIME_CONCEPT_VALIDATION_OVERLAYS: dict[str, Any] | None = None
+
+
+def _load_runtime_concept_validation_overlays() -> dict[str, Any]:
+    global _RUNTIME_CONCEPT_VALIDATION_OVERLAYS
+
+    if _RUNTIME_CONCEPT_VALIDATION_OVERLAYS is not None:
+        return _RUNTIME_CONCEPT_VALIDATION_OVERLAYS
+
+    repo_root = CONTENT_ROOT.parent
+    script = r"""
+import fs from "node:fs";
+import path from "node:path";
+import {
+  buildConceptEditorialOverlaySource,
+  mergeEditorialValue,
+} from "./lib/content/editorial-overlays.mjs";
+import { generateContentVariantBundle } from "./scripts/generate-content-variant-bundle.mjs";
+
+const repoRoot = process.cwd();
+const contentRoot = path.join(repoRoot, "content");
+const catalog = JSON.parse(fs.readFileSync(path.join(contentRoot, "catalog", "concepts.json"), "utf8"));
+const { optimizedBundle } = generateContentVariantBundle(repoRoot, { writeFiles: false });
+const overlays = {};
+
+for (const metadata of catalog) {
+  const canonicalConcept = JSON.parse(
+    fs.readFileSync(path.join(contentRoot, "concepts", `${metadata.contentFile}.json`), "utf8"),
+  );
+  const canonicalOverlay = buildConceptEditorialOverlaySource(metadata, canonicalConcept);
+  overlays[metadata.slug] = optimizedBundle[metadata.slug]
+    ? mergeEditorialValue(canonicalOverlay, optimizedBundle[metadata.slug])
+    : canonicalOverlay;
+}
+
+process.stdout.write(JSON.stringify(overlays));
+"""
+
+    try:
+        result = subprocess.run(
+            ["node", "--input-type=module", "-e", script],
+            cwd=repo_root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        parsed = json.loads(result.stdout)
+        _RUNTIME_CONCEPT_VALIDATION_OVERLAYS = parsed if isinstance(parsed, dict) else {}
+    except Exception:
+        _RUNTIME_CONCEPT_VALIDATION_OVERLAYS = {}
+
+    return _RUNTIME_CONCEPT_VALIDATION_OVERLAYS
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
     overlay_root = Path(args.overlay_root).resolve() if args.overlay_root else None
@@ -85,10 +157,11 @@ def main(argv: list[str] | None = None) -> int:
             problems.append(f"{task_id}: invalid JSON in {_path_label(task.output_path)} ({exc})")
             continue
 
-        problems.extend(validate_overlay_subset(overlay, task.canonical_overlay))
+        validation_overlay = _effective_validation_overlay(task)
+        problems.extend(validate_overlay_subset(overlay, validation_overlay))
 
         try:
-            merge_overlay(task.canonical_overlay, overlay)
+            merge_overlay(validation_overlay, overlay)
         except Exception as exc:
             problems.append(f"{task_id}: overlay merge failed ({exc})")
 

@@ -24,6 +24,14 @@
     }
   ],
   "sections": {
+    "explanation": {
+      "paragraphs": [
+        "從舞台上的波長指南及其下方的來源和探頭圖開始。該指南在空間中標記了一個波峰到波峰的間距，而圖像顯示了源點和一個下游探針如何在時間上重複。這是同一波的兩個視圖：在擾動有時間穿過介質之後，探頭顯示出相同的振盪。",
+        "現在改變波速，同時保持波長固定。波峰圖案更快地穿過標尺，源和探頭跡線在更短的時間內完成每個週期，並且延遲指南縮小，因為更快地覆蓋相同的距離。相反，保持波速固定並增加波長。波峰分佈得更遠，每米適合的周期更少，且源頻率下降。",
+        "相位圖將計時概念轉換為距離圖。下游距離的每一個額外波長都會增加一個完整週期的滯後，因此距離較遠一個波長的探頭僅在一個週期後會回到相同相位。移動探頭不會改變發射的波。它僅改變源與該位置之間的延遲和相位差。",
+        "這就是為什麼 v = f lambda 如此有用：間距、時間和行程必須全部一致。同樣的關係隨後有助於解釋聲音到達延遲、幹擾和駐波。接下來，保持探頭固定並將純波速變化與純波長變化進行比較，然後將探頭移動完整波長並檢查相位在延遲增加時是否重複。"
+      ]
+    },
     "keyIdeas": [
       "波速告訴你介質中一個相位點如波峯如何快速移動，而波長則告訴你在空間上重複特徵有多遠。",
       "頻率和週期描述了一個位置上的時間行為。對於同一行進中的波，f = v / λ 和 T = 1 / f = λ / v。",
@@ -56,27 +64,36 @@
             {
               "id": "frequency",
               "label": "頻率"
+            },
+            {
+              "id": "period",
+              "label": "期間"
             }
           ],
           "steps": [
             {
               "id": "relation",
-              "label": "1. 開始從波的關係"
+              "label": "1. 開始從波的關係",
+              "template": "使用 $v = f\\lambda$，然後使用 $f = \\dfrac{v}{\\lambda}$，然後使用 $T = \\dfrac{1}{f}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入實時值"
+              "label": "2. 代入實時值",
+              "template": "$f = \\dfrac{{waveSpeedValue}}{{wavelengthValue}} = {{frequencyValue}}\\,\\mathrm{Hz}$。"
             },
             {
               "id": "compute",
-              "label": "3. 轉換為時間週期"
+              "label": "3. 轉換為時間週期",
+              "template": "這給了 $T = \\dfrac{1}{f} = {{periodValue}}\\,\\mathrm{s}$，因此一個完整的光源週期每 {{periodValue}} 秒再發射一個波長。"
             }
           ],
           "resultLabel": "當前時間",
+          "resultTemplate": "$f = {{frequencyValue}}\\,\\mathrm{Hz}, \\quad T = {{periodValue}}\\,\\mathrm{s}$",
           "applyAction": {
             "label": "顯示更緊湊的波峯間距",
             "observationHint": "較短的波長使相點陣圖上升得更加陡峭，因此相同介質長度包含更多的週期。"
-          }
+          },
+          "interpretationTemplate": "{{relationInterpretation}}"
         },
         {
           "id": "probe-delay",
@@ -103,22 +120,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 使用距離除以速度"
+              "label": "1. 使用距離除以速度",
+              "template": "行程延遲為$\\Delta t = \\dfrac{x_p}{v}$，週期落後為$\\dfrac{x_p}{\\lambda}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入實時探針位置"
+              "label": "2. 代入實時探針位置",
+              "template": "$\\Delta t = \\dfrac{{probeXValue}}{{waveSpeedValue}} = {{travelDelayValue}}\\,\\mathrm{s}$ 和 $\\dfrac{x_p}{\\lambda} = \\dfrac{{probeXValue}}{{wavelengthValue}} = {{phaseLagCyclesValue}}$ 週期。"
             },
             {
               "id": "compute",
-              "label": "3. 解釋探針應該做什麼"
+              "label": "3. 解釋探針應該做什麼",
+              "template": "這意味著探頭在 {{travelDelayValue}} s 的延遲和 {{phaseLagRadiansValue}} rad 的相位滯後後重複源運動。"
             }
           ],
           "resultLabel": "當前探針滯後",
+          "resultTemplate": "$\\Delta t = {{travelDelayValue}}\\,\\mathrm{s}, \\quad \\dfrac{x_p}{\\lambda} = {{phaseLagCyclesValue}}$ 週期",
           "applyAction": {
             "label": "顯示一個完整的週期滯後",
             "observationHint": "一個波長遠離的探針在一個完整的週期後重複來源的相位。"
-          }
+          },
+          "interpretationTemplate": "{{delayInterpretation}}"
         }
       ]
     },
@@ -255,6 +277,64 @@
       ]
     }
   },
+  "pageIntro": {
+    "definition": "在同一介質上追蹤一個行波，並在一個誠實的即時舞台上連接波峰間距、行進延遲、源定時和關係 v = f lambda。",
+    "keyTakeaway": "波長是載物台上的間距，而頻率和週期是從圖像上的一點讀取的定時。"
+  },
+  "v2": {
+    "intuition": "追蹤一個行波，以便波峰間距、探頭延遲和源定時保持與相同的移動模式相關。",
+    "whyItMatters": "這種關係是聲音到達延遲、幹擾間隔和後來的駐波推理背後的可重用鏈接，因此它需要感覺像是一個故事，而不是三個互不相關的公式。",
+    "startSetup": {
+      "note": "打開位移圖，波峰間距和探頭延遲可見，因此第一個動作從即時波開始，而不是公式。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-spacing-and-delay-together",
+        "title": "一起讀取間距和延遲",
+        "goal": "使用一個基線波將載物台上的波長與探頭上的定時連接起來。",
+        "doThis": "從基線序列預設開始，保持位移圖可見，然後移動探針位置一次。",
+        "notice": "載物台上的波峰間距保持固定，而下游探頭稍後會重複相同的運動。",
+        "explain": "波長是空間間隔，而探頭延遲是傳播時間效應。他們是對同一個旅行困擾的不同看法。"
+      },
+      {
+        "id": "change-wave-speed-not-spacing",
+        "title": "改變波速，而不是間距",
+        "goal": "看看當相同的波長在介質中移動得更快時，什麼會變得更快。",
+        "doThis": "應用快-中預設並比較源和探頭時序，同時波長導管保持可見。",
+        "notice": "相同的波峰間距掃過標尺的速度較快，且行程延遲縮短。",
+        "explain": "在波長固定的情況下，較大的波速意味著光源必須更快地循環，以便 v = f lambda 仍然成立。"
+      },
+      {
+        "id": "change-wavelength-at-fixed-speed",
+        "title": "以固定速度改變波長",
+        "goal": "藉由維持波速穩定，將間距變化與中速變化分開。",
+        "doThis": "在短波長和長波長預設之間切換，同時保持視野中的中速相同。",
+        "notice": "舞台上的波峰間距會發生變化，源定時也會隨之變化，即使波峰在介質中的傳播速度並不更快。",
+        "explain": "如果 v 保持固定，則更改 lambda 會強制頻率和週期發生變化，因此相同的關係保持一致。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "波長是載物台上的間距，而頻率和週期是在一個位置讀取的定時。",
+        "在波長固定的情況下，提高波速會使光源和探頭循環更快。",
+        "探頭位置改變行程延遲和相位滯後，而不是源發射的波。"
+      ],
+      "misconception": "如果波峰小車移動得更快，基於同樣的原因，介質中的一個點必須始終振盪得更快。",
+      "freePlayPrompt": "將探頭和波長一起移動，直到相位在新的下游位置重複。",
+      "nextConcepts": [
+        {
+          "slug": "sound-waves-longitudinal-motion",
+          "title": "聲波與縱向運動",
+          "reasonLabel": "將相同的時序故事應用於聲音"
+        },
+        {
+          "slug": "standing-waves",
+          "title": "駐波",
+          "reasonLabel": "使用間距和計時來讀取共振"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "traveling-wave",
@@ -305,22 +385,37 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "位移",
+      "primaryGraphIds": [
+        "位移"
+      ],
+      "primaryControlIds": [
+        "波速",
+        "波長"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "amplitude",
-        "label": "振幅"
+        "label": "振幅",
+        "description": "改變波高而不改變 v、lambda、f 或 T。"
       },
       {
         "id": "waveSpeed",
-        "label": "波速"
+        "label": "波速",
+        "description": "控制波峰小車在介質中移動的速度。"
       },
       {
         "id": "wavelength",
-        "label": "波長"
+        "label": "波長",
+        "description": "控制沿介質的波峰間距。"
       },
       {
         "id": "probeX",
-        "label": "探測器位置"
+        "label": "探測器位置",
+        "description": "將即時測量點移得離源頭更遠或更近。"
       }
     ],
     "presets": [
@@ -328,49 +423,479 @@
         "id": "baseline-train",
         "label": "基準設定",
         "description": "一個中等波速的波列，波峰間距為 1.6 m，探針位於距離波源 2.4 m 的位置。"
+      },
+      {
+        "id": "fast-medium",
+        "label": "更快的介質",
+        "description": "當波長保持固定時，波峰傳播得更快，因此源頻率升高。"
+      },
+      {
+        "id": "long-wavelength",
+        "label": "較長的波長",
+        "description": "相同的中速現在使波峰分開得更遠，因此頻率下降。"
+      },
+      {
+        "id": "short-wavelength",
+        "label": "波長較短",
+        "description": "相同的介質長度適合更多的週期，因此源必須振盪得更快。"
+      },
+      {
+        "id": "one-wavelength-away",
+        "label": "一個波長之外",
+        "description": "探頭距離光源剛好一個波長，因此延遲了一個完整週期。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "wavelengthGuide",
+        "label": "波長指南",
+        "shortDescription": "直接在即時波上標記一個波峰到波峰的間距。",
+        "whatToNotice": [
+          "改變 lambda 會同時改變載物台上的波峰間距和相位圖的斜率。"
+        ],
+        "whyItMatters": "它使波長作為波上的距離可見，而不僅僅是公式中的符號。",
+        "relatedControls": [
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "相圖"
+        ],
+        "relatedEquationVariables": [
+          "波長"
+        ]
+      },
+      {
+        "id": "delayGuide",
+        "label": "延遲指南",
+        "shortDescription": "將來源到探頭距離、行程延遲和週期滯後標記在一起。",
+        "whatToNotice": [
+          "移動探頭不會重塑波列。它只會改變該點等待的時間以及它落後於源頭的距離。"
+        ],
+        "whyItMatters": "它將下游距離與同一即時視圖上的行進時間和相位滯後連結起來。",
+        "relatedControls": [
+          "探針X",
+          "波速"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedEquationVariables": [
+          "探針X",
+          "波速"
+        ]
+      },
+      {
+        "id": "distancePerPeriod",
+        "label": "第一期旅行",
+        "shortDescription": "顯示源運動的一個週期將波峰向前發送一個波長。",
+        "whatToNotice": [
+          "波峰在一個週期內傳播的距離與舞台上標記的波長間隔相符。"
+        ],
+        "whyItMatters": "它使時間和距離之間的聯繫變得可見，而不是將其隱藏在代數中。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedEquationVariables": [
+          "波速",
+          "波長"
+        ]
       }
     ]
   },
+  "graphs": [
+    {
+      "id": "displacement",
+      "label": "源頭與探頭運動",
+      "xLabel": "時間（秒）",
+      "yLabel": "位移（公尺）",
+      "description": "在同一時間軸上顯示源運動和探頭運動，因此您可以直接從即時波讀取行程延遲和相位差。"
+    },
+    {
+      "id": "phase-map",
+      "label": "循環滯後位置",
+      "xLabel": "介質中的位置 (m)",
+      "yLabel": "源的周期滯後",
+      "description": "顯示週期滯後如何隨著下游距離的增加而增加。每增加一個波長就會增加一個週期。"
+    }
+  ],
   "noticePrompts": {
+    "title": "注意事項",
+    "intro": "一次使用一個提示，並將其與您在舞台或圖像上實際看到的內容相匹配。",
     "items": [
       {
-        "id": "wave-speed-notice-compare"
-      },
-      {
-        "id": "wave-speed-notice-compare"
-      },
-      {
-        "id": "wave-speed-notice-compare"
-      },
-      {
-        "id": "wave-speed-notice-compare"
-      },
-      {
-        "id": "wave-speed-notice-compare"
-      },
-      {
-        "id": "wave-speed-notice-compare"
+        "id": "wave-speed-notice-compare",
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
       },
       {
         "id": "wave-speed-notice-compare",
-        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。"
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-stage-and-graph",
+        "text": "請注意，圖像和舞台講述了同一個故事。當波峰圖案移動得較快或間距改變時，源頭和探頭處的時序也會隨之改變。",
+        "tryThis": "保持探頭固定，然後一次改變一個波速或波長，並比較階段、時間圖和讀數卡。",
+        "whyItMatters": "此圖是在兩個位置測量的同一行波，而不是單獨的數學顯示。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移"
+        ],
+        "relatedOverlays": [
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-phase-map-preview",
+        "text": "請注意，懸停在相位圖上會將即時探頭移動到下游位置。該圖指向同一波，而不是單獨的預覽。",
+        "tryThis": "將一個波長懸停在右側更遠處，並比較探頭相位關係如何變化。",
+        "whyItMatters": "相位圖和舞台是相同基於距離的滯後的兩個視圖。",
+        "relatedGraphTabs": [
+          "相圖",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "延遲指南",
+          "波長指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-wavelength",
+        "text": "請注意，縮短 lambda 會在相同距離內包含更多週期。相位圖變得更陡，如果 v 保持固定，源頻率必須增加。",
+        "tryThis": "降低 lambda，同時保持 v 固定，然後將載物台上的波峰間距與頻率讀數進行比較。",
+        "whyItMatters": "波長是一個空間量，但透過 v = f lambda 它也可以設定定時。",
+        "relatedControls": [
+          "波長",
+          "波速"
+        ],
+        "relatedGraphTabs": [
+          "相圖",
+          "位移"
+        ],
+        "relatedOverlays": [
+          "波長指南",
+          "每個週期的距離"
+        ],
+        "relatedEquationVariables": [
+          "波長",
+          "波速"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-wave-speed",
+        "text": "請注意，在 lambda 保持固定的情況下增加 v 會使時間圖循環更快，即使舞台上的波峰間距沒有變化。",
+        "tryThis": "保持 lambda 固定，提高波速，並比較前後的週期讀數。",
+        "whyItMatters": "改變波速使圖案更快地穿過介質，當間距保持固定時，這會提高頻率。",
+        "relatedControls": [
+          "波速",
+          "波長"
+        ],
+        "relatedGraphTabs": [
+          "位移"
+        ],
+        "relatedOverlays": [
+          "每個週期的距離"
+        ],
+        "relatedEquationVariables": [
+          "波速"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-amplitude",
+        "text": "請注意，較高的波浪不會改變波峰間距、行進延遲、頻率或週期。它僅改變位移高度。",
+        "tryThis": "增加幅度並將時間圖上的變化與相位圖和讀數卡上保持固定的內容進行比較。",
+        "whyItMatters": "振幅常與速度或能量混淆。這裡它在視覺上與時間和間隔分開。",
+        "relatedControls": [
+          "振幅"
+        ],
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-inspect",
+        "text": "請注意，時間軌道會改變瞬時波形和來源探頭位移，但相位圖保持不變，因為它取決於位置，而不取決於您暫停的瞬間。",
+        "tryThis": "暫停，單步執行一次，然後將舞台上發生的變化與相位圖上保持固定的情況進行比較。",
+        "whyItMatters": "它將時間快照與基於距離的滯後關係分開。",
+        "relatedGraphTabs": [
+          "位移",
+          "相圖"
+        ]
       }
     ]
   },
   "predictionMode": {
+    "title": "預測模式",
+    "intro": "在測試之前預測效果。每個提示一次改變一個原因，以便您可以連接階段、圖像和方程式。",
     "items": [
       {
         "id": "wave-speed-predict-faster-medium",
-        "changeLabel": "波速"
+        "prompt": "將 lambda 保持在目前值，並使波在介質中移動得更快。源頻率和週期會發生什麼變化？",
+        "scenarioLabel": "提高波速",
+        "changeLabel": "波速",
+        "choices": [
+          {
+            "id": "a",
+            "label": "頻率應該會增加，週期應該變短。"
+          },
+          {
+            "id": "b",
+            "label": "頻率應保持不變，因為波峰間距沒有改變。"
+          },
+          {
+            "id": "c",
+            "label": "週期應該會變長，因為波每秒移動得更遠。"
+          }
+        ],
+        "explanation": "當 lambda 固定時，v = f lambda 意味著較大的波速需要較大的頻率。由於 T = 1 / f，週期必須變短。",
+        "observationHint": "觀察波峰圖案移動得更快，同時兩個時間跡線更快完成每個週期。"
       },
       {
         "id": "wave-speed-predict-longer-wavelength",
-        "changeLabel": "波長"
+        "prompt": "保持波速固定並增加 lambda。相位圖斜率和源頻率會發生什麼變化？",
+        "scenarioLabel": "增加波長",
+        "changeLabel": "波長",
+        "choices": [
+          {
+            "id": "a",
+            "label": "相位圖斜率應變平，頻率應降低。"
+          },
+          {
+            "id": "b",
+            "label": "相位圖斜率應該變得更陡並且頻率應該會增加。"
+          },
+          {
+            "id": "c",
+            "label": "圖像和頻率都不應改變，因為介質速度保持不變。"
+          }
+        ],
+        "explanation": "波長越大意味著每公尺適合的週期越少，因此 x / lambda 隨位置增長得更慢。當 v 固定時，f = v / lambda，因此頻率會降低。",
+        "observationHint": "將更寬的波峰間距與更平坦的相位圖和更慢的時間圖進行比較。"
       },
       {
         "id": "wave-speed-predict-one-wavelength-farther",
-        "changeLabel": "探測器位置"
+        "prompt": "將探頭移離源一個完整波長，而不會改變波本身。源-探頭相位關係會發生什麼變化？",
+        "scenarioLabel": "將探頭移動 1 個 lambda",
+        "changeLabel": "探測器位置",
+        "choices": [
+          {
+            "id": "a",
+            "label": "探頭應保持相同的相位關係，但在一個完整週期後到達。"
+          },
+          {
+            "id": "b",
+            "label": "由於距離變大，探頭應該翻轉到相反的相位。"
+          },
+          {
+            "id": "c",
+            "label": "探頭應該會獲得振幅，因為它距離來源較遠。"
+          }
+        ],
+        "explanation": "增加一個完整波長會增加一個完整週期的延遲。因此，探測器再次達到相同的相位，但會晚一個週期。",
+        "observationHint": "在相位圖上，向右移動一個波長，然後觀察光源和探頭再次同相排列。"
       }
+    ]
+  },
+  "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "將 v = fλ 轉換為緊湊的間距和定時搜索，並固定在即時波峰小車上。",
+    "items": [
+      {
+        "id": "wsw-ch-one-cycle-probe-lag",
+        "title": "單週期探測滯後",
+        "prompt": "從基線開始，移動探頭，直到其位於下游一個波長處：相同的相位形狀，一個完整週期後。",
+        "successMessage": "您在不改變波形本身的情況下重複了相位。探頭距離一個波長，因此相位圖讀取一個週期，而時間圖晚一個週期到達。",
+        "setup": {
+          "note": "在僅移動探頭位置時同時使用相位圖和延遲指南。"
+        },
+        "hints": [
+          "此設定中的一個波長為 1.6 m，因此探頭應落在距離光源該距離附近。",
+          "舞台間距不變；您正在更改下游測量點等待相同幹擾的位置。"
+        ],
+        "checks": [
+          {
+            "label": "開啟相位圖。"
+          },
+          {
+            "label": "保持延遲指南可見。"
+          },
+          {
+            "label": "設定$0.95$和$1.05$週期之間的相位滯後。"
+          },
+          {
+            "label": "將行程延遲保持在一個週期附近，大約是 $0.67\\,\\mathrm{s}$。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "wsw-ch-faster-same-spacing",
+        "title": "更快的波，相同的間距",
+        "prompt": "從基線開始，將波峰間距保持在 1.6 m，並提高波速，直到源循環更快且探頭延遲縮短。",
+        "successMessage": "您變更了時間但未變更間距。相位圖斜率保持與 λ 相關，而位移圖循環更快，因為 v 增加。",
+        "setup": {
+          "note": "使用波長導管來保護間距，同時速度滑塊改變時序。"
+        },
+        "hints": [
+          "不要拖曳此波長滑桿；視覺間距應保持在1.6 m。",
+          "如果 v 上升而 λ 保持固定，則頻率必須上升，且源到探頭的延遲必須變短。"
+        ],
+        "checks": [
+          {
+            "label": "開啟位移圖。"
+          },
+          {
+            "label": "顯示第一期旅遊指南。"
+          },
+          {
+            "label": "保持波長接近 $1.6\\,\\mathrm{m}$。"
+          },
+          {
+            "label": "將源頻率提高到 $2.1\\,\\mathrm{Hz}$ 以上。"
+          },
+          {
+            "label": "將探測延遲縮短到 $0.72\\,\\mathrm{s}$ 以下。"
+          }
+        ],
+        "style": "可见條件"
+      }
+    ]
+  },
+  "seo": {
+    "title": "波速與波長 |開放模型實驗室",
+    "description": "探索波速、波長、頻率和週期如何在一次行波模擬中保持鎖定。",
+    "keywords": [
+      "波速",
+      "波長",
+      "頻率",
+      "期間",
+      "行波"
     ]
   }
 }

@@ -67,22 +67,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 建立目前的轉動慣量"
+              "label": "1. 建立目前的轉動慣量",
+              "template": "對於此有界轉子，請使用 $I = I_{\\mathrm{hub}} + Mr^2$，其中 $I_{\\mathrm{hub}} = {{hubInertiaValue}}\\,\\mathrm{kg\\,m^2}$ 和移動質量為 $M = {{totalMassValue}}\\,\\mathrm{kg}$。"
             },
             {
               "id": "substitute",
-              "label": "2. 代入即時半徑"
+              "label": "2. 代入即時半徑",
+              "template": "對於 $r = {{massRadiusValue}}\\,\\mathrm{m}$，環貢獻為 $Mr^2 = {{ringContributionValue}}\\,\\mathrm{kg\\,m^2}$，因此總轉動慣量為 $I = {{momentOfInertiaValue}}\\,\\mathrm{kg\\,m^2}$。"
             },
             {
               "id": "compute",
-              "label": "3. 乘以即時角速度"
+              "label": "3. 乘以即時角速度",
+              "template": "然後是 $L = I\\omega = {{momentOfInertiaValue}} \\times {{angularSpeedValue}}$，所以角動量是 ${{angularMomentumValue}}\\,\\mathrm{kg\\,m^2/s}$。"
             }
           ],
           "resultLabel": "目前的轉動慣量與角動量",
+          "resultTemplate": "$I = {{momentOfInertiaValue}}\\,\\mathrm{kg\\,m^2}, \\quad L = {{angularMomentumValue}}\\,\\mathrm{kg\\,m^2/s}$",
           "applyAction": {
             "label": "套用寬半徑同轉速狀態",
             "observationHint": "把角速度維持不變，觀察轉動慣量增加時，角動量讀數和圖表如何一起上升。"
-          }
+          },
+          "interpretationTemplate": "{{momentumInterpretation}}"
         },
         {
           "id": "compact-reference-spin",
@@ -105,22 +110,27 @@
           "steps": [
             {
               "id": "relation",
-              "label": "1. 保持角動量固定"
+              "label": "1. 保持角動量固定",
+              "template": "使用當前即時值 $L = {{angularMomentumValue}}\\,\\mathrm{kg\\,m^2/s}$ 並想像將相同的 $L$ 放入緊湊參考佈局中。"
             },
             {
               "id": "substitute",
-              "label": "2. 計算緊湊參考轉動慣量"
+              "label": "2. 計算緊湊參考轉動慣量",
+              "template": "在 $r_{\\mathrm{ref}} = {{compactReferenceRadiusValue}}\\,\\mathrm{m}$ 處，參考慣量為 $I_{\\mathrm{ref}} = {{compactReferenceInertiaValue}}\\,\\mathrm{kg\\,m^2}$。"
             },
             {
               "id": "compute",
-              "label": "3. 求出同 L 角速度"
+              "label": "3. 求出同 L 角速度",
+              "template": "對於$\\omega_{\\mathrm{same\\,L}} = L / I_{\\mathrm{ref}}$，緊湊佈局需要${{referenceAngularSpeedValue}}\\,\\mathrm{rad/s}$。"
             }
           ],
           "resultLabel": "緊湊參考下的同角動量轉速",
+          "resultTemplate": "$\\omega_{\\mathrm{same\\,L}} = {{referenceAngularSpeedValue}}\\,\\mathrm{rad/s}$",
           "applyAction": {
             "label": "套用寬半徑同 L 狀態",
             "observationHint": "配合同 L 響應圖與緊湊參考覆蓋層一起看：半徑變大時，系統仍可維持近似相同的角動量，但角速度會明顯下降。"
-          }
+          },
+          "interpretationTemplate": "{{conservationInterpretation}}"
         }
       ]
     },
@@ -271,6 +281,79 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "將角動量視為一個緊湊轉子上的旋轉動量，其中質量半徑和旋轉速率與相同的讀數、響應圖和相同的 L 守恆故事相關。",
+    "keyTakeaway": "角動量透過 $L = I\\omega$ 結合轉動慣量和旋轉速率。轉子可以具有較大的角動量，因為它旋轉得很快，因為它的質量遠離軸，或者因為兩者同時發生。"
+  },
+  "v2": {
+    "intuition": "使用等質量轉子來觀察角動量如何成長，因為轉子旋轉得更快，因為質量位於更遠的位置，或因為兩者同時發生。",
+    "whyItMatters": "這是從轉動慣量到守恆轉動量的最直接的橋樑。一旦學生可以在一個轉子上閱讀 $L = I\\omega$，滑冰者和同 L 的故事就不再像魔法了。",
+    "equationSnapshot": {
+      "note": "閱讀 $I$ 和 $\\omega$ 如何組合成 $L$，然後使用相同的 L 地圖來觀察半徑的旋轉交易。"
+    },
+    "guidedSteps": [
+      {
+        "id": "read-one-rotor-with-both-ingredients",
+        "title": "讀取含有兩種成分的一個轉子",
+        "goal": "從一個穩定的轉子開始，這樣學習者就可以將角動量視為慣性和旋轉的乘積，而不僅僅是另一個速度標籤。",
+        "doThis": "留在實驗室基線轉子上，保持角動量圖可見，並在半徑保持固定的情況下提高角速度一次。",
+        "notice": "當轉子旋轉得更快時，即使質量佈局不變，角動量讀數也會上升。",
+        "explain": "角動量透過 $L = I\\omega$ 將旋轉慣量成分和自旋速率成分結合在一起，因此改變其中任何一個成分都可以改變總旋轉動量。"
+      },
+      {
+        "id": "hold-speed-and-widen-the-rotor",
+        "title": "保持速度並加寬轉子",
+        "goal": "使用相同的角速度來證明向外移動相同的質量會產生更大的角動量。",
+        "doThis": "應用寬同速預設並與角動量圖上的基線進行比較。",
+        "notice": "旋轉速率可以保持固定，而角動量會上升，因為更寬的佈局具有更大的慣性矩。",
+        "explain": "如果 $\\omega$ 保持固定，而 $I$ 增加，則 $L$ 也必須增加。這不是保護；而是保護。這是一個具有更大旋轉動量的新狀態。"
+      },
+      {
+        "id": "keep-l-fixed-and-watch-spin-drop",
+        "title": "保持 L 固定並觀察旋轉下降",
+        "goal": "讓同樣的故事變得明確，而不是將保護作為口號。",
+        "doThis": "切換到wide-same-L 預設並讀取same-L 自旋圖，同時same-L 參考覆蓋保持開啟狀態。",
+        "notice": "較寬的轉子可以以較小的角速度承載幾乎相同的角動量。",
+        "explain": "如果 $L$ 保持固定，而 $I$ 增加，則 $\\omega$ 必須減少。 Same-L圖是直接在bench上畫出的守恆關係。"
+      },
+      {
+        "id": "test-the-conservation-story",
+        "title": "測試保護故事",
+        "goal": "最後迫使學習者決定較慢、較寬的轉子是否仍可承載相同的角動量。",
+        "doThis": "從緊湊的 Same-L 狀態開啟比較模式，僅加寬設定 B，並測試這兩個設定是否仍可保持其角動量徽章匹配。",
+        "notice": "緊湊的裝置旋轉得更快，但如果其較大的慣性補償較低的旋轉，較寬的裝置仍然可以保持幾乎相同的角動量。",
+        "explain": "角動量守恆是一個產品故事，而不是一個單變量故事。更寬的佈局可以保持相同的 $L$ 且旋轉更少，因為它們的 $I$ 更大。",
+        "inlineCheck": {
+          "title": "更寬的轉子可以保持相同的 L 嗎？",
+          "note": "使用相同的 L 緊湊型和寬型預設作為錨點，然後確定較慢的寬型轉子是否仍能保持與較快的緊湊型轉子相同的角動量。"
+        },
+        "setup": {
+          "interactionMode": "比較"
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "角動量透過 $L = I\\omega$ 結合轉動慣量和自旋。",
+        "在相同旋轉下，較寬的轉子承載較多的角動量，因為它的慣性矩較大。",
+        "如果在 $I$ 上升時角動量保持固定，則轉子必須旋轉得更慢。"
+      ],
+      "misconception": "旋轉較快的轉子必須始終比較慢的轉子具有更多的角動量。",
+      "freePlayPrompt": "建立一個緊湊且寬的轉子，其具有幾乎相同的角動量，然後解釋每個設定中哪個變數發生了變化。",
+      "nextConcepts": [
+        {
+          "slug": "rolling-motion",
+          "title": "滾動運動",
+          "reasonLabel": "使用相同的慣性故事，其中平移和旋轉共享一個運動。"
+        },
+        {
+          "slug": "rotational-inertia",
+          "title": "轉動慣量/轉動慣量",
+          "reasonLabel": "重新檢視 $L = I\\omega$ 內的佈局術語。"
+        }
+      ]
+    }
+  },
   "equations": [
     {
       "id": "rotational-analogue",
@@ -311,23 +394,477 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "動量圖",
+      "primaryGraphIds": [
+        "動量圖",
+        "概念標籤",
+        "旋轉角度"
+      ],
+      "primaryControlIds": [
+        "角速度",
+        "質量半徑"
+      ],
+      "primaryPresetIds": [
+        "實驗室基線",
+        "概念標籤",
+        "概念標籤",
+        "概念標籤"
+      ],
+      "starterExploreTasks": [
+        "從 Lab 基線開始，僅提高角速度：角動量圖應上升，而質量半徑引導保持固定。",
+        "應用寬幅、相同的速度並與基線進行比較，以便相同的旋轉速率產生更大的角動量讀數。",
+        "切換到寬，相同的L並讀取相同的L圖：品質位於更遠的位置，而旋轉速率下降以保持產品幾乎匹配。"
+      ]
+    },
     "controls": [
       {
         "id": "massRadius",
-        "label": "質量半徑"
+        "label": "質量半徑",
+        "description": "將相同的六個相同質量向內或向外滑動，同時總質量保持固定。即使在改變旋轉速率之前，這也會改變轉動慣量。"
       },
       {
         "id": "angularSpeed",
-        "label": "角速度"
+        "label": "角速度",
+        "description": "設定旋轉速率，以便您可以將相同速度的變化與相同角動量的變化進行比較。"
+      }
+    ],
+    "presets": [
+      {
+        "id": "lab-baseline",
+        "label": "實驗室基線",
+        "description": "中等半徑旋轉的轉子使角動量的兩個成分易於讀取。"
+      },
+      {
+        "id": "compact-same-l",
+        "label": "緊湊，相同 L",
+        "description": "緊湊的佈局只需旋轉得更快，就可以承載與基線幾乎相同的角動量。"
+      },
+      {
+        "id": "mid-same-l",
+        "label": "中半徑，相同的 L",
+        "description": "這個中間佈局使角動量接近相同的 L 系列，但又不會非常緊湊。"
+      },
+      {
+        "id": "wide-same-l",
+        "label": "寬，相同的 L",
+        "description": "寬佈局保持與基線幾乎相同的角動量，但它可以透過更慢的旋轉來做到這一點。"
+      },
+      {
+        "id": "wide-same-speed",
+        "label": "寬，速度相同",
+        "description": "在向外移動質量的同時保持相同的自旋會產生更大的角動量，而不是保持舊的角動量。"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "radiusGuide",
+        "label": "半徑指南",
+        "shortDescription": "顯示等質量距軸的目前距離。",
+        "whatToNotice": [
+          "總質量不變，而半徑發生變化。",
+          "半徑的變化就是為什麼緊湊和寬的同L態可能需要非常不同的自旋速率。"
+        ],
+        "whyItMatters": "它使慣性變化可見，而不是將其保留為抽象變數。",
+        "relatedControls": [
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "動量圖",
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑"
+        ]
+      },
+      {
+        "id": "tangentialSpeed",
+        "label": "切向速度箭頭",
+        "shortDescription": "顯示邊緣處一個質量的直線速度。",
+        "whatToNotice": [
+          "輪緣速度取決於半徑和角速度。",
+          "從角度角度來看，更快的旋轉並不自動意味著更大的邊緣速度或更大的角動量。"
+        ],
+        "whyItMatters": "它可以防止直線速度與角動量混淆。",
+        "relatedControls": [
+          "質量半徑",
+          "角速度"
+        ],
+        "relatedGraphTabs": [
+          "旋轉角度"
+        ],
+        "relatedEquationVariables": [
+          "角速度",
+          "質量半徑"
+        ]
+      },
+      {
+        "id": "equalMassMarkers",
+        "label": "等質量標記",
+        "shortDescription": "標記每個冰球都具有相同的質量，因此只有分佈和旋轉發生變化。",
+        "whatToNotice": [
+          "當圓盤向外移動時，轉子不會獲得額外的質量。",
+          "角動量的變化可以來自轉動慣量的變化，而不僅僅是角速度的變化。"
+        ],
+        "whyItMatters": "這使得原因與質量分佈而不是額外質量相關。",
+        "relatedControls": [
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "動量圖"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑"
+        ]
+      },
+      {
+        "id": "sameLReference",
+        "label": "Same-L 緊湊型參考",
+        "shortDescription": "添加一個緊湊的參考環並顯示在那裡攜帶相同角動量的旋轉速率。",
+        "whatToNotice": [
+          "相同的角動量在不同的半徑下可能需要非常不同的自旋速率。",
+          "緊湊參考不是第二次模擬。它是相同的 $L$ 轉換為不同的轉動慣量。"
+        ],
+        "whyItMatters": "它將角動量守恆轉換為您可以直接閱讀的即時比較。",
+        "relatedControls": [
+          "質量半徑",
+          "角速度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑",
+          "角速度"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "rotation-angle",
+      "label": "旋轉角度與時間",
+      "xLabel": "時間（秒）",
+      "yLabel": "旋轉角度（rad）",
+      "description": "對於該實驗台上的固定設定，角度線性增長，因為轉子透過夾子保持恆定的角速度。"
+    },
+    {
+      "id": "momentum-map",
+      "label": "角動量與質量半徑",
+      "xLabel": "質量半徑（公尺）",
+      "yLabel": "角動量 (kg m^2/s)",
+      "description": "在目前角速度下，向外移動相同的質量會增加慣性矩，從而增加角動量。"
+    },
+    {
+      "id": "conserved-spin-map",
+      "label": "相同 L 角速度與質量半徑",
+      "xLabel": "質量半徑（公尺）",
+      "yLabel": "角速度（rad/s）",
+      "description": "對於目前的角動量，該曲線顯示如果質量半徑發生變化而角動量保持固定，角速度將如何變化。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "關於角動量需要注意什麼",
+    "intro": "使用這些提示來區分兩個不同的故事：保持角速度固定，並保持角動量固定。",
+    "items": [
+      {
+        "id": "angular-momentum-notice-same-l-compare",
+        "text": "在比較模式下，兩個轉子可以承載幾乎相同的角動量，即使緊湊的轉子旋轉得更快。",
+        "tryThis": "從緊湊的 Same-L 預設開始，克隆它，然後僅向外移動設定 B，直到角動量徽章仍然匹配，但角速度徽章急劇分離。",
+        "whyItMatters": "這是頁面上最清楚的同L比較：相同的角動量，不同的慣性矩，不同的自旋。",
+        "relatedControls": [
+          "質量半徑",
+          "角速度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤",
+          "旋轉角度"
+        ],
+        "relatedOverlays": [
+          "相同L參考"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑",
+          "角速度"
+        ]
+      },
+      {
+        "id": "angular-momentum-notice-same-speed",
+        "text": "保持角速度固定，同時向外移動質量會產生更大的角動量。那不是保護。",
+        "tryThis": "套用寬幅同速預設並與基準進行比較。角速度讀數不變，但角動量圖向上跳躍。",
+        "whyItMatters": "它表明，改變半徑會改變轉動慣量，因此即使 $\\omega$ 不變，$L$ 也會改變。",
+        "relatedControls": [
+          "質量半徑",
+          "角速度"
+        ],
+        "relatedGraphTabs": [
+          "動量圖"
+        ],
+        "relatedOverlays": [
+          "半徑指南",
+          "等質量標記"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑",
+          "角速度"
+        ]
+      },
+      {
+        "id": "angular-momentum-notice-conserved-spin-map",
+        "text": "在同一個 L 地圖上，角速度隨著半徑的增加而下降，因為相同的角動量由更大的慣性矩承載。",
+        "tryThis": "從左到右滑動響應曲線。當預覽的旋轉速率下降時，預覽的階段應該會變寬。",
+        "whyItMatters": "這是圖像形式的守恆關係。",
+        "relatedControls": [
+          "質量半徑"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "相同L參考"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑"
+        ]
+      },
+      {
+        "id": "angular-momentum-notice-momentum-map",
+        "text": "在角動量圖上，相同角速度下較寬的轉子攜帶較多的角動量。",
+        "tryThis": "保持角速度滑桿固定並在動量圖上拖曳。當前標記應隨著半徑的增加而上升。",
+        "whyItMatters": "它將相同速度比較與相同角動量比較分開。",
+        "relatedControls": [
+          "質量半徑",
+          "角速度"
+        ],
+        "relatedGraphTabs": [
+          "動量圖"
+        ],
+        "relatedOverlays": [
+          "半徑指南"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑",
+          "角速度"
+        ]
+      },
+      {
+        "id": "angular-momentum-notice-rim-speed",
+        "text": "邊緣速度和角動量是不同的概念。兩者都取決於半徑和角速度，但只有角動量包含完整的慣性故事。",
+        "tryThis": "比較緊湊的 Same-L 和寬的 Same-L 預設，並看到切向速度箭頭。更快的旋轉器不會自動使其他旋轉量變大。",
+        "whyItMatters": "它阻止直線速度提示取代實際的 $L = I\\omega$ 想法。",
+        "relatedControls": [
+          "質量半徑",
+          "角速度"
+        ],
+        "relatedGraphTabs": [
+          "旋轉角度"
+        ],
+        "relatedOverlays": [
+          "切向速度"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑",
+          "角速度"
+        ]
+      },
+      {
+        "id": "angular-momentum-notice-reference",
+        "text": "Same-L 緊湊參考標籤立即從目前活動狀態更新。",
+        "tryThis": "開啟相同的 L 參考疊加並緩慢移動半徑滑桿。緊湊參考速度立即發生變化，因為它是根據相同的即時角動量計算的。",
+        "whyItMatters": "它使保護成為一種即時比較，而不是一個單獨的想像的例子。",
+        "relatedControls": [
+          "質量半徑",
+          "角速度"
+        ],
+        "relatedGraphTabs": [
+          "概念標籤"
+        ],
+        "relatedOverlays": [
+          "相同L參考"
+        ],
+        "relatedEquationVariables": [
+          "質量半徑",
+          "角速度"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測相同的 L 權衡",
+    "intro": "在應用變更之前預測變更是相同速度變更還是相同角動量變更。然後比較舞台、讀數和地圖。",
+    "items": [
+      {
+        "id": "angular-momentum-predict-wide-same-l",
+        "prompt": "如果相同的角動量從緊湊的佈局轉移到更寬的佈局，會發生什麼？",
+        "scenarioLabel": "相同的 L，更寬的半徑",
+        "changeLabel": "維持 L 不變，同時增加 I",
+        "choices": [
+          {
+            "id": "a",
+            "label": "角速度應該會下降，因為較大的慣性矩攜帶相同的角動量。"
+          },
+          {
+            "id": "b",
+            "label": "角速度應該保持不變，因為角動量已經固定。"
+          },
+          {
+            "id": "c",
+            "label": "角速度應該會增加，因為質量離軸更遠。"
+          }
+        ],
+        "explanation": "如果 $L$ 保持固定，而 $I$ 增加，$\\omega$ 必須減少。因此，寬的同 L 轉子比緊湊的同 L 轉子旋轉得更慢。",
+        "observationHint": "一起觀看相同的 L 響應圖和角速度徽章。寬的同 L 態應該用較大的慣性換取較慢的旋轉。"
+      },
+      {
+        "id": "angular-momentum-predict-wide-same-speed",
+        "prompt": "如果向外移動相同的質量但故意保持角速度不變，模擬應該顯示什麼？",
+        "scenarioLabel": "相同的速度，更寬的半徑",
+        "changeLabel": "固定 omega",
+        "choices": [
+          {
+            "id": "a",
+            "label": "角動量應該會增加，因為轉動慣量增加而角速度保持固定。"
+          },
+          {
+            "id": "b",
+            "label": "角動量應保持不變，因為轉子仍在旋轉。"
+          },
+          {
+            "id": "c",
+            "label": "角動量應該會減少，因為寬轉子看起來比較慢。"
+          }
+        ],
+        "explanation": "維持 $\\omega$ 固定不會守恆舊的角動量。它創建了一個新的、更大的 $L$，因為更寬的佈局具有更大的轉動慣量。",
+        "observationHint": "一起觀看角動量圖和相同的 L 圖。一個顯示了新的較大的 $L$，而另一個顯示了保存舊的 $L$ 所需的內容。"
       }
     ]
   },
   "challengeMode": {
+    "title": "挑戰模式",
+    "intro": "使用相同的轉子來證明您可以將角動量作為產品故事進行推理，而不是將守恆視為口號。",
     "items": [
       {
         "id": "angular-momentum-ch-compare-same-l",
-        "title": "相同的L，不同的自轉"
+        "title": "相同的L，不同的自轉",
+        "prompt": "開啟比較模式，使設定 A 緊湊，設定 B 寬，同時保持它們的角動量幾乎匹配。",
+        "successMessage": "您建立了核心守恆比較：相同的角動量、非常不同的旋轉速率以及剪輯結束時非常不同的旋轉角度。",
+        "setup": {
+          "note": "克隆緊湊的相同 L 狀態，然後僅加寬設定 B，直到角動量徽章仍然匹配但旋轉速率徽章分離。",
+          "interactionMode": "比較"
+        },
+        "hints": [
+          "設定 A 可以保持在緊湊的 Same-L 預設附近。",
+          "主要工作是減慢裝置 B 的速度，使其較大的慣性仍然落在相同的角動量範圍內。"
+        ],
+        "checks": [
+          {
+            "label": "設定 A 應保持緊湊且慣性矩較小。"
+          },
+          {
+            "label": "設定 B 應該從較大的慣性矩中得到相同的角動量。"
+          },
+          {
+            "label": "即使角動量保持匹配，設定 B 也應具有小得多的邊緣速度。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "保持 $0.26$ 和 $0.3\\,\\mathrm{m}$ 之間的設定 A 緊湊。"
+          },
+          {
+            "label": "維持 $5.3$ 和 $5.6\\,\\mathrm{kg\\,m^2/s}$ 之間的角動量設定。"
+          },
+          {
+            "label": "將設定 B 在 $0.9$ 和 $1.0\\,\\mathrm{m}$ 之間向外移動。"
+          },
+          {
+            "label": "將設定 B 角動量保持在 $5.3$ 和 $5.6\\,\\mathrm{kg\\,m^2/s}$ 之間。"
+          },
+          {
+            "label": "保持設定 A 在 $5.7$ 和 $6.1\\,\\mathrm{rad/s}$ 之間旋轉。"
+          },
+          {
+            "label": "將設定 B 置於 $0.85$ 和 $1.05\\,\\mathrm{rad/s}$ 之間。"
+          }
+        ],
+        "style": "可见條件"
+      },
+      {
+        "id": "angular-momentum-ch-wide-same-l",
+        "title": "寬且仍相同-L",
+        "prompt": "從實驗室基線開始，然後建立一個仍具有幾乎相同角動量的寬佈局。",
+        "successMessage": "在加寬轉子並減慢旋轉速度的同時，您保持角動量幾乎匹配，這正是該概念所需的守恆權衡。",
+        "setup": {
+          "note": "使用相同的 L 響應圖來維持寬態目標與目前角動量的關聯。"
+        },
+        "hints": [
+          "不要保留舊的角速度。寬的同 L 轉子應該旋轉得慢得多。",
+          "首先使用半徑滑桿，然後調整角速度，直到角動量讀數回到基線範圍。"
+        ],
+        "checks": [
+          {
+            "label": "使寬佈局具有較大的慣性矩，而不僅僅是減慢基線轉子的速度。"
+          },
+          {
+            "label": "保持邊緣運動足夠慢，以便在半徑速度權衡中產生相同的 L。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "在 $0.9$ 和 $1.0\\,\\mathrm{m}$ 之間移動質量半徑。"
+          },
+          {
+            "label": "將角動量保持在 $5.3$ 和 $5.6\\,\\mathrm{kg\\,m^2/s}$ 之間。"
+          },
+          {
+            "label": "將角速度設定在 $0.85$ 和 $1.05\\,\\mathrm{rad/s}$ 之間。"
+          }
+        ],
+        "style": "目標設定"
+      },
+      {
+        "id": "angular-momentum-ch-end-angle",
+        "title": "讀取剪輯結束結果",
+        "prompt": "在剪輯末端暫停並調整一個寬的同 L 轉子，其緩慢旋轉使累積角度保持較小。",
+        "successMessage": "您將保護故事與可見運動聯繫起來：寬的同 L 轉子確實在同一時間內掃出的角度更小，因為它旋轉得更慢。",
+        "setup": {
+          "note": "將遊標保持在剪輯末尾附近，以便角度目標保持與一個真實的時間視窗相關。"
+        },
+        "hints": [
+          "不要透過再次緊湊轉子來解決此問題。佈局應保持寬闊。",
+          "結束角度是緩慢的寬佈局旋轉的結果，因此圍繞相同的 L 目標輕輕調整角速度。"
+        ],
+        "checks": [
+          {
+            "label": "將寬轉子保持在檢查的最終狀態下的高慣性。"
+          },
+          {
+            "label": "保持較慢的相同 L 旋轉速率，以造成較小的掃角。"
+          }
+        ],
+        "targets": [
+          {
+            "label": "將質量半徑保持在 $0.9$ 和 $1.0\\,\\mathrm{m}$ 之間。"
+          },
+          {
+            "label": "將角動量保持在 $5.3$ 和 $5.6\\,\\mathrm{kg\\,m^2/s}$ 之間。"
+          },
+          {
+            "label": "使端角落在 $2.1$ 和 $2.5\\,\\mathrm{rad}$ 之間。"
+          }
+        ],
+        "style": "目標設定"
       }
+    ]
+  },
+  "seo": {
+    "description": "互動式角動量課程，具有可調節質量半徑和角速度、相同 L 守恆疊加、比較模式、引導提示、即時工作範例、挑戰模式和概念快速測試。",
+    "keywords": [
+      "角動量",
+      "角動量守恆",
+      "轉動慣量",
+      "角速度",
+      "實體模擬"
     ]
   }
 }

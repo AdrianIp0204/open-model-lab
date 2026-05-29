@@ -50,27 +50,40 @@
             {
               "id": "graph-layout",
               "label": "圖佈局"
+            },
+            {
+              "id": "frontier-label",
+              "label": "邊境意義"
+            },
+            {
+              "id": "visited-label",
+              "label": "訪問過的意義"
             }
           ],
           "steps": [
             {
               "id": "name-the-frontier-role",
-              "label": "1. 如實讀取前沿"
+              "label": "1. 如實讀取前沿",
+              "template": "一個節點在從邊緣被發現之後、但在搜尋檢查完它自己的所有鄰居之前，屬於邊界。"
             },
             {
               "id": "name-the-visited-role",
-              "label": "2. 如實讀取已訪問角色"
+              "label": "2. 如實讀取已訪問角色",
+              "template": "節點僅在其鄰域被使用後才屬於已訪問節點，因此返回到該節點的未來邊不應創建新的前沿工作。"
             },
             {
               "id": "connect-to-cycle-control",
-              "label": "3. 如實讀取迴圈後果"
+              "label": "3. 如實讀取迴圈後果",
+              "template": "當橋循環圖指向訪問過的工作時，將該邊緣算作重複跳過，並將仍在等待的邊界保留在適當的位置。"
             }
           ],
           "resultLabel": "迴圈控制讀取",
+          "resultTemplate": "前沿 = 發現並等待；訪問過 = 已展開，再次看到時可以安全跳過。",
           "applyAction": {
             "label": "展示橋迴圈BFS",
             "observationHint": "將前沿提示、已訪問提示和重複跳過圖一起顯示，以便迴圈記錄容易信任。"
-          }
+          },
+          "interpretationTemplate": "當出現向後緣時，這種差異解釋了為什麼遍歷會繼續進行而不是重新開啟循環。"
         }
       ]
     },
@@ -102,7 +115,11 @@
             "label": "只有已訪問節點仍然需要工作。"
           }
         ],
-        "explanation": "這種等待與完成的區別是使圖遍歷在包含迴圈的圖上運作得當的原因。"
+        "explanation": "這種等待與完成的區別是使圖遍歷在包含迴圈的圖上運作得當的原因。",
+        "selectedWrongExplanations": {
+          "b": "邊界和訪問是遍歷簿記的不同階段。",
+          "c": "已存取的節點已經解決，而不是唯一仍需要工作的節點。"
+        }
       },
       {
         "id": "fvsg-qt-repeat-skip",
@@ -121,7 +138,80 @@
             "label": "它消除了前沿的需要。"
           }
         ],
-        "explanation": "迴圈自然指向後方，因此重複跳過是將圖轉換為有界工作而不是無限開啟的原因。"
+        "explanation": "迴圈自然指向後方，因此重複跳過是將圖轉換為有界工作而不是無限開啟的原因。",
+        "selectedWrongExplanations": {
+          "a": "安全地重複跳過使用鄰接；他們並沒有忽略它。",
+          "c": "邊界仍然控制著等待擴張的事物。"
+        }
+      },
+      {
+        "id": "fvsg-qt-frontier-not-finished",
+        "prompt": "這個實驗台上的前沿節點最簡潔的描述是什麼？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "它已經完成了所有的圖像工作。"
+          },
+          {
+            "id": "b",
+            "label": "在任何規則下都不能重新訪問它。"
+          },
+          {
+            "id": "c",
+            "label": "它已被發現但尚未完全擴展。"
+          }
+        ],
+        "explanation": "前沿意味著等待工作：已經找到，但尚未用作完整擴展。",
+        "selectedWrongExplanations": {
+          "a": "完成的節點屬於訪問過的歷史記錄，而不是活動邊界。",
+          "b": "關鍵點是等待與完成，而不是對每個未來規則的籠統聲明。"
+        }
+      },
+      {
+        "id": "fvsg-qt-repeat-skip-why",
+        "prompt": "為什麼即使圖像很小，重複跳過簿記也很重要？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "因為只有當圖像有數百個節點時，重複跳過才有意義。"
+          },
+          {
+            "id": "b",
+            "label": "因為如果忽略訪問狀態，小循環連結仍然可以一遍又一遍地重新打開相同的工作。"
+          },
+          {
+            "id": "c",
+            "label": "因為重複跳過決定了圖像繪製佈局。"
+          }
+        ],
+        "explanation": "循環問題是結構性的，而不僅僅是圖像大小的問題。",
+        "selectedWrongExplanations": {
+          "a": "如果沒有正確的記賬，即使是一個很小的周期也可能導致無休止的重新打開。",
+          "c": "重複跳過組織遍歷工作，而不是繪圖版面。"
+        }
+      },
+      {
+        "id": "fvsg-qt-current-node",
+        "prompt": "如何區分目前節點和存取集？",
+        "choices": [
+          {
+            "id": "a",
+            "label": "目前節點位於訪問集之外，因為它從未被發現。"
+          },
+          {
+            "id": "b",
+            "label": "目前節點和存取集只是同一件事的兩個名稱。"
+          },
+          {
+            "id": "c",
+            "label": "目前節點是正在擴展的節點，而訪問集記錄的是已經定居的節點。"
+          }
+        ],
+        "explanation": "目前節點是搜尋的活躍成員之一，而造訪的節點則記錄更廣泛的定居歷史。",
+        "selectedWrongExplanations": {
+          "a": "目前節點已被發現；目前正在研究中。",
+          "b": "存取的是比目前擴展節點更大的簿記集。"
+        }
       }
     ]
   },
@@ -159,6 +249,54 @@
       }
     ]
   },
+  "pageIntro": {
+    "definition": "使用一個循環圖來追蹤當前節點、等待輪到的前緣節點以及已檢查鄰居的已存取節點。",
+    "whyItMatters": "記帳可以防止圖像搜尋永遠循環或對相同的工作進行兩次計數。",
+    "keyTakeaway": "前沿意味著發現和等待；訪問意味著已經擴展，因此可以直接跳過重複邊緣。"
+  },
+  "v2": {
+    "intuition": "足夠慢地運行一個循環圖，以防止當前狀態、邊界狀態和訪問狀態崩潰為一個 blob。",
+    "whyItMatters": "搜尋演算法在循環中保持正確，因為簿記顯示哪些工作正在等待、已完成或可以安全地跳過。",
+    "equationSnapshot": {
+      "title": "搜尋簿記",
+      "note": "保持更新規則和重複跳過計數接近圖像狀態。"
+    },
+    "guidedSteps": [
+      {
+        "id": "name-the-three-roles",
+        "title": "說出三個角色的名稱",
+        "goal": "分別指向目前節點、等待邊界和已擴展的存取集。",
+        "doThis": "打開橋循環 BFS 並在前進之前保持邊界和訪問線索可見。",
+        "notice": "節點可以在尚未被訪問的情況下被發現並等待；訪問意味著它的鄰居已經被檢查過。",
+        "explain": "前沿和訪問是不同的工作狀態，因此合併它們會隱藏遍歷是否仍有誠實的工作要做。"
+      },
+      {
+        "id": "catch-the-repeat-skip",
+        "title": "捕捉重複跳過",
+        "goal": "使用後緣來決定為什麼重新造訪已完成的工作會使搜尋陷入循環。",
+        "doThis": "走到橋循環圖上的重複邊並觀察邊界發生了什麼，而不是重新打開訪問的節點。",
+        "notice": "遍歷記錄重複跳過，而剩餘邊界使搜尋繼續前進。",
+        "explain": "訪問集保護已完成的擴展工作；重複邊緣應該被計算或忽略，而不是變成重複的前沿工作。"
+      },
+      {
+        "id": "compare-bfs-and-dfs-bookkeeping",
+        "title": "比較 BFS 和 DFS 簿記",
+        "goal": "改變遍歷模式並解釋發生了什麼變化，而不會失去邊界與存取規則。",
+        "doThis": "從橋接週期 BFS 切換到橋接週期 DFS，然後以新順序命名正在等待的內容和已完成的內容。",
+        "notice": "擴展的順序發生了變化，但前沿仍然意味著等待工作，訪問仍然意味著已經擴展的工作。",
+        "explain": "BFS 和 DFS 選擇不同的下一個節點，但兩者都需要相同的簿記來安全地處理循環。"
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "前沿意味著被發現並等待擴展。",
+        "已存取表示該節點的鄰居已被檢查過。",
+        "只有在誠實地追蹤訪問集時，重複邊緣才會成為安全跳過。"
+      ],
+      "misconception": "Frontier和visited不是同一組的兩個名稱；它們標誌著圖搜尋工作的不同階段。",
+      "freePlayPrompt": "使用 BFS 執行相同的循環圖一次，使用 DFS 執行一次，然後在重複邊緣暫停並命名目前節點、邊界節點和存取節點。"
+    }
+  },
   "equations": [
     {
       "id": "frontier-visited-update",
@@ -194,33 +332,293 @@
     }
   ],
   "simulation": {
+    "ui": {
+      "initialGraphId": "已訪問與前沿紀錄",
+      "primaryGraphIds": [
+        "已訪問與前沿紀錄"
+      ],
+      "primaryControlIds": [
+        "遍歷模式"
+      ],
+      "primaryPresetIds": []
+    },
     "controls": [
       {
         "id": "start-node",
-        "label": "起始節點"
+        "label": "起始節點",
+        "description": "選擇遍歷開始的位置，然後觀察圖像的該部分何時出現重複邊緣。",
+        "displayValueLabels": [
+          {
+            "label": "一個"
+          },
+          {
+            "label": "B"
+          },
+          {
+            "label": "C"
+          },
+          {
+            "label": "D"
+          },
+          {
+            "label": "E"
+          },
+          {
+            "label": "F"
+          },
+          {
+            "label": "G"
+          },
+          {
+            "label": "H"
+          }
+        ]
       },
       {
         "id": "target-node",
-        "label": "目標節點"
+        "label": "目標節點",
+        "description": "標記搜尋試圖到達的節點，同時邊界和存取的記帳繼續。",
+        "displayValueLabels": [
+          {
+            "label": "一個"
+          },
+          {
+            "label": "B"
+          },
+          {
+            "label": "C"
+          },
+          {
+            "label": "D"
+          },
+          {
+            "label": "E"
+          },
+          {
+            "label": "F"
+          },
+          {
+            "label": "G"
+          },
+          {
+            "label": "H"
+          }
+        ]
       },
       {
         "id": "traversal-mode",
-        "label": "遍歷模式"
+        "label": "遍歷模式",
+        "description": "比較 BFS 和 DFS 如何使用相同的前沿與訪問簿記。",
+        "displayValueLabels": [
+          {
+            "label": "BFS"
+          },
+          {
+            "label": "DFS"
+          }
+        ]
+      },
+      {
+        "id": "graph-index",
+        "label": "圖",
+        "description": "切換圖像場景並將更清晰的圖像與循環圖像進行比較，而無需離開同一個實驗台。",
+        "displayValueLabels": [
+          {
+            "label": "分層校園"
+          },
+          {
+            "label": "橋循環"
+          },
+          {
+            "label": "樞紐與彎路"
+          }
+        ]
       }
     ],
     "presets": [
       {
         "id": "bridge-cycle-bfs",
-        "label": "橋梁迴圈BFS"
+        "label": "橋梁迴圈BFS",
+        "description": "循環圖，其中已發現但正在等待的節點必須與已擴展的節點保持分離。"
       },
       {
         "id": "bridge-cycle-dfs",
-        "label": "橋迴圈 DFS"
+        "label": "橋迴圈 DFS",
+        "description": "DFS 模式下的相同循環圖，對於比較分支優先搜尋下的相同簿記很有用。"
       },
       {
         "id": "layered-campus-bfs",
-        "label": "分層校園BFS"
+        "label": "分層校園BFS",
+        "description": "一個更清晰的圖像，其中重複跳過的影響要小得多，作為對比很有用。"
+      },
+      {
+        "id": "hub-detours-dfs",
+        "label": "樞紐與繞道 DFS",
+        "description": "分支優先的對比，其中邊界保持較窄，循環簿記不太突出。"
       }
+    ],
+    "overlays": [
+      {
+        "id": "adjacencyCue",
+        "label": "鄰接提示",
+        "shortDescription": "保持目前節點的鄰居清單可見。",
+        "whatToNotice": [
+          "只有當您可以看到哪個鄰居指向較早的工作時，重複跳過才有意義。"
+        ],
+        "whyItMatters": "它將循環處理與目前節點的實際邊連結起來。",
+        "relatedControls": [
+          "圖索引",
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局",
+          "起始節點"
+        ]
+      },
+      {
+        "id": "frontierCue",
+        "label": "前緣提示",
+        "shortDescription": "顯示哪些已發現的節點仍在等待擴展。",
+        "whatToNotice": [
+          "處於邊境意味著被發現和等待，而不是完成。"
+        ],
+        "whyItMatters": "它將等待工作與具有循環的圖像上已完成的工作分開。",
+        "relatedControls": [
+          "遍歷模式",
+          "開始節點索引"
+        ],
+        "relatedGraphTabs": [
+          "已訪問與前沿紀錄"
+        ],
+        "relatedEquationVariables": [
+          "起始節點",
+          "遍歷模式"
+        ]
+      },
+      {
+        "id": "visitedCue",
+        "label": "已存取提示",
+        "shortDescription": "標記哪些節點已完全展開。",
+        "whatToNotice": [
+          "傳回這些節點的邊緣變成重複跳過而不是新發現。"
+        ],
+        "whyItMatters": "它使循環控制在圖像本身上可見。",
+        "relatedControls": [
+          "圖索引",
+          "目標節點索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。",
+          "已訪問與前沿紀錄"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局",
+          "目標節點"
+        ]
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "id": "visited-frontier-history",
+      "label": "存取節點與邊界大小",
+      "xLabel": "步驟",
+      "yLabel": "節點",
+      "description": "比較已擴展的節點數量和已發現的仍在等待的節點數量。"
+    },
+    {
+      "id": "depth-history",
+      "label": "當前深度與聲稱的最深深度",
+      "xLabel": "步驟",
+      "yLabel": "深度",
+      "description": "追蹤當邊界和訪問集繼續變化時，活動節點是保持淺還是更深。"
+    },
+    {
+      "id": "neighbor-check-history",
+      "label": "新發現與重複跳過",
+      "xLabel": "步驟",
+      "yLabel": "檢查",
+      "description": "將真正的新發現與指向已擴展節點的檢查分開。"
+    }
+  ],
+  "noticePrompts": {
+    "title": "注意事項",
+    "intro": "使圖像和一個歷史圖像一起可見，然後比較誰仍在等待和誰已經完成。",
+    "items": [
+      {
+        "id": "fvsg-notice-frontier-is-waiting-work",
+        "text": "邊界是已發現節點的等待線，而不是已完成節點的清單。",
+        "relatedControls": [
+          "遍歷模式"
+        ],
+        "relatedGraphTabs": [
+          "已訪問與前沿紀錄"
+        ],
+        "relatedOverlays": [
+          "邊境提示"
+        ],
+        "relatedEquationVariables": [
+          "遍歷模式"
+        ]
+      },
+      {
+        "id": "fvsg-notice-repeat-skips-mark-cycles",
+        "text": "當迴圈指向鄰域已擴展的節點時，會出現重複跳過。",
+        "relatedControls": [
+          "圖索引"
+        ],
+        "relatedGraphTabs": [
+          "用這個步驟把模擬、圖像和概念連接起來。"
+        ],
+        "relatedOverlays": [
+          "訪問了提示",
+          "鄰接提示"
+        ],
+        "relatedEquationVariables": [
+          "圖像佈局"
+        ]
+      }
+    ]
+  },
+  "predictionMode": {
+    "title": "預測",
+    "intro": "在推進搜尋之前預測後向邊緣應該做什麼。",
+    "items": [
+      {
+        "id": "fvsg-predict-repeat-skip",
+        "prompt": "在橋循環圖上，噹噹前節點有一條返回已訪問節點的邊時會發生什麼？",
+        "scenarioLabel": "循環中的後沿",
+        "choices": [
+          {
+            "id": "a",
+            "label": "此邊緣應算作重複跳過，並且搜尋應保留當前邊界而不是重新開啟舊節點。"
+          },
+          {
+            "id": "b",
+            "label": "每次該邊出現時，舊節點都應返回邊界。"
+          },
+          {
+            "id": "c",
+            "label": "遍歷應從起始節點重新開始。"
+          }
+        ],
+        "explanation": "已存取狀態會阻止搜尋重新開啟已擴展的節點，因此後向邊緣變為重複跳過，而不是新的前沿工作。",
+        "observationHint": "運行橋循環 BFS，並在邊緣指向存取的工作時暫停；舊節點應保持關閉狀態，而前緣保留其等待節點。"
+      }
+    ]
+  },
+  "seo": {
+    "title": "圖像上的邊界和存取狀態",
+    "description": "在一張即時圖像上探索圖像遍歷簿記，其中邊界、存取狀態和重複跳過保持在一起可見。",
+    "keywords": [
+      "圖遍歷",
+      "邊境",
+      "訪問過的狀態",
+      "週期",
+      "電腦科學"
     ]
   }
 }
