@@ -223,3 +223,66 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-29 HKT): Added a 44px invisible UCM particle hit target, reworked boolean simulation controls so their accessible label target is 44px, raised the mobile brand link hit area, and added the focused first-screen mobile touch-target audit for UCM, binary search, and SHM.
   - Validation: git diff --check HEAD^..HEAD passed for worker patch `e33f7fe`; targeted eslint passed; ControlPanel/SiteHeader vitest suite passed 14/14; concept-mobile-touch-targets Playwright gate passed; pnpm typecheck passed.
+
+## i18n / Translation QA Pass 2026-05-29
+
+### P0 - Translation Coverage / Mixed-Language Product Surface
+
+- [ ] **OML-QA-025: Make the zh-HK overlay validation gate runnable locally and then green.**
+  - Evidence: `pnpm i18n:validate -- --locale zh-HK` fails immediately on this Mac because the package script calls `python`, but only `python3` is available in the current shell path. Running the validator directly with `python3 tools/i18n/validate_overlays.py --locale zh-HK` returns `valid: false`.
+  - Validator evidence from 2026-05-29 HKT: `52` problems, `94` stale items, `46` concept output-hash mismatches, and six structural overlay errors.
+  - Structural errors to repair:
+    - `content/i18n/zh-HK/concepts/binary-search-halving-the-search-space.json`: `sections.explanation.paragraphs` has 2 items while canonical has 3.
+    - `content/i18n/zh-HK/concepts/doppler-effect.json`: `sections.workedExamples.items.id:front-vs-rear-spacing.resultTemplate` is present even though `resultTemplate` is not translatable for overlays.
+    - `content/i18n/zh-HK/concepts/electromagnetic-induction.json`: `sections.keyIdeas` has 4 items while canonical has 5.
+    - `content/i18n/zh-HK/concepts/equivalent-resistance.json`: `sections.commonMisconception.correction` has 2 items while canonical has 3.
+    - `content/i18n/zh-HK/concepts/keplers-third-law-orbital-periods.json`: `challengeMode.items.id:ktl-ch-inner-vs-outer-years.hints` has 2 items while canonical has 3.
+    - `content/i18n/zh-HK/concepts/reaction-rate-collision-theory.json`: `challengeMode.items.id:rrct-ch-more-success-not-just-more-hits.targets` has 3 items while canonical has 5.
+  - Fix direction: update the package scripts to call the repo-supported Python command reliably on macOS, then repair the six structural overlay files, refresh generated i18n artifacts and manifests, and resolve stale/hash-mismatch entries instead of bypassing the validator.
+  - Validation: `pnpm i18n:validate -- --locale zh-HK` must run without a missing-`python` shell error and return `valid: true`; then rerun `pnpm content:registry`, `pnpm i18n:check:zh-HK`, `pnpm exec vitest run tests/i18n tests/app/public-route-i18n.test.ts tests/components/locale-switcher.test.tsx tests/app/locale-redirects.test.ts`, and `pnpm typecheck`.
+
+- [ ] **OML-QA-026: Finish zh-HK concept translation coverage so concept pages do not ship partial English fallback copy.**
+  - Evidence: `pnpm i18n:sweep:zh-HK -- --autostart` checked `139` public zh-HK routes plus signed-in account routes and failed with `105` visible `ENGLISH_LEAK` findings. `97` of those findings are concept routes.
+  - Representative visible leaks: `/zh-HK/concepts/simple-harmonic-motion` shows `Build the first picture on the live bench before you analyse the graphs.`; `/zh-HK/concepts/wave-speed-wavelength` shows `Live setup`; `/zh-HK/concepts/pitch-frequency-loudness-intensity` shows `Tie pitch to frequency, period, and compression spacing instead of to wave height.`; `/zh-HK/concepts/collisions` shows `Collide two carts on one honest track, keep total momentum in view`; `/zh-HK/concepts/matrix-transformations` shows `The two matrix columns are the images of the two basis vectors.`
+  - Worklist evidence: the checked-in `content/_meta/generated/i18n-worklist-zh-HK.json` is old (`generatedAt: 2026-04-12T13:31:48.403Z`) and reports `86` concepts with `6730` fallback fields. Its largest fallback buckets include `gravitational-potential-energy`, `escape-velocity`, `circular-orbits-orbital-speed`, `rolling-motion`, `series-parallel-circuits`, `total-internal-reflection`, `pressure-and-hydrostatic-pressure`, `resonance-air-columns-open-closed-pipes`, `angular-momentum`, and `static-equilibrium-centre-of-mass`.
+  - Fix direction: regenerate the zh-HK worklist after the latest content changes, translate the remaining concept overlay fields in batches, and review the rendered concept pages rather than relying only on structural validation. Prioritize concept fields that appear above the fold: guided step goals/actions, simulation descriptions, scene labels, readout labels, graph labels, overlay labels, quick checks, challenge prompts, read-next titles, and concept relationship titles.
+  - Validation: `pnpm i18n:worklist -- --locale zh-HK` should report no fallback fields for published concept pages intended to be localized; `pnpm i18n:validate -- --locale zh-HK`, `pnpm i18n:check:zh-HK`, and `pnpm i18n:sweep:zh-HK -- --autostart` must all pass with zero visible English-leak findings except explicitly allowlisted product names, math symbols, URLs, emails, and code-like tokens.
+
+- [ ] **OML-QA-027: Fix non-concept zh-HK leakage on pricing, billing, start/search, and signed-in account surfaces.**
+  - Evidence from the 2026-05-29 browser sweep outside concept pages:
+    - `/zh-HK/pricing`: `Circuit Builder、Chemistry Reaction Mind Map 等學習工具`
+    - `/zh-HK/billing`: `Open Model Lab Supporter`
+    - `/zh-HK/start`: `Start Graph transforms`
+    - `/zh-HK/search`: `打開 Kirchhoff rules`
+    - `/zh-HK/account/setups`, `/zh-HK/account/compare-setups`, `/zh-HK/account/study-plans`, and `/zh-HK/dashboard/analytics`: `Supporter learner`
+  - Likely causes: route/page message catalogs still contain English tool/product names where localized names already exist elsewhere; start/search reuse partially localized catalog/concept titles; dev-account-harness fixture names are English and create false positives in signed-in zh-HK sweeps.
+  - Fix direction: localize or deliberately allowlist product/tool names consistently. If `Circuit Builder` and `Chemistry Reaction Mind Map` are product names, document and allowlist them; otherwise use the established zh-HK names such as `電路工房` and a localized chemistry mind-map name. Localize billing plan display copy as `Open Model Lab 支持者方案` or equivalent. For start/search, ensure topic/concept/display-title helpers use zh-HK overlays before constructing CTA text. For signed-in dev sweeps, use localized harness display names or update the sweep to distinguish user-generated display names from UI copy.
+  - Validation: rerun `pnpm i18n:sweep:zh-HK -- --autostart`; the eight non-concept findings above must disappear or be represented by an explicit, reviewed allowlist entry with a comment explaining why the English phrase is intentional.
+
+### P1 - Hard-Coded Copy / Architecture Debt
+
+- [ ] **OML-QA-028: Move hard-coded bilingual UI copy out of route/component code into message catalogs or content overlays.**
+  - Evidence: static inspection found `80` app/component/lib files using local `copyText(...)`, direct `locale === "zh-HK"` branches, `copy.locale === "zh-HK"` branches, or `isZhHk` UI string conditionals. This makes partial translation easy because strings can bypass `messages/<locale>.json`, content overlays, and key-coverage checks.
+  - Highest-risk files by count include `components/tracks/StarterTrackDetailPage.tsx`, `components/guided/ConceptBundleBuilder.tsx`, `lib/progress/tracks.ts`, `components/guided/GuidedCollectionDetailPage.tsx`, `components/tracks/StarterTrackCompletionPage.tsx`, `lib/progress/entry-diagnostics.ts`, `app/billing/page.tsx`, `app/ads/page.tsx`, `app/source/page.tsx`, `components/challenges/ChallengeDiscoveryHub.tsx`, `components/circuit-builder/CircuitBuilderPage.tsx`, and many simulation files.
+  - Fix direction: keep stable IDs, slugs, math tokens, units, and physics variables in code, but move user-facing labels, paragraphs, button text, aria labels, empty/error states, plan labels, page section copy, and simulation scene/readout labels into message namespaces or content overlay fields. Use typed helpers around message namespaces instead of ad hoc per-file `copyText` functions.
+  - Scope guard: this is a migration task, not a single giant rewrite. Start with the files that produced browser leaks in `OML-QA-026` and `OML-QA-027`, then migrate the route/progress/guided/tracks/account surfaces. Leave low-level numeric formatting and symbolic physics expressions in code when they are not language copy.
+  - Validation: add or extend a static i18n lint/audit so new visible English literals in `app`, `components`, and `lib` are either message keys, content fields, or explicitly allowlisted. The audit should fail on new route/component-visible English text that is not behind `useTranslations`, `getScopedTranslator`, content overlay resolution, or a reviewed exception.
+
+- [ ] **OML-QA-029: Replace the fragile `localizeKnownSimulationText` / `localizeKnownCompareText` string switch with keyed simulation copy.**
+  - Evidence: visible concept leaks include many short simulation labels such as `Live setup`, `Live`, `Energy balance`, `Mode shape`, `Driven response`, `Transient mode`, `Fixed bar length`, `Active circuit`, `Resistive load`, `graph scan line`, `principal axis`, `Result`, `theta`, `Eeff`, and `Live array`. Some labels are mapped in `lib/i18n/copy-text.ts`, but rendered pages still leak English because not every visible simulation/readout string passes through that helper.
+  - Affected area: `lib/i18n/copy-text.ts`, `components/simulations/*Simulation.tsx`, `components/simulations/primitives/scene-card.tsx`, `components/simulations/primitives/compare.tsx`, `components/simulations/SimulationShell.tsx`, `components/graphs/LineGraph.tsx`, and generated/resolved concept simulation copy.
+  - Fix direction: give simulation scene titles, readout labels, graph labels, overlay labels, compare labels, and badge labels stable translation keys. Prefer per-simulation message namespaces or content overlay fields over matching English strings at runtime. Remove switch cases as their callers migrate so new labels cannot silently fall through in zh-HK.
+  - Validation: run a DOM text audit over all published zh-HK concept pages that extracts every visible line from the live lab, controls, readouts, graph tabs, overlays, and equation panels. The audit should fail on English prose/labels while allowing math symbols, units, variable names, and reviewed product names.
+
+### P2 - Regression Coverage / Routing QA
+
+- [ ] **OML-QA-030: Add durable browser coverage for locale switching and locale-preserving navigation.**
+  - Evidence: an ad hoc Playwright check on 2026-05-29 passed the routing behavior: switching `/en` to zh-HK landed on `/zh-HK`; switching `/en/concepts/simple-harmonic-motion?mode=challenge#quick-test` landed on `/zh-HK/concepts/simple-harmonic-motion?mode=challenge#quick-test`; switching `/zh-HK/search?q=force&subject=physics#search-results` back to English preserved path, query, and hash. A 36-route zh-HK anchor audit found `0` internal anchor hrefs dropping the locale, and sampled CTA/link clicks from home, concepts, start, search, pricing, and SHM produced `0` locale-drop failures.
+  - Risk: existing unit coverage for `LocaleSwitcher` passes, but the routing behavior was not captured as a durable browser test, so future custom links or router calls can regress silently.
+  - Fix direction: add a Playwright spec that covers language switching from representative public/concept/search routes, then sweeps visible internal anchors on zh-HK routes and clicks representative CTAs/buttons to ensure the resulting URL stays under the selected locale unless the control is explicitly switching language or leaving the site.
+  - Validation: new spec should run in the focused i18n suite and in the release/QA sweep. It should explicitly preserve query strings and hashes, and it should ignore `mailto:`, external URLs, static files, API routes, and same-page hash anchors correctly.
+
+- [ ] **OML-QA-031: Strengthen zh-HK browser sweep reporting so it finds every leak, not only the first leak per route.**
+  - Evidence: `scripts/browser-zhhk-site-sweep.mjs` currently records the first English-leak line found on each route. The 2026-05-29 run produced `105` route-level findings, but many affected pages likely contain multiple English strings after the first one.
+  - Fix direction: change the sweep to collect all suspicious visible English lines per route with enough DOM context to locate them. Include route, sample text, nearest heading or landmark, element role/tag, and a capped list of text snippets. Keep the existing route-level summary, but write a detailed artifact for implementation.
+  - Validation: rerun `pnpm i18n:sweep:zh-HK -- --autostart`; when leaks exist, the JSON artifact should group them by route and by likely source category (`message`, `content overlay fallback`, `simulation hard-code`, `user fixture`, `allowed product name`). When leaks are fixed, the artifact should show zero unapproved issues and the script should exit 0.
