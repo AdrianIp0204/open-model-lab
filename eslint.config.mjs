@@ -15,6 +15,9 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Local operator and browser-verification output is generated, not repo source.
     "output/**",
+    "tests/e2e/output/**",
+    "tmp/**",
+    ".wrangler/**",
     // Generated local browser verification artifacts.
     "output/browser-root-standing/**",
     "output/browser-preview/**",

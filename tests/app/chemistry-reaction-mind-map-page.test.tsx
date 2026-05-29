@@ -65,7 +65,7 @@ describe("chemistry reaction mind map route", () => {
     );
     expect(alcoholNode).toHaveAttribute("data-chem-visual-weight", "primary");
     expect(alcoholNode).toHaveAttribute("data-chem-node-width", "228");
-    expect(alcoholNode).toHaveAttribute("data-chem-node-height", "124");
+    expect(alcoholNode).toHaveAttribute("data-chem-node-height", "152");
     expect(
       alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
     ).toHaveClass("text-[1.55rem]", "font-black");

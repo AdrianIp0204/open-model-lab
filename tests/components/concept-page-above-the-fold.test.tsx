@@ -117,16 +117,17 @@ describe("ConceptPage above-the-fold entry flow", () => {
     renderConceptFramework(concept);
 
     const liveLab = screen.getByTestId("concept-live-lab");
-    const postLabContext = screen.getByTestId("concept-v2-post-lab-context");
+    const wrapUp = screen.getByTestId("concept-v2-wrap-up");
 
     expect(screen.getByTestId("concept-page-v2-shell")).toBeInTheDocument();
     expect(liveLab).toBeInTheDocument();
     expect(screen.queryByTestId("concept-v2-start-here")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("concept-v2-post-lab-context")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Return to bench" })).not.toBeInTheDocument();
     expect(screen.queryByText("Lesson context")).not.toBeInTheDocument();
     expect(screen.queryByText("Why it matters")).not.toBeInTheDocument();
     expect(
-      liveLab.compareDocumentPosition(postLabContext) & Node.DOCUMENT_POSITION_FOLLOWING,
+      liveLab.compareDocumentPosition(wrapUp) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 
