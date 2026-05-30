@@ -53,7 +53,7 @@ describe("MaxwellEquationsSynthesisSimulation", () => {
 
     expect(screen.getByText(/Charge makes electric flux/i)).toBeInTheDocument();
     expect(screen.getByText(/Current and changing E make circulating B/i)).toBeInTheDocument();
-    expect(screen.getByText(/Live readout/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Live readout/i).length).toBeGreaterThan(0);
   });
 
   it("renders compare summary chips for both setups", () => {

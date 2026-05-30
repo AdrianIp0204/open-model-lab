@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import {
   MAXWELL_EQUATIONS_SYNTHESIS_MAX_CYCLE_RATE,
   MAXWELL_EQUATIONS_SYNTHESIS_MAX_STRENGTH,
@@ -42,6 +43,8 @@ type MaxwellEquationsSynthesisSimulationProps = {
   graphPreview?: GraphStagePreview | null;
 };
 
+type TranslationFunction = ReturnType<typeof useTranslations>;
+
 function strengthRatio(value: number) {
   return clamp(Math.abs(value) / MAXWELL_EQUATIONS_SYNTHESIS_MAX_STRENGTH, 0, 1);
 }
@@ -80,48 +83,6 @@ function circulationTone(direction: "counterclockwise" | "clockwise" | "none") {
   }
 
   return "rgba(15,28,36,0.42)";
-}
-
-function loopLabel(direction: "counterclockwise" | "clockwise" | "none") {
-  if (direction === "counterclockwise") {
-    return "counterclockwise";
-  }
-
-  if (direction === "clockwise") {
-    return "clockwise";
-  }
-
-  return "near zero";
-}
-
-function chargeLabel(direction: "outward" | "inward" | "balanced") {
-  if (direction === "outward") {
-    return "outward flux";
-  }
-
-  if (direction === "inward") {
-    return "inward flux";
-  }
-
-  return "balanced flux";
-}
-
-function waveCueLabel(
-  state: "strong" | "partial" | "absent" | "misaligned",
-) {
-  if (state === "strong") {
-    return "strong light cue";
-  }
-
-  if (state === "partial") {
-    return "partial light cue";
-  }
-
-  if (state === "misaligned") {
-    return "misaligned field cue";
-  }
-
-  return "no light cue";
 }
 
 function overlayCardClasses(emphasized: boolean) {
@@ -322,9 +283,11 @@ function EquationCard({
 function GaussElectricVisual({
   chargeSource,
   electricFluxDirection,
+  fluxLabel,
 }: {
   chargeSource: number;
   electricFluxDirection: "outward" | "inward" | "balanced";
+  fluxLabel: string;
 }) {
   const tone = fieldTone(chargeSource);
   const ratio = strengthRatio(chargeSource);
@@ -380,7 +343,7 @@ function GaussElectricVisual({
         );
       })}
       <text x="78" y="94" textAnchor="middle" className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.14em]">
-        {chargeLabel(electricFluxDirection)}
+        {fluxLabel}
       </text>
     </svg>
   );
@@ -388,8 +351,12 @@ function GaussElectricVisual({
 
 function GaussMagneticVisual({
   closedLoopStrength,
+  netZeroLabel,
+  closedLoopLabel,
 }: {
   closedLoopStrength: number;
+  netZeroLabel: string;
+  closedLoopLabel: string;
 }) {
   const loopStroke = 2 + strengthRatio(closedLoopStrength) * 2.6;
 
@@ -413,10 +380,10 @@ function GaussMagneticVisual({
       {renderMagneticGlyph(closedLoopStrength, 56, 36, 8.5)}
       {renderMagneticGlyph(-closedLoopStrength, 100, 68, 8.5)}
       <text x="78" y="57" textAnchor="middle" className="fill-ink-950 text-[12px] font-semibold">
-        net = 0
+        {netZeroLabel}
       </text>
       <text x="78" y="94" textAnchor="middle" className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.14em]">
-        closed B loops
+        {closedLoopLabel}
       </text>
     </svg>
   );
@@ -427,11 +394,13 @@ function AmpereMaxwellVisual({
   electricChangeInstant,
   bCirculationDirection,
   bCirculation,
+  loopText,
 }: {
   conductionCurrent: number;
   electricChangeInstant: number;
   bCirculationDirection: "counterclockwise" | "clockwise" | "none";
   bCirculation: number;
+  loopText: string;
 }) {
   const currentToneColor = fieldTone(conductionCurrent).stroke;
   const displacementToneColor = fieldTone(electricChangeInstant).stroke;
@@ -472,7 +441,7 @@ function AmpereMaxwellVisual({
         dPhi_E/dt
       </text>
       <text x="78" y="94" textAnchor="middle" className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.14em]">
-        {loopLabel(bCirculationDirection)}
+        {loopText}
       </text>
     </svg>
   );
@@ -482,10 +451,14 @@ function FaradayVisual({
   magneticFluxChange,
   eCirculationDirection,
   eCirculation,
+  magneticChangeLabel,
+  loopText,
 }: {
   magneticFluxChange: number;
   eCirculationDirection: "counterclockwise" | "clockwise" | "none";
   eCirculation: number;
+  magneticChangeLabel: string;
+  loopText: string;
 }) {
   return (
     <svg viewBox="0 0 156 104" className="h-[54px] w-full sm:h-[60px] lg:h-[108px]" aria-hidden="true">
@@ -496,10 +469,10 @@ function FaradayVisual({
       />
       {renderMagneticGlyph(magneticFluxChange, 78, 52, 12)}
       <text x="78" y="16" textAnchor="middle" className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.14em]">
-        changing B
+        {magneticChangeLabel}
       </text>
       <text x="78" y="94" textAnchor="middle" className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.14em]">
-        {loopLabel(eCirculationDirection)}
+        {loopText}
       </text>
     </svg>
   );
@@ -510,11 +483,15 @@ function WaveBridgeVisual({
   magneticFluxChange,
   waveSignedCue,
   waveStateLabel,
+  lightCueLabel,
+  waveCueText,
 }: {
   electricChangeInstant: number;
   magneticFluxChange: number;
   waveSignedCue: number;
   waveStateLabel: "strong" | "partial" | "absent" | "misaligned";
+  lightCueLabel: string;
+  waveCueText: string;
 }) {
   const electricTone = fieldTone(electricChangeInstant).stroke;
   const bridgeTone =
@@ -564,13 +541,41 @@ function WaveBridgeVisual({
         opacity={bridgeOpacity}
       />
       <text x="244" y="30" textAnchor="middle" className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.14em]">
-        light cue
+        {lightCueLabel}
       </text>
       <text x="244" y="89" textAnchor="middle" className="fill-ink-700 text-[11px] font-semibold">
-        {waveCueLabel(waveStateLabel)}
+        {waveCueText}
       </text>
     </svg>
   );
+}
+
+function resolveLoopText(
+  t: TranslationFunction,
+  direction: "counterclockwise" | "clockwise" | "none",
+) {
+  if (direction === "counterclockwise") return t("loop.counterclockwise");
+  if (direction === "clockwise") return t("loop.clockwise");
+  return t("loop.nearZero");
+}
+
+function resolveChargeText(
+  t: TranslationFunction,
+  direction: "outward" | "inward" | "balanced",
+) {
+  if (direction === "outward") return t("charge.outwardFlux");
+  if (direction === "inward") return t("charge.inwardFlux");
+  return t("charge.balancedFlux");
+}
+
+function resolveWaveCueText(
+  t: TranslationFunction,
+  state: "strong" | "partial" | "absent" | "misaligned",
+) {
+  if (state === "strong") return t("wave.strongLightCue");
+  if (state === "partial") return t("wave.partialLightCue");
+  if (state === "misaligned") return t("wave.misalignedFieldCue");
+  return t("wave.noLightCue");
 }
 
 export function MaxwellEquationsSynthesisSimulation({
@@ -584,6 +589,7 @@ export function MaxwellEquationsSynthesisSimulation({
   graphPreview,
 }: MaxwellEquationsSynthesisSimulationProps) {
   void setParam;
+  const t = useTranslations("MaxwellEquationsSynthesisSimulation");
   const displayTime = graphPreview?.kind === "time" ? graphPreview.time : time;
   const activeFrame = sampleMaxwellEquationsSynthesisState(params, displayTime);
   const frameA = compare ? sampleMaxwellEquationsSynthesisState(compare.setupA, displayTime) : null;
@@ -599,13 +605,17 @@ export function MaxwellEquationsSynthesisSimulation({
     activeFrame,
     frameA,
     frameB,
-    liveLabel: "Live synthesis",
+    liveLabel: t("labels.liveSynthesis"),
   });
   const previewBadge = graphPreview?.kind === "time" ? (
     <SimulationPreviewBadge tone="sky">
-      preview t = {formatNumber(displayTime)} s
+      {t("preview.time", { time: formatNumber(displayTime) })}
     </SimulationPreviewBadge>
   ) : null;
+  const primaryChargeText = resolveChargeText(t, primaryFrame.electricFluxDirection);
+  const primaryBCirculationText = resolveLoopText(t, primaryFrame.bCirculationDirection);
+  const primaryECirculationText = resolveLoopText(t, primaryFrame.eCirculationDirection);
+  const primaryWaveCueText = resolveWaveCueText(t, primaryFrame.waveStateLabel);
   const showChargeGuide = overlayValues?.chargeSurface ?? true;
   const showNoMonopolesGuide = overlayValues?.noMonopoles ?? true;
   const showFaradayGuide = overlayValues?.faradayLoop ?? true;
@@ -615,7 +625,7 @@ export function MaxwellEquationsSynthesisSimulation({
   return (
     <SimulationSceneCard
       title={concept.title}
-      description="One compact synthesis stage keeps the source laws, circulation laws, and light bridge on the same state instead of splitting them into disconnected formula cards."
+      description={t("scene.description")}
       headerClassName="bg-[linear-gradient(135deg,rgba(78,166,223,0.1),rgba(30,166,162,0.08),rgba(241,102,89,0.1))]"
       headerAside={
         <>
@@ -636,10 +646,10 @@ export function MaxwellEquationsSynthesisSimulation({
         >
           <div className="grid grid-cols-2 gap-2 lg:gap-3">
             <EquationCard
-              eyebrow="Gauss for E"
-              title="Charge makes electric flux"
-              description="Enclosed charge sets the net electric flux through a closed surface. Positive charge sends the field outward; negative charge pulls it inward."
-              guide="Use this card to separate field sources from circulation. Charge changes the electric flux balance directly."
+              eyebrow={t("cards.gaussE.eyebrow")}
+              title={t("cards.gaussE.title")}
+              description={t("cards.gaussE.description")}
+              guide={t("cards.gaussE.guide")}
               overlayId="chargeSurface"
               focusedOverlayId={focusedOverlayId}
               guideVisible={showChargeGuide}
@@ -648,6 +658,7 @@ export function MaxwellEquationsSynthesisSimulation({
                 <GaussElectricVisual
                   chargeSource={primaryFrame.chargeSource}
                   electricFluxDirection={primaryFrame.electricFluxDirection}
+                  fluxLabel={primaryChargeText}
                 />
                 <div className="hidden space-y-2 lg:block">
                   <MetricLine
@@ -655,50 +666,54 @@ export function MaxwellEquationsSynthesisSimulation({
                     value={formatMeasurement(primaryFrame.chargeSource, "arb.")}
                   />
                   <MetricLine
-                    label="oint E dA"
+                    label="∮ E · dA"
                     value={formatMeasurement(primaryFrame.electricFlux, "arb.")}
                   />
                   <MetricLine
-                    label="reading"
-                    value={chargeLabel(primaryFrame.electricFluxDirection)}
+                    label={t("metrics.reading")}
+                    value={primaryChargeText}
                   />
                 </div>
               </div>
             </EquationCard>
 
             <EquationCard
-              eyebrow="Gauss for B"
-              title="Magnetic flux still balances"
-              description="Magnetic field lines close on themselves. You can have stronger or weaker magnetic patterns locally, but the net magnetic flux through a closed surface stays zero."
-              guide="This card is the no-monopoles reminder. Magnetic patterns can intensify without creating a net source term."
+              eyebrow={t("cards.gaussB.eyebrow")}
+              title={t("cards.gaussB.title")}
+              description={t("cards.gaussB.description")}
+              guide={t("cards.gaussB.guide")}
               overlayId="noMonopoles"
               focusedOverlayId={focusedOverlayId}
               guideVisible={showNoMonopolesGuide}
             >
               <div className="grid gap-2 lg:grid-cols-[8.5rem_minmax(0,1fr)] lg:items-center">
-                <GaussMagneticVisual closedLoopStrength={primaryFrame.closedLoopStrength} />
+                <GaussMagneticVisual
+                  closedLoopStrength={primaryFrame.closedLoopStrength}
+                  netZeroLabel={t("sceneLabels.netZero")}
+                  closedLoopLabel={t("sceneLabels.closedBLoops")}
+                />
                 <div className="hidden space-y-2 lg:block">
                   <MetricLine
-                    label="net B flux"
+                    label={t("metrics.netBFlux")}
                     value={formatMeasurement(primaryFrame.magneticNetFlux, "arb.")}
                   />
                   <MetricLine
-                    label="closed loops"
+                    label={t("metrics.closedLoops")}
                     value={formatMeasurement(primaryFrame.closedLoopStrength, "arb.")}
                   />
                   <MetricLine
-                    label="reading"
-                    value="field lines close"
+                    label={t("metrics.reading")}
+                    value={t("values.fieldLinesClose")}
                   />
                 </div>
               </div>
             </EquationCard>
 
             <EquationCard
-              eyebrow="Faraday"
-              title="Changing B makes circulating E"
-              description="A changing magnetic flux does not just change a number on a graph. It creates a circulating electric field whose direction flips when the magnetic change flips."
-              guide="Watch the center glyph and the ring together. The sign of dPhi_B/dt sets the E-circulation sense."
+              eyebrow={t("cards.faraday.eyebrow")}
+              title={t("cards.faraday.title")}
+              description={t("cards.faraday.description")}
+              guide={t("cards.faraday.guide")}
               overlayId="faradayLoop"
               focusedOverlayId={focusedOverlayId}
               guideVisible={showFaradayGuide}
@@ -708,6 +723,8 @@ export function MaxwellEquationsSynthesisSimulation({
                   magneticFluxChange={primaryFrame.magneticFluxChange}
                   eCirculationDirection={primaryFrame.eCirculationDirection}
                   eCirculation={primaryFrame.eCirculation}
+                  magneticChangeLabel={t("sceneLabels.changingB")}
+                  loopText={primaryECirculationText}
                 />
                 <div className="hidden space-y-2 lg:block">
                   <MetricLine
@@ -715,22 +732,22 @@ export function MaxwellEquationsSynthesisSimulation({
                     value={formatMeasurement(primaryFrame.magneticFluxChange, "arb.")}
                   />
                   <MetricLine
-                    label="oint E dl"
+                    label="∮ E · dl"
                     value={formatMeasurement(primaryFrame.eCirculation, "arb.")}
                   />
                   <MetricLine
-                    label="reading"
-                    value={loopLabel(primaryFrame.eCirculationDirection)}
+                    label={t("metrics.reading")}
+                    value={primaryECirculationText}
                   />
                 </div>
               </div>
             </EquationCard>
 
             <EquationCard
-              eyebrow="Ampere-Maxwell"
-              title="Current and changing E make circulating B"
-              description="Magnetic circulation is not sourced only by conduction current. Maxwell's displacement-current term means a changing electric field also feeds the same B circulation story."
-              guide="Compare the two source terms: conduction current and changing electric flux. Both land on one shared B loop."
+              eyebrow={t("cards.ampereMaxwell.eyebrow")}
+              title={t("cards.ampereMaxwell.title")}
+              description={t("cards.ampereMaxwell.description")}
+              guide={t("cards.ampereMaxwell.guide")}
               overlayId="ampereMaxwell"
               focusedOverlayId={focusedOverlayId}
               guideVisible={showAmpereGuide}
@@ -741,6 +758,7 @@ export function MaxwellEquationsSynthesisSimulation({
                   electricChangeInstant={primaryFrame.electricChangeInstant}
                   bCirculationDirection={primaryFrame.bCirculationDirection}
                   bCirculation={primaryFrame.bCirculation}
+                  loopText={primaryBCirculationText}
                 />
                 <div className="hidden space-y-2 lg:block">
                   <MetricLine
@@ -752,7 +770,7 @@ export function MaxwellEquationsSynthesisSimulation({
                     value={formatMeasurement(primaryFrame.bDisplacementContribution, "arb.")}
                   />
                   <MetricLine
-                    label="oint B dl"
+                    label="∮ B · dl"
                     value={formatMeasurement(primaryFrame.bCirculation, "arb.")}
                   />
                 </div>
@@ -761,10 +779,10 @@ export function MaxwellEquationsSynthesisSimulation({
           </div>
 
           <EquationCard
-            eyebrow="Unification"
-            title="When both changes keep feeding each other, light appears"
-            description="Faraday and Ampere-Maxwell are the handoff pair. If changing E and changing B are both present in the same story, the field update can keep propagating instead of dying locally."
-            guide="The bridge is strongest when both changing-field terms stay active together. This is the compact intuition behind why Maxwell's equations unify electricity, magnetism, and light."
+            eyebrow={t("cards.unification.eyebrow")}
+            title={t("cards.unification.title")}
+            description={t("cards.unification.description")}
+            guide={t("cards.unification.guide")}
             overlayId="lightBridge"
             focusedOverlayId={focusedOverlayId}
             guideVisible={showLightGuide}
@@ -775,23 +793,25 @@ export function MaxwellEquationsSynthesisSimulation({
                 magneticFluxChange={primaryFrame.magneticFluxChange}
                 waveSignedCue={primaryFrame.waveSignedCue}
                 waveStateLabel={primaryFrame.waveStateLabel}
+                lightCueLabel={t("metrics.lightCue")}
+                waveCueText={primaryWaveCueText}
               />
               <div className="hidden space-y-2 lg:block">
                 <MetricLine
-                  label="cycle rate"
+                  label={t("metrics.cycleRate")}
                   value={formatMeasurement(primaryFrame.cycleRate, "Hz")}
                 />
                 <MetricLine
-                  label="period"
+                  label={t("metrics.period")}
                   value={formatMeasurement(primaryFrame.period, "s")}
                 />
                 <MetricLine
-                  label="wave cue"
-                  value={`${formatMeasurement(primaryFrame.waveCueMagnitude, "arb.")} (${waveCueLabel(primaryFrame.waveStateLabel)})`}
+                  label={t("metrics.waveCue")}
+                  value={`${formatMeasurement(primaryFrame.waveCueMagnitude, "arb.")} (${primaryWaveCueText})`}
                 />
                 <MetricLine
-                  label="pair"
-                  value={primaryFrame.alignedFieldPair ? "aligned" : "not reinforcing"}
+                  label={t("metrics.pair")}
+                  value={primaryFrame.alignedFieldPair ? t("values.aligned") : t("values.notReinforcing")}
                 />
               </div>
             </div>
@@ -800,7 +820,7 @@ export function MaxwellEquationsSynthesisSimulation({
 
         <details className="rounded-[18px] border border-line bg-white/82 px-3 py-2 lg:hidden">
           <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-ink-950 [&::-webkit-details-marker]:hidden">
-            <span>Show live readout</span>
+            <span>{t("readout.showLiveReadout")}</span>
             <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.16em] text-ink-600">
               Maxwell
             </span>
@@ -811,82 +831,88 @@ export function MaxwellEquationsSynthesisSimulation({
             <MetricLine label="Ienc" value={formatMeasurement(primaryFrame.conductionCurrent, "arb.")} />
             <MetricLine label="dPhi_E/dt" value={formatMeasurement(primaryFrame.electricChangeInstant, "arb.")} />
             <MetricLine label="dPhi_B/dt" value={formatMeasurement(primaryFrame.magneticFluxChange, "arb.")} />
-            <MetricLine label="wave cue" value={waveCueLabel(primaryFrame.waveStateLabel)} />
+            <MetricLine label={t("metrics.waveCue")} value={primaryWaveCueText} />
           </div>
         </details>
 
         <div className="hidden gap-3 lg:grid">
           <section className="rounded-[22px] border border-line bg-white/92 px-3 py-3">
-            <p className="lab-label">Live readout</p>
+            <p className="lab-label">{t("readout.title")}</p>
             <div className="mt-3 space-y-2">
               <MetricLine label="t" value={formatMeasurement(primaryFrame.time, "s")} />
               <MetricLine label="Qenc" value={formatMeasurement(primaryFrame.chargeSource, "arb.")} />
               <MetricLine label="Ienc" value={formatMeasurement(primaryFrame.conductionCurrent, "arb.")} />
               <MetricLine label="dPhi_E/dt" value={formatMeasurement(primaryFrame.electricChangeInstant, "arb.")} />
               <MetricLine label="dPhi_B/dt" value={formatMeasurement(primaryFrame.magneticFluxChange, "arb.")} />
-              <MetricLine label="oint B dl" value={formatMeasurement(primaryFrame.bCirculation, "arb.")} />
-              <MetricLine label="oint E dl" value={formatMeasurement(primaryFrame.eCirculation, "arb.")} />
+              <MetricLine label="∮ B · dl" value={formatMeasurement(primaryFrame.bCirculation, "arb.")} />
+              <MetricLine label="∮ E · dl" value={formatMeasurement(primaryFrame.eCirculation, "arb.")} />
             </div>
             <div className="mt-3 rounded-2xl bg-paper px-3 py-2 text-[11px] leading-5 text-ink-700">
               <p>
-                Gauss-B stays at zero net flux while closed loops strengthen to{" "}
-                {formatMeasurement(primaryFrame.closedLoopStrength, "arb.")}.
+                {t("readout.gaussBNote", {
+                  value: formatMeasurement(primaryFrame.closedLoopStrength, "arb."),
+                })}
               </p>
               <p className="mt-1">
-                Ampere-Maxwell is currently {primaryFrame.ampereBalanceLabel.replace("-", " ")}, and the light bridge reads {waveCueLabel(primaryFrame.waveStateLabel)}.
+                {t("readout.ampereNote", {
+                  balance: primaryFrame.ampereBalanceLabel.replace("-", " "),
+                  cue: primaryWaveCueText,
+                })}
               </p>
             </div>
           </section>
 
           {compareEnabled && frameA && frameB ? (
             <section className="rounded-[22px] border border-line bg-white/92 px-3 py-3">
-              <p className="lab-label">Compare summary</p>
+              <p className="lab-label">{t("compare.title")}</p>
               <p className="mt-1 text-xs leading-5 text-ink-700">
-                The stage follows {primaryLabel}. The other setup stays summarized here so the field story stays synchronized instead of splitting into two unrelated states.
+                {t("compare.description", { label: primaryLabel })}
               </p>
               <div className="mt-3 space-y-2">
                 <CompareMetricLine
-                  label="electric flux"
+                  label={t("metrics.electricFlux")}
                   valueA={formatMeasurement(frameA.electricFlux, "arb.")}
                   valueB={formatMeasurement(frameB.electricFlux, "arb.")}
-                  labelA={compare?.labelA ?? "Setup A"}
-                  labelB={compare?.labelB ?? "Setup B"}
+                  labelA={compare?.labelA ?? t("labels.setupA")}
+                  labelB={compare?.labelB ?? t("labels.setupB")}
                 />
                 <CompareMetricLine
-                  label="B circulation"
+                  label={t("metrics.bCirculation")}
                   valueA={formatMeasurement(frameA.bCirculation, "arb.")}
                   valueB={formatMeasurement(frameB.bCirculation, "arb.")}
-                  labelA={compare?.labelA ?? "Setup A"}
-                  labelB={compare?.labelB ?? "Setup B"}
+                  labelA={compare?.labelA ?? t("labels.setupA")}
+                  labelB={compare?.labelB ?? t("labels.setupB")}
                 />
                 <CompareMetricLine
-                  label="E circulation"
+                  label={t("metrics.eCirculation")}
                   valueA={formatMeasurement(frameA.eCirculation, "arb.")}
                   valueB={formatMeasurement(frameB.eCirculation, "arb.")}
-                  labelA={compare?.labelA ?? "Setup A"}
-                  labelB={compare?.labelB ?? "Setup B"}
+                  labelA={compare?.labelA ?? t("labels.setupA")}
+                  labelB={compare?.labelB ?? t("labels.setupB")}
                 />
                 <CompareMetricLine
-                  label="light cue"
-                  valueA={waveCueLabel(frameA.waveStateLabel)}
-                  valueB={waveCueLabel(frameB.waveStateLabel)}
-                  labelA={compare?.labelA ?? "Setup A"}
-                  labelB={compare?.labelB ?? "Setup B"}
+                  label={t("metrics.lightCue")}
+                  valueA={resolveWaveCueText(t, frameA.waveStateLabel)}
+                  valueB={resolveWaveCueText(t, frameB.waveStateLabel)}
+                  labelA={compare?.labelA ?? t("labels.setupA")}
+                  labelB={compare?.labelB ?? t("labels.setupB")}
                 />
               </div>
             </section>
           ) : (
             <section className="rounded-[22px] border border-line bg-white/92 px-3 py-3">
-              <p className="lab-label">Synthesis reading</p>
+              <p className="lab-label">{t("synthesis.title")}</p>
               <p className="mt-2 text-[11px] leading-5 text-ink-700">
-                Lowering the cycle rate lengthens the handoff period to{" "}
-                {formatMeasurement(
-                  1 / MAXWELL_EQUATIONS_SYNTHESIS_MAX_CYCLE_RATE,
-                  "s",
-                )} up to the current {formatMeasurement(primaryFrame.period, "s")} window, so the graph and stage stay on the same oscillation clock.
+                {t("synthesis.periodNote", {
+                  minimumPeriod: formatMeasurement(
+                    1 / MAXWELL_EQUATIONS_SYNTHESIS_MAX_CYCLE_RATE,
+                    "s",
+                  ),
+                  period: formatMeasurement(primaryFrame.period, "s"),
+                })}
               </p>
               <p className="mt-2 text-[11px] leading-5 text-ink-700">
-                This page keeps the four equations compact: flux laws on top, circulation laws below, and the light bridge only when the changing-field pair can keep feeding itself.
+                {t("synthesis.layoutNote")}
               </p>
             </section>
           )}

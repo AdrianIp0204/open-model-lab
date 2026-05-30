@@ -4499,6 +4499,105 @@
       "launchVector": "Draggable launch vector for {label}"
     }
   },
+  "MaxwellEquationsSynthesisSimulation": {
+    "labels": {
+      "liveSynthesis": "Live synthesis",
+      "setupA": "Setup A",
+      "setupB": "Setup B"
+    },
+    "preview": {
+      "time": "Preview t = {time} s"
+    },
+    "scene": {
+      "description": "One compact synthesis stage keeps the source laws, circulation laws, and light bridge on the same state instead of splitting them into disconnected formula cards."
+    },
+    "sceneLabels": {
+      "netZero": "net = 0",
+      "closedBLoops": "closed B loops",
+      "changingB": "changing B"
+    },
+    "cards": {
+      "gaussE": {
+        "eyebrow": "Gauss for E",
+        "title": "Charge makes electric flux",
+        "description": "Enclosed charge sets the net electric flux through a closed surface. Positive charge sends the field outward; negative charge pulls it inward.",
+        "guide": "Use this card to separate field sources from circulation. Charge changes the electric flux balance directly."
+      },
+      "gaussB": {
+        "eyebrow": "Gauss for B",
+        "title": "Magnetic flux still balances",
+        "description": "Magnetic field lines close on themselves. You can have stronger or weaker magnetic patterns locally, but the net magnetic flux through a closed surface stays zero.",
+        "guide": "This card is the no-monopoles reminder. Magnetic patterns can intensify without creating a net source term."
+      },
+      "faraday": {
+        "eyebrow": "Faraday",
+        "title": "Changing B makes circulating E",
+        "description": "A changing magnetic flux does not just change a number on a graph. It creates a circulating electric field whose direction flips when the magnetic change flips.",
+        "guide": "Watch the center glyph and the ring together. The sign of dPhi_B/dt sets the E-circulation sense."
+      },
+      "ampereMaxwell": {
+        "eyebrow": "Ampere-Maxwell",
+        "title": "Current and changing E make circulating B",
+        "description": "Magnetic circulation is not sourced only by conduction current. Maxwell's displacement-current term means a changing electric field also feeds the same B circulation story.",
+        "guide": "Compare the two source terms: conduction current and changing electric flux. Both land on one shared B loop."
+      },
+      "unification": {
+        "eyebrow": "Unification",
+        "title": "When both changes keep feeding each other, light appears",
+        "description": "Faraday and Ampere-Maxwell are the handoff pair. If changing E and changing B are both present in the same story, the field update can keep propagating instead of dying locally.",
+        "guide": "The bridge is strongest when both changing-field terms stay active together. This is the compact intuition behind why Maxwell's equations unify electricity, magnetism, and light."
+      }
+    },
+    "metrics": {
+      "reading": "reading",
+      "netBFlux": "net B flux",
+      "closedLoops": "closed loops",
+      "cycleRate": "cycle rate",
+      "period": "period",
+      "waveCue": "wave cue",
+      "pair": "pair",
+      "electricFlux": "electric flux",
+      "bCirculation": "B circulation",
+      "eCirculation": "E circulation",
+      "lightCue": "light cue"
+    },
+    "values": {
+      "fieldLinesClose": "field lines close",
+      "aligned": "aligned",
+      "notReinforcing": "not reinforcing"
+    },
+    "loop": {
+      "counterclockwise": "counterclockwise",
+      "clockwise": "clockwise",
+      "nearZero": "near zero"
+    },
+    "charge": {
+      "outwardFlux": "outward flux",
+      "inwardFlux": "inward flux",
+      "balancedFlux": "balanced flux"
+    },
+    "wave": {
+      "strongLightCue": "strong light cue",
+      "partialLightCue": "partial light cue",
+      "misalignedFieldCue": "misaligned field cue",
+      "noLightCue": "no light cue"
+    },
+    "readout": {
+      "showLiveReadout": "Show live readout",
+      "title": "Live readout",
+      "gaussBNote": "Gauss-B stays at zero net flux while closed loops strengthen to {value}.",
+      "ampereNote": "Ampere-Maxwell is currently {balance}, and the light bridge reads {cue}."
+    },
+    "compare": {
+      "title": "Compare summary",
+      "description": "The stage follows {label}. The other setup stays summarized here so the field story stays synchronized instead of splitting into two unrelated states."
+    },
+    "synthesis": {
+      "title": "Synthesis reading",
+      "periodNote": "Lowering the cycle rate lengthens the handoff period from {minimumPeriod} up to the current {period} window, so the graph and stage stay on the same oscillation clock.",
+      "layoutNote": "This page keeps the four equations compact: flux laws on top, circulation laws below, and the light bridge only when the changing-field pair can keep feeding itself."
+    }
+  },
   "SHMSimulation": {
     "labels": {
       "live": "Live",

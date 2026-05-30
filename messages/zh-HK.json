@@ -4031,6 +4031,105 @@
       "launchVector": "{label} 的可拖曳發射向量"
     }
   },
+  "MaxwellEquationsSynthesisSimulation": {
+    "labels": {
+      "liveSynthesis": "即時綜合",
+      "setupA": "設定 A",
+      "setupB": "設定 B"
+    },
+    "preview": {
+      "time": "預覽 t = {time} s"
+    },
+    "scene": {
+      "description": "同一個綜合場景把源定律、環流定律和光橋保持在同一狀態，不再拆成互不相干的公式卡。"
+    },
+    "sceneLabels": {
+      "netZero": "淨 = 0",
+      "closedBLoops": "閉合 B 迴路",
+      "changingB": "變化的 B"
+    },
+    "cards": {
+      "gaussE": {
+        "eyebrow": "E 的高斯定律",
+        "title": "電荷產生電通量",
+        "description": "包住的電荷決定穿過閉合面的淨電通量。正電荷把場向外送出；負電荷把場向內拉回。",
+        "guide": "用這張卡分開場源和環流。電荷會直接改變電通量平衡。"
+      },
+      "gaussB": {
+        "eyebrow": "B 的高斯定律",
+        "title": "磁通量仍然平衡",
+        "description": "磁力線會自成閉合迴路。局部磁場圖樣可以變強或變弱，但穿過閉合面的淨磁通量仍然是零。",
+        "guide": "這張卡提醒沒有磁單極。磁場圖樣可以增強，但不會產生淨源項。"
+      },
+      "faraday": {
+        "eyebrow": "法拉第定律",
+        "title": "變化的 B 產生環流 E",
+        "description": "變化的磁通量不只是改變圖表上的數字。它會產生環流電場，而方向會隨磁場變化的符號翻轉。",
+        "guide": "一起看中心標記和圓環。dPhi_B/dt 的符號決定 E 環流方向。"
+      },
+      "ampereMaxwell": {
+        "eyebrow": "安培-麥克斯韋",
+        "title": "電流和變化的 E 產生環流 B",
+        "description": "磁環流不只來自傳導電流。麥克斯韋的位移電流項表示，變化的電場也會餵入同一個 B 環流故事。",
+        "guide": "比較兩個源項：傳導電流和變化的電通量。兩者都落在同一個 B 迴路上。"
+      },
+      "unification": {
+        "eyebrow": "統一圖像",
+        "title": "兩種變化互相餵入時，光會出現",
+        "description": "法拉第定律和安培-麥克斯韋定律是一對交接。如果變化的 E 和變化的 B 同時出現在同一故事裡，場的更新就能繼續傳播，而不是只在局部消失。",
+        "guide": "當兩個變化場項持續一起活躍時，橋接最強。這就是麥克斯韋方程把電、磁、光統一起來的核心直覺。"
+      }
+    },
+    "metrics": {
+      "reading": "讀數",
+      "netBFlux": "淨 B 通量",
+      "closedLoops": "閉合迴路",
+      "cycleRate": "循環率",
+      "period": "週期",
+      "waveCue": "光提示",
+      "pair": "配對",
+      "electricFlux": "電通量",
+      "bCirculation": "B 環流",
+      "eCirculation": "E 環流",
+      "lightCue": "光提示"
+    },
+    "values": {
+      "fieldLinesClose": "場線閉合",
+      "aligned": "已對齊",
+      "notReinforcing": "未互相強化"
+    },
+    "loop": {
+      "counterclockwise": "逆時針",
+      "clockwise": "順時針",
+      "nearZero": "接近零"
+    },
+    "charge": {
+      "outwardFlux": "向外通量",
+      "inwardFlux": "向內通量",
+      "balancedFlux": "平衡通量"
+    },
+    "wave": {
+      "strongLightCue": "強光提示",
+      "partialLightCue": "部分光提示",
+      "misalignedFieldCue": "場未對齊提示",
+      "noLightCue": "沒有光提示"
+    },
+    "readout": {
+      "showLiveReadout": "顯示即時讀數",
+      "title": "即時讀數",
+      "gaussBNote": "Gauss-B 保持零淨通量，而閉合迴路強度增至 {value}。",
+      "ampereNote": "安培-麥克斯韋目前是 {balance}，光橋讀數是 {cue}。"
+    },
+    "compare": {
+      "title": "比較摘要",
+      "description": "場景跟隨 {label}。另一個設定保留在摘要中，讓場的故事保持同步，而不是拆成兩個無關狀態。"
+    },
+    "synthesis": {
+      "title": "綜合解讀",
+      "periodNote": "降低循環率會把交接週期由 {minimumPeriod} 拉長到目前 {period} 的視窗，所以圖表和場景仍然使用同一個振盪時鐘。",
+      "layoutNote": "這頁把四條方程保持緊湊：通量定律在上方、環流定律在下方，而光橋只在變化場配對能持續互相餵入時出現。"
+    }
+  },
   "SHMSimulation": {
     "labels": {
       "live": "即時",

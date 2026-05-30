@@ -56,6 +56,8 @@ const simulationCopy = {
   "simulation.projectionReadout": ["Projection readout", "投影讀數"],
   "simulation.compareSummary": ["Compare summary", "比較摘要"],
   "simulation.synthesisReading": ["Synthesis reading", "綜合解讀"],
+  "simulation.showLiveReadout": ["Show live readout", "顯示即時讀數"],
+  "simulation.readout": ["Readout", "讀數"],
   "simulation.graph": ["Graph", "圖表"],
   "simulation.currentFamily": ["Current family", "目前函數族"],
   "simulation.fluidBench": ["Fluid bench", "流體實驗台"],

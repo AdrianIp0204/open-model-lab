@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-048 zh-HK Concept Scene Text Sweep
+
+Current state: `OML-QA-048` is complete. zh-HK concept live scenes now have a durable phone scene-only sweep over all `97` published concept routes, with explicit checks for unapproved English phrases, protected math-token corruption, and repeated filler labels. The Maxwell synthesis scene and Doppler scene copy were localized through keyed/runtime copy paths, and shared mobile readout labels now localize on zh-HK routes.
+
+### Files Changed
+
+- `scripts/browser-zhhk-site-sweep.mjs`: adds `--scene-only` auditing for visible text inside `[data-testid="simulation-shell-scene"]`, scene-specific English/protected-token/filler checks, scene detail artifacts, and representative phone screenshots for Maxwell, SHM, Photoelectric, and Binary Search.
+- `components/simulations/MaxwellEquationsSynthesisSimulation.tsx`, `messages/en.json`, and `messages/zh-HK.json`: move Maxwell scene, readout, compare, and card copy into keyed translations while preserving math symbols.
+- `components/simulations/DopplerEffectSimulation.tsx`, `components/simulations/SimulationMobileReadoutDetails.tsx`, `lib/i18n/copy-text.ts`, and `lib/i18n/zh-hk-exact-runtime-copy.tsx`: localize remaining visible Doppler scene/readout labels and shared mobile readout labels used in zh-HK scenes.
+- `tests/components/maxwell-equations-synthesis-simulation.test.tsx`: keeps Maxwell rendering coverage aligned with the localized readout labels.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm i18n:sweep:zh-HK -- --scene-only --autostart`: passed with `97/97` concept scenes audited, `issueCount: 0`, `sceneEnglishLeakUnapprovedIssueCount: 0`, `sceneProtectedTokenCorruptionCount: 0`, and `sceneRepeatedFillerLabelCount: 0`.
+- `pnpm exec eslint` on touched simulation, i18n, sweep, and test files: passed.
+- `pnpm i18n:validate -- --locale zh-HK`: passed with `valid: true`.
+- `pnpm exec vitest run tests/components/maxwell-equations-synthesis-simulation.test.tsx`: passed, 3/3.
+- `pnpm typecheck`: passed.
+- Manual screenshot inspection passed for `output/browser-zhhk-site-sweep-scene-screenshots/phone-zhhk-maxwell-viewport.png`, `phone-zhhk-shm-viewport.png`, `phone-zhhk-photoelectric-viewport.png`, and `phone-zhhk-binary-search-viewport.png`.
+
 ## 2026-05-31 OML-QA-047 Phone/Tablet Concept Bench Reachability
 
 Current state: `OML-QA-047` is complete. Tall phone/tablet concept scenes and dense mobile readouts have been compacted so the current-step cue starts inside the first viewport and the first controls start within 1.5 viewports across the all-concept matrix. Maxwell now uses a compact touch-layout synthesis stage instead of stacking five full law cards before the cue.

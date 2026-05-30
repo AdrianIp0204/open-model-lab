@@ -12,11 +12,18 @@ const shouldAutostartSweepServer =
   process.argv.includes("--autostart") ||
   /^(1|true|yes|on)$/i.test(process.env.OPEN_MODEL_LAB_SWEEP_AUTOSTART ?? "");
 const shouldRunSemanticOnly = process.argv.includes("--semantic-only");
+const shouldRunSceneOnly = process.argv.includes("--scene-only");
 const managedBaseUrl = "http://127.0.0.1:3100";
 let publicBaseUrl = process.env.OPEN_MODEL_LAB_BASE_URL ?? "http://127.0.0.1:3000";
 let devBaseUrl = process.env.OPEN_MODEL_LAB_DEV_BASE_URL ?? "http://127.0.0.1:3100";
 const outputPath = path.join(root, "output", "browser-zhhk-site-sweep.json");
 const detailedOutputPath = path.join(root, "output", "browser-zhhk-site-sweep.details.json");
+const sceneDetailedOutputPath = path.join(
+  root,
+  "output",
+  "browser-zhhk-site-sweep.scene-details.json",
+);
+const sceneScreenshotDir = path.join(root, "output", "browser-zhhk-site-sweep-scene-screenshots");
 const semanticDetailedOutputPath = path.join(
   root,
   "output",
@@ -114,22 +121,54 @@ const ALLOWED_ENGLISH_PHRASES = [
   /\bStripe\b/giu,
   /\bPremium\b/giu,
   /\bEnglish\b/giu,
+  /\bMaxwell\b/giu,
+  /\bGauss\b/giu,
+  /\bFaraday\b/giu,
+  /\bAmpere\b/giu,
 ];
 const EMAIL_PATTERN = /\b\S+@\S+\b/gu;
 const URL_PATTERN = /\bhttps?:\/\/\S+\b/gu;
 const INLINE_MATH_TOKEN_PATTERN =
   /\{\{[^}]+\}\}|\$[^$]+\$|\b[a-zA-Z]+(?:_[a-zA-Z0-9]+)+\b|\b[a-zA-Z]+(?:\/[a-zA-Z0-9]+)+\b/gu;
 const ENGLISH_PHRASE_PATTERN = /\b[A-Za-z][A-Za-z0-9'/-]{2,}(?:\s+[A-Za-z][A-Za-z0-9'/-]{1,})+\b/u;
+const ENGLISH_AROUND_PROTECTED_ONE_LETTER_MATH_PATTERN =
+  /\b(?:closed|changing|circulating)\s+[EB]\b|\b[EB]\s+(?:circulation|field|fields|flux|loop|loops)\b/iu;
 const ENGLISH_SINGLE_WORD_PATTERN = /^[A-Za-z][A-Za-z0-9'/-]{3,}$/u;
 const MESSAGE_KEY_PATTERN = /\b[A-Z][A-Za-z0-9]+(?:\.[A-Za-z0-9_-]+){2,}\b/u;
-const ALLOWED_ENGLISH_SINGLE_WORDS = new Set(["premium", "stripe", "supabase", "english"]);
+const ALLOWED_ENGLISH_SINGLE_WORDS = new Set([
+  "premium",
+  "stripe",
+  "supabase",
+  "english",
+  "maxwell",
+  "gauss",
+  "faraday",
+  "ampere",
+]);
 const ENGLISH_SOURCE_CATEGORIES = [
   "message",
   "content overlay fallback",
   "simulation hard-code",
   "user fixture",
   "allowed product name",
+  "simulation scene",
 ];
+const SCENE_PROTECTED_TOKEN_CORRUPTION_PATTERNS = [
+  { kind: "SCENE_PROTECTED_TOKEN_CORRUPTION", pattern: /\bP\s*OINT\s+[EB]\s+D\s*[AL]\b/iu },
+  { kind: "SCENE_PROTECTED_TOKEN_CORRUPTION", pattern: /\bPOINT\s+[EB]\s+D\s*[AL]\b/iu },
+  { kind: "SCENE_PROTECTED_TOKEN_CORRUPTION", pattern: /\bOINT\s+[EB]\s+D\s*[AL]\b/iu },
+  { kind: "SCENE_PROTECTED_TOKEN_CORRUPTION", pattern: /[?？]{2,}|ï¿½/u },
+];
+const SCENE_REPEATED_FILLER_LABEL_PATTERNS = [
+  { kind: "SCENE_REPEATED_FILLER_LABEL", pattern: /(?:項目|项目|Item|ITEM)(?:\s+(?:項目|项目|Item|ITEM)){1,}/u },
+  { kind: "SCENE_REPEATED_FILLER_LABEL", pattern: /\b(label|reading|value)(?:\s+\1){1,}\b/iu },
+];
+const sceneScreenshotRoutes = new Map([
+  ["/zh-HK/concepts/maxwells-equations-synthesis", "phone-zhhk-maxwell-viewport.png"],
+  ["/zh-HK/concepts/simple-harmonic-motion", "phone-zhhk-shm-viewport.png"],
+  ["/zh-HK/concepts/photoelectric-effect", "phone-zhhk-photoelectric-viewport.png"],
+  ["/zh-HK/concepts/binary-search-halving-the-search-space", "phone-zhhk-binary-search-viewport.png"],
+]);
 const MAX_DETAIL_SNIPPETS = 6;
 const MAX_DETAIL_TEXT_LENGTH = 220;
 // These names are seeded by the dev account harness as user display names, not authored UI copy.
@@ -178,11 +217,18 @@ function hasDevAccountHarnessDisplayName(line) {
   return DEV_ACCOUNT_HARNESS_DISPLAY_NAMES.some((name) => line.includes(name));
 }
 
-function hasSuspiciousEnglish(line) {
+function hasSuspiciousEnglish(line, { detectEnglishAroundProtectedMath = false } = {}) {
   const sanitized = sanitizeLineForEnglishAudit(stripAllowedEnglish(line));
 
   if (!sanitized) {
     return false;
+  }
+
+  if (
+    detectEnglishAroundProtectedMath &&
+    ENGLISH_AROUND_PROTECTED_ONE_LETTER_MATH_PATTERN.test(sanitized)
+  ) {
+    return true;
   }
 
   if (ENGLISH_PHRASE_PATTERN.test(sanitized)) {
@@ -233,12 +279,14 @@ function analyzeEnglishLine(
   line,
   routePath,
   entry,
-  { stripDevAccountHarnessNames = false } = {},
+  { stripDevAccountHarnessNames = false, detectEnglishAroundProtectedMath = false } = {},
 ) {
   const hasAllowedProductName = hasAllowedEnglishPhrase(line);
   const hasFixtureName = stripDevAccountHarnessNames && hasDevAccountHarnessDisplayName(line);
   const lineWithoutFixtureNames = hasFixtureName ? stripDevAccountHarnessDisplayNames(line) : line;
-  const suspiciousAfterApprovedStripping = hasSuspiciousEnglish(lineWithoutFixtureNames);
+  const suspiciousAfterApprovedStripping = hasSuspiciousEnglish(lineWithoutFixtureNames, {
+    detectEnglishAroundProtectedMath,
+  });
 
   if (!suspiciousAfterApprovedStripping) {
     if (hasFixtureName) {
@@ -269,7 +317,7 @@ function analyzeEnglishLine(
 function findEnglishLineFindings(
   entries,
   routePath,
-  { stripDevAccountHarnessNames = false } = {},
+  { stripDevAccountHarnessNames = false, detectEnglishAroundProtectedMath = false } = {},
 ) {
   const findings = [];
   const seen = new Set();
@@ -278,6 +326,7 @@ function findEnglishLineFindings(
     const line = entry.text.trim();
     const analysis = analyzeEnglishLine(line, routePath, entry, {
       stripDevAccountHarnessNames,
+      detectEnglishAroundProtectedMath,
     });
 
     if (!analysis) {
@@ -315,7 +364,10 @@ function findEnglishLineFindings(
   return findings;
 }
 
-function findEnglishLeakLine(text, { stripDevAccountHarnessNames = false } = {}) {
+function findEnglishLeakLine(
+  text,
+  { stripDevAccountHarnessNames = false, detectEnglishAroundProtectedMath = false } = {},
+) {
   return (
     text
       .split(/\r?\n/gu)
@@ -323,6 +375,7 @@ function findEnglishLeakLine(text, { stripDevAccountHarnessNames = false } = {})
       .find((line) =>
         hasSuspiciousEnglish(
           stripDevAccountHarnessNames ? stripDevAccountHarnessDisplayNames(line) : line,
+          { detectEnglishAroundProtectedMath },
         ),
       ) ?? null
   );
@@ -1230,6 +1283,289 @@ async function scanRouteList(context, baseUrl, routes, category) {
   return { issues, englishFindings, semanticFindings };
 }
 
+function findScenePatternFindings(entries, routePath, patternGroups) {
+  const findings = [];
+
+  for (const entry of entries) {
+    const line = entry.text.trim();
+
+    for (const { kind, pattern } of patternGroups) {
+      const match = line.match(pattern);
+      if (!match) {
+        continue;
+      }
+
+      findings.push({
+        route: routePath,
+        kind,
+        sample: capText(match[0]),
+        line: capText(line),
+        elementTag: entry.elementTag,
+        snippets: entry.snippets.map((snippet) => capText(snippet)),
+      });
+    }
+  }
+
+  return findings;
+}
+
+async function scanSceneRoute(page, baseUrl, routePath) {
+  const url = new URL(routePath, baseUrl).toString();
+  const routeIssues = [];
+  const routeEnglishFindings = [];
+  const routeProtectedTokenFindings = [];
+  const routeRepeatedFillerFindings = [];
+
+  try {
+    const response = await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: 60_000,
+    });
+
+    if (!response) {
+      routeIssues.push({
+        route: routePath,
+        category: "public-concept-scene-phone",
+        kind: "NO_DOCUMENT_RESPONSE",
+        sample: "No document response returned.",
+      });
+      return {
+        issues: routeIssues,
+        englishFindings: routeEnglishFindings,
+        protectedTokenFindings: routeProtectedTokenFindings,
+        repeatedFillerFindings: routeRepeatedFillerFindings,
+      };
+    }
+
+    if (!response.ok()) {
+      routeIssues.push({
+        route: routePath,
+        category: "public-concept-scene-phone",
+        kind: "HTTP_ERROR",
+        sample: `${response.status()} ${response.statusText()}`,
+      });
+    }
+
+    const scene = page.locator('[data-testid="simulation-shell-scene"]').first();
+    await scene.waitFor({ state: "visible", timeout: 20_000 });
+    await page.waitForTimeout(900);
+
+    const visibleSceneTextEntries = await scene.evaluate(
+      (root, { maxSnippets }) => {
+        const skipSelectors = [
+          ".sr-only",
+          "[hidden]",
+          "script",
+          "style",
+          "noscript",
+          "template",
+        ];
+
+        function normalizeText(text) {
+          return text.replace(/\s+/gu, " ").trim();
+        }
+
+        function isVisibleElement(element) {
+          const style = window.getComputedStyle(element);
+          return (
+            style.display !== "none" &&
+            style.visibility !== "hidden" &&
+            style.opacity !== "0" &&
+            element.getClientRects().length > 0
+          );
+        }
+
+        function getSnippets(element) {
+          const container =
+            element.closest("section, article, [role], svg") ??
+            element.parentElement ??
+            element;
+          const snippets = [];
+          const seenSnippets = new Set();
+          const text = container.textContent ?? "";
+
+          for (const line of text.split(/\r?\n/gu)) {
+            const snippet = normalizeText(line);
+
+            if (!snippet || seenSnippets.has(snippet)) {
+              continue;
+            }
+
+            seenSnippets.add(snippet);
+            snippets.push(snippet);
+
+            if (snippets.length >= maxSnippets) {
+              break;
+            }
+          }
+
+          return snippets;
+        }
+
+        function pushEntry(lines, seen, entry) {
+          const entryKey = [entry.text, entry.elementTag, entry.sourceType].join("\u0000");
+
+          if (seen.has(entryKey)) {
+            return;
+          }
+
+          seen.add(entryKey);
+          lines.push(entry);
+        }
+
+        const lines = [];
+        const seen = new Set();
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+
+        while (walker.nextNode()) {
+          const node = walker.currentNode;
+          const parent = node.parentElement;
+
+          if (!parent) {
+            continue;
+          }
+
+          if (skipSelectors.some((selector) => parent.closest(selector))) {
+            continue;
+          }
+
+          if (!isVisibleElement(parent)) {
+            continue;
+          }
+
+          const text = normalizeText(node.textContent ?? "");
+
+          if (!text) {
+            continue;
+          }
+
+          pushEntry(lines, seen, {
+            text,
+            nearestHeading: null,
+            landmark: "simulation scene",
+            elementTag: parent.tagName.toLowerCase(),
+            elementRole: parent.getAttribute("role"),
+            sourceType: "visible text",
+            isAccessibilityLabel: false,
+            isControlLabel: false,
+            snippets: getSnippets(parent),
+          });
+        }
+
+        return lines;
+      },
+      { maxSnippets: MAX_DETAIL_SNIPPETS },
+    );
+
+    if (visibleSceneTextEntries.length === 0) {
+      routeIssues.push({
+        route: routePath,
+        category: "public-concept-scene-phone",
+        kind: "EMPTY_SCENE_TEXT",
+        sample: "No visible scene text found.",
+      });
+    }
+
+    const englishFindings = findEnglishLineFindings(visibleSceneTextEntries, routePath, {
+      detectEnglishAroundProtectedMath: true,
+    }).map((finding) => ({
+      ...finding,
+      sourceCategory: finding.approved ? finding.sourceCategory : "simulation scene",
+    }));
+    routeEnglishFindings.push(...englishFindings);
+    const unapprovedEnglishFindings = englishFindings.filter((finding) => !finding.approved);
+
+    if (unapprovedEnglishFindings.length > 0) {
+      routeIssues.push({
+        route: routePath,
+        category: "public-concept-scene-phone",
+        kind: "SCENE_ENGLISH_LEAK",
+        sample: unapprovedEnglishFindings[0].sample,
+        findingCount: unapprovedEnglishFindings.length,
+        detailArtifact: path.relative(root, sceneDetailedOutputPath),
+      });
+    }
+
+    const protectedTokenFindings = findScenePatternFindings(
+      visibleSceneTextEntries,
+      routePath,
+      SCENE_PROTECTED_TOKEN_CORRUPTION_PATTERNS,
+    );
+    routeProtectedTokenFindings.push(...protectedTokenFindings);
+
+    if (protectedTokenFindings.length > 0) {
+      routeIssues.push({
+        route: routePath,
+        category: "public-concept-scene-phone",
+        kind: "SCENE_PROTECTED_TOKEN_CORRUPTION",
+        sample: protectedTokenFindings[0].sample,
+        findingCount: protectedTokenFindings.length,
+        detailArtifact: path.relative(root, sceneDetailedOutputPath),
+      });
+    }
+
+    const repeatedFillerFindings = findScenePatternFindings(
+      visibleSceneTextEntries,
+      routePath,
+      SCENE_REPEATED_FILLER_LABEL_PATTERNS,
+    );
+    routeRepeatedFillerFindings.push(...repeatedFillerFindings);
+
+    if (repeatedFillerFindings.length > 0) {
+      routeIssues.push({
+        route: routePath,
+        category: "public-concept-scene-phone",
+        kind: "SCENE_REPEATED_FILLER_LABEL",
+        sample: repeatedFillerFindings[0].sample,
+        findingCount: repeatedFillerFindings.length,
+        detailArtifact: path.relative(root, sceneDetailedOutputPath),
+      });
+    }
+
+    const screenshotName = sceneScreenshotRoutes.get(routePath);
+    if (screenshotName) {
+      fs.mkdirSync(sceneScreenshotDir, { recursive: true });
+      await page.screenshot({
+        path: path.join(sceneScreenshotDir, screenshotName),
+        fullPage: false,
+      });
+    }
+  } catch (error) {
+    routeIssues.push({
+      route: routePath,
+      category: "public-concept-scene-phone",
+      kind: "SCENE_NAVIGATION_FAILED",
+      sample: error instanceof Error ? error.message : String(error),
+    });
+  }
+
+  return {
+    issues: routeIssues,
+    englishFindings: routeEnglishFindings,
+    protectedTokenFindings: routeProtectedTokenFindings,
+    repeatedFillerFindings: routeRepeatedFillerFindings,
+  };
+}
+
+async function scanSceneRouteList(context, baseUrl, routes) {
+  const page = await context.newPage();
+  const issues = [];
+  const englishFindings = [];
+  const protectedTokenFindings = [];
+  const repeatedFillerFindings = [];
+
+  for (const routePath of routes) {
+    const routeResult = await scanSceneRoute(page, baseUrl, routePath);
+    issues.push(...routeResult.issues);
+    englishFindings.push(...routeResult.englishFindings);
+    protectedTokenFindings.push(...routeResult.protectedTokenFindings);
+    repeatedFillerFindings.push(...routeResult.repeatedFillerFindings);
+  }
+
+  await page.close();
+  return { issues, englishFindings, protectedTokenFindings, repeatedFillerFindings };
+}
+
 let managedSweepServerProcess = null;
 
 if (shouldAutostartSweepServer) {
@@ -1242,44 +1578,74 @@ if (shouldAutostartSweepServer) {
 const browser = await chromium.launch({ headless: true });
 
 try {
-  const publicContext = await browser.newContext({
-    viewport: { width: 1440, height: 1200 },
+  const sceneContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
   });
-  await stubAds(publicContext);
-  const publicResult = await scanRouteList(publicContext, publicBaseUrl, publicRoutes, "public");
-  await publicContext.close();
-
-  const signedInFreeContext = await browser.newContext({
-    viewport: { width: 1440, height: 1200 },
-  });
-  await stubAds(signedInFreeContext);
-  await setHarnessSession(signedInFreeContext, "signed-in-free");
-  const signedInFreeResult = await scanRouteList(
-    signedInFreeContext,
-    devBaseUrl,
-    signedInFreeRoutes,
-    "signed-in-free",
+  await stubAds(sceneContext);
+  const sceneResult = await scanSceneRouteList(
+    sceneContext,
+    publicBaseUrl,
+    publishedConceptRoutes,
   );
-  await signedInFreeContext.close();
+  await sceneContext.close();
 
-  const signedInPremiumContext = await browser.newContext({
-    viewport: { width: 1440, height: 1200 },
-  });
-  await stubAds(signedInPremiumContext);
-  await setHarnessSession(signedInPremiumContext, "signed-in-premium");
-  const signedInPremiumResult = await scanRouteList(
-    signedInPremiumContext,
-    devBaseUrl,
-    signedInPremiumRoutes,
-    "signed-in-premium",
-  );
-  await signedInPremiumContext.close();
+  const publicResult = shouldRunSceneOnly
+    ? { issues: [], englishFindings: [], semanticFindings: [] }
+    : await (async () => {
+        const publicContext = await browser.newContext({
+          viewport: { width: 1440, height: 1200 },
+        });
+        await stubAds(publicContext);
+        const result = await scanRouteList(publicContext, publicBaseUrl, publicRoutes, "public");
+        await publicContext.close();
+        return result;
+      })();
 
-  const allIssues = [
-    ...publicResult.issues,
-    ...signedInFreeResult.issues,
-    ...signedInPremiumResult.issues,
-  ];
+  const signedInFreeResult = shouldRunSceneOnly
+    ? { issues: [], englishFindings: [], semanticFindings: [] }
+    : await (async () => {
+        const signedInFreeContext = await browser.newContext({
+          viewport: { width: 1440, height: 1200 },
+        });
+        await stubAds(signedInFreeContext);
+        await setHarnessSession(signedInFreeContext, "signed-in-free");
+        const result = await scanRouteList(
+          signedInFreeContext,
+          devBaseUrl,
+          signedInFreeRoutes,
+          "signed-in-free",
+        );
+        await signedInFreeContext.close();
+        return result;
+      })();
+
+  const signedInPremiumResult = shouldRunSceneOnly
+    ? { issues: [], englishFindings: [], semanticFindings: [] }
+    : await (async () => {
+        const signedInPremiumContext = await browser.newContext({
+          viewport: { width: 1440, height: 1200 },
+        });
+        await stubAds(signedInPremiumContext);
+        await setHarnessSession(signedInPremiumContext, "signed-in-premium");
+        const result = await scanRouteList(
+          signedInPremiumContext,
+          devBaseUrl,
+          signedInPremiumRoutes,
+          "signed-in-premium",
+        );
+        await signedInPremiumContext.close();
+        return result;
+      })();
+
+  const allIssues = shouldRunSceneOnly
+    ? [...sceneResult.issues]
+    : [
+        ...publicResult.issues,
+        ...signedInFreeResult.issues,
+        ...signedInPremiumResult.issues,
+        ...sceneResult.issues,
+      ];
   const issues = shouldRunSemanticOnly
     ? allIssues.filter((issue) =>
         [
@@ -1301,10 +1667,30 @@ try {
     ...signedInPremiumResult.semanticFindings,
   ];
   const detailedEnglishReport = buildDetailedEnglishReport(englishFindings);
+  const detailedSceneReport = {
+    conceptRouteCount: publishedConceptRoutes.length,
+    viewport: { width: 390, height: 844 },
+    unapprovedEnglishIssueCount: sceneResult.englishFindings.filter(
+      (finding) => !finding.approved,
+    ).length,
+    approvedEnglishFindingCount: sceneResult.englishFindings.filter((finding) => finding.approved)
+      .length,
+    protectedTokenCorruptionCount: sceneResult.protectedTokenFindings.length,
+    repeatedFillerLabelCount: sceneResult.repeatedFillerFindings.length,
+    screenshotDir: path.relative(root, sceneScreenshotDir),
+    screenshots: [...sceneScreenshotRoutes.entries()].map(([route, file]) => ({
+      route,
+      file: path.relative(root, path.join(sceneScreenshotDir, file)),
+    })),
+    englishLeakDetails: buildDetailedEnglishReport(sceneResult.englishFindings),
+    protectedTokenFindings: sceneResult.protectedTokenFindings,
+    repeatedFillerFindings: sceneResult.repeatedFillerFindings,
+  };
   const detailedSemanticReport = buildZhHkSemanticReport(semanticFindings);
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(detailedOutputPath, JSON.stringify(detailedEnglishReport, null, 2), "utf8");
+  fs.writeFileSync(sceneDetailedOutputPath, JSON.stringify(detailedSceneReport, null, 2), "utf8");
   fs.writeFileSync(
     semanticDetailedOutputPath,
     JSON.stringify(detailedSemanticReport, null, 2),
@@ -1314,17 +1700,23 @@ try {
     outputPath,
     JSON.stringify(
       {
-        mode: shouldRunSemanticOnly ? "semantic-only" : "full",
+        mode: shouldRunSceneOnly ? "scene-only" : shouldRunSemanticOnly ? "semantic-only" : "full",
         publicRouteCount: publicRoutes.length,
         signedInFreeRouteCount: signedInFreeRoutes.length,
         signedInPremiumRouteCount: signedInPremiumRoutes.length,
+        sceneConceptRouteCount: publishedConceptRoutes.length,
         issueCount: issues.length,
         englishLeakUnapprovedIssueCount: detailedEnglishReport.unapprovedIssueCount,
         approvedEnglishFindingCount: detailedEnglishReport.approvedFindingCount,
+        sceneEnglishLeakUnapprovedIssueCount: detailedSceneReport.unapprovedEnglishIssueCount,
+        sceneProtectedTokenCorruptionCount: detailedSceneReport.protectedTokenCorruptionCount,
+        sceneRepeatedFillerLabelCount: detailedSceneReport.repeatedFillerLabelCount,
         semanticZhHkIssueCount: detailedSemanticReport.issueCount,
         detailedArtifact: path.relative(root, detailedOutputPath),
+        sceneDetailedArtifact: path.relative(root, sceneDetailedOutputPath),
         semanticDetailedArtifact: path.relative(root, semanticDetailedOutputPath),
         englishLeakDetails: detailedEnglishReport,
+        sceneDetails: detailedSceneReport,
         semanticZhHkDetails: detailedSemanticReport,
         issues,
       },
@@ -1337,16 +1729,21 @@ try {
   console.log(
     JSON.stringify(
       {
-        mode: shouldRunSemanticOnly ? "semantic-only" : "full",
+        mode: shouldRunSceneOnly ? "scene-only" : shouldRunSemanticOnly ? "semantic-only" : "full",
         publicRouteCount: publicRoutes.length,
         signedInFreeRouteCount: signedInFreeRoutes.length,
         signedInPremiumRouteCount: signedInPremiumRoutes.length,
+        sceneConceptRouteCount: publishedConceptRoutes.length,
         issueCount: issues.length,
         englishLeakUnapprovedIssueCount: detailedEnglishReport.unapprovedIssueCount,
         approvedEnglishFindingCount: detailedEnglishReport.approvedFindingCount,
+        sceneEnglishLeakUnapprovedIssueCount: detailedSceneReport.unapprovedEnglishIssueCount,
+        sceneProtectedTokenCorruptionCount: detailedSceneReport.protectedTokenCorruptionCount,
+        sceneRepeatedFillerLabelCount: detailedSceneReport.repeatedFillerLabelCount,
         semanticZhHkIssueCount: detailedSemanticReport.issueCount,
         outputPath: path.relative(root, outputPath),
         detailedOutputPath: path.relative(root, detailedOutputPath),
+        sceneDetailedOutputPath: path.relative(root, sceneDetailedOutputPath),
         semanticDetailedOutputPath: path.relative(root, semanticDetailedOutputPath),
       },
       null,

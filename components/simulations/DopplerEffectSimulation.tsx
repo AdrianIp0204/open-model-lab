@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import {
   DOPPLER_EFFECT_MAX_OBSERVER_SPEED,
   DOPPLER_EFFECT_MAX_SOURCE_SPEED,
@@ -17,6 +18,8 @@ import {
   type GraphSeriesSetupId,
   type GraphStagePreview,
 } from "@/lib/physics";
+import type { AppLocale } from "@/i18n/routing";
+import { copyText, getCompareBadgeLabel, getCompareSetupLabel } from "@/lib/i18n/copy-text";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
 import { SimulationMobileReadoutDetails } from "./SimulationMobileReadoutDetails";
 import { CompareLegend, resolveCompareScene, SimulationPreviewBadge } from "./primitives/compare";
@@ -117,18 +120,22 @@ function resolvePreviewPatch(graphPreview?: GraphStagePreview | null) {
   return null;
 }
 
-function describeObserverMotion(frame: Frame) {
+function describeObserverMotion(frame: Frame, locale: AppLocale) {
   const { observerMotionLabel, observerSpeed } = frame.snapshot;
 
   if (observerMotionLabel === "toward") {
-    return `toward ${formatMeasurement(observerSpeed, "m/s")}`;
+    return locale === "zh-HK"
+      ? `接近 ${formatMeasurement(observerSpeed, "m/s")}`
+      : `toward ${formatMeasurement(observerSpeed, "m/s")}`;
   }
 
   if (observerMotionLabel === "away") {
-    return `away ${formatMeasurement(Math.abs(observerSpeed), "m/s")}`;
+    return locale === "zh-HK"
+      ? `遠離 ${formatMeasurement(Math.abs(observerSpeed), "m/s")}`
+      : `away ${formatMeasurement(Math.abs(observerSpeed), "m/s")}`;
   }
 
-  return "stationary";
+  return copyText(locale, "stationary", "靜止");
 }
 
 function findSpacingPair(positions: number[], target: number) {
@@ -154,7 +161,7 @@ function findSpacingPair(positions: number[], target: number) {
   return bestPair;
 }
 
-function renderBenchAxis(rowCenter: number) {
+function renderBenchAxis(rowCenter: number, locale: AppLocale) {
   const axisY = rowCenter + 22;
 
   return (
@@ -197,7 +204,7 @@ function renderBenchAxis(rowCenter: number) {
         y={axisY - 12}
         className="fill-ink-500 text-[11px] font-semibold uppercase tracking-[0.16em]"
       >
-        medium axis
+        {copyText(locale, "medium axis", "介質軸")}
       </text>
     </g>
   );
@@ -266,7 +273,7 @@ function renderWavefronts(frame: Frame, rowCenter: number, rowId: string) {
   );
 }
 
-function renderSource(frame: Frame, rowCenter: number) {
+function renderSource(frame: Frame, rowCenter: number, locale: AppLocale) {
   const sourceX = xFromWorld(frame.snapshot.sourceX);
   const axisY = rowCenter + 22;
 
@@ -294,15 +301,19 @@ function renderSource(frame: Frame, rowCenter: number) {
         textAnchor="middle"
         className="fill-teal-700 text-[11px] font-semibold"
       >
-        source
+        {copyText(locale, "source", "聲源")}
       </text>
     </g>
   );
 }
 
-function renderObserver(frame: Frame, rowCenter: number) {
+function renderObserver(frame: Frame, rowCenter: number, locale: AppLocale) {
   const observerX = xFromWorld(frame.snapshot.observerX);
   const axisY = rowCenter + 22;
+  const sideLabel =
+    frame.snapshot.observerSideLabel === "ahead"
+      ? copyText(locale, "ahead", "前方")
+      : copyText(locale, "behind", "後方");
 
   return (
     <g pointerEvents="none">
@@ -320,7 +331,7 @@ function renderObserver(frame: Frame, rowCenter: number) {
         textAnchor="middle"
         className="fill-coral-700 text-[10px] font-semibold uppercase tracking-[0.14em]"
       >
-        {frame.snapshot.observerSideLabel}
+        {sideLabel}
       </text>
       <text
         x={observerX}
@@ -328,7 +339,7 @@ function renderObserver(frame: Frame, rowCenter: number) {
         textAnchor="middle"
         className="fill-coral-700 text-[11px] font-semibold"
       >
-        observer
+        {copyText(locale, "observer", "觀察者")}
       </text>
     </g>
   );
@@ -392,6 +403,7 @@ function renderStillMarker(x: number, y: number, color: string) {
 function renderMotionOverlay(
   frame: Frame,
   rowCenter: number,
+  locale: AppLocale,
   focusedOverlayId?: string | null,
 ) {
   const opacity = resolveOverlayOpacity(focusedOverlayId, "motionVectors", 0.42);
@@ -426,7 +438,9 @@ function renderMotionOverlay(
         textAnchor="middle"
         className="fill-teal-700 text-[10px] font-semibold uppercase tracking-[0.14em]"
       >
-        {sourceMoving ? "source motion" : "source still"}
+        {sourceMoving
+          ? copyText(locale, "source motion", "聲源運動")
+          : copyText(locale, "source still", "聲源靜止")}
       </text>
       {observerMoving
         ? renderArrow(observerX, observerArrowEnd, topY + 20, "#f16659")
@@ -437,7 +451,11 @@ function renderMotionOverlay(
         textAnchor="middle"
         className="fill-coral-700 text-[10px] font-semibold uppercase tracking-[0.14em]"
       >
-        {observerMoving ? `observer ${frame.snapshot.observerMotionLabel}` : "observer still"}
+        {observerMoving
+          ? frame.snapshot.observerMotionLabel === "toward"
+            ? copyText(locale, "observer toward", "觀察者接近")
+            : copyText(locale, "observer away", "觀察者遠離")
+          : copyText(locale, "observer still", "觀察者靜止")}
       </text>
     </g>
   );
@@ -472,6 +490,7 @@ function renderSpacingBracket(
 function renderSpacingOverlay(
   frame: Frame,
   rowCenter: number,
+  locale: AppLocale,
   focusedOverlayId?: string | null,
 ) {
   const opacity = resolveOverlayOpacity(focusedOverlayId, "frontBackSpacing", 0.42);
@@ -493,7 +512,7 @@ function renderSpacingOverlay(
             xFromWorld(frontPair[1]),
             axisY - 34,
             "#f16659",
-            "front lambda",
+            copyText(locale, "front lambda", "前方 λ"),
             formatMeasurement(frame.snapshot.frontSpacing, "m"),
           )
         : null}
@@ -503,7 +522,7 @@ function renderSpacingOverlay(
             xFromWorld(backPair[1]),
             axisY + 42,
             "#4ea6df",
-            "rear lambda",
+            copyText(locale, "rear lambda", "後方 λ"),
             formatMeasurement(frame.snapshot.backSpacing, "m"),
           )
         : null}
@@ -514,6 +533,7 @@ function renderSpacingOverlay(
 function renderArrivalOverlay(
   frame: Frame,
   rowCenter: number,
+  locale: AppLocale,
   focusedOverlayId?: string | null,
 ) {
   const opacity = resolveOverlayOpacity(focusedOverlayId, "arrivalTiming", 0.42);
@@ -542,7 +562,9 @@ function renderArrivalOverlay(
         textAnchor="middle"
         className="fill-amber-700 text-[10px] font-semibold uppercase tracking-[0.14em]"
       >
-        arrivals every {formatMeasurement(frame.snapshot.observedPeriod, "s")}
+        {locale === "zh-HK"
+          ? `每 ${formatMeasurement(frame.snapshot.observedPeriod, "s")} 到達一次`
+          : `arrivals every ${formatMeasurement(frame.snapshot.observedPeriod, "s")}`}
       </text>
       <text
         x={observerX}
@@ -566,6 +588,7 @@ function renderWaveRow(
     focusedOverlayId?: string | null;
     muted?: boolean;
     rowId: string;
+    locale: AppLocale;
   },
 ) {
   const top = rowCenter - ROW_HALF_HEIGHT;
@@ -604,20 +627,24 @@ function renderWaveRow(
         y={top + 14}
         className="fill-ink-500 text-[10px] font-semibold uppercase tracking-[0.14em]"
       >
-        wavefront circles stay in one medium; pitch changes because arrival timing changes.
+        {copyText(
+          options.locale,
+          "wavefront circles stay in one medium; pitch changes because arrival timing changes.",
+          "波前圓圈留在同一介質中；音高會變，是因為到達時間改變。",
+        )}
       </text>
       {renderWavefronts(frame, rowCenter, options.rowId)}
-      {renderSource(frame, rowCenter)}
-      {renderObserver(frame, rowCenter)}
-      {renderBenchAxis(rowCenter)}
+      {renderSource(frame, rowCenter, options.locale)}
+      {renderObserver(frame, rowCenter, options.locale)}
+      {renderBenchAxis(rowCenter, options.locale)}
       {showMotionVectors
-        ? renderMotionOverlay(frame, rowCenter, options.focusedOverlayId)
+        ? renderMotionOverlay(frame, rowCenter, options.locale, options.focusedOverlayId)
         : null}
       {showFrontBackSpacing
-        ? renderSpacingOverlay(frame, rowCenter, options.focusedOverlayId)
+        ? renderSpacingOverlay(frame, rowCenter, options.locale, options.focusedOverlayId)
         : null}
       {showArrivalTiming
-        ? renderArrivalOverlay(frame, rowCenter, options.focusedOverlayId)
+        ? renderArrivalOverlay(frame, rowCenter, options.locale, options.focusedOverlayId)
         : null}
     </g>
   );
@@ -632,6 +659,7 @@ export function DopplerEffectSimulation({
   compare,
   graphPreview,
 }: DopplerEffectSimulationProps) {
+  const locale = useLocale() as AppLocale;
   const displayTime = graphPreview?.kind === "time" ? graphPreview.time : time;
   const previewPatch = resolvePreviewPatch(graphPreview);
   const activeFrame = buildFrame(
@@ -660,20 +688,24 @@ export function DopplerEffectSimulation({
       activeFrame,
       frameA: compareAFrame,
       frameB: compareBFrame,
-      liveLabel: "Live setup",
+      liveLabel: copyText(locale, "Live setup", "即時設定"),
+      defaultLabelA: getCompareSetupLabel(locale, "a"),
+      defaultLabelB: getCompareSetupLabel(locale, "b"),
     });
   const previewBadge =
     graphPreview?.kind === "time" ? (
       <SimulationPreviewBadge tone="teal">
-        preview t = {formatNumber(displayTime)} s
+        {copyText(locale, "preview t =", "預覽 t =")} {formatNumber(displayTime)} s
       </SimulationPreviewBadge>
     ) : graphPreview?.kind === "response" && graphPreview.graphId === "source-spacing" ? (
       <SimulationPreviewBadge>
-        preview v_s = {formatMeasurement(Number(previewPatch?.sourceSpeed ?? 0), "m/s")}
+        {copyText(locale, "preview v_s =", "預覽 v_s =")}{" "}
+        {formatMeasurement(Number(previewPatch?.sourceSpeed ?? 0), "m/s")}
       </SimulationPreviewBadge>
     ) : graphPreview?.kind === "response" && graphPreview.graphId === "observer-response" ? (
       <SimulationPreviewBadge>
-        preview v_o = {formatMeasurement(Number(previewPatch?.observerSpeed ?? 0), "m/s")}
+        {copyText(locale, "preview v_o =", "預覽 v_o =")}{" "}
+        {formatMeasurement(Number(previewPatch?.observerSpeed ?? 0), "m/s")}
       </SimulationPreviewBadge>
     ) : null;
   const metricRows = [
@@ -690,12 +722,15 @@ export function DopplerEffectSimulation({
       value: formatMeasurement(primaryFrame.snapshot.sourceSpeed, "m/s"),
     },
     {
-      label: "side",
-      value: primaryFrame.snapshot.observerSideLabel,
+      label: copyText(locale, "side", "一側"),
+      value:
+        primaryFrame.snapshot.observerSideLabel === "ahead"
+          ? copyText(locale, "ahead", "前方")
+          : copyText(locale, "behind", "後方"),
     },
     {
       label: "v_o",
-      value: describeObserverMotion(primaryFrame),
+      value: describeObserverMotion(primaryFrame, locale),
     },
     {
       label: "lambda_side",
@@ -706,14 +741,25 @@ export function DopplerEffectSimulation({
       value: formatMeasurement(primaryFrame.snapshot.observedFrequency, "Hz"),
     },
     {
-      label: "pitch",
-      value: `${formatNumber(primaryFrame.snapshot.pitchRatio)} x`,
+      label: copyText(locale, "pitch", "音高"),
+      value:
+        locale === "zh-HK"
+          ? `${formatNumber(primaryFrame.snapshot.pitchRatio)} 倍`
+          : `${formatNumber(primaryFrame.snapshot.pitchRatio)} x`,
     },
   ];
   const noteLines = [
-    `Front spacing = ${formatMeasurement(primaryFrame.snapshot.frontSpacing, "m")}; rear spacing = ${formatMeasurement(primaryFrame.snapshot.backSpacing, "m")}.`,
-    `Current separation = ${formatMeasurement(primaryFrame.snapshot.currentSeparation, "m")}; travel delay = ${formatMeasurement(primaryFrame.snapshot.travelDelay, "s")}.`,
-    `Source motion changes medium spacing, while observer motion changes the arrival rate on the chosen side.`,
+    locale === "zh-HK"
+      ? `前方間距 = ${formatMeasurement(primaryFrame.snapshot.frontSpacing, "m")}；後方間距 = ${formatMeasurement(primaryFrame.snapshot.backSpacing, "m")}。`
+      : `Front spacing = ${formatMeasurement(primaryFrame.snapshot.frontSpacing, "m")}; rear spacing = ${formatMeasurement(primaryFrame.snapshot.backSpacing, "m")}.`,
+    locale === "zh-HK"
+      ? `目前距離 = ${formatMeasurement(primaryFrame.snapshot.currentSeparation, "m")}；傳播延遲 = ${formatMeasurement(primaryFrame.snapshot.travelDelay, "s")}。`
+      : `Current separation = ${formatMeasurement(primaryFrame.snapshot.currentSeparation, "m")}; travel delay = ${formatMeasurement(primaryFrame.snapshot.travelDelay, "s")}.`,
+    copyText(
+      locale,
+      "Source motion changes medium spacing, while observer motion changes the arrival rate on the chosen side.",
+      "聲源運動會改變介質中的間距；觀察者運動會改變所選一側的到達速率。",
+    ),
   ];
 
   return (
@@ -729,8 +775,8 @@ export function DopplerEffectSimulation({
               primaryLabel={primaryLabel}
               secondaryLabel={
                 previewedSetup === "a"
-                  ? compare?.labelB ?? "Setup B"
-                  : compare?.labelA ?? "Setup A"
+                  ? compare?.labelB ?? getCompareSetupLabel(locale, "b")
+                  : compare?.labelA ?? getCompareSetupLabel(locale, "a")
               }
             />
           ) : (
@@ -752,28 +798,31 @@ export function DopplerEffectSimulation({
           {compareEnabled ? (
             <>
               {renderWaveRow(compareAFrame!, COMPARE_ROW_CENTERS.a, {
-                label: compare?.labelA ?? "Setup A",
-                compareBadge: compare?.activeTarget === "a" ? "editing" : "locked",
+                label: compare?.labelA ?? getCompareSetupLabel(locale, "a"),
+                compareBadge: getCompareBadgeLabel(locale, compare?.activeTarget === "a" ? "editing" : "locked"),
                 overlayValues,
                 focusedOverlayId,
                 muted: previewedSetup === "b",
                 rowId: "a",
+                locale,
               })}
               {renderWaveRow(compareBFrame!, COMPARE_ROW_CENTERS.b, {
-                label: compare?.labelB ?? "Setup B",
-                compareBadge: compare?.activeTarget === "b" ? "editing" : "locked",
+                label: compare?.labelB ?? getCompareSetupLabel(locale, "b"),
+                compareBadge: getCompareBadgeLabel(locale, compare?.activeTarget === "b" ? "editing" : "locked"),
                 overlayValues,
                 focusedOverlayId,
                 muted: previewedSetup === "a",
                 rowId: "b",
+                locale,
               })}
             </>
           ) : (
             renderWaveRow(activeFrame, SINGLE_ROW_CENTER, {
-              label: "Live passing-source bench",
+              label: copyText(locale, "Live passing-source bench", "即時掠過聲源實驗台"),
               overlayValues,
               focusedOverlayId,
               rowId: "live",
+              locale,
             })
           )}
           <SimulationReadoutCard
