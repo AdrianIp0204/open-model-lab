@@ -1,5 +1,31 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-037 Deployed Release Verification
+
+Current state: `OML-QA-037` is complete. OML now has a deploy verification flow that checks the live origin after deploy rather than trusting local gates or reachability alone. The flow exposes a public `/api/deployment` marker, verifies the expected commit, runs HTTP route health checks, opens representative live zh-HK routes in Playwright, audits semantic zh-HK quality, checks light/dark contrast, writes screenshots and JSON artifacts, and fails closed with explicit follow-up candidates when production is stale or not release-ready.
+
+### Files Changed
+
+- `app/api/deployment/route.ts` and `lib/deployment/buildIdentity.ts`: expose a non-secret public deployment identity marker from build/runtime environment variables.
+- `scripts/verify-deployed-release.mjs`: adds the live-origin release verifier and artifact writer.
+- `scripts/browser-zhhk-site-sweep.mjs` and `package.json`: add the semantic-only zh-HK sweep script and release/theme verification commands.
+- `docs/deployed-release-verification.md` and `docs/launch-readiness.md`: document the build marker and post-deploy verification checklist.
+- `tests/deployment/build-identity.test.ts`: covers commit/deployment marker normalization and unsafe marker rejection.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- `node --check scripts/verify-deployed-release.mjs`: passed.
+- `node --check scripts/browser-zhhk-site-sweep.mjs`: passed.
+- `pnpm exec vitest run tests/deployment/build-identity.test.ts`: passed.
+- `pnpm i18n:validate -- --locale zh-HK`: passed.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: passed with `issueCount: 0`, `englishLeakUnapprovedIssueCount: 0`, and `semanticZhHkIssueCount: 0`.
+- `pnpm i18n:sweep:zh-HK:semantic -- --autostart`: passed with `issueCount: 0` and `semanticZhHkIssueCount: 0`.
+- `pnpm theme:sweep:light-dark`: passed.
+- `pnpm typecheck`: passed.
+- `OPEN_MODEL_LAB_RELEASE_BASE_URL=https://openmodellab.com OPEN_MODEL_LAB_EXPECTED_COMMIT=$(git rev-parse HEAD) pnpm release:verify:deployed`: failed closed as expected against current production because the live site is not serving this commit and has no `/api/deployment` marker yet; artifact `output/deployed-release-verification/2026-05-30T06-36-42-146Z/summary.json` records HTTP route health as green and lists current-production follow-ups for the stale live zh-HK/theme issues.
+
 ## 2026-05-30 OML-QA-036 zh-HK Accessibility Name Localization
 
 Current state: `OML-QA-036` is complete. The zh-HK browser sweep now extracts visible control accessible names and `aria-describedby` descriptions for buttons, links, inputs, selects, summaries, and ARIA control roles, so accessibility-only English or mixed-language labels are covered by the semantic zh-HK gate. Quick-check answer accessible names now use localized option prefixes and localized math wording.
