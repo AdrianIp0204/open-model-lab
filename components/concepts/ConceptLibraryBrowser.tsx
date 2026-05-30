@@ -1142,7 +1142,10 @@ export function ConceptLibraryBrowser({
           </div>
 
           {primaryRecommendation ? (
-            <article className="motion-enter motion-card mt-4 grid gap-4 rounded-[26px] border border-line bg-ink-950 p-4 text-paper-strong shadow-surface sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:items-center">
+            <article
+              className="motion-enter motion-card mt-4 grid gap-4 rounded-[26px] border border-line bg-ink-950 p-4 text-paper-strong shadow-surface sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:items-center"
+              data-concept-index-feature-card="true"
+            >
               <Link
                 href={primaryRecommendation.href}
                 aria-label={primaryRecommendation.actionLabel.trim() || t("recommendations.actions.continueConcept")}

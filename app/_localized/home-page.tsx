@@ -623,7 +623,10 @@ export default async function HomePage({
 
             <div className="grid gap-4 xl:self-start">
               {quickStartConcept ? (
-                <div className="motion-enter motion-card rounded-[28px] border border-line bg-ink-950 p-5 text-paper-strong shadow-surface">
+                <div
+                  className="motion-enter motion-card rounded-[28px] border border-line bg-ink-950 p-5 text-paper-strong shadow-surface"
+                  data-home-quick-start-card="true"
+                >
                   <p className="lab-label text-white/70">{tHome("quickStart.eyebrow")}</p>
                   <h2 className="mt-2 text-2xl font-semibold text-white">
                     {quickStartConceptTitle}

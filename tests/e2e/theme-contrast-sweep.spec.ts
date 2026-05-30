@@ -61,7 +61,7 @@ const viewports: SweepViewport[] = [
 ];
 
 const routes: SweepRoute[] = [
-  { name: "home", path: "/", ready: "#content", viewports: ["desktop-1440x900"] },
+  { name: "home", path: "/", ready: "#content", viewports: ["desktop-1440x900", "phone-390x844"] },
   {
     name: "home-zh-hk",
     path: "/zh-HK",
@@ -73,7 +73,14 @@ const routes: SweepRoute[] = [
     name: "concepts-index",
     path: "/concepts",
     ready: "#content",
-    viewports: ["desktop-1440x900"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
+  },
+  {
+    name: "concepts-index-zh-hk",
+    path: "/zh-HK/concepts",
+    ready: "#content",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
   },
   {
     name: "physics-subject",

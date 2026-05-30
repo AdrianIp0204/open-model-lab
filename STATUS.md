@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-040 Paper-Mode First-Viewport Dark Surface Leakage
+
+Current state: `OML-QA-040` is complete. Paper mode now scopes the formerly broad dark-card override to reviewed home/concept first-viewport surfaces through explicit data seams, and the targeted paper-mode sweep reports zero dark-surface leakage on the affected home and concepts index routes in English and zh-HK.
+
+### Files Changed
+
+- `app/_localized/home-page.tsx`: marks the home quick-start card with an explicit paper-mode override seam.
+- `components/concepts/ConceptLibraryBrowser.tsx`: marks the concept index feature recommendation card with an explicit paper-mode override seam.
+- `app/globals.css`: replaces the broad paper-mode `.motion-card.bg-ink-950` override with targeted paper-mode rules for the reviewed first-viewport surfaces.
+- `tests/e2e/theme-contrast-sweep.spec.ts`: extends durable coverage for home/concepts paper-mode desktop and phone cases, including `/zh-HK/concepts`.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- `pnpm exec eslint app/_localized/home-page.tsx components/concepts/ConceptLibraryBrowser.tsx tests/e2e/theme-contrast-sweep.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- Targeted paper-mode dark-surface sweep over `/`, `/zh-HK`, `/concepts`, and `/zh-HK/concepts` at `desktop-1440x900` and `phone-390x844`: passed with `caseCount: 8` and `issueCount: 0`; artifact: `output/qa-oml-qa-040-2026-05-30/orchestrator-targeted-paper-sweep/paper-dark-surface-targeted-sweep.json`.
+- Representative desktop and phone screenshots inspected; the home live preview and concept feature cards now read as coherent light-mode surfaces.
+- Full `tests/e2e/theme-contrast-sweep.spec.ts` was retried and hit the existing broad-sweep dev-server restart / caret-color hydration-warning instability already tracked separately by `OML-QA-042`; no target dark-surface findings were observed in the successful targeted sweep.
+
 ## 2026-05-30 OML-QA-039 Paper-Mode CTA And Filter Contrast
 
 Current state: `OML-QA-039` is complete. Paper mode now has explicit accessible foreground/background pairs for global primary CTAs and active filter pills, and the durable theme contrast sweep covers the affected zh-HK/account/dashboard/subjects/topics/start/tests routes at desktop and phone widths.
