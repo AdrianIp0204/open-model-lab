@@ -3702,6 +3702,113 @@
     "freeLearner": "免費學習者",
     "premiumLearner": "支持者學習者"
   },
+  "DevAccountHarnessPage": {
+    "feedbackContext": {
+      "pageTitle": "開發帳戶測試頁"
+    },
+    "hero": {
+      "eyebrow": "只供開發",
+      "title": "本機帳戶測試頁",
+      "description": "使用這條路由，可把真實應用切換到登出、已登入免費層，或已登入支持者方案固定情境，而不用攔截瀏覽器請求或手動寫 SQL。這個測試頁只會在 {flag} 時運作，正式環境會保持停用。"
+    },
+    "states": {
+      "realAuth": "真實登入回退",
+      "signedOut": "登出固定情境",
+      "signedInFree": "已登入免費固定情境",
+      "signedInPremium": "已登入支持者固定情境"
+    },
+    "tiers": {
+      "free": "免費",
+      "premium": "支持者方案"
+    },
+    "values": {
+      "signedOut": "已登出",
+      "enabled": "已啟用",
+      "off": "關閉"
+    },
+    "mode": {
+      "label": "目前模式",
+      "description": {
+        "signedIn": "這個固定情境會把應用登入為 {name}，帳戶層級為「{tier}」。功能檢查仍然會經過標準權限輔助函式。",
+        "signedOut": "這個固定情境會強制應用進入登出狀態，即使本機瀏覽器已有真實登入工作階段也一樣。",
+        "realAuth": "目前沒有測試覆寫。若本機已有真實登入工作階段，應用會回到真實登入。"
+      }
+    },
+    "stats": {
+      "account": "生效帳戶",
+      "tier": "權益層級",
+      "sync": "跨裝置同步"
+    },
+    "options": {
+      "signedOut": {
+        "label": "使用登出固定情境",
+        "description": "檢查沒有帳戶工作階段時，免費瀏覽是否仍然正常。"
+      },
+      "signedInFree": {
+        "label": "使用已登入免費固定情境",
+        "description": "檢查已登入帳戶同步，同時確認只限支持者方案的儲存與分享介面仍然鎖定。"
+      },
+      "signedInPremium": {
+        "label": "使用已登入支持者固定情境",
+        "description": "檢查同一條核心同步路徑，以及真實應用內的支持者儲存與分享工具。"
+      }
+    },
+    "actions": {
+      "switch": "切換"
+    },
+    "reset": {
+      "label": "還原為真實登入",
+      "description": "清除開發測試狀態紀錄，並回到這個瀏覽器內任何已存在的真實 Supabase 工作階段。",
+      "action": "清除覆寫"
+    },
+    "achievements": {
+      "reset": {
+        "label": "重設成就",
+        "description": "清除目前固定帳戶的伺服器端成就計數、具名完成紀錄與獎勵狀態。",
+        "action": "重設固定帳戶成就"
+      },
+      "seed": {
+        "label": "填入成就與獎勵",
+        "description": "使用直接固定數值檢查帳戶頁。這只在開發時使用，並會寫入產品其他位置會讀取的同一組成就紀錄。",
+        "note": "挑戰徽章項目使用上方例子的冒號分隔格式。即使所選數值本來會符合獎勵資格，在這裡選擇鎖定仍會把固定帳戶獎勵維持在鎖定狀態。",
+        "action": "套用成就種子資料"
+      },
+      "fields": {
+        "conceptsVisited": "已瀏覽概念",
+        "questionsAnswered": "已回答題目",
+        "challengeCompletions": "挑戰完成數",
+        "trackCompletions": "路線完成數",
+        "activeStudyHours": "有效學習小時",
+        "rewardState": "獎勵狀態",
+        "challengeBadges": "挑戰徽章",
+        "trackBadges": "路線徽章"
+      },
+      "rewardStates": {
+        "locked": "鎖定",
+        "unlocked": "已解鎖",
+        "claimed": "已領取",
+        "expired": "已過期"
+      }
+    },
+    "checklist": {
+      "label": "品質檢查清單",
+      "items": {
+        "signedOut": "使用登出固定情境，確認沒有帳戶時免費核心產品仍然可用。",
+        "signedInFree": "使用已登入免費固定情境，確認核心學習進度可同步，同時只限支持者方案的路由仍然誠實顯示限制。",
+        "signedInPremium": "使用已登入支持者固定情境，確認同一條核心同步路徑，以及已儲存與分享介面不需攔截瀏覽器請求也能運作。"
+      }
+    },
+    "surfaces": {
+      "label": "跳到介面",
+      "description": "測試登出是確定性的，並會覆寫真實登入。想回到一般本機 Supabase 測試時，請使用「{resetAction}」。"
+    },
+    "links": {
+      "account": "帳戶",
+      "pricing": "價格",
+      "projectileMotion": "拋體運動",
+      "home": "首頁"
+    }
+  },
   "MasteryStateBadge": {
     "new": "新接觸",
     "practiced": "練習中",

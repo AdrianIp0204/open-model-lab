@@ -67,7 +67,13 @@ const publicRoutes = [
   ...publishedConceptRoutes,
 ];
 
-const signedInFreeRoutes = ["/account", "/zh-HK/account", "/dashboard", "/zh-HK/dashboard"];
+const signedInFreeRoutes = [
+  "/account",
+  "/zh-HK/account",
+  "/dashboard",
+  "/zh-HK/dashboard",
+  "/zh-HK/dev/account-harness",
+];
 
 const signedInPremiumRoutes = [
   "/account/setups",
@@ -78,6 +84,7 @@ const signedInPremiumRoutes = [
   "/zh-HK/account/study-plans",
   "/dashboard/analytics",
   "/zh-HK/dashboard/analytics",
+  "/zh-HK/dev/account-harness",
 ];
 
 const DISALLOWED_PATTERNS = [

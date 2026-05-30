@@ -2,15 +2,17 @@ import { Link } from "@/i18n/navigation";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { resolveServerLocaleFallback } from "@/i18n/server";
+import { getScopedTranslator, resolveServerLocaleFallback } from "@/i18n/server";
 import { PageShell } from "@/components/layout/PageShell";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import {
   describeDevAccountHarnessState,
+  type DevAccountHarnessState,
   getDevAccountHarnessStateFromCookieHeader,
   isDevAccountHarnessEnabled,
   resolveDevAccountHarnessSession,
 } from "@/lib/account/dev-harness";
+import { getLocalizedAccountDisplayName } from "@/lib/i18n/account";
 import { localizeShareHref } from "@/lib/share-links";
 
 export const metadata: Metadata = {
@@ -32,37 +34,84 @@ function assertDevAccountHarnessEnabled() {
 const qaLinks = [
   {
     href: "/account",
-    label: "Account",
+    labelKey: "account",
   },
   {
     href: "/pricing",
-    label: "Pricing",
+    labelKey: "pricing",
   },
   {
     href: "/concepts/projectile-motion",
-    label: "Projectile motion",
+    labelKey: "projectileMotion",
   },
   {
     href: "/",
-    label: "Home",
+    labelKey: "home",
   },
 ];
+
+const harnessOptions = [
+  {
+    value: "signed-out",
+    messageKey: "signedOut",
+  },
+  {
+    value: "signed-in-free",
+    messageKey: "signedInFree",
+  },
+  {
+    value: "signed-in-premium",
+    messageKey: "signedInPremium",
+  },
+] as const satisfies ReadonlyArray<{
+  value: DevAccountHarnessState;
+  messageKey: string;
+}>;
+
+const rewardStates = ["locked", "unlocked", "claimed", "expired"] as const;
+
+function getHarnessStateLabel(
+  state: DevAccountHarnessState | null,
+  t: (key: string) => string,
+) {
+  switch (state) {
+    case "signed-out":
+      return t("states.signedOut");
+    case "signed-in-free":
+      return t("states.signedInFree");
+    case "signed-in-premium":
+      return t("states.signedInPremium");
+    default:
+      return t("states.realAuth");
+  }
+}
 
 export default async function DevAccountHarnessPage() {
   assertDevAccountHarnessEnabled();
 
   const locale = await resolveServerLocaleFallback();
+  const t = await getScopedTranslator(locale, "DevAccountHarnessPage");
+  const tAccountIdentity = await getScopedTranslator(locale, "AccountIdentity");
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
   const harnessState = getDevAccountHarnessStateFromCookieHeader(cookieHeader);
   const sessionResolution = resolveDevAccountHarnessSession(cookieHeader);
   const session = sessionResolution.session;
-  const effectiveLabel = describeDevAccountHarnessState(harnessState);
+  const effectiveLabel =
+    locale === "en"
+      ? describeDevAccountHarnessState(harnessState)
+      : getHarnessStateLabel(harnessState, t);
   const entitlementTier = session?.entitlement.tier ?? "free";
+  const entitlementTierLabel =
+    entitlementTier === "premium" ? t("tiers.premium") : t("tiers.free");
+  const localizedAccountName = session
+    ? getLocalizedAccountDisplayName(session.user.displayName, tAccountIdentity)
+    : t("values.signedOut");
   const localizedHarnessHref = localizeShareHref("/dev/account-harness", locale);
   const localizedQaLinks = qaLinks.map((link) => ({
     ...link,
     href: localizeShareHref(link.href, locale),
+    label: t(`links.${link.labelKey}`),
   }));
 
   return (
@@ -71,81 +120,66 @@ export default async function DevAccountHarnessPage() {
       feedbackContext={{
         pageType: "other",
         pagePath: "/dev/account-harness",
-        pageTitle: "Dev account harness",
+        pageTitle: t("feedbackContext.pageTitle"),
       }}
       className="space-y-6 sm:space-y-8"
     >
       <section className="space-y-6 sm:space-y-8">
         <SectionHeading
           level={1}
-          eyebrow="Developer-only"
-          title="Local account harness"
-          description="Use this route to switch the real app into signed-out, signed-in free, or signed-in premium fixture states without browser API stubs or manual SQL. The harness only runs when ENABLE_DEV_ACCOUNT_HARNESS=true and stays disabled in production."
+          eyebrow={t("hero.eyebrow")}
+          title={t("hero.title")}
+          description={t("hero.description", {
+            flag: "ENABLE_DEV_ACCOUNT_HARNESS=true",
+          })}
         />
 
         <section className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
           <article className="lab-panel p-6">
-            <p className="lab-label">Current mode</p>
+            <p className="lab-label">{t("mode.label")}</p>
             <h2 className="mt-3 text-3xl font-semibold text-ink-950">{effectiveLabel}</h2>
             <p className="mt-3 text-sm leading-6 text-ink-700">
-              {session ? (
-                <>
-                  This fixture signs the app in as <strong>{session.user.displayName}</strong> on
-                  the <strong>{session.entitlement.tier}</strong> tier. Capability checks still
-                  flow through the canonical entitlement helpers.
-                </>
-              ) : harnessState === "signed-out" ? (
-                "This fixture forces the app into a signed-out state, even if a real local auth session exists."
-              ) : (
-                "No harness override is active. The app falls back to real auth if one exists."
-              )}
+              {session
+                ? t("mode.description.signedIn", {
+                    name: localizedAccountName,
+                    tier: entitlementTierLabel,
+                  })
+                : harnessState === "signed-out"
+                  ? t("mode.description.signedOut")
+                  : t("mode.description.realAuth")}
             </p>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               <div className="rounded-[22px] border border-line bg-paper-strong p-4">
                 <p className="text-lg font-semibold text-ink-950">
-                  {session ? session.user.displayName : "Signed out"}
+                  {localizedAccountName}
                 </p>
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-ink-500">
-                  effective account
+                  {t("stats.account")}
                 </p>
               </div>
               <div className="rounded-[22px] border border-line bg-paper-strong p-4">
-                <p className="text-lg font-semibold capitalize text-ink-950">{entitlementTier}</p>
+                <p className="text-lg font-semibold capitalize text-ink-950">
+                  {entitlementTierLabel}
+                </p>
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-ink-500">
-                  entitlement tier
+                  {t("stats.tier")}
                 </p>
               </div>
               <div className="rounded-[22px] border border-line bg-paper-strong p-4">
                 <p className="text-lg font-semibold text-ink-950">
-                  {session?.entitlement.capabilities.canSyncProgress ? "Enabled" : "Off"}
+                  {session?.entitlement.capabilities.canSyncProgress
+                    ? t("values.enabled")
+                    : t("values.off")}
                 </p>
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-ink-500">
-                  cross-device sync
+                  {t("stats.sync")}
                 </p>
               </div>
             </div>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {[
-                {
-                  value: "signed-out",
-                  label: "Use signed-out fixture",
-                  description: "Exercise free browsing with no account session.",
-                },
-                {
-                  value: "signed-in-free",
-                  label: "Use signed-in free fixture",
-                  description:
-                    "Exercise signed-in account sync while keeping premium-only saved/share surfaces locked.",
-                },
-                {
-                  value: "signed-in-premium",
-                  label: "Use signed-in premium fixture",
-                  description:
-                    "Exercise the same core sync path plus premium saved/share tools through the real app.",
-                },
-              ].map((option) => (
+              {harnessOptions.map((option) => (
                 <form
                   key={option.value}
                   method="post"
@@ -154,14 +188,18 @@ export default async function DevAccountHarnessPage() {
                 >
                   <input type="hidden" name="state" value={option.value} />
                   <input type="hidden" name="returnTo" value={localizedHarnessHref} />
-                  <p className="text-sm font-semibold text-ink-950">{option.label}</p>
-                  <p className="mt-2 text-sm leading-6 text-ink-700">{option.description}</p>
+                  <p className="text-sm font-semibold text-ink-950">
+                    {t(`options.${option.messageKey}.label`)}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-ink-700">
+                    {t(`options.${option.messageKey}.description`)}
+                  </p>
                   <button
                     type="submit"
                     className="mt-4 inline-flex items-center rounded-full bg-ink-950 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition hover:opacity-90"
                     style={{ color: "var(--paper-strong)" }}
                   >
-                    Switch
+                    {t("actions.switch")}
                   </button>
                 </form>
               ))}
@@ -173,16 +211,17 @@ export default async function DevAccountHarnessPage() {
                 <input type="hidden" name="action" value="set-session" />
                 <input type="hidden" name="state" value="clear" />
                 <input type="hidden" name="returnTo" value={localizedHarnessHref} />
-                <p className="text-sm font-semibold text-ink-950">Reset to real auth</p>
+                <p className="text-sm font-semibold text-ink-950">
+                  {t("reset.label")}
+                </p>
                 <p className="mt-2 text-sm leading-6 text-ink-700">
-                  Clear the dev harness cookie and fall back to any real Supabase session already
-                  present in this browser.
+                  {t("reset.description")}
                 </p>
                 <button
                   type="submit"
                   className="mt-4 inline-flex items-center rounded-full border border-line bg-paper-strong px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-950 transition hover:border-ink-950/20"
                 >
-                  Clear override
+                  {t("reset.action")}
                 </button>
               </form>
             </div>
@@ -196,16 +235,17 @@ export default async function DevAccountHarnessPage() {
                 >
                   <input type="hidden" name="action" value="reset-achievements" />
                   <input type="hidden" name="returnTo" value={localizedHarnessHref} />
-                  <p className="text-sm font-semibold text-ink-950">Reset achievements</p>
+                  <p className="text-sm font-semibold text-ink-950">
+                    {t("achievements.reset.label")}
+                  </p>
                   <p className="mt-2 text-sm leading-6 text-ink-700">
-                    Clear all server-backed achievement counters, named completions, and reward
-                    state for the active fixture user.
+                    {t("achievements.reset.description")}
                   </p>
                   <button
                     type="submit"
                     className="mt-4 inline-flex items-center rounded-full border border-line bg-paper px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-950 transition hover:border-ink-950/20"
                   >
-                    Reset fixture achievements
+                    {t("achievements.reset.action")}
                   </button>
                 </form>
 
@@ -216,16 +256,17 @@ export default async function DevAccountHarnessPage() {
                 >
                   <input type="hidden" name="action" value="seed-achievements" />
                   <input type="hidden" name="returnTo" value={localizedHarnessHref} />
-                  <p className="text-sm font-semibold text-ink-950">Seed achievements and reward</p>
+                  <p className="text-sm font-semibold text-ink-950">
+                    {t("achievements.seed.label")}
+                  </p>
                   <p className="mt-2 text-sm leading-6 text-ink-700">
-                    Use direct fixture values for account-page QA. This stays dev-only and writes
-                    the same backing achievement records the product reads elsewhere.
+                    {t("achievements.seed.description")}
                   </p>
 
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <label className="space-y-2">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                        Concepts visited
+                        {t("achievements.fields.conceptsVisited")}
                       </span>
                       <input
                         type="number"
@@ -237,7 +278,7 @@ export default async function DevAccountHarnessPage() {
                     </label>
                     <label className="space-y-2">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                        Questions answered
+                        {t("achievements.fields.questionsAnswered")}
                       </span>
                       <input
                         type="number"
@@ -249,7 +290,7 @@ export default async function DevAccountHarnessPage() {
                     </label>
                     <label className="space-y-2">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                        Challenge completions
+                        {t("achievements.fields.challengeCompletions")}
                       </span>
                       <input
                         type="number"
@@ -261,7 +302,7 @@ export default async function DevAccountHarnessPage() {
                     </label>
                     <label className="space-y-2">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                        Track completions
+                        {t("achievements.fields.trackCompletions")}
                       </span>
                       <input
                         type="number"
@@ -273,7 +314,7 @@ export default async function DevAccountHarnessPage() {
                     </label>
                     <label className="space-y-2">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                        Active study hours
+                        {t("achievements.fields.activeStudyHours")}
                       </span>
                       <input
                         type="number"
@@ -286,16 +327,16 @@ export default async function DevAccountHarnessPage() {
                     </label>
                     <label className="space-y-2">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                        Reward state
+                        {t("achievements.fields.rewardState")}
                       </span>
                       <select
                         name="rewardState"
                         defaultValue="locked"
                         className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
                       >
-                        {["locked", "unlocked", "claimed", "expired"].map((option) => (
+                        {rewardStates.map((option) => (
                           <option key={option} value={option}>
-                            {option}
+                            {t(`achievements.rewardStates.${option}`)}
                           </option>
                         ))}
                       </select>
@@ -305,7 +346,7 @@ export default async function DevAccountHarnessPage() {
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <label className="space-y-2">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                        Challenge badges
+                        {t("achievements.fields.challengeBadges")}
                       </span>
                       <textarea
                         name="challengeCompletionKeys"
@@ -316,7 +357,7 @@ export default async function DevAccountHarnessPage() {
                     </label>
                     <label className="space-y-2">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
-                        Track badges
+                        {t("achievements.fields.trackBadges")}
                       </span>
                       <textarea
                         name="trackSlugs"
@@ -328,9 +369,7 @@ export default async function DevAccountHarnessPage() {
                   </div>
 
                   <p className="mt-4 text-xs leading-6 text-ink-500">
-                    Challenge badge entries use <strong>concept-slug:challenge-id</strong>. If the
-                    selected values would normally qualify the reward, choosing locked here still
-                    pins the fixture reward to the locked state.
+                    {t("achievements.seed.note")}
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-3">
@@ -339,7 +378,7 @@ export default async function DevAccountHarnessPage() {
                       className="inline-flex items-center rounded-full bg-ink-950 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition hover:opacity-90"
                       style={{ color: "var(--paper-strong)" }}
                     >
-                      Apply achievement seed
+                      {t("achievements.seed.action")}
                     </button>
                   </div>
                 </form>
@@ -349,25 +388,21 @@ export default async function DevAccountHarnessPage() {
 
           <aside className="grid gap-4">
             <section className="lab-panel p-5">
-              <p className="lab-label">QA checklist</p>
+              <p className="lab-label">{t("checklist.label")}</p>
               <div className="mt-4 grid gap-3">
-                {[
-                  "Use signed-out to confirm the free core product still works without an account.",
-                  "Use signed-in free to confirm core learning progress syncs while premium-required routes stay honest.",
-                  "Use signed-in premium to confirm the same core sync path plus saved/share surfaces run without browser request interception.",
-                ].map((item) => (
+                {["signedOut", "signedInFree", "signedInPremium"].map((key) => (
                   <div
-                    key={item}
+                    key={key}
                     className="rounded-[20px] border border-line bg-paper-strong px-4 py-3 text-sm leading-6 text-ink-700"
                   >
-                    {item}
+                    {t(`checklist.items.${key}`)}
                   </div>
                 ))}
               </div>
             </section>
 
             <section className="lab-panel p-5">
-              <p className="lab-label">Jump to surfaces</p>
+              <p className="lab-label">{t("surfaces.label")}</p>
               <div className="mt-4 flex flex-wrap gap-3">
                 {localizedQaLinks.map((link) => (
                   <Link
@@ -380,9 +415,7 @@ export default async function DevAccountHarnessPage() {
                 ))}
               </div>
               <p className="mt-4 text-sm leading-6 text-ink-700">
-                Harness sign-out is deterministic and overrides real auth. Use{" "}
-                <strong>Reset to real auth</strong> when you want to return to ordinary local
-                Supabase testing.
+                {t("surfaces.description", { resetAction: t("reset.label") })}
               </p>
             </section>
           </aside>

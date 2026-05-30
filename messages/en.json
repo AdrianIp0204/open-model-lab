@@ -4173,6 +4173,113 @@
     "freeLearner": "Free learner",
     "premiumLearner": "Supporter learner"
   },
+  "DevAccountHarnessPage": {
+    "feedbackContext": {
+      "pageTitle": "Dev account harness"
+    },
+    "hero": {
+      "eyebrow": "Developer-only",
+      "title": "Local account harness",
+      "description": "Use this route to switch the real app into signed-out, signed-in free, or signed-in premium fixture states without browser request stubs or manual SQL. The harness only runs when {flag} and stays disabled in production."
+    },
+    "states": {
+      "realAuth": "Real auth fallback",
+      "signedOut": "Signed-out fixture",
+      "signedInFree": "Signed-in free fixture",
+      "signedInPremium": "Signed-in premium fixture"
+    },
+    "tiers": {
+      "free": "free",
+      "premium": "Supporter"
+    },
+    "values": {
+      "signedOut": "Signed out",
+      "enabled": "Enabled",
+      "off": "Off"
+    },
+    "mode": {
+      "label": "Current mode",
+      "description": {
+        "signedIn": "This fixture signs the app in as {name} on the {tier} tier. Capability checks still flow through the canonical entitlement helpers.",
+        "signedOut": "This fixture forces the app into a signed-out state, even if a real local auth session exists.",
+        "realAuth": "No harness override is active. The app falls back to real auth if one exists."
+      }
+    },
+    "stats": {
+      "account": "effective account",
+      "tier": "entitlement tier",
+      "sync": "cross-device sync"
+    },
+    "options": {
+      "signedOut": {
+        "label": "Use signed-out fixture",
+        "description": "Exercise free browsing with no account session."
+      },
+      "signedInFree": {
+        "label": "Use signed-in free fixture",
+        "description": "Exercise signed-in account sync while keeping premium-only saved/share surfaces locked."
+      },
+      "signedInPremium": {
+        "label": "Use signed-in premium fixture",
+        "description": "Exercise the same core sync path plus premium saved/share tools through the real app."
+      }
+    },
+    "actions": {
+      "switch": "Switch"
+    },
+    "reset": {
+      "label": "Reset to real auth",
+      "description": "Clear the dev harness cookie and fall back to any real Supabase session already present in this browser.",
+      "action": "Clear override"
+    },
+    "achievements": {
+      "reset": {
+        "label": "Reset achievements",
+        "description": "Clear all server-backed achievement counters, named completions, and reward state for the active fixture user.",
+        "action": "Reset fixture achievements"
+      },
+      "seed": {
+        "label": "Seed achievements and reward",
+        "description": "Use direct fixture values for account-page QA. This stays dev-only and writes the same backing achievement records the product reads elsewhere.",
+        "note": "Challenge badge entries use the colon-separated example format above. If the selected values would normally qualify the reward, choosing locked here still pins the fixture reward to the locked state.",
+        "action": "Apply achievement seed"
+      },
+      "fields": {
+        "conceptsVisited": "Concepts visited",
+        "questionsAnswered": "Questions answered",
+        "challengeCompletions": "Challenge completions",
+        "trackCompletions": "Track completions",
+        "activeStudyHours": "Active study hours",
+        "rewardState": "Reward state",
+        "challengeBadges": "Challenge badges",
+        "trackBadges": "Track badges"
+      },
+      "rewardStates": {
+        "locked": "locked",
+        "unlocked": "unlocked",
+        "claimed": "claimed",
+        "expired": "expired"
+      }
+    },
+    "checklist": {
+      "label": "QA checklist",
+      "items": {
+        "signedOut": "Use signed-out to confirm the free core product still works without an account.",
+        "signedInFree": "Use signed-in free to confirm core learning progress syncs while premium-required routes stay honest.",
+        "signedInPremium": "Use signed-in premium to confirm the same core sync path plus saved/share surfaces run without browser request interception."
+      }
+    },
+    "surfaces": {
+      "label": "Jump to surfaces",
+      "description": "Harness sign-out is deterministic and overrides real auth. Use {resetAction} when you want to return to ordinary local Supabase testing."
+    },
+    "links": {
+      "account": "Account",
+      "pricing": "Pricing",
+      "projectileMotion": "Projectile motion",
+      "home": "Home"
+    }
+  },
   "MasteryStateBadge": {
     "new": "New",
     "practiced": "Practiced",

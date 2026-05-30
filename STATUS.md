@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-038 zh-HK Account Harness Copy
+
+Current state: `OML-QA-038` is complete. The dev account harness now uses the message catalog for its visible copy, keeps fixture account names and protected technical tokens out of destructive translation, and is included in the signed-in free/supporter zh-HK browser sweep coverage.
+
+### Files Changed
+
+- `app/dev/account-harness/page.tsx` and `app/[locale]/dev/account-harness/page.tsx`: localize the harness UI through scoped messages while preserving dev-only routing/noindex behavior.
+- `messages/en.json` and `messages/zh-HK.json`: add `DevAccountHarnessPage` copy for English and Traditional Chinese.
+- `scripts/browser-zhhk-site-sweep.mjs`: includes `/zh-HK/dev/account-harness` in signed-in free and supporter sweep passes.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint app/dev/account-harness/page.tsx app/[locale]/dev/account-harness/page.tsx scripts/browser-zhhk-site-sweep.mjs`: passed.
+- `node scripts/run-vitest.mjs run tests/app/private-route-metadata.test.ts`: passed, 3/3.
+- `pnpm i18n:validate -- --locale zh-HK`: passed with `valid: true`.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: passed with `issueCount: 0`, `englishLeakUnapprovedIssueCount: 0`, `semanticZhHkIssueCount: 0`, `signedInFreeRouteCount: 5`, and `signedInPremiumRouteCount: 9`.
+- `pnpm i18n:sweep:zh-HK:semantic -- --autostart`: passed with `issueCount: 0`, `englishLeakUnapprovedIssueCount: 0`, and `semanticZhHkIssueCount: 0`.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-30 OML-QA-037 Deployed Release Verification
 
 Current state: `OML-QA-037` is complete. OML now has a deploy verification flow that checks the live origin after deploy rather than trusting local gates or reachability alone. The flow exposes a public `/api/deployment` marker, verifies the expected commit, runs HTTP route health checks, opens representative live zh-HK routes in Playwright, audits semantic zh-HK quality, checks light/dark contrast, writes screenshots and JSON artifacts, and fails closed with explicit follow-up candidates when production is stale or not release-ready.
