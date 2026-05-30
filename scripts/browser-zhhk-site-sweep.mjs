@@ -11,6 +11,7 @@ const root = process.cwd();
 const shouldAutostartSweepServer =
   process.argv.includes("--autostart") ||
   /^(1|true|yes|on)$/i.test(process.env.OPEN_MODEL_LAB_SWEEP_AUTOSTART ?? "");
+const shouldRunSemanticOnly = process.argv.includes("--semantic-only");
 const managedBaseUrl = "http://127.0.0.1:3100";
 let publicBaseUrl = process.env.OPEN_MODEL_LAB_BASE_URL ?? "http://127.0.0.1:3000";
 let devBaseUrl = process.env.OPEN_MODEL_LAB_DEV_BASE_URL ?? "http://127.0.0.1:3100";
@@ -1267,11 +1268,21 @@ try {
   );
   await signedInPremiumContext.close();
 
-  const issues = [
+  const allIssues = [
     ...publicResult.issues,
     ...signedInFreeResult.issues,
     ...signedInPremiumResult.issues,
   ];
+  const issues = shouldRunSemanticOnly
+    ? allIssues.filter((issue) =>
+        [
+          "NO_DOCUMENT_RESPONSE",
+          "HTTP_ERROR",
+          "NAVIGATION_FAILED",
+          "ZHHK_SEMANTIC_QUALITY",
+        ].includes(issue.kind),
+      )
+    : allIssues;
   const englishFindings = [
     ...publicResult.englishFindings,
     ...signedInFreeResult.englishFindings,
@@ -1296,6 +1307,7 @@ try {
     outputPath,
     JSON.stringify(
       {
+        mode: shouldRunSemanticOnly ? "semantic-only" : "full",
         publicRouteCount: publicRoutes.length,
         signedInFreeRouteCount: signedInFreeRoutes.length,
         signedInPremiumRouteCount: signedInPremiumRoutes.length,
@@ -1318,6 +1330,7 @@ try {
   console.log(
     JSON.stringify(
       {
+        mode: shouldRunSemanticOnly ? "semantic-only" : "full",
         publicRouteCount: publicRoutes.length,
         signedInFreeRouteCount: signedInFreeRoutes.length,
         signedInPremiumRouteCount: signedInPremiumRoutes.length,

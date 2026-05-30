@@ -177,6 +177,23 @@ is not sufficient before a Workers Builds deploy command such as
 `wrangler versions upload`. For local operator deploys from a shell, `pnpm deploy`
 still runs the private config preparation through its `predeploy` step.
 
+### Deployed-site release verification
+
+Before treating a Cloudflare preview or production deploy as release-ready, follow
+[deployed-release-verification.md](./deployed-release-verification.md). The key
+post-deploy command is:
+
+```bash
+OPEN_MODEL_LAB_RELEASE_BASE_URL="https://openmodellab.com" \
+OPEN_MODEL_LAB_EXPECTED_COMMIT="$(git rev-parse HEAD)" \
+pnpm release:verify:deployed
+```
+
+For preview-first promotion, replace the base URL with the Cloudflare preview
+origin. This live check is required in addition to local dev checks because a
+reachable OpenNext/Cloudflare deploy can still serve stale code or broken
+localized UX.
+
 ### AI Learning Coach runtime variables
 
 `OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT` is private build/deploy material used to
