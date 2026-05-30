@@ -252,6 +252,63 @@ function validateNonEmptyStringVar(vars, key) {
   }
 }
 
+function readDeploymentMarkerOverrides(env = process.env) {
+  const overrides = {};
+  const rawCommit =
+    env.NEXT_PUBLIC_OPEN_MODEL_LAB_COMMIT_SHA?.trim() ||
+    env.OPEN_MODEL_LAB_COMMIT_SHA?.trim() ||
+    "";
+  const rawBuiltAt =
+    env.NEXT_PUBLIC_OPEN_MODEL_LAB_BUILT_AT?.trim() ||
+    env.OPEN_MODEL_LAB_BUILT_AT?.trim() ||
+    "";
+
+  if (rawCommit) {
+    const normalizedCommit = rawCommit.toLowerCase();
+    if (!/^[a-f0-9]{7,64}$/u.test(normalizedCommit)) {
+      throw new Error("Deployment marker commit must be a 7-64 character hexadecimal SHA.");
+    }
+
+    overrides.NEXT_PUBLIC_OPEN_MODEL_LAB_COMMIT_SHA = normalizedCommit;
+  }
+
+  if (rawBuiltAt) {
+    const parsed = Date.parse(rawBuiltAt);
+    if (Number.isNaN(parsed)) {
+      throw new Error("Deployment marker built-at value must be a valid timestamp.");
+    }
+
+    overrides.NEXT_PUBLIC_OPEN_MODEL_LAB_BUILT_AT = new Date(parsed).toISOString();
+  }
+
+  return overrides;
+}
+
+function applyDeploymentMarkerOverrides(content, env = process.env) {
+  const overrides = readDeploymentMarkerOverrides(env);
+
+  if (Object.keys(overrides).length === 0) {
+    return content;
+  }
+
+  const config = parseJsoncObject(content);
+
+  if (!hasOwn(config, "vars")) {
+    config.vars = {};
+  }
+
+  if (!config.vars || typeof config.vars !== "object" || Array.isArray(config.vars)) {
+    throw new Error("Wrangler config vars must be an object when set.");
+  }
+
+  config.vars = {
+    ...config.vars,
+    ...overrides,
+  };
+
+  return `${JSON.stringify(config, null, 2)}\n`;
+}
+
 function validateAiRuntimeVars(config) {
   const vars = requireVarsObject(config);
 
@@ -342,7 +399,8 @@ function main() {
     );
   }
 
-  validateWranglerConfigContent(resolved.content);
+  const content = applyDeploymentMarkerOverrides(resolved.content, process.env);
+  validateWranglerConfigContent(content);
 
   if (options.checkOnly) {
     console.log(`Wrangler config from ${resolved.source} passed validation.`);
@@ -350,7 +408,7 @@ function main() {
   }
 
   fs.mkdirSync(path.dirname(options.outputPath), { recursive: true });
-  fs.writeFileSync(options.outputPath, normalizeWranglerConfigContent(resolved.content), "utf8");
+  fs.writeFileSync(options.outputPath, normalizeWranglerConfigContent(content), "utf8");
   console.log(`Wrote private Wrangler config to ${path.relative(process.cwd(), options.outputPath) || options.outputPath}.`);
 }
 

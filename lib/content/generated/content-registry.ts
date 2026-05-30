@@ -420,7 +420,7 @@ export const conceptContentLastModified = {
   "rolling-motion": "2026-05-07T21:43:08.000Z",
   "rotational-inertia": "2026-05-07T20:19:06.000Z",
   "series-parallel-circuits": "2026-05-05T07:34:50.000Z",
-  "simple-harmonic-motion": "2026-05-27T03:33:27.000Z",
+  "simple-harmonic-motion": "2026-05-30T12:22:59.000Z",
   "solubility-and-saturation": "2026-05-08T00:52:53.000Z",
   "sorting-and-algorithmic-trade-offs": "2026-05-05T07:34:50.000Z",
   "sound-waves-longitudinal-motion": "2026-05-07T14:17:42.000Z",

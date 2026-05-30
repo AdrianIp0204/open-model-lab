@@ -38,6 +38,10 @@ function cleanEnv(overrides: EnvOverrides = {}) {
   delete baseEnv.OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT;
   delete baseEnv.OPEN_MODEL_LAB_WRANGLER_JSONC_SOURCE;
   delete baseEnv.OPEN_MODEL_LAB_WRANGLER_JSONC_OUTPUT;
+  delete baseEnv.NEXT_PUBLIC_OPEN_MODEL_LAB_COMMIT_SHA;
+  delete baseEnv.OPEN_MODEL_LAB_COMMIT_SHA;
+  delete baseEnv.NEXT_PUBLIC_OPEN_MODEL_LAB_BUILT_AT;
+  delete baseEnv.OPEN_MODEL_LAB_BUILT_AT;
 
   return {
     ...baseEnv,
@@ -97,6 +101,33 @@ describe("write-wrangler-config", () => {
     expect(result.stdout).toContain("Wrote private Wrangler config");
     expect(result.stdout).not.toContain("private-worker-name");
     expect(result.stdout).not.toContain(".open-next/worker.js");
+  });
+
+  it("injects non-secret deployment markers into Wrangler runtime vars", () => {
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "oml-wrangler-marker-"));
+    const outputPath = path.join(tempRoot, "wrangler.jsonc");
+
+    const result = runScript(["--output", outputPath], {
+      OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT: validWranglerJsonc,
+      NEXT_PUBLIC_OPEN_MODEL_LAB_COMMIT_SHA: "ABCDEF1234567",
+      NEXT_PUBLIC_OPEN_MODEL_LAB_BUILT_AT: "2026-05-30T12:22:59Z",
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).not.toContain("abcdef1234567");
+    const written = JSON.parse(fs.readFileSync(outputPath, "utf8"));
+    expect(written.vars.NEXT_PUBLIC_OPEN_MODEL_LAB_COMMIT_SHA).toBe("abcdef1234567");
+    expect(written.vars.NEXT_PUBLIC_OPEN_MODEL_LAB_BUILT_AT).toBe("2026-05-30T12:22:59.000Z");
+  });
+
+  it("rejects malformed deployment marker commit values", () => {
+    const result = runScript(["--check"], {
+      OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT: validWranglerJsonc,
+      NEXT_PUBLIC_OPEN_MODEL_LAB_COMMIT_SHA: "not-a-sha",
+    });
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("Deployment marker commit must be");
   });
 
   it("checks private Wrangler config from a source file without writing output", () => {
