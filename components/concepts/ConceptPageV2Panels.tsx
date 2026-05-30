@@ -23,13 +23,59 @@ function countWords(text: string) {
 }
 
 function hasDanglingCueEnding(text: string) {
-  return /\b(and|or|as|with|while|before|after|because|from|to|the|a|an)$/i.test(
+  return /(?:\b(and|or|as|with|while|before|after|because|from|to|the|a|an|into|onto|than|if|when|which|that|this|then|using|use|compare|watch|keep|set|switch|start|load|turn|try)\b|[、，,:;])$/i.test(
     text.trim(),
   );
 }
 
-function compactCurrentStepText(text: string, maxWords = 14) {
+function hasCjkText(text: string) {
+  return /[\u3400-\u9FFF]/u.test(text);
+}
+
+function countCjkCueUnits(text: string) {
+  return Array.from(text.replace(/\s+/g, "")).length;
+}
+
+function compactCjkCurrentStepText(text: string, maxUnits: number) {
+  if (countCjkCueUnits(text) <= maxUnits) {
+    return text;
+  }
+
+  const breakCharacters = new Set(["。", "；", ";", "，", ",", "、", "：", ":"]);
+  const characters = Array.from(text);
+  const candidates: string[] = [];
+  let units = 0;
+
+  for (let index = 0; index < characters.length; index += 1) {
+    const character = characters[index]!;
+
+    if (!/\s/u.test(character)) {
+      units += 1;
+    }
+
+    if (units > maxUnits) {
+      break;
+    }
+
+    if (breakCharacters.has(character)) {
+      const candidate = characters.slice(0, index).join("").trim();
+
+      if (countCjkCueUnits(candidate) >= 12 && !hasDanglingCueEnding(candidate)) {
+        candidates.push(candidate);
+      }
+    }
+  }
+
+  return candidates.at(-1) ?? text;
+}
+
+function compactCurrentStepText(text: string, maxWords = 14, maxCjkUnits = 44) {
   const normalized = text.replace(/\s+/g, " ").trim();
+
+  if (hasCjkText(normalized)) {
+    return compactCjkCurrentStepText(normalized, maxCjkUnits);
+  }
+
   const words = normalized.split(/\s+/).filter(Boolean);
 
   if (words.length <= maxWords) {
@@ -45,33 +91,53 @@ function compactCurrentStepText(text: string, maxWords = 14) {
     " before ",
     " after ",
     " as ",
+    " and once ",
     " because ",
+    " so ",
     " instead of ",
     " rather than ",
     ", then ",
     ", and ",
   ];
+  const candidates: string[] = [];
 
   for (const phraseBreak of phraseBreaks) {
-    const breakIndex = normalized.indexOf(phraseBreak);
+    let searchFrom = 0;
 
-    if (breakIndex <= 0) {
-      continue;
-    }
+    while (searchFrom < normalized.length) {
+      const breakIndex = normalized.indexOf(phraseBreak, searchFrom);
 
-    const candidate = normalized.slice(0, breakIndex).trim().replace(/[,:;.]$/, "");
-    const candidateWordCount = countWords(candidate);
+      if (breakIndex <= 0) {
+        break;
+      }
 
-    if (
-      candidateWordCount >= 4 &&
-      candidateWordCount <= maxWords &&
-      !hasDanglingCueEnding(candidate)
-    ) {
-      return candidate;
+      const candidate = normalized.slice(0, breakIndex).trim().replace(/[,:;.]$/, "");
+      const candidateWordCount = countWords(candidate);
+
+      if (
+        candidateWordCount >= 4 &&
+        candidateWordCount <= maxWords &&
+        !hasDanglingCueEnding(candidate)
+      ) {
+        candidates.push(candidate);
+      }
+
+      searchFrom = breakIndex + phraseBreak.length;
     }
   }
 
-  return words.slice(0, maxWords).join(" ");
+  if (candidates.length) {
+    return candidates
+      .sort((first, second) => countWords(second) - countWords(first))[0]!;
+  }
+
+  let compactWords = words.slice(0, maxWords);
+
+  while (compactWords.length > 4 && hasDanglingCueEnding(compactWords.join(" "))) {
+    compactWords = compactWords.slice(0, -1);
+  }
+
+  return compactWords.join(" ").replace(/[,:;.]$/, "");
 }
 
 export type ConceptPageV2EquationSnapshot = {
@@ -512,8 +578,8 @@ export function ConceptPageV2CurrentStepCue({
   const goalId = useId();
   const normalizedPosition = Math.max(1, activePosition);
   const normalizedCount = Math.max(1, stepCount);
-  const compactGoal = compactCurrentStepText(step.goal);
-  const compactAction = compactCurrentStepText(step.doThis, 11);
+  const compactGoal = compactCurrentStepText(step.goal, 16, 42);
+  const compactAction = compactCurrentStepText(step.doThis, 10, 48);
 
   return (
     <section
@@ -535,13 +601,13 @@ export function ConceptPageV2CurrentStepCue({
       <h2
         id={goalId}
         data-testid="concept-v2-current-step-cue-goal"
-        className="mt-1 line-clamp-3 break-words text-sm font-semibold leading-5 text-ink-950 sm:line-clamp-2"
+        className="mt-1 break-words text-sm font-semibold leading-5 text-ink-950"
       >
         <RichMathText as="span" content={compactGoal} />
       </h2>
       <p
         data-testid="concept-v2-current-step-cue-action"
-        className="mt-1.5 line-clamp-2 min-w-0 break-words text-xs font-medium leading-4 text-ink-800 sm:text-sm sm:leading-5"
+        className="mt-1.5 min-w-0 break-words text-xs font-medium leading-4 text-ink-800 sm:text-sm sm:leading-5"
       >
         <span className="font-semibold text-teal-800">{copy.actLabel}: </span>
         <RichMathText as="span" content={compactAction} className="text-ink-900" />

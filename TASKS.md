@@ -497,13 +497,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P1 - Concept Workbench UX Quality
 
-- [ ] **OML-QA-050: Stop current-step cue and action text clipping on desktop/wide and zh-HK phone.**
+- [x] **OML-QA-050: Stop current-step cue and action text clipping on desktop/wide and zh-HK phone.**
   - Evidence: refined audit found current-step cue clipping on `31` cases. Desktop/wide examples include `basic-circuits`, `doppler-effect`, `magnetic-fields`, `maxwells-equations-synthesis`, `optical-resolution-imaging-limits`, `rc-charging-and-discharging`, `refraction-snells-law`, and `static-equilibrium-centre-of-mass`. `simple-harmonic-motion` still clips the desktop current-step action in the audit. zh-HK phone examples include `de-broglie-matter-waves`, `electromagnetic-induction`, `keplers-third-law-orbital-periods`, `polarization`, `power-energy-circuits`, `series-parallel-circuits`, `refraction-snells-law`, and `total-internal-reflection`.
   - UX problem: the cue is supposed to be the single next action, so clipping it damages the highest-priority instruction even when the rest of the page renders.
   - Affected area: `ConceptPageV2CurrentStepCue`, compact text heuristics in `ConceptPageV2Panels.tsx`, content `v2.guidedSteps[*].goal/doThis`, and zh-HK overlays.
   - Fix direction: allow the cue to grow where the layout has room, strengthen compacting so it never cuts after a dangling phrase, and shorten overlong per-concept goals/actions through the content seam. Do not rely on ellipses for the primary action.
   - Validation: route audit should report no clipping for `concept-v2-current-step-cue-goal` or `concept-v2-current-step-cue-action` across phone/tablet/desktop/wide in English and zh-HK. Add regression examples for SHM, Basic Circuits, Maxwell, and one long zh-HK step.
 
+  - Completion note (2026-05-31 HKT): Removed line clamps from the current-step cue, strengthened English and zh-HK compacting so cue copy breaks at cleaner points, and added responsive regression coverage for unclipped goal/action text.
+  - Validation: git diff --check passed; targeted eslint passed; concept-page-v2-panels vitest passed 26/26; OML-QA-050 Playwright route audit passed across phone/tablet/desktop/wide for en and zh-HK; pnpm typecheck passed.
 - [ ] **OML-QA-051: Make graph tabs, equation chips, and formula snapshots wrap or scroll cleanly on phone.**
   - Evidence: refined audit repeatedly found visible clipping in graph labels and formulas, including `Graph: Visited nodes versus frontier size`, `Graph: Source speed and wavefront spacing`, `Graph: Terminal voltage and internal drop vs load resistance`, `secant slope=...`, `Rgroup=...`, `Bcoil=...`, `Ey(x,t)=...`, `sin(theta_c)=...`, and multiple long reference labels.
   - UX problem: math and graph names are supposed to orient the learner, but on phone they become cut-off chips or cramped one-line formulas.

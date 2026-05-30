@@ -1,5 +1,23 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-050 Current-Step Cue Clipping
+
+Current state: `OML-QA-050` is complete. The current-step cue goal and action text now wrap instead of relying on line clamps, and the compacting helper avoids dangling English phrase endings and uses CJK-aware breakpoints for zh-HK copy. The regression gate audits unclipped cue goal/action text across representative long-copy concepts in English and zh-HK at phone, tablet, desktop, and wide viewports.
+
+### Files Changed
+
+- `components/concepts/ConceptPageV2Panels.tsx`: removes cue line clamps and strengthens English/CJK compact current-step text heuristics.
+- `tests/e2e/concept-page-v2-flow.spec.ts`: adds the OML-QA-050 responsive locale route audit for current-step cue clipping.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/concepts/ConceptPageV2Panels.tsx tests/e2e/concept-page-v2-flow.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/concept-page-v2-panels.test.tsx`: passed, 26/26.
+- `PLAYWRIGHT_PORT=3174 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-050-orchestrator pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-050" --reporter=line`: passed, 1/1.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-31 OML-QA-049 Concept Touch Target Coverage
 
 Current state: `OML-QA-049` is complete. Tablet breadcrumb and language controls now meet the coarse-pointer 44px touch floor, and the remaining SVG scene handles in the affected concept simulations use larger invisible hit regions without changing their visible handle size. The concept quality matrix now audits anchors, header controls, SVG interactive handles, and the first 1.5 viewports for touch target regressions.

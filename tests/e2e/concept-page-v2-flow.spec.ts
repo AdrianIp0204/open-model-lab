@@ -145,6 +145,171 @@ test.describe("concept page v2 flow", () => {
     }
   });
 
+  test("OML-QA-050 keeps current-step cue goal and action text unclipped across responsive locales", async ({
+    browser,
+  }, testInfo) => {
+    testInfo.setTimeout(480_000);
+
+    const regressionSlugs = [
+      "simple-harmonic-motion",
+      "basic-circuits",
+      "maxwells-equations-synthesis",
+      "total-internal-reflection",
+    ] as const;
+    const auditedSlugs = [
+      ...regressionSlugs,
+      "doppler-effect",
+      "magnetic-fields",
+      "optical-resolution-imaging-limits",
+      "rc-charging-and-discharging",
+      "refraction-snells-law",
+      "static-equilibrium-centre-of-mass",
+      "de-broglie-matter-waves",
+      "electromagnetic-induction",
+      "keplers-third-law-orbital-periods",
+      "polarization",
+      "power-energy-circuits",
+      "series-parallel-circuits",
+    ] as const;
+    const localeCases = ["en", "zh-HK"] as const;
+    const viewportCases = [
+      {
+        name: "phone-390x844",
+        width: 390,
+        height: 844,
+        isMobile: true,
+        hasTouch: true,
+        deviceScaleFactor: 3,
+      },
+      {
+        name: "tablet-820x1180",
+        width: 820,
+        height: 1180,
+        isMobile: false,
+        hasTouch: false,
+        deviceScaleFactor: 1,
+      },
+      {
+        name: "desktop-1440x900",
+        width: 1440,
+        height: 900,
+        isMobile: false,
+        hasTouch: false,
+        deviceScaleFactor: 1,
+      },
+      {
+        name: "wide-1728x1050",
+        width: 1728,
+        height: 1050,
+        isMobile: false,
+        hasTouch: false,
+        deviceScaleFactor: 1,
+      },
+    ] as const;
+    const failures: Array<{
+      locale: string;
+      viewport: string;
+      slug: string;
+      label: string;
+      text: string;
+      width: number;
+      height: number;
+      clientWidth: number;
+      clientHeight: number;
+      scrollWidth: number;
+      scrollHeight: number;
+    }> = [];
+
+    for (const viewport of viewportCases) {
+      const context = await browser.newContext({
+        viewport: { width: viewport.width, height: viewport.height },
+        isMobile: viewport.isMobile,
+        hasTouch: viewport.hasTouch,
+        deviceScaleFactor: viewport.deviceScaleFactor,
+      });
+      const page = await newConceptFlowPage(context);
+      const browserGuard = await installBrowserGuards(page);
+
+      try {
+        for (const locale of localeCases) {
+          for (const slug of auditedSlugs) {
+            await test.step(`${locale} ${viewport.name} ${slug}`, async () => {
+              await gotoAndExpectOk(page, `/${locale}/concepts/${slug}`);
+              await expect(page.getByTestId("concept-v2-current-step-cue")).toBeVisible();
+              await expect(page.getByTestId("concept-v2-current-step-cue-goal")).not.toHaveText("");
+              await expect(page.getByTestId("concept-v2-current-step-cue-action")).not.toHaveText("");
+
+              const cueAudit = await page.evaluate(() => {
+                return [
+                  ["goal", "[data-testid='concept-v2-current-step-cue-goal']"],
+                  ["action", "[data-testid='concept-v2-current-step-cue-action']"],
+                ].map(([label, selector]) => {
+                  const element = document.querySelector<HTMLElement>(selector);
+
+                  if (!element) {
+                    return {
+                      label,
+                      missing: true,
+                      clipped: true,
+                      text: "",
+                      width: 0,
+                      height: 0,
+                      clientWidth: 0,
+                      clientHeight: 0,
+                      scrollWidth: 0,
+                      scrollHeight: 0,
+                    };
+                  }
+
+                  const rect = element.getBoundingClientRect();
+
+                  return {
+                    label,
+                    missing: false,
+                    clipped:
+                      element.scrollHeight > element.clientHeight + 2 ||
+                      element.scrollWidth > element.clientWidth + 2,
+                    text: element.innerText.replace(/\s+/g, " ").trim(),
+                    width: Math.round(rect.width),
+                    height: Math.round(rect.height),
+                    clientWidth: element.clientWidth,
+                    clientHeight: element.clientHeight,
+                    scrollWidth: element.scrollWidth,
+                    scrollHeight: element.scrollHeight,
+                  };
+                });
+              });
+
+              for (const entry of cueAudit) {
+                if (entry.missing || entry.clipped || entry.text.includes("...")) {
+                  failures.push({
+                    locale,
+                    viewport: viewport.name,
+                    slug,
+                    label: entry.label,
+                    text: entry.text,
+                    width: entry.width,
+                    height: entry.height,
+                    clientWidth: entry.clientWidth,
+                    clientHeight: entry.clientHeight,
+                    scrollWidth: entry.scrollWidth,
+                    scrollHeight: entry.scrollHeight,
+                  });
+                }
+              }
+            });
+          }
+        }
+
+        browserGuard.assertNoActionableIssues();
+      } finally {
+        await context.close();
+      }
+    }
+
+    expect(failures).toEqual([]);
+  });
+
   test("OML-QA-019 opens revealed bench tools from the current-step surface on phone", async ({
     browser,
   }, testInfo) => {
