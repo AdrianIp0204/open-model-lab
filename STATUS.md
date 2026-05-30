@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-035 Light/Dark Theme Contrast Sweep
+
+Current state: `OML-QA-035` is complete. OML now has a durable Playwright light/dark contrast sweep over representative public, concept, tool, and signed-in harness surfaces in `paper-lab` and `dark-lab`; the sweep is registered in the QA sweep runner and currently reports zero contrast/theme-leak issues across 38 route/theme/viewport cases. QA also surfaced a separate caret-color hydration warning now tracked as `OML-QA-042`.
+
+### Files Changed
+
+- `tests/e2e/theme-contrast-sweep.spec.ts`: adds the cross-theme Playwright audit for WCAG text contrast, SVG text contrast, icon/control contrast, paper-mode dark-surface leakage, dark-mode light-surface leakage, and first-viewport text overlap, with screenshots and JSON artifacts under `output/qa-oml-qa-035-theme-contrast-sweep/`.
+- `scripts/run-playwright-qa-sweep.mjs`: includes the new theme contrast sweep in the QA sweep spec set.
+- `app/globals.css`: strengthens paper-mode ink tokens, accessible teal CTA/action contrast, paper-mode live-preview/feature-card surfaces, selected filter pill contrast, and dark-mode foreground overrides.
+- `components/circuit-builder/CircuitWorkspace.tsx`: routes empty-state SVG text colors through theme tokens so the circuit builder remains readable in both themes.
+- Tracking: `TASKS.md`, `STATUS.md`, plus new follow-up `OML-QA-042` for caret-color hydration warnings.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check 0a06217^..0a06217`: passed for worker patch `0a06217`.
+- `pnpm exec eslint tests/e2e/theme-contrast-sweep.spec.ts scripts/run-playwright-qa-sweep.mjs components/circuit-builder/CircuitWorkspace.tsx`: passed.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3141 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-035-orchestrator pnpm exec playwright test tests/e2e/theme-contrast-sweep.spec.ts --reporter=line`: passed, 1/1, with artifact summary `caseCount: 38`, `issueCount: 0`, and 38 screenshots.
+- `pnpm test:e2e:qa-sweep -- tests/e2e/theme-contrast-sweep.spec.ts --chunk-size=1 --port=3142`: passed with `ok: true`, `hasInstability: false`, and `hasTestFailures: false`.
+
 ## 2026-05-30 OML-QA-034 Semantic zh-HK Browser QA Gate
 
 Current state: `OML-QA-034` is complete. The zh-HK browser sweep now includes a semantic quality layer that checks visible text, accessibility labels, document titles, placeholders, protected tokens, generic filler repeats, mixed English function words, Simplified characters, mojibake, message-key leaks, and identical label clusters, with grouped source-category details in a separate semantic artifact.
