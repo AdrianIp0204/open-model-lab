@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-047 Phone/Tablet Concept Bench Reachability
+
+Current state: `OML-QA-047` is complete. Tall phone/tablet concept scenes and dense mobile readouts have been compacted so the current-step cue starts inside the first viewport and the first controls start within 1.5 viewports across the all-concept matrix. Maxwell now uses a compact touch-layout synthesis stage instead of stacking five full law cards before the cue.
+
+### Files Changed
+
+- `components/simulations/SimulationShell.tsx`: moves graph panels after controls on touch/tablet layouts so controls are reachable earlier.
+- `components/simulations/SimulationMobileReadoutDetails.tsx`: carries keyed localized titles/setup labels into collapsed mobile readout summaries.
+- `components/simulations/MaxwellEquationsSynthesisSimulation.tsx`: adds a compact phone/tablet synthesis layout and collapsed live readout.
+- `components/simulations/AirColumnResonanceSimulation.tsx`, `BeatsSimulation.tsx`, `DopplerEffectSimulation.tsx`, `LensImagingSimulation.tsx`, `OpticalResolutionSimulation.tsx`, `SoundWavesLongitudinalSimulation.tsx`, and `WaveSpeedWavelengthSimulation.tsx`: move dense phone readouts behind compact details.
+- `scripts/concept-quality-matrix-core.mjs` and `tests/e2e/concept-quality-matrix.spec.ts`: add the tablet audit viewport plus durable cue/control reachability issue codes.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- `pnpm exec eslint` on touched simulation, matrix, and test files: passed.
+- `pnpm test tests/components/simulation-shell.test.tsx`: passed, 7/7.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3170 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-047-orchestrator OML_QA_046_CONCURRENCY=4 pnpm concepts:qa-matrix`: passed with `97/97` concepts audited and zero `cue_after_first_viewport` or `controls_after_one_point_five_viewports` findings.
+- Orchestrator screenshot/metric check passed for Maxwell, Beats, Doppler, Sound Waves, Photoelectric, and Radioactivity at the affected phone/tablet sizes; artifacts are under `output/qa-oml-qa-047-orchestrator/`.
+
 ## 2026-05-31 OML-QA-046 Concept Quality Matrix Gate
 
 Current state: `OML-QA-046` is complete. The repo now has a durable `pnpm concepts:qa-matrix` browser audit that covers all published concept slugs, classifies each concept into the task-drain review statuses, writes stable JSON/Markdown artifacts under `output/concept-quality-matrix/`, and includes a seeded self-test so the gate proves it can fail on a regression.
