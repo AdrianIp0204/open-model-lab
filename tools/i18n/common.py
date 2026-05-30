@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
@@ -1076,6 +1077,65 @@ def apply_translations(value: Any, translations: dict[tuple[str, ...], str], pat
     return value
 
 
+_JS_CONCEPT_OVERLAY_SOURCES: dict[str, Any] | None = None
+
+
+def _load_js_concept_overlay_sources() -> dict[str, Any]:
+    """Use the same canonical concept overlay source as the runtime JS registry."""
+
+    global _JS_CONCEPT_OVERLAY_SOURCES
+
+    if _JS_CONCEPT_OVERLAY_SOURCES is not None:
+        return _JS_CONCEPT_OVERLAY_SOURCES
+
+    script = r"""
+import fs from "node:fs";
+import path from "node:path";
+import { buildConceptEditorialOverlaySource } from "./lib/content/editorial-overlays.mjs";
+
+const repoRoot = process.cwd();
+const contentRoot = path.join(repoRoot, "content");
+const catalog = JSON.parse(fs.readFileSync(path.join(contentRoot, "catalog", "concepts.json"), "utf8"));
+const overlays = {};
+
+for (const metadata of catalog) {
+  const canonicalConcept = JSON.parse(
+    fs.readFileSync(path.join(contentRoot, "concepts", `${metadata.contentFile}.json`), "utf8"),
+  );
+  overlays[metadata.slug] = buildConceptEditorialOverlaySource(metadata, canonicalConcept);
+}
+
+process.stdout.write(JSON.stringify(overlays));
+"""
+
+    try:
+        result = subprocess.run(
+            ["node", "--input-type=module", "-e", script],
+            cwd=REPO_ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        parsed = json.loads(result.stdout)
+        _JS_CONCEPT_OVERLAY_SOURCES = parsed if isinstance(parsed, dict) else {}
+    except Exception:
+        _JS_CONCEPT_OVERLAY_SOURCES = {}
+
+    return _JS_CONCEPT_OVERLAY_SOURCES
+
+
+def get_concept_overlay_source(
+    slug: str,
+    metadata: dict[str, Any],
+    concept_content: dict[str, Any],
+) -> dict[str, Any]:
+    js_overlay = _load_js_concept_overlay_sources().get(slug)
+    if isinstance(js_overlay, dict):
+        return js_overlay
+
+    return build_concept_overlay_source(metadata, concept_content)
+
+
 def resolve_translation_tasks(
     source: Path,
     locale: str,
@@ -1096,7 +1156,8 @@ def resolve_translation_tasks(
         selected_slugs = concept_slugs or sorted(concept_entry_map.keys())
         for slug in selected_slugs:
             metadata = concept_entry_map[slug]
-            canonical_overlay = build_concept_overlay_source(metadata, load_concept_content(slug, concept_entry_map))
+            concept_content = load_concept_content(slug, concept_entry_map)
+            canonical_overlay = get_concept_overlay_source(slug, metadata, concept_content)
             tasks.append(
                 TranslationTask(
                     kind="concept",
@@ -1140,7 +1201,8 @@ def resolve_translation_tasks(
     if source.parent.resolve() == CONCEPTS_ROOT.resolve():
         slug = source.stem
         metadata = concept_entry_map[slug]
-        canonical_overlay = build_concept_overlay_source(metadata, read_json(source))
+        concept_content = read_json(source)
+        canonical_overlay = get_concept_overlay_source(slug, metadata, concept_content)
         return [
             TranslationTask(
                 kind="concept",

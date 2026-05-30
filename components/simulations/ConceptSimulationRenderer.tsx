@@ -15,6 +15,7 @@ import type { SavedCompareSetupRecord } from "@/lib/account/compare-setups";
 import { ChallengeModePanel } from "@/components/concepts/ChallengeModePanel";
 import { BlockFormula, RichMathText } from "@/components/concepts/MathFormula";
 import { getCompareSetupLabel } from "@/lib/i18n/copy-text";
+import { localizeExactZhHkRuntimeCopy } from "@/lib/i18n/zh-hk-exact-runtime-copy";
 import { resolveNoticePrompts } from "@/lib/learning/noticePrompts";
 import type { LiveWorkedExampleState } from "@/lib/learning/liveWorkedExamples";
 import {
@@ -7198,7 +7199,7 @@ export function ConceptSimulationRenderer({
   const effectiveGraphPreview = isInspecting ? null : graphPreview;
   const stateDescription =
     resolveLocalizedStateDescription(concept, controlValues, currentTime, conceptRuntimeT) ??
-    runtime.describeState(controlValues, currentTime, locale);
+    localizeExactZhHkRuntimeCopy(locale, runtime.describeState(controlValues, currentTime, locale));
   const simulationDescription =
     concept.accessibility?.simulationDescription ??
     concept.simulation.accessibility.simulationDescription;
@@ -7337,11 +7338,14 @@ export function ConceptSimulationRenderer({
   const guidedPrimaryOverlayId = guidedReveal?.overlayIds?.[0] ?? null;
 
   const previewDescription = effectiveGraphPreview
-    ? describeLocalizedGraphPreview(
-        concept,
-        effectiveGraphPreview,
-        compareState,
-        conceptRuntimeT,
+    ? localizeExactZhHkRuntimeCopy(
+        locale,
+        describeLocalizedGraphPreview(
+          concept,
+          effectiveGraphPreview,
+          compareState,
+          conceptRuntimeT,
+        ),
       )
     : null;
   const activeGraphKind = activeGraph

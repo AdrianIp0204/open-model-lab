@@ -889,7 +889,7 @@ function resolveWrapUp(
       title:
         item.title ??
         readNext.find((entry) => entry.slug === item.slug)?.title ??
-        item.slug,
+        (locale === "zh-HK" ? "延伸概念" : item.slug),
       reasonLabel: item.reasonLabel ?? null,
     })) ?? [];
   const nextConcepts =

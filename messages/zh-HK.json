@@ -3313,11 +3313,11 @@
       "premium": "支持者方案"
     },
     "billingIssues": {
-      "missingSecretKey": "缺少 Stripe secret key",
-      "missingWebhookSecret": "缺少 Stripe webhook secret",
+      "missingSecretKey": "缺少 Stripe 密鑰",
+      "missingWebhookSecret": "缺少 Stripe webhook 密鑰",
       "missingPriceId": "缺少 Stripe price id",
-      "invalidCheckoutSuccessUrl": "Stripe checkout 成功返回 URL 無效",
-      "invalidCheckoutCancelUrl": "Stripe checkout 取消返回 URL 無效",
+      "invalidCheckoutSuccessUrl": "Stripe 結帳成功返回 URL 無效",
+      "invalidCheckoutCancelUrl": "Stripe 結帳取消返回 URL 無效",
       "invalidPortalReturnUrl": "Stripe 帳單管理入口的返回 URL 無效"
     },
     "status": {
@@ -3370,7 +3370,7 @@
       "billingUnavailable": "這個 {tier} 帳戶目前無法取得收費狀態。請先刷新帳戶工作階段，再嘗試開始結帳或打開帳單管理入口。",
       "billingNotConfiguredGeneric": "這個部署尚未設定收費功能。",
       "billingPortalNotConfigured": "這個部署的 Stripe 帳單管理入口尚未設定完成，原因是 {reasons}。",
-      "billingCheckoutNotConfigured": "這個部署的 Stripe checkout 尚未設定完成，原因是 {reasons}。",
+      "billingCheckoutNotConfigured": "這個部署的 Stripe 結帳尚未設定完成，原因是 {reasons}。",
       "billingNotConfiguredTier": "在收費功能設定完成前，這個 {tier} 帳戶會維持目前已有的存取層級。",
       "paymentIssueNotActive": "由於上一次 Stripe 訂閱狀態仍顯示付款問題，這個帳戶目前不是支持者方案。請打開收費頁面檢查訂閱與付款方式。",
       "endedNotActive": "由於上一個 Stripe 訂閱已結束，這個帳戶目前不是支持者方案。請重新開始結帳以恢復支持者方案存取。",

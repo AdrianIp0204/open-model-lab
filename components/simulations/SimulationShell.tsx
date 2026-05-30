@@ -1,8 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useSyncExternalStore } from "react";
-import { useTranslations } from "next-intl";
+import { useRef, useSyncExternalStore } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useExactZhHkRuntimeDomLocalization } from "@/lib/i18n/zh-hk-exact-runtime-copy";
 
 type SimulationShellProps = {
   accessibilityDescription: string;
@@ -94,6 +95,9 @@ export function SimulationShell({
   className,
 }: SimulationShellProps) {
   const t = useTranslations("SimulationShell");
+  const locale = useLocale();
+  const sceneRef = useRef<HTMLDivElement | null>(null);
+  useExactZhHkRuntimeDomLocalization(locale, sceneRef);
   const guideStack = [notice].filter(Boolean);
   const hasLowerDock = Boolean(equations || supportDock);
   const isSmViewportOrWider = useIsSmViewportOrWider();
@@ -145,6 +149,7 @@ export function SimulationShell({
   const sceneSlot = (
     <div
       key="scene"
+      ref={sceneRef}
       data-testid="simulation-shell-scene"
       data-focus-surface="scene"
       data-has-bench-equations={showBenchEquationsInScene ? "true" : undefined}

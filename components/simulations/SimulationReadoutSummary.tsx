@@ -2,6 +2,7 @@
 
 import { useLocale } from "next-intl";
 import { getSimulationCopy, type SimulationCopyKey } from "@/lib/i18n/copy-text";
+import { localizeExactZhHkRuntimeCopy } from "@/lib/i18n/zh-hk-exact-runtime-copy";
 import type { SimulationReadoutRow } from "./SimulationReadoutCard";
 
 type SimulationReadoutSummaryProps = {
@@ -25,8 +26,14 @@ export function SimulationReadoutSummary({
 }: SimulationReadoutSummaryProps) {
   const locale = useLocale();
   const resolvedNoteLines = noteLines?.filter(Boolean) ?? [];
-  const localizedSetupLabel = setupLabelKey ? getSimulationCopy(locale, setupLabelKey) : setupLabel ?? null;
-  const localizedTitle = titleKey ? getSimulationCopy(locale, titleKey) : title;
+  const localizedSetupLabel = setupLabelKey
+    ? getSimulationCopy(locale, setupLabelKey)
+    : setupLabel
+      ? localizeExactZhHkRuntimeCopy(locale, setupLabel)
+      : null;
+  const localizedTitle = titleKey
+    ? getSimulationCopy(locale, titleKey)
+    : localizeExactZhHkRuntimeCopy(locale, title);
 
   return (
     <section
@@ -51,10 +58,12 @@ export function SimulationReadoutSummary({
             className="rounded-2xl border border-line bg-paper-strong px-3 py-2.5"
           >
             <dt className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
-              {row.labelKey ? getSimulationCopy(locale, row.labelKey) : row.label}
+              {row.labelKey
+                ? getSimulationCopy(locale, row.labelKey)
+                : localizeExactZhHkRuntimeCopy(locale, row.label)}
             </dt>
             <dd className={["mt-1 text-sm font-semibold text-ink-950", row.valueClassName ?? ""].join(" ")}>
-              {row.value}
+              {localizeExactZhHkRuntimeCopy(locale, row.value)}
             </dd>
           </div>
         ))}
@@ -64,7 +73,7 @@ export function SimulationReadoutSummary({
         <div className="mt-3 border-t border-line pt-3">
           <ul className="space-y-2 text-sm leading-6 text-ink-600">
             {resolvedNoteLines.map((line) => (
-              <li key={line}>{line}</li>
+              <li key={line}>{localizeExactZhHkRuntimeCopy(locale, line)}</li>
             ))}
           </ul>
         </div>

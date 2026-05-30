@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { GraphTabSpec } from "@/lib/physics";
 import { RichMathText } from "@/components/concepts/MathFormula";
+import { localizeExactZhHkRuntimeCopy } from "@/lib/i18n/zh-hk-exact-runtime-copy";
 
 type GraphTabsProps = {
   tabs: GraphTabSpec[];
@@ -50,11 +51,13 @@ function renderGraphTab({
   activeId,
   highlightedTabSet,
   onChange,
+  locale,
 }: {
   tab: GraphTabSpec;
   activeId: string;
   highlightedTabSet: Set<string>;
   onChange: (tabId: string) => void;
+  locale: string;
 }) {
   const selected = tab.id === activeId;
   const highlighted = highlightedTabSet.has(tab.id);
@@ -79,11 +82,11 @@ function renderGraphTab({
       onClick={() => onChange(tab.id)}
     >
       <span className="block text-[0.82rem] font-semibold leading-5">
-        <RichMathText as="span" content={tab.label} />
+        <RichMathText as="span" content={localizeExactZhHkRuntimeCopy(locale, tab.label)} />
       </span>
       <span className="block text-xs leading-5 opacity-80">
-        <RichMathText as="span" content={tab.xLabel} /> vs{" "}
-        <RichMathText as="span" content={tab.yLabel} />
+        <RichMathText as="span" content={localizeExactZhHkRuntimeCopy(locale, tab.xLabel)} /> vs{" "}
+        <RichMathText as="span" content={localizeExactZhHkRuntimeCopy(locale, tab.yLabel)} />
       </span>
     </button>
   );
@@ -98,6 +101,7 @@ export function GraphTabs({
   onChange,
 }: GraphTabsProps) {
   const t = useTranslations("GraphTabs");
+  const locale = useLocale();
   const highlightedTabSet = new Set(highlightedTabIds ?? []);
   const autoRevealTabSet = new Set(autoRevealTabIds ?? []);
   const { primary, secondary } = useMemo(
@@ -124,6 +128,7 @@ export function GraphTabs({
             activeId,
             highlightedTabSet,
             onChange,
+            locale,
           }),
         )}
       </div>
@@ -154,6 +159,7 @@ export function GraphTabs({
                   activeId,
                   highlightedTabSet,
                   onChange,
+                  locale,
                 }),
               )}
             </div>

@@ -10,6 +10,7 @@ import {
   type ResolvedWorkedExample,
 } from "@/lib/learning/liveWorkedExamples";
 import { resolveSupplementalLiveWorkedExample } from "@/lib/learning/supplementalWorkedExamples";
+import { localizeExactZhHkRuntimeCopy } from "@/lib/i18n/zh-hk-exact-runtime-copy";
 import { formatDisplayUnit } from "@/lib/physics";
 import { recordWorkedExampleEngaged } from "@/lib/progress";
 import { InlineFormula, RichMathText } from "./MathFormula";
@@ -222,7 +223,7 @@ function WorkedExampleSectionBody({
 
       <RichMathText
         as="h3"
-        content={resolved.prompt}
+        content={localizeExactZhHkRuntimeCopy(locale, resolved.prompt)}
         className="mt-4 text-xl font-semibold text-ink-950"
       />
 
@@ -232,6 +233,12 @@ function WorkedExampleSectionBody({
             ? concept.variableLinks.find((item) => item.id === variable.variableId)
             : null;
           const tone = linkedVariable ? getVariableTone(linkedVariable.tone) : null;
+          const displayValue = resolved.variableValues[variable.id] ?? t("notAvailable");
+          const displayUnit = variable.unit ? formatDisplayUnit(variable.unit) : "";
+          const localizedDisplayValue = localizeExactZhHkRuntimeCopy(locale, displayValue);
+          const localizedDisplayUnit = displayUnit
+            ? localizeExactZhHkRuntimeCopy(locale, displayUnit)
+            : "";
 
           return (
             <div
@@ -246,12 +253,12 @@ function WorkedExampleSectionBody({
                   <InlineFormula expression={variable.symbol} />
                 </span>
                 <span className="text-sm font-semibold text-ink-950">
-                  {linkedVariable?.label ?? variable.label}
+                  {localizeExactZhHkRuntimeCopy(locale, linkedVariable?.label ?? variable.label)}
                 </span>
               </div>
               <p className="mt-3 font-mono text-sm text-ink-800">
-                {resolved.variableValues[variable.id] ?? t("notAvailable")}
-                {variable.unit ? ` ${formatDisplayUnit(variable.unit)}` : ""}
+                {localizedDisplayValue}
+                {localizedDisplayUnit ? ` ${localizedDisplayUnit}` : ""}
               </p>
             </div>
           );
@@ -265,11 +272,11 @@ function WorkedExampleSectionBody({
             className="rounded-[22px] border border-line bg-paper-strong px-4 py-4"
           >
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-ink-500">
-              {step.label}
+              {localizeExactZhHkRuntimeCopy(locale, step.label)}
             </p>
             <RichMathText
               as="div"
-              content={step.content}
+              content={localizeExactZhHkRuntimeCopy(locale, step.content)}
               className="mt-2 text-sm leading-6 text-ink-800"
             />
           </div>
@@ -277,16 +284,18 @@ function WorkedExampleSectionBody({
       </div>
 
       <div className="mt-4 rounded-[24px] border border-amber-500/30 bg-amber-500/10 px-4 py-4">
-        <p className="text-sm font-semibold text-ink-950">{resolved.resultLabel}</p>
+        <p className="text-sm font-semibold text-ink-950">
+          {localizeExactZhHkRuntimeCopy(locale, resolved.resultLabel)}
+        </p>
         <RichMathText
           as="div"
-          content={resolved.resultContent}
+          content={localizeExactZhHkRuntimeCopy(locale, resolved.resultContent)}
           className="mt-2 text-base font-semibold text-ink-950"
         />
         {resolved.interpretation ? (
           <RichMathText
             as="div"
-            content={resolved.interpretation}
+            content={localizeExactZhHkRuntimeCopy(locale, resolved.interpretation)}
             className="mt-3 text-sm leading-6 text-ink-700"
           />
         ) : null}
@@ -300,7 +309,10 @@ function WorkedExampleSectionBody({
               onClick={() => onApplyExampleState(activeExample)}
               className="inline-flex items-center justify-center rounded-full border border-teal-500/25 bg-teal-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-teal-600"
             >
-              {activeExample.applyAction.label ?? t("actions.applyExampleState")}
+              {localizeExactZhHkRuntimeCopy(
+                locale,
+                activeExample.applyAction.label ?? t("actions.applyExampleState"),
+              )}
             </button>
           ) : null}
           {isFrozen ? (
@@ -328,7 +340,10 @@ function WorkedExampleSectionBody({
           <p className="text-sm font-semibold text-ink-950">{t("observeNow")}</p>
           <RichMathText
             as="div"
-            content={activeExample.applyAction.observationHint}
+            content={localizeExactZhHkRuntimeCopy(
+              locale,
+              activeExample.applyAction.observationHint,
+            )}
             className="mt-2 text-sm leading-6 text-ink-700"
           />
         </div>
@@ -353,6 +368,7 @@ export function LiveWorkedExampleSection({
   sectionTitle,
 }: LiveWorkedExampleSectionProps) {
   const t = useTranslations("LiveWorkedExampleSection");
+  const locale = useLocale();
   const { applyWorkedExampleAction, clearWorkedExampleAction } = useConceptLearningBridge();
   const liveSnapshot = useLiveWorkedExampleSnapshot();
   const liveAccess = mode === "live";
@@ -465,7 +481,7 @@ export function LiveWorkedExampleSection({
         {concept.sections.workedExamples.intro ? (
           <RichMathText
             as="div"
-            content={concept.sections.workedExamples.intro}
+            content={localizeExactZhHkRuntimeCopy(locale, concept.sections.workedExamples.intro)}
             className="max-w-3xl text-sm leading-6 text-ink-700"
           />
         ) : null}
@@ -515,7 +531,7 @@ export function LiveWorkedExampleSection({
                   : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35",
               )}
             >
-              {item.title}
+              {localizeExactZhHkRuntimeCopy(locale, item.title)}
             </button>
           ))}
         </div>

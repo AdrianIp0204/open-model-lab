@@ -6,6 +6,7 @@ import {
   localizeSimulationCopyText,
   type SimulationCopyKey,
 } from "@/lib/i18n/copy-text";
+import { localizeExactZhHkRuntimeCopy } from "@/lib/i18n/zh-hk-exact-runtime-copy";
 
 export type SimulationReadoutRow = {
   label: string;
@@ -51,9 +52,11 @@ export function SimulationReadoutCard({
   const localizedSetupLabel = setupLabelKey
     ? getSimulationCopy(locale, setupLabelKey)
     : setupLabel
-      ? localizeSimulationCopyText(locale, setupLabel)
+      ? localizeExactZhHkRuntimeCopy(locale, localizeSimulationCopyText(locale, setupLabel))
       : null;
-  const localizedTitle = titleKey ? getSimulationCopy(locale, titleKey) : localizeSimulationCopyText(locale, title);
+  const localizedTitle = titleKey
+    ? getSimulationCopy(locale, titleKey)
+    : localizeExactZhHkRuntimeCopy(locale, localizeSimulationCopyText(locale, title));
   const setupPillWidth = localizedSetupLabel ? Math.max(48, localizedSetupLabel.length * 5.5 + 14) : 0;
 
   return (
@@ -108,7 +111,8 @@ export function SimulationReadoutCard({
         const rowY = headerHeight + 6 + index * rowHeight;
         const label = row.labelKey
           ? getSimulationCopy(locale, row.labelKey)
-          : localizeSimulationCopyText(locale, row.label);
+          : localizeExactZhHkRuntimeCopy(locale, localizeSimulationCopyText(locale, row.label));
+        const value = localizeExactZhHkRuntimeCopy(locale, row.value);
         return (
           <g key={`${row.label}-${index}`}>
             <text
@@ -124,7 +128,7 @@ export function SimulationReadoutCard({
               textAnchor="end"
               className={row.valueClassName ?? (compact ? "fill-ink-950 text-[8px] font-semibold" : "fill-ink-950 text-[10px] font-semibold")}
             >
-              {row.value}
+              {value}
             </text>
           </g>
         );
@@ -147,7 +151,7 @@ export function SimulationReadoutCard({
               y={noteStartY + index * noteLineHeight}
               className={compact ? "fill-ink-500 text-[9px]" : "fill-ink-500 text-[9px]"}
             >
-              {noteLine}
+              {localizeExactZhHkRuntimeCopy(locale, noteLine)}
             </text>
           ))}
         </>

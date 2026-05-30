@@ -1,5 +1,9 @@
+"use client";
+
+import { useLocale } from "next-intl";
 import type { ElementType, ReactNode } from "react";
 import katex from "katex";
+import { localizeExactZhHkRuntimeCopy } from "@/lib/i18n/zh-hk-exact-runtime-copy";
 
 type MathFormulaProps = {
   expression: string;
@@ -237,10 +241,14 @@ function parseMathSegments(content: string): MathSegment[] {
   return segments.length > 0 ? segments : [{ type: "text", value: content }];
 }
 
-function buildMathNodes(content: string) {
+function buildMathNodes(content: string, locale?: string) {
   return parseMathSegments(content).map<ReactNode>((segment, index) => {
     if (segment.type === "text") {
-      return <span key={`text-${index}`}>{segment.value}</span>;
+      return (
+        <span key={`text-${index}`}>
+          {localizeExactZhHkRuntimeCopy(locale, segment.value)}
+        </span>
+      );
     }
 
     if (segment.displayMode) {
@@ -287,6 +295,8 @@ export function RichMathText<T extends ElementType = "span">({
   ariaLabel,
 }: RichMathTextProps<T>) {
   const Component = (as ?? "span") as ElementType;
+  const locale = useLocale();
+  const localizedContent = localizeExactZhHkRuntimeCopy(locale, content);
 
   return (
     <Component
@@ -294,7 +304,7 @@ export function RichMathText<T extends ElementType = "span">({
       className={joinClasses("min-w-0", className)}
       aria-label={ariaLabel}
     >
-      {buildMathNodes(content)}
+      {buildMathNodes(localizedContent, locale)}
     </Component>
   );
 }

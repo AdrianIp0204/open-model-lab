@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useId, useRef, useState, type PointerEvent } from "react";
 import {
   extendGraphBounds,
@@ -11,6 +11,7 @@ import {
 } from "@/lib/physics";
 import type { GraphPreviewSample, GraphSeries, GraphSeriesSetupId } from "@/lib/physics";
 import { RichMathText } from "@/components/concepts/MathFormula";
+import { localizeExactZhHkRuntimeCopy } from "@/lib/i18n/zh-hk-exact-runtime-copy";
 
 type LineGraphPreviewSeries = {
   seriesId: string;
@@ -363,6 +364,7 @@ export function LineGraph({
   onPreviewChange,
 }: LineGraphProps) {
   const t = useTranslations("LineGraph");
+  const locale = useLocale();
   const baseId = useId();
   const svgRef = useRef<SVGSVGElement | null>(null);
   const pointerIdRef = useRef<number | null>(null);
@@ -384,8 +386,13 @@ export function LineGraph({
     linkedMarker?.samples.find((item) => item.seriesId === linkedMarker.activeSeriesId) ??
     linkedMarker?.samples[0] ??
     null;
-  const displayXLabel = formatDisplayText(xLabel);
-  const displayYLabel = formatDisplayText(yLabel);
+  const localizedTitle = localizeExactZhHkRuntimeCopy(locale, title);
+  const localizedSummary = localizeExactZhHkRuntimeCopy(locale, summary);
+  const localizedDescription = description
+    ? localizeExactZhHkRuntimeCopy(locale, description)
+    : undefined;
+  const displayXLabel = localizeExactZhHkRuntimeCopy(locale, formatDisplayText(xLabel));
+  const displayYLabel = localizeExactZhHkRuntimeCopy(locale, formatDisplayText(yLabel));
   const interactionHint = previewEnabled
     ? t("hints.hoverOrScrub")
     : t("hints.pausedMarkers");
@@ -445,11 +452,11 @@ export function LineGraph({
       >
         <div className="max-w-2xl">
           <p className="lab-label">
-            <RichMathText as="span" content={title} />
+            <RichMathText as="span" content={localizedTitle} />
           </p>
           <RichMathText
             as="p"
-            content={description ?? summary}
+            content={localizedDescription ?? localizedSummary}
             className={
               mobileVisualPriority
                 ? "line-graph-summary sr-only sm:not-sr-only sm:mt-1 sm:text-sm sm:text-ink-700"
@@ -483,7 +490,7 @@ export function LineGraph({
               aria-live="polite"
             >
               <span className="rounded-full px-2 py-0.5 font-semibold tracking-[0.18em] text-paper-strong" style={{ background: activePreview.activeSeriesColor }}>
-                {resolveSeriesDisplayLabel(activePreview.activeSeriesLabel, title, series.length)}
+                {localizeExactZhHkRuntimeCopy(locale, resolveSeriesDisplayLabel(activePreview.activeSeriesLabel, title, series.length))}
               </span>
               <span className="font-mono text-[0.72rem] tracking-[0.18em] text-ink-500">
                 {t("preview", {
@@ -501,7 +508,7 @@ export function LineGraph({
                 className="rounded-full px-2 py-0.5 font-semibold tracking-[0.18em] text-paper-strong"
                 style={{ background: activeLinkedSample.color ?? palette[0] }}
               >
-                {resolveSeriesDisplayLabel(activeLinkedSample.label, title, series.length)}
+                {localizeExactZhHkRuntimeCopy(locale, resolveSeriesDisplayLabel(activeLinkedSample.label, title, series.length))}
               </span>
               <span className="font-mono text-[0.72rem] tracking-[0.18em] text-ink-500">
                 {linkedMarker.label}
@@ -523,7 +530,7 @@ export function LineGraph({
               })}
             >
               <LegendGlyph color={item.color ?? palette[index % palette.length]} dashed={item.dashed} />
-              {resolveSeriesDisplayLabel(item.label, title, series.length)}
+              {localizeExactZhHkRuntimeCopy(locale, resolveSeriesDisplayLabel(item.label, title, series.length))}
             </span>
           ))}
         </div>
@@ -572,8 +579,8 @@ export function LineGraph({
         }}
         onLostPointerCapture={() => clearPreview()}
       >
-        <title id={`${baseId}-title`}>{title}</title>
-        <desc id={`${baseId}-desc`}>{summary}</desc>
+        <title id={`${baseId}-title`}>{localizedTitle}</title>
+        <desc id={`${baseId}-desc`}>{localizedSummary}</desc>
         <rect x="0" y="0" width={WIDTH} height={HEIGHT} rx="22" fill="rgba(255,255,255,0.55)" />
         <rect
           x={MARGIN.left}

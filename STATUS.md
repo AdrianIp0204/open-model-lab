@@ -1,5 +1,31 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-033 zh-HK Validation And Sweep Repair
+
+Current state: `OML-QA-033` is complete. The zh-HK validator/worklist mismatch is fixed, generated zh-HK artifacts are refreshed, and the full browser zh-HK sweep is green again after the unsafe generic `項目` localizer was removed.
+
+### Files Changed
+
+- `tools/i18n/common.py`: uses the same runtime editorial-overlay source as the JS content registry when resolving concept translation tasks, so Python validation and JS worklist generation agree on source hashes.
+- `content/i18n/zh-HK/manifest.json`, `content/_meta/generated/concept-variant-manifest.json`, `content/_meta/generated/i18n-worklist-zh-HK.*`, `content/i18n/zh-HK/concepts/optimization-maxima-minima-and-constraints.json`: refreshed repaired zh-HK overlay/generated state.
+- `lib/i18n/zh-hk-exact-runtime-copy.tsx`: adds scoped exact zh-HK runtime-copy mappings and Traditional-Chinese cleanup for dynamic concept scene/worked-example strings.
+- `components/simulations/SimulationShell.tsx`, shared graph/readout/math/worked-example components, and `lib/content/concept-page-v2.ts`: route remaining dynamic labels and fallback titles through the scoped exact-copy bridge.
+- `messages/zh-HK.json`: removes English `checkout` / `secret key` wording from visible account/dashboard billing warnings.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm i18n:validate --locale zh-HK`: passed with `valid: true`.
+- `pnpm i18n:validate -- --locale zh-HK`: passed with `valid: true`.
+- `pnpm i18n:worklist --locale zh-HK`: passed, generated worklist for 0 concepts.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm content:registry`: passed.
+- `OPEN_MODEL_LAB_BASE_URL=http://127.0.0.1:3100 OPEN_MODEL_LAB_DEV_BASE_URL=http://127.0.0.1:3100 pnpm i18n:sweep:zh-HK`: passed with `issueCount: 0`, `englishLeakUnapprovedIssueCount: 0`, `publicRouteCount: 139`, `signedInFreeRouteCount: 4`, and `signedInPremiumRouteCount: 8`.
+- `pnpm exec eslint components/concepts/LiveWorkedExampleSection.tsx components/concepts/MathFormula.tsx components/graphs/GraphTabs.tsx components/graphs/LineGraph.tsx components/simulations/ConceptSimulationRenderer.tsx components/simulations/SimulationReadoutCard.tsx components/simulations/SimulationReadoutSummary.tsx components/simulations/SimulationShell.tsx components/simulations/primitives/scene-card.tsx lib/i18n/zh-hk-exact-runtime-copy.tsx tools/i18n/common.py`: passed for TS/TSX files; `tools/i18n/common.py` was ignored by ESLint config.
+- `python3 -m py_compile tools/i18n/common.py tools/i18n/validate_overlays.py`: passed.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-29 OML-QA-032 Unsafe zh-HK Fallback Removal
 
 Current state: `OML-QA-032` is complete. The broad zh-HK client-side DOM text-node localizer has been removed so unresolved English appears as real QA failures instead of being rewritten into generic `項目` filler, and support mailto/domain text is protected by a focused mobile paper/dark regression gate.

@@ -3,6 +3,10 @@
 import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
 import { getSimulationCopy, type SimulationCopyKey } from "@/lib/i18n/copy-text";
+import {
+  localizeExactZhHkRuntimeCopy,
+  localizeExactZhHkRuntimeNode,
+} from "@/lib/i18n/zh-hk-exact-runtime-copy";
 
 type SimulationSceneCardProps = {
   title: string;
@@ -24,7 +28,12 @@ export function SimulationSceneCard({
   children,
 }: SimulationSceneCardProps) {
   const locale = useLocale();
-  const localizedTitle = titleKey ? getSimulationCopy(locale, titleKey) : title;
+  const localizedTitle = titleKey
+    ? getSimulationCopy(locale, titleKey)
+    : localizeExactZhHkRuntimeCopy(locale, title);
+  const localizedDescription = localizeExactZhHkRuntimeNode(locale, description);
+  const localizedHeaderAside = localizeExactZhHkRuntimeNode(locale, headerAside);
+  const localizedChildren = localizeExactZhHkRuntimeNode(locale, children);
 
   return (
     <section className="overflow-hidden rounded-[22px] border border-line bg-paper-strong">
@@ -33,13 +42,15 @@ export function SimulationSceneCard({
           <div>
             <p className="lab-label">{localizedTitle}</p>
             <p className={["mt-1 text-xs text-ink-700", compactHeaderOnMobile ? "max-sm:hidden" : ""].join(" ")}>
-              {description}
+              {localizedDescription}
             </p>
           </div>
-          {headerAside ? <div className="flex flex-wrap items-center gap-3">{headerAside}</div> : null}
+          {localizedHeaderAside ? (
+            <div className="flex flex-wrap items-center gap-3">{localizedHeaderAside}</div>
+          ) : null}
         </div>
       </div>
-      {children}
+      {localizedChildren}
     </section>
   );
 }
