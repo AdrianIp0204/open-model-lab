@@ -70,7 +70,7 @@ function renderGraphTab({
       role="tab"
       aria-selected={selected}
       aria-controls={`graph-panel-${tab.id}`}
-      style={selected ? { color: "var(--paper-strong)" } : undefined}
+      style={selected ? { color: "var(--teal-action-fg)" } : undefined}
       className={[
         "min-h-11 min-w-[7.5rem] shrink-0 rounded-2xl border px-3 py-2 text-left text-sm transition sm:min-w-[8.5rem] sm:flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
         selected

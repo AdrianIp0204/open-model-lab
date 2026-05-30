@@ -1,5 +1,24 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-041 Teal CTA/Button Contrast
+
+Current state: `OML-QA-041` is complete. Shared teal action styling now uses theme-specific accessible foreground, background, hover, border, and shadow tokens so paper and dark themes do not reuse the same low-contrast `bg-teal-500 text-white` pairing. Selected graph tabs now inherit the same semantic teal action foreground.
+
+### Files Changed
+
+- `app/globals.css`: adds `--teal-action-*` tokens for `paper-lab` and `dark-lab`, then routes `.cta-primary`, legacy teal action buttons, selected teal states, and teal hover states through those tokens.
+- `components/graphs/GraphTabs.tsx`: uses the semantic teal action foreground for selected tab text.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/graphs/GraphTabs.tsx`: passed.
+- Focused teal-action Playwright probe: passed on `/zh-HK/tracks/motion-and-circular-motion`, `/zh-HK/concepts/derivative-as-slope-local-rate-of-change`, and `/concepts/simple-harmonic-motion` in `paper-lab` and `dark-lab`; artifact `output/qa-oml-qa-041-2026-05-30/focused-teal-contrast.json` reports minimum ratios of `5.38:1` in paper mode and `6.31:1` in dark concept actions, with dark track actions at `11.48:1`.
+- `PLAYWRIGHT_PORT=3147 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-041-full-sweep pnpm theme:sweep:light-dark -- --reporter=line`: passed with `routeCount: 29`, `caseCount: 62`, and `issueCount: 0`.
+- `pnpm typecheck`: passed.
+- The full sweep still logs the existing caret-color hydration mismatch warnings tracked by `OML-QA-042`; no teal contrast failures remained.
+
 ## 2026-05-30 OML-QA-040 Paper-Mode First-Viewport Dark Surface Leakage
 
 Current state: `OML-QA-040` is complete. Paper mode now scopes the formerly broad dark-card override to reviewed home/concept first-viewport surfaces through explicit data seams, and the targeted paper-mode sweep reports zero dark-surface leakage on the affected home and concepts index routes in English and zh-HK.

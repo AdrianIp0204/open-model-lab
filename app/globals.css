@@ -20,6 +20,11 @@
   --line: rgba(226, 232, 240, 0.22);
   --teal-500: #2dd4bf;
   --teal-600: #5eead4;
+  --teal-action-bg: #99f6e4;
+  --teal-action-bg-hover: #5eead4;
+  --teal-action-fg: #042f2e;
+  --teal-action-border: rgba(153, 246, 228, 0.72);
+  --teal-action-shadow: rgba(45, 212, 191, 0.18);
   --amber-500: #fbbf24;
   --amber-600: #fcd34d;
   --coral-500: #fb7185;
@@ -103,6 +108,11 @@ html[data-theme="paper-lab"] {
   --line: rgba(15, 28, 36, 0.13);
   --teal-500: #1ea6a2;
   --teal-600: #127e83;
+  --teal-action-bg: #0f766e;
+  --teal-action-bg-hover: #115e59;
+  --teal-action-fg: #fffdf7;
+  --teal-action-border: rgba(15, 118, 110, 0.58);
+  --teal-action-shadow: rgba(15, 118, 110, 0.16);
   --amber-500: #f0ab3c;
   --amber-600: #c57f16;
   --coral-500: #f16659;
@@ -596,9 +606,10 @@ select {
 
   .cta-primary {
     @apply inline-flex min-h-12 items-center justify-center rounded-full border border-teal-500/35 bg-teal-500 px-5 py-3 text-sm font-semibold text-paper shadow-[0_14px_38px_rgba(45,212,191,0.18)];
-    background-color: #0f766e;
-    border-color: rgba(15, 118, 110, 0.58);
-    color: #fffdf7;
+    background-color: var(--teal-action-bg);
+    border-color: var(--teal-action-border);
+    color: var(--teal-action-fg);
+    box-shadow: 0 14px 38px var(--teal-action-shadow);
   }
 
   .cta-secondary {
@@ -916,18 +927,21 @@ html[data-theme="dark-lab"] [data-onboarding-target="account-sync"] > span {
 }
 
 .bg-teal-500.text-white,
+.bg-teal-500.text-paper,
 .bg-teal-500.text-paper-strong {
-  background-color: #0f766e;
-  color: #fffdf7 !important;
+  background-color: var(--teal-action-bg);
+  color: var(--teal-action-fg) !important;
 }
 
+.border-teal-500.bg-teal-500,
 .border-teal-500\/25.bg-teal-500,
 .border-teal-500\/35.bg-teal-500 {
-  border-color: rgba(15, 118, 110, 0.58);
+  background-color: var(--teal-action-bg);
+  border-color: var(--teal-action-border);
 }
 
 .hover\:bg-teal-600:hover {
-  background-color: #115e59;
+  background-color: var(--teal-action-bg-hover);
 }
 
 .bg-ink-950.text-paper-strong,
