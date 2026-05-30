@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-046 Concept Quality Matrix Gate
+
+Current state: `OML-QA-046` is complete. The repo now has a durable `pnpm concepts:qa-matrix` browser audit that covers all published concept slugs, classifies each concept into the task-drain review statuses, writes stable JSON/Markdown artifacts under `output/concept-quality-matrix/`, and includes a seeded self-test so the gate proves it can fail on a regression.
+
+### Files Changed
+
+- `package.json`: adds `concepts:qa-matrix` and `concepts:qa-matrix:self-test` scripts.
+- `scripts/concept-quality-matrix-core.mjs` and `scripts/concept-quality-matrix.mjs`: add the report classifier, strict gate helpers, Markdown renderer, seeded regression self-test, and Playwright command wrapper.
+- `tests/ops/concept-quality-matrix.test.ts`: covers matrix classification, seeded strict-gate failure, Markdown status output, and representative interaction coverage accounting.
+- `tests/e2e/concept-quality-matrix.spec.ts`: audits all published concepts across desktop and phone viewports for route health, h1/scene/cue/control/graph/lesson-rail presence, overflow, visible clipping, touch target gaps, localized text leaks, and representative interaction behavior.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm concepts:qa-matrix:self-test`: passed, with the seeded regression failing the strict gate as expected.
+- `pnpm exec vitest run tests/ops/concept-quality-matrix.test.ts`: passed.
+- `pnpm exec eslint scripts/concept-quality-matrix-core.mjs scripts/concept-quality-matrix.mjs tests/ops/concept-quality-matrix.test.ts tests/e2e/concept-quality-matrix.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3168 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-046-orchestrator OML_QA_046_CONCURRENCY=4 pnpm concepts:qa-matrix`: passed. Latest matrix artifact audited `97/97` concepts, with `7` passed, `90` needs shared fix, no unreviewed rows, and `97/97` representative interactions attempted and passed. Top current findings remain the existing follow-up queue: `126` visible clipping samples and `2` localized text leak samples.
+
 ## 2026-05-30 OML-QA-045 Phone Lesson Path Content Repair
 
 Current state: `OML-QA-045` is complete. The SHM phone lesson path now keeps one concise action line visible under the progress bar and uses a wrapped phone step map instead of a clipped horizontal carousel.

@@ -49,6 +49,8 @@
     "test:e2e": "playwright test",
     "test:e2e:i18n": "playwright test tests/e2e/locale-routing.spec.ts",
     "test:e2e:qa-sweep": "node scripts/run-playwright-qa-sweep.mjs",
+    "concepts:qa-matrix": "node scripts/concept-quality-matrix.mjs",
+    "concepts:qa-matrix:self-test": "node scripts/concept-quality-matrix.mjs --self-test",
     "theme:sweep:light-dark": "playwright test tests/e2e/theme-contrast-sweep.spec.ts",
     "release:verify:deployed": "node scripts/verify-deployed-release.mjs",
     "test:e2e:concept-v2": "playwright test -c playwright.concept-v2.config.ts",
