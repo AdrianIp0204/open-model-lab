@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-036 zh-HK Accessibility Name Localization
+
+Current state: `OML-QA-036` is complete. The zh-HK browser sweep now extracts visible control accessible names and `aria-describedby` descriptions for buttons, links, inputs, selects, summaries, and ARIA control roles, so accessibility-only English or mixed-language labels are covered by the semantic zh-HK gate. Quick-check answer accessible names now use localized option prefixes and localized math wording.
+
+### Files Changed
+
+- `components/quizzes/QuizRunnerSection.tsx`, `messages/en.json`, and `messages/zh-HK.json`: localize generated quick-check option accessible labels and zh-HK delta wording.
+- `scripts/browser-zhhk-site-sweep.mjs`: includes computed control accessible names and descriptions in the zh-HK browser sweep.
+- `scripts/zhhk-semantic-audit.mjs`: dedupes repeated-label clusters when one control is observed through visible text, `aria-label`, and computed accessible name sources.
+- `tests/components/quick-test-section.test.tsx` and `tests/i18n/zh-hk-semantic-browser-sweep.test.ts`: cover localized quick-check accessible names, untranslated computed control names, and duplicate-source dedupe.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/quizzes/QuizRunnerSection.tsx scripts/browser-zhhk-site-sweep.mjs scripts/zhhk-semantic-audit.mjs tests/components/quick-test-section.test.tsx tests/i18n/zh-hk-semantic-browser-sweep.test.ts`: passed.
+- `pnpm exec vitest run tests/components/quick-test-section.test.tsx tests/i18n/zh-hk-semantic-browser-sweep.test.ts`: passed.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: passed with `issueCount: 0`, `englishLeakUnapprovedIssueCount: 0`, `semanticZhHkIssueCount: 0`, `publicRouteCount: 139`, `signedInFreeRouteCount: 4`, and `signedInPremiumRouteCount: 8`.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-30 OML-QA-035 Light/Dark Theme Contrast Sweep
 
 Current state: `OML-QA-035` is complete. OML now has a durable Playwright light/dark contrast sweep over representative public, concept, tool, and signed-in harness surfaces in `paper-lab` and `dark-lab`; the sweep is registered in the QA sweep runner and currently reports zero contrast/theme-leak issues across 38 route/theme/viewport cases. QA also surfaced a separate caret-color hydration warning now tracked as `OML-QA-042`.

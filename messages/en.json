@@ -2136,6 +2136,9 @@
       "questionCounter": "Question {current} of {total}"
     },
     "loadingState": "Loading saved test state.",
+    "accessibility": {
+      "choiceLabel": "Option {choice}: {label}"
+    },
     "feedback": {
       "correct": "Correct",
       "incorrect": "Not quite",

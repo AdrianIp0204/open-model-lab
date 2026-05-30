@@ -14,6 +14,7 @@ import {
   useConceptLearningBridge,
 } from "@/components/concepts/ConceptLearningBridge";
 import { getConceptBySlug } from "@/lib/content";
+import { localizeConceptContent } from "@/lib/i18n/concept-content";
 import { localConceptProgressStore } from "@/lib/progress";
 import { buildConceptQuizSession } from "@/lib/quiz";
 
@@ -370,7 +371,7 @@ describe("QuickTestSection", () => {
 
     generatedQuestion.choices.forEach((choice) => {
       expect(screen.getByTestId(`quiz-choice-${choice.id}`)).toHaveAccessibleName(
-        new RegExp(`${choice.id.toUpperCase()} .*K =.*U =.*E =`, "i"),
+        new RegExp(`Option ${choice.id.toUpperCase()}: .*K =.*U =.*E =`, "i"),
       );
     });
   });
@@ -385,7 +386,7 @@ describe("QuickTestSection", () => {
       /One points at 30 degrees and the other at 60 degrees/i,
     );
     expect(screen.getByTestId(`quiz-choice-${firstQuestion.correctChoiceId}`)).toHaveAccessibleName(
-      /30 degrees vector has the larger horizontal component.*60 degrees vector has the larger vertical component/i,
+      /Option [A-C]: .*30 degrees vector has the larger horizontal component.*60 degrees vector has the larger vertical component/i,
     );
     expect(screen.getByTestId(`quiz-choice-${firstQuestion.correctChoiceId}`)).not.toHaveAccessibleName(
       /to the power of circ/i,
@@ -402,11 +403,27 @@ describe("QuickTestSection", () => {
     expect(screen.getByRole("heading", { level: 2 })).toHaveAccessibleName(/30 度.*60 度/i);
     expect(screen.getByRole("heading", { level: 2 })).not.toHaveAccessibleName(/degrees/i);
     expect(screen.getByTestId(`quiz-choice-${firstQuestion.correctChoiceId}`)).toHaveAccessibleName(
-      /30 度.*60 度/i,
+      /選項 [A-C]：.*30 度.*60 度/i,
     );
     expect(screen.getByTestId(`quiz-choice-${firstQuestion.correctChoiceId}`)).not.toHaveAccessibleName(
       /degrees/i,
     );
+  });
+
+  it("localizes zh-HK quick-check option prefixes and delta wording in accessible names", () => {
+    globalThis.__TEST_LOCALE__ = "zh-HK";
+    const concept = localizeConceptContent(
+      getConceptBySlug("derivative-as-slope-local-rate-of-change"),
+      "zh-HK",
+    );
+
+    renderQuickTest(concept);
+
+    expect(screen.getByTestId("quiz-choice-a")).toHaveAccessibleName(
+      "選項 A：它必須為零或非常接近零。",
+    );
+    expect(screen.getByTestId("quiz-choice-c")).toHaveAccessibleName(/x 的變化量/i);
+    expect(screen.getByTestId("quiz-choice-c")).not.toHaveAccessibleName(/\bdelta x\b/i);
   });
 
   it("removes TeX spacing commands from generated timing choice names", async () => {
@@ -444,7 +461,7 @@ describe("QuickTestSection", () => {
       const button = screen.getByTestId(`quiz-choice-${choice.id}`);
 
       expect(button).toHaveAccessibleName(
-        new RegExp(`${choice.id.toUpperCase()} .*f = .*Hz, T = .*s`, "i"),
+        new RegExp(`Option ${choice.id.toUpperCase()}: .*f = .*Hz, T = .*s`, "i"),
       );
       expect(button).not.toHaveAccessibleName(/\bquad\b/i);
     });

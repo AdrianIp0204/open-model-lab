@@ -2137,6 +2137,9 @@
       "questionCounter": "第 {current} / {total} 題"
     },
     "loadingState": "正在載入已保存的測驗狀態。",
+    "accessibility": {
+      "choiceLabel": "選項 {choice}：{label}"
+    },
     "feedback": {
       "correct": "答對了",
       "incorrect": "還差一點",

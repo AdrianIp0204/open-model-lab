@@ -160,6 +160,8 @@ function formatMathForAccessibleText(content: string, locale: "en" | "zh-HK") {
   const mathWords =
     locale === "zh-HK"
       ? {
+          delta: "變化量",
+          changeIn: "$1 的變化量",
           over: "除以",
           squareRootOf: "平方根",
           degrees: "度",
@@ -167,6 +169,8 @@ function formatMathForAccessibleText(content: string, locale: "en" | "zh-HK") {
           toThePowerOf: "次方",
         }
       : {
+          delta: "Delta",
+          changeIn: "Delta $1",
           over: "over",
           squareRootOf: "square root of",
           degrees: "degrees",
@@ -176,6 +180,8 @@ function formatMathForAccessibleText(content: string, locale: "en" | "zh-HK") {
 
   return content
     .replace(/\$\$?([^$]+)\$\$?/g, "$1")
+    .replace(/\\Delta\s+([A-Za-z])/g, mathWords.changeIn)
+    .replace(/\\Delta\b/g, mathWords.delta)
     .replace(/\\tfrac\{([^{}]+)\}\{([^{}]+)\}/g, `$1 ${mathWords.over} $2`)
     .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, `$1 ${mathWords.over} $2`)
     .replace(/\\sqrt\{([^{}]+)\}/g, `${mathWords.squareRootOf} $1`)
@@ -189,6 +195,8 @@ function formatMathForAccessibleText(content: string, locale: "en" | "zh-HK") {
     .replace(/\\[,;]/g, " ")
     .replace(/\\[a-zA-Z]+/g, (match) => match.slice(1))
     .replace(/\\/g, "")
+    .replace(/\b[Dd]elta\s+([A-Za-z])\b/g, mathWords.changeIn)
+    .replace(/\b[Dd]elta\b/g, mathWords.delta)
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -196,8 +204,12 @@ function formatMathForAccessibleText(content: string, locale: "en" | "zh-HK") {
 function buildChoiceAccessibleLabel(
   choice: QuizQuestionInstance["choices"][number],
   locale: "en" | "zh-HK",
+  formatChoiceLabel: (values: { choice: string; label: string }) => string,
 ) {
-  return `${choice.id.toUpperCase()} ${formatMathForAccessibleText(choice.label, locale)}`;
+  return formatChoiceLabel({
+    choice: choice.id.toUpperCase(),
+    label: formatMathForAccessibleText(choice.label, locale),
+  });
 }
 
 function buildInitialFlowState(
@@ -812,7 +824,9 @@ function QuizRunnerSectionContent({
                   choiceTone,
                   isAnswered ? "cursor-default" : "hover:-translate-y-0.5",
                 ].join(" ")}
-                aria-label={buildChoiceAccessibleLabel(choice, locale)}
+                aria-label={buildChoiceAccessibleLabel(choice, locale, (values) =>
+                  t("accessibility.choiceLabel", values),
+                )}
                 aria-pressed={isSelected}
               >
                 <span className="flex items-start gap-3">

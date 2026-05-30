@@ -618,6 +618,40 @@ async function scanRoute(page, baseUrl, routePath, category) {
           return "button";
         }
 
+        if (tagName === "summary") {
+          return "button";
+        }
+
+        if (tagName === "input") {
+          const type = (element.getAttribute("type") ?? "text").toLowerCase();
+
+          if (type === "checkbox") {
+            return "checkbox";
+          }
+
+          if (type === "radio") {
+            return "radio";
+          }
+
+          if (type === "range") {
+            return "slider";
+          }
+
+          if (["button", "submit", "reset"].includes(type)) {
+            return "button";
+          }
+
+          return "textbox";
+        }
+
+        if (tagName === "textarea") {
+          return "textbox";
+        }
+
+        if (tagName === "select") {
+          return "combobox";
+        }
+
         if (tagName === "main") {
           return "main";
         }
@@ -645,6 +679,24 @@ async function scanRoute(page, baseUrl, routePath, category) {
         return null;
       }
 
+      function isControlRole(role) {
+        return [
+          "button",
+          "checkbox",
+          "combobox",
+          "link",
+          "menuitem",
+          "option",
+          "radio",
+          "searchbox",
+          "slider",
+          "spinbutton",
+          "switch",
+          "tab",
+          "textbox",
+        ].includes(role);
+      }
+
       function getElementLabel(element) {
         return normalizeText(
           element.getAttribute("aria-label") ??
@@ -652,6 +704,84 @@ async function scanRoute(page, baseUrl, routePath, category) {
             element.getAttribute("id") ??
             "",
         );
+      }
+
+      function getReferencedText(element, attributeName) {
+        const ids = normalizeText(element.getAttribute(attributeName) ?? "")
+          .split(/\s+/u)
+          .filter(Boolean);
+
+        return normalizeText(
+          ids
+            .map((id) => document.getElementById(id)?.innerText ?? document.getElementById(id)?.textContent ?? "")
+            .join(" "),
+        );
+      }
+
+      function getControlAccessibleName(element) {
+        const ariaLabel = normalizeText(element.getAttribute("aria-label") ?? "");
+
+        if (ariaLabel) {
+          return ariaLabel;
+        }
+
+        const labelledBy = getReferencedText(element, "aria-labelledby");
+
+        if (labelledBy) {
+          return labelledBy;
+        }
+
+        const tagName = element.tagName.toLowerCase();
+
+        if (tagName === "img") {
+          return normalizeText(element.getAttribute("alt") ?? "");
+        }
+
+        const imageAltText = normalizeText(
+          [...element.querySelectorAll("img[alt]")]
+            .map((image) => image.getAttribute("alt") ?? "")
+            .join(" "),
+        );
+        const ownText = normalizeText(element.innerText ?? element.textContent ?? "");
+
+        if (ownText || imageAltText) {
+          return normalizeText(`${ownText} ${imageAltText}`);
+        }
+
+        const inputId = element.getAttribute("id");
+
+        if (inputId) {
+          const labelText = normalizeText(
+            [...document.querySelectorAll(`label[for="${CSS.escape(inputId)}"]`)]
+              .map((label) => label.innerText ?? label.textContent ?? "")
+              .join(" "),
+          );
+
+          if (labelText) {
+            return labelText;
+          }
+        }
+
+        const wrappingLabel = element.closest("label");
+
+        if (wrappingLabel) {
+          const labelText = normalizeText(wrappingLabel.innerText ?? wrappingLabel.textContent ?? "");
+
+          if (labelText) {
+            return labelText;
+          }
+        }
+
+        return normalizeText(
+          element.getAttribute("placeholder") ??
+            element.getAttribute("title") ??
+            element.getAttribute("value") ??
+            "",
+        );
+      }
+
+      function getControlDescription(element) {
+        return getReferencedText(element, "aria-describedby");
       }
 
       function getNearestHeading(element) {
@@ -844,6 +974,76 @@ async function scanRoute(page, baseUrl, routePath, category) {
             isAccessibilityLabel: sourceType === "aria-label" || sourceType === "title",
             isControlLabel: elementRole === "button" || elementRole === "link",
             snippets: getSnippets(element),
+          });
+        }
+      }
+
+      const controlElements = [
+        ...document.querySelectorAll(
+          [
+            "button",
+            "a[href]",
+            "input:not([type='hidden'])",
+            "textarea",
+            "select",
+            "summary",
+            "[role='button']",
+            "[role='checkbox']",
+            "[role='combobox']",
+            "[role='link']",
+            "[role='menuitem']",
+            "[role='option']",
+            "[role='radio']",
+            "[role='searchbox']",
+            "[role='slider']",
+            "[role='spinbutton']",
+            "[role='switch']",
+            "[role='tab']",
+            "[role='textbox']",
+          ].join(","),
+        ),
+      ];
+
+      for (const element of controlElements) {
+        if (
+          !(element instanceof HTMLElement) ||
+          skipSelectors.some((selector) => element.closest(selector))
+        ) {
+          continue;
+        }
+
+        if (!isVisibleElement(element)) {
+          continue;
+        }
+
+        const elementRole = inferElementRole(element);
+        const snippets = getSnippets(element);
+        const commonEntry = {
+          nearestHeading: getNearestHeading(element),
+          landmark: getLandmark(element),
+          elementTag: element.tagName.toLowerCase(),
+          elementRole,
+          isAccessibilityLabel: true,
+          isControlLabel: isControlRole(elementRole),
+          snippets,
+        };
+        const accessibleName = getControlAccessibleName(element);
+
+        if (accessibleName) {
+          pushEntry(lines, seen, {
+            ...commonEntry,
+            text: accessibleName,
+            sourceType: "accessible name",
+          });
+        }
+
+        const accessibleDescription = getControlDescription(element);
+
+        if (accessibleDescription) {
+          pushEntry(lines, seen, {
+            ...commonEntry,
+            text: accessibleDescription,
+            sourceType: "aria-describedby",
           });
         }
       }

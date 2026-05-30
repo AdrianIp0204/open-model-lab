@@ -36,7 +36,7 @@ describe("zh-HK semantic browser sweep audit", () => {
         visibleEntry("Open Help / Tutorial", {
           elementTag: "button",
           elementRole: "button",
-          sourceType: "aria-label",
+          sourceType: "accessible name",
           isAccessibilityLabel: true,
           isControlLabel: true,
         }),
@@ -54,6 +54,70 @@ describe("zh-HK semantic browser sweep audit", () => {
         "UNTRANSLATED_ACCESSIBILITY_LABEL",
       ]),
     );
+  });
+
+  it("treats computed control names as accessibility labels", async () => {
+    const { analyzeZhHkSemanticEntries } = await importSemanticAudit();
+    const findings = analyzeZhHkSemanticEntries(
+      [
+        visibleEntry("Open Help / Tutorial", {
+          elementTag: "button",
+          elementRole: "button",
+          sourceType: "accessible name",
+          isAccessibilityLabel: true,
+          isControlLabel: true,
+        }),
+      ],
+      "/zh-HK/concepts/derivative-as-slope-local-rate-of-change",
+    );
+
+    expect(findings).toEqual([
+      expect.objectContaining({
+        kind: "UNTRANSLATED_ACCESSIBILITY_LABEL",
+        sourceCategory: "accessibility label",
+        sourceType: "accessible name",
+      }),
+    ]);
+  });
+
+  it("allows localized zh-HK option names with math variables", async () => {
+    const { analyzeZhHkSemanticEntries } = await importSemanticAudit();
+    const findings = analyzeZhHkSemanticEntries(
+      [
+        visibleEntry("選項 C：它必須與 x 的變化量相匹配。", {
+          elementTag: "button",
+          elementRole: "button",
+          sourceType: "accessible name",
+          isAccessibilityLabel: true,
+          isControlLabel: true,
+        }),
+      ],
+      "/zh-HK/concepts/derivative-as-slope-local-rate-of-change",
+    );
+
+    expect(findings).toEqual([]);
+  });
+
+  it("does not count one control seen through multiple label sources as a repeated-label cluster", async () => {
+    const { analyzeZhHkSemanticEntries } = await importSemanticAudit();
+    const baseEntry = visibleEntry("建議提供的內容", {
+      elementTag: "a",
+      elementRole: "link",
+      isAccessibilityLabel: true,
+      isControlLabel: true,
+      landmark: "navigation: 聯絡頁段落",
+      snippets: ["傳送回饋", "建議提供的內容"],
+    });
+    const findings = analyzeZhHkSemanticEntries(
+      [
+        { ...baseEntry, sourceType: "visible text" },
+        { ...baseEntry, sourceType: "aria-label" },
+        { ...baseEntry, sourceType: "accessible name" },
+      ],
+      "/zh-HK/contact",
+    );
+
+    expect(findings).toEqual([]);
   });
 
   it("allows valid product names, math variables, units, and intentional English names", async () => {

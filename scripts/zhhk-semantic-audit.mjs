@@ -362,13 +362,24 @@ function findIdenticalLabelClusters(entries, routePath, category) {
     }
 
     if (!clusters.has(text)) {
-      clusters.set(text, []);
+      clusters.set(text, new Map());
     }
 
-    clusters.get(text).push(entry);
+    const uniqueLocationKey = [
+      entry?.nearestHeading ?? "",
+      entry?.landmark ?? "",
+      entry?.elementTag ?? "",
+      entry?.elementRole ?? "",
+      Array.isArray(entry?.snippets) ? entry.snippets.join("\u0001") : "",
+    ].join("\u0000");
+
+    if (!clusters.get(text).has(uniqueLocationKey)) {
+      clusters.get(text).set(uniqueLocationKey, entry);
+    }
   }
 
   return [...clusters.entries()]
+    .map(([text, clusteredEntriesByLocation]) => [text, [...clusteredEntriesByLocation.values()]])
     .filter(([, clusteredEntries]) => clusteredEntries.length >= 3)
     .map(([text, clusteredEntries]) =>
       makeFinding({
