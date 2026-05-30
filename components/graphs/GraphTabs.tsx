@@ -72,7 +72,7 @@ function renderGraphTab({
       aria-controls={`graph-panel-${tab.id}`}
       style={selected ? { color: "var(--teal-action-fg)" } : undefined}
       className={[
-        "min-h-11 min-w-[7.5rem] shrink-0 rounded-2xl border px-3 py-2 text-left text-sm transition sm:min-w-[8.5rem] sm:flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
+        "min-h-11 w-[min(18rem,calc(100vw-3.5rem))] min-w-[min(12rem,calc(100vw-3.5rem))] shrink-0 snap-start rounded-2xl border px-3 py-2 text-left text-sm transition sm:w-auto sm:min-w-[8.5rem] sm:flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
         selected
           ? "border-teal-500 bg-teal-500 shadow-[0_10px_24px_rgba(30,166,162,0.18)]"
           : highlighted
@@ -81,10 +81,10 @@ function renderGraphTab({
       ].join(" ")}
       onClick={() => onChange(tab.id)}
     >
-      <span className="block text-[0.82rem] font-semibold leading-5">
+      <span className="block min-w-0 whitespace-normal break-words text-[0.82rem] font-semibold leading-5 [overflow-wrap:anywhere]">
         <RichMathText as="span" content={localizeExactZhHkRuntimeCopy(locale, tab.label)} />
       </span>
-      <span className="block text-xs leading-5 opacity-80">
+      <span className="block min-w-0 whitespace-normal break-words text-xs leading-5 opacity-80 [overflow-wrap:anywhere]">
         <RichMathText as="span" content={localizeExactZhHkRuntimeCopy(locale, tab.xLabel)} /> vs{" "}
         <RichMathText as="span" content={localizeExactZhHkRuntimeCopy(locale, tab.yLabel)} />
       </span>
@@ -117,7 +117,7 @@ export function GraphTabs({
   return (
     <div className="w-full space-y-2">
       <div
-        className="flex w-full gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible"
+        className="flex w-full snap-x gap-2 overflow-x-auto overscroll-x-contain pb-1 pr-4 [scrollbar-width:thin] sm:flex-wrap sm:overflow-visible sm:pr-0"
         role="tablist"
         aria-orientation="horizontal"
         aria-label={t("label")}

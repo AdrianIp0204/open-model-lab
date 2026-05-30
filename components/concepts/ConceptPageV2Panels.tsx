@@ -858,7 +858,7 @@ function ConceptPageV2EquationFormulaDisplay({
       aria-label={`${equation.label}: ${accessibleFormula}`}
       tabIndex={0}
       className={[
-        "max-w-full overflow-x-auto whitespace-nowrap rounded-[10px] pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [scrollbar-width:thin]",
+        "max-w-full overflow-x-auto overscroll-x-contain whitespace-nowrap rounded-[10px] px-px pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [scrollbar-width:thin]",
         className,
       ].join(" ")}
     >
@@ -949,16 +949,16 @@ export function ConceptPageV2EquationSnapshotCard({
             {equations.map((equation) => (
               <li
                 key={equation.id}
-                className="grid grid-cols-[auto_minmax(0,1fr)] gap-2 rounded-[14px] border border-line/80 bg-paper-strong/82 px-3 py-2"
+                className="grid grid-cols-[minmax(0,1fr)] gap-2 rounded-[14px] border border-line/80 bg-paper-strong/82 px-3 py-2 sm:grid-cols-[auto_minmax(0,1fr)]"
               >
                 <span
                   aria-hidden="true"
-                  className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-[10px] border border-sky-500/18 bg-sky-500/10 text-sm font-semibold text-sky-700"
+                  className="mt-0.5 hidden h-8 w-8 items-center justify-center rounded-[10px] border border-sky-500/18 bg-sky-500/10 text-sm font-semibold text-sky-700 sm:flex"
                 >
                   =
                 </span>
                 <span className="min-w-0">
-                  <p className="text-sm font-semibold leading-5 text-ink-800">
+                  <p className="break-words text-sm font-semibold leading-5 text-ink-800 [overflow-wrap:anywhere]">
                     {equation.label}
                   </p>
                   <ConceptPageV2EquationFormulaDisplay
@@ -966,7 +966,7 @@ export function ConceptPageV2EquationSnapshotCard({
                     className="mt-1.5 text-sm font-semibold text-ink-950"
                   />
                   {equation.readAloud ? (
-                    <p className="mt-1.5 text-sm leading-6 text-ink-700">
+                    <p className="mt-1.5 break-words text-sm leading-6 text-ink-700 [overflow-wrap:anywhere]">
                       <span className="font-semibold text-ink-900">
                         {copy.equationReadAloudLabel}:
                       </span>{" "}
@@ -976,7 +976,7 @@ export function ConceptPageV2EquationSnapshotCard({
                   <RichMathText
                     as="p"
                     content={equation.meaning}
-                    className="mt-1.5 text-sm leading-6 text-ink-700"
+                    className="mt-1.5 break-words text-sm leading-6 text-ink-700 [overflow-wrap:anywhere]"
                   />
                 </span>
               </li>
@@ -1009,16 +1009,16 @@ export function ConceptPageV2EquationSnapshotCard({
         {equations.map((equation) => (
           <li
             key={equation.id}
-            className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-[18px] border border-line bg-paper-strong px-3.5 py-3 shadow-sm"
+            className="grid grid-cols-[minmax(0,1fr)] gap-3 rounded-[18px] border border-line bg-paper-strong px-3.5 py-3 shadow-sm sm:grid-cols-[auto_minmax(0,1fr)]"
           >
             <span
               aria-hidden="true"
-              className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-[12px] border border-sky-500/18 bg-sky-500/10 text-base font-semibold text-sky-700"
+              className="mt-0.5 hidden h-9 w-9 items-center justify-center rounded-[12px] border border-sky-500/18 bg-sky-500/10 text-base font-semibold text-sky-700 sm:flex"
             >
               =
             </span>
             <span className="min-w-0">
-              <p className="text-sm font-semibold leading-5 text-ink-800">
+              <p className="break-words text-sm font-semibold leading-5 text-ink-800 [overflow-wrap:anywhere]">
                 {equation.label}
               </p>
               <ConceptPageV2EquationFormulaDisplay
@@ -1026,7 +1026,7 @@ export function ConceptPageV2EquationSnapshotCard({
                 className="mt-2 text-base font-semibold text-ink-950"
               />
               {equation.readAloud ? (
-                <p className="mt-2 text-sm leading-6 text-ink-700">
+                <p className="mt-2 break-words text-sm leading-6 text-ink-700 [overflow-wrap:anywhere]">
                   <span className="font-semibold text-ink-900">
                     {copy.equationReadAloudLabel}:
                   </span>{" "}
@@ -1036,7 +1036,7 @@ export function ConceptPageV2EquationSnapshotCard({
               <RichMathText
                 as="p"
                 content={equation.meaning}
-                className="mt-2 text-sm leading-6 text-ink-700"
+                className="mt-2 break-words text-sm leading-6 text-ink-700 [overflow-wrap:anywhere]"
               />
             </span>
           </li>
@@ -1791,14 +1791,14 @@ export function ConceptPageV2LessonRail({
                       <li
                         key={`${item.kind}-${item.id}`}
                         className={[
-                          "inline-flex max-w-full rounded-full border px-2 py-0.5 text-xs font-medium shadow-sm",
+                          "inline-flex max-w-full items-start rounded-[12px] border px-2 py-0.5 text-xs font-medium leading-5 shadow-sm",
                           revealToneClasses[item.tone ?? "core"],
                         ].join(" ")}
                       >
                         <RichMathText
                           as="span"
                           content={`${renderRevealKindLabel(item.kind, copy)}: ${item.label}`}
-                          className="min-w-0 line-clamp-1 break-words"
+                          className="min-w-0 whitespace-normal break-words [overflow-wrap:anywhere]"
                         />
                       </li>
                     ))}
@@ -2127,7 +2127,7 @@ export function ConceptPageV2LessonRail({
                       {nextStepPrimaryReveal ? (
                         <li
                           data-testid="concept-v2-next-step-reveal-preview"
-                          className="inline-flex max-w-full rounded-full border border-line bg-white/86 px-2.5 py-1 text-[0.66rem] font-semibold text-ink-700"
+                          className="inline-flex max-w-full items-start rounded-[12px] border border-line bg-white/86 px-2.5 py-1 text-[0.66rem] font-semibold leading-5 text-ink-700"
                         >
                           <RichMathText
                             as="span"
@@ -2135,7 +2135,7 @@ export function ConceptPageV2LessonRail({
                               nextStepPrimaryReveal.kind,
                               copy,
                             )}: ${nextStepPrimaryReveal.label}`}
-                            className="min-w-0 line-clamp-1 break-words"
+                            className="min-w-0 whitespace-normal break-words [overflow-wrap:anywhere]"
                           />
                         </li>
                       ) : null}
@@ -2471,14 +2471,14 @@ export function ConceptPageV2LessonSupport({
               <li
                 key={`${item.kind}-${item.id}`}
                 className={[
-                  "inline-flex max-w-full rounded-[12px] border px-2.5 py-1.5 text-sm font-medium leading-5 shadow-sm",
+                  "inline-flex max-w-full items-start rounded-[12px] border px-2.5 py-1.5 text-sm font-medium leading-5 shadow-sm",
                   revealToneClasses[item.tone ?? "core"],
                 ].join(" ")}
               >
                 <RichMathText
                   as="span"
                   content={`${renderRevealKindLabel(item.kind, copy)}: ${item.label}`}
-                  className="min-w-0 line-clamp-1 break-words"
+                  className="min-w-0 whitespace-normal break-words [overflow-wrap:anywhere]"
                 />
               </li>
             ))}
@@ -2610,7 +2610,7 @@ export function ConceptPageV2LessonSupport({
                       {nextStepPrimaryReveal ? (
                         <li
                           data-testid="concept-v2-step-support-next-reveal-preview"
-                          className="inline-flex max-w-full rounded-full border border-line bg-white/86 px-2.5 py-1 text-xs font-semibold leading-5 text-ink-700"
+                          className="inline-flex max-w-full items-start rounded-[12px] border border-line bg-white/86 px-2.5 py-1 text-xs font-semibold leading-5 text-ink-700"
                         >
                           <RichMathText
                             as="span"
@@ -2618,7 +2618,7 @@ export function ConceptPageV2LessonSupport({
                               nextStepPrimaryReveal.kind,
                               copy,
                             )}: ${nextStepPrimaryReveal.label}`}
-                            className="min-w-0 line-clamp-1 break-words"
+                            className="min-w-0 whitespace-normal break-words [overflow-wrap:anywhere]"
                           />
                         </li>
                       ) : null}

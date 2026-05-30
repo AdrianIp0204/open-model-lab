@@ -272,6 +272,7 @@ describe("ConceptPageV2EquationSnapshotCard", () => {
     expect(formula).toHaveAttribute("tabindex", "0");
     expect(formula).toHaveClass(
       "overflow-x-auto",
+      "overscroll-x-contain",
       "whitespace-nowrap",
       "focus-visible:ring-2",
     );
@@ -1167,7 +1168,12 @@ describe("ConceptPageV2LessonRail", () => {
     );
     expect(within(railRevealList).getAllByRole("listitem")).toHaveLength(5);
     const railRevealPreview = within(railRevealList).getByText("Graph: Comparison graph");
-    expect(railRevealPreview.parentElement).toHaveClass("min-w-0", "line-clamp-1", "break-words");
+    expect(railRevealPreview.parentElement).toHaveClass(
+      "min-w-0",
+      "whitespace-normal",
+      "break-words",
+      "[overflow-wrap:anywhere]",
+    );
     expect(railRevealPreview.parentElement?.parentElement).toHaveClass(
       "inline-flex",
       "max-w-full",
@@ -1475,7 +1481,12 @@ describe("ConceptPageV2LessonRail", () => {
     const nextRevealPreviewText = within(nextRevealPreview).getByText(
       "Graph: Comparison graph",
     );
-    expect(nextRevealPreviewText.parentElement).toHaveClass("min-w-0", "line-clamp-1", "break-words");
+    expect(nextRevealPreviewText.parentElement).toHaveClass(
+      "min-w-0",
+      "whitespace-normal",
+      "break-words",
+      "[overflow-wrap:anywhere]",
+    );
     const nextRevealOverflow = screen.getByTestId("concept-v2-next-step-reveal-overflow");
     expect(nextRevealOverflow).toHaveTextContent("+4");
     expect(nextRevealOverflow.querySelector(".sr-only")).toHaveTextContent(
@@ -1705,7 +1716,12 @@ describe("ConceptPageV2LessonRail", () => {
     const supportRevealPreviewText = within(
       screen.getByTestId("concept-v2-step-support-next-reveal-preview"),
     ).getByText("Graph: Comparison graph");
-    expect(supportRevealPreviewText.parentElement).toHaveClass("min-w-0", "line-clamp-1", "break-words");
+    expect(supportRevealPreviewText.parentElement).toHaveClass(
+      "min-w-0",
+      "whitespace-normal",
+      "break-words",
+      "[overflow-wrap:anywhere]",
+    );
     const supportRevealOverflow = screen.getByTestId(
       "concept-v2-step-support-next-reveal-overflow",
     );

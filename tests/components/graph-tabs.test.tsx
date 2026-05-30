@@ -43,6 +43,48 @@ describe("GraphTabs", () => {
     expect(screen.queryByRole("button", { name: /more graphs/i })).not.toBeInTheDocument();
   });
 
+  it("lets long phone graph labels wrap inside an intentional horizontal tab scroller", () => {
+    render(
+      <GraphTabs
+        tabs={[
+          {
+            id: "terminal-voltage",
+            label: "Terminal voltage and internal drop vs load resistance",
+            xLabel: "Load resistance",
+            yLabel: "Terminal voltage and internal drop",
+            series: ["V_terminal", "V_internal"],
+          },
+          ...tabs,
+        ]}
+        activeId="terminal-voltage"
+        onChange={vi.fn()}
+      />,
+    );
+
+    const tabList = screen.getByRole("tablist", { name: /graph/i });
+    expect(tabList).toHaveClass(
+      "overflow-x-auto",
+      "overscroll-x-contain",
+      "[scrollbar-width:thin]",
+    );
+
+    const longTab = screen.getByRole("tab", {
+      name: /Terminal voltage and internal drop vs load resistance/i,
+    });
+    expect(longTab).toHaveClass(
+      "w-[min(18rem,calc(100vw-3.5rem))]",
+      "snap-start",
+    );
+    expect(
+      within(longTab)
+        .getByText("Terminal voltage and internal drop vs load resistance")
+        .closest(".whitespace-normal"),
+    ).toHaveClass("whitespace-normal", "break-words", "[overflow-wrap:anywhere]");
+    expect(
+      within(longTab).getByText("Load resistance").closest(".whitespace-normal"),
+    ).toHaveClass("whitespace-normal", "break-words", "[overflow-wrap:anywhere]");
+  });
+
   it("shows only primary graphs by default and tucks the rest behind a disclosure", async () => {
     const user = userEvent.setup();
 

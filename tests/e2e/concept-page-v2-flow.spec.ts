@@ -1,7 +1,15 @@
 "use strict";
 
 import { expect, test, type BrowserContext, type Locator, type Page } from "@playwright/test";
+import conceptsCatalog from "../../content/catalog/concepts.json";
 import { gotoAndExpectOk, installBrowserGuards } from "./helpers";
+
+type ConceptCatalogEntry = {
+  slug: string;
+  title: string;
+  published?: boolean;
+  status?: string;
+};
 
 
 async function newConceptFlowPage(context: BrowserContext): Promise<Page> {
@@ -44,6 +52,39 @@ async function chooseDifferentSliderValue(slider: Locator) {
   const next = Math.abs(current - max) > Math.abs(current - min) ? max : min;
 
   return String(next);
+}
+
+const omlQa051ScreenshotSlugs = new Set([
+  "derivative-as-slope-local-rate-of-change",
+  "equivalent-resistance",
+  "electromagnetic-waves",
+  "internal-resistance-and-terminal-voltage",
+  "frontier-and-visited-state-on-graphs",
+  "breadth-first-search-and-layered-frontiers",
+]);
+
+const omlQa051TargetSelector = [
+  "[id^='graph-tab-']",
+  "[id^='graph-tab-'] span",
+  "[data-testid='concept-v2-equation-snapshot']",
+  "[data-testid='concept-v2-equation-snapshot'] *",
+  "[data-testid='concept-v2-rail-reveal-strip'] li",
+  "[data-testid='concept-v2-rail-reveal-strip'] li *",
+  "[data-testid='concept-v2-next-step-reveal-preview']",
+  "[data-testid='concept-v2-next-step-reveal-preview'] *",
+  "[data-testid='concept-v2-step-support-reveal-strip'] li",
+  "[data-testid='concept-v2-step-support-reveal-strip'] li *",
+  "[data-testid='concept-v2-step-support-next-reveal-preview']",
+  "[data-testid='concept-v2-step-support-next-reveal-preview'] *",
+  ".math-inline",
+  ".math-block",
+  ".katex-display",
+].join(", ");
+
+function omlQa051Concepts() {
+  return (conceptsCatalog as ConceptCatalogEntry[])
+    .filter((entry) => entry.published && entry.status !== "draft")
+    .map((entry) => ({ slug: entry.slug, title: entry.title }));
 }
 
 test.describe("concept page v2 flow", () => {
@@ -308,6 +349,147 @@ test.describe("concept page v2 flow", () => {
     }
 
     expect(failures).toEqual([]);
+  });
+
+  test("OML-QA-051 keeps phone graph tabs, equation chips, and formula snapshots unclipped", async ({
+    browser,
+  }, testInfo) => {
+    testInfo.setTimeout(1_200_000);
+
+    const concepts = omlQa051Concepts();
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+      deviceScaleFactor: 3,
+    });
+    const page = await newConceptFlowPage(context);
+    const browserGuard = await installBrowserGuards(page);
+    const failures: Array<{
+      slug: string;
+      tag: string;
+      testId: string | null;
+      id: string;
+      text: string;
+      overflowX: string;
+      overflowY: string;
+      textOverflow: string;
+      width: number;
+      height: number;
+      clientWidth: number;
+      clientHeight: number;
+      scrollWidth: number;
+      scrollHeight: number;
+    }> = [];
+
+    try {
+      for (const concept of concepts) {
+        await test.step(`phone-390x844 ${concept.slug}`, async () => {
+          await gotoAndExpectOk(page, `/en/concepts/${concept.slug}`);
+          await expect(page.locator("h1", { hasText: concept.title })).toBeVisible();
+
+          const clippedTargets = await page.evaluate((selector) => {
+            const seen = new Set<Element>();
+            const viewportBottom = window.innerHeight * 2;
+            const scrollableOverflowValues = new Set(["auto", "scroll"]);
+
+            function isVisibleElement(element: Element | null): element is HTMLElement {
+              if (!(element instanceof HTMLElement)) {
+                return false;
+              }
+
+              const style = window.getComputedStyle(element);
+              const rect = element.getBoundingClientRect();
+
+              return (
+                style.display !== "none" &&
+                style.visibility !== "hidden" &&
+                Number(style.opacity) !== 0 &&
+                rect.width > 0 &&
+                rect.height > 0 &&
+                rect.bottom > 0 &&
+                rect.right > 0 &&
+                rect.top < viewportBottom &&
+                rect.left < window.innerWidth
+              );
+            }
+
+            function textFor(element: HTMLElement) {
+              return element.innerText?.replace(/\s+/g, " ").trim().slice(0, 160) ?? "";
+            }
+
+            return Array.from(document.querySelectorAll<HTMLElement>(selector))
+              .filter((element) => {
+                if (seen.has(element)) {
+                  return false;
+                }
+
+                seen.add(element);
+                return isVisibleElement(element) && !element.closest("svg, canvas");
+              })
+              .map((element) => {
+                const style = window.getComputedStyle(element);
+                const rect = element.getBoundingClientRect();
+                const horizontalOverflow = element.scrollWidth > element.clientWidth + 2;
+                const verticalOverflow = element.scrollHeight > element.clientHeight + 2;
+                const hasAllowedHorizontalScroller =
+                  horizontalOverflow && scrollableOverflowValues.has(style.overflowX);
+                const hasAllowedVerticalScroller =
+                  verticalOverflow && scrollableOverflowValues.has(style.overflowY);
+                const clipped =
+                  (horizontalOverflow && !hasAllowedHorizontalScroller) ||
+                  (verticalOverflow && !hasAllowedVerticalScroller) ||
+                  style.textOverflow === "ellipsis";
+
+                if (!clipped) {
+                  return null;
+                }
+
+                return {
+                  tag: element.tagName.toLowerCase(),
+                  testId: element.getAttribute("data-testid"),
+                  id: element.id,
+                  text: textFor(element),
+                  overflowX: style.overflowX,
+                  overflowY: style.overflowY,
+                  textOverflow: style.textOverflow,
+                  width: Math.round(rect.width),
+                  height: Math.round(rect.height),
+                  clientWidth: element.clientWidth,
+                  clientHeight: element.clientHeight,
+                  scrollWidth: element.scrollWidth,
+                  scrollHeight: element.scrollHeight,
+                };
+              })
+              .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+          }, omlQa051TargetSelector);
+
+          failures.push(...clippedTargets.map((entry) => ({ slug: concept.slug, ...entry })));
+
+          if (omlQa051ScreenshotSlugs.has(concept.slug)) {
+            await page.screenshot({
+              path: testInfo.outputPath(`oml-qa-051-phone-${concept.slug}-top.png`),
+              fullPage: false,
+            });
+            await page.evaluate(() => window.scrollTo(0, window.innerHeight));
+            await page.screenshot({
+              path: testInfo.outputPath(`oml-qa-051-phone-${concept.slug}-second-viewport.png`),
+              fullPage: false,
+            });
+          }
+        });
+      }
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
+    }
+
+    expect(concepts.length).toBeGreaterThanOrEqual(97);
+    expect(
+      failures,
+      `OML-QA-051 clipping failures:\n${JSON.stringify(failures, null, 2)}`,
+    ).toEqual([]);
   });
 
   test("OML-QA-019 opens revealed bench tools from the current-step surface on phone", async ({
