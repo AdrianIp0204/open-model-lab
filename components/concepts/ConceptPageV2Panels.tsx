@@ -588,13 +588,14 @@ function ConceptPageV2LessonPreview({
         .filter(Boolean)
         .join(" — ")
     : undefined;
-  const previewListClassName =
-    "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4";
+  const previewListClassName = compact
+    ? "mt-2 grid grid-cols-1 gap-1.5"
+    : "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4";
   const stepCardClassName = compact
-    ? "grid min-h-[3.85rem] grid-cols-[auto_minmax(0,1fr)] items-start gap-1.5 rounded-[12px] border px-2 py-1.5"
+    ? "grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[12px] border px-2.5 py-2"
     : "grid min-h-[4.35rem] grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[12px] border px-2.5 py-2";
   const wrapUpCardClassName = compact
-    ? "grid min-h-[3.85rem] grid-cols-[auto_minmax(0,1fr)] items-start gap-1.5 rounded-[12px] border border-line/80 bg-white/86 px-2 py-1.5 2xl:col-span-1"
+    ? "grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-[12px] border border-line/80 bg-white/86 px-2.5 py-2"
     : "grid min-h-[4.35rem] grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[12px] border border-line/80 bg-white/86 px-2.5 py-2 sm:col-span-2 md:col-span-3 2xl:col-span-1";
 
   return (
@@ -658,8 +659,28 @@ function ConceptPageV2LessonPreview({
               >
                 {index + 1}
               </span>
-              <span className="min-w-0">
-                {firstStepLabel && isFirstStep ? (
+              {compact ? (
+                <span className="min-w-0">
+                  <RichMathText
+                    as="span"
+                    content={step.label}
+                    className="line-clamp-1 block break-words text-sm font-semibold leading-5 text-ink-800"
+                  />
+                  {stepSummaryText ? (
+                    <RichMathText as="span" content={stepSummaryText} className="sr-only" />
+                  ) : null}
+                  <span className="sr-only">
+                    {[
+                      isFirstStep ? firstStepLabel : null,
+                      hasQuickCheckBadge ? quickCheckLabel : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  </span>
+                </span>
+              ) : (
+                <span className="min-w-0">
+                  {firstStepLabel && isFirstStep ? (
                   <span className="mb-1 flex min-w-0 flex-wrap gap-1">
                     <span
                       data-testid="concept-v2-start-lesson-preview-first-badge"
@@ -698,7 +719,8 @@ function ConceptPageV2LessonPreview({
                     className="mt-0.5 line-clamp-1 block break-words text-xs leading-5 text-ink-700"
                   />
                 ) : null}
-              </span>
+                </span>
+              )}
             </li>
           );
         })}
@@ -716,26 +738,38 @@ function ConceptPageV2LessonPreview({
             >
               ✓
             </span>
-            <span className="min-w-0">
-              <span className="mb-1 flex min-w-0 flex-wrap gap-1">
-                {nextStepLabel ? (
-                  <span
-                    data-testid="concept-v2-start-lesson-preview-wrap-up-next-step-cue"
-                    className="inline-flex max-w-full min-w-0 rounded-[10px] border border-teal-600/20 bg-white/82 px-2 py-1 text-xs font-semibold leading-5 text-teal-800 break-words"
-                  >
-                    {nextStepLabel}
-                  </span>
-                ) : null}
-                <span className="inline-flex max-w-full min-w-0 break-words rounded-[10px] border border-teal-600/24 bg-white/90 px-2 py-1 text-xs font-semibold leading-5 text-teal-800">
+            {compact ? (
+              <span className="min-w-0">
+                <span className="line-clamp-1 block break-words text-sm font-semibold leading-5 text-ink-800">
                   {wrapUpLabel}
                 </span>
+                {lessonCompleteLabel ? (
+                  <span className="sr-only">{lessonCompleteLabel}</span>
+                ) : null}
+                {nextStepLabel ? <span className="sr-only">{nextStepLabel}</span> : null}
               </span>
-              {lessonCompleteLabel ? (
-                <span className="mt-0.5 line-clamp-2 block break-words text-xs font-semibold leading-5 text-ink-700">
-                  {lessonCompleteLabel}
+            ) : (
+              <span className="min-w-0">
+                <span className="mb-1 flex min-w-0 flex-wrap gap-1">
+                  {nextStepLabel ? (
+                    <span
+                      data-testid="concept-v2-start-lesson-preview-wrap-up-next-step-cue"
+                      className="inline-flex max-w-full min-w-0 rounded-[10px] border border-teal-600/20 bg-white/82 px-2 py-1 text-xs font-semibold leading-5 text-teal-800 break-words"
+                    >
+                      {nextStepLabel}
+                    </span>
+                  ) : null}
+                  <span className="inline-flex max-w-full min-w-0 break-words rounded-[10px] border border-teal-600/24 bg-white/90 px-2 py-1 text-xs font-semibold leading-5 text-teal-800">
+                    {wrapUpLabel}
+                  </span>
                 </span>
-              ) : null}
-            </span>
+                {lessonCompleteLabel ? (
+                  <span className="mt-0.5 line-clamp-2 block break-words text-xs font-semibold leading-5 text-ink-700">
+                    {lessonCompleteLabel}
+                  </span>
+                ) : null}
+              </span>
+            )}
           </li>
         ) : null}
       </ol>
@@ -1580,7 +1614,7 @@ export function ConceptPageV2LessonRail({
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
-            <div className="rounded-[18px] border border-line/80 bg-paper-strong/80 px-3 py-2.5">
+            <div className="hidden rounded-[18px] border border-line/80 bg-paper-strong/80 px-3 py-2.5 md:block">
               <p id={currentStepCardLabelId} className="text-sm font-semibold leading-5 text-ink-700">
                 {copy.currentStepLabel}
                 <span className="sr-only">:</span>
@@ -1975,7 +2009,7 @@ export function ConceptPageV2LessonRail({
             aria-describedby={
               nextStep.summary || nextStep.goal ? nextCheckpointDescriptionId : undefined
             }
-            className="mt-3 flex flex-col gap-2 rounded-[16px] border border-sky-500/18 bg-sky-500/8 px-3 py-2.5 md:flex-row md:items-center md:justify-between"
+            className="mt-3 hidden flex-col gap-2 rounded-[16px] border border-sky-500/18 bg-sky-500/8 px-3 py-2.5 md:flex md:flex-row md:items-center md:justify-between"
           >
             <div
               data-testid="concept-v2-next-checkpoint-preview"
@@ -2097,7 +2131,7 @@ export function ConceptPageV2LessonRail({
             role="region"
             aria-label={finalWrapUpAriaLabel}
             aria-describedby={completeCheckpointDescriptionId}
-            className="mt-3 rounded-[18px] border border-teal-500/22 bg-teal-500/10 px-3 py-3 shadow-[0_1px_0_rgba(255,255,255,0.76)_inset]"
+            className="mt-3 hidden rounded-[18px] border border-teal-500/22 bg-teal-500/10 px-3 py-3 shadow-[0_1px_0_rgba(255,255,255,0.76)_inset] md:block"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="text-sm font-semibold leading-5 text-teal-800">{copy.lessonCompleteLabel}</p>

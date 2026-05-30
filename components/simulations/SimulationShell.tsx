@@ -13,6 +13,7 @@ type SimulationShellProps = {
   controlsAnchorId?: string;
   controlsAnchorLabel?: string;
   scene: ReactNode;
+  sceneAction?: ReactNode;
   equations: ReactNode;
   benchEquations?: ReactNode;
   controls: ReactNode;
@@ -80,6 +81,7 @@ export function SimulationShell({
   controlsAnchorLabel,
   transport,
   scene,
+  sceneAction,
   equations,
   benchEquations,
   controls,
@@ -159,6 +161,19 @@ export function SimulationShell({
       ].join(" ")}
     >
       {scene}
+      {sceneAction ? (
+        <div
+          data-testid="simulation-shell-scene-action"
+          className={[
+            "absolute z-30",
+            isFocusStage
+              ? "bottom-2 right-2 sm:bottom-3 sm:right-3"
+              : "right-2 top-2 sm:right-3 sm:top-3",
+          ].join(" ")}
+        >
+          {sceneAction}
+        </div>
+      ) : null}
       {showBenchEquationsInScene ? (
         <div
           data-testid="simulation-shell-bench-equations"

@@ -19,6 +19,13 @@ type TimeControlRailProps = {
   className?: string;
 };
 
+type TimeStagePlaybackButtonProps = {
+  isPlaying: boolean;
+  canPlay?: boolean;
+  onTogglePlay: () => void;
+  className?: string;
+};
+
 function formatTime(value: number) {
   if (!Number.isFinite(value)) {
     return "0.00 s";
@@ -37,6 +44,66 @@ function clampTime(value: number, maxTime: number) {
   }
 
   return Math.min(Math.max(value, 0), Math.max(maxTime, 0));
+}
+
+export function TimeStagePlaybackButton({
+  isPlaying,
+  canPlay = true,
+  onTogglePlay,
+  className,
+}: TimeStagePlaybackButtonProps) {
+  const t = useTranslations("TimeControlRail");
+
+  return (
+    <button
+      type="button"
+      data-testid="simulation-stage-playback-toggle"
+      aria-label={isPlaying ? t("aria.pauseSimulation") : t("aria.playSimulation")}
+      aria-pressed={isPlaying}
+      disabled={!canPlay}
+      onPointerUp={(event) => {
+        if (!canPlay) {
+          return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        onTogglePlay();
+      }}
+      onKeyDown={(event) => {
+        if (!canPlay || (event.key !== "Enter" && event.key !== " ")) {
+          return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        onTogglePlay();
+      }}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (event.detail === 0) {
+          onTogglePlay();
+        }
+      }}
+      className={[
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/18 bg-ink-950/84 text-paper-strong shadow-lg shadow-ink-950/28 backdrop-blur transition hover:border-teal-300/42 hover:bg-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950 disabled:cursor-not-allowed disabled:opacity-45",
+        className ?? "",
+      ].join(" ")}
+    >
+      <span aria-hidden="true" className="relative flex h-4 w-4 items-center justify-center text-current">
+        {isPlaying ? (
+          <span className="flex h-4 items-center gap-1">
+            <span className="block h-4 w-1.5 rounded-sm bg-current" />
+            <span className="block h-4 w-1.5 rounded-sm bg-current" />
+          </span>
+        ) : (
+          <span className="ml-0.5 block h-0 w-0 border-y-[7px] border-l-[11px] border-y-transparent border-l-current" />
+        )}
+      </span>
+    </button>
+  );
 }
 
 export function TimeControlRail({

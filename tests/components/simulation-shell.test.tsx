@@ -39,6 +39,7 @@ describe("SimulationShell", () => {
         transport={<div data-testid="transport">Transport</div>}
         benchHeader={<div data-testid="bench-header">Bench header</div>}
         scene={<div data-testid="scene">Scene</div>}
+        sceneAction={<button type="button">Scene action</button>}
         benchEquations={<div data-testid="bench-equations">Bench equations</div>}
         controls={<div data-testid="controls">Controls</div>}
         graphs={<div data-testid="graphs">Graphs</div>}
@@ -56,8 +57,12 @@ describe("SimulationShell", () => {
     const transportSlot = container.querySelector('[data-testid="simulation-shell-transport"]');
     const benchHeaderSlot = container.querySelector('[data-testid="simulation-shell-bench-header"]');
     const benchEquationsSlot = container.querySelector('[data-testid="simulation-shell-bench-equations"]');
+    const sceneActionSlot = container.querySelector('[data-testid="simulation-shell-scene-action"]');
 
     expect(sceneSlot?.textContent).toContain("Scene");
+    expect(sceneActionSlot).toContainElement(screen.getByRole("button", { name: "Scene action" }));
+    expect(sceneSlot).toContainElement(sceneActionSlot as HTMLElement);
+    expect(sceneActionSlot).toHaveClass("absolute", "z-30", "right-2", "top-2");
     expect(benchEquationsSlot?.textContent).toContain("Bench equations");
     expect(sceneSlot).toContainElement(benchEquationsSlot as HTMLElement);
     expect(benchEquationsSlot).toHaveClass(
@@ -241,6 +246,7 @@ describe("SimulationShell", () => {
         transport={<div data-testid="transport">Transport</div>}
         benchHeader={<section data-testid="bench-header">Bench header</section>}
         scene={<section data-testid="scene">Scene</section>}
+        sceneAction={<button type="button">Stage play</button>}
         controls={<div data-testid="controls">Controls</div>}
         interactionRail={<section data-testid="interaction-rail">Interaction rail</section>}
         graphs={<section data-testid="graphs">Graphs</section>}
@@ -252,12 +258,16 @@ describe("SimulationShell", () => {
     const shell = container.querySelector('[data-stage-tone="focus"]');
     const benchHeaderSlot = container.querySelector('[data-focus-surface="bench-header"]');
     const sceneSlot = container.querySelector('[data-focus-surface="scene"]');
+    const sceneActionSlot = container.querySelector('[data-testid="simulation-shell-scene-action"]');
     const railSlot = container.querySelector('[data-focus-surface="rail"]');
     const graphsSlot = container.querySelector('[data-focus-surface="graphs"]');
 
     expect(shell).toHaveClass("simulation-shell--focus-stage");
     expect(benchHeaderSlot).toContainElement(screen.getByTestId("bench-header"));
     expect(sceneSlot).toContainElement(screen.getByTestId("scene"));
+    expect(sceneSlot).toContainElement(sceneActionSlot as HTMLElement);
+    expect(sceneActionSlot).toContainElement(screen.getByRole("button", { name: "Stage play" }));
+    expect(sceneActionSlot).toHaveClass("bottom-2", "right-2", "sm:bottom-3", "sm:right-3");
     expect(railSlot).toContainElement(screen.getByTestId("interaction-rail"));
     expect(graphsSlot).toContainElement(screen.getByTestId("graphs"));
   });

@@ -457,7 +457,7 @@ import { useConceptLearningBridge } from "@/components/concepts/ConceptLearningB
 import { GraphTabs, LineGraph, type LineGraphLinkedMarker } from "@/components/graphs";
 import { ControlPanel } from "./ControlPanel";
 import { SimulationShell } from "./SimulationShell";
-import { TimeControlRail } from "./TimeControlRail";
+import { TimeControlRail, TimeStagePlaybackButton } from "./TimeControlRail";
 
 type ConceptRuntimeTranslator = (
   key: string,
@@ -9159,6 +9159,15 @@ export function ConceptSimulationRenderer({
               applyLiveParamChange(param, coerceValue(value));
             }}
           />
+        }
+        sceneAction={
+          hasInteractiveTime ? (
+            <TimeStagePlaybackButton
+              isPlaying={hasInteractiveTime && !isInspecting && isPlaying}
+              canPlay={hasInteractiveTime}
+              onTogglePlay={togglePlayback}
+            />
+          ) : null
         }
         benchEquations={<EquationBenchStrip equations={benchEquations} />}
         controls={

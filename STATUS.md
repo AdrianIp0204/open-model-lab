@@ -1,5 +1,24 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-044 SHM Phone Playback And Lesson Path Patch
+
+Current state: `OML-QA-044` is complete. The SHM pilot now has a compact in-scene play/pause control so phone users can start or stop the animation from the first live-model viewpoint, and the phone lesson-path rail no longer repeats the full detailed prompt/quick-check/next-checkpoint block below the bench.
+
+### Files Changed
+
+- `components/simulations/TimeControlRail.tsx`, `SimulationShell.tsx`, and `ConceptSimulationRenderer.tsx`: add the reusable compact stage playback control and dock it inside the live scene.
+- `components/concepts/ConceptPageV2Panels.tsx`: simplify the phone lesson rail by leaving progress, previous/next, and the step map visible while keeping the dense detail blocks for wider layouts.
+- `tests/components/simulation-shell.test.tsx`, `tests/components/concept-page-v2-panels.test.tsx`, and `tests/e2e/concept-page-v2-flow.spec.ts`: add focused coverage for the scene action slot, compact phone lesson rail, and OML-QA-044 SHM phone flow.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/simulations/TimeControlRail.tsx components/simulations/SimulationShell.tsx components/simulations/ConceptSimulationRenderer.tsx components/concepts/ConceptPageV2Panels.tsx tests/components/simulation-shell.test.tsx tests/components/concept-page-v2-panels.test.tsx tests/e2e/concept-page-v2-flow.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/simulation-shell.test.tsx tests/components/concept-page-v2-panels.test.tsx`: passed, 33/33.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3157 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-044-combined pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-043|OML-QA-044" --reporter=line`: passed, 2/2.
+
 ## 2026-05-30 OML-QA-043 Simple Harmonic Motion Concept Workbench Pilot
 
 Current state: `OML-QA-043` is complete. Simple Harmonic Motion is now the pilot improved concept workbench: the first guided step is prediction-first and explicitly separates angular-frequency timing from amplitude size, the step cue/action/reveals now align with the live bench controls and graphs, and the calm secondary reference path exposes worked examples, common misconception, quick test, equations, explanation, and accessibility support.

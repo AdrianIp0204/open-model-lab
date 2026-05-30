@@ -424,3 +424,13 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-30 HKT): Reworked SHM as the pilot concept workbench: the first guided step now starts with a timing-vs-size prediction, the step cue/action/reveals align with angular frequency instead of amplitude, and the secondary reference path exposes worked examples, the common misconception, quick test, equations, explanation, and accessibility support.
   - Validation: git diff --check passed; pnpm validate:content passed; focused concept-page resolver/framework vitest passed; zh-HK overlay validation, locale quality, and content variant validation passed; targeted eslint passed; pnpm typecheck passed; focused Playwright concept V2 flow passed for the default SHM step, OML-QA-043, and OML-QA-017; desktop/phone screenshots captured at `output/qa-oml-qa-043-shm-desktop-loaded.png` and `output/qa-oml-qa-043-shm-phone-loaded.png`.
+
+- [x] **OML-QA-044: Patch SHM phone playback and lesson-path density.**
+  - Evidence: Adrian's follow-up screenshots/callout after the SHM pilot asked for a small play button or symbol at the same first viewpoint, said the phone lesson-path section was broken, and said the lesson path still felt messy/overwhelming to read.
+  - UX problem: phone users could see the live model and current cue before the full time controls, and the lower lesson rail repeated too much detailed guidance after the compact first-view cue already handled the active step.
+  - Affected area: `TimeControlRail`, `SimulationShell`, `ConceptSimulationRenderer`, `ConceptPageV2Panels`, and focused component/browser coverage.
+  - Fix direction: put a compact play/pause affordance inside the live scene, then reduce the phone lesson rail to progress, previous/next, and a step map while preserving the richer detail rail on wider screens.
+  - Validation: focused component tests, typecheck, and phone Playwright coverage should verify the scene playback affordance is in the first viewport, the phone lesson path no longer horizontally overflows, and the existing SHM workbench pilot still passes.
+
+  - Completion note (2026-05-30 HKT): Added a reusable in-scene playback button to the concept bench and simplified the phone lesson rail by hiding the duplicate detailed prompt, quick-check, and next-checkpoint blocks below `md`.
+  - Validation: git diff --check passed; targeted eslint passed; simulation-shell and concept-page-panel component tests passed 33/33; pnpm typecheck passed; focused Playwright concept V2 flow passed for OML-QA-043 and OML-QA-044.

@@ -710,25 +710,27 @@ describe("ConceptPageV2StartHere", () => {
     const wrapUpCard = screen.getByTestId("concept-v2-start-lesson-preview-wrap-up");
     expect(previewList).toHaveAccessibleDescription("3 + Wrap-up");
     expect(previewList).toHaveClass(
+      "grid",
       "grid-cols-1",
-      "sm:grid-cols-2",
-      "md:grid-cols-3",
-      "2xl:grid-cols-4",
+      "gap-1.5",
     );
+    expect(previewList).not.toHaveClass("sm:grid-cols-2");
+    expect(previewList).not.toHaveClass("md:grid-cols-3");
     expect(previewList).not.toHaveClass("xl:grid-cols-4");
-    expect(firstPreviewStep).toHaveClass("min-h-[3.85rem]", "px-2", "py-1.5");
+    expect(firstPreviewStep).toHaveClass("min-h-11", "items-center", "px-2.5", "py-2");
     expect(
-      within(firstPreviewStep).getByTestId("concept-v2-start-lesson-preview-first-badge"),
-    ).toHaveTextContent("Start here");
+      within(firstPreviewStep).queryByTestId("concept-v2-start-lesson-preview-first-badge"),
+    ).not.toBeInTheDocument();
     const compactFirstPreviewTitle = within(firstPreviewStep)
       .getByText("Set up the pattern")
-      .closest(".line-clamp-2.break-words");
+      .closest(".line-clamp-1.break-words");
     expect(compactFirstPreviewTitle).not.toBeNull();
     expect(compactFirstPreviewTitle!).toHaveClass("text-sm", "leading-5");
-    expect(wrapUpCard).toHaveClass("min-h-[3.85rem]", "2xl:col-span-1");
+    expect(wrapUpCard).toHaveClass("min-h-11", "items-center", "px-2.5", "py-2");
+    expect(wrapUpCard).not.toHaveClass("2xl:col-span-1");
     expect(wrapUpCard).not.toHaveClass("sm:col-span-2");
     expect(wrapUpCard).toHaveTextContent("Wrap-up");
-    expect(within(wrapUpCard).getByText("Wrap-up")).toHaveClass("text-xs", "leading-5");
+    expect(within(wrapUpCard).getByText("Wrap-up")).toHaveClass("text-sm", "leading-5");
     expect(within(preview).queryByText("Start concept")).not.toBeInTheDocument();
 
     await user.click(within(handoff).getByRole("button", { name: /Start concept/ }));
@@ -1196,8 +1198,7 @@ describe("ConceptPageV2LessonRail", () => {
       name: "Up next: Explain the rule",
     });
     expect(nextCheckpoint).toHaveAttribute("data-testid", "concept-v2-next-checkpoint");
-    expect(nextCheckpoint).toHaveClass("flex", "flex-col", "md:flex-row");
-    expect(nextCheckpoint).not.toHaveClass("hidden");
+    expect(nextCheckpoint).toHaveClass("hidden", "flex-col", "md:flex", "md:flex-row");
     expect(nextCheckpoint).toHaveTextContent("Up next");
     const nextCheckpointDescription = within(nextCheckpoint)
       .getByText("Turn the pattern into a rule.")
@@ -1447,8 +1448,7 @@ describe("ConceptPageV2LessonRail", () => {
       "The left trace moved first.",
     );
     const nextCheckpoint = screen.getByTestId("concept-v2-next-checkpoint");
-    expect(nextCheckpoint).toHaveClass("flex", "flex-col", "md:flex-row");
-    expect(nextCheckpoint).not.toHaveClass("hidden");
+    expect(nextCheckpoint).toHaveClass("hidden", "flex-col", "md:flex", "md:flex-row");
     expect(nextCheckpoint).toHaveTextContent(
       "Compare two outputs",
     );

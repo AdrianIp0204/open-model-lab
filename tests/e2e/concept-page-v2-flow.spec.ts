@@ -457,6 +457,66 @@ test.describe("concept page v2 flow", () => {
     }
   });
 
+  test("OML-QA-044 keeps SHM phone controls and lesson path usable", async ({
+    browser,
+  }) => {
+    test.setTimeout(120_000);
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const page = await newConceptFlowPage(context);
+    const browserGuard = await installBrowserGuards(page);
+
+    try {
+      await gotoAndExpectOk(page, "/en/concepts/simple-harmonic-motion");
+
+      const stageToggle = page.getByTestId("simulation-stage-playback-toggle");
+      await expect(page.getByTestId("simulation-shell-scene")).toBeInViewport();
+      await expect(stageToggle).toBeVisible();
+      await expect(stageToggle).toBeInViewport();
+      await expect(stageToggle).toHaveAttribute("aria-label", /Play simulation|Pause simulation/);
+
+      const initialToggleLabel = await stageToggle.getAttribute("aria-label");
+      await stageToggle.dispatchEvent("pointerup", {
+        bubbles: true,
+        button: 0,
+        pointerType: "touch",
+      });
+      await expect
+        .poll(() => stageToggle.getAttribute("aria-label"))
+        .not.toBe(initialToggleLabel);
+
+      const stepSlot = page.getByTestId("concept-v2-step-card-slot");
+      await stepSlot.scrollIntoViewIfNeeded();
+      await expect(stepSlot).toBeVisible();
+      await expect(page.getByTestId("concept-v2-step-map")).toBeVisible();
+      await expect(stepSlot.getByRole("button", { name: /Previous step/i })).toBeVisible();
+      await expect(stepSlot.getByRole("button", { name: /Next step/i })).toBeVisible();
+      await expect(page.getByTestId("concept-v2-current-step-secondary-guidance")).toBeHidden();
+      await expect(page.getByTestId("concept-v2-rail-inline-check")).toBeHidden();
+      await expect(page.getByTestId("concept-v2-next-checkpoint")).toBeHidden();
+
+      const lessonMetrics = await page.evaluate(() => {
+        const stepSlot = document.querySelector<HTMLElement>(
+          "[data-testid='concept-v2-step-card-slot']",
+        );
+        const stepMap = document.querySelector<HTMLElement>("[data-testid='concept-v2-step-map']");
+
+        return {
+          stepSlotOverflow: stepSlot ? stepSlot.scrollWidth - stepSlot.clientWidth : 999,
+          stepMapOverflow: stepMap ? Math.max(0, stepMap.scrollWidth - stepMap.clientWidth) : 0,
+          stepSlotHeight: stepSlot?.getBoundingClientRect().height ?? 999,
+        };
+      });
+
+      expect(lessonMetrics.stepSlotOverflow).toBeLessThanOrEqual(1);
+      expect(lessonMetrics.stepMapOverflow).toBeGreaterThanOrEqual(0);
+      expect(lessonMetrics.stepSlotHeight).toBeLessThanOrEqual(360);
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
+    }
+  });
+
   test("OML-QA-017 lets guided rail inline checks answer with feedback on SHM and UCM", async ({
     browser,
   }) => {
