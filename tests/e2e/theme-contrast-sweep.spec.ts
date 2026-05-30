@@ -260,7 +260,6 @@ async function openSweepPage(
 ) {
   const page = await context.newPage();
   const guard = await installBrowserGuards(page);
-  guard.allowIssue(/caret-color/i);
 
   if (route.harnessState) {
     await setHarnessSession(page, route.harnessState);
@@ -857,6 +856,7 @@ test("OML-QA-035 light and dark theme contrast sweep passes representative site 
               await page.screenshot({
                 path: screenshot,
                 animations: "disabled",
+                caret: "initial",
                 fullPage: false,
               });
 

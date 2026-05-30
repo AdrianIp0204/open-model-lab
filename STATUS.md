@@ -1,5 +1,23 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-042 Caret-Color Hydration Warnings
+
+Current state: `OML-QA-042` is complete. The light/dark theme sweep no longer relies on a broad caret-color allowlist, and Playwright screenshot capture now preserves initial caret styling so the sweep does not inject transient `caret-color: transparent` styles that appear as hydration mismatches.
+
+### Files Changed
+
+- `tests/e2e/theme-contrast-sweep.spec.ts`: removes the broad `/caret-color/i` browser-guard allowlist and sets screenshot `caret: "initial"` for the sweep captures.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint tests/e2e/theme-contrast-sweep.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3148 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-042-orchestrator pnpm exec playwright test tests/e2e/theme-contrast-sweep.spec.ts --reporter=line`: passed with `routeCount: 29`, `caseCount: 62`, and `issueCount: 0`.
+- `pnpm test:e2e:qa-sweep -- tests/e2e/theme-contrast-sweep.spec.ts --chunk-size=1 --port=3149`: passed with `ok: true`, `hasInstability: false`, and `hasTestFailures: false`; summary artifact: `output/playwright/qa-sweep/2026-05-30T10-31-54-273Z/summary.json`.
+- Log/artifact checks found no `caret-color` or hydration mismatch findings in the QA-sweep shard log or theme sweep artifact.
+
 ## 2026-05-30 OML-QA-041 Teal CTA/Button Contrast
 
 Current state: `OML-QA-041` is complete. Shared teal action styling now uses theme-specific accessible foreground, background, hover, border, and shadow tokens so paper and dark themes do not reuse the same low-contrast `bg-teal-500 text-white` pairing. Selected graph tabs now inherit the same semantic teal action foreground.
