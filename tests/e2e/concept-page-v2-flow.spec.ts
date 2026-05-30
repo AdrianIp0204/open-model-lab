@@ -399,7 +399,7 @@ test.describe("concept page v2 flow", () => {
       await expect(page.getByTestId("concept-v2-start-here")).toHaveCount(0);
       await expect(stepSlot).toBeVisible();
 
-      await expect(stepSlot).toContainText("See one full cycle");
+      await expect(stepSlot).toContainText("Predict timing before size");
       await expect(stepSlot.getByRole("progressbar", { name: "Lesson path" })).toHaveAttribute(
         "aria-valuenow",
         "1",
@@ -410,9 +410,50 @@ test.describe("concept page v2 flow", () => {
       await expect(page.getByTestId("concept-v2-step-support-slot")).toHaveCount(0);
       await expect(stepSlot).toContainText("Now available");
       await expect(stepSlot).toContainText("Graph: Displacement over time");
+      await expect(stepSlot).toContainText("Graph: Velocity over time");
+      await expect(railInlineCheck).toContainText(
+        "If amplitude stays fixed and angular frequency increases",
+      );
       await expect(page.getByTestId("concept-v2-guided-live-lab")).toBeInViewport();
     } finally {
       await page.close().catch(() => undefined);
+    }
+  });
+
+  test("OML-QA-043 keeps SHM as a coherent concept workbench pilot", async ({
+    browser,
+  }) => {
+    test.setTimeout(120_000);
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await newConceptFlowPage(context);
+    const browserGuard = await installBrowserGuards(page);
+
+    try {
+      await gotoAndExpectOk(page, "/en/concepts/simple-harmonic-motion");
+
+      const stepSlot = page.getByTestId("concept-v2-step-card-slot");
+      const currentStepCue = page.getByTestId("concept-v2-current-step-cue");
+      const reference = page.getByTestId("concept-v2-reference");
+
+      await expect(stepSlot).toContainText("Separate cycle timing from swing size");
+      await expect(stepSlot).toContainText("Choose a prediction");
+      await expect(currentStepCue).toContainText("Separate cycle timing from swing size");
+      await page.getByTestId("concept-v2-bench-tools").locator("summary").click();
+      await expect(page.getByTestId("concept-v2-bench-tool-prediction")).toBeVisible();
+
+      await reference.scrollIntoViewIfNeeded();
+      await reference.locator(":scope > summary").click();
+      await expect(page.locator("#worked-examples")).toBeVisible();
+      await expect(page.locator("#common-misconception")).toBeVisible();
+      await expect(page.locator("#quick-test")).toBeVisible();
+      await expect(reference).toContainText("Worked examples");
+      await expect(reference).toContainText("Displacement at this instant");
+      await expect(reference).toContainText("If the mass is moving to the right");
+      await expect(reference).toContainText("Quick test");
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
     }
   });
 
@@ -427,7 +468,7 @@ test.describe("concept page v2 flow", () => {
     const cases = [
       {
         path: "/en/concepts/simple-harmonic-motion",
-        firstStep: "See one full cycle",
+        firstStep: "Predict timing before size",
         nextStep: "Link the stage and graphs",
         correctChoice: /The object cycles faster while the turning points stay at the same displacement/i,
       },
@@ -482,7 +523,7 @@ test.describe("concept page v2 flow", () => {
     const cases = [
       {
         slug: "simple-harmonic-motion",
-        firstStep: "See one full cycle",
+        firstStep: "Predict timing before size",
       },
       {
         slug: "electric-fields",

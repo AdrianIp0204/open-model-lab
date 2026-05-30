@@ -202,7 +202,9 @@ describe("ConceptPageFramework V2", () => {
 
     expect(screen.queryByTestId("concept-v2-start-here")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /return to bench/i })).not.toBeInTheDocument();
-    expect(screen.getByTestId("guided-step-slot")).toHaveTextContent("See one full cycle");
+    expect(screen.getByTestId("guided-step-slot")).toHaveTextContent(
+      "Predict timing before size",
+    );
     expect(screen.getByTestId("concept-v2-current-step-card")).toHaveTextContent("Current step");
     const equationSnapshot = screen.getByTestId("concept-v2-equation-snapshot");
     expect(equationSnapshot).toHaveTextContent(/equation snapshot/i);
@@ -515,12 +517,14 @@ describe("ConceptPageFramework V2", () => {
 
     const guidedLiveLab = screen.getByRole("region", { name: "Lesson path" });
     expect(guidedLiveLab).toHaveAttribute("data-testid", "concept-v2-guided-live-lab");
-    expect(screen.getByTestId("guided-step-slot")).toHaveTextContent("See one full cycle");
-    expect(screen.getByTestId("guided-step-context-probe")).toHaveTextContent(
-      "See one full cycle",
+    expect(screen.getByTestId("guided-step-slot")).toHaveTextContent(
+      "Predict timing before size",
     );
     expect(screen.getByTestId("guided-step-context-probe")).toHaveTextContent(
-      "Predict the next wider swing",
+      "Predict timing before size",
+    );
+    expect(screen.getByTestId("guided-step-context-probe")).toHaveTextContent(
+      "If amplitude stays fixed and angular frequency increases",
     );
     expect(screen.getByTestId("guided-reveal-probe")).toHaveTextContent("amplitude");
     expect(screen.getByTestId("phase-probe")).toHaveTextContent("explore");
@@ -564,7 +568,7 @@ describe("ConceptPageFramework V2", () => {
     renderFramework("simple-harmonic-motion");
 
     const stepMap = screen.getByTestId("concept-v2-step-map");
-    expect(stepMap).toHaveTextContent("See one full cycle");
+    expect(stepMap).toHaveTextContent("Predict timing before size");
     expect(stepMap).toHaveTextContent("Explain the restoring rule");
 
     await user.click(

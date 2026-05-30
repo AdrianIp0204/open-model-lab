@@ -24,19 +24,19 @@
     "guidedSteps": [
       {
         "id": "see-one-full-cycle",
-        "title": "See one full cycle",
-        "goal": "Build the first picture on the live bench before you analyse the graphs.",
-        "doThis": "Press play, keep the displacement graph visible, and increase Amplitude once.",
-        "notice": "The mass swings farther from equilibrium and the displacement peaks move with those wider turning points.",
-        "explain": "Amplitude changes how far the motion stretches, but the restoring pull still points back toward the center every time.",
+        "title": "Predict timing before size",
+        "goal": "Separate cycle timing from swing size before you touch the controls.",
+        "doThis": "Choose a prediction, then raise Angular frequency while leaving Amplitude fixed.",
+        "notice": "The peaks and center crossings arrive sooner, but the turning points stay at the same displacement.",
+        "explain": "Angular frequency changes the period of the cycle; Amplitude changes how far the mass travels from equilibrium.",
         "reveal": {
           "controlIds": ["amplitude", "omega"],
-          "graphIds": ["displacement"],
+          "graphIds": ["displacement", "velocity"],
           "overlayIds": ["motionTrail", "equilibriumLine"],
           "toolHints": ["playback"]
         },
         "inlineCheck": {
-          "title": "Predict the next wider swing",
+          "note": "Answer before moving the Angular frequency slider.",
           "predictionIds": ["shm-predict-1"]
         }
       },
@@ -54,25 +54,25 @@
         },
         "inlineCheck": {
           "title": "Read the graph before you answer",
-          "questionIds": ["shm-qt-1", "shm-qt-2"]
+          "questionIds": ["shm-qt-2"]
         }
       },
       {
         "id": "explain-the-restoring-rule",
         "title": "Explain the restoring rule",
-        "goal": "Say out loud what always determines the direction of the acceleration.",
-        "doThis": "Use Angular frequency to tighten the cycle, then answer the quick check without hiding the live bench.",
-        "notice": "Changing timing does not change the rule: acceleration still points toward equilibrium, not in the current direction of travel.",
-        "explain": "Simple harmonic motion is governed by displacement from equilibrium, so position tells you the restoring pull even when the object is still moving the other way.",
+        "goal": "Use displacement, not travel direction, to decide where acceleration points.",
+        "doThis": "Turn on the acceleration vector, scrub near a turning point, and answer the misconception check.",
+        "notice": "The mass can still be moving outward while the acceleration arrow already points back toward equilibrium.",
+        "explain": "Simple harmonic motion is governed by displacement from equilibrium, so position tells you the restoring pull even when velocity points the other way.",
         "reveal": {
           "controlIds": ["omega", "phase"],
           "graphIds": ["acceleration", "energy"],
           "overlayIds": ["accelerationVector"]
         },
         "inlineCheck": {
-          "title": "Use one more short check",
-          "questionIds": ["shm-qt-3"],
-          "includeMiniChallenge": true
+          "title": "Catch the velocity trap",
+          "note": "Use the arrow on the live bench before choosing.",
+          "questionIds": ["shm-qt-3"]
         }
       }
     ],
@@ -99,7 +99,14 @@
       ],
       "freePlayPrompt": "Leave the bench running and invent your own pair of turning-point and equilibrium-crossing comparisons."
     },
-    "referenceSections": ["explanation", "keyIdeas", "accessibility"]
+    "referenceSections": [
+      "explanation",
+      "keyIdeas",
+      "workedExamples",
+      "commonMisconception",
+      "quickTest",
+      "accessibility"
+    ]
   },
   "sections": {
     "explanation": {
@@ -382,9 +389,9 @@
       ],
       "primaryPresetIds": [],
       "starterExploreTasks": [
-        "Change the amplitude and watch how much farther the mass swings from equilibrium.",
+        "Predict what Angular frequency will change before you move the slider.",
         "Keep the displacement graph visible and compare the live turning points with the graph peaks.",
-        "Increase angular frequency and notice that the cycle tightens while the peak displacement stays the same."
+        "Pause at equilibrium and at a turning point so displacement, velocity, and acceleration line up as one instant."
       ]
     },
     "controls": [

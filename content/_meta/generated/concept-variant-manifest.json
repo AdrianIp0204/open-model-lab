@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-30T03:29:01.183Z",
+  "generatedAt": "2026-05-30T12:18:52.550Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -33,7 +33,7 @@
       "title": "Simple Harmonic Motion",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/simple-harmonic-motion.json",
-      "canonicalSourceHash": "764c52ba93c0ea99f282e447dbab2c032d65d14eff976ba46531a9f85ab72e60",
+      "canonicalSourceHash": "cfcc94e548894c39cd561cfd19ee9571379891f926d942213babbe31d729a156",
       "subject": "Physics",
       "topic": "Oscillations",
       "subtopic": "Foundations",
@@ -71,8 +71,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "764c52ba93c0ea99f282e447dbab2c032d65d14eff976ba46531a9f85ab72e60",
-          "currentSourceHash": "764c52ba93c0ea99f282e447dbab2c032d65d14eff976ba46531a9f85ab72e60"
+          "recordedSourceHash": "cfcc94e548894c39cd561cfd19ee9571379891f926d942213babbe31d729a156",
+          "currentSourceHash": "cfcc94e548894c39cd561cfd19ee9571379891f926d942213babbe31d729a156"
         },
         "provider": null,
         "translatedAt": null,
@@ -94,15 +94,15 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/simple-harmonic-motion.json",
-          "outputHash": "271c02808a6d0661cd1b4b689f5ed6f53262d7d03f9898e62a42c88c04548d1f",
+          "outputHash": "6b9c22e47cfbf5f6e007ef2745fe82ccf322f4f212f6dd0fb5acc11316752f85",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "764c52ba93c0ea99f282e447dbab2c032d65d14eff976ba46531a9f85ab72e60",
-            "currentSourceHash": "764c52ba93c0ea99f282e447dbab2c032d65d14eff976ba46531a9f85ab72e60"
+            "recordedSourceHash": "cfcc94e548894c39cd561cfd19ee9571379891f926d942213babbe31d729a156",
+            "currentSourceHash": "cfcc94e548894c39cd561cfd19ee9571379891f926d942213babbe31d729a156"
           },
-          "provider": "external-google-bing-script",
-          "translatedAt": "2026-05-29T05:35:12.310802Z",
+          "provider": "manual-morrow-pilot",
+          "translatedAt": "2026-05-30T12:18:47.642767Z",
           "notes": [],
           "issues": [],
           "fallbackBaseVariant": "optimized",

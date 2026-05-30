@@ -30,7 +30,7 @@ describe("concept page v2 resolver", () => {
 
     expect(model.source).toBe("authored");
     expect(model.steps.map((step) => step.label)).toEqual([
-      "See one full cycle",
+      "Predict timing before size",
       "Link the stage and graphs",
       "Explain the restoring rule",
     ]);
@@ -41,6 +41,9 @@ describe("concept page v2 resolver", () => {
     ]);
     expect(model.wrapUp.learned.length).toBeGreaterThan(0);
     expect(model.referenceSections.map((section) => section.id)).toContain("explanation");
+    expect(model.referenceSections.map((section) => section.id)).toEqual(
+      expect.arrayContaining(["workedExamples", "commonMisconception", "quickTest"]),
+    );
     expect(model.equationSnapshotNote).toBe(
       "Keep one displacement equation and one acceleration equation in sight while you read the cycle.",
     );

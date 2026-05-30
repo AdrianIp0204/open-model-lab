@@ -2,19 +2,19 @@
   "version": 1,
   "locale": "zh-HK",
   "createdAt": "2026-04-09T15:18:55.731320Z",
-  "updatedAt": "2026-05-29T05:35:12.310802Z",
+  "updatedAt": "2026-05-30T12:18:47.642767Z",
   "entries": {
     "concept:simple-harmonic-motion": {
-      "attempts": 8,
+      "attempts": 10,
       "fieldCount": 322,
       "lastError": null,
-      "outputHash": "271c02808a6d0661cd1b4b689f5ed6f53262d7d03f9898e62a42c88c04548d1f",
+      "outputHash": "6b9c22e47cfbf5f6e007ef2745fe82ccf322f4f212f6dd0fb5acc11316752f85",
       "outputPath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/i18n/zh-HK/concepts/simple-harmonic-motion.json",
-      "provider": "external-google-bing-script",
-      "sourceHash": "764c52ba93c0ea99f282e447dbab2c032d65d14eff976ba46531a9f85ab72e60",
+      "provider": "manual-morrow-pilot",
+      "sourceHash": "cfcc94e548894c39cd561cfd19ee9571379891f926d942213babbe31d729a156",
       "sourcePath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/concepts/simple-harmonic-motion.json",
       "status": "done",
-      "translatedAt": "2026-05-29T05:35:12.310802Z"
+      "translatedAt": "2026-05-30T12:18:47.642767Z"
     },
     "concept:projectile-motion": {
       "attempts": 8,

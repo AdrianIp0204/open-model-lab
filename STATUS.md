@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-043 Simple Harmonic Motion Concept Workbench Pilot
+
+Current state: `OML-QA-043` is complete. Simple Harmonic Motion is now the pilot improved concept workbench: the first guided step is prediction-first and explicitly separates angular-frequency timing from amplitude size, the step cue/action/reveals now align with the live bench controls and graphs, and the calm secondary reference path exposes worked examples, common misconception, quick test, equations, explanation, and accessibility support.
+
+### Files Changed
+
+- `content/concepts/simple-harmonic-motion.json`: rewrites the first and final guided steps, aligns SHM starter tasks with the timing-vs-size workbench path, and adds worked examples / misconception / quick test to the secondary reference path.
+- `content/i18n/zh-HK/concepts/simple-harmonic-motion.json`, `content/i18n/zh-HK/manifest.json`, and generated i18n artifacts: update the zh-HK overlay and hashes for the SHM pilot changes.
+- `tests/e2e/concept-page-v2-flow.spec.ts`, `tests/components/concept-page-framework.test.tsx`, and `tests/content/concept-page-v2.test.ts`: update focused coverage for the new SHM first step and add the OML-QA-043 workbench-pilot assertion.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm validate:content`: passed.
+- `pnpm exec vitest run tests/content/concept-page-v2.test.ts tests/components/concept-page-framework.test.tsx`: passed.
+- `pnpm i18n:validate -- --locale zh-HK && pnpm i18n:check:zh-HK && pnpm content:variants:validate`: passed with zh-HK `valid: true`, locale `issueCount: 0`, and zh-HK variant `usable=97`, `stale=0`, `withFallback=0`.
+- `pnpm exec eslint tests/e2e/concept-page-v2-flow.spec.ts tests/components/concept-page-framework.test.tsx tests/content/concept-page-v2.test.ts`: passed.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3150 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-043 pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-043|the first guided step is active by default on simple harmonic motion|OML-QA-017" --reporter=line`: passed, 3/3.
+- Desktop and phone visual checks were captured after the live bench loaded: `output/qa-oml-qa-043-shm-desktop-loaded.png` and `output/qa-oml-qa-043-shm-phone-loaded.png`.
+
 ## 2026-05-30 OML-QA-042 Caret-Color Hydration Warnings
 
 Current state: `OML-QA-042` is complete. The light/dark theme sweep no longer relies on a broad caret-color allowlist, and Playwright screenshot capture now preserves initial caret styling so the sweep does not inject transient `caret-color: transparent` styles that appear as hydration mismatches.
