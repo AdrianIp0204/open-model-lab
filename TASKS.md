@@ -444,3 +444,97 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-30 HKT): Restored a concise phone `Do this` strip for the active lesson step and changed the phone lesson map to a two-column grid while retaining the desktop/tablet horizontal rail behavior.
   - Validation: git diff --check passed; targeted eslint passed; concept-page-panel component tests passed 26/26; pnpm typecheck passed; focused Playwright OML-QA-044 phone flow passed with step-slot and step-map overflow at or below 1px.
+
+## Full Concept Page QA / UI-UX Pass 2026-05-30
+
+Audit artifacts:
+
+- Broad raw all-concept route sweep: `output/qa-concept-pages-2026-05-30-2026-05-30T14-30-26-554Z/summary.json`.
+- Refined visual audit excluding screen-reader-only text: `output/qa-concept-pages-refined-2026-05-30-2026-05-30T14-47-16-250Z/summary.json`.
+- Manual screenshots: `output/qa-concept-pages-manual-2026-05-30/`.
+- Representative interaction probe: `output/qa-concept-pages-interaction-2026-05-30/summary.json`.
+
+Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `820x1180`, desktop `1440x900`, and wide desktop `1728x1000`; zh-HK was swept at phone `390x844`. No concept route failed to load, no visible `h1` was missing, no simulation scene was missing, and no page-level horizontal overflow was detected. The remaining tasks are quality, usability, localization, and coverage gaps.
+
+### P0 - Shared Concept Page Blockers
+
+- [ ] **OML-QA-046: Add a durable all-concept quality matrix and browser audit gate before the page-by-page drain.**
+  - Evidence: this QA pass required one-off browser scripts to sweep all `97` concept slugs and then a refined rerun because screen-reader-only text polluted the first density/clipping metrics. There is no committed per-concept matrix that says which slugs have passed the SHM-quality standard.
+  - UX/product problem: without a durable matrix, the task drain can fix the loudest screenshots while still leaving unseen concept pages with poor first-view flow, tiny handles, untranslated scene text, or duplicate support surfaces.
+  - Affected area: QA scripts/tests, `TASKS.md`, `STATUS.md`, and any future concept-page task-drain workflow.
+  - Fix direction: add a checked-in concept-page QA command that iterates every concept slug and writes a stable JSON/Markdown matrix with route health, h1/scene presence, viewport positions for scene/cue/controls/graphs/lesson rail, page overflow, visible clipping, touch-target gaps, localization leak checks, and representative interaction checks. Keep generated artifacts under `output/`, but make the command and thresholds durable.
+  - Validation: from a clean checkout, the new command should cover all current slugs, fail on at least one seeded fixture/regression, and write a concise artifact that can be used to mark individual concept pages as `not reviewed`, `needs shared fix`, `needs content rewrite`, `needs simulation visual fix`, or `passed`.
+
+- [ ] **OML-QA-047: Fix concept pages where the phone/tablet live scene pushes the current step or controls too far below the first usable viewport.**
+  - Evidence: refined audit reported `cueAfterFirstViewport` on `19` cases and `controlsAfterOnePointFive` on `15` cases. Phone examples: `/en/concepts/maxwells-equations-synthesis` has cue `y=3158`, controls `y=3366`, graphs `y=3763`; `/en/concepts/beats` has cue `y=1190`, controls `y=1398`; `/en/concepts/doppler-effect`, `/sound-waves-longitudinal-motion`, `/pitch-frequency-loudness-intensity`, `/resonance-air-columns-open-closed-pipes`, `/wave-speed-wavelength`, `/lens-imaging`, and `/optical-resolution-imaging-limits` show the same pattern. Tablet examples: `/en/concepts/maxwells-equations-synthesis`, `/photoelectric-effect`, and `/radioactivity-half-life`.
+  - UX problem: the learner sees a large visual or readout stack, but the actual "what should I do next?" cue and the first control are one to four screens below. This breaks the concept-machine loop.
+  - Affected area: tall simulation scene components, `SimulationShell`, mobile/tablet stage/readout layout, `SimulationMobileReadoutDetails`, and per-simulation readout/card density.
+  - Fix direction: for each affected simulation family, cap first-view scene/readout height on phone/tablet, move dense readouts behind a compact disclosure, keep the current-step cue immediately after or beside the scene, and ensure at least one primary control is reachable by the first 1.5 viewports. Maxwell likely needs a separate compact synthesis stage rather than stacking five large law cards vertically.
+  - Validation: rerun the all-concept audit and require cue `y <= viewportHeight` and controls `y <= 1.5 * viewportHeight` for phone/tablet unless the concept has a documented exception. Capture before/after screenshots for Maxwell, Beats, Doppler, one sound-wave page, Photoelectric, and Radioactivity.
+
+- [ ] **OML-QA-048: Remove visible English and corrupted localizable scene copy from zh-HK concept visuals.**
+  - Evidence: manual zh-HK screenshot `output/qa-concept-pages-manual-2026-05-30/phone-zhhk-maxwell-viewport.png` visibly contains English copy inside the live scene: `One compact synthesis stage keeps...`. The SHM phone screenshot also shows scene/readout text that looks partially localized or corrupted around labels such as `POINT E D A`.
+  - UX problem: the route-level zh-HK sweep can pass while simulation internals still look English or machine-corrupted inside the most important visual surface.
+  - Affected area: simulation component literal strings, SVG text/readout labels, scene badges, localizer coverage, `scripts/browser-zhhk-site-sweep.mjs`, and semantic zh-HK audit fixtures.
+  - Fix direction: audit visible text inside `[data-testid="simulation-shell-scene"]` for every zh-HK concept page, move remaining literal scene/readout strings into the same localization path as other concept copy, and preserve math symbols/units/product names through explicit allowlists rather than runtime fallback rewriting.
+  - Validation: a zh-HK phone visual-scene text sweep over all `97` concept pages reports zero unapproved English phrases, no protected-token corruption, and no repeated filler labels. Include manual screenshots for Maxwell, SHM, Photoelectric, and at least one graph/algorithm concept.
+
+- [ ] **OML-QA-049: Restore touch target coverage for tablet breadcrumbs/language controls and remaining SVG scene handles.**
+  - Evidence: refined audit found small targets on `325` cases. The recurring shared issues are the language select and breadcrumb links on tablet/desktop-like layouts (`Change language`, `Home`, `Concepts`, subject/topic crumbs). Phone-specific SVG handles still fail on concepts including `electric-potential`, `magnetic-fields`, `gravitational-fields`, `gravitational-potential-energy`, `lens-imaging`, `mirrors`, `diffraction`, `double-slit-interference`, `wave-interference`, `photoelectric-effect`, `polar-coordinates-radius-and-angle`, `inverse-trig-angle-from-ratio`, `refraction-snells-law`, `total-internal-reflection`, `static-equilibrium-centre-of-mass`, and `uniform-circular-motion`.
+  - UX/accessibility problem: touch users have to hit tiny text crumbs or 12-26px SVG targets in the live model. This is especially bad on tablet, where the UI looks spacious but key controls remain mouse-sized.
+  - Affected area: `SiteHeader`/breadcrumb layout, language selector, simulation SVG drag primitives, and per-simulation invisible hit regions.
+  - Fix direction: make breadcrumb and language controls meet a touch-safe hit area on touch/tablet breakpoints without bloating desktop visual rhythm; add invisible 44px hit regions around remaining draggable SVG handles; verify drag behavior still maps correctly to the visible handle.
+  - Validation: extend the mobile/tablet target audit to cover all affected slugs and require zero visible interactive targets below the target-size floor in the first 1.5 viewports, except for explicitly documented non-touch desktop-only controls.
+
+### P1 - Concept Workbench UX Quality
+
+- [ ] **OML-QA-050: Stop current-step cue and action text clipping on desktop/wide and zh-HK phone.**
+  - Evidence: refined audit found current-step cue clipping on `31` cases. Desktop/wide examples include `basic-circuits`, `doppler-effect`, `magnetic-fields`, `maxwells-equations-synthesis`, `optical-resolution-imaging-limits`, `rc-charging-and-discharging`, `refraction-snells-law`, and `static-equilibrium-centre-of-mass`. `simple-harmonic-motion` still clips the desktop current-step action in the audit. zh-HK phone examples include `de-broglie-matter-waves`, `electromagnetic-induction`, `keplers-third-law-orbital-periods`, `polarization`, `power-energy-circuits`, `series-parallel-circuits`, `refraction-snells-law`, and `total-internal-reflection`.
+  - UX problem: the cue is supposed to be the single next action, so clipping it damages the highest-priority instruction even when the rest of the page renders.
+  - Affected area: `ConceptPageV2CurrentStepCue`, compact text heuristics in `ConceptPageV2Panels.tsx`, content `v2.guidedSteps[*].goal/doThis`, and zh-HK overlays.
+  - Fix direction: allow the cue to grow where the layout has room, strengthen compacting so it never cuts after a dangling phrase, and shorten overlong per-concept goals/actions through the content seam. Do not rely on ellipses for the primary action.
+  - Validation: route audit should report no clipping for `concept-v2-current-step-cue-goal` or `concept-v2-current-step-cue-action` across phone/tablet/desktop/wide in English and zh-HK. Add regression examples for SHM, Basic Circuits, Maxwell, and one long zh-HK step.
+
+- [ ] **OML-QA-051: Make graph tabs, equation chips, and formula snapshots wrap or scroll cleanly on phone.**
+  - Evidence: refined audit repeatedly found visible clipping in graph labels and formulas, including `Graph: Visited nodes versus frontier size`, `Graph: Source speed and wavefront spacing`, `Graph: Terminal voltage and internal drop vs load resistance`, `secant slope=...`, `Rgroup=...`, `Bcoil=...`, `Ey(x,t)=...`, `sin(theta_c)=...`, and multiple long reference labels.
+  - UX problem: math and graph names are supposed to orient the learner, but on phone they become cut-off chips or cramped one-line formulas.
+  - Affected area: graph tab/chip components, `ConceptPageV2EquationSnapshotCard`, rich math rendering wrappers, KaTeX sizing, and mobile equation/reference layouts.
+  - Fix direction: allow graph labels to wrap to two lines or use an intentional horizontal chip scroller with visible affordance; give formulas responsive max width and overflow handling; prefer shorter mobile labels where a full graph title is too long.
+  - Validation: phone audit over all concepts reports zero visible clipping for graph labels and equation/math snapshots in the first two viewports. Include screenshot checks for derivative, equivalent resistance, electromagnetic waves, internal resistance, and algorithm graph pages.
+
+- [ ] **OML-QA-052: Simplify the phone lesson-path section so it is an overview, not a second dense lesson.**
+  - Evidence: Adrian's screenshots already showed the lesson path as messy on SHM. The current SHM phone screenshot is no longer horizontally broken, but the lower lesson path still repeats current-step/action/notice/explain content after the live cue. Other pages show a similar long rail starting deep below the bench, for example Beats lesson path `y=2541`, Doppler `y=2727`, Maxwell `y=4573`.
+  - UX problem: phone users should not read the same instruction twice in two different card systems. The lesson path should help them orient and navigate, not add another heavy explanation stack.
+  - Affected area: `ConceptPageV2LessonRail`, `ConceptPageV2LessonSupport`, phone-only rail variants, and per-step preview copy.
+  - Fix direction: on phone, keep progress, current step title, one concise action line, previous/next, and the wrapped step map; move notice/explain/quick-check/next-checkpoint detail into the visible bench cue/tools or a deliberate disclosure. Make the step map look like navigation rather than another card carousel.
+  - Validation: phone screenshots for SHM, Equivalent Resistance, Beats, Maxwell, and Photoelectric show one clear lesson-path overview with no duplicate full current-step copy. DOM assertions should confirm the phone rail does not include multiple copies of the same `doThis` text outside the active cue unless a disclosure is opened.
+
+- [ ] **OML-QA-053: Give every concept's live window a clear first interaction affordance, not only time-based playback.**
+  - Evidence: `40` concept pages have no in-scene action slot because they are not time-playback concepts, while animated/time-based pages do expose a play/pause surface. Representative interaction probe shows the current in-scene action is present on SHM, Beats, Maxwell, Equivalent Resistance, and Photoelectric, but text-based probing could not confirm a state-label change from Play to Pause.
+  - UX problem: the live window should always answer "what can I manipulate right here?" For time-based models that is play/pause/scrub; for static or direct-manipulation models it may be a drag-handle cue, selected probe, reset-to-reference, or one highlighted variable.
+  - Affected area: `SimulationShell` scene action slot, per-simulation draggable affordances, scene overlay labels, and accessible labels for play/pause/drag handles.
+  - Fix direction: define per-simulation first-action metadata: `playback`, `drag-probe`, `adjust-source`, `toggle-mode`, or `inspect-state`. Render a compact visual affordance in the live scene and ensure the accessible name/state changes when the action changes. Do not put a generic play button on non-time simulations.
+  - Validation: all concept pages expose either a scene action or an explicitly audited "direct manipulation available" affordance in the scene. Interaction tests should verify play/pause aria state changes on time-based pages and drag/toggle affordances work on representative non-time pages.
+
+- [ ] **OML-QA-054: Rewrite high-density concept first views into compact concept-machine openings before adding more support text.**
+  - Evidence: refined visual-density audit still found `42` dense cases after excluding screen-reader-only text. Top examples include `maxwells-equations-synthesis`, `rolling-motion`, `kirchhoff-loop-and-junction-rules`, `angular-momentum`, `gravitational-potential-energy`, `equivalent-resistance`, `rotational-inertia`, `percent-yield-and-reaction-extent`, `internal-resistance-and-terminal-voltage`, and `specific-heat-and-phase-change`.
+  - UX problem: many pages technically have the live bench first, but the first viewport still reads like a dense technical dashboard instead of one clear experiment and one next move.
+  - Affected area: per-concept simulation scene density, readout cards, graph summaries, current-step copy, control descriptions, and content `v2.guidedSteps`.
+  - Fix direction: for each high-density slug, reduce first-view copy to one concept claim, one active variable, one current task, and one readable visual. Move secondary readouts, equation notes, and reference copy into Step Tools or post-bench reference. Use visual state, labels, and examples instead of adding prose.
+  - Validation: after each page is fixed, the refined audit should put phone first-viewport visible words under roughly `180`, tablet under `260`, and desktop/wide under `300`, while screenshots still show the live model, cue, and first control.
+
+### P2 - Interaction, State, And Regression Coverage
+
+- [ ] **OML-QA-055: Add representative concept-page user-flow coverage for header/menu/help/theme/language, step navigation, graph tabs, compare, reset, and error/loading states.**
+  - Evidence: representative probe in `output/qa-concept-pages-interaction-2026-05-30/summary.json` checked six concept cases and basic interactions, but this is not yet a durable gate and did not cover header menu/help/theme/language state changes or route-level loading/error states.
+  - UX problem: concept pages have many visible controls, but current broad sweeps focus mostly on layout. A page can pass layout checks while menu/help/language, graph tabs, compare controls, reset, or loading/error fallbacks are awkward or broken.
+  - Affected area: Playwright concept suites, `SiteHeader`, help/tutorial state, theme/language controls, graph tabs, compare controls, reset buttons, concept route loading/error components, and signed-out/signed-in route variants.
+  - Fix direction: add a representative flow spec that uses a small matrix of concept families: time playback, direct-manipulation SVG, circuit, graph/algorithm, chemistry/pH, modern physics, and Maxwell-style synthesis. Cover phone, tablet, and desktop. Include route reload/loading, invalid concept slug/not-found, menu open/close, help open/close, language switch, theme switch, next/previous lesson step, graph tab switch, compare enter/exit, reset, and a prediction/quick-check answer.
+  - Validation: new spec passes locally, is included in the QA-sweep or documented concept release gate, and writes artifacts only on failure.
+
+- [ ] **OML-QA-056: Turn the SHM pilot into an explicit per-concept drain protocol and start with the highest-risk slugs.**
+  - Evidence: SHM now has the strongest concept-workbench treatment, but the all-concept QA shows many remaining pages need either shared component fixes, simulation visual compression, localization work, or content rewrites. The highest-risk first batch from this pass is: `maxwells-equations-synthesis`, `beats`, `doppler-effect`, `sound-waves-longitudinal-motion`, `pitch-frequency-loudness-intensity`, `resonance-air-columns-open-closed-pipes`, `wave-speed-wavelength`, `lens-imaging`, `optical-resolution-imaging-limits`, `photoelectric-effect`, `radioactivity-half-life`, `equivalent-resistance`, `kirchhoff-loop-and-junction-rules`, `basic-circuits`, and `de-broglie-matter-waves`.
+  - UX problem: fixing shared layout bugs is necessary but not enough. Each concept still needs a human-quality pass: is the first action the right one, is the visual inspectable, is the lesson path necessary, are examples tied to the model, and is the next step obvious?
+  - Affected area: `content/concepts/*.json`, zh-HK overlays, simulation components, focused concept tests, and screenshots.
+  - Fix direction: for each concept, use the SHM pilot as a pattern but not a template to blindly copy. Rewrite the first guided step around the concept's actual misconception or variable distinction, check that revealed tools match the live controls/graphs, remove duplicate surfaces, and verify the visual window at phone/tablet/desktop/wide.
+  - Validation: each completed concept should add or update a focused assertion, pass content/i18n validation, pass the concept-page audit for its slug, and include before/after screenshots in `output/`. Mark completion under the relevant task only after the page passes in English and zh-HK where localized.
