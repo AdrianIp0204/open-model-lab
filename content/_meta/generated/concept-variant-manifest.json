@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-29T15:20:13.115Z",
+  "generatedAt": "2026-05-30T03:29:01.183Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -3390,7 +3390,7 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/series-parallel-circuits.json",
-          "outputHash": "390e02b8dad091cccce416bb159e8e57856c90d1cff4615c38f21a5136f92258",
+          "outputHash": "02942863481c975af6871cf05637712f4c33d37131f17925b211d33914adf9c7",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",

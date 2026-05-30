@@ -526,7 +526,10 @@ export function LineGraph({
               key={item.id}
               className="inline-flex items-center gap-2 rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.72rem] text-ink-700"
               aria-label={t(item.dashed ? "legend.dashed" : "legend.solid", {
-                label: resolveSeriesDisplayLabel(item.label, title, series.length),
+                label: localizeExactZhHkRuntimeCopy(
+                  locale,
+                  resolveSeriesDisplayLabel(item.label, title, series.length),
+                ),
               })}
             >
               <LegendGlyph color={item.color ?? palette[index % palette.length]} dashed={item.dashed} />
@@ -656,7 +659,7 @@ export function LineGraph({
               strokeLinejoin="round"
               strokeDasharray={item.dashed ? "10 8" : undefined}
               aria-label={t(item.dashed ? "legend.dashedSeries" : "legend.solidSeries", {
-                label: item.label,
+                label: localizeExactZhHkRuntimeCopy(locale, item.label),
               })}
             />
           );

@@ -1,5 +1,30 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-034 Semantic zh-HK Browser QA Gate
+
+Current state: `OML-QA-034` is complete. The zh-HK browser sweep now includes a semantic quality layer that checks visible text, accessibility labels, document titles, placeholders, protected tokens, generic filler repeats, mixed English function words, Simplified characters, mojibake, message-key leaks, and identical label clusters, with grouped source-category details in a separate semantic artifact.
+
+### Files Changed
+
+- `scripts/zhhk-semantic-audit.mjs`: adds the reusable semantic zh-HK analyzer and grouped report builder for DOM fallback localizer, message catalog, content overlay, simulation copy, accessibility label, protected-token corruption, and user-fixture findings.
+- `scripts/browser-zhhk-site-sweep.mjs`: feeds visible text plus accessibility metadata into the semantic analyzer and writes `output/browser-zhhk-site-sweep.semantic-details.json` beside the existing summary/detail artifacts.
+- `tests/i18n/zh-hk-semantic-browser-sweep.test.ts`: adds positive failure fixtures for generic filler, mixed English function words, corrupted email/domain tokens, Simplified characters, message keys, and untranslated aria labels, plus allowlisted math/product-name cases.
+- `components/graphs/GraphTabs.tsx`, `components/graphs/LineGraph.tsx`, `components/search/SearchPage.tsx`, `lib/i18n/zh-hk-exact-runtime-copy.tsx`, `messages/en.json`, `messages/zh-HK.json`, and `content/i18n/zh-HK/concepts/series-parallel-circuits.json`: repair surfaced zh-HK accessibility/runtime copy and one mojibake overlay field.
+- `content/i18n/generated/zh-HK.json`, `content/i18n/zh-HK/manifest.json`, and `content/_meta/generated/concept-variant-manifest.json`: refresh generated artifacts after the overlay repair.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `node --check scripts/zhhk-semantic-audit.mjs && node --check scripts/browser-zhhk-site-sweep.mjs`: passed.
+- `pnpm exec vitest run tests/i18n/zh-hk-semantic-browser-sweep.test.ts`: passed, 3/3.
+- `pnpm exec eslint scripts/browser-zhhk-site-sweep.mjs scripts/zhhk-semantic-audit.mjs tests/i18n/zh-hk-semantic-browser-sweep.test.ts components/graphs/GraphTabs.tsx components/graphs/LineGraph.tsx components/search/SearchPage.tsx lib/i18n/zh-hk-exact-runtime-copy.tsx`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm content:variants:validate`: passed with zh-HK `usable=97`, `invalid=0`, `stale=0`, and `withFallback=0`.
+- `pnpm typecheck`: passed.
+- `pnpm i18n:sweep:zh-HK -- --autostart`: passed with `issueCount: 0`, `englishLeakUnapprovedIssueCount: 0`, `semanticZhHkIssueCount: 0`, `publicRouteCount: 139`, `signedInFreeRouteCount: 4`, and `signedInPremiumRouteCount: 8`.
+- Artifact inspection confirmed `output/browser-zhhk-site-sweep.semantic-details.json` has `issueCount: 0` and the expected source categories.
+
 ## 2026-05-30 OML-QA-033 zh-HK Validation And Sweep Repair
 
 Current state: `OML-QA-033` is complete. The zh-HK validator/worklist mismatch is fixed, generated zh-HK artifacts are refreshed, and the full browser zh-HK sweep is green again after the unsafe generic `項目` localizer was removed.

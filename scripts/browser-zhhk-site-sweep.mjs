@@ -2,6 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { chromium } from "@playwright/test";
+import {
+  analyzeZhHkSemanticEntries,
+  buildZhHkSemanticReport,
+} from "./zhhk-semantic-audit.mjs";
 
 const root = process.cwd();
 const shouldAutostartSweepServer =
@@ -12,6 +16,11 @@ let publicBaseUrl = process.env.OPEN_MODEL_LAB_BASE_URL ?? "http://127.0.0.1:300
 let devBaseUrl = process.env.OPEN_MODEL_LAB_DEV_BASE_URL ?? "http://127.0.0.1:3100";
 const outputPath = path.join(root, "output", "browser-zhhk-site-sweep.json");
 const detailedOutputPath = path.join(root, "output", "browser-zhhk-site-sweep.details.json");
+const semanticDetailedOutputPath = path.join(
+  root,
+  "output",
+  "browser-zhhk-site-sweep.semantic-details.json",
+);
 const managedServerLogPath = path.join(root, "output", "browser-zhhk-site-sweep.server.log");
 const managedServerErrorLogPath = path.join(
   root,
@@ -528,6 +537,7 @@ async function scanRoute(page, baseUrl, routePath, category) {
   const url = new URL(routePath, baseUrl).toString();
   const routeIssues = [];
   const routeEnglishFindings = [];
+  const routeSemanticFindings = [];
 
   try {
     const response = await page.goto(url, {
@@ -542,7 +552,11 @@ async function scanRoute(page, baseUrl, routePath, category) {
         kind: "NO_DOCUMENT_RESPONSE",
         sample: "No document response returned.",
       });
-      return { issues: routeIssues, englishFindings: routeEnglishFindings };
+      return {
+        issues: routeIssues,
+        englishFindings: routeEnglishFindings,
+        semanticFindings: routeSemanticFindings,
+      };
     }
 
     if (!response.ok()) {
@@ -557,7 +571,7 @@ async function scanRoute(page, baseUrl, routePath, category) {
     await page.locator("body").waitFor({ state: "visible", timeout: 15_000 });
     await page.waitForTimeout(750);
     const pageTitle = (await page.title()).trim();
-    const visibleTextEntries = await page.evaluate(
+    const auditedTextEntries = await page.evaluate(
       ({ maxSnippets }) => {
         const skipSelectors = [
           ".sr-only",
@@ -717,6 +731,24 @@ async function scanRoute(page, baseUrl, routePath, category) {
         return snippets;
       }
 
+      function pushEntry(lines, seen, entry) {
+        const entryKey = [
+          entry.text,
+          entry.nearestHeading ?? "",
+          entry.landmark ?? "",
+          entry.elementTag,
+          entry.elementRole ?? "",
+          entry.sourceType ?? "",
+        ].join("\u0000");
+
+        if (seen.has(entryKey)) {
+          return;
+        }
+
+        seen.add(entryKey);
+        lines.push(entry);
+      }
+
       const lines = [];
       const seen = new Set();
       const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
@@ -748,28 +780,80 @@ async function scanRoute(page, baseUrl, routePath, category) {
         const elementTag = parent.tagName.toLowerCase();
         const elementRole = inferElementRole(parent);
         const snippets = getSnippets(parent);
-        const entryKey = [text, nearestHeading ?? "", landmark ?? "", elementTag, elementRole ?? ""].join(
-          "\u0000",
-        );
-
-        if (seen.has(entryKey)) {
-          continue;
-        }
-
-        seen.add(entryKey);
-        lines.push({
+        pushEntry(lines, seen, {
           text,
           nearestHeading,
           landmark,
           elementTag,
           elementRole,
+          sourceType: "visible text",
+          isAccessibilityLabel: false,
+          isControlLabel: elementRole === "button" || elementRole === "link",
           snippets,
         });
+      }
+
+      const labeledElements = [
+        ...document.querySelectorAll(
+          [
+            "[aria-label]",
+            "button[title]",
+            "a[href][title]",
+            "input[placeholder]",
+            "textarea[placeholder]",
+            "select[aria-label]",
+            "[role='button'][aria-label]",
+            "[role='link'][aria-label]",
+          ].join(","),
+        ),
+      ];
+
+      for (const element of labeledElements) {
+        if (
+          !(element instanceof HTMLElement) ||
+          skipSelectors.some((selector) => element.closest(selector))
+        ) {
+          continue;
+        }
+
+        if (!isVisibleElement(element)) {
+          continue;
+        }
+
+        const labels = [
+          ["aria-label", element.getAttribute("aria-label")],
+          ["title", element.getAttribute("title")],
+          ["placeholder", element.getAttribute("placeholder")],
+        ];
+
+        for (const [sourceType, rawText] of labels) {
+          const text = normalizeText(rawText ?? "");
+
+          if (!text) {
+            continue;
+          }
+
+          const elementRole = inferElementRole(element);
+          pushEntry(lines, seen, {
+            text,
+            nearestHeading: getNearestHeading(element),
+            landmark: getLandmark(element),
+            elementTag: element.tagName.toLowerCase(),
+            elementRole,
+            sourceType,
+            isAccessibilityLabel: sourceType === "aria-label" || sourceType === "title",
+            isControlLabel: elementRole === "button" || elementRole === "link",
+            snippets: getSnippets(element),
+          });
+        }
       }
 
       return lines;
       },
       { maxSnippets: MAX_DETAIL_SNIPPETS },
+    );
+    const visibleTextEntries = auditedTextEntries.filter(
+      (entry) => entry.sourceType === "visible text",
     );
     const bodyText = visibleTextEntries.map((entry) => entry.text).join("\n");
     const jsonLdText = (await page.locator("script[type='application/ld+json']").allTextContents())
@@ -783,7 +867,11 @@ async function scanRoute(page, baseUrl, routePath, category) {
         kind: "EMPTY_BODY",
         sample: "No visible body text found.",
       });
-      return { issues: routeIssues, englishFindings: routeEnglishFindings };
+      return {
+        issues: routeIssues,
+        englishFindings: routeEnglishFindings,
+        semanticFindings: routeSemanticFindings,
+      };
     }
 
     const visibleError = VISIBLE_ERROR_PATTERNS.find((pattern) => pattern.test(bodyText));
@@ -870,6 +958,36 @@ async function scanRoute(page, baseUrl, routePath, category) {
         sample: messageKeyLeak[0],
       });
     }
+
+    const semanticEntries = [
+      ...auditedTextEntries,
+      {
+        text: pageTitle,
+        nearestHeading: null,
+        landmark: "document title",
+        elementTag: "title",
+        elementRole: null,
+        sourceType: "title",
+        isAccessibilityLabel: false,
+        isControlLabel: false,
+        snippets: [pageTitle],
+      },
+    ];
+    const semanticFindings = shouldAuditEnglishLeak(routePath)
+      ? analyzeZhHkSemanticEntries(semanticEntries, routePath, { category })
+      : [];
+    routeSemanticFindings.push(...semanticFindings);
+    if (semanticFindings.length > 0) {
+      routeIssues.push({
+        route: routePath,
+        category,
+        kind: "ZHHK_SEMANTIC_QUALITY",
+        sample: semanticFindings[0].sample,
+        findingCount: semanticFindings.length,
+        sourceCategories: [...new Set(semanticFindings.map((finding) => finding.sourceCategory))],
+        detailArtifact: path.relative(root, semanticDetailedOutputPath),
+      });
+    }
   } catch (error) {
     routeIssues.push({
       route: routePath,
@@ -879,23 +997,29 @@ async function scanRoute(page, baseUrl, routePath, category) {
     });
   }
 
-  return { issues: routeIssues, englishFindings: routeEnglishFindings };
+  return {
+    issues: routeIssues,
+    englishFindings: routeEnglishFindings,
+    semanticFindings: routeSemanticFindings,
+  };
 }
 
 async function scanRouteList(context, baseUrl, routes, category) {
   const page = await context.newPage();
   const issues = [];
   const englishFindings = [];
+  const semanticFindings = [];
 
   for (const routePath of routes) {
     const routeResult = await scanRoute(page, baseUrl, routePath, category);
     const routeIssues = routeResult.issues;
     issues.push(...routeIssues);
     englishFindings.push(...routeResult.englishFindings);
+    semanticFindings.push(...routeResult.semanticFindings);
   }
 
   await page.close();
-  return { issues, englishFindings };
+  return { issues, englishFindings, semanticFindings };
 }
 
 let managedSweepServerProcess = null;
@@ -953,10 +1077,21 @@ try {
     ...signedInFreeResult.englishFindings,
     ...signedInPremiumResult.englishFindings,
   ];
+  const semanticFindings = [
+    ...publicResult.semanticFindings,
+    ...signedInFreeResult.semanticFindings,
+    ...signedInPremiumResult.semanticFindings,
+  ];
   const detailedEnglishReport = buildDetailedEnglishReport(englishFindings);
+  const detailedSemanticReport = buildZhHkSemanticReport(semanticFindings);
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(detailedOutputPath, JSON.stringify(detailedEnglishReport, null, 2), "utf8");
+  fs.writeFileSync(
+    semanticDetailedOutputPath,
+    JSON.stringify(detailedSemanticReport, null, 2),
+    "utf8",
+  );
   fs.writeFileSync(
     outputPath,
     JSON.stringify(
@@ -967,8 +1102,11 @@ try {
         issueCount: issues.length,
         englishLeakUnapprovedIssueCount: detailedEnglishReport.unapprovedIssueCount,
         approvedEnglishFindingCount: detailedEnglishReport.approvedFindingCount,
+        semanticZhHkIssueCount: detailedSemanticReport.issueCount,
         detailedArtifact: path.relative(root, detailedOutputPath),
+        semanticDetailedArtifact: path.relative(root, semanticDetailedOutputPath),
         englishLeakDetails: detailedEnglishReport,
+        semanticZhHkDetails: detailedSemanticReport,
         issues,
       },
       null,
@@ -986,8 +1124,10 @@ try {
         issueCount: issues.length,
         englishLeakUnapprovedIssueCount: detailedEnglishReport.unapprovedIssueCount,
         approvedEnglishFindingCount: detailedEnglishReport.approvedFindingCount,
+        semanticZhHkIssueCount: detailedSemanticReport.issueCount,
         outputPath: path.relative(root, outputPath),
         detailedOutputPath: path.relative(root, detailedOutputPath),
+        semanticDetailedOutputPath: path.relative(root, semanticDetailedOutputPath),
       },
       null,
       2,

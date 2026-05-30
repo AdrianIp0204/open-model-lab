@@ -409,7 +409,7 @@ function SearchResultCard({
           isFallback={visual.isFallback}
           fallbackKind={visual.fallbackKind}
           tone={visual.tone ?? entry.accent}
-          ariaLabel={visual.label}
+          ariaLabel={entry.displayTitle}
           compact
           className="h-24 rounded-[18px]"
         />

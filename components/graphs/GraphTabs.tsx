@@ -120,7 +120,7 @@ export function GraphTabs({
         className="flex w-full gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible"
         role="tablist"
         aria-orientation="horizontal"
-        aria-label="Graph views"
+        aria-label={t("label")}
       >
         {primary.map((tab) =>
           renderGraphTab({

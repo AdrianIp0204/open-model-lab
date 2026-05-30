@@ -4577,6 +4577,7 @@
     }
   },
   "GraphTabs": {
+    "label": "Graph views",
     "summary": "{count, plural, one {# more graph stays tucked away until you need it.} other {# more graphs stay tucked away until you need them.}}",
     "show": "More graphs",
     "hide": "Hide graphs"

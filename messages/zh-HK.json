@@ -59,6 +59,10 @@
       "freeTier": "免費層級",
       "premium": "支持者方案"
     },
+    "help": {
+      "label": "幫助",
+      "openAriaLabel": "打開幫助 / 教學"
+    },
     "theme": {
       "dark": "深色",
       "light": "淺色",
@@ -4105,6 +4109,7 @@
     }
   },
   "GraphTabs": {
+    "label": "圖表視圖",
     "summary": "{count, plural, one {還有 # 個圖表先收起來，等你需要時再打開。} other {還有 # 個圖表先收起來，等你需要時再打開。}}",
     "show": "更多圖表",
     "hide": "收起圖表"
