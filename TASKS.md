@@ -434,3 +434,13 @@ This checklist is the working queue for follow-up agents. When completing an ite
 
   - Completion note (2026-05-30 HKT): Added a reusable in-scene playback button to the concept bench and simplified the phone lesson rail by hiding the duplicate detailed prompt, quick-check, and next-checkpoint blocks below `md`.
   - Validation: git diff --check passed; targeted eslint passed; simulation-shell and concept-page-panel component tests passed 33/33; pnpm typecheck passed; focused Playwright concept V2 flow passed for OML-QA-043 and OML-QA-044.
+
+- [x] **OML-QA-045: Restore phone lesson-path content without horizontal clipping.**
+  - Evidence: Adrian's follow-up phone screenshot after `OML-QA-044` showed the lesson-path section still clipping horizontally, and the simplified phone rail no longer showed the concrete current action.
+  - UX problem: the phone rail became too skeletal. It preserved the step title and progress, but removed the useful "what do I do now?" line and kept the step map in a horizontal carousel that looked broken inside the narrow card.
+  - Affected area: `components/concepts/ConceptPageV2Panels.tsx` and focused lesson-rail component/browser tests.
+  - Fix direction: add one compact phone-only action strip under the progress bar, keep the richer detailed rail on wider screens, and make the phone step map wrap into a stable grid instead of clipping off the right edge.
+  - Validation: focused component tests, typecheck, and the SHM phone Playwright gate should assert that the phone action copy is visible, the step map has no horizontal overflow, and the stage playback fix remains intact.
+
+  - Completion note (2026-05-30 HKT): Restored a concise phone `Do this` strip for the active lesson step and changed the phone lesson map to a two-column grid while retaining the desktop/tablet horizontal rail behavior.
+  - Validation: git diff --check passed; targeted eslint passed; concept-page-panel component tests passed 26/26; pnpm typecheck passed; focused Playwright OML-QA-044 phone flow passed with step-slot and step-map overflow at or below 1px.

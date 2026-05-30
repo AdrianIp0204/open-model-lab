@@ -487,6 +487,10 @@ test.describe("concept page v2 flow", () => {
       const stepSlot = page.getByTestId("concept-v2-step-card-slot");
       await stepSlot.scrollIntoViewIfNeeded();
       await expect(stepSlot).toBeVisible();
+      await expect(page.getByTestId("concept-v2-phone-step-summary")).toBeVisible();
+      await expect(page.getByTestId("concept-v2-phone-step-summary")).toContainText(
+        "Choose a prediction",
+      );
       await expect(page.getByTestId("concept-v2-step-map")).toBeVisible();
       await expect(stepSlot.getByRole("button", { name: /Previous step/i })).toBeVisible();
       await expect(stepSlot.getByRole("button", { name: /Next step/i })).toBeVisible();
@@ -508,8 +512,8 @@ test.describe("concept page v2 flow", () => {
       });
 
       expect(lessonMetrics.stepSlotOverflow).toBeLessThanOrEqual(1);
-      expect(lessonMetrics.stepMapOverflow).toBeGreaterThanOrEqual(0);
-      expect(lessonMetrics.stepSlotHeight).toBeLessThanOrEqual(360);
+      expect(lessonMetrics.stepMapOverflow).toBeLessThanOrEqual(1);
+      expect(lessonMetrics.stepSlotHeight).toBeLessThanOrEqual(430);
 
       browserGuard.assertNoActionableIssues();
     } finally {

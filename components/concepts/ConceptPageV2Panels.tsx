@@ -1614,6 +1614,19 @@ export function ConceptPageV2LessonRail({
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
+            <div
+              data-testid="concept-v2-phone-step-summary"
+              className="rounded-[16px] border border-teal-500/18 bg-teal-500/9 px-3 py-2 md:hidden"
+            >
+              <p className="text-xs font-semibold uppercase text-teal-700">
+                {copy.actLabel}
+              </p>
+              <RichMathText
+                as="p"
+                content={primaryActionRow.value}
+                className="mt-1 break-words text-sm font-semibold leading-6 text-ink-950"
+              />
+            </div>
             <div className="hidden rounded-[18px] border border-line/80 bg-paper-strong/80 px-3 py-2.5 md:block">
               <p id={currentStepCardLabelId} className="text-sm font-semibold leading-5 text-ink-700">
                 {copy.currentStepLabel}
@@ -1794,7 +1807,7 @@ export function ConceptPageV2LessonRail({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 pt-0.5 sm:flex sm:flex-wrap xl:grid xl:grid-cols-1 xl:justify-items-end">
+          <div className="grid grid-cols-2 gap-2 pt-0.5 xl:grid-cols-1 xl:justify-items-end">
             <button
               type="button"
               onClick={onPreviousStep}
@@ -1848,7 +1861,7 @@ export function ConceptPageV2LessonRail({
           <ol
             data-testid="concept-v2-step-map"
             data-concept-v2-step-map-scroll=""
-            className="mt-2 flex snap-x scroll-px-1.5 gap-1 overflow-x-auto overscroll-x-contain pb-1.5 [scrollbar-width:thin]"
+            className="mt-2 grid grid-cols-2 gap-1.5 md:flex md:snap-x md:scroll-px-1.5 md:gap-1 md:overflow-x-auto md:overscroll-x-contain md:pb-1.5 md:[scrollbar-width:thin]"
             aria-label={copy.lessonFlowLabel}
           >
             {steps.map((step, index) => {
@@ -1879,7 +1892,7 @@ export function ConceptPageV2LessonRail({
                   ref={isActive ? activeStepMapItemRef : undefined}
                   aria-posinset={index + 1}
                   aria-setsize={steps.length + 1}
-                  className="min-w-[7.25rem] flex-1 snap-start"
+                  className="min-w-0 md:min-w-[7.25rem] md:flex-1 md:snap-start"
                 >
                   <button
                     type="button"
@@ -1925,7 +1938,7 @@ export function ConceptPageV2LessonRail({
             <li
               aria-posinset={steps.length + 1}
               aria-setsize={steps.length + 1}
-              className="min-w-[7.25rem] flex-1 snap-start"
+              className="min-w-0 md:min-w-[7.25rem] md:flex-1 md:snap-start"
             >
               {isWrapUpReady && onCompleteLesson ? (
                 <button

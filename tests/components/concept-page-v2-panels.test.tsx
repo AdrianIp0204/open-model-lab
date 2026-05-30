@@ -1057,10 +1057,12 @@ describe("ConceptPageV2LessonRail", () => {
     );
     const stepMap = screen.getByTestId("concept-v2-step-map");
     expect(stepMap).toHaveClass(
-      "overflow-x-auto",
-      "scroll-px-1.5",
-      "overscroll-x-contain",
-      "[scrollbar-width:thin]",
+      "grid",
+      "grid-cols-2",
+      "md:overflow-x-auto",
+      "md:scroll-px-1.5",
+      "md:overscroll-x-contain",
+      "md:[scrollbar-width:thin]",
     );
     expect(stepMap).not.toHaveClass(
       "[scrollbar-width:none]",
@@ -1099,6 +1101,10 @@ describe("ConceptPageV2LessonRail", () => {
       .toHaveClass("min-w-0", "break-words");
     expect(within(stepMap).getByText("Explain the rule").closest(".line-clamp-1"))
       .toHaveClass("min-w-0", "break-words");
+
+    const phoneStepSummary = screen.getByTestId("concept-v2-phone-step-summary");
+    expect(phoneStepSummary).toHaveTextContent("Do this");
+    expect(phoneStepSummary).toHaveTextContent("Change the second setup.");
 
     const rail = screen.getByTestId("concept-v2-current-step-card");
     expect(rail).toHaveTextContent("Compare two traces.");

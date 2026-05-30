@@ -1,5 +1,23 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-045 Phone Lesson Path Content Repair
+
+Current state: `OML-QA-045` is complete. The SHM phone lesson path now keeps one concise action line visible under the progress bar and uses a wrapped phone step map instead of a clipped horizontal carousel.
+
+### Files Changed
+
+- `components/concepts/ConceptPageV2Panels.tsx`: add a phone-only current-step action strip and change the phone lesson map to a two-column grid while preserving the wider-layout horizontal rail.
+- `tests/components/concept-page-v2-panels.test.tsx` and `tests/e2e/concept-page-v2-flow.spec.ts`: cover the restored phone action copy and assert the phone step map no longer has horizontal overflow.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/concepts/ConceptPageV2Panels.tsx tests/components/concept-page-v2-panels.test.tsx tests/e2e/concept-page-v2-flow.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/concept-page-v2-panels.test.tsx`: passed, 26/26.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3160 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-044-phone-repair pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-044" --reporter=line`: passed, 1/1.
+
 ## 2026-05-30 OML-QA-044 SHM Phone Playback And Lesson Path Patch
 
 Current state: `OML-QA-044` is complete. The SHM pilot now has a compact in-scene play/pause control so phone users can start or stop the animation from the first live-model viewpoint, and the phone lesson-path rail no longer repeats the full detailed prompt/quick-check/next-checkpoint block below the bench.
