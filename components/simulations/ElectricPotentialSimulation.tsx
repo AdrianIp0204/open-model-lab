@@ -914,7 +914,7 @@ export function ElectricPotentialSimulation({
                 updateFromPointer(event.clientX, event.clientY);
               }}
             >
-              <circle cx={primaryProbeX} cy={primaryProbeY} r="22" fill="transparent" />
+              <circle cx={primaryProbeX} cy={primaryProbeY} r="68" fill="transparent" />
             </g>
             <g
               tabIndex={0}
@@ -928,7 +928,7 @@ export function ElectricPotentialSimulation({
                 updateFromPointer(event.clientX, event.clientY);
               }}
             >
-              <circle cx={sourceAX} cy={sourceAY} r="24" fill="transparent" />
+              <circle cx={sourceAX} cy={sourceAY} r="68" fill="transparent" />
             </g>
             <g
               tabIndex={0}
@@ -942,7 +942,7 @@ export function ElectricPotentialSimulation({
                 updateFromPointer(event.clientX, event.clientY);
               }}
             >
-              <circle cx={sourceBX} cy={sourceBY} r="24" fill="transparent" />
+              <circle cx={sourceBX} cy={sourceBY} r="68" fill="transparent" />
             </g>
           </>
         ) : null}

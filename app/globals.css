@@ -250,6 +250,15 @@ select {
     min-height: 44px;
   }
 
+  @media (any-pointer: coarse) {
+    .touch-target-coarse {
+      display: inline-flex;
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+    }
+  }
+
   .page-enter {
     animation: page-enter var(--motion-duration-page) var(--motion-ease-standard) backwards;
   }

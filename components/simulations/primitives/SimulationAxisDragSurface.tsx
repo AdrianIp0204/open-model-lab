@@ -20,6 +20,20 @@ type SimulationAxisDragSurfaceProps = {
   endValue?: number;
 };
 
+const MIN_TOUCH_REGION_SIZE = 136;
+
+function expandRegionToTouchFloor(region: SimulationAxisDragSurfaceProps["region"]) {
+  const width = Math.max(region.width, MIN_TOUCH_REGION_SIZE);
+  const height = Math.max(region.height, MIN_TOUCH_REGION_SIZE);
+
+  return {
+    x: region.x - (width - region.width) / 2,
+    y: region.y - (height - region.height) / 2,
+    width,
+    height,
+  };
+}
+
 export function SimulationAxisDragSurface({
   axis,
   svgWidth,
@@ -34,6 +48,8 @@ export function SimulationAxisDragSurface({
   homeValue,
   endValue,
 }: SimulationAxisDragSurfaceProps) {
+  const hitRegion = expandRegionToTouchFloor(region);
+
   function updateFromPointer(clientX: number, clientY: number, ownerSvg: SVGSVGElement) {
     const bounds = ownerSvg.getBoundingClientRect();
     const coordinate =
@@ -121,10 +137,10 @@ export function SimulationAxisDragSurface({
       }}
     >
       <rect
-        x={region.x}
-        y={region.y}
-        width={region.width}
-        height={region.height}
+        x={hitRegion.x}
+        y={hitRegion.y}
+        width={hitRegion.width}
+        height={hitRegion.height}
         fill="transparent"
       />
     </g>

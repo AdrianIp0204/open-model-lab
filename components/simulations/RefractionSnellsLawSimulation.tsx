@@ -452,7 +452,7 @@ function renderSetup(
             }
           }}
         >
-          <circle cx={incoming.x} cy={incoming.y} r="20" fill="transparent" />
+          <circle cx={incoming.x} cy={incoming.y} r="68" fill="transparent" />
         </g>
       ) : null}
     </g>

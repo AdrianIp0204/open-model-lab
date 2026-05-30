@@ -714,9 +714,9 @@ function renderSetup(
           }}
         >
           <rect
-            x={objectX - 22}
+            x={objectX - 68}
             y={worldToY(LENS_IMAGING_MAX_OBJECT_HEIGHT) - 18}
-            width="44"
+            width="136"
             height={AXIS_Y - worldToY(LENS_IMAGING_MAX_OBJECT_HEIGHT) + 26}
             fill="transparent"
           />

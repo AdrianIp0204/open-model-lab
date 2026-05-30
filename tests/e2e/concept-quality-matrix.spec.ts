@@ -371,8 +371,8 @@ async function auditConceptViewport(page: Page, concept: ConceptCatalogEntry, vi
     ({ expectedTitle, selectors, thresholds, isMobile }) => {
       type PositionKey = keyof typeof selectors;
 
-      function isVisibleElement(element: Element | null): element is HTMLElement {
-        if (!(element instanceof HTMLElement)) {
+      function isVisibleElement(element: Element | null): element is HTMLElement | SVGElement {
+        if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
           return false;
         }
 
@@ -420,8 +420,19 @@ async function auditConceptViewport(page: Page, concept: ConceptCatalogEntry, vi
             rect.right > 0 &&
             rect.top < window.innerHeight &&
             rect.left < window.innerWidth,
-          text: element.innerText?.replace(/\s+/g, " ").trim().slice(0, 180) ?? "",
+          text:
+            element instanceof HTMLElement
+              ? element.innerText.replace(/\s+/g, " ").trim().slice(0, 180)
+              : element.textContent?.replace(/\s+/g, " ").trim().slice(0, 180) ?? "",
         };
+      }
+
+      function elementText(element: Element) {
+        if (element instanceof HTMLElement) {
+          return element.innerText?.replace(/\s+/g, " ").trim() ?? "";
+        }
+
+        return element.textContent?.replace(/\s+/g, " ").trim() ?? "";
       }
 
       function visibleText(element: HTMLElement) {
@@ -459,8 +470,9 @@ async function auditConceptViewport(page: Page, concept: ConceptCatalogEntry, vi
         (Object.keys(selectors) as PositionKey[]).map((key) => [key, rectFor(selectors[key])]),
       );
       const main = document.querySelector("main") ?? document.body;
-      const clippingSamples = Array.from(main.querySelectorAll<HTMLElement>("*"))
-        .filter(isVisibleElement)
+      const auditRoot = document.body;
+      const clippingSamples = Array.from(main.querySelectorAll<Element>("*"))
+        .filter((element): element is HTMLElement => element instanceof HTMLElement && isVisibleElement(element))
         .filter((element) => {
           const rect = element.getBoundingClientRect();
           const styles = window.getComputedStyle(element);
@@ -497,27 +509,41 @@ async function auditConceptViewport(page: Page, concept: ConceptCatalogEntry, vi
           return {
             tag: element.tagName.toLowerCase(),
             testId: element.getAttribute("data-testid"),
-            text: element.innerText?.replace(/\s+/g, " ").trim().slice(0, 120) ?? "",
+            text: elementText(element).slice(0, 120),
             width: Math.round(rect.width),
             height: Math.round(rect.height),
             scrollWidth: element.scrollWidth,
             scrollHeight: element.scrollHeight,
           };
         });
+      const touchTargetViewportBottom =
+        window.innerHeight * thresholds.controlsViewportMultiplier;
       const touchTargets = isMobile
         ? Array.from(
-            main.querySelectorAll<HTMLElement>(
-              "button, input, select, textarea, summary, [role='button'], [tabindex]:not([tabindex='-1'])",
+            auditRoot.querySelectorAll<Element>(
+              "a[href], button, input, select, textarea, summary, [role='button'], [tabindex]:not([tabindex='-1'])",
             ),
           )
             .filter(isVisibleElement)
             .filter((element) => {
+              if (
+                element.matches(":disabled") ||
+                element.getAttribute("aria-disabled") === "true" ||
+                element.closest("[data-touch-target-audit-ignore='true']")
+              ) {
+                return false;
+              }
+
+              if (element instanceof HTMLInputElement && element.type === "hidden") {
+                return false;
+              }
+
               const rect = element.getBoundingClientRect();
 
               return (
                 rect.bottom > 0 &&
                 rect.right > 0 &&
-                rect.top < window.innerHeight &&
+                rect.top < touchTargetViewportBottom &&
                 rect.left < window.innerWidth &&
                 (rect.width < thresholds.minTouchTargetPx ||
                   rect.height < thresholds.minTouchTargetPx)
@@ -533,8 +559,7 @@ async function auditConceptViewport(page: Page, concept: ConceptCatalogEntry, vi
                 testId: element.getAttribute("data-testid"),
                 label:
                   element.getAttribute("aria-label") ??
-                  element.innerText?.replace(/\s+/g, " ").trim().slice(0, 80) ??
-                  "",
+                  elementText(element).slice(0, 80),
                 width: Math.round(rect.width),
                 height: Math.round(rect.height),
               };

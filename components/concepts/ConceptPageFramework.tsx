@@ -279,7 +279,7 @@ export function ConceptPageFramework({
           <Link
             href="/"
             locale={resolvedLocale}
-            className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950"
+            className="section-kicker touch-target-coarse whitespace-nowrap transition-colors hover:text-ink-950"
           >
             {t("breadcrumbs.home")}
           </Link>
@@ -287,7 +287,7 @@ export function ConceptPageFramework({
           <Link
             href="/concepts"
             locale={resolvedLocale}
-            className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950"
+            className="section-kicker touch-target-coarse whitespace-nowrap transition-colors hover:text-ink-950"
           >
             {t("breadcrumbs.conceptLibrary")}
           </Link>
@@ -297,7 +297,7 @@ export function ConceptPageFramework({
               <Link
                 href={subjectPage.path}
                 locale={resolvedLocale}
-                className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950"
+                className="section-kicker touch-target-coarse whitespace-nowrap transition-colors hover:text-ink-950"
               >
                 {subjectPage.title}
               </Link>
@@ -309,7 +309,7 @@ export function ConceptPageFramework({
               <Link
                 href={topicPage.path}
                 locale={resolvedLocale}
-                className="section-kicker whitespace-nowrap transition-colors hover:text-ink-950"
+                className="section-kicker touch-target-coarse whitespace-nowrap transition-colors hover:text-ink-950"
               >
                 {topicPage.title}
               </Link>

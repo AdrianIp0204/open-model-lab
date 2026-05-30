@@ -530,10 +530,10 @@ export function PolarCoordinatesSimulation({
             <circle
               cx={primaryPoint.x}
               cy={primaryPoint.y}
-              r="17"
+              r="68"
               fill="transparent"
               stroke="transparent"
-              strokeWidth="12"
+              strokeWidth="0"
             />
           </g>
           <text

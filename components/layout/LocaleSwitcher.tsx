@@ -47,7 +47,7 @@ export function LocaleSwitcher({
   return (
     <label
       className={[
-        "inline-flex items-center gap-2 rounded-full border border-line bg-paper-strong px-3 py-2 text-sm text-ink-950 shadow-sm",
+        "inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-paper-strong px-3 py-2 text-sm text-ink-950 shadow-sm",
         className,
       ]
         .join(" ")
@@ -58,7 +58,7 @@ export function LocaleSwitcher({
         aria-label={t("switcherAria")}
         value={selectedLocale}
         onChange={(event) => handleChange(event.target.value as AppLocale)}
-        className="min-w-0 bg-transparent pr-5 text-sm text-ink-950 outline-none"
+        className="min-h-11 min-w-11 bg-transparent pr-5 text-sm text-ink-950 outline-none"
       >
         {routing.locales.map((option) => (
           <option key={option} value={option}>

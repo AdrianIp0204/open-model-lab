@@ -485,12 +485,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
   - Completion note (2026-05-31 HKT): Localized zh-HK simulation-scene text and hardened the scene-only sweep so Maxwell, Doppler, shared mobile readouts, protected math tokens, and representative screenshots no longer leak unapproved English or corrupted filler labels.
   - Validation: git diff --check; pnpm i18n:sweep:zh-HK -- --scene-only --autostart; pnpm exec eslint touched simulation/i18n/sweep/test files; pnpm i18n:validate -- --locale zh-HK; pnpm exec vitest run tests/components/maxwell-equations-synthesis-simulation.test.tsx; pnpm typecheck; manual inspection of Maxwell, SHM, Photoelectric, and Binary Search zh-HK phone screenshots
-- [ ] **OML-QA-049: Restore touch target coverage for tablet breadcrumbs/language controls and remaining SVG scene handles.**
+- [x] **OML-QA-049: Restore touch target coverage for tablet breadcrumbs/language controls and remaining SVG scene handles.**
   - Evidence: refined audit found small targets on `325` cases. The recurring shared issues are the language select and breadcrumb links on tablet/desktop-like layouts (`Change language`, `Home`, `Concepts`, subject/topic crumbs). Phone-specific SVG handles still fail on concepts including `electric-potential`, `magnetic-fields`, `gravitational-fields`, `gravitational-potential-energy`, `lens-imaging`, `mirrors`, `diffraction`, `double-slit-interference`, `wave-interference`, `photoelectric-effect`, `polar-coordinates-radius-and-angle`, `inverse-trig-angle-from-ratio`, `refraction-snells-law`, `total-internal-reflection`, `static-equilibrium-centre-of-mass`, and `uniform-circular-motion`.
   - UX/accessibility problem: touch users have to hit tiny text crumbs or 12-26px SVG targets in the live model. This is especially bad on tablet, where the UI looks spacious but key controls remain mouse-sized.
   - Affected area: `SiteHeader`/breadcrumb layout, language selector, simulation SVG drag primitives, and per-simulation invisible hit regions.
   - Fix direction: make breadcrumb and language controls meet a touch-safe hit area on touch/tablet breakpoints without bloating desktop visual rhythm; add invisible 44px hit regions around remaining draggable SVG handles; verify drag behavior still maps correctly to the visible handle.
   - Validation: extend the mobile/tablet target audit to cover all affected slugs and require zero visible interactive targets below the target-size floor in the first 1.5 viewports, except for explicitly documented non-touch desktop-only controls.
+
+  - Completion note (2026-05-31 HKT): Raised coarse-pointer breadcrumb and language controls to the 44px floor, expanded remaining SVG drag hit regions, and extended the concept matrix touch-target audit over affected phone/tablet concept routes.
+  - Validation: git diff --check passed; targeted eslint on touched TS/TSX files passed; pnpm typecheck passed; focused pnpm concepts:qa-matrix over 16 affected slugs passed with zero touch-target issues; follow-up jq assertion found 0 touch/target/small issues. Remaining visible_clipping warnings are tracked by OML-QA-050/051.
 
 ### P1 - Concept Workbench UX Quality
 

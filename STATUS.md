@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-049 Concept Touch Target Coverage
+
+Current state: `OML-QA-049` is complete. Tablet breadcrumb and language controls now meet the coarse-pointer 44px touch floor, and the remaining SVG scene handles in the affected concept simulations use larger invisible hit regions without changing their visible handle size. The concept quality matrix now audits anchors, header controls, SVG interactive handles, and the first 1.5 viewports for touch target regressions.
+
+### Files Changed
+
+- `app/globals.css`: adds the coarse-pointer `touch-target-coarse` utility for 44px touch areas.
+- `components/concepts/ConceptPageFramework.tsx` and `components/layout/LocaleSwitcher.tsx`: apply touch-safe hit areas to concept breadcrumbs and the locale selector.
+- `components/simulations/primitives/SimulationAxisDragSurface.tsx`: expands generic SVG axis-drag hit regions.
+- `components/simulations/ElectricPotentialSimulation.tsx`, `MagneticFieldsSimulation.tsx`, `GravitationalFieldsSimulation.tsx`, `GravitationalPotentialSimulation.tsx`, `LensImagingSimulation.tsx`, `MirrorsSimulation.tsx`, `PolarCoordinatesSimulation.tsx`, `RefractionSnellsLawSimulation.tsx`, `StaticEquilibriumCentreOfMassSimulation.tsx`, and `UCMSimulation.tsx`: enlarge invisible SVG drag/tap regions for affected scene handles.
+- `tests/e2e/concept-quality-matrix.spec.ts`: broadens the touch-target audit to include links, header controls, SVG elements, and the first 1.5 viewports.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint` on touched TS/TSX files: passed.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3172 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-049-orchestrator OML_QA_046_CONCURRENCY=4 pnpm concepts:qa-matrix --slug=electric-potential,magnetic-fields,gravitational-fields,gravitational-potential-energy,lens-imaging,mirrors,diffraction,double-slit-interference,wave-interference,photoelectric-effect,polar-coordinates-radius-and-angle,inverse-trig-angle-from-ratio,refraction-snells-law,total-internal-reflection,static-equilibrium-centre-of-mass,uniform-circular-motion -- --project=chromium`: passed.
+- Follow-up matrix artifact assertion found `0` touch/target/small issues. The focused matrix still reports existing `visible_clipping` warnings; those remain tracked by `OML-QA-050` and `OML-QA-051`.
+
 ## 2026-05-31 OML-QA-048 zh-HK Concept Scene Text Sweep
 
 Current state: `OML-QA-048` is complete. zh-HK concept live scenes now have a durable phone scene-only sweep over all `97` published concept routes, with explicit checks for unapproved English phrases, protected math-token corruption, and repeated filler labels. The Maxwell synthesis scene and Doppler scene copy were localized through keyed/runtime copy paths, and shared mobile readout labels now localize on zh-HK routes.

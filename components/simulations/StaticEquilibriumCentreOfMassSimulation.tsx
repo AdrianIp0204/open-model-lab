@@ -924,7 +924,7 @@ export function StaticEquilibriumCentreOfMassSimulation({
               <circle
                 cx={projectX(primaryFrame.cargoPosition)}
                 cy={PLANK_TOP - 34}
-                r="28"
+                r="68"
                 fill="transparent"
               />
             </g>
@@ -949,7 +949,7 @@ export function StaticEquilibriumCentreOfMassSimulation({
               <circle
                 cx={projectX(primaryFrame.supportCenter)}
                 cy={SUPPORT_CONTACT_Y + 20}
-                r="28"
+                r="68"
                 fill="transparent"
               />
             </g>

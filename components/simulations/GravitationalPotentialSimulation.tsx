@@ -644,7 +644,7 @@ export function GravitationalPotentialSimulation({
                 }
               }}
             >
-              <circle cx={primaryProbeX} cy={primaryProbeY} r="24" fill="transparent" />
+              <circle cx={primaryProbeX} cy={primaryProbeY} r="68" fill="transparent" />
             </g>
           ) : null}
           <SimulationReadoutCard

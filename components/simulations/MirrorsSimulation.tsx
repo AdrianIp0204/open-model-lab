@@ -418,7 +418,7 @@ function renderSetup(
             }
           }}
         >
-          <rect x={objectX - 22} y={worldToY(MIRRORS_MAX_OBJECT_HEIGHT) - 18} width="44" height={AXIS_Y - worldToY(MIRRORS_MAX_OBJECT_HEIGHT) + 26} fill="transparent" />
+          <rect x={objectX - 68} y={worldToY(MIRRORS_MAX_OBJECT_HEIGHT) - 18} width="136" height={AXIS_Y - worldToY(MIRRORS_MAX_OBJECT_HEIGHT) + 26} fill="transparent" />
         </g>
       ) : null}
     </g>
