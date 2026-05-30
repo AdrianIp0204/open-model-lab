@@ -281,7 +281,7 @@ export function SimulationShell({
     >
       {sceneSlot}
       {benchCue && isSmViewportOrWider && !isLgViewportOrWider ? benchCueSlot : null}
-      {graphsSlot}
+      {isLgViewportOrWider ? graphsSlot : null}
     </div>
   );
 
@@ -319,6 +319,7 @@ export function SimulationShell({
                 {benchHeaderSlot}
                 {wideBenchStack}
                 {controlsSlot}
+                {!isLgViewportOrWider ? graphsSlot : null}
               </>
             ) : (
               usesPhoneVisualPriority ? (

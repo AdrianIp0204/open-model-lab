@@ -15,7 +15,7 @@ import {
   sampleLensImagingState,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
-import { SimulationReadoutSummary } from "./SimulationReadoutSummary";
+import { SimulationMobileReadoutDetails } from "./SimulationMobileReadoutDetails";
 import { SimulationCopyText } from "./SimulationCopyText";
 
 type SimulationParams = Record<string, number | boolean | string>;
@@ -948,11 +948,10 @@ export function LensImagingSimulation({
             noteLines={noteLines}
           />
         </svg>
-        <SimulationReadoutSummary
+        <SimulationMobileReadoutDetails
           title={compareEnabled ? `${primaryLabel} state` : "Lens state"}
           rows={metricRows}
           noteLines={noteLines}
-          className="mx-3 mb-3 mt-0 md:hidden"
         />
       </div>
     </section>

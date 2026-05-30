@@ -3,10 +3,13 @@
 import type { ReactNode } from "react";
 import { SimulationReadoutSummary } from "./SimulationReadoutSummary";
 import type { SimulationReadoutRow } from "./SimulationReadoutCard";
+import type { SimulationCopyKey } from "@/lib/i18n/copy-text";
 
 type SimulationMobileReadoutDetailsProps = {
   title: string;
+  titleKey?: SimulationCopyKey;
   setupLabel?: string | null;
+  setupLabelKey?: SimulationCopyKey;
   rows: SimulationReadoutRow[];
   noteLines?: string[];
   summaryLabel?: string;
@@ -15,7 +18,9 @@ type SimulationMobileReadoutDetailsProps = {
 
 export function SimulationMobileReadoutDetails({
   title,
+  titleKey,
   setupLabel,
+  setupLabelKey,
   rows,
   noteLines,
   summaryLabel = "Show live readout",
@@ -34,7 +39,9 @@ export function SimulationMobileReadoutDetails({
       </summary>
       <SimulationReadoutSummary
         title={title}
+        titleKey={titleKey}
         setupLabel={setupLabel}
+        setupLabelKey={setupLabelKey}
         rows={rows}
         noteLines={noteLines}
         className="mt-2 rounded-[14px] bg-white/88"

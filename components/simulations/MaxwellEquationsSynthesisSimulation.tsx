@@ -301,17 +301,17 @@ function EquationCard({
   return (
     <section
       className={[
-        "rounded-[22px] border px-3 py-3 transition-[opacity,box-shadow,border-color] duration-150",
+        "rounded-[16px] border px-2 py-2 transition-[opacity,box-shadow,border-color] duration-150 lg:rounded-[22px] lg:px-3 lg:py-3",
         overlayCardClasses(emphasized),
       ].join(" ")}
       style={{ opacity }}
     >
       <p className="lab-label">{eyebrow}</p>
-      <h3 className="mt-1 text-[1.02rem] font-semibold text-ink-950">{title}</h3>
-      <p className="mt-1 text-xs leading-5 text-ink-700">{description}</p>
-      <div className="mt-3">{children}</div>
+      <h3 className="mt-0.5 text-[0.74rem] font-semibold leading-snug text-ink-950 sm:text-[0.8rem] lg:text-[1.02rem]">{title}</h3>
+      <p className="mt-1 hidden text-xs leading-5 text-ink-700 lg:block">{description}</p>
+      <div className="mt-1.5 lg:mt-3">{children}</div>
       {guideVisible ? (
-        <p className="mt-3 rounded-2xl bg-paper px-3 py-2 text-[11px] leading-5 text-ink-700">
+        <p className="mt-3 hidden rounded-2xl bg-paper px-3 py-2 text-[11px] leading-5 text-ink-700 lg:block">
           {guide}
         </p>
       ) : null}
@@ -333,7 +333,7 @@ function GaussElectricVisual({
   const angles = [-90, -30, 30, 90, 150, 210];
 
   return (
-    <svg viewBox="0 0 156 104" className="h-[108px] w-full" aria-hidden="true">
+    <svg viewBox="0 0 156 104" className="h-[54px] w-full sm:h-[60px] lg:h-[108px]" aria-hidden="true">
       <circle cx="78" cy="52" r="18" fill={tone.fill} stroke={tone.stroke} strokeWidth="2.5" />
       <text x="78" y="57" textAnchor="middle" className="fill-ink-950 text-[15px] font-semibold">
         {chargeSource > 0.06 ? "+" : chargeSource < -0.06 ? "-" : "0"}
@@ -394,7 +394,7 @@ function GaussMagneticVisual({
   const loopStroke = 2 + strengthRatio(closedLoopStrength) * 2.6;
 
   return (
-    <svg viewBox="0 0 156 104" className="h-[108px] w-full" aria-hidden="true">
+    <svg viewBox="0 0 156 104" className="h-[54px] w-full sm:h-[60px] lg:h-[108px]" aria-hidden="true">
       <circle cx="78" cy="52" r="32" fill="rgba(255,253,247,0.96)" stroke="rgba(15,28,36,0.14)" />
       <path
         d="M 26 52 C 44 20, 112 20, 130 52"
@@ -440,7 +440,7 @@ function AmpereMaxwellVisual({
   const displacementHeight = 12 + strengthRatio(electricChangeInstant) * 26;
 
   return (
-    <svg viewBox="0 0 156 104" className="h-[108px] w-full" aria-hidden="true">
+    <svg viewBox="0 0 156 104" className="h-[54px] w-full sm:h-[60px] lg:h-[108px]" aria-hidden="true">
       <TangentialLoop
         direction={bCirculationDirection}
         strength={bCirculation}
@@ -488,7 +488,7 @@ function FaradayVisual({
   eCirculation: number;
 }) {
   return (
-    <svg viewBox="0 0 156 104" className="h-[108px] w-full" aria-hidden="true">
+    <svg viewBox="0 0 156 104" className="h-[54px] w-full sm:h-[60px] lg:h-[108px]" aria-hidden="true">
       <TangentialLoop
         direction={eCirculationDirection}
         strength={eCirculation}
@@ -529,7 +529,7 @@ function WaveBridgeVisual({
   const propagationLength = 58 + strengthRatio(waveSignedCue) * 34;
 
   return (
-    <svg viewBox="0 0 328 106" className="h-[112px] w-full" aria-hidden="true">
+    <svg viewBox="0 0 328 106" className="h-[58px] w-full sm:h-[64px] lg:h-[112px]" aria-hidden="true">
       <rect x="8" y="10" width="312" height="86" rx="24" fill="rgba(255,253,247,0.98)" stroke="rgba(15,28,36,0.1)" />
       <SvgArrow
         x1={54}
@@ -626,14 +626,15 @@ export function MaxwellEquationsSynthesisSimulation({
           </span>
         </>
       }
+      compactHeaderOnMobile
     >
-      <div className="grid gap-3 p-3 md:p-4 lg:grid-cols-[minmax(0,1fr)_15rem]">
+      <div className="grid gap-2 p-2 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-3 lg:p-4">
         <div
           role="img"
           aria-label={concept.accessibility?.simulationDescription ?? concept.summary}
-          className="grid gap-3"
+          className="grid gap-2 lg:gap-3"
         >
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid grid-cols-2 gap-2 lg:gap-3">
             <EquationCard
               eyebrow="Gauss for E"
               title="Charge makes electric flux"
@@ -643,12 +644,12 @@ export function MaxwellEquationsSynthesisSimulation({
               focusedOverlayId={focusedOverlayId}
               guideVisible={showChargeGuide}
             >
-              <div className="grid gap-2 md:grid-cols-[8.5rem_minmax(0,1fr)] md:items-center">
+              <div className="grid gap-2 lg:grid-cols-[8.5rem_minmax(0,1fr)] lg:items-center">
                 <GaussElectricVisual
                   chargeSource={primaryFrame.chargeSource}
                   electricFluxDirection={primaryFrame.electricFluxDirection}
                 />
-                <div className="space-y-2">
+                <div className="hidden space-y-2 lg:block">
                   <MetricLine
                     label="Qenc"
                     value={formatMeasurement(primaryFrame.chargeSource, "arb.")}
@@ -674,9 +675,9 @@ export function MaxwellEquationsSynthesisSimulation({
               focusedOverlayId={focusedOverlayId}
               guideVisible={showNoMonopolesGuide}
             >
-              <div className="grid gap-2 md:grid-cols-[8.5rem_minmax(0,1fr)] md:items-center">
+              <div className="grid gap-2 lg:grid-cols-[8.5rem_minmax(0,1fr)] lg:items-center">
                 <GaussMagneticVisual closedLoopStrength={primaryFrame.closedLoopStrength} />
-                <div className="space-y-2">
+                <div className="hidden space-y-2 lg:block">
                   <MetricLine
                     label="net B flux"
                     value={formatMeasurement(primaryFrame.magneticNetFlux, "arb.")}
@@ -702,13 +703,13 @@ export function MaxwellEquationsSynthesisSimulation({
               focusedOverlayId={focusedOverlayId}
               guideVisible={showFaradayGuide}
             >
-              <div className="grid gap-2 md:grid-cols-[8.5rem_minmax(0,1fr)] md:items-center">
+              <div className="grid gap-2 lg:grid-cols-[8.5rem_minmax(0,1fr)] lg:items-center">
                 <FaradayVisual
                   magneticFluxChange={primaryFrame.magneticFluxChange}
                   eCirculationDirection={primaryFrame.eCirculationDirection}
                   eCirculation={primaryFrame.eCirculation}
                 />
-                <div className="space-y-2">
+                <div className="hidden space-y-2 lg:block">
                   <MetricLine
                     label="dPhi_B/dt"
                     value={formatMeasurement(primaryFrame.magneticFluxChange, "arb.")}
@@ -734,14 +735,14 @@ export function MaxwellEquationsSynthesisSimulation({
               focusedOverlayId={focusedOverlayId}
               guideVisible={showAmpereGuide}
             >
-              <div className="grid gap-2 md:grid-cols-[8.5rem_minmax(0,1fr)] md:items-center">
+              <div className="grid gap-2 lg:grid-cols-[8.5rem_minmax(0,1fr)] lg:items-center">
                 <AmpereMaxwellVisual
                   conductionCurrent={primaryFrame.conductionCurrent}
                   electricChangeInstant={primaryFrame.electricChangeInstant}
                   bCirculationDirection={primaryFrame.bCirculationDirection}
                   bCirculation={primaryFrame.bCirculation}
                 />
-                <div className="space-y-2">
+                <div className="hidden space-y-2 lg:block">
                   <MetricLine
                     label="Ienc"
                     value={formatMeasurement(primaryFrame.bCurrentContribution, "arb.")}
@@ -768,14 +769,14 @@ export function MaxwellEquationsSynthesisSimulation({
             focusedOverlayId={focusedOverlayId}
             guideVisible={showLightGuide}
           >
-            <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_12rem] md:items-center">
+            <div className="grid gap-2 lg:grid-cols-[minmax(0,1fr)_12rem] lg:items-center lg:gap-3">
               <WaveBridgeVisual
                 electricChangeInstant={primaryFrame.electricChangeInstant}
                 magneticFluxChange={primaryFrame.magneticFluxChange}
                 waveSignedCue={primaryFrame.waveSignedCue}
                 waveStateLabel={primaryFrame.waveStateLabel}
               />
-              <div className="space-y-2">
+              <div className="hidden space-y-2 lg:block">
                 <MetricLine
                   label="cycle rate"
                   value={formatMeasurement(primaryFrame.cycleRate, "Hz")}
@@ -797,7 +798,24 @@ export function MaxwellEquationsSynthesisSimulation({
           </EquationCard>
         </div>
 
-        <div className="grid gap-3">
+        <details className="rounded-[18px] border border-line bg-white/82 px-3 py-2 lg:hidden">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-ink-950 [&::-webkit-details-marker]:hidden">
+            <span>Show live readout</span>
+            <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] uppercase tracking-[0.16em] text-ink-600">
+              Maxwell
+            </span>
+          </summary>
+          <div className="mt-2 space-y-2 rounded-[14px] border border-line bg-white/88 px-3 py-3">
+            <MetricLine label="t" value={formatMeasurement(primaryFrame.time, "s")} />
+            <MetricLine label="Qenc" value={formatMeasurement(primaryFrame.chargeSource, "arb.")} />
+            <MetricLine label="Ienc" value={formatMeasurement(primaryFrame.conductionCurrent, "arb.")} />
+            <MetricLine label="dPhi_E/dt" value={formatMeasurement(primaryFrame.electricChangeInstant, "arb.")} />
+            <MetricLine label="dPhi_B/dt" value={formatMeasurement(primaryFrame.magneticFluxChange, "arb.")} />
+            <MetricLine label="wave cue" value={waveCueLabel(primaryFrame.waveStateLabel)} />
+          </div>
+        </details>
+
+        <div className="hidden gap-3 lg:grid">
           <section className="rounded-[22px] border border-line bg-white/92 px-3 py-3">
             <p className="lab-label">Live readout</p>
             <div className="mt-3 space-y-2">

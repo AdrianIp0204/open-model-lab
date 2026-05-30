@@ -18,7 +18,7 @@ import {
   type GraphStagePreview,
 } from "@/lib/physics";
 import { SimulationReadoutCard } from "./SimulationReadoutCard";
-import { SimulationReadoutSummary } from "./SimulationReadoutSummary";
+import { SimulationMobileReadoutDetails } from "./SimulationMobileReadoutDetails";
 import { CompareLegend, resolveCompareScene, SimulationPreviewBadge } from "./primitives/compare";
 import { resolveOverlayOpacity } from "./primitives/overlay";
 import { SimulationSceneCard } from "./primitives/scene-card";
@@ -787,13 +787,12 @@ export function DopplerEffectSimulation({
             noteLines={noteLines}
           />
         </svg>
-        <SimulationReadoutSummary
+        <SimulationMobileReadoutDetails
           title="Doppler state"
           titleKey="simulation.dopplerState"
           setupLabel={compareEnabled ? primaryLabel : undefined}
           rows={metricRows}
           noteLines={noteLines}
-          className="mx-3 mb-3 mt-0 md:hidden"
         />
       </div>
     </SimulationSceneCard>

@@ -54,6 +54,14 @@ const viewports: ViewportCase[] = [
     hasTouch: true,
     deviceScaleFactor: 3,
   },
+  {
+    name: "tablet-768x1024",
+    width: 768,
+    height: 1024,
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 2,
+  },
 ];
 const auditConcurrency = Math.max(
   1,
@@ -601,12 +609,39 @@ async function auditConceptViewport(page: Page, concept: ConceptCatalogEntry, vi
   if (
     metrics.positions.scene.visible &&
     typeof metrics.positions.scene.y === "number" &&
-    metrics.positions.scene.y > conceptQualityThresholds.firstViewportY
+    metrics.positions.scene.y > Math.min(conceptQualityThresholds.firstViewportY, viewport.height)
   ) {
     issues.push({
       code: "scene_below_first_view",
       severity: "error",
       detail: `Scene starts at y=${metrics.positions.scene.y}.`,
+    });
+  }
+
+  if (
+    viewport.isMobile &&
+    metrics.positions.cue.visible &&
+    typeof metrics.positions.cue.y === "number" &&
+    metrics.positions.cue.y > viewport.height
+  ) {
+    issues.push({
+      code: "cue_after_first_viewport",
+      severity: "error",
+      detail: `Current-step cue starts at y=${metrics.positions.cue.y}; viewport height is ${viewport.height}.`,
+    });
+  }
+
+  if (
+    viewport.isMobile &&
+    metrics.positions.controls.visible &&
+    typeof metrics.positions.controls.y === "number" &&
+    metrics.positions.controls.y >
+      viewport.height * conceptQualityThresholds.controlsViewportMultiplier
+  ) {
+    issues.push({
+      code: "controls_after_one_point_five_viewports",
+      severity: "error",
+      detail: `Controls start at y=${metrics.positions.controls.y}; limit is ${Math.round(viewport.height * conceptQualityThresholds.controlsViewportMultiplier)}.`,
     });
   }
 

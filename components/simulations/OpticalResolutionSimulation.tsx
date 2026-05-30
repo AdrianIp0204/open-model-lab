@@ -13,7 +13,7 @@ import {
   resolveOpticalResolutionParams,
 } from "@/lib/physics";
 import { SimulationReadoutCard, type SimulationReadoutRow } from "./SimulationReadoutCard";
-import { SimulationReadoutSummary } from "./SimulationReadoutSummary";
+import { SimulationMobileReadoutDetails } from "./SimulationMobileReadoutDetails";
 import { SimulationAxisDragSurface } from "./primitives/SimulationAxisDragSurface";
 import { CompareLegend, resolveCompareScene, SimulationPreviewBadge } from "./primitives/compare";
 import { resolveOverlayOpacity } from "./primitives/overlay";
@@ -717,11 +717,10 @@ export function OpticalResolutionSimulation({
             noteLines={noteLines}
           />
         </svg>
-        <SimulationReadoutSummary
+        <SimulationMobileReadoutDetails
           title={compareEnabled ? `${primaryLabel} state` : "Resolution state"}
           rows={metricRows}
           noteLines={noteLines}
-          className="mx-3 mb-3 mt-0 md:hidden"
         />
       </div>
     </SimulationSceneCard>

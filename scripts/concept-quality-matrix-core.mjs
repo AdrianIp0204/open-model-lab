@@ -8,6 +8,7 @@ export const conceptQualityStatuses = [
 
 export const conceptQualityThresholds = {
   firstViewportY: 900,
+  controlsViewportMultiplier: 1.5,
   maxHorizontalOverflowPx: 2,
   maxVisibleClippingSamples: 0,
   minTouchTargetPx: 44,
@@ -53,7 +54,7 @@ function classifyViewportAudit(audit) {
     return { status: "needs shared fix", reasons };
   }
 
-  if (hasAnyIssue(audit, ["missing_h1", "missing_current_step_cue", "missing_controls", "missing_lesson_rail"])) {
+  if (hasAnyIssue(audit, ["missing_h1", "missing_current_step_cue", "missing_controls", "missing_lesson_rail", "cue_after_first_viewport", "controls_after_one_point_five_viewports"])) {
     reasons.push("The shared concept-page shell is missing a required first-view surface.");
     return { status: "needs shared fix", reasons };
   }
