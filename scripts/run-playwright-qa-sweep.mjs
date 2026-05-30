@@ -11,6 +11,7 @@ const defaultSpecs = [
   "tests/e2e/mobile-cta-contrast.spec.ts",
   "tests/e2e/public-discovery-layout.spec.ts",
   "tests/e2e/site-smoke.spec.ts",
+  "tests/e2e/theme-contrast-sweep.spec.ts",
 ];
 const instabilityPatterns = [
   /Server is approaching the used memory threshold, restarting/i,

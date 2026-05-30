@@ -1226,13 +1226,13 @@ export function CircuitWorkspace({
                 fill="rgba(255,253,248,0.95)"
                 stroke="rgba(15,28,36,0.1)"
               />
-              <text x="0" y="-20" textAnchor="middle" fill="#0f1c24" className="text-[22px] font-semibold">
+              <text x="0" y="-20" textAnchor="middle" fill="var(--ink-950)" className="text-[22px] font-semibold">
                 {copy.workspace.emptyTitle}
               </text>
-              <text x="0" y="14" textAnchor="middle" fill="#315063" className="text-[14px]">
+              <text x="0" y="14" textAnchor="middle" fill="var(--ink-700)" className="text-[14px]">
                 {copy.workspace.emptySubtitle}
               </text>
-              <text x="0" y="40" textAnchor="middle" fill="#466273" className="text-[13px]">
+              <text x="0" y="40" textAnchor="middle" fill="var(--ink-600)" className="text-[13px]">
                 {copy.workspace.emptyExample}
               </text>
             </g>
