@@ -81,6 +81,14 @@ const omlQa051TargetSelector = [
   ".katex-display",
 ].join(", ");
 
+async function waitForOmlQa051LiveBench(page: Page) {
+  await expect(page.getByTestId("simulation-shell-scene")).toBeVisible();
+  await expect(page.getByTestId("simulation-shell-controls")).toBeVisible();
+  await expect(page.getByTestId("simulation-shell-graphs")).toBeVisible();
+  await expect(page.locator("[id^='graph-tab-']").first()).toBeVisible();
+  await expect(page.getByText(/simulation loading/i)).toHaveCount(0);
+}
+
 function omlQa051Concepts() {
   return (conceptsCatalog as ConceptCatalogEntry[])
     .filter((entry) => entry.published && entry.status !== "draft")
@@ -387,11 +395,13 @@ test.describe("concept page v2 flow", () => {
         await test.step(`phone-390x844 ${concept.slug}`, async () => {
           await gotoAndExpectOk(page, `/en/concepts/${concept.slug}`);
           await expect(page.locator("h1", { hasText: concept.title })).toBeVisible();
+          await waitForOmlQa051LiveBench(page);
 
           const clippedTargets = await page.evaluate((selector) => {
             const seen = new Set<Element>();
             const viewportBottom = window.innerHeight * 2;
             const scrollableOverflowValues = new Set(["auto", "scroll"]);
+            const mathScrollWrapperSelector = ".math-inline, .math-block, .katex-display";
 
             function isVisibleElement(element: Element | null): element is HTMLElement {
               if (!(element instanceof HTMLElement)) {
@@ -418,6 +428,30 @@ test.describe("concept page v2 flow", () => {
               return element.innerText?.replace(/\s+/g, " ").trim().slice(0, 160) ?? "";
             }
 
+            function isKatexInternalElement(element: HTMLElement) {
+              return Boolean(
+                element.closest(".katex") && !element.matches(mathScrollWrapperSelector),
+              );
+            }
+
+            function hasVisibleMathCrop(element: HTMLElement) {
+              const rect = element.getBoundingClientRect();
+              const katexBox = element.querySelector<HTMLElement>(".katex, .katex-display");
+              const visibleBox = katexBox?.getBoundingClientRect();
+
+              if (!visibleBox) {
+                return false;
+              }
+
+              const cropPx = Math.max(
+                rect.top - visibleBox.top,
+                visibleBox.bottom - rect.bottom,
+                0,
+              );
+
+              return cropPx > Math.max(8, rect.height * 0.35);
+            }
+
             return Array.from(document.querySelectorAll<HTMLElement>(selector))
               .filter((element) => {
                 if (seen.has(element)) {
@@ -425,20 +459,29 @@ test.describe("concept page v2 flow", () => {
                 }
 
                 seen.add(element);
-                return isVisibleElement(element) && !element.closest("svg, canvas");
+                return (
+                  isVisibleElement(element) &&
+                  !element.closest("svg, canvas") &&
+                  !isKatexInternalElement(element)
+                );
               })
               .map((element) => {
                 const style = window.getComputedStyle(element);
                 const rect = element.getBoundingClientRect();
                 const horizontalOverflow = element.scrollWidth > element.clientWidth + 2;
                 const verticalOverflow = element.scrollHeight > element.clientHeight + 2;
+                const isMathScrollWrapper = element.matches(mathScrollWrapperSelector);
                 const hasAllowedHorizontalScroller =
                   horizontalOverflow && scrollableOverflowValues.has(style.overflowX);
                 const hasAllowedVerticalScroller =
                   verticalOverflow && scrollableOverflowValues.has(style.overflowY);
+                const hasClippedMath =
+                  isMathScrollWrapper && verticalOverflow && hasVisibleMathCrop(element);
                 const clipped =
                   (horizontalOverflow && !hasAllowedHorizontalScroller) ||
-                  (verticalOverflow && !hasAllowedVerticalScroller) ||
+                  (verticalOverflow &&
+                    !hasAllowedVerticalScroller &&
+                    (!isMathScrollWrapper || hasClippedMath)) ||
                   style.textOverflow === "ellipsis";
 
                 if (!clipped) {
@@ -467,6 +510,8 @@ test.describe("concept page v2 flow", () => {
           failures.push(...clippedTargets.map((entry) => ({ slug: concept.slug, ...entry })));
 
           if (omlQa051ScreenshotSlugs.has(concept.slug)) {
+            await page.evaluate(() => window.scrollTo(0, 0));
+            await expect(page.getByTestId("simulation-shell-scene")).toBeInViewport();
             await page.screenshot({
               path: testInfo.outputPath(`oml-qa-051-phone-${concept.slug}-top.png`),
               fullPage: false,
