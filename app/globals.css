@@ -940,6 +940,19 @@ html[data-theme="dark-lab"] [data-onboarding-target="account-sync"] > span {
   color: #fffdf7 !important;
 }
 
+html[data-theme="paper-lab"] .cta-primary {
+  background-color: #0f766e;
+  border-color: rgba(15, 118, 110, 0.58);
+  color: #fffdf7 !important;
+}
+
+html[data-theme="paper-lab"] .filter-option[data-active="true"],
+html[data-theme="paper-lab"] .filter-option.bg-ink-950 {
+  background-color: #0f1c24;
+  border-color: #0f1c24;
+  color: #fffdf7 !important;
+}
+
 html[data-theme="paper-lab"] [data-home-live-preview="true"] {
   background-color: rgba(255, 253, 247, 0.88);
 }

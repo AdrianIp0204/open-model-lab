@@ -1,5 +1,23 @@
 # Open Model Lab Status
 
+## 2026-05-30 OML-QA-039 Paper-Mode CTA And Filter Contrast
+
+Current state: `OML-QA-039` is complete. Paper mode now has explicit accessible foreground/background pairs for global primary CTAs and active filter pills, and the durable theme contrast sweep covers the affected zh-HK/account/dashboard/subjects/topics/start/tests routes at desktop and phone widths.
+
+### Files Changed
+
+- `app/globals.css`: adds `paper-lab` overrides for `.cta-primary` and active `.filter-option` pills so paper mode no longer reuses unreadable dark-mode pairs.
+- `tests/e2e/theme-contrast-sweep.spec.ts`: adds targeted paper-mode desktop/phone coverage for the high-risk zh-HK home, start, account, dashboard, subjects, topics, and tests surfaces, with per-route theme filtering to avoid unnecessary dark-mode load.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint tests/e2e/theme-contrast-sweep.spec.ts`: passed.
+- `PLAYWRIGHT_PORT=3145 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-039-orchestrator pnpm exec playwright test tests/e2e/theme-contrast-sweep.spec.ts --reporter=line`: passed with `routeCount: 28`, `caseCount: 56`, `issueCount: 0`, `paperIssueCount: 0`, and targeted CTA/filter/muted issue counts all `0`.
+- Screenshot inspection passed for representative paper-mode zh-HK home, start, account, and topics surfaces.
+- `pnpm typecheck`: passed.
+
 ## 2026-05-30 OML-QA-038 zh-HK Account Harness Copy
 
 Current state: `OML-QA-038` is complete. The dev account harness now uses the message catalog for its visible copy, keeps fixture account names and protected technical tokens out of destructive translation, and is included in the signed-in free/supporter zh-HK browser sweep coverage.

@@ -17,6 +17,7 @@ type SweepRoute = {
   path: string;
   harnessState?: HarnessState;
   ready?: string;
+  themes?: ThemeMode[];
   viewports: string[];
 };
 
@@ -62,6 +63,13 @@ const viewports: SweepViewport[] = [
 const routes: SweepRoute[] = [
   { name: "home", path: "/", ready: "#content", viewports: ["desktop-1440x900"] },
   {
+    name: "home-zh-hk",
+    path: "/zh-HK",
+    ready: "#content",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
+  },
+  {
     name: "concepts-index",
     path: "/concepts",
     ready: "#content",
@@ -74,10 +82,38 @@ const routes: SweepRoute[] = [
     viewports: ["desktop-1440x900"],
   },
   {
+    name: "subjects-index",
+    path: "/concepts/subjects",
+    ready: "#content",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
+  },
+  {
+    name: "subjects-index-zh-hk",
+    path: "/zh-HK/concepts/subjects",
+    ready: "#content",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
+  },
+  {
     name: "modern-physics-topic",
     path: "/concepts/topics/modern-physics",
     ready: "#content",
     viewports: ["desktop-1440x900"],
+  },
+  {
+    name: "topics-index",
+    path: "/concepts/topics",
+    ready: "#content",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
+  },
+  {
+    name: "topics-index-zh-hk",
+    path: "/zh-HK/concepts/topics",
+    ready: "#content",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
   },
   { name: "search", path: "/search", ready: "#content", viewports: ["desktop-1440x900"] },
   {
@@ -87,12 +123,26 @@ const routes: SweepRoute[] = [
     viewports: ["desktop-1440x900"],
   },
   {
+    name: "start-zh-hk",
+    path: "/zh-HK/start",
+    ready: '[data-testid="start-primary-cta"]',
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
+  },
+  {
     name: "pricing",
     path: "/pricing",
     ready: '[data-testid="pricing-primary-cta"]',
     viewports: ["desktop-1440x900"],
   },
   { name: "tests", path: "/tests", ready: "#content", viewports: ["desktop-1440x900"] },
+  {
+    name: "tests-zh-hk",
+    path: "/zh-HK/tests",
+    ready: "#content",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
+  },
   { name: "tools", path: "/tools", ready: "#content", viewports: ["desktop-1440x900"] },
   {
     name: "chemistry-mind-map",
@@ -114,11 +164,27 @@ const routes: SweepRoute[] = [
     viewports: ["desktop-1440x900"],
   },
   {
+    name: "dashboard-free-zh-hk",
+    path: "/zh-HK/dashboard",
+    harnessState: "signed-in-free",
+    ready: "#content",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
+  },
+  {
     name: "account-supporter",
     path: "/account",
     harnessState: "signed-in-premium",
     ready: "#account-overview",
     viewports: ["desktop-1440x900"],
+  },
+  {
+    name: "account-supporter-zh-hk",
+    path: "/zh-HK/account",
+    harnessState: "signed-in-premium",
+    ready: "#account-overview",
+    themes: ["paper-lab"],
+    viewports: ["desktop-1440x900", "phone-390x844"],
   },
   {
     name: "concept-shm",
@@ -161,7 +227,7 @@ const routes: SweepRoute[] = [
 const sweepCases = viewports.flatMap((viewport) =>
   themes.flatMap((theme) =>
     routes
-      .filter((route) => route.viewports.includes(viewport.name))
+      .filter((route) => route.viewports.includes(viewport.name) && (route.themes ?? themes).includes(theme))
       .map((route) => ({ route, theme, viewport })),
   ),
 );
@@ -752,7 +818,9 @@ test("OML-QA-035 light and dark theme contrast sweep passes representative site 
 
   for (const viewport of viewports) {
     for (const theme of themes) {
-      const activeRoutes = routes.filter((route) => route.viewports.includes(viewport.name));
+      const activeRoutes = routes.filter(
+        (route) => route.viewports.includes(viewport.name) && (route.themes ?? themes).includes(theme),
+      );
 
       if (activeRoutes.length === 0) {
         continue;
