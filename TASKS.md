@@ -642,3 +642,74 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Affected area: new or existing Playwright account specs, `scripts/run-playwright-qa-sweep.mjs`, account harness helpers, and output artifact conventions.
   - Fix direction: add a lightweight Playwright sweep that uses the dev harness to visit `/account`, `/dashboard`, `/dashboard/analytics`, `/account/setups`, `/account/compare-setups`, and `/account/study-plans` in signed-out/free/Supporter states where applicable. Cover English and zh-HK, phone/tablet/desktop, auth errors/pending/success, empty states, sync error/retry, unlocked/claimed/expired reward states, and library builder/search states.
   - Validation: the sweep should fail on horizontal overflow, obvious text clipping, sub-44px primary touch targets, stale English leakage in zh-HK account surfaces, disabled valid auth buttons, missing primary next actions, and browser-guard issues; include it in `pnpm test:e2e:qa-sweep` or document it as a release-gate command.
+
+## Circuit Builder QA Pass 2026-05-31
+
+### P0 - First-Use Clarity / Accessibility
+
+- [ ] **OML-QA-067: Make the empty Circuit Builder workspace instruction readable on the dark stage.**
+  - Evidence: manual screenshots in `output/circuit-builder-qa-2026-05-31/phone-signed-out-en-viewport.png`, `tablet-signed-out-en-viewport.png`, `desktop-signed-out-en-viewport.png`, and `wide-signed-out-en-viewport.png` show the empty-state card as a pale white rectangle on the dark canvas with very low-contrast, tiny text. The primary first action, `Start with a source and one load`, is almost unreadable.
+  - UX/accessibility problem: the empty workspace is the first instructional moment for a new learner. It currently fails the "what should I do next?" test and likely fails contrast/readability expectations on the dark lab theme.
+  - Affected area: `components/circuit-builder/CircuitWorkspace.tsx`, empty-state card styling, dark-stage tokens in `app/globals.css`, and screenshot/contrast coverage for `/circuit-builder`.
+  - Fix direction: restyle the empty card as a dark-stage-native instruction surface, raise text size/contrast, keep one clear action line, and consider an inline `Add battery` / `Open parts` affordance that moves focus to the component library.
+  - Validation: phone/tablet/desktop/wide screenshots show the empty-state instruction readable without zooming; an automated contrast or screenshot assertion should catch the previous pale-card regression.
+
+- [ ] **OML-QA-068: Fit starter presets and newly loaded circuits into the visible workspace on phone and tablet.**
+  - Evidence: `output/circuit-builder-qa-2026-05-31/phone-starter-preset.png` shows `Starter series loop` loading with `5 parts · 5 wires`, but the circuit is partly off-canvas on the right and the learner cannot see the full loop before finding `Fit circuit`. Desktop starter screenshots also show the circuit much smaller than the available stage.
+  - UX problem: presets are the fastest first-use path, so they should immediately produce an inspectable circuit. Loading a preset that is clipped or tiny makes the tool feel broken before the user touches it.
+  - Affected area: preset loading in `CircuitBuilderPage.tsx`, `buildFittedCircuitView`, default view constants, mobile `CircuitWorkspace` frame sizing, and preset E2E coverage.
+  - Fix direction: after loading a preset or JSON document, compute a responsive fitted view that keeps all components and readout labels inside the visible canvas. Preserve manual pan/zoom after the user starts editing, but make presets and imports land in a sensible initial view.
+  - Validation: phone/tablet/desktop/wide screenshots for all five presets show every component and the main loop visible; a Playwright assertion should fail if any preset component bounding box is outside the workspace viewport after load.
+
+- [ ] **OML-QA-069: Raise Circuit Builder touch targets for starter presets, view mode controls, and workspace toolbar buttons.**
+  - Evidence: the manual sweep in `output/circuit-builder-qa-2026-05-31/summary.json` found repeated visible interactive targets below the 44px floor: starter preset buttons at about `38px` high on phone/tablet/desktop/wide, and `Schematic` / `Modern` mode buttons around `24px` high on tablet. The issue repeats in English and zh-HK.
+  - UX/accessibility problem: the page is a manipulation-heavy tool. Small touch targets make preset choice, mode switching, and workspace control harder on phones/tablets, and the same compact controls are too easy to miss even on desktop.
+  - Affected area: preset button styling, `CircuitRenderModeSwitch`, workspace controls in `CircuitWorkspace.tsx`, toolbar menu trigger sizing, and responsive CSS.
+  - Fix direction: use a 44px minimum hit area on coarse-pointer/touch layouts while preserving compact visual rhythm on desktop. For dense segmented controls, keep visual chips compact if needed but wrap them in larger hit targets and verify focus rings.
+  - Validation: a Circuit Builder touch-target audit over phone/tablet/desktop/wide reports zero visible primary controls under 44px on touch layouts, with documented desktop-only exceptions if any.
+
+- [ ] **OML-QA-070: Move the mobile add-parts path above the dense status/tools block.**
+  - Evidence: the phone empty state first viewport shows the workspace, then `Environment`, then the dense `Status and tools` panel; the `Component library` disclosure starts lower down. `output/circuit-builder-qa-2026-05-31/phone-empty-search.png` shows the user must scroll through history/save/export controls before reaching the part search/add flow.
+  - UX problem: a new mobile user who ignores presets needs `Add parts` before save/export/history controls. The current order puts advanced tool chrome ahead of the core build action.
+  - Affected area: mobile layout order in `CircuitBuilderPage.tsx`, `DisclosurePanel` placement, `CircuitPalette`, toolbar/status mobile treatment, and onboarding focus targets.
+  - Fix direction: on phone, place a compact `Add parts` / `Inspect` switch or component-library disclosure directly under the workspace and before the status/tools toolbar. Move save/export/history into a secondary tools disclosure until the workspace has content.
+  - Validation: at `390x844`, an empty workspace shows one clear add-parts control and the component search/open affordance before save/export/history controls; screenshots confirm the user can reach add, connect, inspect, and save in a sensible order.
+
+### P1 - Product Quality / Learning Loop
+
+- [ ] **OML-QA-071: Make Circuit Builder account saves discoverable and state-aware for signed-in users.**
+  - Evidence: manual signed-out, signed-in-free, and signed-in-premium screenshots for `/circuit-builder` look effectively identical in the first viewport. The existing E2E spec proves account-backed saves work for eligible users, but the UI hides `Save to account` inside the `Saves` menu and does not explain the free-vs-Supporter difference until the menu is opened.
+  - UX problem: cross-device saved circuits are an account/supporter benefit, but the tool does not surface that value when a signed-in learner is actively building. Free users also need a clear, non-annoying explanation of what local saves vs account saves mean.
+  - Affected area: `CircuitBuilderPage.tsx`, `PremiumFeatureNotice`, `lib/account/entitlements.ts`, `lib/circuit-builder/account-saves-client.ts`, account-save copy, and account save tests.
+  - Fix direction: show a compact save-state pill near the toolbar: `Local draft`, `Local save`, or `Account save available`. For signed-in Supporter users, expose `Save to account` as a visible primary save action after the first component is added. For signed-in free users, keep local save primary and show the account-save upgrade as a secondary explanation.
+  - Validation: signed-out/free/Supporter phone and desktop screenshots show distinct save-state UI, and tests verify save-to-account remains gated correctly while local saves still work without sign-in.
+
+- [ ] **OML-QA-072: Add a guided build/check mode so the builder can teach, not only edit circuits.**
+  - Evidence: the current empty inspector gives three text steps, and presets load working circuits, but there is no integrated "build this loop", "check my circuit", or "explain what changed" flow. The page title promises `Build a live circuit and explain what it is doing`, while the active UI mostly provides editor controls and solver readouts.
+  - UX/product problem: free-build is useful, but teen learners need a small task loop: choose a goal, build or load a preset, get a check, and explain the result. Without that, the builder is closer to an editor than a learning bench.
+  - Affected area: `CircuitBuilderPage.tsx`, `CircuitInspector`, solver issue/readout surfaces, progress events, content links from circuit concepts, and possibly a small `CircuitBuilderChallenge` model.
+  - Fix direction: add a compact guided mode with a few bounded goals: complete a battery-resistor loop, add an ammeter correctly, compare series vs branch current, test a fuse, and explain why a bulb changes brightness. Reuse the existing solver to validate circuit shape and show precise next hints.
+  - Validation: component and Playwright tests cover at least three guided goals, including a success state, one incomplete-circuit hint, and one wrong-placement hint; screenshots show the guide does not crowd the free-build workspace.
+
+- [ ] **OML-QA-073: Improve the component library for scale with categories, filters, and better selected-item previews.**
+  - Evidence: desktop screenshots show the component library as a single scroll list with clipped card summaries; mobile relies on search plus a long disclosure. The library is still manageable at `12` items, but the UI will not scale well as junction dots, sensors, semiconductors, AC parts, or measurement tools are added.
+  - UX problem: a builder tool needs quick part retrieval by intent: source, load, meter, sensor, protection, connection. Search helps, but a flat list makes beginners scan names before they know the vocabulary.
+  - Affected area: `CircuitPalette.tsx`, `lib/circuit-builder/registry.ts`, copy/search terms, mobile palette layout, and palette tests.
+  - Fix direction: add lightweight category chips or grouped headings (`Sources`, `Loads`, `Meters`, `Sensors`, `Protection`, `Connections`), keep search global, and show a larger selected/hover preview explaining terminals and behavior. Preserve keyboard navigation and the existing search empty state.
+  - Validation: desktop and phone tests verify filtering by category plus search; screenshots show no clipped critical summaries and the selected/hover preview helps explain unfamiliar components.
+
+- [ ] **OML-QA-074: Make Circuit Builder error and recovery states visible near the action that caused them.**
+  - Evidence: the manual invalid JSON interaction recorded the status `The selected file is not valid JSON.` in `summary.json`, but `output/circuit-builder-qa-2026-05-31/desktop-invalid-json-error.png` does not make that error visually obvious near the `File` / load action. The same risk applies to account-save load/save failures, unreadable local saves, and import validation failures.
+  - UX/accessibility problem: a status-region-only error is easy to miss in a dense editor. File/account/save errors should appear next to the menu or form that triggered them and explain the next recovery step.
+  - Affected area: file import handling in `CircuitBuilderPage.tsx`, `CircuitToolbarMenu`, account save panels, local save panels, status region styling, and error copy.
+  - Fix direction: add inline error rows inside the open `File` or `Saves` menu, keep the global status for screen readers, and include next actions such as `Choose another file`, `Download current JSON`, `Retry account save`, or `Keep local save`.
+  - Validation: Playwright tests for invalid JSON, account-save failure, and unreadable local save assert both the live-region status and a visible inline recovery message beside the relevant control.
+
+### P2 - Durable Circuit Builder QA Coverage
+
+- [ ] **OML-QA-075: Add a visual/responsive Circuit Builder QA sweep for states, locales, and core interactions.**
+  - Evidence: the focused regression spec passed `18/18`, but the manual sweep under `output/circuit-builder-qa-2026-05-31/` still found issues in visual hierarchy, touch target sizing, mobile order, preset fitting, and empty/error state visibility. These are not fully covered by the current E2E assertions.
+  - QA problem: the current `tests/e2e/circuit-builder.spec.ts` proves many mechanics work, but it does not fail on unreadable empty-state text, clipped/off-canvas preset loads, sub-44px touch targets, or identical signed-out/free/Supporter first-view account-save affordances.
+  - Affected area: `tests/e2e/circuit-builder.spec.ts`, `scripts/run-playwright-qa-sweep.mjs`, possible new `tests/e2e/circuit-builder-visual-qa.spec.ts`, and artifact conventions under `output/playwright`.
+  - Fix direction: add a lightweight visual QA matrix over `/circuit-builder` and `/zh-HK/circuit-builder` for signed-out, signed-in-free, and signed-in-premium states at phone/tablet/desktop/wide. Include preset load, empty search, invalid import, local save, account save, modern mode, environment controls, and draft recovery states.
+  - Validation: the sweep should fail on horizontal overflow, obvious text clipping, sub-44px touch targets on touch layouts, off-canvas preset components, unreadable empty-state contrast, stale English leakage in zh-HK surfaces, hidden import errors, and browser-guard issues.
