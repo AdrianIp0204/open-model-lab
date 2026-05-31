@@ -79,10 +79,15 @@ async function mockAccountSessionApi(
   handler: (input: {
     method: string;
     body: Record<string, unknown> | null;
-  }) => {
-    status: number;
-    body: unknown;
-  },
+  }) =>
+    | {
+        status: number;
+        body: unknown;
+      }
+    | Promise<{
+        status: number;
+        body: unknown;
+      }>,
 ) {
   await page.route("**/api/account/session", async (route) => {
     const request = route.request();
@@ -90,7 +95,7 @@ async function mockAccountSessionApi(
       request.method() === "POST"
         ? ((request.postDataJSON() as Record<string, unknown> | null) ?? null)
         : null;
-    const response = handler({
+    const response = await handler({
       method: request.method(),
       body,
     });
@@ -101,6 +106,15 @@ async function mockAccountSessionApi(
       body: JSON.stringify(response.body),
     });
   });
+}
+
+function createDeferred() {
+  let resolve: () => void = () => undefined;
+  const promise = new Promise<void>((next) => {
+    resolve = next;
+  });
+
+  return { promise, resolve };
 }
 
 let browserGuard: BrowserGuard;
@@ -230,6 +244,7 @@ test("shows the bounded wrong-password UX for returning-user password sign-in", 
   await expect(
     page.getByRole("alert").filter({ hasText: "Incorrect email or password" }),
   ).toContainText("Incorrect email or password");
+  await expect(page.getByRole("button", { name: "Sign in with password" })).toBeEnabled();
   expect(signInPayload).toMatchObject({
     action: "password-sign-in",
     email: "student@example.com",
@@ -239,8 +254,9 @@ test("shows the bounded wrong-password UX for returning-user password sign-in", 
 
 test("shows the forgot-password request notice on the real account page", async ({ page }) => {
   let resetPayload: Record<string, unknown> | null = null;
+  const resetResponse = createDeferred();
 
-  await mockAccountSessionApi(page, ({ method, body }) => {
+  await mockAccountSessionApi(page, async ({ method, body }) => {
     if (method === "GET") {
       return {
         status: 200,
@@ -249,23 +265,35 @@ test("shows the forgot-password request notice on the real account page", async 
     }
 
     resetPayload = body;
+    await resetResponse.promise;
+
     return {
       status: 200,
-        body: {
-          ok: true,
-          message:
-            "If that email matches an existing account, a password-reset email has been sent. Check your inbox and spam for the link.",
-        },
-      };
+      body: {
+        ok: true,
+        message:
+          "If that email matches an existing account, a password-reset email has been sent. Check your inbox and spam for the link.",
+      },
+    };
   });
 
   await gotoAndExpectOk(page, "/account");
   await page.getByLabel("Email for password reset").fill("student@example.com");
-  await page.getByRole("button", { name: "Send password-reset email" }).click();
+  const resetButton = page.getByRole("button", { name: "Send password-reset email" });
+
+  await expect(resetButton).toBeEnabled();
+  await resetButton.click();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Requesting the recovery email" }),
+  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Sending reset email..." })).toBeDisabled();
+
+  resetResponse.resolve();
 
   await expect(
     page.getByText(/password-reset email has been sent/i),
   ).toBeVisible();
+  await expect(resetButton).toBeEnabled();
   expect(resetPayload).toMatchObject({
     action: "password-reset",
     email: "student@example.com",
@@ -276,14 +304,17 @@ test("keeps long email inputs and the email-link success state readable on mobil
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  const magicLinkResponse = createDeferred();
 
-  await mockAccountSessionApi(page, ({ method }) => {
+  await mockAccountSessionApi(page, async ({ method }) => {
     if (method === "GET") {
       return {
         status: 200,
         body: buildSignedOutPayload(),
       };
     }
+
+    await magicLinkResponse.promise;
 
     return {
       status: 200,
@@ -301,7 +332,16 @@ test("keeps long email inputs and the email-link success state readable on mobil
   const emailInput = page.getByLabel("Email for sign-in link");
 
   await emailInput.fill(longEmail);
-  await page.getByRole("button", { name: "Email me a sign-in link" }).click();
+  const emailLinkButton = page.getByRole("button", { name: "Email me a sign-in link" });
+
+  await expect(emailLinkButton).toBeEnabled();
+  await emailLinkButton.click();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Requesting a fresh email link" }),
+  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Sending sign-in link..." })).toBeDisabled();
+
+  magicLinkResponse.resolve();
 
   const successAlert = page
     .locator('div[role="status"]')
@@ -349,7 +389,10 @@ test("shows a specific forgot-password failure when Supabase blocks the recovery
 
   await gotoAndExpectOk(page, "/account");
   await page.getByLabel("Email for password reset").fill("student@example.com");
-  await page.getByRole("button", { name: "Send password-reset email" }).click();
+  const resetButton = page.getByRole("button", { name: "Send password-reset email" });
+
+  await expect(resetButton).toBeEnabled();
+  await resetButton.click();
 
   const errorAlert = page
     .getByRole("alert")
@@ -357,6 +400,7 @@ test("shows a specific forgot-password failure when Supabase blocks the recovery
 
   await expect(errorAlert).toContainText(/supabase redirect settings/i);
   await expect(errorAlert).toContainText("/auth/confirm");
+  await expect(resetButton).toBeEnabled();
 });
 
 test("shows explicit expired and already-used recovery-link states on the reset page", async ({
@@ -424,12 +468,12 @@ test("shows the signed-in password-change fallback when reauthentication is requ
     resetFallbackPayload = body;
     return {
       status: 200,
-        body: {
-          ok: true,
-          message:
-            "If that email matches an existing account, a password-reset email has been sent. Check your inbox and spam for the link.",
-        },
-      };
+      body: {
+        ok: true,
+        message:
+          "If that email matches an existing account, a password-reset email has been sent. Check your inbox and spam for the link.",
+      },
+    };
   });
 
   await gotoAndExpectOk(page, "/account");

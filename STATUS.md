@@ -1,5 +1,24 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-057 Signed-Out Auth Regression Lane
+
+Current state: `OML-QA-057` is complete. Signed-out auth forms now submit from the form DOM instead of controlled input state, so early-filled email/password values survive hydration timing and the email-link/reset actions no longer appear inert after a valid email is entered. Wrong-password, failed request, and unreadable response failures now clear pending state and surface visible retryable errors.
+
+### Files Changed
+
+- `components/account/AccountPagePanel.tsx`: reads submitted auth values from `FormData`, keeps retryable wrong-password/request failures visible, and keeps email-link/reset submit buttons actionable while still respecting pending, cooldown, and dev-harness disabled states.
+- `lib/account/client.ts`: makes account session POST failures and unreadable JSON responses return structured retryable errors instead of leaving actions pending.
+- `tests/e2e/account-auth.spec.ts`: strengthens signed-out auth coverage for enabled actions, pending status, success/failure notices, wrong-password retry, and mobile long-email layout.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `pnpm exec playwright test tests/e2e/account-auth.spec.ts --reporter=line`: passed, 9/9.
+- `pnpm exec playwright test tests/e2e/account-auth.spec.ts tests/e2e/account-achievements.spec.ts tests/e2e/account-mobile-shell.spec.ts tests/e2e/assessment-synced-progress.spec.ts tests/e2e/premium-checkpoint-history.spec.ts --reporter=line`: passed 21/22; the remaining failure is `tests/e2e/premium-checkpoint-history.spec.ts` looking for stale heading `Cross-device checkpoint history and mastery`, already tracked as `OML-QA-058`.
+- `pnpm exec eslint components/account/AccountPagePanel.tsx lib/account/client.ts tests/e2e/account-auth.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `git diff --check`: passed.
+
 ## 2026-05-31 OML-QA-056 Per-Concept Drain Protocol
 
 Current state: `OML-QA-056` is complete. The SHM pilot has been turned into an explicit first batch of per-concept drain work: Kirchhoff rules and de Broglie matter waves now have authored concept-page V2 protocols, Beats and Air Columns start with focused inline checks, and the high-risk slug batch has a durable content assertion plus a focused concept quality matrix gate.

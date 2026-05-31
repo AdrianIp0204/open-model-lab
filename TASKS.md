@@ -569,7 +569,7 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P0 - Account Flow / Regression Gates
 
-- [ ] **OML-QA-057: Restore the signed-out auth action regression lane and wrong-password error UX.**
+- [x] **OML-QA-057: Restore the signed-out auth action regression lane and wrong-password error UX.**
   - Evidence: `pnpm exec playwright test tests/e2e/account-auth.spec.ts tests/e2e/account-achievements.spec.ts tests/e2e/account-mobile-shell.spec.ts tests/e2e/assessment-synced-progress.spec.ts tests/e2e/premium-checkpoint-history.spec.ts --reporter=line` passed `17/22` and failed four `tests/e2e/account-auth.spec.ts` cases. The wrong-password case did not expose the expected `Incorrect email or password` alert; the email-link and password-reset request cases timed out because their submit buttons stayed disabled in the failure artifact after the field was filled.
   - UX problem: users must get an explicit, visible, accessible error for incorrect password sign-in, and first-time email-link / reset flows must not look inert after a valid email is entered.
   - Affected area: `components/account/AccountPagePanel.tsx`, `lib/account/client.ts`, `tests/e2e/account-auth.spec.ts`, and `/api/account/session` request-state handling.

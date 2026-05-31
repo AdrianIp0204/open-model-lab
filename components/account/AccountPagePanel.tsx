@@ -243,6 +243,12 @@ function getPasswordFieldError(value: string, t: TranslateFn) {
   return null;
 }
 
+function readFormStringValue(form: HTMLFormElement, name: string) {
+  const value = new FormData(form).get(name);
+
+  return typeof value === "string" ? value : "";
+}
+
 function resolveContinuePath(nextPath: string | null, locale: AppLocale) {
   if (nextPath && nextPath.startsWith("/")) {
     return localizeShareHref(nextPath, locale);
@@ -262,6 +268,8 @@ function isPasswordSignInErrorCode(errorCode: string | null) {
     "email_not_confirmed",
     "auth_unavailable",
     "password_sign_in_failed",
+    "account_request_failed",
+    "account_response_invalid",
   ].includes(errorCode ?? "");
 }
 
@@ -565,10 +573,6 @@ export function AccountPagePanel({
     : null;
   const syncState = useProgressSyncState();
   const progressSnapshot = useProgressSnapshot();
-  const [passwordEmail, setPasswordEmail] = useState("");
-  const [emailLinkEmail, setEmailLinkEmail] = useState("");
-  const [passwordResetEmail, setPasswordResetEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [passwordEmailError, setPasswordEmailError] = useState<string | null>(null);
   const [emailLinkEmailError, setEmailLinkEmailError] = useState<string | null>(null);
   const [passwordResetEmailError, setPasswordResetEmailError] = useState<string | null>(null);
@@ -644,8 +648,11 @@ export function AccountPagePanel({
 
   async function handlePasswordSignIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const nextPasswordEmailError = getEmailFieldError(passwordEmail, translate);
-    const nextPasswordFieldError = getPasswordFieldError(password, translate);
+    const form = event.currentTarget;
+    const submittedEmail = readFormStringValue(form, "password-email");
+    const submittedPassword = readFormStringValue(form, "password");
+    const nextPasswordEmailError = getEmailFieldError(submittedEmail, translate);
+    const nextPasswordFieldError = getPasswordFieldError(submittedPassword, translate);
 
     setPasswordEmailError(nextPasswordEmailError);
     setPasswordFieldError(nextPasswordFieldError);
@@ -655,7 +662,11 @@ export function AccountPagePanel({
       return;
     }
 
-    const result = await signInWithPassword(passwordEmail.trim(), password, continuePath);
+    const result = await signInWithPassword(
+      submittedEmail.trim(),
+      submittedPassword,
+      continuePath,
+    );
 
     if (result.ok) {
       router.push(continuePath);
@@ -665,7 +676,8 @@ export function AccountPagePanel({
   async function handleMagicLinkRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const nextEmailError = getEmailFieldError(emailLinkEmail, translate);
+    const submittedEmail = readFormStringValue(event.currentTarget, "email");
+    const nextEmailError = getEmailFieldError(submittedEmail, translate);
     setEmailLinkEmailError(nextEmailError);
     setMagicLinkStatusMessage(null);
 
@@ -673,7 +685,7 @@ export function AccountPagePanel({
       return;
     }
 
-    const result = await requestMagicLink(emailLinkEmail.trim(), continuePath);
+    const result = await requestMagicLink(submittedEmail.trim(), continuePath);
 
     setMagicLinkStatusMessage({
       tone: result.ok ? "success" : "error",
@@ -685,7 +697,8 @@ export function AccountPagePanel({
   async function handlePasswordResetRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const nextEmailError = getEmailFieldError(passwordResetEmail, translate);
+    const submittedEmail = readFormStringValue(event.currentTarget, "email");
+    const nextEmailError = getEmailFieldError(submittedEmail, translate);
     setPasswordResetEmailError(nextEmailError);
     setPasswordResetStatusMessage(null);
 
@@ -693,7 +706,7 @@ export function AccountPagePanel({
       return;
     }
 
-    const result = await requestPasswordReset(passwordResetEmail.trim(), passwordResetPath);
+    const result = await requestPasswordReset(submittedEmail.trim(), passwordResetPath);
 
     setPasswordResetStatusMessage({
       tone: result.ok ? "success" : "error",
@@ -1532,12 +1545,11 @@ export function AccountPagePanel({
                   </span>
                   <input
                     type="email"
-                    value={passwordEmail}
+                    name="password-email"
                     onChange={(event) => {
-                      setPasswordEmail(event.target.value);
                       setDismissedPasswordSignInError(true);
                       if (passwordEmailError) {
-                    setPasswordEmailError(getEmailFieldError(event.target.value, translate));
+                        setPasswordEmailError(getEmailFieldError(event.target.value, translate));
                       }
                     }}
                     disabled={authActionsDisabled}
@@ -1559,12 +1571,11 @@ export function AccountPagePanel({
                   <span className="text-sm font-medium text-ink-900">{t("passwordSignIn.passwordLabel")}</span>
                   <input
                     type="password"
-                    value={password}
+                    name="password"
                     onChange={(event) => {
-                      setPassword(event.target.value);
                       setDismissedPasswordSignInError(true);
                       if (passwordFieldError) {
-                    setPasswordFieldError(getPasswordFieldError(event.target.value, translate));
+                        setPasswordFieldError(getPasswordFieldError(event.target.value, translate));
                       }
                     }}
                     disabled={authActionsDisabled}
@@ -1632,12 +1643,11 @@ export function AccountPagePanel({
                   <span className="text-sm font-medium text-ink-900">{t("emailLink.emailLabel")}</span>
                   <input
                     type="email"
-                    value={emailLinkEmail}
+                    name="email"
                     onChange={(event) => {
-                      setEmailLinkEmail(event.target.value);
                       setMagicLinkStatusMessage(null);
                       if (emailLinkEmailError) {
-                    setEmailLinkEmailError(getEmailFieldError(event.target.value, translate));
+                        setEmailLinkEmailError(getEmailFieldError(event.target.value, translate));
                       }
                     }}
                     disabled={authActionsDisabled}
@@ -1660,7 +1670,6 @@ export function AccountPagePanel({
                   disabled={
                     authActionsDisabled ||
                     Boolean(session.pendingAction) ||
-                    !emailLinkEmail.trim() ||
                     isMagicLinkCooldownActive
                   }
                   className="inline-flex w-full items-center justify-center rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
@@ -1714,12 +1723,11 @@ export function AccountPagePanel({
                   </span>
                   <input
                     type="email"
-                    value={passwordResetEmail}
+                    name="email"
                     onChange={(event) => {
-                      setPasswordResetEmail(event.target.value);
                       setPasswordResetStatusMessage(null);
                       if (passwordResetEmailError) {
-                    setPasswordResetEmailError(getEmailFieldError(event.target.value, translate));
+                        setPasswordResetEmailError(getEmailFieldError(event.target.value, translate));
                       }
                     }}
                     disabled={authActionsDisabled}
@@ -1739,11 +1747,7 @@ export function AccountPagePanel({
               <div className="flex flex-wrap gap-3">
                 <button
                   type="submit"
-                  disabled={
-                    authActionsDisabled ||
-                    Boolean(session.pendingAction) ||
-                    !passwordResetEmail.trim()
-                  }
+                  disabled={authActionsDisabled || Boolean(session.pendingAction)}
                   className="inline-flex w-full items-center justify-center rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                 >
                   {session.pendingAction === "password-reset"

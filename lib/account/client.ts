@@ -28,6 +28,11 @@ type AccountActionFailurePayload = {
   error?: string;
 };
 
+type AccountActionPostResult = {
+  response: Pick<Response, "ok" | "status">;
+  payload: AccountActionSuccessPayload | AccountActionFailurePayload;
+};
+
 type AccountSessionState = {
   initialized: boolean;
   status: "signed-out" | "signed-in";
@@ -219,22 +224,38 @@ class AccountSessionStore {
     });
   }
 
-  private async postSessionAction(body: Record<string, unknown>) {
-    const response = await fetch("/api/account/session", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    const payload = (await response.json()) as
-      | AccountActionSuccessPayload
-      | AccountActionFailurePayload;
+  private async postSessionAction(
+    body: Record<string, unknown>,
+  ): Promise<AccountActionPostResult> {
+    try {
+      const response = await fetch("/api/account/session", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      const payload = (await response.json().catch(() => ({
+        code: "account_response_invalid",
+        error: "Account request returned an unreadable response. Try again.",
+      }))) as AccountActionSuccessPayload | AccountActionFailurePayload;
 
-    return {
-      response,
-      payload,
-    };
+      return {
+        response,
+        payload,
+      };
+    } catch {
+      return {
+        response: {
+          ok: false,
+          status: 0,
+        },
+        payload: {
+          code: "account_request_failed",
+          error: "Account request could not be completed. Check your connection and try again.",
+        },
+      };
+    }
   }
 
   getSnapshot = () => this.snapshot;
