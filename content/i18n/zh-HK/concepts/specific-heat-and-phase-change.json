@@ -522,10 +522,6 @@
           "比熱",
           "加熱器功率"
         ],
-        "relatedGraphTabs": [
-          "加熱曲線",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "質量",
           "比熱",
@@ -543,10 +539,6 @@
         "relatedControls": [
           "潛熱",
           "加熱器功率"
-        ],
-        "relatedGraphTabs": [
-          "加熱曲線",
-          "潛在反應"
         ],
         "relatedEquationVariables": [
           "潛熱",
@@ -566,10 +558,6 @@
           "比熱",
           "潛熱"
         ],
-        "relatedGraphTabs": [
-          "能量分配",
-          "加熱曲線"
-        ],
         "relatedEquationVariables": [
           "加熱器功率",
           "比熱",
@@ -587,9 +575,6 @@
         "relatedControls": [
           "起始溫度",
           "加熱器功率"
-        ],
-        "relatedGraphTabs": [
-          "加熱曲線"
         ],
         "relatedEquationVariables": [
           "起始溫度",
@@ -641,9 +626,23 @@
           "比熱",
           "加熱器功率"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "加熱曲線"
+        "relatedOverlays": [
+          "容量提示",
+          "曲線指南"
+        ],
+        "relatedEquationVariables": [
+          "比熱",
+          "加熱器功率"
+        ]
+      },
+      {
+        "id": "shpc-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相同質量與功率、但比熱容不同時最有用。這樣溫度變化的差別就來自 m c，而不是被隱藏的能量輸入差異。",
+        "tryThis": "把「低比熱暖樣本」複製到比較模式，只提高設定 B 的比熱容，然後在同一時間暫停兩個設定。",
+        "whyItMatters": "在架子添加另一層推理之前，它隔離了比熱概念。",
+        "relatedControls": [
+          "比熱",
+          "加熱器功率"
         ],
         "relatedOverlays": [
           "容量提示",
@@ -663,10 +662,6 @@
           "比熱",
           "加熱器功率"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "加熱曲線"
-        ],
         "relatedOverlays": [
           "容量提示",
           "曲線指南"
@@ -685,10 +680,6 @@
           "比熱",
           "加熱器功率"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "加熱曲線"
-        ],
         "relatedOverlays": [
           "容量提示",
           "曲線指南"
@@ -706,32 +697,6 @@
         "relatedControls": [
           "比熱",
           "加熱器功率"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "加熱曲線"
-        ],
-        "relatedOverlays": [
-          "容量提示",
-          "曲線指南"
-        ],
-        "relatedEquationVariables": [
-          "比熱",
-          "加熱器功率"
-        ]
-      },
-      {
-        "id": "shpc-notice-compare-mode",
-        "text": "比較模式在設定 A 和設定 B 保持相同質量與功率、但比熱容不同時最有用。這樣溫度變化的差別就來自 m c，而不是被隱藏的能量輸入差異。",
-        "tryThis": "把「低比熱暖樣本」複製到比較模式，只提高設定 B 的比熱容，然後在同一時間暫停兩個設定。",
-        "whyItMatters": "在架子添加另一層推理之前，它隔離了比熱概念。",
-        "relatedControls": [
-          "比熱",
-          "加熱器功率"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "加熱曲線"
         ],
         "relatedOverlays": [
           "容量提示",
@@ -750,10 +715,6 @@
         "relatedControls": [
           "比熱"
         ],
-        "relatedGraphTabs": [
-          "加熱曲線",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "容量提示"
         ],
@@ -768,10 +729,6 @@
         "whyItMatters": "它顯示品質會影響傾斜部分和架子。",
         "relatedControls": [
           "質量"
-        ],
-        "relatedGraphTabs": [
-          "加熱曲線",
-          "潛在反應"
         ],
         "relatedOverlays": [
           "容量提示",
@@ -790,10 +747,6 @@
           "加熱器功率",
           "潛熱"
         ],
-        "relatedGraphTabs": [
-          "加熱曲線",
-          "能量分配"
-        ],
         "relatedOverlays": [
           "架子提示",
           "能量分裂"
@@ -810,10 +763,6 @@
         "whyItMatters": "它將寬的架子與大的比熱分開。",
         "relatedControls": [
           "潛熱"
-        ],
-        "relatedGraphTabs": [
-          "潛在反應",
-          "加熱曲線"
         ],
         "relatedOverlays": [
           "架子提示"

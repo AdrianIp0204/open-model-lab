@@ -433,10 +433,6 @@
         "relatedControls": [
           "溫度"
         ],
-        "relatedGraphTabs": [
-          "速率-溫度",
-          "成功-溫度"
-        ],
         "relatedEquationVariables": [
           "溫度"
         ]
@@ -452,9 +448,6 @@
         "relatedControls": [
           "活化能量",
           "催化劑"
-        ],
-        "relatedGraphTabs": [
-          "成功-溫度"
         ],
         "relatedEquationVariables": [
           "活化能",
@@ -472,10 +465,6 @@
         "relatedControls": [
           "溫度",
           "濃度"
-        ],
-        "relatedGraphTabs": [
-          "速率-溫度",
-          "速率-濃度"
         ],
         "relatedEquationVariables": [
           "溫度",
@@ -517,9 +506,6 @@
         "whyItMatters": "濃度主要增加的是機會，而不是保證成功。",
         "relatedControls": [
           "濃度"
-        ],
-        "relatedGraphTabs": [
-          "速率-濃度"
         ],
         "relatedOverlays": [
           "成功碰撞"

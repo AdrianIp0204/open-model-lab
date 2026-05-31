@@ -511,9 +511,6 @@
           "探針X",
           "波速"
         ],
-        "relatedGraphTabs": [
-          "位移"
-        ],
         "relatedEquationVariables": [
           "波速",
           "探針X"
@@ -531,9 +528,6 @@
           "波長",
           "探針X"
         ],
-        "relatedGraphTabs": [
-          "探頭壓力"
-        ],
         "relatedEquationVariables": [
           "波長",
           "探針X"
@@ -549,9 +543,6 @@
         "whyItMatters": "它將能量傳遞與散裝物質流區分開來。",
         "relatedControls": [
           "波速"
-        ],
-        "relatedGraphTabs": [
-          "位移"
         ],
         "relatedEquationVariables": [
           "波速"
@@ -588,9 +579,19 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-compare",
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
         ],
         "relatedOverlays": [
           "運動方向",
@@ -606,9 +607,19 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
+        "relatedOverlays": [
+          "運動方向",
+          "壓縮帶"
+        ]
+      },
+      {
+        "id": "sound-notice-compare",
+        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
+        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
+        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
         ],
         "relatedOverlays": [
           "運動方向",
@@ -624,10 +635,6 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
-        ],
         "relatedOverlays": [
           "運動方向",
           "壓縮帶"
@@ -642,10 +649,6 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
-        ],
         "relatedOverlays": [
           "運動方向",
           "壓縮帶"
@@ -659,46 +662,6 @@
         "relatedControls": [
           "波速",
           "波長"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
-        ],
-        "relatedOverlays": [
-          "運動方向",
-          "壓縮帶"
-        ]
-      },
-      {
-        "id": "sound-notice-compare",
-        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
-        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
-        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
-        "relatedControls": [
-          "波速",
-          "波長"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
-        ],
-        "relatedOverlays": [
-          "運動方向",
-          "壓縮帶"
-        ]
-      },
-      {
-        "id": "sound-notice-compare",
-        "text": "注意哪個設定將壓縮壓縮得更緊密，以及哪個設定更快到達探頭。這些透過相同的波動關係相關，但它們並不總是相同的變化。",
-        "tryThis": "複製目前狀態，然後在一個設定中縮短 lambda，並在另一個設定中提高 v_wave，然後再比較兩個基準。",
-        "whyItMatters": "比較模式可以把間距改變和時間延遲改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
-        "relatedControls": [
-          "波速",
-          "波長"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
         ],
         "relatedOverlays": [
           "運動方向",
@@ -713,9 +676,6 @@
         "relatedControls": [
           "探針X"
         ],
-        "relatedGraphTabs": [
-          "位移"
-        ],
         "relatedOverlays": [
           "運動方向"
         ]
@@ -725,9 +685,6 @@
         "text": "請注意，當探測塊靠近其中心位置時，壓縮提示通常最強，而不是在最左或最右時。",
         "tryThis": "暫停在探頭壓力圖上，然後將一個週期內的壓縮曲線與包裹移位曲線進行比較。",
         "whyItMatters": "壓縮取決於相鄰地塊之間的局部間距，而不是只取決於一個地塊的位移。",
-        "relatedGraphTabs": [
-          "探頭壓力"
-        ],
         "relatedOverlays": [
           "壓縮帶"
         ]
@@ -740,10 +697,6 @@
         "relatedControls": [
           "波長",
           "波速"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
         ],
         "relatedOverlays": [
           "壓縮帶"
@@ -761,9 +714,6 @@
         "relatedControls": [
           "波速"
         ],
-        "relatedGraphTabs": [
-          "位移"
-        ],
         "relatedOverlays": [
           "運動方向",
           "能量傳輸"
@@ -780,10 +730,6 @@
         "relatedControls": [
           "振幅"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
-        ],
         "relatedOverlays": [
           "壓縮帶"
         ],
@@ -795,11 +741,7 @@
         "id": "sound-notice-inspect",
         "text": "請注意，時間軌道會改變您正在檢查的地塊移位和壓縮狀態，但相同的單源聲波仍然驅動每個視圖。",
         "tryThis": "暫停，執行一次，然後將探針壓力圖中的變化與顆粒帶上的變化進行比較。",
-        "whyItMatters": "它使舞台和圖像保持同步，而不是發明單獨的僅預覽狀態。",
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
-        ]
+        "whyItMatters": "它使舞台和圖像保持同步，而不是發明單獨的僅預覽狀態。"
       }
     ]
   },

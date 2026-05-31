@@ -503,9 +503,6 @@
           "頻率PHZ",
           "工作函數Ev"
         ],
-        "relatedGraphTabs": [
-          "能量平衡"
-        ],
         "relatedEquationVariables": [
           "頻率PHZ",
           "工作函數Ev"
@@ -522,10 +519,6 @@
         "relatedControls": [
           "強度"
         ],
-        "relatedGraphTabs": [
-          "強度掃描",
-          "收集器掃一掃"
-        ],
         "relatedEquationVariables": [
           "強度"
         ]
@@ -540,9 +533,6 @@
         "whyItMatters": "它將收集器圖連接到舞台上顯示的相同能量故事。",
         "relatedControls": [
           "收集器電壓"
-        ],
-        "relatedGraphTabs": [
-          "收集器掃一掃"
         ],
         "relatedEquationVariables": [
           "收集器電壓"
@@ -559,9 +549,6 @@
         "relatedControls": [
           "頻率PHZ",
           "工作函數Ev"
-        ],
-        "relatedGraphTabs": [
-          "能量平衡"
         ],
         "relatedEquationVariables": [
           "頻率PHZ",
@@ -606,10 +593,6 @@
           "頻率PHZ",
           "強度"
         ],
-        "relatedGraphTabs": [
-          "能量平衡",
-          "強度掃描"
-        ],
         "relatedOverlays": [
           "閾值門",
           "強度通量"
@@ -623,10 +606,6 @@
         "relatedControls": [
           "強度"
         ],
-        "relatedGraphTabs": [
-          "強度掃描",
-          "能量平衡"
-        ],
         "relatedOverlays": [
           "強度通量",
           "能源預算"
@@ -639,9 +618,6 @@
         "whyItMatters": "它將停止潛力轉換為同一台上的可測量量。",
         "relatedControls": [
           "收集器電壓"
-        ],
-        "relatedGraphTabs": [
-          "收集器掃一掃"
         ],
         "relatedOverlays": [
           "停止場",
@@ -657,11 +633,6 @@
           "頻率PHZ",
           "強度",
           "工作函數Ev"
-        ],
-        "relatedGraphTabs": [
-          "能量平衡",
-          "強度掃描",
-          "收集器掃一掃"
         ],
         "relatedOverlays": [
           "閾值門",

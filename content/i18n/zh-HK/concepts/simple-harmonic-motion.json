@@ -452,12 +452,7 @@
         "whatToNotice": [
           "振子每次穿過中心時都會經過這條線。"
         ],
-        "whyItMatters": "它把整段運動固定在清楚的中心上，讓位移正負一眼可見。",
-        "relatedGraphTabs": [
-          "位移",
-          "速度",
-          "加速度"
-        ]
+        "whyItMatters": "它把整段運動固定在清楚的中心上，讓位移正負一眼可見。"
       },
       {
         "id": "motionTrail",
@@ -471,9 +466,6 @@
           "振幅",
           "歐米茄",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "位移"
         ],
         "relatedEquationVariables": [
           "振幅",
@@ -494,9 +486,6 @@
           "歐米茄",
           "階段"
         ],
-        "relatedGraphTabs": [
-          "速度"
-        ],
         "relatedEquationVariables": [
           "振幅",
           "歐米茄",
@@ -515,9 +504,6 @@
           "歐米茄",
           "振幅",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "加速度"
         ],
         "relatedEquationVariables": [
           "歐米茄",
@@ -570,10 +556,6 @@
           "振幅",
           "歐米茄"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "速度"
-        ],
         "relatedOverlays": [
           "運動軌跡",
           "速度向量"
@@ -584,10 +566,6 @@
         "text": "留意：速度圖的峯值出現在位移穿越平衡位置時，而不是出現在最外側。",
         "tryThis": "切到速度圖，再把圖上的標記和舞台中質點的位置一起對照。",
         "whyItMatters": "這是看見位移和速度相差四分之一個週期最清楚的方法。",
-        "relatedGraphTabs": [
-          "速度",
-          "位移"
-        ],
         "relatedOverlays": [
           "速度向量"
         ],
@@ -601,9 +579,6 @@
         "text": "留意：即使質點還在往外移動，加速度也已經指回平衡位置。",
         "tryThis": "開啟加速度向量，在轉折點附近暫停，對照位移和回復方向。",
         "whyItMatters": "正是這個回復加速度，讓運動會反向，而不是一路漂出去。",
-        "relatedGraphTabs": [
-          "加速度"
-        ],
         "relatedOverlays": [
           "加速度向量"
         ],
@@ -621,10 +596,6 @@
           "歐米茄",
           "振幅"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "速度"
-        ],
         "relatedEquationVariables": [
           "歐米茄",
           "振幅"
@@ -635,11 +606,6 @@
         "text": "留意：當你暫停並拖曳時間時，舞台、圖表標記和目前讀數其實都在描述同一個瞬間。",
         "tryThis": "先暫停，再前進一步，觀察位移、速度和加速度如何一起更新，而不是被當成三件獨立的事。",
         "whyItMatters": "這是把運動、圖表和方程式真正連在一起的最清楚橋樑。",
-        "relatedGraphTabs": [
-          "位移",
-          "速度",
-          "加速度"
-        ],
         "relatedControls": [
           "階段",
           "歐米茄"
@@ -652,9 +618,6 @@
         "whyItMatters": "比較模式能在不改變空間畫面的情況下，把時間差異直接攤開。",
         "relatedControls": [
           "歐米茄"
-        ],
-        "relatedGraphTabs": [
-          "位移"
         ],
         "relatedOverlays": [
           "運動軌跡"

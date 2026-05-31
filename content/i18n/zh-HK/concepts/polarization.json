@@ -418,9 +418,6 @@
           "輸入角度",
           "偏光鏡角度"
         ],
-        "relatedGraphTabs": [
-          "場投影"
-        ],
         "relatedEquationVariables": [
           "輸入角度"
         ]
@@ -437,10 +434,6 @@
           "輸入角度",
           "偏光鏡角度",
           "非偏振"
-        ],
-        "relatedGraphTabs": [
-          "場投影",
-          "功率分配"
         ],
         "relatedEquationVariables": [
           "輸入角度",
@@ -459,9 +452,6 @@
           "輸入振幅",
           "偏光鏡角度",
           "非偏振"
-        ],
-        "relatedGraphTabs": [
-          "功率分配"
         ],
         "relatedEquationVariables": [
           "輸入振幅",
@@ -499,9 +489,20 @@
           "輸入角度",
           "偏光鏡角度"
         ],
-        "relatedGraphTabs": [
-          "功率分配",
-          "場投影"
+        "relatedOverlays": [
+          "投影指南",
+          "強度指南"
+        ]
+      },
+      {
+        "id": "polarization-notice-compare",
+        "text": "比較模式在其中一個設定只改變相對角度，而另一個設定把入射態由線偏振改成非偏振時最有力。",
+        "tryThis": "把設定 A 保持在「半功率」，先把設定 B 切換到「非偏振的第一輪通過」。",
+        "whyItMatters": "這將餘弦投影故事與半強度平均故事區分開來。",
+        "relatedControls": [
+          "輸入角度",
+          "偏光鏡角度",
+          "非偏振"
         ],
         "relatedOverlays": [
           "投影指南",
@@ -518,10 +519,6 @@
           "偏光鏡角度",
           "非偏振"
         ],
-        "relatedGraphTabs": [
-          "功率分配",
-          "場投影"
-        ],
         "relatedOverlays": [
           "投影指南",
           "強度指南"
@@ -536,29 +533,6 @@
           "輸入角度",
           "偏光鏡角度",
           "非偏振"
-        ],
-        "relatedGraphTabs": [
-          "功率分配",
-          "場投影"
-        ],
-        "relatedOverlays": [
-          "投影指南",
-          "強度指南"
-        ]
-      },
-      {
-        "id": "polarization-notice-compare",
-        "text": "比較模式在其中一個設定只改變相對角度，而另一個設定把入射態由線偏振改成非偏振時最有力。",
-        "tryThis": "把設定 A 保持在「半功率」，先把設定 B 切換到「非偏振的第一輪通過」。",
-        "whyItMatters": "這將餘弦投影故事與半強度平均故事區分開來。",
-        "relatedControls": [
-          "輸入角度",
-          "偏光鏡角度",
-          "非偏振"
-        ],
-        "relatedGraphTabs": [
-          "功率分配",
-          "場投影"
         ],
         "relatedOverlays": [
           "投影指南",
@@ -573,10 +547,6 @@
         "relatedControls": [
           "偏光鏡角度"
         ],
-        "relatedGraphTabs": [
-          "功率分配",
-          "場投影"
-        ],
         "relatedOverlays": [
           "投影指南",
           "強度指南"
@@ -590,9 +560,6 @@
         "relatedControls": [
           "非偏振",
           "偏光鏡角度"
-        ],
-        "relatedGraphTabs": [
-          "功率分配"
         ],
         "relatedOverlays": [
           "投影指南",

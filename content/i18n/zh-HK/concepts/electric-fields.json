@@ -487,10 +487,6 @@
           "源電荷B",
           "来源分离"
         ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
-        ],
         "relatedEquationVariables": [
           "源電荷A",
           "源電荷B",
@@ -511,10 +507,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
-        ],
         "relatedEquationVariables": [
           "源電荷A",
           "源電荷B",
@@ -533,9 +525,6 @@
         "relatedControls": [
           "測試充電"
         ],
-        "relatedGraphTabs": [
-          "方向掃描"
-        ],
         "relatedEquationVariables": [
           "測試充電"
         ]
@@ -551,10 +540,6 @@
         "relatedControls": [
           "探針Y",
           "探針X"
-        ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
         ],
         "relatedEquationVariables": [
           "探針X",
@@ -592,9 +577,6 @@
           "源電荷A",
           "源電荷B"
         ],
-        "relatedGraphTabs": [
-          "即時掃描"
-        ],
         "relatedOverlays": [
           "字段向量",
           "字段網格"
@@ -613,9 +595,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "即時掃描"
-        ],
         "relatedOverlays": [
           "字段向量",
           "扫描線"
@@ -628,9 +607,6 @@
         "whyItMatters": "這是把來源產生的電場，和某一個測試電荷實際感受到的力，清楚分開的最好方法。",
         "relatedControls": [
           "測試充電"
-        ],
-        "relatedGraphTabs": [
-          "方向掃描"
         ],
         "relatedOverlays": [
           "字段向量",
@@ -650,10 +626,6 @@
           "源電荷B",
           "来源分离"
         ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
-        ],
         "relatedOverlays": [
           "字段向量",
           "字段網格"
@@ -667,10 +639,6 @@
         "relatedControls": [
           "来源分离",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
         ],
         "relatedOverlays": [
           "扫描線",

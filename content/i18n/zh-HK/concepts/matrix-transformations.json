@@ -466,10 +466,6 @@
           "m21",
           "m22"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "m11",
           "m12",
@@ -490,9 +486,6 @@
           "m12",
           "m21",
           "m22"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "m11",
@@ -515,9 +508,6 @@
           "m21",
           "m22"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "m11",
           "m12",
@@ -538,9 +528,6 @@
           "m12",
           "m21",
           "m22"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "m11",
@@ -580,9 +567,6 @@
           "m12",
           "m22"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "基礎向量",
           "單位平方"
@@ -600,9 +584,6 @@
         "relatedControls": [
           "m12"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "基礎向量",
           "樣本形狀"
@@ -619,10 +600,6 @@
           "m12",
           "m21",
           "m22"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "概念標籤"
         ],
         "relatedOverlays": [
           "基礎向量",

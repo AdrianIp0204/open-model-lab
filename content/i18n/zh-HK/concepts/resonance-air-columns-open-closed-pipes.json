@@ -308,14 +308,14 @@
       {
         "id": "mark-the-end-rules",
         "title": "標記結束規則",
-      "goal": "告訴哪一端可以自由移動，哪一端被迫靜止。",
-      "doThis": "從開啟邊界覆蓋開始，然後切換關閉左端，同時觀察管端和位移形狀圖。",
-      "notice": "張開的嘴巴是位移波腹，但封閉的牆壁成為位移節點。",
-      "explain": "最終條件是選擇駐波的限制。露天可以移動，所以位移量大；牆壁阻擋了包裹的移動，因此位移必須降至零。",
-      "inlineCheck": {
-        "title": "檢查開口端規則"
-      }
-    },
+        "goal": "告訴哪一端可以自由移動，哪一端被迫靜止。",
+        "doThis": "從開啟邊界覆蓋開始，然後切換關閉左端，同時觀察管端和位移形狀圖。",
+        "notice": "張開的嘴巴是位移波腹，但封閉的牆壁成為位移節點。",
+        "explain": "最終條件是選擇駐波的限制。露天可以移動，所以位移量大；牆壁阻擋了包裹的移動，因此位移必須降至零。",
+        "inlineCheck": {
+          "title": "檢查開口端規則"
+        }
+      },
       {
         "id": "read-the-harmonic-family",
         "title": "閱讀調和族",
@@ -508,10 +508,6 @@
           "長度",
           "共振訂單"
         ],
-        "relatedGraphTabs": [
-          "形狀",
-          "梯子"
-        ],
         "relatedEquationVariables": [
           "邊界",
           "長度",
@@ -531,10 +527,6 @@
           "探針X",
           "長度"
         ],
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
-        ],
         "relatedEquationVariables": [
           "共振訂單",
           "探針X",
@@ -553,10 +545,6 @@
           "已關閉結束",
           "探針X",
           "共振訂單"
-        ],
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
         ],
         "relatedEquationVariables": [
           "邊界",
@@ -598,9 +586,6 @@
         "text": "請注意，開口端是空氣移動最自由的位置，因此它是位移波腹，而不是卡住點。",
         "tryThis": "在移動探針之前，保留邊界覆蓋並將張開的嘴與內部節點進行比較。",
         "whyItMatters": "在您考慮諧波之前，它將管口與正確的位移規則連結起來。",
-        "relatedGraphTabs": [
-          "形狀"
-        ],
         "relatedOverlays": [
           "邊界規則"
         ]
@@ -613,10 +598,6 @@
         "relatedControls": [
           "已關閉結束"
         ],
-        "relatedGraphTabs": [
-          "梯子",
-          "形狀"
-        ],
         "relatedOverlays": [
           "邊界規則"
         ]
@@ -626,10 +607,6 @@
         "text": "請注意，懸停在位移形狀圖上會將即時探頭移動到管中的相同位置。",
         "tryThis": "將滑鼠懸停在封閉的牆壁附近，然後將滑鼠懸停在張開的嘴附近，並比較探針運動圖。",
         "whyItMatters": "圖像和管子是同一駐波模式的兩個視圖。",
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
-        ],
         "relatedControls": [
           "探針X"
         ]
@@ -642,9 +619,6 @@
         "relatedOverlays": [
           "壓力指南",
           "運動節點"
-        ],
-        "relatedGraphTabs": [
-          "形狀"
         ]
       },
       {
@@ -655,20 +629,13 @@
         "relatedControls": [
           "已關閉結束",
           "共振訂單"
-        ],
-        "relatedGraphTabs": [
-          "梯子"
         ]
       },
       {
         "id": "air-column-notice-inspect",
         "text": "請注意，時間軌道改變了瞬時包裹運動，但形狀圖保持空間狀態，因為它代表允許的站立模式，而不是一個凍結幀。",
         "tryThis": "暫停，單步執行一次，然後將管中的變化與形狀圖上保持固定的變化進行比較。",
-        "whyItMatters": "它將共振模式與此模式內的瞬時振盪分開。",
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
-        ]
+        "whyItMatters": "它將共振模式與此模式內的瞬時振盪分開。"
       },
       {
         "id": "air-column-notice-compare",
@@ -679,9 +646,6 @@
           "已關閉結束",
           "長度",
           "共振訂單"
-        ],
-        "relatedGraphTabs": [
-          "梯子"
         ],
         "relatedOverlays": [
           "邊界規則"

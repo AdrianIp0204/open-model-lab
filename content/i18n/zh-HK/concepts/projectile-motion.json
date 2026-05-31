@@ -493,10 +493,6 @@
           "速度",
           "角度"
         ],
-        "relatedGraphTabs": [
-          "軌跡",
-          "速度"
-        ],
         "relatedEquationVariables": [
           "速度",
           "角度"
@@ -515,10 +511,6 @@
           "速度",
           "角度",
           "重力"
-        ],
-        "relatedGraphTabs": [
-          "組件",
-          "速度"
         ],
         "relatedEquationVariables": [
           "速度",
@@ -539,9 +531,6 @@
           "角度",
           "重力"
         ],
-        "relatedGraphTabs": [
-          "軌跡"
-        ],
         "relatedEquationVariables": [
           "速度",
           "角度",
@@ -560,9 +549,6 @@
           "速度",
           "角度",
           "重力"
-        ],
-        "relatedGraphTabs": [
-          "軌跡"
         ],
         "relatedEquationVariables": [
           "速度",
@@ -609,10 +595,6 @@
           "角度",
           "重力"
         ],
-        "relatedGraphTabs": [
-          "組件",
-          "速度"
-        ],
         "relatedOverlays": [
           "組件向量"
         ]
@@ -622,9 +604,6 @@
         "text": "留意：軌跡圖和舞台展示的是同一條路徑，只是換了表示方式。",
         "tryThis": "懸停或拖曳軌跡圖，觀察拋體如何移動到舞台中的對應位置。",
         "whyItMatters": "它讓圖表不再只是附加説明，而是同一段飛行的空間描述。",
-        "relatedGraphTabs": [
-          "軌跡"
-        ],
         "relatedOverlays": [
           "頂點標記",
           "範圍標記"
@@ -638,10 +617,6 @@
         "relatedControls": [
           "角度",
           "速度"
-        ],
-        "relatedGraphTabs": [
-          "軌跡",
-          "組件"
         ],
         "relatedOverlays": [
           "頂點標記",
@@ -657,10 +632,6 @@
         "text": "留意：拋體達到最高點時，是垂直速度降到零，而不是水平運動停止。",
         "tryThis": "在弧線頂部附近暫停並拖曳時間，再把最高點標記和速度圖上的垂直分量一起看。",
         "whyItMatters": "最高點只是在説垂直分量發生了什麼；拋體仍然繼續向前飛。",
-        "relatedGraphTabs": [
-          "速度",
-          "軌跡"
-        ],
         "relatedOverlays": [
           "頂點標記",
           "組件向量"
@@ -671,9 +642,6 @@
         "text": "留意：$v_x$ 保持穩定，而 $v_y$ 會在重力作用下線性改變。",
         "tryThis": "切到速度分量圖，看水平線保持平坦，而垂直線則持續向下傾。",
         "whyItMatters": "這正是路徑會彎曲、但其中一個方向仍保持均勻運動的原因。",
-        "relatedGraphTabs": [
-          "速度"
-        ],
         "relatedOverlays": [
           "速度向量",
           "組件向量"
@@ -692,9 +660,6 @@
         "relatedControls": [
           "速度",
           "角度"
-        ],
-        "relatedGraphTabs": [
-          "軌跡"
         ],
         "relatedOverlays": [
           "頂點標記",

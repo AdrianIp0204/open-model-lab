@@ -485,9 +485,6 @@
         "relatedControls": [
           "樣本大小"
         ],
-        "relatedGraphTabs": [
-          "剩餘計數"
-        ],
         "relatedEquationVariables": [
           "樣本大小"
         ]
@@ -503,10 +500,6 @@
         "relatedControls": [
           "樣本大小",
           "半條命秒"
-        ],
-        "relatedGraphTabs": [
-          "剩餘計數",
-          "剩餘分數"
         ],
         "relatedEquationVariables": [
           "樣本大小",
@@ -524,10 +517,6 @@
         "relatedControls": [
           "半條命秒"
         ],
-        "relatedGraphTabs": [
-          "剩餘計數",
-          "剩餘分數"
-        ],
         "relatedEquationVariables": [
           "半條命秒"
         ]
@@ -542,9 +531,6 @@
         "whyItMatters": "它可以防止 50% 的存活率被誤讀為半個核或倒數計時器。",
         "relatedControls": [
           "樣本大小"
-        ],
-        "relatedGraphTabs": [
-          "剩餘分數"
         ],
         "relatedEquationVariables": [
           "樣本大小"
@@ -580,9 +566,6 @@
         "relatedControls": [
           "樣本大小"
         ],
-        "relatedGraphTabs": [
-          "剩餘分數"
-        ],
         "relatedOverlays": [
           "單一與樣本",
           "樣本與預期"
@@ -595,10 +578,6 @@
         "whyItMatters": "它可以幫助您將半衰期解讀為重複乘法，而不是線性損失。",
         "relatedControls": [
           "半條命秒"
-        ],
-        "relatedGraphTabs": [
-          "剩餘計數",
-          "剩餘分數"
         ],
         "relatedOverlays": [
           "半條命標記",
@@ -613,10 +592,6 @@
         "relatedControls": [
           "樣本大小"
         ],
-        "relatedGraphTabs": [
-          "剩餘計數",
-          "剩餘分數"
-        ],
         "relatedOverlays": [
           "樣本與預期",
           "最近的衰變"
@@ -629,10 +604,6 @@
         "whyItMatters": "並排，您可以看到相同的衰減規律和不同的噪音量。",
         "relatedControls": [
           "樣本大小"
-        ],
-        "relatedGraphTabs": [
-          "剩餘計數",
-          "剩餘分數"
         ],
         "relatedOverlays": [
           "樣本與預期",

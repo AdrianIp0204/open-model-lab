@@ -434,10 +434,6 @@
         "relatedControls": [
           "系統速度"
         ],
-        "relatedGraphTabs": [
-          "動量",
-          "速度"
-        ],
         "relatedEquationVariables": [
           "系統速度"
         ]
@@ -454,10 +450,6 @@
         "relatedControls": [
           "互動力",
           "互動持續時間"
-        ],
-        "relatedGraphTabs": [
-          "力量",
-          "動量"
         ],
         "relatedEquationVariables": [
           "互動力",
@@ -476,10 +468,6 @@
         "relatedControls": [
           "系統速度"
         ],
-        "relatedGraphTabs": [
-          "速度",
-          "動量"
-        ],
         "relatedEquationVariables": [
           "系統速度"
         ]
@@ -496,10 +484,6 @@
         "relatedControls": [
           "質量A",
           "質量B"
-        ],
-        "relatedGraphTabs": [
-          "動量",
-          "速度"
         ],
         "relatedEquationVariables": [
           "質量A",
@@ -540,9 +524,6 @@
         "text": "請注意，總動量線保持平坦，而各個動量線則向相反方向傾斜。",
         "tryThis": "瀏覽互動視窗並將移動的 $p_A$ 和 $p_B$ 線與平坦的匯流排進行比較。",
         "whyItMatters": "這是系統級動量守恆的圖像形式。",
-        "relatedGraphTabs": [
-          "動量"
-        ],
         "relatedOverlays": [
           "動量條"
         ],
@@ -558,10 +539,6 @@
         "relatedControls": [
           "互動力",
           "互動持續時間"
-        ],
-        "relatedGraphTabs": [
-          "力量",
-          "動量"
         ],
         "relatedOverlays": [
           "力對"
@@ -580,10 +557,6 @@
           "質量A",
           "質量B"
         ],
-        "relatedGraphTabs": [
-          "速度",
-          "動量"
-        ],
         "relatedOverlays": [
           "動量條"
         ],
@@ -601,10 +574,6 @@
           "系統速度",
           "互動力"
         ],
-        "relatedGraphTabs": [
-          "動量",
-          "速度"
-        ],
         "relatedOverlays": [
           "質量中心",
           "系統邊界"
@@ -618,10 +587,6 @@
         "text": "請注意，即使小車在其周圍加速和減速，質心標記也會保持穩定的漂移。",
         "tryThis": "當您觀察小車分開時，保持質心覆蓋。 CM 標記應以穩定的速度移動。",
         "whyItMatters": "質心提供了另一個緊湊的檢查，表明系統沒有淨外力。",
-        "relatedGraphTabs": [
-          "速度",
-          "動量"
-        ],
         "relatedOverlays": [
           "質量中心"
         ],
@@ -637,10 +602,6 @@
         "relatedControls": [
           "互動力",
           "互動持續時間"
-        ],
-        "relatedGraphTabs": [
-          "力量",
-          "動量"
         ],
         "relatedOverlays": [
           "力對",

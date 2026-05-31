@@ -457,9 +457,6 @@
           "焦距",
           "物體距離"
         ],
-        "relatedGraphTabs": [
-          "影像地圖"
-        ],
         "relatedEquationVariables": [
           "焦距",
           "物體距離"
@@ -478,9 +475,6 @@
           "焦距",
           "物體距離"
         ],
-        "relatedGraphTabs": [
-          "影像地圖"
-        ],
         "relatedEquationVariables": [
           "焦距",
           "物體距離"
@@ -497,9 +491,6 @@
         "relatedControls": [
           "物體距離",
           "物件高度"
-        ],
-        "relatedGraphTabs": [
-          "放大倍率"
         ],
         "relatedEquationVariables": [
           "物體距離",
@@ -537,9 +528,6 @@
           "匯聚",
           "物體距離"
         ],
-        "relatedGraphTabs": [
-          "影像地圖"
-        ],
         "relatedOverlays": [
           "主射線"
         ],
@@ -553,9 +541,6 @@
         "text": "請注意，物像圖是基於物距，而不是時間。將其懸停會立即選擇不同的幾何設定。",
         "tryThis": "將滑鼠停留在影像距離圖上，觀察光線圖立即跳到符合的物件位置。",
         "whyItMatters": "它使圖像保持誠實：您正在比較鏡頭設定係列，而不是逐步瀏覽時間。",
-        "relatedGraphTabs": [
-          "影像地圖"
-        ],
         "relatedOverlays": [
           "焦點標記"
         ]
@@ -569,10 +554,6 @@
           "物體距離",
           "焦距"
         ],
-        "relatedGraphTabs": [
-          "影像地圖",
-          "放大倍率"
-        ],
         "relatedOverlays": [
           "焦點標記",
           "主射線"
@@ -583,9 +564,6 @@
         "text": "請注意，m 的符號立即顯示方向：負數表示倒置，正數表示直立。",
         "tryThis": "開啟放大，然後將影像箭頭方向與圖點位於零之上還是之下進行比較。",
         "whyItMatters": "放大圖不僅與尺寸有關。它還告訴您圖像方向。",
-        "relatedGraphTabs": [
-          "放大倍率"
-        ],
         "relatedOverlays": [
           "放大指南"
         ],

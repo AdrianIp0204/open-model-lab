@@ -430,9 +430,6 @@
           "頻率",
           "探針X"
         ],
-        "relatedGraphTabs": [
-          "位移"
-        ],
         "relatedEquationVariables": [
           "頻率",
           "探針X"
@@ -449,10 +446,6 @@
         "relatedControls": [
           "頻率"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
-        ],
         "relatedEquationVariables": [
           "頻率"
         ]
@@ -467,9 +460,6 @@
         "whyItMatters": "它將響度與更強的駕駛而不是更快的騎行聯繫在一起。",
         "relatedControls": [
           "振幅"
-        ],
-        "relatedGraphTabs": [
-          "強度響應"
         ],
         "relatedEquationVariables": [
           "振幅"
@@ -512,9 +502,6 @@
         "relatedControls": [
           "頻率"
         ],
-        "relatedGraphTabs": [
-          "位移"
-        ],
         "relatedOverlays": [
           "壓縮帶"
         ],
@@ -529,9 +516,6 @@
         "whyItMatters": "這能顯示更大聲不等於更高音。",
         "relatedControls": [
           "振幅"
-        ],
-        "relatedGraphTabs": [
-          "強度響應"
         ],
         "relatedOverlays": [
           "能量傳輸"
@@ -548,10 +532,6 @@
         "relatedControls": [
           "探針X"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "探頭壓力"
-        ],
         "relatedEquationVariables": [
           "探針X"
         ]
@@ -564,10 +544,6 @@
         "relatedControls": [
           "頻率",
           "振幅"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "強度響應"
         ],
         "relatedOverlays": [
           "壓縮帶",

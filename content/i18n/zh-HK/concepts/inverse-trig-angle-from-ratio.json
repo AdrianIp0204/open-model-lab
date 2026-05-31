@@ -374,10 +374,6 @@
           "半徑",
           "角度"
         ],
-        "relatedGraphTabs": [
-          "座標掃描",
-          "角度恢復"
-        ],
         "relatedEquationVariables": [
           "半徑",
           "角度"
@@ -394,9 +390,6 @@
         "relatedControls": [
           "角度"
         ],
-        "relatedGraphTabs": [
-          "角度恢復"
-        ],
         "relatedEquationVariables": [
           "角度"
         ]
@@ -412,9 +405,6 @@
         "relatedControls": [
           "半徑",
           "角度"
-        ],
-        "relatedGraphTabs": [
-          "座標掃描"
         ],
         "relatedEquationVariables": [
           "半徑",
@@ -449,10 +439,6 @@
         "relatedControls": [
           "半徑"
         ],
-        "relatedGraphTabs": [
-          "座標掃描",
-          "角度恢復"
-        ],
         "relatedOverlays": [
           "座標指南",
           "半徑掃描"
@@ -466,9 +452,6 @@
         "text": "在像限 II 中，$y / x$ 為負，因此 $\\arctan(y / x)$ 傳回負銳角，即使實際點位於左側 x 軸上方。",
         "relatedControls": [
           "角度"
-        ],
-        "relatedGraphTabs": [
-          "角度恢復"
         ],
         "relatedOverlays": [
           "座標指南",

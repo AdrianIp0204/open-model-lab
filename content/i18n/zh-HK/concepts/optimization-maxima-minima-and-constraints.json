@@ -388,9 +388,6 @@
         "relatedControls": [
           "寬度"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "寬度"
         ]
@@ -406,10 +403,6 @@
         "relatedControls": [
           "寬度"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "面積坡度"
-        ],
         "relatedEquationVariables": [
           "寬度"
         ]
@@ -424,9 +417,6 @@
         "whyItMatters": "它將變化的參數、候選形狀和麵積值保存在一個緊湊的實驗台上。",
         "relatedControls": [
           "寬度"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "寬度"
@@ -467,10 +457,6 @@
         "relatedControls": [
           "寬度"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "面積坡度"
-        ],
         "relatedOverlays": [
           "約束帶",
           "區域指南"
@@ -482,10 +468,6 @@
         "relatedControls": [
           "寬度"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "面積坡度"
-        ],
         "relatedOverlays": [
           "最佳矩形"
         ]
@@ -495,10 +477,6 @@
         "text": "經過正方形，額外的寬度會造成傷害，因為高度現在下降得太快。",
         "relatedControls": [
           "寬度"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "面積坡度"
         ],
         "relatedOverlays": [
           "最佳矩形",
@@ -510,9 +488,6 @@
         "text": "約束線 h = 12 - w 直接顯示了一對一的權衡：寬度每增加一米，高度就會增加一米。",
         "relatedControls": [
           "寬度"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedOverlays": [
           "約束帶"

@@ -484,10 +484,6 @@
           "驅動頻率",
           "驅動幅度"
         ],
-        "relatedGraphTabs": [
-          "瞬態",
-          "回复"
-        ],
         "relatedEquationVariables": [
           "驅動頻率",
           "驅動幅度"
@@ -505,10 +501,6 @@
         "relatedControls": [
           "阻尼比",
           "反應模式"
-        ],
-        "relatedGraphTabs": [
-          "瞬態",
-          "回复"
         ],
         "relatedEquationVariables": [
           "阻尼比",
@@ -528,9 +520,6 @@
           "自然頻率",
           "驅動頻率",
           "反應模式"
-        ],
-        "relatedGraphTabs": [
-          "回复"
         ],
         "relatedEquationVariables": [
           "自然頻率",
@@ -568,9 +557,6 @@
         "relatedControls": [
           "阻尼比"
         ],
-        "relatedGraphTabs": [
-          "瞬態"
-        ],
         "relatedOverlays": [
           "回應信封"
         ]
@@ -583,10 +569,6 @@
         "relatedControls": [
           "阻尼比",
           "反應模式"
-        ],
-        "relatedGraphTabs": [
-          "瞬態",
-          "回复"
         ],
         "relatedOverlays": [
           "回應信封",
@@ -602,9 +584,6 @@
           "驅動頻率",
           "反應模式"
         ],
-        "relatedGraphTabs": [
-          "回复"
-        ],
         "relatedOverlays": [
           "峰值標記"
         ]
@@ -617,9 +596,6 @@
         "relatedControls": [
           "自然頻率",
           "驅動頻率"
-        ],
-        "relatedGraphTabs": [
-          "回复"
         ],
         "relatedOverlays": [
           "峰值標記",
@@ -636,9 +612,6 @@
         "text": "當您在運動後期暫停時，即使包絡已經縮小，舞台和圖像標記仍指向同一時刻。",
         "tryThis": "在運動後期暫停，並將較小的位移與您在即時回放中看到的早期擺動進行比較。",
         "whyItMatters": "隨著時間的推移，阻尼可見為週期與週期之間的振幅下降。",
-        "relatedGraphTabs": [
-          "瞬態"
-        ],
         "relatedOverlays": [
           "回應信封"
         ]
@@ -652,10 +625,6 @@
           "阻尼比",
           "驅動頻率",
           "自然頻率"
-        ],
-        "relatedGraphTabs": [
-          "瞬態",
-          "回复"
         ],
         "relatedOverlays": [
           "回應信封",

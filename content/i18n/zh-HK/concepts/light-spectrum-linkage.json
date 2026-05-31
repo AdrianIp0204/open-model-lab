@@ -511,9 +511,6 @@
           "探測週期",
           "中等索引"
         ],
-        "relatedGraphTabs": [
-          "來源探針"
-        ],
         "relatedEquationVariables": [
           "探測週期",
           "中等索引"
@@ -530,9 +527,6 @@
         "relatedControls": [
           "log波長"
         ],
-        "relatedGraphTabs": [
-          "空間概況"
-        ],
         "relatedEquationVariables": [
           "log波長"
         ]
@@ -548,10 +542,6 @@
         "relatedControls": [
           "中等索引"
         ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針"
-        ],
         "relatedEquationVariables": [
           "中等索引"
         ]
@@ -566,9 +556,6 @@
         "whyItMatters": "它使即時故事保持可見，同時頁面介紹顏色和光學。",
         "relatedControls": [
           "場振幅"
-        ],
-        "relatedGraphTabs": [
-          "探測場"
         ],
         "relatedEquationVariables": [
           "場振幅"
@@ -611,9 +598,6 @@
         "relatedControls": [
           "log波長"
         ],
-        "relatedGraphTabs": [
-          "空間概況"
-        ],
         "relatedOverlays": [
           "可見窗口"
         ]
@@ -625,10 +609,6 @@
         "whyItMatters": "這是後來使折射變得有意義的關鍵步驟。",
         "relatedControls": [
           "中等索引"
-        ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針"
         ],
         "relatedOverlays": [
           "中等壓縮",
@@ -646,9 +626,6 @@
         "relatedControls": [
           "log波長"
         ],
-        "relatedGraphTabs": [
-          "空間概況"
-        ],
         "relatedOverlays": [
           "可見窗口",
           "場三元組"
@@ -663,11 +640,6 @@
           "log波長",
           "中等索引",
           "探測週期"
-        ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針",
-          "空間概況"
         ],
         "relatedOverlays": [
           "可見窗口",

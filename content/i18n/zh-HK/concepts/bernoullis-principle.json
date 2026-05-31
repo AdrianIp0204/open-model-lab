@@ -583,9 +583,25 @@
           "流量",
           "條目壓力"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "概念標籤"
+        "relatedOverlays": [
+          "連續性橋",
+          "速度箭頭",
+          "壓力表",
+          "能量棒"
+        ],
+        "relatedEquationVariables": [
+          "喉嚨區域",
+          "流量"
+        ]
+      },
+      {
+        "id": "continuity-bernoulli-bridge",
+        "text": "使用比較模式保持相同的入口壓力和流量，然後僅加寬設定 B 的喉部。連續性解釋了為什麼喉部速度在 B 處下降，伯努利解釋了為什麼喉部壓力在那裡恢復。",
+        "tryThis": "由基準文氏管開始，開啟比較模式，讓設定 A 保持不變，只把設定 B 的喉部加寬，直到壓力差變得明顯。",
+        "relatedControls": [
+          "喉嚨區域",
+          "流量",
+          "條目壓力"
         ],
         "relatedOverlays": [
           "連續性橋",
@@ -607,10 +623,6 @@
           "流量",
           "條目壓力"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "連續性橋",
           "速度箭頭",
@@ -630,34 +642,6 @@
           "喉嚨區域",
           "流量",
           "條目壓力"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "概念標籤"
-        ],
-        "relatedOverlays": [
-          "連續性橋",
-          "速度箭頭",
-          "壓力表",
-          "能量棒"
-        ],
-        "relatedEquationVariables": [
-          "喉嚨區域",
-          "流量"
-        ]
-      },
-      {
-        "id": "continuity-bernoulli-bridge",
-        "text": "使用比較模式保持相同的入口壓力和流量，然後僅加寬設定 B 的喉部。連續性解釋了為什麼喉部速度在 B 處下降，伯努利解釋了為什麼喉部壓力在那裡恢復。",
-        "tryThis": "由基準文氏管開始，開啟比較模式，讓設定 A 保持不變，只把設定 B 的喉部加寬，直到壓力差變得明顯。",
-        "relatedControls": [
-          "喉嚨區域",
-          "流量",
-          "條目壓力"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "概念標籤"
         ],
         "relatedOverlays": [
           "連續性橋",
@@ -676,10 +660,6 @@
         "relatedControls": [
           "喉嚨區域"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "連續性橋",
           "速度箭頭",
@@ -695,9 +675,6 @@
         "relatedControls": [
           "喉嚨高度"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "壓力表",
           "能量棒"
@@ -711,9 +688,6 @@
         "text": "開啟壓力-流量圖像。隨著$Q$上升，兩個部分移動得更快，但更快的喉部失去更多的靜壓，因此壓降增加。",
         "relatedControls": [
           "流量"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedOverlays": [
           "速度箭頭",

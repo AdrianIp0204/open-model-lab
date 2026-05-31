@@ -91,7 +91,7 @@ describe("DevAccountHarnessPage", () => {
 
     const { container } = render(await DevAccountHarnessPage());
 
-    expect(screen.getByRole("link", { name: "Projectile motion" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "拋體運動" })).toHaveAttribute(
       "href",
       "/zh-HK/concepts/projectile-motion",
     );

@@ -340,11 +340,6 @@
           "溶劑體積",
           "溶解度極限"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "溶質量",
           "溶劑體積",
@@ -363,10 +358,6 @@
           "溶質量",
           "溶解度極限"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "溶質量",
           "溶解度極限"
@@ -384,10 +375,6 @@
           "溶質量",
           "溶劑體積",
           "溶解度極限"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedEquationVariables": [
           "溶質量",
@@ -435,10 +422,6 @@
         "relatedControls": [
           "溶質量"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "飽和度計",
           "多餘的堆"
@@ -451,10 +434,6 @@
         "whyItMatters": "它讓你把溶解度和濃度清楚分開。",
         "relatedControls": [
           "溶解度極限"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "飽和度計"

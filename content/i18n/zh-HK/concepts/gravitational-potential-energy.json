@@ -528,9 +528,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "來源海量",
           "探針X",
@@ -549,10 +546,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "即時鏈接"
-        ],
         "relatedEquationVariables": [
           "探針X",
           "探針Y"
@@ -569,10 +562,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "即時鏈接"
         ],
         "relatedEquationVariables": [
           "探針X",
@@ -591,9 +580,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "即時鏈接"
-        ],
         "relatedEquationVariables": [
           "探針X",
           "探針Y"
@@ -610,9 +596,6 @@
         "relatedControls": [
           "測試質量"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "測試質量"
         ]
@@ -628,10 +611,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "即時鏈接"
         ],
         "relatedEquationVariables": [
           "探針X",
@@ -670,9 +649,21 @@
           "探針Y",
           "測試質量"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "即時鏈接"
+        "relatedOverlays": [
+          "距離環",
+          "力箭頭",
+          "字段箭頭"
+        ]
+      },
+      {
+        "id": "gp-notice-compare-ratios",
+        "text": "比較模式在一個設定把距離加倍、另一個設定把探測質量加倍時最有啟發性。前者會改變 φ 和 g；後者只會改變 U 和 F。",
+        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。",
+        "whyItMatters": "它使幾何變化和探針響應變化之間的差異變得可見，而無需留下相同的緊湊模型。",
+        "relatedControls": [
+          "探針X",
+          "探針Y",
+          "測試質量"
         ],
         "relatedOverlays": [
           "距離環",
@@ -690,10 +681,6 @@
           "探針Y",
           "測試質量"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "即時鏈接"
-        ],
         "relatedOverlays": [
           "距離環",
           "力箭頭",
@@ -710,10 +697,6 @@
           "探針Y",
           "測試質量"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "即時鏈接"
-        ],
         "relatedOverlays": [
           "距離環",
           "力箭頭",
@@ -729,30 +712,6 @@
           "探針X",
           "探針Y",
           "測試質量"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "即時鏈接"
-        ],
-        "relatedOverlays": [
-          "距離環",
-          "力箭頭",
-          "字段箭頭"
-        ]
-      },
-      {
-        "id": "gp-notice-compare-ratios",
-        "text": "比較模式在一個設定把距離加倍、另一個設定把探測質量加倍時最有啟發性。前者會改變 φ 和 g；後者只會改變 U 和 F。",
-        "tryThis": "把設定 A 保持在 x 軸 1 m，讓設定 B 改成 x 軸 2 m 或較重探測器，再比較舞台讀數和兩張圖。",
-        "whyItMatters": "它使幾何變化和探針響應變化之間的差異變得可見，而無需留下相同的緊湊模型。",
-        "relatedControls": [
-          "探針X",
-          "探針Y",
-          "測試質量"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "即時鏈接"
         ],
         "relatedOverlays": [
           "距離環",
@@ -768,9 +727,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "潛力圖",
@@ -789,9 +745,6 @@
         "relatedControls": [
           "探針X"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "潛力圖",
           "潛在輪廓"
@@ -805,9 +758,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "即時鏈接"
         ],
         "relatedOverlays": [
           "字段箭頭",
@@ -825,9 +775,6 @@
         "whyItMatters": "它將源產生的孔與放置在該孔中的一個選定對象的響應完全分開。",
         "relatedControls": [
           "測試質量"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "力箭頭",

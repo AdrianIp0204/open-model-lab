@@ -506,10 +506,6 @@
           "電壓",
           "負載電阻"
         ],
-        "relatedGraphTabs": [
-          "電流-電壓",
-          "功率電壓"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "負載電阻"
@@ -525,10 +521,6 @@
         "whyItMatters": "它使功率公式與組件上的實際電壓保持一致。",
         "relatedControls": [
           "電壓"
-        ],
-        "relatedGraphTabs": [
-          "電流-電壓",
-          "功率電壓"
         ],
         "relatedEquationVariables": [
           "電壓"
@@ -546,10 +538,6 @@
           "電壓",
           "負載電阻"
         ],
-        "relatedGraphTabs": [
-          "功率電壓",
-          "功率電阻"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "負載電阻"
@@ -566,9 +554,6 @@
         "relatedControls": [
           "電壓",
           "負載電阻"
-        ],
-        "relatedGraphTabs": [
-          "能量轉移"
         ],
         "relatedEquationVariables": [
           "電壓",
@@ -620,9 +605,6 @@
           "電壓",
           "負載電阻"
         ],
-        "relatedGraphTabs": [
-          "能量轉移"
-        ],
         "relatedOverlays": [
           "功率輝光",
           "能量計"
@@ -635,9 +617,6 @@
         "whyItMatters": "電流是源設定和功率公式之間的連結。",
         "relatedControls": [
           "電壓"
-        ],
-        "relatedGraphTabs": [
-          "電流-電壓"
         ],
         "relatedOverlays": [
           "目前箭頭"
@@ -655,9 +634,6 @@
         "relatedControls": [
           "電壓"
         ],
-        "relatedGraphTabs": [
-          "功率電壓"
-        ],
         "relatedOverlays": [
           "功率輝光"
         ],
@@ -672,9 +648,6 @@
         "whyItMatters": "這修正了一個常見錯誤，即較大的電阻值必然意味著組件使用更多的功率。",
         "relatedControls": [
           "負載電阻"
-        ],
-        "relatedGraphTabs": [
-          "功率電阻"
         ],
         "relatedOverlays": [
           "目前箭頭",
@@ -692,10 +665,6 @@
         "relatedControls": [
           "電壓",
           "負載電阻"
-        ],
-        "relatedGraphTabs": [
-          "能量轉移",
-          "功率電阻"
         ],
         "relatedOverlays": [
           "功率輝光",

@@ -473,10 +473,6 @@
           "力大小",
           "力角度"
         ],
-        "relatedGraphTabs": [
-          "扭矩",
-          "方向圖"
-        ],
         "relatedEquationVariables": [
           "力大小",
           "力角度"
@@ -495,9 +491,6 @@
           "力角度",
           "應用距離"
         ],
-        "relatedGraphTabs": [
-          "方向圖"
-        ],
         "relatedEquationVariables": [
           "力角度",
           "槓桿臂"
@@ -515,10 +508,6 @@
         "relatedControls": [
           "應用距離",
           "力角度"
-        ],
-        "relatedGraphTabs": [
-          "扭矩",
-          "方向圖"
         ],
         "relatedEquationVariables": [
           "槓桿臂",
@@ -569,10 +558,6 @@
         "relatedControls": [
           "應用距離"
         ],
-        "relatedGraphTabs": [
-          "扭矩",
-          "旋轉角度"
-        ],
         "relatedOverlays": [
           "力矩臂"
         ],
@@ -587,9 +572,6 @@
         "whyItMatters": "它使 $\\sin\\phi$ 因子可見，而不是作為規則將其保留下來。",
         "relatedControls": [
           "力角度"
-        ],
-        "relatedGraphTabs": [
-          "方向圖"
         ],
         "relatedOverlays": [
           "垂直分量",
@@ -607,10 +589,6 @@
         "relatedControls": [
           "力角度",
           "應用距離"
-        ],
-        "relatedGraphTabs": [
-          "扭矩",
-          "方向圖"
         ],
         "relatedOverlays": [
           "行動路線",
@@ -631,10 +609,6 @@
           "力大小",
           "力角度"
         ],
-        "relatedGraphTabs": [
-          "扭矩",
-          "方向圖"
-        ],
         "relatedOverlays": [
           "力矩臂",
           "垂直分量"
@@ -653,10 +627,6 @@
         "relatedControls": [
           "力角度"
         ],
-        "relatedGraphTabs": [
-          "扭矩",
-          "方向圖"
-        ],
         "relatedOverlays": [
           "垂直分量",
           "行動路線"
@@ -672,10 +642,6 @@
         "whyItMatters": "這就是為什麼門在把手處比在鉸鏈附近更容易打開。",
         "relatedControls": [
           "應用距離"
-        ],
-        "relatedGraphTabs": [
-          "扭矩",
-          "旋轉角度"
         ],
         "relatedOverlays": [
           "力矩臂"

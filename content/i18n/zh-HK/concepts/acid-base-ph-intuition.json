@@ -330,10 +330,6 @@
           "基本金額",
           "水量"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "酸量",
           "基本金額",
@@ -352,10 +348,6 @@
           "酸量",
           "基本金額"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "酸量",
           "基本金額"
@@ -371,10 +363,6 @@
         "whyItMatters": "它提醒你這不是靜止標籤，而是持續混合中的溶液。",
         "relatedControls": [
           "水量"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "水量"
@@ -406,9 +394,6 @@
         "relatedControls": [
           "酸量"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "酸鹼度",
           "角色混合"
@@ -422,10 +407,6 @@
         "text": "加水不會把酸或鹼變成另一種東西，但會把兩邊的影響都拉向較溫和，令 pH 靠近中間。",
         "relatedControls": [
           "水量"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "概念標籤"
         ],
         "relatedOverlays": [
           "酸鹼度",

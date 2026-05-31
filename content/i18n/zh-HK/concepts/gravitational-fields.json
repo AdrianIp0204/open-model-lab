@@ -480,10 +480,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "即時組件",
-          "強度-反應"
-        ],
         "relatedEquationVariables": [
           "來源海量",
           "探針X",
@@ -503,10 +499,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "即時組件",
-          "強度-反應"
-        ],
         "relatedEquationVariables": [
           "來源海量",
           "探針X",
@@ -524,9 +516,6 @@
         "relatedControls": [
           "測試質量"
         ],
-        "relatedGraphTabs": [
-          "強度-反應"
-        ],
         "relatedEquationVariables": [
           "測試質量"
         ]
@@ -542,9 +531,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "強度-反應"
         ],
         "relatedEquationVariables": [
           "探針X",
@@ -562,10 +548,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "即時組件",
-          "強度-反應"
         ],
         "relatedEquationVariables": [
           "探針X",
@@ -603,8 +585,19 @@
           "來源海量",
           "測試質量"
         ],
-        "relatedGraphTabs": [
-          "強度-反應"
+        "relatedOverlays": [
+          "字段向量",
+          "力向量"
+        ]
+      },
+      {
+        "id": "gf-notice-compare-source-vs-probe",
+        "text": "比較模式在一個設定改變源質量、另一個設定改變探測質量時最有啟發性。前者同時改變重力場和受力，後者只改變受力。",
+        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。",
+        "whyItMatters": "這是領域原因和領域反應之間最快的誠實對比。",
+        "relatedControls": [
+          "來源海量",
+          "測試質量"
         ],
         "relatedOverlays": [
           "字段向量",
@@ -620,9 +613,6 @@
           "來源海量",
           "測試質量"
         ],
-        "relatedGraphTabs": [
-          "強度-反應"
-        ],
         "relatedOverlays": [
           "字段向量",
           "力向量"
@@ -637,9 +627,6 @@
           "來源海量",
           "測試質量"
         ],
-        "relatedGraphTabs": [
-          "強度-反應"
-        ],
         "relatedOverlays": [
           "字段向量",
           "力向量"
@@ -653,26 +640,6 @@
         "relatedControls": [
           "來源海量",
           "測試質量"
-        ],
-        "relatedGraphTabs": [
-          "強度-反應"
-        ],
-        "relatedOverlays": [
-          "字段向量",
-          "力向量"
-        ]
-      },
-      {
-        "id": "gf-notice-compare-source-vs-probe",
-        "text": "比較模式在一個設定改變源質量、另一個設定改變探測質量時最有啟發性。前者同時改變重力場和受力，後者只改變受力。",
-        "tryThis": "把設定 A 保持在基準斜向位置，讓設定 B 改成較大源質量或較大探測質量，再比較舞台箭頭和強度圖。",
-        "whyItMatters": "這是領域原因和領域反應之間最快的誠實對比。",
-        "relatedControls": [
-          "來源海量",
-          "測試質量"
-        ],
-        "relatedGraphTabs": [
-          "強度-反應"
         ],
         "relatedOverlays": [
           "字段向量",
@@ -687,9 +654,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "即時組件"
         ],
         "relatedOverlays": [
           "字段網格",
@@ -709,9 +673,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "強度-反應"
-        ],
         "relatedOverlays": [
           "距離環",
           "扫描線"
@@ -724,9 +685,6 @@
         "whyItMatters": "它將來源產生的場與所選物件的回應分開。",
         "relatedControls": [
           "測試質量"
-        ],
-        "relatedGraphTabs": [
-          "強度-反應"
         ],
         "relatedOverlays": [
           "字段向量",
@@ -743,10 +701,6 @@
         "whyItMatters": "在組合源強度概念和距離概念之前，它將它們分開。",
         "relatedControls": [
           "來源海量"
-        ],
-        "relatedGraphTabs": [
-          "即時組件",
-          "強度-反應"
         ],
         "relatedOverlays": [
           "字段網格",

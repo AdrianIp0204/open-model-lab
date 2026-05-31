@@ -474,10 +474,6 @@
         "relatedControls": [
           "力"
         ],
-        "relatedGraphTabs": [
-          "力",
-          "衝動"
-        ],
         "relatedEquationVariables": [
           "力"
         ]
@@ -493,10 +489,6 @@
         "whyItMatters": "它可以幫助您將脈衝解讀為力乘以時間。",
         "relatedControls": [
           "脈衝持續時間"
-        ],
-        "relatedGraphTabs": [
-          "力",
-          "衝動"
         ],
         "relatedEquationVariables": [
           "力",
@@ -515,10 +507,6 @@
         "relatedControls": [
           "質量",
           "初速"
-        ],
-        "relatedGraphTabs": [
-          "勢頭",
-          "衝動"
         ],
         "relatedEquationVariables": [
           "質量",
@@ -563,11 +551,6 @@
           "力",
           "脈衝持續時間"
         ],
-        "relatedGraphTabs": [
-          "力",
-          "衝動",
-          "勢頭"
-        ],
         "relatedOverlays": [
           "脈衝視窗",
           "動量條"
@@ -582,10 +565,6 @@
         "text": "請注意，動量僅在力脈衝實際開啟時才會改變。",
         "tryThis": "在脈衝之前、期間和之後暫停。動量圖應該是平坦的，變化，然後再次平坦。",
         "whyItMatters": "它將持續的運動與目前正在變化的動量分開。",
-        "relatedGraphTabs": [
-          "勢頭",
-          "力"
-        ],
         "relatedOverlays": [
           "力箭頭",
           "脈衝視窗"
@@ -600,11 +579,6 @@
           "力",
           "脈衝持續時間"
         ],
-        "relatedGraphTabs": [
-          "力",
-          "勢頭",
-          "衝動"
-        ],
         "relatedOverlays": [
           "脈衝視窗",
           "動量條"
@@ -618,10 +592,6 @@
         "relatedControls": [
           "脈衝持續時間",
           "力"
-        ],
-        "relatedGraphTabs": [
-          "力",
-          "衝動"
         ],
         "relatedOverlays": [
           "脈衝視窗"
@@ -641,10 +611,6 @@
           "力",
           "脈衝持續時間"
         ],
-        "relatedGraphTabs": [
-          "勢頭",
-          "衝動"
-        ],
         "relatedOverlays": [
           "動量條"
         ],
@@ -657,10 +623,6 @@
         "text": "請注意，當力脈衝結束時，脈衝圖恰好停止上升。",
         "tryThis": "在脈衝末端附近擦洗，並將時間遊標與陰影脈衝視窗進行比較。",
         "whyItMatters": "累積衝量是一個運行總量，而不是持續作用的力。",
-        "relatedGraphTabs": [
-          "力",
-          "衝動"
-        ],
         "relatedOverlays": [
           "脈衝視窗"
         ]

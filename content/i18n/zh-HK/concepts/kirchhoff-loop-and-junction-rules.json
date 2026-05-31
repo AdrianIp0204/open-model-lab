@@ -509,9 +509,6 @@
           "電阻2",
           "電阻3"
         ],
-        "relatedGraphTabs": [
-          "目前地圖"
-        ],
         "relatedEquationVariables": [
           "電阻2",
           "電阻3"
@@ -529,9 +526,6 @@
           "電壓",
           "電阻1",
           "電阻3"
-        ],
-        "relatedGraphTabs": [
-          "均壓"
         ],
         "relatedEquationVariables": [
           "電壓",
@@ -552,9 +546,6 @@
           "電阻2",
           "電阻3"
         ],
-        "relatedGraphTabs": [
-          "目前地圖"
-        ],
         "relatedEquationVariables": [
           "電阻2",
           "電阻3"
@@ -574,9 +565,6 @@
           "電阻1",
           "電阻3"
         ],
-        "relatedGraphTabs": [
-          "均壓"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "電阻1",
@@ -593,10 +581,6 @@
         "whyItMatters": "它設定了下一個概念，而無需先將此頁變成簡化課程。",
         "relatedControls": [
           "群組並行"
-        ],
-        "relatedGraphTabs": [
-          "目前地圖",
-          "均壓"
         ],
         "relatedEquationVariables": [
           "電阻2",
@@ -634,9 +618,6 @@
           "群組並行",
           "電阻3"
         ],
-        "relatedGraphTabs": [
-          "目前地圖"
-        ],
         "relatedOverlays": [
           "電流流量",
           "節點指南"
@@ -652,9 +633,6 @@
           "電壓",
           "電阻3"
         ],
-        "relatedGraphTabs": [
-          "均壓"
-        ],
         "relatedOverlays": [
           "電壓標籤",
           "循環指南"
@@ -667,10 +645,6 @@
         "whyItMatters": "它顯示基爾霍夫平衡隨著路徑結構而變化，而不是隨著新的公式章節而變化。",
         "relatedControls": [
           "群組並行"
-        ],
-        "relatedGraphTabs": [
-          "目前地圖",
-          "均壓"
         ],
         "relatedOverlays": [
           "節點指南",

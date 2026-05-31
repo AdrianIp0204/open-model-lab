@@ -521,9 +521,22 @@
           "中間區域",
           "流量"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "流量平衡"
+        "relatedOverlays": [
+          "速度箭頭",
+          "流量相等"
+        ],
+        "relatedEquationVariables": [
+          "中間區域",
+          "流量"
+        ]
+      },
+      {
+        "id": "bernoulli-bridge",
+        "text": "使用比較模式保持相同的 $Q$，但在一次設定中使 B 部分小得多。這個速度差是後來伯努利的連續性部分。",
+        "tryThis": "由基準流道開始，開啟比較模式，讓設定 A 保持不變，只調整設定 B 的中段截面，直到速度差異變得明顯，同時流量標籤仍然一致。",
+        "relatedControls": [
+          "中間區域",
+          "流量"
         ],
         "relatedOverlays": [
           "速度箭頭",
@@ -542,10 +555,6 @@
           "中間區域",
           "流量"
         ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "流量平衡"
-        ],
         "relatedOverlays": [
           "速度箭頭",
           "流量相等"
@@ -562,31 +571,6 @@
         "relatedControls": [
           "中間區域",
           "流量"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "流量平衡"
-        ],
-        "relatedOverlays": [
-          "速度箭頭",
-          "流量相等"
-        ],
-        "relatedEquationVariables": [
-          "中間區域",
-          "流量"
-        ]
-      },
-      {
-        "id": "bernoulli-bridge",
-        "text": "使用比較模式保持相同的 $Q$，但在一次設定中使 B 部分小得多。這個速度差是後來伯努利的連續性部分。",
-        "tryThis": "由基準流道開始，開啟比較模式，讓設定 A 保持不變，只調整設定 B 的中段截面，直到速度差異變得明顯，同時流量標籤仍然一致。",
-        "relatedControls": [
-          "中間區域",
-          "流量"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤",
-          "流量平衡"
         ],
         "relatedOverlays": [
           "速度箭頭",
@@ -603,9 +587,6 @@
         "relatedControls": [
           "中間區域"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "速度箭頭",
           "流量相等"
@@ -619,9 +600,6 @@
         "text": "使 B 部分比 A 部分更寬。 B 部分速度下降，因為相同的 $Q$ 分佈在更多區域。",
         "relatedControls": [
           "中間區域"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedOverlays": [
           "區域標記",
@@ -637,9 +615,6 @@
         "relatedControls": [
           "流量",
           "中間區域"
-        ],
-        "relatedGraphTabs": [
-          "流量平衡"
         ],
         "relatedOverlays": [
           "流量相等"

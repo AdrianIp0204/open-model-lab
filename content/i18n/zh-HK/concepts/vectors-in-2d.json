@@ -472,9 +472,6 @@
           "透過",
           "標量"
         ],
-        "relatedGraphTabs": [
-          "結果組件"
-        ],
         "relatedEquationVariables": [
           "斧頭",
           "哎呀",
@@ -495,9 +492,6 @@
           "透過",
           "減法模式"
         ],
-        "relatedGraphTabs": [
-          "結果組件"
-        ],
         "relatedEquationVariables": [
           "bx",
           "透過",
@@ -516,10 +510,6 @@
           "斧頭",
           "哎呀",
           "標量"
-        ],
-        "relatedGraphTabs": [
-          "結果幅度",
-          "結果組件"
         ],
         "relatedEquationVariables": [
           "斧頭",
@@ -558,9 +548,6 @@
           "bx",
           "透過"
         ],
-        "relatedGraphTabs": [
-          "結果組件"
-        ],
         "relatedOverlays": [
           "組件指南"
         ],
@@ -577,9 +564,6 @@
         "relatedControls": [
           "減法模式"
         ],
-        "relatedGraphTabs": [
-          "結果組件"
-        ],
         "relatedOverlays": [
           "從頭到尾"
         ],
@@ -592,10 +576,6 @@
         "text": "將標量移到零並觀察 sA 翻轉到原點。幅度圖永遠不會變成負值，因為大小和方向是不同的概念。",
         "relatedControls": [
           "標量"
-        ],
-        "relatedGraphTabs": [
-          "結果組件",
-          "結果幅度"
         ],
         "relatedOverlays": [
           "縮放向量"

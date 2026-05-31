@@ -433,9 +433,6 @@
           "圖案索引",
           "陣列大小"
         ],
-        "relatedGraphTabs": [
-          "疾病史"
-        ],
         "relatedEquationVariables": [
           "模式索引",
           "陣列大小"
@@ -453,9 +450,6 @@
           "演算法索引",
           "圖案索引"
         ],
-        "relatedGraphTabs": [
-          "疾病史"
-        ],
         "relatedEquationVariables": [
           "演算法索引",
           "模式索引"
@@ -471,9 +465,6 @@
         "whyItMatters": "他們直接在清單上揭示決策過程，而不是將其隱藏在偽代碼後面。",
         "relatedControls": [
           "演算法索引"
-        ],
-        "relatedGraphTabs": [
-          "操作歷史記錄"
         ],
         "relatedEquationVariables": [
           "演算法索引"
@@ -512,10 +503,6 @@
           "演算法索引",
           "圖案索引"
         ],
-        "relatedGraphTabs": [
-          "操作歷史記錄",
-          "疾病史"
-        ],
         "relatedOverlays": [
           "指標標記",
           "定居地區"
@@ -530,9 +517,6 @@
         "text": "所有三種演算法都達到相同的排序列表，但標記運動和計數器線揭示了非常不同的路徑和成本。",
         "relatedControls": [
           "演算法索引"
-        ],
-        "relatedGraphTabs": [
-          "操作歷史記錄"
         ],
         "relatedOverlays": [
           "指標標記"

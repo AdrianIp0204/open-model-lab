@@ -393,9 +393,6 @@
           "軌道半徑",
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄"
-        ],
         "relatedEquationVariables": [
           "軌道半徑",
           "速度係數"
@@ -412,10 +409,6 @@
         "relatedControls": [
           "軌道半徑"
         ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "加速平衡"
-        ],
         "relatedEquationVariables": [
           "軌道半徑"
         ]
@@ -431,9 +424,6 @@
         "relatedControls": [
           "速度係數",
           "軌道半徑"
-        ],
-        "relatedGraphTabs": [
-          "速度历史记录"
         ],
         "relatedEquationVariables": [
           "軌道半徑",
@@ -453,9 +443,6 @@
           "軌道半徑",
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "加速平衡"
-        ],
         "relatedEquationVariables": [
           "來源海量",
           "軌道半徑",
@@ -472,9 +459,6 @@
         "whyItMatters": "它顯示您是否仍在查看圓形案例或已經離開它。",
         "relatedControls": [
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄"
         ],
         "relatedEquationVariables": [
           "速度係數"
@@ -517,10 +501,6 @@
         "relatedControls": [
           "軌道半徑"
         ],
-        "relatedGraphTabs": [
-          "速度历史记录",
-          "半徑歷史記錄"
-        ],
         "relatedOverlays": [
           "參考Orbit",
           "蹤跡"
@@ -538,9 +518,6 @@
           "軌道半徑",
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "速度历史记录"
-        ],
         "relatedOverlays": [
           "參考Orbit"
         ],
@@ -557,10 +534,6 @@
         "relatedControls": [
           "來源海量"
         ],
-        "relatedGraphTabs": [
-          "速度历史记录",
-          "加速平衡"
-        ],
         "relatedOverlays": [
           "重力向量"
         ],
@@ -575,10 +548,6 @@
         "whyItMatters": "這能區分圓軌道定律和一般軌道偏離的情況。",
         "relatedControls": [
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "加速平衡"
         ],
         "relatedOverlays": [
           "蹤跡",

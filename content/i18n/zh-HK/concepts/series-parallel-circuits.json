@@ -537,9 +537,6 @@
           "電阻B",
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "分支電流"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "電阻A",
@@ -560,9 +557,6 @@
           "電阻B",
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "分支電壓"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "電阻A",
@@ -582,9 +576,6 @@
           "電阻A",
           "電阻B"
         ],
-        "relatedGraphTabs": [
-          "分支電壓"
-        ],
         "relatedEquationVariables": [
           "電阻A",
           "電阻B"
@@ -603,9 +594,6 @@
           "電阻A",
           "電阻B",
           "平行模式"
-        ],
-        "relatedGraphTabs": [
-          "負載功率"
         ],
         "relatedEquationVariables": [
           "電壓",
@@ -650,10 +638,19 @@
         "relatedControls": [
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "分支電流",
-          "分支電壓",
-          "負載功率"
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤",
+          "亮度指南"
+        ]
+      },
+      {
+        "id": "spc-notice-compare",
+        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
+        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
+        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
+        "relatedControls": [
+          "平行模式"
         ],
         "relatedOverlays": [
           "電流流量",
@@ -669,10 +666,19 @@
         "relatedControls": [
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "分支電流",
-          "分支電壓",
-          "負載功率"
+        "relatedOverlays": [
+          "電流流量",
+          "電壓標籤",
+          "亮度指南"
+        ]
+      },
+      {
+        "id": "spc-notice-compare",
+        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
+        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
+        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
+        "relatedControls": [
+          "平行模式"
         ],
         "relatedOverlays": [
           "電流流量",
@@ -688,11 +694,6 @@
         "relatedControls": [
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "分支電流",
-          "分支電壓",
-          "負載功率"
-        ],
         "relatedOverlays": [
           "電流流量",
           "電壓標籤",
@@ -706,49 +707,6 @@
         "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
         "relatedControls": [
           "平行模式"
-        ],
-        "relatedGraphTabs": [
-          "分支電流",
-          "分支電壓",
-          "負載功率"
-        ],
-        "relatedOverlays": [
-          "電流流量",
-          "電壓標籤",
-          "亮度指南"
-        ]
-      },
-      {
-        "id": "spc-notice-compare",
-        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
-        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
-        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
-        "relatedControls": [
-          "平行模式"
-        ],
-        "relatedGraphTabs": [
-          "分支電流",
-          "分支電壓",
-          "負載功率"
-        ],
-        "relatedOverlays": [
-          "電流流量",
-          "電壓標籤",
-          "亮度指南"
-        ]
-      },
-      {
-        "id": "spc-notice-compare",
-        "text": "比較模式在兩個設定保持相同電池和負載數值、但連接排列不同時最有力。這樣便能把拓樸本身隔離為因果改變。",
-        "tryThis": "把等值串聯對複製成設定 B，再把設定 B 改成並聯，然後比較淡影電路、電流徽章和響應圖曲線。",
-        "whyItMatters": "當拓樸是唯一改變的東西時，它更容易被信任。",
-        "relatedControls": [
-          "平行模式"
-        ],
-        "relatedGraphTabs": [
-          "分支電流",
-          "分支電壓",
-          "負載功率"
         ],
         "relatedOverlays": [
           "電流流量",
@@ -764,10 +722,6 @@
         "relatedControls": [
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "分支電流",
-          "分支電壓"
-        ],
         "relatedOverlays": [
           "電流流量",
           "節點指南"
@@ -781,9 +735,6 @@
         "relatedControls": [
           "電阻B",
           "平行模式"
-        ],
-        "relatedGraphTabs": [
-          "分支電流"
         ],
         "relatedOverlays": [
           "電流流量"
@@ -800,9 +751,6 @@
         "relatedControls": [
           "電阻B",
           "平行模式"
-        ],
-        "relatedGraphTabs": [
-          "分支電壓"
         ],
         "relatedOverlays": [
           "電壓標籤",
@@ -823,9 +771,6 @@
           "電阻B",
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "負載功率"
-        ],
         "relatedOverlays": [
           "亮度指南"
         ],
@@ -843,9 +788,6 @@
         "relatedControls": [
           "平行模式",
           "電阻B"
-        ],
-        "relatedGraphTabs": [
-          "分支電流"
         ],
         "relatedOverlays": [
           "電流流量"

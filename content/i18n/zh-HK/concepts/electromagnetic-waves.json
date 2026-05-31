@@ -501,10 +501,6 @@
         "relatedControls": [
           "波長"
         ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針"
-        ],
         "relatedEquationVariables": [
           "波長"
         ]
@@ -522,9 +518,6 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "來源探針"
-        ],
         "relatedEquationVariables": [
           "探針X",
           "波速"
@@ -541,9 +534,6 @@
         "relatedControls": [
           "電振幅",
           "波速"
-        ],
-        "relatedGraphTabs": [
-          "探測場"
         ],
         "relatedEquationVariables": [
           "電振幅",
@@ -582,9 +572,20 @@
           "波長",
           "電振幅"
         ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針"
+        "relatedOverlays": [
+          "探針指南",
+          "傳播三聯體"
+        ]
+      },
+      {
+        "id": "emw-notice-compare",
+        "text": "比較模式在場型大致相似、但其中一個控制項改變延遲故事時最有用。某個設定可以保持相同電場振幅，同時呈現非常不同的磁場尺度或探針滯後。",
+        "tryThis": "複製目前設定，然後僅減慢一項設定並比較讀數卡和來源探頭分離。",
+        "whyItMatters": "它隔離了哪些差異來自於傳播速度，哪些差異來自於場大小或波長。",
+        "relatedControls": [
+          "波速",
+          "波長",
+          "電振幅"
         ],
         "relatedOverlays": [
           "探針指南",
@@ -601,10 +602,6 @@
           "波長",
           "電振幅"
         ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針"
-        ],
         "relatedOverlays": [
           "探針指南",
           "傳播三聯體"
@@ -619,29 +616,6 @@
           "波速",
           "波長",
           "電振幅"
-        ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針"
-        ],
-        "relatedOverlays": [
-          "探針指南",
-          "傳播三聯體"
-        ]
-      },
-      {
-        "id": "emw-notice-compare",
-        "text": "比較模式在場型大致相似、但其中一個控制項改變延遲故事時最有用。某個設定可以保持相同電場振幅，同時呈現非常不同的磁場尺度或探針滯後。",
-        "tryThis": "複製目前設定，然後僅減慢一項設定並比較讀數卡和來源探頭分離。",
-        "whyItMatters": "它隔離了哪些差異來自於傳播速度，哪些差異來自於場大小或波長。",
-        "relatedControls": [
-          "波速",
-          "波長",
-          "電振幅"
-        ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針"
         ],
         "relatedOverlays": [
           "探針指南",
@@ -656,9 +630,6 @@
         "relatedControls": [
           "探針X"
         ],
-        "relatedGraphTabs": [
-          "探測場"
-        ],
         "relatedOverlays": [
           "傳播三聯體"
         ]
@@ -672,9 +643,6 @@
           "探針X",
           "波速"
         ],
-        "relatedGraphTabs": [
-          "來源探針"
-        ],
         "relatedOverlays": [
           "探針指南"
         ]
@@ -687,10 +655,6 @@
         "relatedControls": [
           "波速",
           "波長"
-        ],
-        "relatedGraphTabs": [
-          "探測場",
-          "來源探針"
         ],
         "relatedOverlays": [
           "探針指南",

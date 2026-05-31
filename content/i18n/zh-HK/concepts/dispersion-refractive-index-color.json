@@ -500,9 +500,6 @@
           "分散強度",
           "棱鏡角度"
         ],
-        "relatedGraphTabs": [
-          "偏差曲線"
-        ],
         "relatedEquationVariables": [
           "波長",
           "分散強度",
@@ -521,9 +518,6 @@
           "參考索引",
           "分散強度"
         ],
-        "relatedGraphTabs": [
-          "指數曲線"
-        ],
         "relatedEquationVariables": [
           "參考索引",
           "分散強度"
@@ -539,9 +533,6 @@
         "whyItMatters": "它將整體彎曲與波長相關的擴展分開。",
         "relatedControls": [
           "棱鏡角度"
-        ],
-        "relatedGraphTabs": [
-          "偏差曲線"
         ],
         "relatedEquationVariables": [
           "棱鏡角"
@@ -578,10 +569,6 @@
           "波長Nm",
           "分散強度"
         ],
-        "relatedGraphTabs": [
-          "指數曲線",
-          "偏差曲線"
-        ],
         "relatedOverlays": [
           "彩扇",
           "索引指南"
@@ -591,11 +578,7 @@
         "id": "disp-notice-response",
         "text": "請注意，這些圖比較了一種棱鏡狀態的不同波長。將滑鼠懸停在它們上可以立即預覽另一個波長，而不是提前時間。",
         "tryThis": "將滑鼠懸停在偏差圖的紅色端附近，然後靠近紫色端，並觀察選定的光線在同一棱鏡上的這些波長之間跳躍。",
-        "whyItMatters": "它使圖像保持誠實：這是一個波長系列，而不是時間軌跡。",
-        "relatedGraphTabs": [
-          "指數曲線",
-          "偏差曲線"
-        ]
+        "whyItMatters": "它使圖像保持誠實：這是一個波長系列，而不是時間軌跡。"
       },
       {
         "id": "disp-notice-no-dispersion",
@@ -618,9 +601,6 @@
         "relatedControls": [
           "棱鏡角度"
         ],
-        "relatedGraphTabs": [
-          "偏差曲線"
-        ],
         "relatedOverlays": [
           "彩扇",
           "薄棱鏡指南"
@@ -635,10 +615,6 @@
           "分散強度",
           "棱鏡角度",
           "波長Nm"
-        ],
-        "relatedGraphTabs": [
-          "指數曲線",
-          "偏差曲線"
         ],
         "relatedOverlays": [
           "彩扇",

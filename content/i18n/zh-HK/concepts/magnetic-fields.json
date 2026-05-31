@@ -520,10 +520,6 @@
           "電流A",
           "目前B"
         ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
-        ],
         "relatedEquationVariables": [
           "電流A",
           "目前B"
@@ -541,10 +537,6 @@
           "電流A",
           "目前B",
           "来源分离"
-        ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
         ],
         "relatedEquationVariables": [
           "電流A",
@@ -566,10 +558,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
-        ],
         "relatedEquationVariables": [
           "電流A",
           "目前B",
@@ -588,10 +576,6 @@
         "relatedControls": [
           "探針Y",
           "探針X"
-        ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
         ],
         "relatedEquationVariables": [
           "探針X",
@@ -629,10 +613,6 @@
           "電流A",
           "目前B"
         ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
-        ],
         "relatedOverlays": [
           "欄位循環",
           "字段向量"
@@ -651,9 +631,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "即時掃描"
-        ],
         "relatedOverlays": [
           "字段向量",
           "扫描線"
@@ -668,10 +645,6 @@
           "電流A",
           "目前B",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
         ],
         "relatedOverlays": [
           "欄位循環",
@@ -694,10 +667,6 @@
           "目前B",
           "来源分离"
         ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
-        ],
         "relatedOverlays": [
           "字段向量",
           "字段網格"
@@ -711,10 +680,6 @@
         "relatedControls": [
           "来源分离",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "即時掃描",
-          "方向掃描"
         ],
         "relatedOverlays": [
           "扫描線",

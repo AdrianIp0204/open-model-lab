@@ -499,11 +499,6 @@
         "relatedControls": [
           "階段"
         ],
-        "relatedGraphTabs": [
-          "能量",
-          "位移",
-          "速度"
-        ],
         "relatedEquationVariables": [
           "階段"
         ]
@@ -519,10 +514,6 @@
         "relatedControls": [
           "振幅",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "能量",
-          "位移"
         ],
         "relatedEquationVariables": [
           "振幅",
@@ -543,9 +534,6 @@
           "質量",
           "階段"
         ],
-        "relatedGraphTabs": [
-          "能量"
-        ],
         "relatedEquationVariables": [
           "振幅",
           "彈簧常數",
@@ -565,10 +553,6 @@
           "質量",
           "彈簧常數"
         ],
-        "relatedGraphTabs": [
-          "速度",
-          "能量"
-        ],
         "relatedEquationVariables": [
           "質量",
           "階段"
@@ -585,10 +569,6 @@
         "relatedControls": [
           "振幅",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "能量"
         ],
         "relatedEquationVariables": [
           "振幅",
@@ -632,10 +612,6 @@
         "relatedControls": [
           "階段"
         ],
-        "relatedGraphTabs": [
-          "能量",
-          "速度"
-        ],
         "relatedOverlays": [
           "平衡線",
           "能量棒",
@@ -647,10 +623,6 @@
         "text": "在轉折點，質量暫停，但總能量線保持平坦。",
         "tryThis": "凍結 $+A$ 或 $-A$ 附近的運動，並將轉折點標記與位能峰值進行比較。",
         "whyItMatters": "這表示能量已轉移到彈簧而不是消失。",
-        "relatedGraphTabs": [
-          "能量",
-          "位移"
-        ],
         "relatedOverlays": [
           "轉折點",
           "能量棒"
@@ -667,10 +639,6 @@
         "whyItMatters": "因為 $E \\propto A^2$，振幅對儲存能量的改變比乍看之下更強烈。",
         "relatedControls": [
           "振幅"
-        ],
-        "relatedGraphTabs": [
-          "能量",
-          "位移"
         ],
         "relatedOverlays": [
           "轉折點",
@@ -689,10 +657,6 @@
           "彈簧常數",
           "質量"
         ],
-        "relatedGraphTabs": [
-          "能量",
-          "速度"
-        ],
         "relatedEquationVariables": [
           "彈簧常數",
           "質量"
@@ -703,11 +667,6 @@
         "text": "當您暫停並擦洗時，舞台、能量條和圖像標記都描述同一時刻。",
         "tryThis": "暫停，單步執行一次，並追蹤長條圖和品質一起更新時標記如何移動。",
         "whyItMatters": "它使能量圖成為即時運動的讀數，而不是單獨的表面。",
-        "relatedGraphTabs": [
-          "能量",
-          "位移",
-          "速度"
-        ],
         "relatedOverlays": [
           "能量棒",
           "轉折點"
@@ -721,9 +680,6 @@
         "relatedControls": [
           "振幅",
           "彈簧常數"
-        ],
-        "relatedGraphTabs": [
-          "能量"
         ],
         "relatedOverlays": [
           "能量棒",

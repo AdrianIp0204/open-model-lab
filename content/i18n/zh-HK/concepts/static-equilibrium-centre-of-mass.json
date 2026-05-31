@@ -487,10 +487,6 @@
           "货物质量",
           "貨物位置"
         ],
-        "relatedGraphTabs": [
-          "支撐扭矩",
-          "貨物穩定性"
-        ],
         "relatedEquationVariables": [
           "货物质量",
           "貨物位置"
@@ -508,10 +504,6 @@
         "relatedControls": [
           "支援中心",
           "支援寬度"
-        ],
-        "relatedGraphTabs": [
-          "支撐扭矩",
-          "貨物穩定性"
         ],
         "relatedEquationVariables": [
           "支援中心",
@@ -531,10 +523,6 @@
           "货物质量",
           "貨物位置"
         ],
-        "relatedGraphTabs": [
-          "支撐扭矩",
-          "貨物穩定性"
-        ],
         "relatedEquationVariables": [
           "货物质量",
           "貨物位置"
@@ -553,9 +541,6 @@
           "支援中心",
           "支援寬度"
         ],
-        "relatedGraphTabs": [
-          "支持反應"
-        ],
         "relatedEquationVariables": [
           "支援中心",
           "支援寬度"
@@ -573,9 +558,6 @@
         "relatedControls": [
           "貨物位置",
           "支援中心"
-        ],
-        "relatedGraphTabs": [
-          "支撐扭矩"
         ],
         "relatedEquationVariables": [
           "貨物位置",
@@ -621,9 +603,6 @@
           "支援中心",
           "支援寬度"
         ],
-        "relatedGraphTabs": [
-          "貨物穩定性"
-        ],
         "relatedOverlays": [
           "组合质心",
           "支持区域"
@@ -642,9 +621,6 @@
         "relatedControls": [
           "支援中心"
         ],
-        "relatedGraphTabs": [
-          "支撐扭矩"
-        ],
         "relatedOverlays": [
           "组合质心",
           "扭力臂"
@@ -662,10 +638,6 @@
         "relatedControls": [
           "支援寬度"
         ],
-        "relatedGraphTabs": [
-          "貨物穩定性",
-          "支持反應"
-        ],
         "relatedOverlays": [
           "支持区域",
           "支持反應"
@@ -681,9 +653,6 @@
         "whyItMatters": "這是相同支援區域規則的力平衡版本。",
         "relatedControls": [
           "支援中心"
-        ],
-        "relatedGraphTabs": [
-          "支持反應"
         ],
         "relatedOverlays": [
           "支持反應",
@@ -702,10 +671,6 @@
         "relatedControls": [
           "货物质量",
           "貨物位置"
-        ],
-        "relatedGraphTabs": [
-          "支撐扭矩",
-          "貨物穩定性"
         ],
         "relatedOverlays": [
           "组合质心",

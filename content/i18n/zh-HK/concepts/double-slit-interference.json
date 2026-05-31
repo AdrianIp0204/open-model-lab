@@ -492,9 +492,6 @@
           "狹縫分離",
           "螢幕距離"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedEquationVariables": [
           "狹縫分離",
           "螢幕距離"
@@ -511,10 +508,6 @@
         "relatedControls": [
           "探針Y",
           "波長"
-        ],
-        "relatedGraphTabs": [
-          "圖案",
-          "位移"
         ],
         "relatedEquationVariables": [
           "探針Y",
@@ -534,9 +527,6 @@
           "螢幕距離",
           "狹縫分離"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedEquationVariables": [
           "波長",
           "螢幕距離",
@@ -554,10 +544,6 @@
         "relatedControls": [
           "探針Y",
           "波長"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "圖案"
         ],
         "relatedEquationVariables": [
           "探針Y",
@@ -594,9 +580,6 @@
         "relatedControls": [
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedOverlays": [
           "路徑差異"
         ]
@@ -608,9 +591,6 @@
         "whyItMatters": "它使 d 與路徑差幾何相關聯，而不是將其視為裝飾性間距滑桿。",
         "relatedControls": [
           "狹縫分離"
-        ],
-        "relatedGraphTabs": [
-          "圖案"
         ],
         "relatedOverlays": [
           "幾何指南",
@@ -628,9 +608,6 @@
         "relatedControls": [
           "波長"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedOverlays": [
           "路徑差異",
           "邊緣間距指南"
@@ -647,9 +624,6 @@
         "relatedControls": [
           "螢幕距離"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedOverlays": [
           "幾何指南",
           "邊緣間距指南"
@@ -663,10 +637,6 @@
         "text": "請注意，時間軌道改變了瞬時探測場，但圖案圖保持基於位置，因為條紋圖案是跨空間的強度圖。",
         "tryThis": "在探頭場圖上暫停，單步執行一次，然後將探頭處的變化與模式圖上保持固定的情況進行比較。",
         "whyItMatters": "它誠實地將局部振盪與空間條紋圖案分開。",
-        "relatedGraphTabs": [
-          "位移",
-          "圖案"
-        ],
         "relatedOverlays": [
           "相輪"
         ]
@@ -680,9 +650,6 @@
           "波長",
           "狹縫分離",
           "螢幕距離"
-        ],
-        "relatedGraphTabs": [
-          "圖案"
         ],
         "relatedOverlays": [
           "幾何指南",

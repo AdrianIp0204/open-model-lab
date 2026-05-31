@@ -411,9 +411,6 @@
           "負載電阻",
           "內部電阻"
         ],
-        "relatedGraphTabs": [
-          "終端響應"
-        ],
         "relatedEquationVariables": [
           "負載電阻",
           "內部電阻"
@@ -431,9 +428,6 @@
           "電動勢",
           "內部電阻",
           "負載電阻"
-        ],
-        "relatedGraphTabs": [
-          "終端響應"
         ],
         "relatedEquationVariables": [
           "電動勢",
@@ -453,9 +447,6 @@
           "內部電阻",
           "負載電阻"
         ],
-        "relatedGraphTabs": [
-          "功率分配"
-        ],
         "relatedEquationVariables": [
           "內部電阻",
           "負載電阻"
@@ -473,9 +464,6 @@
           "電動勢",
           "內部電阻",
           "負載電阻"
-        ],
-        "relatedGraphTabs": [
-          "終端響應"
         ],
         "relatedEquationVariables": [
           "電動勢",
@@ -513,9 +501,6 @@
           "內部電阻",
           "負載電阻"
         ],
-        "relatedGraphTabs": [
-          "終端響應"
-        ],
         "relatedOverlays": [
           "電壓標籤",
           "理想參考"
@@ -530,9 +515,6 @@
           "負載電阻",
           "內部電阻"
         ],
-        "relatedGraphTabs": [
-          "終端響應"
-        ],
         "relatedOverlays": [
           "電流流量",
           "電壓標籤"
@@ -546,9 +528,6 @@
         "relatedControls": [
           "內部電阻",
           "負載電阻"
-        ],
-        "relatedGraphTabs": [
-          "功率分配"
         ],
         "relatedOverlays": [
           "功率分配"

@@ -542,9 +542,6 @@
           "電阻3",
           "群組並行"
         ],
-        "relatedGraphTabs": [
-          "目前地圖"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "電阻1",
@@ -566,9 +563,6 @@
           "電阻3",
           "群組並行"
         ],
-        "relatedGraphTabs": [
-          "均壓"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "電阻1",
@@ -589,9 +583,6 @@
           "電阻3",
           "群組並行"
         ],
-        "relatedGraphTabs": [
-          "等效地圖"
-        ],
         "relatedEquationVariables": [
           "電阻1",
           "電阻2",
@@ -610,9 +601,6 @@
           "群組並行",
           "電阻2",
           "電阻3"
-        ],
-        "relatedGraphTabs": [
-          "均壓"
         ],
         "relatedEquationVariables": [
           "電阻2",
@@ -656,9 +644,6 @@
         "relatedControls": [
           "群組並行"
         ],
-        "relatedGraphTabs": [
-          "等效地圖"
-        ],
         "relatedOverlays": [
           "還原指南"
         ],
@@ -677,9 +662,6 @@
           "電阻1",
           "電阻3"
         ],
-        "relatedGraphTabs": [
-          "等效地圖"
-        ],
         "relatedOverlays": [
           "還原指南"
         ],
@@ -695,9 +677,6 @@
         "whyItMatters": "相同的兩個共享節點證明了歸約規則和即時分支行為的合理性。",
         "relatedControls": [
           "群組並行"
-        ],
-        "relatedGraphTabs": [
-          "均壓"
         ],
         "relatedOverlays": [
           "節點指南",
@@ -717,9 +696,6 @@
           "電阻3",
           "群組並行"
         ],
-        "relatedGraphTabs": [
-          "目前地圖"
-        ],
         "relatedOverlays": [
           "電流流量"
         ],
@@ -736,9 +712,6 @@
           "群組並行",
           "電阻3"
         ],
-        "relatedGraphTabs": [
-          "目前地圖"
-        ],
         "relatedOverlays": [
           "電流流量"
         ],
@@ -753,10 +726,6 @@
         "whyItMatters": "您可以信任因果變化，因為只有分組關係發生了變化。",
         "relatedControls": [
           "群組並行"
-        ],
-        "relatedGraphTabs": [
-          "等效地圖",
-          "目前地圖"
         ],
         "relatedOverlays": [
           "還原指南",

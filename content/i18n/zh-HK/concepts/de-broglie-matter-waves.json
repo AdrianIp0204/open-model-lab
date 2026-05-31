@@ -474,10 +474,6 @@
           "質量倍數",
           "速度彩信"
         ],
-        "relatedGraphTabs": [
-          "波長動量",
-          "環配合"
-        ],
         "relatedEquationVariables": [
           "質量倍數",
           "速度彩信"
@@ -494,9 +490,6 @@
         "relatedControls": [
           "速度彩信"
         ],
-        "relatedGraphTabs": [
-          "波長動量"
-        ],
         "relatedEquationVariables": [
           "速度彩信"
         ]
@@ -512,9 +505,6 @@
         "relatedControls": [
           "質量倍數",
           "速度彩信"
-        ],
-        "relatedGraphTabs": [
-          "環配合"
         ],
         "relatedEquationVariables": [
           "速度彩信"
@@ -550,10 +540,6 @@
         "relatedControls": [
           "速度彩信"
         ],
-        "relatedGraphTabs": [
-          "波長動量",
-          "環配合"
-        ],
         "relatedOverlays": [
           "波長指南",
           "整體號碼適合"
@@ -564,10 +550,6 @@
         "text": "將滑鼠停留在任一圖像上都可以預覽該動量下的相同實驗台，而不是單獨的範例。",
         "tryThis": "將滑鼠懸停在任一圖像的右側，並將更緊密的間距與更大的循環計數進行比較。",
         "whyItMatters": "圖像和實驗台是同一基於動量狀態的兩個視圖。",
-        "relatedGraphTabs": [
-          "波長動量",
-          "環配合"
-        ],
         "relatedOverlays": [
           "動量鏈接",
           "整體號碼適合"
@@ -580,10 +562,6 @@
         "whyItMatters": "它將\\(\\lambda = h / p\\)變成你可以在舞台上看到的東西。",
         "relatedControls": [
           "速度彩信"
-        ],
-        "relatedGraphTabs": [
-          "波長動量",
-          "環配合"
         ],
         "relatedOverlays": [
           "波長指南",
@@ -602,10 +580,6 @@
           "質量倍數",
           "速度彩信"
         ],
-        "relatedGraphTabs": [
-          "波長動量",
-          "環配合"
-        ],
         "relatedOverlays": [
           "動量鏈接",
           "整體號碼適合"
@@ -622,10 +596,6 @@
         "relatedControls": [
           "質量倍數",
           "速度彩信"
-        ],
-        "relatedGraphTabs": [
-          "波長動量",
-          "環配合"
         ],
         "relatedOverlays": [
           "動量鏈接"

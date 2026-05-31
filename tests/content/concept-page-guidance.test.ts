@@ -12,7 +12,7 @@ describe("resolveConceptPageGuidance", () => {
 
     expect(guidance).not.toBeNull();
     expect(guidance?.source).toBe("starter-task");
-    expect(guidance?.action).toContain("Change the amplitude");
+    expect(guidance?.action).toContain("Change the angular frequency slider");
     expect(guidance?.detail).toContain("mass is fastest as it passes equilibrium");
     expect(guidance?.hints.map((hint) => hint.label)).toEqual(
       expect.arrayContaining([

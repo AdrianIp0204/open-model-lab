@@ -536,10 +536,6 @@
           "高溫",
           "環境溫度"
         ],
-        "relatedGraphTabs": [
-          "溫度歷史記錄",
-          "對比響應"
-        ],
         "relatedEquationVariables": [
           "高溫",
           "環境溫度"
@@ -558,11 +554,6 @@
           "聯絡質量",
           "表面積",
           "氣流"
-        ],
-        "relatedGraphTabs": [
-          "途徑速率",
-          "聯繫響應",
-          "對比響應"
         ],
         "relatedEquationVariables": [
           "材料電導率",
@@ -583,10 +574,6 @@
           "表面積",
           "聯絡質量"
         ],
-        "relatedGraphTabs": [
-          "聯繫響應",
-          "對比響應"
-        ],
         "relatedEquationVariables": [
           "表面積",
           "聯絡質量"
@@ -603,9 +590,6 @@
         "relatedControls": [
           "環境溫度",
           "氣流"
-        ],
-        "relatedGraphTabs": [
-          "途徑速率"
         ],
         "relatedEquationVariables": [
           "環境溫度",
@@ -659,9 +643,27 @@
           "高溫",
           "環境溫度"
         ],
-        "relatedGraphTabs": [
-          "聯繫響應",
-          "途徑速率"
+        "relatedOverlays": [
+          "三角洲橋",
+          "途徑分裂"
+        ],
+        "relatedEquationVariables": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
+        ]
+      },
+      {
+        "id": "ht-notice-compare-rate",
+        "text": "比較模式在設定 A 和設定 B 保持幾乎相同溫差、但接觸品質或面積不同時最有用。這樣總傳熱率的差異就來自傳熱路徑，而不是被隱藏的 ΔT 改變。",
+        "tryThis": "把「金屬放在冷台面上」複製到比較模式，只削弱設定 B 的接觸品質，觀察兩個總傳熱率標籤如何分開，同時 ΔT 標籤仍然相近。",
+        "whyItMatters": "在後來的概念詢問傳輸能量如何改變溫度或支持相變之前，它現在將傳輸速率原因分開。",
+        "relatedControls": [
+          "聯絡質量",
+          "表面積",
+          "高溫",
+          "環境溫度"
         ],
         "relatedOverlays": [
           "三角洲橋",
@@ -685,10 +687,6 @@
           "高溫",
           "環境溫度"
         ],
-        "relatedGraphTabs": [
-          "聯繫響應",
-          "途徑速率"
-        ],
         "relatedOverlays": [
           "三角洲橋",
           "途徑分裂"
@@ -711,10 +709,6 @@
           "高溫",
           "環境溫度"
         ],
-        "relatedGraphTabs": [
-          "聯繫響應",
-          "途徑速率"
-        ],
         "relatedOverlays": [
           "三角洲橋",
           "途徑分裂"
@@ -736,36 +730,6 @@
           "表面積",
           "高溫",
           "環境溫度"
-        ],
-        "relatedGraphTabs": [
-          "聯繫響應",
-          "途徑速率"
-        ],
-        "relatedOverlays": [
-          "三角洲橋",
-          "途徑分裂"
-        ],
-        "relatedEquationVariables": [
-          "聯絡質量",
-          "表面積",
-          "高溫",
-          "環境溫度"
-        ]
-      },
-      {
-        "id": "ht-notice-compare-rate",
-        "text": "比較模式在設定 A 和設定 B 保持幾乎相同溫差、但接觸品質或面積不同時最有用。這樣總傳熱率的差異就來自傳熱路徑，而不是被隱藏的 ΔT 改變。",
-        "tryThis": "把「金屬放在冷台面上」複製到比較模式，只削弱設定 B 的接觸品質，觀察兩個總傳熱率標籤如何分開，同時 ΔT 標籤仍然相近。",
-        "whyItMatters": "在後來的概念詢問傳輸能量如何改變溫度或支持相變之前，它現在將傳輸速率原因分開。",
-        "relatedControls": [
-          "聯絡質量",
-          "表面積",
-          "高溫",
-          "環境溫度"
-        ],
-        "relatedGraphTabs": [
-          "聯繫響應",
-          "途徑速率"
         ],
         "relatedOverlays": [
           "三角洲橋",
@@ -787,10 +751,6 @@
           "材料電導率",
           "聯絡質量"
         ],
-        "relatedGraphTabs": [
-          "聯繫響應",
-          "途徑速率"
-        ],
         "relatedOverlays": [
           "途徑分裂",
           "區域提示"
@@ -808,10 +768,6 @@
         "relatedControls": [
           "氣流"
         ],
-        "relatedGraphTabs": [
-          "途徑速率",
-          "對比響應"
-        ],
         "relatedOverlays": [
           "環境提示",
           "途徑分裂"
@@ -827,10 +783,6 @@
         "whyItMatters": "當以後的熱問題比較以不同速率冷卻或加熱的小型和大型物體時，面積將再次變得重要。",
         "relatedControls": [
           "表面積"
-        ],
-        "relatedGraphTabs": [
-          "對比響應",
-          "途徑速率"
         ],
         "relatedOverlays": [
           "區域提示",
@@ -849,9 +801,6 @@
           "高溫",
           "環境溫度",
           "表面積"
-        ],
-        "relatedGraphTabs": [
-          "對比響應"
         ],
         "relatedOverlays": [
           "三角洲橋",

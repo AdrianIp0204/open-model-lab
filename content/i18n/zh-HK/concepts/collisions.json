@@ -443,11 +443,6 @@
           "速度A",
           "速度B"
         ],
-        "relatedGraphTabs": [
-          "速度",
-          "勢頭",
-          "能量"
-        ],
         "relatedEquationVariables": [
           "速度A",
           "速度B"
@@ -468,10 +463,6 @@
           "速度A",
           "速度B"
         ],
-        "relatedGraphTabs": [
-          "速度",
-          "勢頭"
-        ],
         "relatedEquationVariables": [
           "質量A",
           "質量B"
@@ -491,10 +482,6 @@
           "速度A",
           "速度B"
         ],
-        "relatedGraphTabs": [
-          "速度",
-          "能量"
-        ],
         "relatedEquationVariables": [
           "速度A",
           "速度B",
@@ -513,10 +500,6 @@
         "relatedControls": [
           "質量A",
           "質量B"
-        ],
-        "relatedGraphTabs": [
-          "勢頭",
-          "速度"
         ],
         "relatedEquationVariables": [
           "質量A",
@@ -557,9 +540,6 @@
         "text": "請注意總動量線保持平坦，即使小車動量線在接觸時跳變。",
         "tryThis": "在碰撞前後暫停。個別軌跡會跳變，但總體軌跡不應漂移。",
         "whyItMatters": "動量守恆涉及系統總和，而非每個車輛保持相同的動量。",
-        "relatedGraphTabs": [
-          "勢頭"
-        ],
         "relatedOverlays": [
           "動量條",
           "碰撞區域"
@@ -572,10 +552,6 @@
         "whyItMatters": "這將動量守恆與動能守恆區分開來。",
         "relatedControls": [
           "彈性"
-        ],
-        "relatedGraphTabs": [
-          "能量",
-          "勢頭"
         ],
         "relatedOverlays": [
           "碰撞區域",
@@ -593,10 +569,6 @@
         "relatedControls": [
           "質量A",
           "質量B"
-        ],
-        "relatedGraphTabs": [
-          "速度",
-          "勢頭"
         ],
         "relatedOverlays": [
           "動量條"
@@ -616,10 +588,6 @@
           "速度A",
           "速度B"
         ],
-        "relatedGraphTabs": [
-          "速度",
-          "能量"
-        ],
         "relatedOverlays": [
           "相對速度"
         ],
@@ -634,10 +602,6 @@
         "text": "注意中心質量標誌在個別車輛速度在接觸時跳變的情況下仍然保持穩定的漂移。",
         "tryThis": "在碰撞期間保留質心疊加層。CM 標誌不應出現折返或彈跳。",
         "whyItMatters": "穩固的質心運動是系統總動量未變的另一個真實跡象。",
-        "relatedGraphTabs": [
-          "速度",
-          "勢頭"
-        ],
         "relatedOverlays": [
           "質量中心"
         ]
@@ -649,10 +613,6 @@
         "whyItMatters": "比較模式在此很有用，因為它可以區分動量守恆所保證的內容與彈性變化的內容。",
         "relatedControls": [
           "彈性"
-        ],
-        "relatedGraphTabs": [
-          "勢頭",
-          "能量"
         ],
         "relatedOverlays": [
           "碰撞區域",

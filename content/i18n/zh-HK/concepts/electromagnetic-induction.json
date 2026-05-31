@@ -460,10 +460,6 @@
           "線圈區域",
           "線圈匝數"
         ],
-        "relatedGraphTabs": [
-          "場通量",
-          "誘導反應"
-        ],
         "relatedEquationVariables": [
           "線圈區域",
           "線圈匝數"
@@ -480,9 +476,6 @@
         "relatedControls": [
           "磁鐵強度",
           "朝北線圈"
-        ],
-        "relatedGraphTabs": [
-          "場通量"
         ],
         "relatedEquationVariables": [
           "磁鐵強度",
@@ -501,10 +494,6 @@
           "速度",
           "開始偏移"
         ],
-        "relatedGraphTabs": [
-          "場通量",
-          "誘導反應"
-        ],
         "relatedEquationVariables": [
           "速度",
           "開始偏移"
@@ -522,9 +511,6 @@
         "relatedControls": [
           "速度",
           "朝北線圈"
-        ],
-        "relatedGraphTabs": [
-          "誘導反應"
         ],
         "relatedEquationVariables": [
           "速度",
@@ -562,10 +548,6 @@
           "速度",
           "開始偏移"
         ],
-        "relatedGraphTabs": [
-          "場通量",
-          "誘導反應"
-        ],
         "relatedOverlays": [
           "字段帶",
           "目前循環"
@@ -584,9 +566,6 @@
           "速度",
           "朝北線圈"
         ],
-        "relatedGraphTabs": [
-          "誘導反應"
-        ],
         "relatedOverlays": [
           "字段帶",
           "目前循環"
@@ -603,10 +582,6 @@
         "whyItMatters": "這將法拉第定律與同一階段的圖像斜率連結起來。",
         "relatedControls": [
           "速度"
-        ],
-        "relatedGraphTabs": [
-          "場通量",
-          "誘導反應"
         ],
         "relatedOverlays": [
           "運動提示",
@@ -625,10 +600,6 @@
           "線圈區域",
           "線圈匝數"
         ],
-        "relatedGraphTabs": [
-          "場通量",
-          "誘導反應"
-        ],
         "relatedOverlays": [
           "線圈區域",
           "目前循環"
@@ -646,10 +617,6 @@
         "relatedControls": [
           "朝北線圈",
           "速度"
-        ],
-        "relatedGraphTabs": [
-          "場通量",
-          "誘導反應"
         ],
         "relatedOverlays": [
           "字段帶",

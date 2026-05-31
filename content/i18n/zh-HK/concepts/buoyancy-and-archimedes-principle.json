@@ -512,10 +512,6 @@
           "流體密度",
           "底部深度"
         ],
-        "relatedGraphTabs": [
-          "力深度",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "物件密度",
           "流體密度",
@@ -535,9 +531,6 @@
           "流體密度",
           "底部深度"
         ],
-        "relatedGraphTabs": [
-          "力深度"
-        ],
         "relatedEquationVariables": [
           "流體密度",
           "底部深度"
@@ -555,9 +548,6 @@
         "relatedControls": [
           "物件密度",
           "流體密度"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedEquationVariables": [
           "物件密度",
@@ -577,9 +567,6 @@
           "流體密度",
           "重力",
           "底部深度"
-        ],
-        "relatedGraphTabs": [
-          "力深度"
         ],
         "relatedEquationVariables": [
           "流體密度",
@@ -624,9 +611,6 @@
         "relatedControls": [
           "底部深度"
         ],
-        "relatedGraphTabs": [
-          "力深度"
-        ],
         "relatedOverlays": [
           "位移流體",
           "力平衡"
@@ -643,9 +627,6 @@
         "whyItMatters": "它把阿基米德原理重新連回靜水壓差，而不是隻看絕對壓力。",
         "relatedControls": [
           "底部深度"
-        ],
-        "relatedGraphTabs": [
-          "力深度"
         ],
         "relatedOverlays": [
           "壓力差",
@@ -666,9 +647,6 @@
           "物件密度",
           "流體密度"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "平衡線"
         ],
@@ -685,10 +663,6 @@
         "relatedControls": [
           "流體密度",
           "底部深度"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "力深度"
         ],
         "relatedOverlays": [
           "位移流體",

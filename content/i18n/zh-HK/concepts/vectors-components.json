@@ -485,10 +485,6 @@
           "震級",
           "角度"
         ],
-        "relatedGraphTabs": [
-          "路徑",
-          "位置"
-        ],
         "relatedEquationVariables": [
           "震級",
           "角度"
@@ -505,10 +501,6 @@
         "relatedControls": [
           "角度"
         ],
-        "relatedGraphTabs": [
-          "組件",
-          "路徑"
-        ],
         "relatedEquationVariables": [
           "角度"
         ]
@@ -524,10 +516,6 @@
         "relatedControls": [
           "震級",
           "角度"
-        ],
-        "relatedGraphTabs": [
-          "位置",
-          "組件"
         ],
         "relatedEquationVariables": [
           "震級",
@@ -572,10 +560,6 @@
           "震級",
           "角度"
         ],
-        "relatedGraphTabs": [
-          "位置",
-          "組件"
-        ],
         "relatedOverlays": [
           "組件指南",
           "參考步驟"
@@ -586,9 +570,6 @@
         "text": "留意：路徑圖和舞台展示的是同一條直線運動，只是表示方式不同。",
         "tryThis": "懸停或拖曳路徑圖，觀察移動點如何跳到舞台上的對應位置。",
         "whyItMatters": "它讓圖表不再像附錄，而是同一個幾何運動的另一種表現。",
-        "relatedGraphTabs": [
-          "路徑"
-        ],
         "relatedOverlays": [
           "組件指南"
         ]
@@ -601,10 +582,6 @@
         "relatedControls": [
           "角度",
           "震級"
-        ],
-        "relatedGraphTabs": [
-          "組件",
-          "路徑"
         ],
         "relatedOverlays": [
           "角度標記",
@@ -622,10 +599,6 @@
         "relatedControls": [
           "角度"
         ],
-        "relatedGraphTabs": [
-          "位置",
-          "組件"
-        ],
         "relatedOverlays": [
           "角度標記",
           "組件指南"
@@ -636,10 +609,6 @@
         "text": "暫停只會改變已累積的位移，不會改變底層的向量分量。",
         "tryThis": "暫停後逐步前進。x(t) 和 y(t) 的標記會移動，但 vx 和 vy 線仍保持平坦，因為分量本來就是常數。",
         "whyItMatters": "它把「速率資訊」和「累積位置資訊」清楚分開。",
-        "relatedGraphTabs": [
-          "位置",
-          "組件"
-        ],
         "relatedOverlays": [
           "參考步驟"
         ]

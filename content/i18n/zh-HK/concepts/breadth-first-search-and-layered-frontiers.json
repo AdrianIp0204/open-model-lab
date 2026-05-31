@@ -487,9 +487,6 @@
           "圖索引",
           "開始節點索引"
         ],
-        "relatedGraphTabs": [
-          "深度史"
-        ],
         "relatedEquationVariables": [
           "圖像佈局",
           "起始節點"
@@ -507,9 +504,6 @@
           "遍歷模式",
           "開始節點索引"
         ],
-        "relatedGraphTabs": [
-          "已訪問與前沿紀錄"
-        ],
         "relatedEquationVariables": [
           "起始節點",
           "遍歷模式"
@@ -526,10 +520,6 @@
         "relatedControls": [
           "圖索引",
           "目標節點索引"
-        ],
-        "relatedGraphTabs": [
-          "已訪問與前沿紀錄",
-          "深度史"
         ],
         "relatedEquationVariables": [
           "圖像佈局",
@@ -572,10 +562,6 @@
           "開始節點索引",
           "遍歷模式"
         ],
-        "relatedGraphTabs": [
-          "深度史",
-          "已訪問與前沿紀錄"
-        ],
         "relatedOverlays": [
           "邊境提示",
           "訪問了提示"
@@ -591,9 +577,6 @@
         "relatedControls": [
           "圖索引",
           "開始節點索引"
-        ],
-        "relatedGraphTabs": [
-          "已訪問與前沿紀錄"
         ],
         "relatedOverlays": [
           "邊境提示"

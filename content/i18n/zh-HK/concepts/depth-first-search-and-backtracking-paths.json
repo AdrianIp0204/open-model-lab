@@ -483,9 +483,6 @@
           "圖索引",
           "開始節點索引"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "圖像佈局",
           "起始節點"
@@ -503,10 +500,6 @@
           "遍歷模式",
           "開始節點索引"
         ],
-        "relatedGraphTabs": [
-          "深度史",
-          "已訪問與前沿紀錄"
-        ],
         "relatedEquationVariables": [
           "起始節點",
           "遍歷模式"
@@ -523,10 +516,6 @@
         "relatedControls": [
           "圖索引",
           "目標節點索引"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "深度史"
         ],
         "relatedEquationVariables": [
           "圖像佈局",
@@ -569,10 +558,6 @@
           "遍歷模式",
           "開始節點索引"
         ],
-        "relatedGraphTabs": [
-          "深度史",
-          "已訪問與前沿紀錄"
-        ],
         "relatedOverlays": [
           "邊境提示",
           "訪問了提示"
@@ -587,10 +572,6 @@
         "text": "回溯之所以有效，是因為較舊的替代方案保留在前沿，而存取狀態會阻止搜尋重新開啟已探索的分支。",
         "relatedControls": [
           "圖索引"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "已訪問與前沿紀錄"
         ],
         "relatedOverlays": [
           "邊境提示",

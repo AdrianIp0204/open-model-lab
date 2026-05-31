@@ -470,9 +470,6 @@
           "圖索引",
           "開始節點索引"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "圖像佈局",
           "起始節點"
@@ -490,9 +487,6 @@
           "遍歷模式",
           "開始節點索引"
         ],
-        "relatedGraphTabs": [
-          "已訪問與前沿紀錄"
-        ],
         "relatedEquationVariables": [
           "起始節點",
           "遍歷模式"
@@ -509,10 +503,6 @@
         "relatedControls": [
           "圖索引",
           "目標節點索引"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "已訪問與前沿紀錄"
         ],
         "relatedEquationVariables": [
           "圖像佈局",
@@ -554,9 +544,6 @@
         "relatedControls": [
           "遍歷模式"
         ],
-        "relatedGraphTabs": [
-          "已訪問與前沿紀錄"
-        ],
         "relatedOverlays": [
           "邊境提示"
         ],
@@ -569,9 +556,6 @@
         "text": "當迴圈指向鄰域已擴展的節點時，會出現重複跳過。",
         "relatedControls": [
           "圖索引"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "訪問了提示",

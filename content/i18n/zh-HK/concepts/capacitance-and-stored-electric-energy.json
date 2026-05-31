@@ -443,9 +443,6 @@
           "板分離",
           "電池電壓"
         ],
-        "relatedGraphTabs": [
-          "電壓響應"
-        ],
         "relatedEquationVariables": [
           "板分離",
           "電池電壓"
@@ -462,9 +459,6 @@
         "relatedControls": [
           "板區域",
           "電池電壓"
-        ],
-        "relatedGraphTabs": [
-          "電壓響應"
         ],
         "relatedEquationVariables": [
           "板區域",
@@ -483,9 +477,6 @@
           "板區域",
           "板分離"
         ],
-        "relatedGraphTabs": [
-          "電壓響應"
-        ],
         "relatedEquationVariables": [
           "板區域",
           "板分離"
@@ -501,9 +492,6 @@
         "whyItMatters": "它使 U = 1/2 C V^2 中的二次 V 依賴性變得可見。",
         "relatedControls": [
           "電池電壓"
-        ],
-        "relatedGraphTabs": [
-          "電壓響應"
         ],
         "relatedEquationVariables": [
           "電池電壓"
@@ -533,9 +521,6 @@
           "板區域",
           "板分離"
         ],
-        "relatedGraphTabs": [
-          "電壓響應"
-        ],
         "relatedOverlays": [
           "幾何指南",
           "電荷密度提示"
@@ -548,9 +533,6 @@
         "whyItMatters": "它將電荷故事與能量故事分開，然後電路重新使用這兩個故事。",
         "relatedControls": [
           "電池電壓"
-        ],
-        "relatedGraphTabs": [
-          "電壓響應"
         ],
         "relatedOverlays": [
           "能量儲存",
@@ -566,9 +548,6 @@
           "板區域",
           "板分離",
           "電池電壓"
-        ],
-        "relatedGraphTabs": [
-          "電壓響應"
         ],
         "relatedOverlays": [
           "電荷密度提示",

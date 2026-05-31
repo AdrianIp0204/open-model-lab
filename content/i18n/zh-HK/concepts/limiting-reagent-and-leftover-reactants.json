@@ -395,10 +395,6 @@
           "食譜A",
           "食譜B"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "食譜-a",
           "食譜-b"
@@ -416,10 +412,6 @@
           "反應物A量",
           "反應物B量"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "概念標籤",
           "概念標籤"
@@ -435,9 +427,6 @@
         "whyItMatters": "它把「剩餘反應物」和「限制試劑」放回同一個可見的批次故事。",
         "relatedControls": [
           "产量百分比"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ]
       }
     ]
@@ -478,10 +467,6 @@
           "食譜A",
           "食譜B"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "食譜卡",
           "限制提示"
@@ -497,10 +482,6 @@
         "relatedControls": [
           "反應物A量",
           "反應物B量"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "限制提示"

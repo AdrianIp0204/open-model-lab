@@ -496,9 +496,6 @@
         "relatedControls": [
           "上層"
         ],
-        "relatedGraphTabs": [
-          "系列-光谱"
-        ],
         "relatedEquationVariables": [
           "上層"
         ]
@@ -514,9 +511,6 @@
         "relatedControls": [
           "上層",
           "下層"
-        ],
-        "relatedGraphTabs": [
-          "系列-光谱"
         ],
         "relatedEquationVariables": [
           "上層",
@@ -534,9 +528,6 @@
         "relatedControls": [
           "下層"
         ],
-        "relatedGraphTabs": [
-          "系列-光谱"
-        ],
         "relatedEquationVariables": [
           "下層"
         ]
@@ -551,9 +542,6 @@
         "whyItMatters": "它可阻止一個常見誤解：向上的躍遷需要和對應向下躍遷不同的波長。",
         "relatedControls": [
           "激励模式"
-        ],
-        "relatedGraphTabs": [
-          "系列-光谱"
         ],
         "relatedEquationVariables": [
           "激励模式"
@@ -583,9 +571,6 @@
           "上層",
           "下層"
         ],
-        "relatedGraphTabs": [
-          "系列-光谱"
-        ],
         "relatedOverlays": [
           "行標籤",
           "系列家庭"
@@ -598,9 +583,6 @@
         "whyItMatters": "它解釋了為甚麼命名的氫譜系會有極限，而不是永遠等距排列。",
         "relatedControls": [
           "上層"
-        ],
-        "relatedGraphTabs": [
-          "系列-光谱"
         ],
         "relatedOverlays": [
           "系列家庭",
@@ -615,9 +597,6 @@
         "relatedControls": [
           "激励模式"
         ],
-        "relatedGraphTabs": [
-          "系列-光谱"
-        ],
         "relatedOverlays": [
           "反向轉換",
           "行標籤"
@@ -631,9 +610,6 @@
         "relatedControls": [
           "上層",
           "下層"
-        ],
-        "relatedGraphTabs": [
-          "系列-光谱"
         ],
         "relatedOverlays": [
           "系列家庭",

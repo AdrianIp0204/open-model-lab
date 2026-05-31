@@ -389,7 +389,7 @@
       ],
       "primaryPresetIds": [],
       "starterExploreTasks": [
-        "Predict what Angular frequency will change before you move the slider.",
+        "Change the angular frequency slider and predict what will change before you move it.",
         "Keep the displacement graph visible and compare the live turning points with the graph peaks.",
         "Pause at equilibrium and at a turning point so displacement, velocity, and acceleration line up as one instant."
       ]

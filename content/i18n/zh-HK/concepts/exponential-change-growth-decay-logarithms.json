@@ -434,9 +434,6 @@
           "目標值",
           "率"
         ],
-        "relatedGraphTabs": [
-          "變化曲線"
-        ],
         "relatedEquationVariables": [
           "目標值",
           "率"
@@ -453,10 +450,6 @@
         "relatedControls": [
           "率"
         ],
-        "relatedGraphTabs": [
-          "變化曲線",
-          "日誌視圖"
-        ],
         "relatedEquationVariables": [
           "率"
         ]
@@ -471,9 +464,6 @@
         "whyItMatters": "它使倍增節奏變得可見，而不是將倍增時間和半衰期作為口號。",
         "relatedControls": [
           "率"
-        ],
-        "relatedGraphTabs": [
-          "變化曲線"
         ],
         "relatedEquationVariables": [
           "率"
@@ -490,9 +480,6 @@
         "relatedControls": [
           "目標值",
           "率"
-        ],
-        "relatedGraphTabs": [
-          "日誌視圖"
         ],
         "relatedEquationVariables": [
           "目標值",
@@ -528,9 +515,6 @@
           "率",
           "目標值"
         ],
-        "relatedGraphTabs": [
-          "變化曲線"
-        ],
         "relatedOverlays": [
           "配對率",
           "目標標記"
@@ -547,9 +531,6 @@
           "率",
           "目標值"
         ],
-        "relatedGraphTabs": [
-          "日誌視圖"
-        ],
         "relatedOverlays": [
           "日誌指南"
         ],
@@ -563,9 +544,6 @@
         "text": "固定的正 k 給出一倍的節奏。固定的負 k 給出一個半衰期節奏。",
         "relatedControls": [
           "率"
-        ],
-        "relatedGraphTabs": [
-          "變化曲線"
         ],
         "relatedOverlays": [
           "加倍半條命"
@@ -581,10 +559,6 @@
         "relatedControls": [
           "率",
           "目標值"
-        ],
-        "relatedGraphTabs": [
-          "變化曲線",
-          "日誌視圖"
         ],
         "relatedOverlays": [
           "目標標記",

@@ -457,9 +457,6 @@
         "relatedControls": [
           "波長"
         ],
-        "relatedGraphTabs": [
-          "相圖"
-        ],
         "relatedEquationVariables": [
           "波長"
         ]
@@ -475,10 +472,6 @@
         "relatedControls": [
           "探針X",
           "波速"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
         ],
         "relatedEquationVariables": [
           "探針X",
@@ -496,10 +489,6 @@
         "relatedControls": [
           "波速",
           "波長"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
         ],
         "relatedEquationVariables": [
           "波速",
@@ -537,9 +526,19 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
         ],
         "relatedOverlays": [
           "波長指南",
@@ -555,9 +554,19 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
+        "relatedOverlays": [
+          "波長指南",
+          "延遲指南"
+        ]
+      },
+      {
+        "id": "wave-speed-notice-compare",
+        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
+        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
+        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
+        "relatedControls": [
+          "波速",
+          "波長"
         ],
         "relatedOverlays": [
           "波長指南",
@@ -573,10 +582,6 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
-        ],
         "relatedOverlays": [
           "波長指南",
           "延遲指南"
@@ -591,10 +596,6 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
-        ],
         "relatedOverlays": [
           "波長指南",
           "延遲指南"
@@ -608,46 +609,6 @@
         "relatedControls": [
           "波速",
           "波長"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
-        ],
-        "relatedOverlays": [
-          "波長指南",
-          "延遲指南"
-        ]
-      },
-      {
-        "id": "wave-speed-notice-compare",
-        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
-        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
-        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
-        "relatedControls": [
-          "波速",
-          "波長"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
-        ],
-        "relatedOverlays": [
-          "波長指南",
-          "延遲指南"
-        ]
-      },
-      {
-        "id": "wave-speed-notice-compare",
-        "text": "注意哪種設定在相同的距離內包含更多的循環，以及哪種設定在時間上循環更快。這些都是不同的問題。",
-        "tryThis": "複製目前狀態，然後在比較兩個圖之前縮短一個設定中的 lambda 並提高另一個設定中的 v。",
-        "whyItMatters": "比較模式可以把間距改變和波速改變分開觀察，同時保留每個設定內部仍然是一個連貫的單一狀態。",
-        "relatedControls": [
-          "波速",
-          "波長"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
         ],
         "relatedOverlays": [
           "波長指南",
@@ -663,9 +624,6 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移"
-        ],
         "relatedOverlays": [
           "延遲指南"
         ]
@@ -675,10 +633,6 @@
         "text": "請注意，懸停在相位圖上會將即時探頭移動到下游位置。該圖指向同一波，而不是單獨的預覽。",
         "tryThis": "將一個波長懸停在右側更遠處，並比較探頭相位關係如何變化。",
         "whyItMatters": "相位圖和舞台是相同基於距離的滯後的兩個視圖。",
-        "relatedGraphTabs": [
-          "相圖",
-          "位移"
-        ],
         "relatedOverlays": [
           "延遲指南",
           "波長指南"
@@ -692,10 +646,6 @@
         "relatedControls": [
           "波長",
           "波速"
-        ],
-        "relatedGraphTabs": [
-          "相圖",
-          "位移"
         ],
         "relatedOverlays": [
           "波長指南",
@@ -715,9 +665,6 @@
           "波速",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "位移"
-        ],
         "relatedOverlays": [
           "每個週期的距離"
         ],
@@ -732,21 +679,13 @@
         "whyItMatters": "振幅常與速度或能量混淆。這裡它在視覺上與時間和間隔分開。",
         "relatedControls": [
           "振幅"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
         ]
       },
       {
         "id": "wave-speed-notice-inspect",
         "text": "請注意，時間軌道會改變瞬時波形和來源探頭位移，但相位圖保持不變，因為它取決於位置，而不取決於您暫停的瞬間。",
         "tryThis": "暫停，單步執行一次，然後將舞台上發生的變化與相位圖上保持固定的情況進行比較。",
-        "whyItMatters": "它將時間快照與基於距離的滯後關係分開。",
-        "relatedGraphTabs": [
-          "位移",
-          "相圖"
-        ]
+        "whyItMatters": "它將時間快照與基於距離的滯後關係分開。"
       }
     ]
   },

@@ -393,10 +393,6 @@
           "食譜A",
           "食譜B"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "食譜-a",
           "食譜-b"
@@ -414,10 +410,6 @@
           "反應物A量",
           "反應物B量"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "概念標籤",
           "概念標籤"
@@ -433,9 +425,6 @@
         "whyItMatters": "這能為下一個產率概念預留脈絡，同時不打亂目前的配方故事。",
         "relatedControls": [
           "产量百分比"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ]
       }
     ]
@@ -476,10 +465,6 @@
           "食譜A",
           "食譜B"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "食譜卡",
           "限制提示"
@@ -495,9 +480,6 @@
         "relatedControls": [
           "食譜A",
           "食譜B"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "食譜卡"

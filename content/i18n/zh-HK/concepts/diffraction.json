@@ -498,9 +498,6 @@
         "relatedControls": [
           "狹縫寬度"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedEquationVariables": [
           "狹縫寬度"
         ]
@@ -516,10 +513,6 @@
         "relatedControls": [
           "探針Y",
           "波長"
-        ],
-        "relatedGraphTabs": [
-          "圖案",
-          "位移"
         ],
         "relatedEquationVariables": [
           "探針Y",
@@ -537,9 +530,6 @@
         "relatedControls": [
           "波長",
           "狹縫寬度"
-        ],
-        "relatedGraphTabs": [
-          "圖案"
         ],
         "relatedEquationVariables": [
           "波長",
@@ -577,9 +567,6 @@
           "波長",
           "狹縫寬度"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedOverlays": [
           "狹縫寬度指南"
         ]
@@ -591,9 +578,6 @@
         "whyItMatters": "這直接修正了常見的波束變窄的誤解。",
         "relatedControls": [
           "狹縫寬度"
-        ],
-        "relatedGraphTabs": [
-          "圖案"
         ],
         "relatedOverlays": [
           "狹縫寬度指南",
@@ -611,9 +595,6 @@
         "relatedControls": [
           "波長"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedOverlays": [
           "邊緣路徑",
           "第一最低限度指南"
@@ -626,11 +607,7 @@
         "id": "diffraction-notice-time-vs-pattern",
         "text": "請注意，隨著時間的推移，電流探頭的振盪會發生變化，但模式圖保持固定，因為它是螢幕上的空間強度圖。",
         "tryThis": "在探頭場圖上暫停，單步執行一次，然後將探頭處的變化與模式圖上保持固定的情況進行比較。",
-        "whyItMatters": "它將某一點的時間變化與整個螢幕上的位置模式分開。",
-        "relatedGraphTabs": [
-          "位移",
-          "圖案"
-        ]
+        "whyItMatters": "它將某一點的時間變化與整個螢幕上的位置模式分開。"
       },
       {
         "id": "diffraction-notice-compare",
@@ -641,10 +618,6 @@
           "波長",
           "狹縫寬度",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "圖案",
-          "位移"
         ],
         "relatedOverlays": [
           "狹縫寬度指南",

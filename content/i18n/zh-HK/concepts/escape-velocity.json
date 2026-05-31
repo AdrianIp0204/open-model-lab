@@ -474,10 +474,6 @@
         "relatedControls": [
           "發射半徑"
         ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "速度閾值"
-        ],
         "relatedEquationVariables": [
           "發射半徑"
         ]
@@ -495,10 +491,6 @@
           "來源海量",
           "發射半徑",
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "比能"
         ],
         "relatedEquationVariables": [
           "來源海量",
@@ -520,9 +512,6 @@
           "發射半徑",
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "速度閾值"
-        ],
         "relatedEquationVariables": [
           "來源海量",
           "發射半徑",
@@ -542,10 +531,6 @@
           "發射半徑",
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "速度閾值"
-        ],
         "relatedEquationVariables": [
           "來源海量",
           "發射半徑"
@@ -563,10 +548,6 @@
           "來源海量",
           "發射半徑",
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "比能"
         ],
         "relatedEquationVariables": [
           "來源海量",
@@ -611,9 +592,6 @@
         "relatedControls": [
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "比能"
-        ],
         "relatedOverlays": [
           "週轉標記",
           "蹤跡"
@@ -629,11 +607,6 @@
         "whyItMatters": "它將本地循環基準與實際逃逸閾值分開。",
         "relatedControls": [
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "速度閾值",
-          "比能"
         ],
         "relatedOverlays": [
           "速度向量",
@@ -652,10 +625,6 @@
         "relatedControls": [
           "來源海量"
         ],
-        "relatedGraphTabs": [
-          "速度閾值",
-          "比能"
-        ],
         "relatedOverlays": [
           "重力向量",
           "速度向量"
@@ -671,11 +640,6 @@
         "whyItMatters": "它將半徑依賴性轉變為能量深度故事，而不是記憶的公式。",
         "relatedControls": [
           "發射半徑"
-        ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "速度閾值",
-          "比能"
         ],
         "relatedOverlays": [
           "啟動標記",

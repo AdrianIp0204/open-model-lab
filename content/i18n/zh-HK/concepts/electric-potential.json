@@ -471,9 +471,6 @@
           "源電荷B",
           "来源分离"
         ],
-        "relatedGraphTabs": [
-          "電位掃描"
-        ],
         "relatedEquationVariables": [
           "源電荷A",
           "源電荷B",
@@ -491,10 +488,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "電位掃描",
-          "即時鏈接"
         ],
         "relatedEquationVariables": [
           "探針X",
@@ -514,9 +507,6 @@
           "探針Y",
           "測試充電"
         ],
-        "relatedGraphTabs": [
-          "即時鏈接"
-        ],
         "relatedEquationVariables": [
           "探針X",
           "探針Y",
@@ -533,10 +523,6 @@
         "whyItMatters": "它使圖像透過地圖與一個真實的空間切片相關聯。",
         "relatedControls": [
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "電位掃描",
-          "即時鏈接"
         ],
         "relatedEquationVariables": [
           "探針Y"
@@ -573,9 +559,6 @@
           "源電荷A",
           "源電荷B"
         ],
-        "relatedGraphTabs": [
-          "電位掃描"
-        ],
         "relatedOverlays": [
           "潛力圖",
           "等勢輪廓"
@@ -594,9 +577,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "電位掃描"
-        ],
         "relatedOverlays": [
           "扫描線",
           "潛力圖"
@@ -610,9 +590,6 @@
         "relatedControls": [
           "探針X",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "即時鏈接"
         ],
         "relatedOverlays": [
           "字段箭頭",
@@ -634,10 +611,6 @@
           "探針X",
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "電位掃描",
-          "即時鏈接"
-        ],
         "relatedOverlays": [
           "潛力圖",
           "字段箭頭"
@@ -650,9 +623,6 @@
         "whyItMatters": "它將源集電位與選定的測試電荷的能量分開。",
         "relatedControls": [
           "測試充電"
-        ],
-        "relatedGraphTabs": [
-          "電位掃描"
         ],
         "relatedOverlays": [
           "潛力圖",

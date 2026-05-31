@@ -472,9 +472,6 @@
           "軌道半徑",
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄"
-        ],
         "relatedEquationVariables": [
           "軌道半徑",
           "速度係數"
@@ -491,10 +488,6 @@
         "relatedControls": [
           "軌道半徑"
         ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄",
-          "加速平衡"
-        ],
         "relatedEquationVariables": [
           "軌道半徑"
         ]
@@ -509,9 +502,6 @@
         "whyItMatters": "它使軌道平衡的側向運動部分可見，而不是將速度視為隱藏數字。",
         "relatedControls": [
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "速度历史记录"
         ],
         "relatedEquationVariables": [
           "速度係數"
@@ -530,9 +520,6 @@
           "軌道半徑",
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "加速平衡"
-        ],
         "relatedEquationVariables": [
           "來源海量",
           "軌道半徑",
@@ -549,9 +536,6 @@
         "whyItMatters": "它使軌道結果隨著時間的推移而可見，而不是在一瞬間隱藏它。",
         "relatedControls": [
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄"
         ],
         "relatedEquationVariables": [
           "速度係數"
@@ -594,9 +578,6 @@
         "relatedControls": [
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "半徑歷史記錄"
-        ],
         "relatedOverlays": [
           "參考Orbit",
           "蹤跡"
@@ -612,10 +593,6 @@
         "whyItMatters": "它準確地說明了為什麼圓形軌道需要正確的側向速度而不是任何快速運動。",
         "relatedControls": [
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "加速平衡",
-          "半徑歷史記錄"
         ],
         "relatedOverlays": [
           "重力向量",
@@ -633,10 +610,6 @@
         "relatedControls": [
           "速度係數"
         ],
-        "relatedGraphTabs": [
-          "速度历史记录",
-          "半徑歷史記錄"
-        ],
         "relatedOverlays": [
           "速度向量",
           "蹤跡"
@@ -653,10 +626,6 @@
         "relatedControls": [
           "軌道半徑"
         ],
-        "relatedGraphTabs": [
-          "速度历史记录",
-          "半徑歷史記錄"
-        ],
         "relatedOverlays": [
           "參考Orbit",
           "蹤跡"
@@ -670,9 +639,6 @@
         "text": "加速度平衡圖是核心軌道檢查：當重力曲線和 v^2/r 曲線相互重疊時會出現圓形軌道。",
         "tryThis": "先停留在參考軌道上，然後將速度因子移離 1。曲線之間的間隔預測軌跡是向內還是向外移動。",
         "whyItMatters": "它使「重力提供向心加速度」這句話變得可見且可測試。",
-        "relatedGraphTabs": [
-          "加速平衡"
-        ],
         "relatedOverlays": [
           "重力向量",
           "速度向量"
@@ -692,10 +658,6 @@
           "來源海量",
           "軌道半徑",
           "速度係數"
-        ],
-        "relatedGraphTabs": [
-          "速度历史记录",
-          "半徑歷史記錄"
         ],
         "relatedOverlays": [
           "參考Orbit",

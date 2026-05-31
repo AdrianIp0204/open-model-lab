@@ -446,9 +446,6 @@
         "relatedControls": [
           "場強"
         ],
-        "relatedGraphTabs": [
-          "力"
-        ],
         "relatedEquationVariables": [
           "場強"
         ]
@@ -466,10 +463,6 @@
           "方向角度",
           "負電荷",
           "場強"
-        ],
-        "relatedGraphTabs": [
-          "位置",
-          "力"
         ],
         "relatedEquationVariables": [
           "速度",
@@ -489,9 +482,6 @@
         "relatedControls": [
           "速度",
           "場強"
-        ],
-        "relatedGraphTabs": [
-          "位置"
         ],
         "relatedEquationVariables": [
           "速度",
@@ -551,9 +541,6 @@
           "方向角度",
           "負電荷"
         ],
-        "relatedGraphTabs": [
-          "力"
-        ],
         "relatedOverlays": [
           "欄位標記",
           "運動向量",
@@ -574,9 +561,6 @@
           "負電荷",
           "場強"
         ],
-        "relatedGraphTabs": [
-          "力"
-        ],
         "relatedOverlays": [
           "運動向量",
           "線力面板"
@@ -594,10 +578,6 @@
         "relatedControls": [
           "速度",
           "場強"
-        ],
-        "relatedGraphTabs": [
-          "位置",
-          "力"
         ],
         "relatedOverlays": [
           "運動向量",
@@ -618,9 +598,6 @@
           "速度",
           "方向角度"
         ],
-        "relatedGraphTabs": [
-          "力"
-        ],
         "relatedOverlays": [
           "運動向量"
         ],
@@ -639,10 +616,6 @@
           "場強",
           "負電荷",
           "速度"
-        ],
-        "relatedGraphTabs": [
-          "位置",
-          "力"
         ],
         "relatedOverlays": [
           "運動向量",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-30T12:15:58.409Z",
+  "generatedAt": "2026-05-31T05:10:29.726Z",
   "locale": "zh-HK",
   "filters": {
     "slugs": [],
@@ -8,14 +8,71 @@
     "bucket": null
   },
   "summary": {
-    "conceptCount": 0,
-    "totalFallbackFields": 0,
+    "conceptCount": 2,
+    "totalFallbackFields": 2,
     "bucketCounts": {
       "51+": 0,
       "21-50": 0,
       "6-20": 0,
-      "1-5": 0
+      "1-5": 2
     }
   },
-  "items": []
+  "items": [
+    {
+      "slug": "de-broglie-matter-waves",
+      "title": "de Broglie Matter Waves",
+      "locale": "zh-HK",
+      "targetOverlayPath": "content/i18n/zh-HK/concepts/de-broglie-matter-waves.json",
+      "fallbackFieldCount": 1,
+      "fallbackFieldPaths": [
+        "v2.startSetup.interactionMode"
+      ],
+      "severityBucket": "1-5",
+      "fallbackBaseVariant": "optimized",
+      "fallbackBaseSourcePath": "content/optimized/concepts/de-broglie-matter-waves.json",
+      "canonicalSourcePath": "content/concepts/de-broglie-matter-waves.json",
+      "optimizedSourcePath": "content/optimized/concepts/de-broglie-matter-waves.json",
+      "englishSourceHash": "4eeb76387e728a079ea3d1ec1e7e00ba9e1e8f37b18838b2fd8e874457c9aac9",
+      "localeManifestSourceHash": "5020e9b8d6585d2ea4acfa35fab3813bf2fb71366609de45aa0e34e323f2c136",
+      "protectedTokenPaths": [],
+      "notes": [
+        "Missing fields currently inherit from optimized English at runtime."
+      ],
+      "sourcePatch": {
+        "v2": {
+          "startSetup": {
+            "interactionMode": "explore"
+          }
+        }
+      }
+    },
+    {
+      "slug": "kirchhoff-loop-and-junction-rules",
+      "title": "Kirchhoff Loop and Junction Rules",
+      "locale": "zh-HK",
+      "targetOverlayPath": "content/i18n/zh-HK/concepts/kirchhoff-loop-and-junction-rules.json",
+      "fallbackFieldCount": 1,
+      "fallbackFieldPaths": [
+        "v2.startSetup.interactionMode"
+      ],
+      "severityBucket": "1-5",
+      "fallbackBaseVariant": "original",
+      "fallbackBaseSourcePath": "content/concepts/kirchhoff-loop-and-junction-rules.json",
+      "canonicalSourcePath": "content/concepts/kirchhoff-loop-and-junction-rules.json",
+      "optimizedSourcePath": null,
+      "englishSourceHash": "c95f4d139355374f8195a6888b9364c457bc7a7961eec5f004005419c1451fb4",
+      "localeManifestSourceHash": "c95f4d139355374f8195a6888b9364c457bc7a7961eec5f004005419c1451fb4",
+      "protectedTokenPaths": [],
+      "notes": [
+        "Missing fields currently inherit from canonical English at runtime."
+      ],
+      "sourcePatch": {
+        "v2": {
+          "startSetup": {
+            "interactionMode": "explore"
+          }
+        }
+      }
+    }
+  ]
 }

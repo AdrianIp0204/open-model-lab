@@ -354,9 +354,6 @@
           "x振幅",
           "y 振幅"
         ],
-        "relatedGraphTabs": [
-          "坐标時间"
-        ],
         "relatedEquationVariables": [
           "x 振幅",
           "y 幅度"
@@ -374,9 +371,6 @@
           "x頻率",
           "y頻率"
         ],
-        "relatedGraphTabs": [
-          "速度历史记录"
-        ],
         "relatedEquationVariables": [
           "x 頻率",
           "y 頻率"
@@ -392,9 +386,6 @@
         "whyItMatters": "它將 x(t) 和 y(t) 連接到平面上的一個可見點。",
         "relatedControls": [
           "相移角度"
-        ],
-        "relatedGraphTabs": [
-          "坐标時间"
         ],
         "relatedEquationVariables": [
           "相移"
@@ -427,9 +418,6 @@
           "x振幅",
           "y 振幅"
         ],
-        "relatedGraphTabs": [
-          "坐标時间"
-        ],
         "relatedOverlays": [
           "完整路徑"
         ],
@@ -444,9 +432,6 @@
         "relatedControls": [
           "x頻率",
           "y頻率"
-        ],
-        "relatedGraphTabs": [
-          "速度历史记录"
         ],
         "relatedOverlays": [
           "時間軌跡"

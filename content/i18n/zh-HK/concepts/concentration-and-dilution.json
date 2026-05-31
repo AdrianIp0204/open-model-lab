@@ -312,10 +312,6 @@
           "溶質量",
           "溶劑體積"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "溶質量",
           "溶劑體積"
@@ -333,9 +329,6 @@
           "溶質量",
           "溶劑體積"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "溶質量",
           "溶劑體積"
@@ -351,9 +344,6 @@
         "whyItMatters": "它讓燒杯感覺像是動態混合物而不是靜態圖片。",
         "relatedControls": [
           "溶質量"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedEquationVariables": [
           "溶質量"
@@ -385,9 +375,6 @@
         "relatedControls": [
           "溶劑體積"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "密度提示",
           "金額交易量指南"
@@ -401,9 +388,6 @@
         "text": "增加溶質量，同時保持溶劑體積固定。濃度升高是因為相同量的液體中溶解了更多的物質。",
         "relatedControls": [
           "溶質量"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "密度提示",

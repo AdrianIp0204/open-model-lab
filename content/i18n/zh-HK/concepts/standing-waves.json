@@ -532,10 +532,6 @@
           "長度",
           "探針X"
         ],
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
-        ],
         "relatedEquationVariables": [
           "模式編號",
           "長度",
@@ -555,10 +551,6 @@
           "模式編號",
           "長度"
         ],
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
-        ],
         "relatedEquationVariables": [
           "振幅",
           "模式編號",
@@ -577,10 +569,6 @@
           "振幅",
           "模式編號",
           "長度"
-        ],
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
         ],
         "relatedEquationVariables": [
           "振幅",
@@ -615,10 +603,6 @@
         "text": "請注意，節點標記永遠不會離開中心線，即使相鄰環路每個週期都會穿過中心線。",
         "tryThis": "在移動探頭之前，請保持節點覆蓋並觀察一個完整週期。",
         "whyItMatters": "駐波並非在任何地方都是靜止的。保持固定的是節點和模式模式。",
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
-        ],
         "relatedOverlays": [
           "節點"
         ]
@@ -628,10 +612,6 @@
         "text": "請注意，將滑鼠懸停在振型圖上會將同一個即時探頭移動到弦上的該位置。",
         "tryThis": "將滑鼠停留在節點附近，然後將滑鼠懸停在波腹附近，並比較探測跡線的變化。",
         "whyItMatters": "圖像和階段是同一駐波模式的兩個視圖。",
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
-        ],
         "relatedOverlays": [
           "節點",
           "波腹"
@@ -644,10 +624,6 @@
         "whyItMatters": "變更模式編號會同時變更空間模式和時間行為。",
         "relatedControls": [
           "模式編號"
-        ],
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
         ],
         "relatedOverlays": [
           "節點",
@@ -664,20 +640,13 @@
         "whyItMatters": "這會將駐波與行波之間的干擾連結起來。",
         "relatedOverlays": [
           "組件波"
-        ],
-        "relatedGraphTabs": [
-          "形狀"
         ]
       },
       {
         "id": "standing-notice-inspect",
         "text": "請注意，時間軌道改變了瞬時弦形狀和探頭位移，但模態形狀圖保持不變，因為它代表空間模式，而不是一個凍結幀。",
         "tryThis": "暫停，單步執行一次，然後將弦上的變化與振型圖上保持固定的內容進行比較。",
-        "whyItMatters": "它將駐波模式與此模式內的本地振盪分開。",
-        "relatedGraphTabs": [
-          "形狀",
-          "位移"
-        ]
+        "whyItMatters": "它將駐波模式與此模式內的本地振盪分開。"
       },
       {
         "id": "standing-notice-compare",
@@ -687,9 +656,6 @@
         "relatedControls": [
           "模式編號",
           "長度"
-        ],
-        "relatedGraphTabs": [
-          "形狀"
         ],
         "relatedOverlays": [
           "節點",

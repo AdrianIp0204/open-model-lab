@@ -437,10 +437,6 @@
         "relatedControls": [
           "質量半徑"
         ],
-        "relatedGraphTabs": [
-          "慣性圖",
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "質量半徑"
         ]
@@ -457,10 +453,6 @@
         "relatedControls": [
           "質量半徑"
         ],
-        "relatedGraphTabs": [
-          "角速度",
-          "旋轉角度"
-        ],
         "relatedEquationVariables": [
           "質量半徑"
         ]
@@ -476,10 +468,6 @@
         "whyItMatters": "它可以在不改變總質量或扭矩的情況下立即進行緊湊型與分散型的比較。",
         "relatedControls": [
           "質量半徑"
-        ],
-        "relatedGraphTabs": [
-          "慣性圖",
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "質量半徑"
@@ -529,10 +517,6 @@
         "relatedControls": [
           "質量半徑"
         ],
-        "relatedGraphTabs": [
-          "角速度",
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "半徑指南",
           "參考核心"
@@ -550,9 +534,6 @@
         "relatedControls": [
           "質量半徑"
         ],
-        "relatedGraphTabs": [
-          "慣性圖"
-        ],
         "relatedOverlays": [
           "半徑指南"
         ],
@@ -568,10 +549,6 @@
         "relatedControls": [
           "質量半徑",
           "施加扭矩"
-        ],
-        "relatedGraphTabs": [
-          "角速度",
-          "概念標籤"
         ],
         "relatedOverlays": [
           "參考核心"
@@ -589,10 +566,6 @@
         "relatedControls": [
           "施加扭矩",
           "質量半徑"
-        ],
-        "relatedGraphTabs": [
-          "慣性圖",
-          "概念標籤"
         ],
         "relatedOverlays": [
           "等質量標記"

@@ -474,9 +474,6 @@
         "relatedControls": [
           "半徑"
         ],
-        "relatedGraphTabs": [
-          "快速鏈接"
-        ],
         "relatedEquationVariables": [
           "半徑"
         ]
@@ -492,10 +489,6 @@
         "whyItMatters": "不同形狀的滾動方式不同，因為轉動慣量發生變化，而不是因為重力對它們的作用不同。",
         "relatedControls": [
           "慣性係數"
-        ],
-        "relatedGraphTabs": [
-          "加速圖",
-          "距離"
         ],
         "relatedEquationVariables": [
           "慣性係數"
@@ -514,9 +507,6 @@
           "坡度角度",
           "慣性係數"
         ],
-        "relatedGraphTabs": [
-          "能量分裂"
-        ],
         "relatedEquationVariables": [
           "坡度角度",
           "慣性係數"
@@ -534,10 +524,6 @@
         "relatedControls": [
           "坡度角度",
           "慣性係數"
-        ],
-        "relatedGraphTabs": [
-          "快速鏈接",
-          "能量分裂"
         ],
         "relatedEquationVariables": [
           "坡度角度",
@@ -588,10 +574,6 @@
         "relatedControls": [
           "慣性係數"
         ],
-        "relatedGraphTabs": [
-          "距離",
-          "加速圖"
-        ],
         "relatedOverlays": [
           "品質佈局"
         ],
@@ -606,9 +588,6 @@
         "whyItMatters": "這表明旋轉並不是一個單獨的額外故事。它被鎖定到翻譯。",
         "relatedControls": [
           "半徑"
-        ],
-        "relatedGraphTabs": [
-          "快速鏈接"
         ],
         "relatedOverlays": [
           "無滑動連結"
@@ -626,9 +605,6 @@
           "慣性係數",
           "坡度角度"
         ],
-        "relatedGraphTabs": [
-          "能量分裂"
-        ],
         "relatedOverlays": [
           "能量分裂"
         ],
@@ -644,10 +620,6 @@
         "whyItMatters": "它使關鍵思想變得明確：形狀很重要，因為它改變了轉動慣量。",
         "relatedControls": [
           "慣性係數"
-        ],
-        "relatedGraphTabs": [
-          "距離",
-          "加速圖"
         ],
         "relatedOverlays": [
           "品質佈局",

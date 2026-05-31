@@ -463,10 +463,6 @@
         "relatedControls": [
           "事件角度"
         ],
-        "relatedGraphTabs": [
-          "轉換圖",
-          "折射圖"
-        ],
         "relatedEquationVariables": [
           "入射角"
         ]
@@ -483,10 +479,6 @@
           "事件角度",
           "n1",
           "n2"
-        ],
-        "relatedGraphTabs": [
-          "轉換圖",
-          "折射圖"
         ],
         "relatedEquationVariables": [
           "入射角",
@@ -505,9 +497,6 @@
         "relatedControls": [
           "事件角度"
         ],
-        "relatedGraphTabs": [
-          "轉換圖"
-        ],
         "relatedEquationVariables": [
           "入射角"
         ]
@@ -523,9 +512,6 @@
         "relatedControls": [
           "n1",
           "n2"
-        ],
-        "relatedGraphTabs": [
-          "轉換圖"
         ],
         "relatedEquationVariables": [
           "概念標籤",
@@ -571,10 +557,7 @@
         "id": "tir-notice-transition-map",
         "text": "請注意，閾值轉換圖不是時間圖。對於相同的兩種介質，每個點都是不同的入射角設定。",
         "tryThis": "從左向右懸停，觀看舞台跳躍不同的入射角度，而不是及時推進。",
-        "whyItMatters": "這就是為什麼該圖可以顯示折射分支結束和反射分支接管的位置。",
-        "relatedGraphTabs": [
-          "轉換圖"
-        ]
+        "whyItMatters": "這就是為什麼該圖可以顯示折射分支結束和反射分支接管的位置。"
       },
       {
         "id": "tir-notice-below-threshold",
@@ -583,9 +566,6 @@
         "whyItMatters": "這是 TIR 開始之前跨越的幾何限制。",
         "relatedControls": [
           "事件角度"
-        ],
-        "relatedGraphTabs": [
-          "折射圖"
         ],
         "relatedOverlays": [
           "關鍵指南"
@@ -596,9 +576,6 @@
         "text": "請注意，在 theta_c 上方，舞台沒有顯示真正的透射光線。模型中剩下的唯一傳出分支是介質 1 中的反射分支。",
         "tryThis": "在不更改媒體對的情況下從近臨界切換到高於臨界，並觀察反射分支替換傳輸分支。",
         "whyItMatters": "它可以防止傳輸光線永遠保持彎曲的錯誤想法。",
-        "relatedGraphTabs": [
-          "轉換圖"
-        ],
         "relatedOverlays": [
           "反射指南"
         ]
@@ -611,9 +588,6 @@
         "relatedControls": [
           "n1",
           "n2"
-        ],
-        "relatedGraphTabs": [
-          "轉換圖"
         ]
       },
       {

@@ -455,10 +455,6 @@
         "relatedControls": [
           "事件角度"
         ],
-        "relatedGraphTabs": [
-          "折射圖",
-          "彎曲貼圖"
-        ],
         "relatedEquationVariables": [
           "入射角"
         ]
@@ -474,9 +470,6 @@
         "relatedControls": [
           "n1",
           "n2"
-        ],
-        "relatedGraphTabs": [
-          "彎曲貼圖"
         ],
         "relatedEquationVariables": [
           "概念標籤",
@@ -495,9 +488,6 @@
           "事件角度",
           "n1",
           "n2"
-        ],
-        "relatedGraphTabs": [
-          "折射圖"
         ],
         "relatedEquationVariables": [
           "入射角",
@@ -537,19 +527,13 @@
         "id": "rs-notice-angle-map",
         "text": "請注意，折射圖不是時間軌跡。對於同一介質對，每個點都是不同的入射角。",
         "tryThis": "將滑鼠懸停在圖像的右側，觀察舞台跳至匹配的入射角，而不是及時前進。",
-        "whyItMatters": "這就是為什麼懸停會立即更改設定而不是及時推進場景。",
-        "relatedGraphTabs": [
-          "折射圖"
-        ]
+        "whyItMatters": "這就是為什麼懸停會立即更改設定而不是及時推進場景。"
       },
       {
         "id": "rs-notice-bend-sign",
         "text": "注意 theta_1 - theta_2 的符號：正值表示透射光線更接近法線，而負值表示它遠離法線。",
         "tryThis": "在空氣到玻璃和玻璃到空氣之間切換，同時停留在彎曲圖上，這樣您就可以看到標誌翻轉。",
         "whyItMatters": "現在，一張圖像可以告訴您彎曲的大小和方向。",
-        "relatedGraphTabs": [
-          "彎曲貼圖"
-        ],
         "relatedEquationVariables": [
           "入射角"
         ]
@@ -572,10 +556,7 @@
         "id": "rs-notice-compare",
         "text": "請注意比較模式如何隔離中等對比。保持一個設定固定，然後僅更改 n2 或變體中的入射角。",
         "tryThis": "將空氣克隆到玻璃中到設定A和設定B，然後在你讀取彎曲圖之前，只在設定B中升高N2。",
-        "whyItMatters": "它可以讓您在不離開即時頁面的情況下將更強的折射率對比度與更陡的入射角分開。",
-        "relatedGraphTabs": [
-          "彎曲貼圖"
-        ]
+        "whyItMatters": "它可以讓您在不離開即時頁面的情況下將更強的折射率對比度與更陡的入射角分開。"
       },
       {
         "id": "rs-notice-critical",

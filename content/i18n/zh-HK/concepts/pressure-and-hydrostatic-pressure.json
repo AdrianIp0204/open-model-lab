@@ -462,10 +462,6 @@
           "力",
           "區域"
         ],
-        "relatedGraphTabs": [
-          "壓力",
-          "壓力區域"
-        ],
         "relatedEquationVariables": [
           "力",
           "區域"
@@ -483,9 +479,6 @@
           "深度",
           "密度",
           "重力"
-        ],
-        "relatedGraphTabs": [
-          "壓力深度"
         ],
         "relatedEquationVariables": [
           "深度",
@@ -506,10 +499,6 @@
           "密度",
           "重力"
         ],
-        "relatedGraphTabs": [
-          "壓力深度",
-          "壓力-密度"
-        ],
         "relatedEquationVariables": [
           "深度",
           "密度",
@@ -528,9 +517,6 @@
           "深度",
           "密度",
           "重力"
-        ],
-        "relatedGraphTabs": [
-          "壓力深度"
         ],
         "relatedEquationVariables": [
           "深度",
@@ -580,9 +566,6 @@
         "relatedControls": [
           "深度"
         ],
-        "relatedGraphTabs": [
-          "壓力深度"
-        ],
         "relatedOverlays": [
           "深度指南",
           "壓力箭頭"
@@ -596,9 +579,6 @@
         "text": "開啟相同深度的線。如果靠近牆壁的點和靠近中間的點在一種連接的流體中處於相同的深度，則它們具有相同的靜水壓力。",
         "relatedControls": [
           "深度"
-        ],
-        "relatedGraphTabs": [
-          "壓力深度"
         ],
         "relatedOverlays": [
           "相同深度線",
@@ -615,9 +595,6 @@
           "區域",
           "力"
         ],
-        "relatedGraphTabs": [
-          "壓力區域"
-        ],
         "relatedOverlays": [
           "表面荷載"
         ],
@@ -633,10 +610,6 @@
           "密度",
           "重力",
           "深度"
-        ],
-        "relatedGraphTabs": [
-          "壓力深度",
-          "壓力-密度"
         ],
         "relatedOverlays": [
           "深度指南"
@@ -655,10 +628,6 @@
           "力",
           "區域",
           "密度"
-        ],
-        "relatedGraphTabs": [
-          "壓力-密度",
-          "壓力區域"
         ],
         "relatedOverlays": [
           "表面荷載",

@@ -390,9 +390,6 @@
         "relatedControls": [
           "階段"
         ],
-        "relatedGraphTabs": [
-          "投影歷史"
-        ],
         "relatedEquationVariables": [
           "階段"
         ]
@@ -408,9 +405,6 @@
         "relatedControls": [
           "角速度",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "角度史"
         ],
         "relatedEquationVariables": [
           "角速度",
@@ -428,9 +422,6 @@
         "relatedControls": [
           "階段"
         ],
-        "relatedGraphTabs": [
-          "投影歷史"
-        ],
         "relatedEquationVariables": [
           "階段"
         ]
@@ -445,9 +436,6 @@
         "whyItMatters": "它使時間進程在圓圈本身上可見。",
         "relatedControls": [
           "角速度"
-        ],
-        "relatedGraphTabs": [
-          "角度史"
         ],
         "relatedEquationVariables": [
           "角速度"
@@ -479,9 +467,6 @@
         "relatedControls": [
           "階段"
         ],
-        "relatedGraphTabs": [
-          "投影歷史"
-        ],
         "relatedOverlays": [
           "投影指南"
         ],
@@ -494,9 +479,6 @@
         "text": "穿過 y 軸首先會改變餘弦的符號，穿過 x 軸會改變正弦的符號。",
         "relatedControls": [
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "投影歷史"
         ],
         "relatedOverlays": [
           "象限標誌"

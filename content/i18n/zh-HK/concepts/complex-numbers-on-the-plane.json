@@ -414,9 +414,6 @@
           "操作數實數",
           "運算元虛數"
         ],
-        "relatedGraphTabs": [
-          "加法掃描"
-        ],
         "relatedEquationVariables": [
           "真實部分",
           "虛部",
@@ -438,9 +435,6 @@
           "操作數實數",
           "運算元虛數"
         ],
-        "relatedGraphTabs": [
-          "乘法掃描"
-        ],
         "relatedEquationVariables": [
           "真實部分",
           "虛部",
@@ -460,9 +454,6 @@
           "操作數實數",
           "運算元虛數",
           "乘法模式"
-        ],
-        "relatedGraphTabs": [
-          "乘法掃描"
         ],
         "relatedEquationVariables": [
           "操作數-實數",
@@ -499,9 +490,6 @@
           "操作數實數",
           "運算元虛數"
         ],
-        "relatedGraphTabs": [
-          "加法掃描"
-        ],
         "relatedOverlays": [
           "新增指南"
         ],
@@ -519,9 +507,6 @@
           "操作數實數",
           "運算元虛數",
           "乘法模式"
-        ],
-        "relatedGraphTabs": [
-          "乘法掃描"
         ],
         "relatedOverlays": [
           "幅度圓",

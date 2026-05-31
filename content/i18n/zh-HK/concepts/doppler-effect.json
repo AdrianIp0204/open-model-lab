@@ -470,9 +470,6 @@
           "觀察者速度",
           "觀察者前方"
         ],
-        "relatedGraphTabs": [
-          "觀察者回應"
-        ],
         "relatedEquationVariables": [
           "源速度",
           "觀察者速度"
@@ -490,9 +487,6 @@
           "源速度",
           "觀察者前方"
         ],
-        "relatedGraphTabs": [
-          "源間距"
-        ],
         "relatedEquationVariables": [
           "源速度"
         ]
@@ -509,10 +503,6 @@
           "觀察者速度",
           "觀察者前方",
           "源頻率"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "觀察者回應"
         ],
         "relatedEquationVariables": [
           "源頻率",
@@ -558,9 +548,20 @@
           "觀察者速度",
           "觀察者前方"
         ],
-        "relatedGraphTabs": [
-          "源間距",
-          "觀察者回應"
+        "relatedOverlays": [
+          "正面背面間距",
+          "到達時間"
+        ]
+      },
+      {
+        "id": "doppler-notice-compare",
+        "text": "留意哪個設定改變了介質中的波峰間距，哪個設定只改變觀察者接收到波峰的速率。比較模式能把這兩個原因清楚分開。",
+        "tryThis": "克隆城市通過，然後讓一個人在後面設定路線，另一個人朝前面的源頭移動。",
+        "whyItMatters": "比較表面顯示，兩個不同的運動故事可以在同一個古典長凳上產生不同的音調變化。",
+        "relatedControls": [
+          "源速度",
+          "觀察者速度",
+          "觀察者前方"
         ],
         "relatedOverlays": [
           "正面背面間距",
@@ -577,10 +578,6 @@
           "觀察者速度",
           "觀察者前方"
         ],
-        "relatedGraphTabs": [
-          "源間距",
-          "觀察者回應"
-        ],
         "relatedOverlays": [
           "正面背面間距",
           "到達時間"
@@ -595,29 +592,6 @@
           "源速度",
           "觀察者速度",
           "觀察者前方"
-        ],
-        "relatedGraphTabs": [
-          "源間距",
-          "觀察者回應"
-        ],
-        "relatedOverlays": [
-          "正面背面間距",
-          "到達時間"
-        ]
-      },
-      {
-        "id": "doppler-notice-compare",
-        "text": "留意哪個設定改變了介質中的波峰間距，哪個設定只改變觀察者接收到波峰的速率。比較模式能把這兩個原因清楚分開。",
-        "tryThis": "克隆城市通過，然後讓一個人在後面設定路線，另一個人朝前面的源頭移動。",
-        "whyItMatters": "比較表面顯示，兩個不同的運動故事可以在同一個古典長凳上產生不同的音調變化。",
-        "relatedControls": [
-          "源速度",
-          "觀察者速度",
-          "觀察者前方"
-        ],
-        "relatedGraphTabs": [
-          "源間距",
-          "觀察者回應"
         ],
         "relatedOverlays": [
           "正面背面間距",
@@ -631,9 +605,6 @@
         "whyItMatters": "多普勒頻移始於介質中的間距變化。",
         "relatedControls": [
           "源速度"
-        ],
-        "relatedGraphTabs": [
-          "源間距"
         ],
         "relatedOverlays": [
           "正面背面間距"
@@ -650,9 +621,6 @@
         "relatedControls": [
           "觀察者速度"
         ],
-        "relatedGraphTabs": [
-          "觀察者回應"
-        ],
         "relatedOverlays": [
           "到達時間"
         ],
@@ -668,10 +636,6 @@
         "relatedControls": [
           "觀察者前方",
           "源速度"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "源間距"
         ],
         "relatedOverlays": [
           "正面背面間距",

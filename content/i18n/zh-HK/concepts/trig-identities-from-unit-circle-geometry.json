@@ -336,10 +336,6 @@
         "relatedControls": [
           "階段"
         ],
-        "relatedGraphTabs": [
-          "投影歷史",
-          "身份平衡"
-        ],
         "relatedEquationVariables": [
           "階段"
         ]
@@ -355,10 +351,6 @@
         "relatedControls": [
           "角速度",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "投影歷史",
-          "身份平衡"
         ],
         "relatedEquationVariables": [
           "角速度",
@@ -376,10 +368,6 @@
         "relatedControls": [
           "階段"
         ],
-        "relatedGraphTabs": [
-          "投影歷史",
-          "身份平衡"
-        ],
         "relatedEquationVariables": [
           "階段"
         ]
@@ -394,9 +382,6 @@
         "whyItMatters": "它保持與原點的固定距離可見。",
         "relatedControls": [
           "角速度"
-        ],
-        "relatedGraphTabs": [
-          "身份平衡"
         ],
         "relatedEquationVariables": [
           "角速度"
@@ -430,9 +415,6 @@
         "relatedControls": [
           "階段"
         ],
-        "relatedGraphTabs": [
-          "身份平衡"
-        ],
         "relatedOverlays": [
           "投影指南",
           "旋轉軌跡"
@@ -446,10 +428,6 @@
         "text": "進入象限 II 首先會翻轉原始餘弦符號，但平方會刪除該符號，同時在恆等式中保持相同的投影長度。",
         "relatedControls": [
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "投影歷史",
-          "身份平衡"
         ],
         "relatedOverlays": [
           "象限標誌",

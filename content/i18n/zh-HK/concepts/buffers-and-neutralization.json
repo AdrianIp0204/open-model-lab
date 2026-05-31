@@ -274,9 +274,6 @@
           "基本金額",
           "緩衝區數量"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "酸量",
           "基本金額"
@@ -294,9 +291,6 @@
           "酸量",
           "基本金額",
           "水量"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "酸量",
@@ -316,9 +310,6 @@
           "緩衝區數量",
           "酸量"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "緩衝量",
           "酸量"
@@ -335,9 +326,6 @@
         "relatedControls": [
           "酸量",
           "基本金額"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "酸量",
@@ -372,9 +360,6 @@
         "relatedControls": [
           "酸量",
           "緩衝區數量"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "緩衝區保留",

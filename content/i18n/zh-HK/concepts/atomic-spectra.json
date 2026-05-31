@@ -499,9 +499,6 @@
           "間隙23Ev",
           "間隙34Ev"
         ],
-        "relatedGraphTabs": [
-          "譜線"
-        ],
         "relatedEquationVariables": [
           "間隙12Ev",
           "間隙23Ev",
@@ -521,9 +518,6 @@
           "間隙23Ev",
           "間隙34Ev"
         ],
-        "relatedGraphTabs": [
-          "譜線"
-        ],
         "relatedEquationVariables": [
           "間隙12Ev",
           "間隙23Ev",
@@ -541,9 +535,6 @@
         "relatedControls": [
           "吸收模式"
         ],
-        "relatedGraphTabs": [
-          "譜線"
-        ],
         "relatedEquationVariables": [
           "吸收模式"
         ]
@@ -560,9 +551,6 @@
           "間隙12Ev",
           "間隙23Ev",
           "間隙34Ev"
-        ],
-        "relatedGraphTabs": [
-          "譜線"
         ],
         "relatedEquationVariables": [
           "間隙12Ev",
@@ -595,9 +583,6 @@
           "間隙23Ev",
           "間隙34Ev"
         ],
-        "relatedGraphTabs": [
-          "譜線"
-        ],
         "relatedOverlays": [
           "量化間距",
           "過渡對"
@@ -611,9 +596,6 @@
         "relatedControls": [
           "間隙12Ev"
         ],
-        "relatedGraphTabs": [
-          "譜線"
-        ],
         "relatedOverlays": [
           "過渡對",
           "行標籤"
@@ -626,9 +608,6 @@
         "whyItMatters": "它將發射和吸收保持在相同的能階結構上。",
         "relatedControls": [
           "吸收模式"
-        ],
-        "relatedGraphTabs": [
-          "譜線"
         ],
         "relatedOverlays": [
           "模式鎖定",
@@ -645,9 +624,6 @@
           "間隙23Ev",
           "間隙34Ev",
           "吸收模式"
-        ],
-        "relatedGraphTabs": [
-          "譜線"
         ],
         "relatedOverlays": [
           "過渡對",

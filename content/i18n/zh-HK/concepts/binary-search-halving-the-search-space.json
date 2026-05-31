@@ -344,10 +344,6 @@
           "陣列大小",
           "目標索引"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "指標歷史記錄"
-        ],
         "relatedEquationVariables": [
           "陣列大小",
           "目標索引"
@@ -363,9 +359,6 @@
         "whyItMatters": "它將每個低或高更新連結到可見搜尋空間。",
         "relatedControls": [
           "目標索引"
-        ],
-        "relatedGraphTabs": [
-          "指標歷史記錄"
         ],
         "relatedEquationVariables": [
           "目標索引"
@@ -404,10 +397,6 @@
           "目標索引",
           "陣列大小"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "指標歷史記錄"
-        ],
         "relatedOverlays": [
           "間隔窗口",
           "指標標記"
@@ -422,10 +411,6 @@
         "text": "中點只告訴您要保留哪一半，因為每個值都已按排序順序排列。",
         "relatedControls": [
           "目標索引"
-        ],
-        "relatedGraphTabs": [
-          "指標歷史記錄",
-          "檢查歷史記錄"
         ],
         "relatedOverlays": [
           "指標標記"

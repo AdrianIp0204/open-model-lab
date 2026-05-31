@@ -445,9 +445,6 @@
         "relatedControls": [
           "接近距離"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "接近距離"
         ]
@@ -464,9 +461,6 @@
           "案例索引",
           "接近距離"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "案例模式",
           "接近距離"
@@ -482,9 +476,6 @@
         "whyItMatters": "它將 $f(0)$ 與附近的接近行為分開。",
         "relatedControls": [
           "案例索引"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "案例模式"
@@ -511,9 +502,6 @@
         "relatedControls": [
           "案例索引"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "限制指南",
           "實際點"
@@ -529,9 +517,6 @@
           "案例索引",
           "接近距離"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "樣本標記"
         ],
@@ -546,9 +531,6 @@
         "relatedControls": [
           "案例索引",
           "接近距離"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedOverlays": [
           "樣本標記"

@@ -467,9 +467,6 @@
           "電阻",
           "電源電壓"
         ],
-        "relatedGraphTabs": [
-          "標準化反應"
-        ],
         "relatedEquationVariables": [
           "電源電壓",
           "電阻"
@@ -487,9 +484,6 @@
           "電源電壓",
           "正在充電"
         ],
-        "relatedGraphTabs": [
-          "電壓-時間"
-        ],
         "relatedEquationVariables": [
           "電源電壓"
         ]
@@ -505,9 +499,6 @@
         "relatedControls": [
           "電阻",
           "電容"
-        ],
-        "relatedGraphTabs": [
-          "標準化反應"
         ],
         "relatedEquationVariables": [
           "電阻",
@@ -526,9 +517,6 @@
           "電容",
           "正在充電"
         ],
-        "relatedGraphTabs": [
-          "標準化反應"
-        ],
         "relatedEquationVariables": [
           "電容"
         ]
@@ -545,9 +533,6 @@
           "電容",
           "電源電壓",
           "正在充電"
-        ],
-        "relatedGraphTabs": [
-          "標準化反應"
         ],
         "relatedEquationVariables": [
           "電容",
@@ -585,9 +570,6 @@
           "正在充電",
           "電源電壓"
         ],
-        "relatedGraphTabs": [
-          "電壓-時間"
-        ],
         "relatedOverlays": [
           "電流流量",
           "電壓標籤"
@@ -602,9 +584,6 @@
           "電阻",
           "電容"
         ],
-        "relatedGraphTabs": [
-          "標準化反應"
-        ],
         "relatedOverlays": [
           "tau 標記"
         ]
@@ -616,10 +595,6 @@
         "whyItMatters": "它作為一個 RC 故事而不是兩個不相關的公式不斷充電和放電。",
         "relatedControls": [
           "正在充電"
-        ],
-        "relatedGraphTabs": [
-          "電壓-時間",
-          "標準化反應"
         ],
         "relatedOverlays": [
           "電流流量",

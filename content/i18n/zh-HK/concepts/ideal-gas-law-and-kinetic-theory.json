@@ -493,10 +493,6 @@
         "relatedControls": [
           "溫度"
         ],
-        "relatedGraphTabs": [
-          "壓力-溫度",
-          "碰撞溫度"
-        ],
         "relatedEquationVariables": [
           "溫度"
         ]
@@ -512,10 +508,6 @@
         "relatedControls": [
           "粒子計數",
           "卷"
-        ],
-        "relatedGraphTabs": [
-          "壓力-體積",
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedEquationVariables": [
           "粒子計數",
@@ -535,10 +527,6 @@
           "溫度",
           "卷"
         ],
-        "relatedGraphTabs": [
-          "壓力-體積",
-          "碰撞溫度"
-        ],
         "relatedEquationVariables": [
           "粒子計數",
           "溫度",
@@ -557,11 +545,6 @@
           "粒子計數",
           "溫度",
           "卷"
-        ],
-        "relatedGraphTabs": [
-          "壓力-體積",
-          "壓力-溫度",
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedEquationVariables": [
           "粒子計數",
@@ -613,9 +596,6 @@
         "relatedControls": [
           "卷"
         ],
-        "relatedGraphTabs": [
-          "壓力-體積"
-        ],
         "relatedOverlays": [
           "密度提示",
           "撞牆提示",
@@ -633,10 +613,6 @@
         "relatedControls": [
           "溫度"
         ],
-        "relatedGraphTabs": [
-          "碰撞溫度",
-          "壓力-溫度"
-        ],
         "relatedOverlays": [
           "速度提示",
           "撞牆提示"
@@ -652,9 +628,6 @@
         "whyItMatters": "它避免了每次壓力變化都必須來自溫度的捷徑。",
         "relatedControls": [
           "粒子計數"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "密度提示",
@@ -672,10 +645,6 @@
         "relatedControls": [
           "粒子計數",
           "溫度"
-        ],
-        "relatedGraphTabs": [
-          "壓力-溫度",
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "速度提示",
@@ -696,11 +665,6 @@
           "粒子計數",
           "溫度",
           "卷"
-        ],
-        "relatedGraphTabs": [
-          "壓力-體積",
-          "壓力-溫度",
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedOverlays": [
           "壓力表"

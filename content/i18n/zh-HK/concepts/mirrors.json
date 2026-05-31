@@ -494,9 +494,6 @@
           "焦距",
           "物體距離"
         ],
-        "relatedGraphTabs": [
-          "影像地圖"
-        ],
         "relatedEquationVariables": [
           "焦距",
           "物體距離"
@@ -516,9 +513,6 @@
           "焦距",
           "物體距離"
         ],
-        "relatedGraphTabs": [
-          "影像地圖"
-        ],
         "relatedEquationVariables": [
           "焦距",
           "物體距離"
@@ -535,9 +529,6 @@
         "relatedControls": [
           "物體距離",
           "物件高度"
-        ],
-        "relatedGraphTabs": [
-          "放大倍率"
         ],
         "relatedEquationVariables": [
           "物體距離",
@@ -589,9 +580,6 @@
         "text": "請注意，鏡像圖是基於物件距離的，而不是基於時間的。將滑鼠懸停在一個點上會立即預覽不同的幾何圖像，而不是稍後。",
         "tryThis": "將滑鼠停留在影像圖上，觀察物件跳到匹配位置，同時反射光線幾何圖像一步更新。",
         "whyItMatters": "它使圖像保持誠實：您正在比較設定係列，而不是逐步瀏覽時間。",
-        "relatedGraphTabs": [
-          "影像地圖"
-        ],
         "relatedOverlays": [
           "主射線"
         ]
@@ -604,10 +592,6 @@
         "relatedControls": [
           "物體距離",
           "焦距"
-        ],
-        "relatedGraphTabs": [
-          "影像地圖",
-          "放大倍率"
         ],
         "relatedOverlays": [
           "焦點標記",

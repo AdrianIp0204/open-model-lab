@@ -409,9 +409,6 @@
           "漸近線X",
           "水平漸近線Y"
         ],
-        "relatedGraphTabs": [
-          "漸近線響應"
-        ],
         "relatedEquationVariables": [
           "漸近線-x",
           "水平水平"
@@ -428,9 +425,6 @@
         "relatedControls": [
           "樣本距離",
           "分支規模"
-        ],
-        "relatedGraphTabs": [
-          "漸近線響應"
         ],
         "relatedEquationVariables": [
           "探測距離",
@@ -449,9 +443,6 @@
           "水平漸近線Y",
           "分支規模"
         ],
-        "relatedGraphTabs": [
-          "漸近線響應"
-        ],
         "relatedEquationVariables": [
           "水平水平",
           "分公司規模"
@@ -468,9 +459,6 @@
         "relatedControls": [
           "秀洞",
           "孔X"
-        ],
-        "relatedGraphTabs": [
-          "漸近線響應"
         ],
         "relatedEquationVariables": [
           "孔位置"
@@ -498,9 +486,6 @@
           "樣本距離",
           "分支規模"
         ],
-        "relatedGraphTabs": [
-          "漸近線響應"
-        ],
         "relatedOverlays": [
           "探針標記",
           "漸近線"
@@ -517,9 +502,6 @@
           "水平漸近線Y",
           "漸近線X"
         ],
-        "relatedGraphTabs": [
-          "漸近線響應"
-        ],
         "relatedOverlays": [
           "漸近線",
           "攔截"
@@ -535,9 +517,6 @@
         "relatedControls": [
           "秀洞",
           "孔X"
-        ],
-        "relatedGraphTabs": [
-          "漸近線響應"
         ],
         "relatedOverlays": [
           "孔標記",

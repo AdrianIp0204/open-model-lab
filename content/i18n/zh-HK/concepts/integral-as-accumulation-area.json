@@ -358,9 +358,6 @@
         "relatedControls": [
           "上限"
         ],
-        "relatedGraphTabs": [
-          "源函數"
-        ],
         "relatedEquationVariables": [
           "上限"
         ]
@@ -376,9 +373,6 @@
         "relatedControls": [
           "上限"
         ],
-        "relatedGraphTabs": [
-          "源函數"
-        ],
         "relatedEquationVariables": [
           "上限"
         ]
@@ -393,9 +387,6 @@
         "whyItMatters": "它使連結 A'(x) = f(x) 在圖像上可見。",
         "relatedControls": [
           "上限"
-        ],
-        "relatedGraphTabs": [
-          "累积函數"
         ],
         "relatedEquationVariables": [
           "上限"
@@ -429,10 +420,6 @@
         "relatedControls": [
           "上限"
         ],
-        "relatedGraphTabs": [
-          "源函數",
-          "累积函數"
-        ],
         "relatedOverlays": [
           "簽名區域",
           "累積點"
@@ -447,10 +434,6 @@
         "relatedControls": [
           "上限"
         ],
-        "relatedGraphTabs": [
-          "源函數",
-          "累积函數"
-        ],
         "relatedOverlays": [
           "綁定指南",
           "累積點"
@@ -464,10 +447,6 @@
         "text": "直接比較 f(x) 和 A(x)：一個是邊界處的當前高度，另一個是到該邊界收集的總有符號面積。",
         "relatedControls": [
           "上限"
-        ],
-        "relatedGraphTabs": [
-          "源函數",
-          "累积函數"
         ],
         "relatedOverlays": [
           "簽名區域",

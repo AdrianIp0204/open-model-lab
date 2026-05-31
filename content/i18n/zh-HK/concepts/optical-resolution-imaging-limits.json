@@ -473,9 +473,6 @@
         "relatedControls": [
           "孔徑mm"
         ],
-        "relatedGraphTabs": [
-          "影像設定檔"
-        ],
         "relatedEquationVariables": [
           "光圈"
         ]
@@ -492,9 +489,6 @@
           "波長Nm",
           "孔徑mm",
           "分離Mrad"
-        ],
-        "relatedGraphTabs": [
-          "影像設定檔"
         ],
         "relatedEquationVariables": [
           "波長",
@@ -513,9 +507,6 @@
         "relatedControls": [
           "分離Mrad",
           "探針YUm"
-        ],
-        "relatedGraphTabs": [
-          "影像設定檔"
         ],
         "relatedEquationVariables": [
           "分離",
@@ -545,9 +536,6 @@
         "relatedControls": [
           "孔徑mm"
         ],
-        "relatedGraphTabs": [
-          "影像設定檔"
-        ],
         "relatedOverlays": [
           "光圈指南",
           "瑞利指南"
@@ -560,9 +548,6 @@
         "whyItMatters": "它將 λ 除以 D 轉化為可見的成像極限，而不是需要記住的公式。",
         "relatedControls": [
           "波長Nm"
-        ],
-        "relatedGraphTabs": [
-          "影像設定檔"
         ],
         "relatedOverlays": [
           "瑞利指南"
@@ -579,9 +564,6 @@
         "relatedControls": [
           "分離Mrad"
         ],
-        "relatedGraphTabs": [
-          "影像設定檔"
-        ],
         "relatedOverlays": [
           "元件設定檔",
           "瑞利指南"
@@ -594,10 +576,7 @@
         "id": "or-notice-graph",
         "text": "請注意，此圖是偵測器位置與曝光的關係，而非時間軌跡。將其懸停在當前影像平面上移動樣本。",
         "tryThis": "將輪廓懸停在中心凹陷附近，然後懸停在一個峰值附近，並比較即時探測器樣本讀數。",
-        "whyItMatters": "解析度存在於探測器的空間輪廓中，而不是存在於較晚與較早時間的故事中。",
-        "relatedGraphTabs": [
-          "影像設定檔"
-        ]
+        "whyItMatters": "解析度存在於探測器的空間輪廓中，而不是存在於較晚與較早時間的故事中。"
       },
       {
         "id": "or-notice-compare",
@@ -608,9 +587,6 @@
           "孔徑mm",
           "波長Nm",
           "分離Mrad"
-        ],
-        "relatedGraphTabs": [
-          "影像設定檔"
         ],
         "relatedOverlays": [
           "瑞利指南",

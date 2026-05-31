@@ -503,9 +503,6 @@
           "歐米茄",
           "半徑"
         ],
-        "relatedGraphTabs": [
-          "速度"
-        ],
         "relatedEquationVariables": [
           "歐米茄",
           "半徑"
@@ -522,10 +519,6 @@
         "relatedControls": [
           "半徑",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "預測",
-          "角度"
         ],
         "relatedEquationVariables": [
           "半徑",
@@ -544,9 +537,6 @@
           "歐米茄",
           "半徑"
         ],
-        "relatedGraphTabs": [
-          "速度"
-        ],
         "relatedEquationVariables": [
           "歐米茄",
           "半徑"
@@ -563,9 +553,6 @@
         "relatedControls": [
           "歐米茄",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "角度"
         ],
         "relatedEquationVariables": [
           "歐米茄",
@@ -584,9 +571,6 @@
           "半徑",
           "歐米茄",
           "階段"
-        ],
-        "relatedGraphTabs": [
-          "預測"
         ],
         "relatedEquationVariables": [
           "半徑",
@@ -632,9 +616,6 @@
           "歐米茄",
           "半徑"
         ],
-        "relatedGraphTabs": [
-          "速度"
-        ],
         "relatedOverlays": [
           "速度向量"
         ]
@@ -659,9 +640,6 @@
         "text": "x 和 y 圖像是同一圓週運動的軸投影。",
         "tryThis": "打開投影參考線，然後擦洗圖像，使標記和投影座標保持同步。",
         "whyItMatters": "它是從圓週運動到簡諧振動的直接視覺橋樑。",
-        "relatedGraphTabs": [
-          "預測"
-        ],
         "relatedOverlays": [
           "投影指南"
         ],
@@ -679,10 +657,6 @@
         "relatedControls": [
           "歐米茄",
           "半徑"
-        ],
-        "relatedGraphTabs": [
-          "角度",
-          "速度"
         ]
       },
       {
@@ -690,11 +664,6 @@
         "text": "當您暫停並拖曳時，軌道位置、向量方向和圖像標記都描述同一時刻。",
         "tryThis": "暫停，單步執行一次，然後將粒子角度與 x 和 y 投影值進行比較。",
         "whyItMatters": "它將公式變成一種可檢查的狀態，而不是單獨的事實。",
-        "relatedGraphTabs": [
-          "預測",
-          "速度",
-          "角度"
-        ],
         "relatedOverlays": [
           "角度標記",
           "投影指南"
@@ -707,9 +676,6 @@
         "whyItMatters": "比較模式在不改變空間框架的情況下使時序差異變得明顯。",
         "relatedControls": [
           "歐米茄"
-        ],
-        "relatedGraphTabs": [
-          "角度"
         ],
         "relatedOverlays": [
           "角度標記"

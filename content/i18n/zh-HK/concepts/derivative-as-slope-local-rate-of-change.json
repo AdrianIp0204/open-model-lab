@@ -388,9 +388,6 @@
         "relatedControls": [
           "點X"
         ],
-        "relatedGraphTabs": [
-          "斜率函數"
-        ],
         "relatedEquationVariables": [
           "點-x"
         ]
@@ -406,9 +403,6 @@
         "relatedControls": [
           "德爾塔X",
           "顯示割線"
-        ],
-        "relatedGraphTabs": [
-          "差商"
         ],
         "relatedEquationVariables": [
           "德爾塔-x",
@@ -426,9 +420,6 @@
         "relatedControls": [
           "點X",
           "德爾塔X"
-        ],
-        "relatedGraphTabs": [
-          "差商"
         ],
         "relatedEquationVariables": [
           "點-x",
@@ -463,9 +454,6 @@
         "relatedControls": [
           "點X"
         ],
-        "relatedGraphTabs": [
-          "斜率函數"
-        ],
         "relatedOverlays": [
           "切線"
         ],
@@ -478,9 +466,6 @@
         "text": "縮小 Δx 並將割線斜率與切線斜率進行比較。平均費率接近當地費率。",
         "relatedControls": [
           "德爾塔X"
-        ],
-        "relatedGraphTabs": [
-          "差商"
         ],
         "relatedOverlays": [
           "德爾塔指南",
@@ -495,9 +480,6 @@
         "text": "將導數圖解讀為斜率圖：正值表示上升，負值表示下降，零表示平切線。",
         "relatedControls": [
           "點X"
-        ],
-        "relatedGraphTabs": [
-          "斜率函數"
         ],
         "relatedOverlays": [
           "切線"

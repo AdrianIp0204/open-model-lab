@@ -498,10 +498,6 @@
         "relatedControls": [
           "加熱器功率"
         ],
-        "relatedGraphTabs": [
-          "溫度歷史記錄",
-          "能量擊穿"
-        ],
         "relatedEquationVariables": [
           "加熱器功率"
         ]
@@ -516,9 +512,6 @@
         "whyItMatters": "它將溫度與可見粒子運動聯繫起來，而不是將溫度視為斷開的儀表。",
         "relatedControls": [
           "起始溫度"
-        ],
-        "relatedGraphTabs": [
-          "溫度歷史記錄"
         ],
         "relatedEquationVariables": [
           "起始溫度"
@@ -537,10 +530,6 @@
           "加熱器功率",
           "起始溫度"
         ],
-        "relatedGraphTabs": [
-          "能量擊穿",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedEquationVariables": [
           "粒子計數",
           "加熱器功率",
@@ -558,10 +547,6 @@
         "relatedControls": [
           "粒子計數",
           "起始溫度"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
         ],
         "relatedEquationVariables": [
           "粒子計數",
@@ -613,9 +598,23 @@
           "粒子計數",
           "起始溫度"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "能量擊穿"
+        "relatedOverlays": [
+          "粒子計數器",
+          "能量分裂"
+        ],
+        "relatedEquationVariables": [
+          "粒子計數",
+          "起始溫度"
+        ]
+      },
+      {
+        "id": "tie-notice-compare-mode",
+        "text": "比較模式在設定 A 和設定 B 保持相近溫度、但粒子數不同時最有用。這樣便能把平均運動和總內能這個核心差別分開。",
+        "tryThis": "把「小而暖的樣本」複製到比較模式，只提高設定 B 的粒子數，然後觀察實線與虛線讀數如何分開。",
+        "whyItMatters": "它可以讓您一次測試一個因果變化，而不會失去即時粒子圖片。",
+        "relatedControls": [
+          "粒子計數",
+          "起始溫度"
         ],
         "relatedOverlays": [
           "粒子計數器",
@@ -635,10 +634,6 @@
           "粒子計數",
           "起始溫度"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "能量擊穿"
-        ],
         "relatedOverlays": [
           "粒子計數器",
           "能量分裂"
@@ -657,10 +652,6 @@
           "粒子計數",
           "起始溫度"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "能量擊穿"
-        ],
         "relatedOverlays": [
           "粒子計數器",
           "能量分裂"
@@ -678,32 +669,6 @@
         "relatedControls": [
           "粒子計數",
           "起始溫度"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "能量擊穿"
-        ],
-        "relatedOverlays": [
-          "粒子計數器",
-          "能量分裂"
-        ],
-        "relatedEquationVariables": [
-          "粒子計數",
-          "起始溫度"
-        ]
-      },
-      {
-        "id": "tie-notice-compare-mode",
-        "text": "比較模式在設定 A 和設定 B 保持相近溫度、但粒子數不同時最有用。這樣便能把平均運動和總內能這個核心差別分開。",
-        "tryThis": "把「小而暖的樣本」複製到比較模式，只提高設定 B 的粒子數，然後觀察實線與虛線讀數如何分開。",
-        "whyItMatters": "它可以讓您一次測試一個因果變化，而不會失去即時粒子圖片。",
-        "relatedControls": [
-          "粒子計數",
-          "起始溫度"
-        ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "能量擊穿"
         ],
         "relatedOverlays": [
           "粒子計數器",
@@ -722,10 +687,6 @@
         "relatedControls": [
           "粒子計數"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。",
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "粒子計數器",
           "能量分裂"
@@ -743,9 +704,6 @@
           "粒子計數",
           "加熱器功率"
         ],
-        "relatedGraphTabs": [
-          "用這個步驟把模擬、圖像和概念連接起來。"
-        ],
         "relatedOverlays": [
           "粒子計數器"
         ],
@@ -762,10 +720,6 @@
         "relatedControls": [
           "加熱器功率"
         ],
-        "relatedGraphTabs": [
-          "溫度歷史記錄",
-          "能量擊穿"
-        ],
         "relatedOverlays": [
           "相架",
           "能量分裂"
@@ -781,10 +735,6 @@
         "whyItMatters": "它阻止了在每次比較中更熱總是意味著更多總能量的捷徑。",
         "relatedControls": [
           "起始溫度"
-        ],
-        "relatedGraphTabs": [
-          "溫度歷史記錄",
-          "能量擊穿"
         ],
         "relatedOverlays": [
           "運動向量",

@@ -303,9 +303,6 @@
         "relatedControls": [
           "食譜A",
           "食譜B"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ]
       },
       {
@@ -319,9 +316,6 @@
         "relatedControls": [
           "反應物A量",
           "反應物B量"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ]
       },
       {
@@ -334,9 +328,6 @@
         "whyItMatters": "它讓你一眼看出哪些原本可達的產物並沒有真正生成。",
         "relatedControls": [
           "产量百分比"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ]
       }
     ]
@@ -376,9 +367,6 @@
           "反應物B量",
           "产量百分比"
         ],
-        "relatedGraphTabs": [
-          "概念標籤"
-        ],
         "relatedOverlays": [
           "食譜卡",
           "產量差距"
@@ -394,9 +382,6 @@
         "text": "當產率下降時，理論標記與實際託盤之間的差距會擴大。",
         "relatedControls": [
           "产量百分比"
-        ],
-        "relatedGraphTabs": [
-          "概念標籤"
         ],
         "relatedOverlays": [
           "產量差距"

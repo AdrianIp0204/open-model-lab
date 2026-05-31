@@ -426,9 +426,6 @@
           "垂直縮放",
           "鏡子Y"
         ],
-        "relatedGraphTabs": [
-          "函數圖"
-        ],
         "relatedEquationVariables": [
           "鏡像輸入",
           "水平移動"
@@ -446,10 +443,6 @@
           "水平移動",
           "垂直移位",
           "垂直縮放"
-        ],
-        "relatedGraphTabs": [
-          "函數圖",
-          "概念標籤"
         ],
         "relatedEquationVariables": [
           "水平移動",
@@ -469,9 +462,6 @@
           "水平移動",
           "垂直移位",
           "垂直縮放"
-        ],
-        "relatedGraphTabs": [
-          "函數圖"
         ],
         "relatedEquationVariables": [
           "水平移動",
@@ -507,9 +497,6 @@
         "relatedControls": [
           "水平移動"
         ],
-        "relatedGraphTabs": [
-          "函數圖"
-        ],
         "relatedOverlays": [
           "頂點標記",
           "移位指南"
@@ -525,10 +512,6 @@
           "垂直縮放",
           "垂直移位"
         ],
-        "relatedGraphTabs": [
-          "函數圖",
-          "概念標籤"
-        ],
         "relatedEquationVariables": [
           "垂直比例",
           "垂直移位"
@@ -540,9 +523,6 @@
         "relatedControls": [
           "鏡子Y",
           "水平移動"
-        ],
-        "relatedGraphTabs": [
-          "函數圖"
         ],
         "relatedOverlays": [
           "參考曲線",

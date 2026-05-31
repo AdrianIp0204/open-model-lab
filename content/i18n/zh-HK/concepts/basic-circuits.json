@@ -528,9 +528,6 @@
           "電阻B",
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "目前地圖"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "電阻A",
@@ -551,9 +548,6 @@
           "電阻B",
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "均壓"
-        ],
         "relatedEquationVariables": [
           "電壓",
           "電阻A",
@@ -572,9 +566,6 @@
           "平行模式",
           "電阻A",
           "電阻B"
-        ],
-        "relatedGraphTabs": [
-          "均壓"
         ],
         "relatedEquationVariables": [
           "電阻A",
@@ -611,9 +602,6 @@
         "relatedControls": [
           "電壓"
         ],
-        "relatedGraphTabs": [
-          "目前地圖"
-        ],
         "relatedOverlays": [
           "目前箭頭"
         ],
@@ -630,9 +618,6 @@
           "電阻A",
           "電阻B",
           "平行模式"
-        ],
-        "relatedGraphTabs": [
-          "目前地圖"
         ],
         "relatedOverlays": [
           "目前箭頭"
@@ -651,9 +636,6 @@
           "平行模式",
           "電阻B"
         ],
-        "relatedGraphTabs": [
-          "均壓"
-        ],
         "relatedOverlays": [
           "電壓下降",
           "節點指南"
@@ -671,10 +653,6 @@
         "relatedControls": [
           "平行模式"
         ],
-        "relatedGraphTabs": [
-          "目前地圖",
-          "均壓"
-        ],
         "relatedOverlays": [
           "目前箭頭",
           "節點指南"
@@ -687,10 +665,6 @@
         "whyItMatters": "這將拓樸隔離為因果變化，而不是同時將拓樸變化與電阻變化混合在一起。",
         "relatedControls": [
           "平行模式"
-        ],
-        "relatedGraphTabs": [
-          "目前地圖",
-          "均壓"
         ],
         "relatedOverlays": [
           "目前箭頭",

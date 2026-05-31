@@ -424,9 +424,6 @@
           "反應物數量",
           "產品數量"
         ],
-        "relatedGraphTabs": [
-          "匯率餘額"
-        ],
         "relatedEquationVariables": [
           "反應物量",
           "產品數量"
@@ -444,9 +441,6 @@
           "反應物數量",
           "產品數量"
         ],
-        "relatedGraphTabs": [
-          "匯率餘額"
-        ],
         "relatedEquationVariables": [
           "反應物量",
           "產品數量"
@@ -462,10 +456,6 @@
         "whyItMatters": "它使 Le Chatelier 轉變可視為朝向新平衡的運動。",
         "relatedControls": [
           "產品收藏"
-        ],
-        "relatedGraphTabs": [
-          "濃度歷史",
-          "均衡份額"
         ],
         "relatedEquationVariables": [
           "產品青睞"
@@ -525,10 +515,6 @@
         "id": "de-notice-le-chatelier",
         "text": "擾動後，速率首先分離，然後混合物發生變化，直到後來速率才恢復到一起。",
         "tryThis": "套用預設，然後切換到相反的偏好設定並觀察速率圖和濃度圖，直到達到新的平衡。",
-        "relatedGraphTabs": [
-          "匯率餘額",
-          "濃度歷史"
-        ],
         "relatedOverlays": [
           "平衡條",
           "目標帶"

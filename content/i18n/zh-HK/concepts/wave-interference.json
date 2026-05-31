@@ -506,9 +506,6 @@
           "探針Y",
           "波長"
         ],
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedEquationVariables": [
           "探針Y",
           "波長"
@@ -526,10 +523,6 @@
           "振幅A",
           "振幅B",
           "相位偏移"
-        ],
-        "relatedGraphTabs": [
-          "位移",
-          "圖案"
         ],
         "relatedEquationVariables": [
           "振幅A",
@@ -550,10 +543,6 @@
           "波長",
           "振幅A",
           "振幅B"
-        ],
-        "relatedGraphTabs": [
-          "圖案",
-          "位移"
         ],
         "relatedEquationVariables": [
           "相位偏移",
@@ -592,10 +581,6 @@
         "relatedControls": [
           "探針Y"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "圖案"
-        ],
         "relatedOverlays": [
           "結果信封"
         ]
@@ -605,9 +590,6 @@
         "text": "請注意，將滑鼠停留在模式圖上會將即時探針移動到相同的螢幕高度。圖像和階段連結到同一點。",
         "tryThis": "將滑鼠懸停在明亮的峰值上，然後將滑鼠懸停在黑暗的山谷上，然後比較探頭處的組合幅度指南。",
         "whyItMatters": "它使圖像、幾何圖像和探針運動保持同步。",
-        "relatedGraphTabs": [
-          "圖案"
-        ],
         "relatedOverlays": [
           "路徑差異",
           "結果信封"
@@ -621,9 +603,6 @@
         "relatedControls": [
           "波長",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "圖案"
         ],
         "relatedEquationVariables": [
           "波長",
@@ -640,10 +619,6 @@
           "振幅B",
           "相位偏移"
         ],
-        "relatedGraphTabs": [
-          "位移",
-          "圖案"
-        ],
         "relatedOverlays": [
           "結果信封",
           "相輪"
@@ -654,10 +629,6 @@
         "text": "請注意，時間軌道會改變瞬時探頭運動，但模式圖保持不變，因為強度是一段時間內的平均值，而不是時間軌跡。",
         "tryThis": "暫停在探針圖上，向前一步，然後將探針處的變化與模式視圖中保持固定的內容進行比較。",
         "whyItMatters": "這將瞬時位移與時間平均干涉圖案分開。",
-        "relatedGraphTabs": [
-          "位移",
-          "圖案"
-        ],
         "relatedOverlays": [
           "結果信封"
         ]
@@ -670,9 +641,6 @@
         "relatedControls": [
           "波長",
           "探針Y"
-        ],
-        "relatedGraphTabs": [
-          "圖案"
         ],
         "relatedOverlays": [
           "路徑差異"
