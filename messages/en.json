@@ -4837,7 +4837,18 @@
     "hero": {
       "eyebrow": "Account",
       "title": "Signing in is optional. Supporter is a separate plan.",
-      "description": "Stay signed out with local progress, or sign in to sync core learning progress across devices. Supporter adds saved study tools and ad-free browsing without changing the free learning model."
+      "description": "Stay signed out with local progress, or sign in to sync core learning progress across devices. Supporter adds saved study tools and ad-free browsing without changing the free learning model.",
+      "accountFallback": "this account",
+      "signedInFree": {
+        "eyebrow": "Signed-in account",
+        "title": "Signed in on the free tier.",
+        "description": "Core learning progress is syncing through {email}. Open the dashboard to continue, or upgrade to Supporter when you want saved study tools, exact-state sharing, richer review, and ad-free browsing."
+      },
+      "signedInPremium": {
+        "eyebrow": "Supporter account",
+        "title": "Supporter is active for this signed-in account.",
+        "description": "Core learning progress is syncing through {email}. Saved study tools, exact-state sharing, richer review, and ad-free browsing are available; use Account to manage billing or open the dashboard to continue."
+      }
     },
     "panel": {
       "loading": {

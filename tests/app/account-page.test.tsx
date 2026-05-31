@@ -80,12 +80,13 @@ describe("account page", () => {
     mocks.getAccountSessionForCookieHeaderMock.mockReset();
   });
 
-  it("passes the route lead-in and account preload state into the account panel", async () => {
+  it("passes the signed-in free route lead-in and account preload state into the account panel", async () => {
     mocks.cookiesMock.mockResolvedValue({
       toString: () => "sb-auth=1",
     });
     mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue({
       user: { email: "student@example.com" },
+      entitlement: { tier: "free" },
     });
 
     render(
@@ -100,8 +101,11 @@ describe("account page", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /signing in is optional\. supporter is a separate plan\./i,
+        name: /signed in on the free tier\./i,
       }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/core learning progress is syncing through student@example\.com/i),
     ).toBeInTheDocument();
     expect(screen.getByText("Auth state: expired")).toBeInTheDocument();
     expect(screen.getByText("Next path: /dashboard")).toBeInTheDocument();
@@ -128,5 +132,29 @@ describe("account page", () => {
     expect(screen.getByText("Auth state: none")).toBeInTheDocument();
     expect(screen.getByText("Auth mode: supabase")).toBeInTheDocument();
     expect(screen.getByText("Session: signed-out")).toBeInTheDocument();
+  });
+
+  it("renders the localized signed-in Supporter route lead-in in zh-HK", async () => {
+    globalThis.__TEST_LOCALE__ = "zh-HK";
+    mocks.cookiesMock.mockResolvedValue({
+      toString: () => "open-model-lab-dev-account=signed-in-premium",
+    });
+    mocks.getAccountSessionForCookieHeaderMock.mockResolvedValue({
+      user: { email: "premium.fixture@openmodellab.local" },
+      entitlement: { tier: "premium" },
+    });
+
+    render(await AccountPage({ localeOverride: "zh-HK" }));
+
+    expect(
+      screen.getByRole("heading", {
+        level: 1,
+        name: zhHkMessages.AccountPage.hero.signedInPremium.title,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/核心學習進度正透過 premium\.fixture@openmodellab\.local/),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Session: premium.fixture@openmodellab.local")).toBeInTheDocument();
   });
 });

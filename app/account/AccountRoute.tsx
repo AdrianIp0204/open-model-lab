@@ -14,6 +14,7 @@ import { buildPageMetadata } from "@/lib/metadata";
 import { getAccountRouteMetadataCopy } from "@/lib/metadata/account-routes";
 
 type SearchParamsInput = Record<string, string | string[] | undefined>;
+type AccountLeadInState = "signed-out" | "signed-in-free" | "signed-in-premium";
 
 function getSearchParamValue(
   searchParams: SearchParamsInput | undefined,
@@ -49,6 +50,48 @@ function toSearchParamString(searchParams: SearchParamsInput | undefined) {
   }
 
   return query.toString();
+}
+
+function resolveAccountLeadInState(
+  session: AccountSession | null,
+): AccountLeadInState {
+  if (!session?.user) {
+    return "signed-out";
+  }
+
+  return session.entitlement?.tier === "premium" ? "signed-in-premium" : "signed-in-free";
+}
+
+function getAccountLeadInCopy(
+  t: Awaited<ReturnType<typeof getScopedTranslator>>,
+  state: AccountLeadInState,
+  session: AccountSession | null,
+) {
+  if (state === "signed-in-premium") {
+    return {
+      eyebrow: t("hero.signedInPremium.eyebrow"),
+      title: t("hero.signedInPremium.title"),
+      description: t("hero.signedInPremium.description", {
+        email: session?.user?.email ?? t("hero.accountFallback"),
+      }),
+    };
+  }
+
+  if (state === "signed-in-free") {
+    return {
+      eyebrow: t("hero.signedInFree.eyebrow"),
+      title: t("hero.signedInFree.title"),
+      description: t("hero.signedInFree.description", {
+        email: session?.user?.email ?? t("hero.accountFallback"),
+      }),
+    };
+  }
+
+  return {
+    eyebrow: t("hero.eyebrow"),
+    title: t("hero.title"),
+    description: t("hero.description"),
+  };
 }
 
 export async function buildAccountMetadata(locale: AppLocale): Promise<Metadata> {
@@ -103,6 +146,12 @@ export default async function AccountPage({
     });
   }
 
+  const leadInCopy = getAccountLeadInCopy(
+    t,
+    resolveAccountLeadInState(initialSession),
+    initialSession,
+  );
+
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <PageShell
@@ -123,9 +172,9 @@ export default async function AccountPage({
           leadIn={
             <SectionHeading
               level={1}
-              eyebrow={t("hero.eyebrow")}
-              title={t("hero.title")}
-              description={t("hero.description")}
+              eyebrow={leadInCopy.eyebrow}
+              title={leadInCopy.title}
+              description={leadInCopy.description}
             />
           }
         />
