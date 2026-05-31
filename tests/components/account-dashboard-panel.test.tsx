@@ -224,6 +224,14 @@ describe("AccountDashboardPanel", () => {
     );
 
     expect(screen.getByText(/welcome back, lab student/i)).toBeInTheDocument();
+    expect(screen.getByTestId("dashboard-first-move")).toHaveTextContent(/start learning/i);
+    expect(screen.getByTestId("dashboard-first-primary-action")).toHaveAttribute(
+      "href",
+      "/concepts",
+    );
+    expect(screen.getByTestId("dashboard-first-signal")).toHaveTextContent(
+      /1 saved concept record/i,
+    );
     expect(screen.getByText(/signed in as student@example.com/i)).toBeInTheDocument();
     expect(screen.getByText(/syncs with this account across devices/i)).toBeInTheDocument();
     expect(screen.getByText("Supporter notice")).toBeInTheDocument();
@@ -355,10 +363,11 @@ describe("AccountDashboardPanel", () => {
     expect(screen.getByText("Review queue surface")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Achievement snapshot" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Learning analytics" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Open analytics" })).toHaveAttribute(
-      "href",
-      "/dashboard/analytics",
-    );
+    expect(
+      screen
+        .getAllByRole("link", { name: "Open analytics" })
+        .some((link) => link.getAttribute("href") === "/dashboard/analytics"),
+    ).toBe(true);
     const nav = screen.getByRole("navigation", { name: "Dashboard sections" });
     expect(
       within(nav).getByRole("link", { name: "Checkpoint history and mastery trends" }),
@@ -381,10 +390,11 @@ describe("AccountDashboardPanel", () => {
         .some((link) => link.getAttribute("href") === "/account/study-plans"),
     ).toBe(true);
     expect(screen.getByText("5 hours milestone")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Resume synced concept" })).toHaveAttribute(
-      "href",
-      "/concepts/projectile-motion",
-    );
+    expect(
+      screen
+        .getAllByRole("link", { name: "Resume synced concept" })
+        .some((link) => link.getAttribute("href") === "/concepts/projectile-motion"),
+    ).toBe(true);
   });
 
   it("shows the scheduled-cancellation date in the dashboard billing status", () => {

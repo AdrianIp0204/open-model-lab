@@ -1,5 +1,29 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-062 Dashboard And Analytics First Viewports
+
+Current state: `OML-QA-062` is complete. Phone dashboard and analytics openings now answer the next-action question before heavier account or methodology copy: `/dashboard` starts with a compact first-move panel, premium `/dashboard/analytics` starts with a next-step analytics preview, and free locked `/dashboard/analytics` is padded correctly and leads with the free sync state plus dashboard/pricing actions.
+
+### Files Changed
+
+- `components/account/AccountDashboardPanel.tsx` and `app/dashboard/DashboardRoute.tsx`: add a compact dashboard first-move panel before the account overview grid and shorten the signed-in dashboard lead-in.
+- `components/account/LearningAnalyticsPanel.tsx` and `app/dashboard/analytics/DashboardAnalyticsRoute.tsx`: add a premium analytics next-action/signal preview, shorten the analytics hero, and move the free locked route back into a contained padded shell.
+- `messages/en.json` and `messages/zh-HK.json`: add localized first-move, locked analytics, and shorter dashboard/analytics hero copy.
+- `tests/e2e/dashboard-first-viewport.spec.ts`: verifies signed-in free and premium phone `/dashboard` and `/dashboard/analytics` first viewports, no left-edge clipping, no horizontal overflow, and writes QA screenshots.
+- Existing route/component/E2E tests were updated for the new first-action copy and current signed-out account smoke expectation.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `pnpm exec vitest run tests/components/account-dashboard-panel.test.tsx tests/components/learning-analytics-panel.test.tsx tests/app/dashboard-page.test.tsx tests/app/dashboard-analytics-page.test.tsx --reporter=dot`: passed, 30/30.
+- `pnpm exec playwright test tests/e2e/dashboard-first-viewport.spec.ts --reporter=line`: passed, 4/4.
+- `pnpm exec playwright test tests/e2e/site-smoke.spec.ts --reporter=line`: passed, 6/6.
+- `pnpm exec playwright test tests/e2e/premium-checkpoint-history.spec.ts --reporter=line`: passed, 1/1.
+- `pnpm lint -- app/dashboard/DashboardRoute.tsx app/dashboard/analytics/DashboardAnalyticsRoute.tsx components/account/AccountDashboardPanel.tsx components/account/LearningAnalyticsPanel.tsx tests/components/account-dashboard-panel.test.tsx tests/components/learning-analytics-panel.test.tsx tests/app/dashboard-page.test.tsx tests/app/dashboard-analytics-page.test.tsx tests/e2e/dashboard-first-viewport.spec.ts tests/e2e/site-smoke.spec.ts tests/e2e/premium-checkpoint-history.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- Screenshot artifacts: `output/playwright/qa/oml-qa-062-free-dashboard-phone.png`, `output/playwright/qa/oml-qa-062-premium-dashboard-phone.png`, `output/playwright/qa/oml-qa-062-free-analytics-phone.png`, and `output/playwright/qa/oml-qa-062-premium-analytics-phone.png`.
+
 ## 2026-05-31 OML-QA-061 Section Navigation Labels And Targets
 
 Current state: `OML-QA-061` is complete. Account, dashboard, and analytics section navigation now uses the current surface label on mobile, has explicit 46px minimum visible nav controls, and the desktop rail no longer exposes the long `Jump within...` helper copy as cramped visible text. The analytics route now provides locale messages around the analytics panel so zh-HK section-nav copy resolves consistently.

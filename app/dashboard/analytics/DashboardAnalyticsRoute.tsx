@@ -103,7 +103,7 @@ export default async function DashboardAnalyticsPage({
       return (
         <NextIntlClientProvider locale={locale} messages={messages}>
           <PageShell
-            layoutMode="section-shell"
+            layoutMode="contained"
             feedbackContext={{
               pageType: "other",
               pagePath: "/dashboard/analytics",
@@ -117,10 +117,62 @@ export default async function DashboardAnalyticsPage({
                 eyebrow={t("premiumLocked.eyebrow")}
                 title={t("premiumLocked.title")}
                 description={t("premiumLocked.description")}
+                density="dense"
               />
 
-              <section className="lab-panel p-6">
-                <p className="text-sm leading-6 text-ink-700">
+              <section
+                data-testid="analytics-locked-first-move"
+                className="lab-panel p-5 sm:p-6"
+              >
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="lab-label">{t("premiumLocked.firstMove.label")}</p>
+                    <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+                      {t("premiumLocked.firstMove.title")}
+                    </h2>
+                    <p className="mt-2 max-w-3xl text-sm leading-6 text-ink-700">
+                      {t("premiumLocked.firstMove.body", { email: session.user.email })}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 flex-col gap-2 sm:items-end">
+                    <Link
+                      href="/dashboard"
+                      data-testid="analytics-locked-primary-action"
+                      className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold transition hover:opacity-90 sm:w-auto"
+                      style={{ color: "var(--paper-strong)" }}
+                    >
+                      {t("premiumLocked.actions.backToDashboard")}
+                    </Link>
+                    <Link
+                      href="/pricing#compare"
+                      className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-line bg-paper px-5 py-2.5 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white sm:w-auto"
+                    >
+                      {t("premiumLocked.actions.compareSupporter")}
+                    </Link>
+                  </div>
+                </div>
+                <div
+                  data-testid="analytics-locked-first-signal"
+                  className="mt-4 grid gap-3 sm:grid-cols-2"
+                >
+                  <div className="rounded-[20px] border border-line bg-paper px-4 py-3">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+                      {t("premiumLocked.firstMove.signals.tier")}
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-ink-950">
+                      {t("premiumLocked.firstMove.signals.freeTier")}
+                    </p>
+                  </div>
+                  <div className="rounded-[20px] border border-line bg-paper px-4 py-3">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+                      {t("premiumLocked.firstMove.signals.sync")}
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-ink-950">
+                      {t("premiumLocked.firstMove.signals.syncAvailable")}
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-4 text-sm leading-6 text-ink-700">
                   {t("premiumLocked.body")}
                 </p>
                 <PremiumFeatureNotice
@@ -130,14 +182,6 @@ export default async function DashboardAnalyticsPage({
                   description={t("premiumLocked.notice.description")}
                   showSignInCta={false}
                 />
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link
-                    href="/dashboard"
-                    className="inline-flex items-center rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
-                  >
-                    {t("premiumLocked.actions.backToDashboard")}
-                  </Link>
-                </div>
                 <PremiumSubscriptionActions
                   className="mt-5"
                   context="account"
@@ -293,6 +337,7 @@ export default async function DashboardAnalyticsPage({
                 eyebrow={t("hero.eyebrow")}
                 title={t("hero.title")}
                 description={t("hero.description")}
+                density="dense"
               />
             }
           />

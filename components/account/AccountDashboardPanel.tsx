@@ -315,6 +315,76 @@ function AchievementSnapshotCard({
   );
 }
 
+function DashboardFirstMovePanel({
+  label,
+  title,
+  note,
+  href,
+  actionLabel,
+  syncLabel,
+  syncStatus,
+  recordLabel,
+  secondaryAction,
+}: {
+  label: string;
+  title: string;
+  note: string;
+  href: string;
+  actionLabel: string;
+  syncLabel: string;
+  syncStatus: string;
+  recordLabel: string;
+  secondaryAction?: {
+    href: string;
+    label: string;
+  } | null;
+}) {
+  return (
+    <div data-testid="dashboard-first-move" className="lab-panel p-4 sm:p-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <p className="lab-label">{label}</p>
+          <h2 className="mt-2 text-xl font-semibold text-ink-950 sm:text-2xl">
+            {title}
+          </h2>
+          <p className="mt-2 line-clamp-2 max-w-3xl text-sm leading-6 text-ink-700 sm:line-clamp-none">
+            {note}
+          </p>
+          <div
+            data-testid="dashboard-first-signal"
+            className="mt-3 flex flex-wrap gap-2 text-xs font-semibold text-ink-700"
+          >
+            <span className="rounded-full border border-line bg-paper px-3 py-1">
+              {syncLabel}: {syncStatus}
+            </span>
+            <span className="rounded-full border border-line bg-paper px-3 py-1">
+              {recordLabel}
+            </span>
+          </div>
+        </div>
+        <div className="flex shrink-0 flex-col gap-2 sm:items-end">
+          <Link
+            href={href}
+            data-testid="dashboard-first-primary-action"
+            className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold transition hover:opacity-90 sm:w-auto"
+            style={{ color: "var(--paper-strong)" }}
+          >
+            {actionLabel}
+          </Link>
+          {secondaryAction ? (
+            <Link
+              href={secondaryAction.href}
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-line bg-paper px-5 py-2.5 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white sm:w-auto"
+            >
+              {secondaryAction.label}
+            </Link>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AccountDashboardPanel({
   initialSession,
   concepts,
@@ -368,6 +438,7 @@ export function AccountDashboardPanel({
     [concepts, guidedCollections, locale, progressDisplay.snapshot, starterTracks],
   );
   const conceptCount = Object.keys(progressSnapshot.concepts).length;
+  const savedConceptCount = Object.keys(progressDisplay.snapshot.concepts).length;
   const isRedirectingToAccount =
     session.initialized && session.status === "signed-out";
 
@@ -489,6 +560,45 @@ export function AccountDashboardPanel({
       : progressDisplay.source === "synced"
         ? t("guidedAssignments.progressSource.synced")
         : t("guidedAssignments.progressSource.local");
+  const premiumReviewFirstMove = premiumAdaptiveReview.items[0] ?? null;
+  const freeTierFirstMove = freeTierRecap.nextPrompts[0] ?? null;
+  const dashboardFirstMove = syncedPrimaryConcept
+    ? {
+        label: t("firstMove.labels.syncedHandoff"),
+        title: syncedPrimaryConceptTitle ?? syncedPrimaryConcept.title,
+        note: t("firstMove.notes.syncedHandoff"),
+        href: `/concepts/${syncedPrimaryConcept.slug}`,
+        actionLabel: t("premiumShortcuts.syncedHandoff.action"),
+      }
+    : isPremium && premiumReviewFirstMove
+      ? {
+          label: t("firstMove.labels.supporterReview"),
+          title: getConceptDisplayTitle(premiumReviewFirstMove.concept, locale),
+          note: t("firstMove.notes.supporterReview"),
+          href: premiumReviewFirstMove.primaryAction.href,
+          actionLabel: premiumReviewFirstMove.primaryAction.label,
+        }
+      : !isPremium && freeTierFirstMove
+        ? {
+            label: t("firstMove.labels.freePrompt"),
+            title: freeTierFirstMove.title,
+            note: t("firstMove.notes.freePrompt"),
+            href: freeTierFirstMove.href,
+            actionLabel: freeTierFirstMove.actionLabel,
+          }
+        : {
+            label: t("firstMove.labels.freshStart"),
+            title: t("firstMove.fallback.title"),
+            note: t("firstMove.fallback.note"),
+            href: "/concepts",
+            actionLabel: t("overview.actions.browseConcepts"),
+          };
+  const dashboardFirstMoveSecondaryAction = isPremium
+    ? {
+        href: "/dashboard/analytics",
+        label: t("learningAnalytics.actions.open"),
+      }
+    : null;
   const sectionNavItems = [
     {
       id: "dashboard-overview",
@@ -558,14 +668,29 @@ export function AccountDashboardPanel({
         items: sectionNavItems,
       }}
     >
-      {leadIn ? <div className="mb-6 space-y-3 sm:mb-8">{leadIn}</div> : null}
+      {leadIn ? <div className="mb-4 space-y-3 sm:mb-6">{leadIn}</div> : null}
       <div className="space-y-8">
         <PageSection
           id="dashboard-overview"
           as="section"
-          className="grid gap-4 xl:grid-cols-[minmax(0,1.06fr)_minmax(22rem,0.94fr)]"
+          className="space-y-4"
         >
-        <div className="lab-panel p-6">
+          <DashboardFirstMovePanel
+            label={dashboardFirstMove.label}
+            title={dashboardFirstMove.title}
+            note={dashboardFirstMove.note}
+            href={dashboardFirstMove.href}
+            actionLabel={dashboardFirstMove.actionLabel}
+            syncLabel={t("firstMove.signals.sync")}
+            syncStatus={getSyncLabel(syncState.mode, translate)}
+            recordLabel={t("firstMove.signals.savedRecords", {
+              count: savedConceptCount,
+            })}
+            secondaryAction={dashboardFirstMoveSecondaryAction}
+          />
+
+          <div className="grid gap-4 xl:grid-cols-[minmax(0,1.06fr)_minmax(22rem,0.94fr)]">
+        <div className="lab-panel p-5 sm:p-6">
           <div className="flex flex-wrap items-center gap-2">
             <span className="lab-label">{t("overview.label")}</span>
             <span
@@ -939,6 +1064,7 @@ export function AccountDashboardPanel({
             </section>
           )}
         </aside>
+          </div>
         </PageSection>
 
         <PageSection

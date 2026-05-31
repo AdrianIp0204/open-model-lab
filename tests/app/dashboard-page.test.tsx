@@ -221,7 +221,7 @@ describe("DashboardPage", () => {
     render(page);
 
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
-    expect(screen.getByText("Signed-in home")).toBeInTheDocument();
+    expect(screen.getByText("Your next learning move")).toBeInTheDocument();
     expect(screen.getByText("Dashboard panel for student@example.com")).toBeInTheDocument();
     expect(screen.getByText("Achievement snapshot categories: 1")).toBeInTheDocument();
     expect(screen.getByText("Saved assignments: 1")).toBeInTheDocument();

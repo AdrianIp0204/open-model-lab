@@ -115,9 +115,10 @@ test("renders premium checkpoint history and mastery trends from synced progress
   await expect(page).toHaveURL(/\/dashboard\/analytics#checkpoint-history$/);
   await expect(
     page.getByRole("heading", {
-      name: "Review your saved learning signals without leaving the real product routes.",
+      name: "Supporter analytics",
     }),
   ).toBeVisible();
+  await expect(page.getByTestId("analytics-first-move")).toBeVisible();
   const analyticsHistory = page.getByRole("region", {
     name: "Checkpoint history and mastery trends",
   });

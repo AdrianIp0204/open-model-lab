@@ -260,6 +260,7 @@ export default async function DashboardPage({
             leadIn={
               <SectionHeading
                 level={1}
+                density="dense"
                 eyebrow={t("hero.eyebrow")}
                 title={t("hero.title")}
                 description={t("hero.description")}

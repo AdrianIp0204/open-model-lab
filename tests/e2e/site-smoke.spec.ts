@@ -88,10 +88,10 @@ test("renders pricing, signed-out account, and contact flows cleanly", async ({ 
   await gotoAndExpectOk(page, "/account");
   await expect(
     page.getByRole("heading", {
-      name: "Signing in is optional. Supporter is a separate plan.",
+      name: "Create account or sign in",
     }),
   ).toBeVisible();
-  await expect(page.getByRole("button", { name: "Email me a sign-in link" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Create account or send link" })).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "25% off first Supporter month" }),
   ).toHaveCount(0);
@@ -174,8 +174,11 @@ test("renders the signed-in free account flow and starts checkout from pricing",
 
   await gotoAndExpectOk(page, "/dashboard/analytics");
   await expect(
-    page.getByRole("heading", { name: "Supporter analytics are optional convenience features." }),
+    page.getByRole("heading", { name: "Supporter analytics" }),
   ).toBeVisible();
+  await expect(page.getByTestId("analytics-locked-first-signal")).toContainText(
+    "Progress sync",
+  );
   await expect(page.getByRole("link", { name: "Back to dashboard" })).toHaveAttribute(
     "href",
     /\/(?:[a-zA-Z-]+\/)?dashboard$/,
@@ -287,7 +290,7 @@ test("renders the signed-in premium account flow and exposes subscription manage
   await gotoAndExpectOk(page, "/dashboard");
   await expect(page.getByRole("heading", { name: "Achievement snapshot" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Learning analytics" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Open analytics" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Open analytics" }).first()).toHaveAttribute(
     "href",
     /\/(?:[a-zA-Z-]+\/)?dashboard\/analytics$/,
   );
@@ -300,9 +303,10 @@ test("renders the signed-in premium account flow and exposes subscription manage
   await gotoAndExpectOk(page, "/dashboard/analytics");
   await expect(
     page.getByRole("heading", {
-      name: "Review your saved learning signals without leaving the real product routes.",
+      name: "Supporter analytics",
     }),
   ).toBeVisible();
+  await expect(page.getByTestId("analytics-first-move")).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Saved activity, checkpoint momentum, and review pressure" }),
   ).toBeVisible();

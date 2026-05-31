@@ -208,9 +208,15 @@ describe("DashboardAnalyticsPage", () => {
 
     render(page);
 
-    expect(
-      screen.getByRole("heading", { name: "Supporter analytics are optional convenience features." }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Supporter analytics" })).toBeInTheDocument();
+    expect(screen.getByTestId("analytics-locked-first-move")).toBeInTheDocument();
+    expect(screen.getByTestId("analytics-locked-primary-action")).toHaveAttribute(
+      "href",
+      "/dashboard",
+    );
+    expect(screen.getByTestId("analytics-locked-first-signal")).toHaveTextContent(
+      /progress sync/i,
+    );
     expect(screen.getByText("Supporter notice")).toBeInTheDocument();
     expect(screen.getByText("Billing controls")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Back to dashboard" })).toHaveAttribute(
@@ -286,7 +292,7 @@ describe("DashboardAnalyticsPage", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: "Review your saved learning signals without leaving the real product routes.",
+        name: "Supporter analytics",
       }),
     ).toBeInTheDocument();
     expect(screen.getByText("Analytics panel for 1 next steps")).toBeInTheDocument();

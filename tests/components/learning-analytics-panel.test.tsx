@@ -298,6 +298,14 @@ describe("LearningAnalyticsPanel", () => {
         name: "A denser read on the progress you have already earned.",
       }),
     ).toBeInTheDocument();
+    expect(screen.getByTestId("analytics-first-move")).toHaveTextContent(/wave interference/i);
+    expect(screen.getByTestId("analytics-first-primary-action")).toHaveAttribute(
+      "href",
+      "/concepts/wave-interference",
+    );
+    expect(screen.getByTestId("analytics-first-signal")).toHaveTextContent(
+      /oscillations and waves/i,
+    );
     expect(
       screen.getByText(/synced progress is unavailable right now/i),
     ).toBeInTheDocument();
@@ -363,10 +371,11 @@ describe("LearningAnalyticsPanel", () => {
       "href",
       "/en/guided/waves-evidence-loop",
     );
-    expect(screen.getByRole("link", { name: "Resume concept" })).toHaveAttribute(
-      "href",
-      "/concepts/wave-interference",
-    );
+    expect(
+      screen
+        .getAllByRole("link", { name: "Resume concept" })
+        .some((link) => link.getAttribute("href") === "/concepts/wave-interference"),
+    ).toBe(true);
     expect(
       screen.getByRole("heading", {
         name: "Which topics your saved work has actually touched",
@@ -405,9 +414,7 @@ describe("LearningAnalyticsPanel", () => {
       />,
     );
 
-    expect(
-      screen.getByText(/尚未儲存.*快速測驗.*完成標記/u),
-    ).toBeInTheDocument();
+    expect(screen.getAllByText(/尚未儲存.*快速測驗.*完成標記/u).length).toBeGreaterThan(0);
     expect(
       screen.queryByText(
         "No finished quick test, solved challenge, or completion mark is saved yet.",

@@ -5366,8 +5366,8 @@
     },
     "hero": {
       "eyebrow": "Dashboard",
-      "title": "Signed-in home",
-      "description": "Open Model Lab keeps the signed-in dashboard compact: confirm account state, jump back into the product, and see whether this browser is on the free tier or Supporter plan."
+      "title": "Your next learning move",
+      "description": "Resume, review, or sync from one signed-in place."
     },
     "panel": {
       "redirect": {
@@ -5489,6 +5489,28 @@
         "premiumStatus": {
           "title": "Supporter status",
           "description": "Supporter remains a single entitlement in the app. Stripe can manage the subscription when it exists, while the dashboard keeps showing the same signed-in account state the rest of the product uses."
+        }
+      },
+      "firstMove": {
+        "labels": {
+          "syncedHandoff": "Synced handoff",
+          "supporterReview": "Review next",
+          "freePrompt": "Next saved signal",
+          "freshStart": "Start learning"
+        },
+        "notes": {
+          "syncedHandoff": "Your synced account progress already has a concrete concept ready to resume.",
+          "supporterReview": "Supporter review is pointing at the strongest next pressure point in your saved progress.",
+          "freePrompt": "This uses the same free progress snapshot that powers challenges, tracks, and continue-learning.",
+          "fallback": "Open the concept library to create the next saved progress signal."
+        },
+        "fallback": {
+          "title": "Start from a real learning surface.",
+          "note": "Open the concept library to create the next saved progress signal."
+        },
+        "signals": {
+          "sync": "Sync",
+          "savedRecords": "{count, plural, one {# saved concept record} other {# saved concept records}}"
         }
       },
       "sessionState": {
@@ -6629,21 +6651,33 @@
     },
     "hero": {
       "eyebrow": "Supporter analytics",
-      "title": "Review your saved learning signals without leaving the real product routes.",
-      "description": "These panels stay grounded in the same progress snapshot, checkpoint history, quick tests, challenge completions, and guided routes already used across the rest of Open Model Lab."
+      "title": "Supporter analytics",
+      "description": "Use saved progress to pick the next review or topic move."
     },
     "premiumLocked": {
       "eyebrow": "Supporter analytics",
-      "title": "Supporter analytics are optional convenience features.",
-      "description": "Signing in keeps sync available on free accounts; deeper analytics, checkpoint history, and adaptive review panels rely on the Supporter entitlement.",
-      "body": "You can keep learning on the free core product, but this page only opens once the Supporter entitlement is active on the current account.",
+      "title": "Supporter analytics",
+      "description": "Free accounts still sync progress. Upgrade only when you want deeper review history.",
+      "body": "You can keep learning on the free core product. Supporter adds this separate analytics page once the entitlement is active on the current account.",
+      "firstMove": {
+        "label": "Free account signal",
+        "title": "Progress sync is already available.",
+        "body": "{email} can keep syncing core learning progress from the dashboard; Supporter adds checkpoint history, adaptive review, and richer analytics on top.",
+        "signals": {
+          "tier": "Tier",
+          "freeTier": "Signed-in free",
+          "sync": "Progress sync",
+          "syncAvailable": "Available"
+        }
+      },
       "notice": {
         "title": "Supporter learning analytics",
         "freeDescription": "Sign in keeps progress sync available on free. Supporter adds the analytics and study-history layer on top of that same saved progress.",
         "description": "Upgrade when you want checkpoint history, adaptive review, stronger next-step guidance, and the richer account analytics view."
       },
       "actions": {
-        "backToDashboard": "Back to dashboard"
+        "backToDashboard": "Back to dashboard",
+        "compareSupporter": "Compare Supporter"
       }
     }
   },
@@ -6706,6 +6740,25 @@
         "premium": "Supporter",
         "ruleBased": "Rule-based",
         "savedProgressOnly": "Saved progress only"
+      }
+    },
+    "firstMove": {
+      "label": "Do this next",
+      "fallbackTitle": "Start with a real concept.",
+      "fallbackNote": "Analytics fill in after saved progress exists. Start with any concept to seed real signals.",
+      "fallbackAction": "Browse concepts",
+      "signals": {
+        "pressure": "Weak area",
+        "pressureNote": "This topic has the clearest review pressure right now.",
+        "strength": "Stable area",
+        "strengthNote": "This topic currently has the strongest saved pattern.",
+        "usage": "Usage signal",
+        "noUsage": "No saved usage yet",
+        "noUsageNote": "Open a concept or challenge to start the analytics trail.",
+        "savedProgress": "Saved progress",
+        "recorded": "Signals recorded",
+        "empty": "No signals yet",
+        "savedProgressNote": "This preview reads the same saved progress snapshot as the full analytics page."
       }
     },
     "warnings": {

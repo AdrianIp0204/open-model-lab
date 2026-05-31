@@ -4898,8 +4898,8 @@
     },
     "hero": {
       "eyebrow": "控制台",
-      "title": "已登入首頁",
-      "description": "Open Model Lab 會把已登入控制台維持精簡：確認帳戶狀態、快速回到產品，並看見這個瀏覽器目前是免費層還是支持者方案。"
+      "title": "下一個學習動作",
+      "description": "在同一個已登入位置繼續、複習或同步。"
     },
     "panel": {
       "redirect": {
@@ -5021,6 +5021,28 @@
         "premiumStatus": {
           "title": "支持者方案狀態",
           "description": "支持者方案在產品內仍然是一個單一權益。只要有訂閱存在，Stripe 可以管理它；而控制台則持續顯示與產品其他部分一致的已登入帳戶狀態。"
+        }
+      },
+      "firstMove": {
+        "labels": {
+          "syncedHandoff": "同步交接",
+          "supporterReview": "下一個複習",
+          "freePrompt": "下一個已儲存訊號",
+          "freshStart": "開始學習"
+        },
+        "notes": {
+          "syncedHandoff": "你的帳戶同步進度已經有一個明確概念可以接續。",
+          "supporterReview": "支持者方案複習會指出你已儲存進度中最值得先處理的壓力點。",
+          "freePrompt": "這會使用同一份免費進度快照；挑戰、路線與繼續學習也共用它。",
+          "fallback": "打開概念庫，建立下一個已儲存進度訊號。"
+        },
+        "fallback": {
+          "title": "先從真正的學習頁面開始。",
+          "note": "打開概念庫，建立下一個已儲存進度訊號。"
+        },
+        "signals": {
+          "sync": "同步",
+          "savedRecords": "{count} 個已儲存概念紀錄"
         }
       },
       "sessionState": {
@@ -6161,21 +6183,33 @@
     },
     "hero": {
       "eyebrow": "支持者方案分析",
-      "title": "在真實產品路由內，直接檢視你已累積的學習訊號。",
-      "description": "這些面板仍然建立在同一套進度快照、檢查點歷史、快速測驗、挑戰完成與引導式路線上，而不是另外做出一個平行系統。"
+      "title": "支持者方案分析",
+      "description": "用已儲存進度選出下一個複習或主題動作。"
     },
     "premiumLocked": {
       "eyebrow": "支持者方案分析",
-      "title": "支持者分析是可選便利功能。",
-      "description": "免費帳戶登入後仍可同步進度；更深入的分析、檢查點歷史與自適應複習面板則依賴支持者方案權益。",
-      "body": "你仍可以繼續使用免費核心學習產品，但這個頁面只會在目前帳戶啟用支持者方案權益後才開放。",
+      "title": "支持者方案分析",
+      "description": "免費帳戶仍可同步進度；只有需要更深入複習歷史時才升級。",
+      "body": "你仍可以繼續使用免費核心學習產品。當目前帳戶啟用支持者方案權益後，這個獨立分析頁才會開放。",
+      "firstMove": {
+        "label": "免費帳戶訊號",
+        "title": "進度同步已可使用。",
+        "body": "{email} 可以繼續從控制台同步核心學習進度；支持者方案會在此之上加入檢查點歷史、自適應複習與更完整分析。",
+        "signals": {
+          "tier": "層級",
+          "freeTier": "已登入免費層",
+          "sync": "進度同步",
+          "syncAvailable": "可使用"
+        }
+      },
       "notice": {
         "title": "支持者方案學習分析",
         "freeDescription": "免費帳戶仍可同步進度。支持者方案會在同一套已儲存進度之上，再加入分析與學習歷史層。",
         "description": "如果你想要檢查點歷史、自適應複習、更密集的下一步建議，以及更完整的帳戶分析視圖，可以升級。"
       },
       "actions": {
-        "backToDashboard": "返回儀表板"
+        "backToDashboard": "返回儀表板",
+        "compareSupporter": "比較支持者方案"
       }
     }
   },
@@ -6238,6 +6272,25 @@
         "premium": "支持者方案",
         "ruleBased": "規則式",
         "savedProgressOnly": "只用已儲存進度"
+      }
+    },
+    "firstMove": {
+      "label": "先做這一步",
+      "fallbackTitle": "先打開一個真正概念。",
+      "fallbackNote": "有已儲存進度後，分析才會逐步填入。先從任何概念開始，建立真實訊號。",
+      "fallbackAction": "瀏覽概念",
+      "signals": {
+        "pressure": "較弱區域",
+        "pressureNote": "這個主題目前有最清晰的複習壓力。",
+        "strength": "穩定區域",
+        "strengthNote": "這個主題目前有最穩定的已儲存形狀。",
+        "usage": "使用訊號",
+        "noUsage": "暫時未有已儲存使用情況",
+        "noUsageNote": "打開概念或挑戰，開始建立分析軌跡。",
+        "savedProgress": "已儲存進度",
+        "recorded": "已有訊號",
+        "empty": "暫時未有訊號",
+        "savedProgressNote": "這個預覽讀取的，是完整分析頁同一份已儲存進度快照。"
       }
     },
     "warnings": {

@@ -186,6 +186,105 @@ function EmptyState({
   );
 }
 
+function AnalyticsFirstMovePanel({
+  analytics,
+  t,
+  locale,
+  tProgress,
+}: {
+  analytics: PremiumLearningAnalytics;
+  t: ReturnType<typeof useTranslations<"LearningAnalyticsPanel">>;
+  locale: AppLocale;
+  tProgress: ProgressTranslateFn;
+}) {
+  const nextStep = analytics.nextSteps[0] ?? null;
+  const pressureSignal = analytics.needsWork[0] ?? null;
+  const strengthSignal = analytics.strengths[0] ?? null;
+  const usageSignal =
+    analytics.usageSnapshot.progressMetrics[0] ??
+    analytics.usageSnapshot.achievementMetrics[0] ??
+    null;
+  const signal = pressureSignal
+    ? {
+        label: t("firstMove.signals.pressure"),
+        value: pressureSignal.title,
+        note: pressureSignal.reasons[0]
+          ? localizeProgressNote(pressureSignal.reasons[0], locale, tProgress)
+          : t("firstMove.signals.pressureNote"),
+      }
+    : strengthSignal
+      ? {
+          label: t("firstMove.signals.strength"),
+          value: strengthSignal.title,
+          note: strengthSignal.reasons[0]
+            ? localizeProgressNote(strengthSignal.reasons[0], locale, tProgress)
+            : t("firstMove.signals.strengthNote"),
+        }
+      : {
+          label: t("firstMove.signals.usage"),
+          value: usageSignal ? `${usageSignal.value} ${usageSignal.label}` : t("firstMove.signals.noUsage"),
+          note: usageSignal
+            ? localizeProgressNote(usageSignal.note, locale, tProgress)
+            : t("firstMove.signals.noUsageNote"),
+        };
+
+  return (
+    <div
+      data-testid="analytics-first-move"
+      className="rounded-[24px] border border-teal-500/25 bg-teal-500/10 p-4"
+    >
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <p className="lab-label">{t("firstMove.label")}</p>
+          <h2 className="mt-2 text-xl font-semibold text-ink-950 sm:text-2xl">
+            {nextStep?.title ?? t("firstMove.fallbackTitle")}
+          </h2>
+          <p className="mt-2 line-clamp-2 max-w-3xl text-sm leading-6 text-ink-700 sm:line-clamp-none">
+            {nextStep
+              ? localizeProgressNote(nextStep.why, locale, tProgress)
+              : t("firstMove.fallbackNote")}
+          </p>
+        </div>
+        <Link
+          href={nextStep?.href ?? "/concepts"}
+          data-testid="analytics-first-primary-action"
+          className="inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-full bg-ink-950 px-5 py-2.5 text-sm font-semibold transition hover:opacity-90 sm:w-auto"
+          style={{ color: "var(--paper-strong)" }}
+        >
+          {nextStep?.actionLabel ?? t("firstMove.fallbackAction")}
+        </Link>
+      </div>
+      <div
+        data-testid="analytics-first-signal"
+        className="mt-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.7fr)]"
+      >
+        <div>
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-teal-800">
+            {signal.label}
+          </p>
+          <p className="mt-1 text-sm font-semibold text-ink-950">{signal.value}</p>
+          <p className="mt-1 line-clamp-2 text-sm leading-6 text-ink-700 sm:line-clamp-none">
+            {signal.note}
+          </p>
+        </div>
+        <div>
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-teal-800">
+            {t("firstMove.signals.savedProgress")}
+          </p>
+          <p className="mt-1 text-sm font-semibold text-ink-950">
+            {analytics.hasRecordedProgress
+              ? t("firstMove.signals.recorded")
+              : t("firstMove.signals.empty")}
+          </p>
+          <p className="mt-1 text-sm leading-6 text-ink-700">
+            {t("firstMove.signals.savedProgressNote")}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function LearningAnalyticsPanel({
   analytics,
   syncedProgressUnavailable = false,
@@ -218,8 +317,14 @@ export function LearningAnalyticsPanel({
     >
       {leadIn ? <div className="mb-6 space-y-3 sm:mb-8">{leadIn}</div> : null}
       <section className="space-y-6">
-        <PageSection id="analytics-overview" as="section" className="lab-panel p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <PageSection id="analytics-overview" as="section" className="lab-panel p-5 sm:p-6">
+          <AnalyticsFirstMovePanel
+            analytics={analytics}
+            t={t}
+            locale={locale}
+            tProgress={tProgress}
+          />
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="lab-label">{t("overview.label")}</p>
               <h2 className="mt-2 text-3xl font-semibold text-ink-950">
