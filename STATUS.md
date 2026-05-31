@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-051 Mobile Graph And Formula Wrapping
+
+Current state: `OML-QA-051` is complete. Mobile graph tabs now use an intentional horizontal scroller while long labels wrap inside the tab, reveal chips can wrap instead of clipping, and equation snapshot formulas/text use responsive wrapping or formula-level horizontal scrolling. The durable Playwright gate now waits for the live bench to finish loading before auditing and capturing screenshots, so the phone evidence covers the loaded graph/formula surfaces rather than skeleton states.
+
+### Files Changed
+
+- `app/globals.css`: adds mobile-safe KaTeX/formula wrapping behavior.
+- `components/graphs/GraphTabs.tsx`: makes phone graph tabs scroll intentionally and wraps long graph labels/axis labels inside stable tab widths.
+- `components/concepts/ConceptPageV2Panels.tsx`: lets reveal chips and equation snapshot labels/read-aloud/meaning text wrap cleanly on narrow screens while keeping formulas horizontally scrollable.
+- `tests/components/graph-tabs.test.tsx`, `tests/components/concept-page-v2-panels.test.tsx`, and `tests/e2e/concept-page-v2-flow.spec.ts`: add durable coverage for the wrapping behavior and the all-concept phone OML-QA-051 audit.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check 09006f9..HEAD`: passed.
+- `pnpm exec eslint` on touched TS/TSX files: passed.
+- `pnpm exec vitest run tests/components/graph-tabs.test.tsx tests/components/concept-page-v2-panels.test.tsx tests/components/mathFormula.test.tsx`: passed, 35/35.
+- `PLAYWRIGHT_PORT=3412 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-051-orchestrator-final pnpm exec playwright test -c playwright.concept-v2.config.ts tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-051" --reporter=line`: passed, 1/1 over the all-concept phone audit.
+- `pnpm typecheck`: passed.
+- Screenshot inspection passed for the OML-QA-051 loaded contact sheet and a representative final Playwright screenshot; artifacts are under `output/qa-oml-qa-051-orchestrator/` and `output/playwright/concept-v2-results/`.
+
 ## 2026-05-31 OML-QA-050 Current-Step Cue Clipping
 
 Current state: `OML-QA-050` is complete. The current-step cue goal and action text now wrap instead of relying on line clamps, and the compacting helper avoids dangling English phrase endings and uses CJK-aware breakpoints for zh-HK copy. The regression gate audits unclipped cue goal/action text across representative long-copy concepts in English and zh-HK at phone, tablet, desktop, and wide viewports.
