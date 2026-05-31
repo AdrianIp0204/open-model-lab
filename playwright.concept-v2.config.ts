@@ -19,6 +19,7 @@ export default defineConfig({
     "**/concept-page-status-surface.spec.ts",
     "**/concept-page-hero-ordering.spec.ts",
     "**/concept-page-v2-flow.spec.ts",
+    "**/concept-page-user-flow.spec.ts",
   ],
   fullyParallel: false,
   workers: 1,

@@ -7536,6 +7536,7 @@ export function ConceptSimulationRenderer({
     ? controlValues[firstActionPrimaryControl.param]
     : undefined;
   const guidedPrimaryGraphId = guidedReveal?.graphIds?.[0] ?? null;
+  const lastAutoSelectedGuidedGraphIdRef = useRef<string | null>(null);
   const guidedPrimaryOverlayId = guidedReveal?.overlayIds?.[0] ?? null;
 
   const previewDescription = effectiveGraphPreview
@@ -7685,10 +7686,18 @@ export function ConceptSimulationRenderer({
   }, [activeGraphId, interactionMode, compareEnabled, isInspecting]);
 
   useEffect(() => {
-    if (guidedPrimaryGraphId && guidedPrimaryGraphId !== activeGraphId) {
-      setActiveGraphId(guidedPrimaryGraphId);
+    if (!guidedPrimaryGraphId) {
+      lastAutoSelectedGuidedGraphIdRef.current = null;
+      return;
     }
-  }, [activeGraphId, guidedPrimaryGraphId]);
+
+    if (lastAutoSelectedGuidedGraphIdRef.current === guidedPrimaryGraphId) {
+      return;
+    }
+
+    lastAutoSelectedGuidedGraphIdRef.current = guidedPrimaryGraphId;
+    setActiveGraphId(guidedPrimaryGraphId);
+  }, [guidedPrimaryGraphId]);
 
   useEffect(() => {
     setBenchToolFocus(null);
