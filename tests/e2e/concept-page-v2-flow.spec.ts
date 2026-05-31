@@ -40,6 +40,28 @@ async function expectNoRawMathLeak(locator: Locator) {
     .not.toMatch(/\\(?:alpha|tau|theta|omega|phi|lambda|Delta|mathrm|sum)/);
 }
 
+function countTextOccurrences(text: string, needle: string) {
+  if (!needle) {
+    return 0;
+  }
+
+  let count = 0;
+  let offset = 0;
+
+  while (offset < text.length) {
+    const nextIndex = text.indexOf(needle, offset);
+
+    if (nextIndex === -1) {
+      break;
+    }
+
+    count += 1;
+    offset = nextIndex + needle.length;
+  }
+
+  return count;
+}
+
 async function chooseDifferentSliderValue(slider: Locator) {
   const [currentValue, minAttribute, maxAttribute] = await Promise.all([
     slider.inputValue(),
@@ -911,6 +933,155 @@ test.describe("concept page v2 flow", () => {
     } finally {
       await context.close();
     }
+  });
+
+  test("OML-QA-052 keeps the phone lesson path as an overview, not a second dense lesson", async ({
+    browser,
+  }) => {
+    test.setTimeout(240_000);
+
+    const concepts = [
+      "simple-harmonic-motion",
+      "equivalent-resistance",
+      "beats",
+      "maxwells-equations-synthesis",
+      "photoelectric-effect",
+    ] as const;
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+      deviceScaleFactor: 3,
+    });
+    const page = await newConceptFlowPage(context);
+    const browserGuard = await installBrowserGuards(page);
+    const failures: Array<{
+      slug: string;
+      reason: string;
+      text?: string;
+      height?: number;
+      duplicateCount?: number;
+    }> = [];
+
+    try {
+      for (const slug of concepts) {
+        await test.step(slug, async () => {
+          await gotoAndExpectOk(page, `/en/concepts/${slug}`);
+
+          const activeCue = page.getByTestId("concept-v2-current-step-cue");
+          const cueAction = page.getByTestId("concept-v2-current-step-cue-action");
+          const stepSlot = page.getByTestId("concept-v2-step-card-slot");
+          const phoneSummary = page.getByTestId("concept-v2-phone-step-summary");
+          const stepMap = page.getByTestId("concept-v2-step-map");
+
+          await expect(activeCue).toBeVisible();
+          await expect(stepSlot).toBeVisible();
+          await expect(phoneSummary).toBeVisible();
+          await expect(stepMap).toBeVisible();
+          await expect(page.getByTestId("concept-v2-current-step-secondary-guidance")).toBeHidden();
+          await expect(page.getByTestId("concept-v2-rail-inline-check")).toBeHidden();
+          await expect(page.getByTestId("concept-v2-next-checkpoint")).toBeHidden();
+          await expect(stepSlot.getByRole("button", { name: /Previous step/i })).toBeVisible();
+          await expect(stepSlot.getByRole("button", { name: /Next step/i })).toBeVisible();
+
+          const overviewAudit = await page.evaluate(() => {
+            const normalize = (text: string | undefined) =>
+              text?.replace(/\s+/g, " ").trim() ?? "";
+            const stepSlot = document.querySelector<HTMLElement>(
+              "[data-testid='concept-v2-step-card-slot']",
+            );
+            const stepMap = document.querySelector<HTMLElement>(
+              "[data-testid='concept-v2-step-map']",
+            );
+            const phoneSummary = document.querySelector<HTMLElement>(
+              "[data-testid='concept-v2-phone-step-summary']",
+            );
+
+            return {
+              stepSlotText: normalize(stepSlot?.innerText),
+              phoneSummaryText: normalize(phoneSummary?.innerText),
+              stepSlotOverflow: stepSlot ? stepSlot.scrollWidth - stepSlot.clientWidth : 999,
+              stepMapOverflow: stepMap ? Math.max(0, stepMap.scrollWidth - stepMap.clientWidth) : 999,
+              stepSlotHeight: Math.round(stepSlot?.getBoundingClientRect().height ?? 999),
+              stepMapHeight: Math.round(stepMap?.getBoundingClientRect().height ?? 999),
+            };
+          });
+          const cueActionText = (await cueAction.innerText())
+            .replace(/^Do this:\s*/i, "")
+            .replace(/\s+/g, " ")
+            .trim();
+          const duplicateActionCount = countTextOccurrences(
+            overviewAudit.stepSlotText,
+            cueActionText,
+          );
+
+          if (duplicateActionCount > 1) {
+            failures.push({
+              slug,
+              reason: "duplicate action text in phone rail",
+              duplicateCount: duplicateActionCount,
+              text: cueActionText,
+            });
+          }
+
+          for (const forbiddenText of [
+            "What to notice",
+            "Why it happens",
+            "Quick check",
+            "Now available",
+            "Up next",
+          ]) {
+            if (overviewAudit.stepSlotText.includes(forbiddenText)) {
+              failures.push({
+                slug,
+                reason: `dense rail detail visible: ${forbiddenText}`,
+                text: overviewAudit.stepSlotText,
+              });
+            }
+          }
+
+          if (!overviewAudit.phoneSummaryText.toLowerCase().includes("do this")) {
+            failures.push({
+              slug,
+              reason: "phone overview is missing the concise action line",
+              text: overviewAudit.phoneSummaryText,
+            });
+          }
+
+          if (overviewAudit.stepSlotOverflow > 1 || overviewAudit.stepMapOverflow > 1) {
+            failures.push({
+              slug,
+              reason: "phone overview overflows horizontally",
+              text: JSON.stringify(overviewAudit),
+            });
+          }
+
+          if (overviewAudit.stepSlotHeight > 360 || overviewAudit.stepMapHeight > 150) {
+            failures.push({
+              slug,
+              reason: "phone overview is too tall to read as navigation",
+              height: overviewAudit.stepSlotHeight,
+              text: JSON.stringify(overviewAudit),
+            });
+          }
+
+          await stepSlot.scrollIntoViewIfNeeded();
+          await page.screenshot({
+            path: `output/oml-qa-052-phone-lesson-path-${slug}.png`,
+            fullPage: false,
+          });
+        });
+      }
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
+    }
+
+    expect(
+      failures,
+      `OML-QA-052 phone lesson-path overview failures:\n${JSON.stringify(failures, null, 2)}`,
+    ).toEqual([]);
   });
 
   test("OML-QA-017 lets guided rail inline checks answer with feedback on SHM and UCM", async ({

@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-052 Phone Lesson Path Overview
+
+Current state: `OML-QA-052` is complete. The phone lesson path is now a compact overview instead of a second dense lesson: it keeps progress, the active step title, one concise action line, previous/next controls, and numeric step-map navigation, while secondary guidance, reveal details, quick checks, and next-checkpoint copy stay out of the phone rail.
+
+### Files Changed
+
+- `components/concepts/ConceptPageV2Panels.tsx`: compacts the phone lesson rail, shortens the phone action summary, hides dense detail sections on phone, and turns the phone step map into numeric navigation.
+- `tests/components/concept-page-v2-panels.test.tsx`: updates unit expectations for the compact phone rail and step-map labels.
+- `tests/e2e/concept-page-v2-flow.spec.ts`: adds the OML-QA-052 phone audit over SHM, Equivalent Resistance, Beats, Maxwell, and Photoelectric with duplicate-action and overflow checks plus screenshots.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/concepts/ConceptPageV2Panels.tsx tests/components/concept-page-v2-panels.test.tsx tests/e2e/concept-page-v2-flow.spec.ts`: passed.
+- `node scripts/run-vitest.mjs run tests/components/concept-page-v2-panels.test.tsx`: passed, 26/26.
+- `PLAYWRIGHT_PORT=3418 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-052-orchestrator pnpm exec playwright test tests/e2e/concept-page-v2-flow.spec.ts -g "OML-QA-052" --reporter=line`: passed, 1/1.
+- `pnpm typecheck`: passed.
+- Screenshot inspection passed for `output/oml-qa-052-phone-lesson-path-simple-harmonic-motion.png`, `output/oml-qa-052-phone-lesson-path-equivalent-resistance.png`, `output/oml-qa-052-phone-lesson-path-beats.png`, `output/oml-qa-052-phone-lesson-path-maxwells-equations-synthesis.png`, and `output/oml-qa-052-phone-lesson-path-photoelectric-effect.png`.
+
 ## 2026-05-31 OML-QA-051 Mobile Graph And Formula Wrapping
 
 Current state: `OML-QA-051` is complete. Mobile graph tabs now use an intentional horizontal scroller while long labels wrap inside the tab, reveal chips can wrap instead of clipping, and equation snapshot formulas/text use responsive wrapping or formula-level horizontal scrolling. The durable Playwright gate now waits for the live bench to finish loading before auditing and capturing screenshots, so the phone evidence covers the loaded graph/formula surfaces rather than skeleton states.

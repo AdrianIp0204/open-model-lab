@@ -1606,6 +1606,7 @@ export function ConceptPageV2LessonRail({
   const { activeIndex, activeStep, previousStep, nextStep, detailRows } =
     resolveLessonRailState(steps, activeStepId);
   const primaryActionRow = detailRows.find((row) => row.label === "act") ?? detailRows[0];
+  const phoneActionLine = compactCurrentStepText(primaryActionRow.value, 9, 36);
   const secondaryGuidanceRows = detailRows.filter(
     (row) => row.label !== "act" && row.value.trim().length > 0,
   );
@@ -1654,17 +1655,17 @@ export function ConceptPageV2LessonRail({
         id={conceptPageV2CurrentStepCardId}
         data-testid="concept-v2-current-step-card"
         aria-labelledby={`${currentStepCardLabelId} ${conceptPageV2CurrentStepHeadingId}`}
-        className="rounded-[22px] border border-line/80 bg-white/90 px-4 py-3 shadow-sm"
+        className="rounded-[20px] border border-line/80 bg-white/90 px-3 py-2.5 shadow-sm md:rounded-[22px] md:px-4 md:py-3"
       >
-        <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
-          <div className="space-y-1.5">
+        <div className="grid gap-2 md:gap-3 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
+          <div className="space-y-1 md:space-y-1.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="lab-label">{copy.lessonFlowLabel}</p>
               <span className="rounded-full border border-line bg-paper px-3 py-1 text-xs font-semibold leading-5 text-ink-600">
                 {activePosition} / {steps.length}
               </span>
             </div>
-            <RichMathText as="p" content={activeStep.label} className="break-words text-base font-semibold leading-6 text-ink-950" />
+            <RichMathText as="p" content={activeStep.label} className="line-clamp-2 break-words text-sm font-semibold leading-5 text-ink-950 md:text-base md:leading-6" />
             <div
               role="progressbar"
               aria-label={copy.lessonFlowLabel}
@@ -1673,7 +1674,7 @@ export function ConceptPageV2LessonRail({
               aria-valuenow={activePosition}
               aria-valuetext={progressValueText}
               data-testid="concept-v2-step-progress"
-              className="h-2 overflow-hidden rounded-full border border-teal-500/16 bg-paper"
+              className="h-1.5 overflow-hidden rounded-full border border-teal-500/16 bg-paper md:h-2"
             >
               <div
                 className="h-full rounded-full bg-[linear-gradient(90deg,rgba(20,184,166,0.78),rgba(14,165,233,0.72))] transition-[width] duration-300 ease-out motion-reduce:transition-none"
@@ -1682,15 +1683,15 @@ export function ConceptPageV2LessonRail({
             </div>
             <div
               data-testid="concept-v2-phone-step-summary"
-              className="rounded-[16px] border border-teal-500/18 bg-teal-500/9 px-3 py-2 md:hidden"
+              className="rounded-[14px] border border-teal-500/16 bg-teal-500/8 px-3 py-1.5 md:hidden"
             >
               <p className="text-xs font-semibold uppercase text-teal-700">
                 {copy.actLabel}
               </p>
               <RichMathText
                 as="p"
-                content={primaryActionRow.value}
-                className="mt-1 break-words text-sm font-semibold leading-6 text-ink-950"
+                content={phoneActionLine}
+                className="mt-1 line-clamp-2 break-words text-sm font-semibold leading-5 text-ink-950"
               />
             </div>
             <div className="hidden rounded-[18px] border border-line/80 bg-paper-strong/80 px-3 py-2.5 md:block">
@@ -1888,10 +1889,10 @@ export function ConceptPageV2LessonRail({
               {previousStep ? (
                 <RichMathText
                   as="span"
-                  content={previousStep.label}
-                  className="mt-0.5 min-w-0 line-clamp-1 break-words text-[0.72rem] font-medium leading-4 text-ink-600"
-                />
-              ) : null}
+                content={previousStep.label}
+                className="mt-0.5 hidden min-w-0 break-words text-[0.72rem] font-medium leading-4 text-ink-600 md:line-clamp-1"
+              />
+            ) : null}
             </button>
             <button
               type="button"
@@ -1915,10 +1916,10 @@ export function ConceptPageV2LessonRail({
               {nextNavigationLabel ? (
                 <RichMathText
                   as="span"
-                  content={nextNavigationLabel}
-                  className="mt-0.5 min-w-0 line-clamp-1 break-words text-[0.72rem] font-medium leading-4 text-paper-strong/72"
-                />
-              ) : null}
+                content={nextNavigationLabel}
+                className="mt-0.5 hidden min-w-0 break-words text-[0.72rem] font-medium leading-4 text-paper-strong/72 md:line-clamp-1"
+              />
+            ) : null}
             </button>
           </div>
         </div>
@@ -1927,7 +1928,8 @@ export function ConceptPageV2LessonRail({
           <ol
             data-testid="concept-v2-step-map"
             data-concept-v2-step-map-scroll=""
-            className="mt-2 grid grid-cols-2 gap-1.5 md:flex md:snap-x md:scroll-px-1.5 md:gap-1 md:overflow-x-auto md:overscroll-x-contain md:pb-1.5 md:[scrollbar-width:thin]"
+            style={{ gridTemplateColumns: "repeat(5, minmax(0, 1fr))" }}
+            className="mt-2 grid grid-cols-5 gap-1.5 md:flex md:snap-x md:scroll-px-1.5 md:gap-1 md:overflow-x-auto md:overscroll-x-contain md:pb-1.5 md:[scrollbar-width:thin]"
             aria-label={copy.lessonFlowLabel}
           >
             {steps.map((step, index) => {
@@ -1967,7 +1969,7 @@ export function ConceptPageV2LessonRail({
                     aria-current={isActive ? "step" : undefined}
                     aria-label={stepStatusAriaLabel}
                     className={[
-                      "group grid h-full min-h-11 w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-1.5 rounded-[12px] border px-2 py-1.5 text-left transition disabled:cursor-default disabled:hover:bg-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                      "group grid min-h-11 w-full grid-cols-[auto] items-center justify-center gap-1 rounded-full border px-2 py-1.5 text-left transition disabled:cursor-default disabled:hover:bg-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper md:h-full md:grid-cols-[auto_minmax(0,1fr)] md:justify-start md:gap-1.5 md:rounded-[12px]",
                       isActive
                         ? "border-teal-500/34 bg-teal-500/10 text-ink-950 shadow-sm disabled:hover:bg-teal-500/10"
                         : isComplete
@@ -1994,7 +1996,7 @@ export function ConceptPageV2LessonRail({
                       <RichMathText
                         as="span"
                         content={step.label}
-                        className="line-clamp-1 block min-w-0 break-words text-xs font-semibold leading-5"
+                        className="hidden min-w-0 break-words text-xs font-semibold leading-5 md:line-clamp-1"
                       />
                     </span>
                   </button>
@@ -2012,7 +2014,7 @@ export function ConceptPageV2LessonRail({
                   onClick={onCompleteLesson}
                   data-testid="concept-v2-step-map-wrap-up"
                   aria-label={finalWrapUpAriaLabel}
-                  className="grid h-full min-h-11 w-full grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[16px] border border-teal-500/28 bg-teal-500/10 px-3 py-2.5 text-left text-ink-950 shadow-sm transition hover:border-teal-500/38 hover:bg-teal-500/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/24 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  className="grid min-h-11 w-full grid-cols-[auto] items-center justify-center gap-1.5 rounded-full border border-teal-500/28 bg-teal-500/10 px-2.5 py-1.5 text-left text-ink-950 shadow-sm transition hover:border-teal-500/38 hover:bg-teal-500/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/24 focus-visible:ring-offset-2 focus-visible:ring-offset-paper md:h-full md:grid-cols-[auto_minmax(0,1fr)] md:items-start md:justify-start md:gap-2 md:rounded-[16px] md:px-3 md:py-2.5"
                 >
                   <span
                     aria-hidden="true"
@@ -2023,14 +2025,14 @@ export function ConceptPageV2LessonRail({
                   <span className="min-w-0">
                     <span
                       data-testid="concept-v2-step-map-wrap-up-next-step-cue"
-                      className="mb-1 inline-flex max-w-full min-w-0 break-words rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-xs font-semibold leading-5 text-teal-700"
+                      className="mb-1 hidden max-w-full min-w-0 break-words rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-xs font-semibold leading-5 text-teal-700 md:inline-flex"
                     >
                       <span className="min-w-0 break-words">{copy.nextStep}</span>
                     </span>
-                    <span className="block min-w-0 break-words text-xs font-semibold leading-5">
+                    <span className="hidden min-w-0 break-words text-xs font-semibold leading-5 md:block">
                       {copy.wrapUpLabel}
                     </span>
-                    <span className="mt-0.5 line-clamp-2 block min-w-0 break-words text-[0.72rem] leading-4 text-ink-600">
+                    <span className="mt-0.5 hidden min-w-0 break-words text-[0.72rem] leading-4 text-ink-600 md:line-clamp-2">
                       {copy.lessonCompleteLabel}
                     </span>
                   </span>
@@ -2041,7 +2043,7 @@ export function ConceptPageV2LessonRail({
                   role="group"
                   aria-label={staticWrapUpAriaLabel}
                   className={[
-                    "grid h-full min-h-11 w-full grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-[16px] border px-3 py-2.5 text-left",
+                    "grid min-h-11 w-full grid-cols-[auto] items-center justify-center gap-1.5 rounded-full border px-2.5 py-1.5 text-left md:h-full md:grid-cols-[auto_minmax(0,1fr)] md:items-start md:justify-start md:gap-2 md:rounded-[16px] md:px-3 md:py-2.5",
                     isWrapUpReady
                       ? "border-teal-500/28 bg-teal-500/10 text-ink-950 shadow-sm"
                       : "border-line bg-paper/70 text-ink-700",
@@ -2062,15 +2064,15 @@ export function ConceptPageV2LessonRail({
                     {isWrapUpReady ? (
                       <span
                         data-testid="concept-v2-step-map-wrap-up-next-step-cue"
-                        className="mb-1 inline-flex max-w-full min-w-0 break-words rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-xs font-semibold leading-5 text-teal-700"
+                        className="mb-1 hidden max-w-full min-w-0 break-words rounded-full border border-teal-500/20 bg-white/82 px-2 py-0.5 text-xs font-semibold leading-5 text-teal-700 md:inline-flex"
                       >
                         <span className="min-w-0 break-words">{copy.nextStep}</span>
                       </span>
                     ) : null}
-                    <span className="block min-w-0 break-words text-xs font-semibold leading-5">
+                    <span className="hidden min-w-0 break-words text-xs font-semibold leading-5 md:block">
                       {copy.wrapUpLabel}
                     </span>
-                    <span className="mt-0.5 line-clamp-2 block min-w-0 break-words text-[0.72rem] leading-4 text-ink-600">
+                    <span className="mt-0.5 hidden min-w-0 break-words text-[0.72rem] leading-4 text-ink-600 md:line-clamp-2">
                       {copy.lessonCompleteLabel}
                     </span>
                   </span>

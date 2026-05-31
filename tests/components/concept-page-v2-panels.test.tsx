@@ -1059,7 +1059,8 @@ describe("ConceptPageV2LessonRail", () => {
     const stepMap = screen.getByTestId("concept-v2-step-map");
     expect(stepMap).toHaveClass(
       "grid",
-      "grid-cols-2",
+      "grid-cols-5",
+      "md:flex",
       "md:overflow-x-auto",
       "md:scroll-px-1.5",
       "md:overscroll-x-contain",
@@ -1098,10 +1099,10 @@ describe("ConceptPageV2LessonRail", () => {
     expect(wrapUpDestination).toHaveClass("min-h-11");
     expect(wrapUpDestination).toHaveTextContent("Wrap-up");
     expect(wrapUpDestination).toHaveTextContent("Ready to wrap up");
-    expect(within(stepMap).getByText("Compare two outputs").closest(".line-clamp-1"))
-      .toHaveClass("min-w-0", "break-words");
-    expect(within(stepMap).getByText("Explain the rule").closest(".line-clamp-1"))
-      .toHaveClass("min-w-0", "break-words");
+    expect(within(stepMap).getByText("Compare two outputs").parentElement)
+      .toHaveClass("hidden", "min-w-0", "break-words", "md:line-clamp-1");
+    expect(within(stepMap).getByText("Explain the rule").parentElement)
+      .toHaveClass("hidden", "min-w-0", "break-words", "md:line-clamp-1");
 
     const phoneStepSummary = screen.getByTestId("concept-v2-phone-step-summary");
     expect(phoneStepSummary).toHaveTextContent("Do this");
@@ -1196,14 +1197,16 @@ describe("ConceptPageV2LessonRail", () => {
     expect(within(previousButton).getByText("Set up the pattern").parentElement).toHaveClass(
       "min-w-0",
       "break-words",
-      "line-clamp-1",
+      "hidden",
+      "md:line-clamp-1",
     );
     expect(nextButton).toBeEnabled();
     expect(nextButton).toHaveClass("min-h-11");
     expect(within(nextButton).getByText("Explain the rule").parentElement).toHaveClass(
       "min-w-0",
       "break-words",
-      "line-clamp-1",
+      "hidden",
+      "md:line-clamp-1",
     );
 
     const nextCheckpoint = screen.getByRole("region", {
