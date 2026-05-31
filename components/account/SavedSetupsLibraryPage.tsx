@@ -354,6 +354,13 @@ export function SavedSetupsLibraryPage({ concepts }: SavedSetupsLibraryPageProps
         />
         <div className="flex flex-wrap gap-3">
           <Link
+            href="/start"
+            className="inline-flex items-center rounded-full bg-ink-950 px-5 py-3 text-sm font-semibold transition hover:opacity-90"
+            style={{ color: "var(--paper-strong)" }}
+          >
+            {t("premium.actions.startHere")}
+          </Link>
+          <Link
             href="/concepts"
             className="inline-flex items-center rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
           >

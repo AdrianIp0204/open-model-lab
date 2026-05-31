@@ -58,6 +58,9 @@ describe("SavedCompareSetupsLibraryPage", () => {
     expect(screen.getByText("Local-only")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sync now" })).toBeInTheDocument();
     expect(screen.getByText("No saved compare setups yet.")).toBeInTheDocument();
+    expect(
+      screen.getByText(/open a concept bench, enter compare, set up a and b/i),
+    ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Start here" })).toHaveAttribute("href", "/start");
     expect(screen.getByRole("link", { name: "Browse concepts" })).toHaveAttribute(
       "href",

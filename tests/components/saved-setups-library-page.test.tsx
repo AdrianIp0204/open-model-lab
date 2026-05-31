@@ -55,6 +55,10 @@ describe("SavedSetupsLibraryPage", () => {
     expect(screen.getByText("Local-only")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sync now" })).toBeInTheDocument();
     expect(screen.getByText("No saved setups yet.")).toBeInTheDocument();
+    expect(
+      screen.getByText(/open a concept bench, adjust the live setup/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/save setup in the share tools/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Start here" })).toHaveAttribute("href", "/start");
     expect(screen.getByRole("link", { name: "Browse concepts" })).toHaveAttribute(
       "href",
@@ -122,6 +126,7 @@ describe("SavedSetupsLibraryPage", () => {
     render(<SavedSetupsLibraryPage concepts={concepts} />);
 
     expect(screen.getByText("Saved setups library")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Start here" })).toHaveAttribute("href", "/start");
     expect(screen.getByRole("link", { name: "View Supporter plan" })).toHaveAttribute(
       "href",
       "/pricing#compare",

@@ -6895,7 +6895,9 @@
       "description": "Saved setups stay tied to the same canonical concept routes, share-state format, and Supporter study-tool layer already used across the product."
     },
     "actions": {
-      "openCompareLibrary": "Open compare library"
+      "findLiveBench": "Find a live bench",
+      "startHere": "Start here",
+      "searchLibrary": "Search the library"
     }
   },
   "AccountSavedCompareSetupsPage": {
@@ -6906,7 +6908,9 @@
       "description": "Compare setups stay tied to the same canonical concept routes, compare bench runtime, and Supporter saved-study layer already used across the rest of the product."
     },
     "actions": {
-      "openSavedSetups": "Open saved setups"
+      "findCompareBench": "Find a compare bench",
+      "startHere": "Start here",
+      "searchLibrary": "Search the library"
     }
   },
   "AccountSavedStudyPlansPage": {
@@ -6931,6 +6935,7 @@
       "freeDescription": "Free accounts can still sync progress. Supporter adds saved exact setups and richer study tools on top of that same account.",
       "description": "Upgrade when you want to keep exact bench states, reopen them later, and carry those saved study states across supported signed-in browsers.",
       "actions": {
+        "startHere": "Start here",
         "browseConcepts": "Browse concepts",
         "searchLibrary": "Search the library"
       }
@@ -7005,8 +7010,8 @@
     "empty": {
       "label": "Saved setups",
       "title": "No saved setups yet.",
-      "descriptionSynced": "Save an exact bench state from a concept page and it will show up here across supported signed-in browsers.",
-      "descriptionLocal": "Save an exact bench state from a concept page and it will stay here on this device until you add account sync.",
+      "descriptionSynced": "Open a concept bench, adjust the live setup, then use Save setup in the share tools. That exact state will show up here across supported signed-in browsers.",
+      "descriptionLocal": "Open a concept bench, adjust the live setup, then use Save setup in the share tools. That exact state will stay here on this device until you add account sync.",
       "actions": {
         "startHere": "Start here",
         "browseConcepts": "Browse concepts",
@@ -7104,7 +7109,7 @@
     "empty": {
       "label": "Compare library",
       "title": "No saved compare setups yet.",
-      "description": "Save an A/B compare scene from a concept page and it will appear here the next time you want to reopen it.",
+      "description": "Open a concept bench, enter Compare, set up A and B, then save the named compare scene. That A/B setup will appear here the next time you want to reopen it.",
       "actions": {
         "startHere": "Start here",
         "browseConcepts": "Browse concepts",

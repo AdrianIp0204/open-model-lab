@@ -1,5 +1,28 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-063 Saved Library Creation CTAs
+
+Current state: `OML-QA-063` is complete. `/account/setups` no longer opens with `Open compare library`, and `/account/compare-setups` no longer opens with `Open saved setups`; both pages now put creation-path actions before the fold (`Find a live bench`, `Find a compare bench`, start, and search). Supporter empty states explain the exact source flow: save an adjusted concept bench setup, or enter Compare, set up A/B, and save the named compare scene.
+
+### Files Changed
+
+- `app/account/setups/page.tsx` and `app/account/compare-setups/page.tsx`: replace sibling-library hero links with live-bench, compare-bench, start, and search CTAs.
+- `components/account/SavedSetupsLibraryPage.tsx`: adds the same start path to the free/locked saved-setup library actions.
+- `messages/en.json` and `messages/zh-HK.json`: update saved-library hero/action and empty-state creation guidance.
+- `tests/components/saved-setups-library-page.test.tsx` and `tests/components/saved-compare-setups-library-page.test.tsx`: assert the clearer empty-state instructions and saved-setup free-state start action.
+- `tests/e2e/account-library-ctas.spec.ts`: covers signed-out, free, and Supporter account states for both library routes and captures phone/desktop first-viewport screenshots.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `pnpm exec vitest run tests/components/saved-setups-library-page.test.tsx tests/components/saved-compare-setups-library-page.test.tsx`: passed, 10/10.
+- `pnpm exec eslint app/account/setups/page.tsx app/account/compare-setups/page.tsx components/account/SavedSetupsLibraryPage.tsx components/account/SavedCompareSetupsLibraryPage.tsx tests/components/saved-setups-library-page.test.tsx tests/components/saved-compare-setups-library-page.test.tsx tests/e2e/account-library-ctas.spec.ts`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm exec playwright test tests/e2e/account-library-ctas.spec.ts`: passed, 2/2.
+- `pnpm typecheck`: passed.
+- `git diff --check`: passed.
+- Screenshot artifacts: `output/playwright/qa/oml-qa-063-saved-setups-phone.png`, `output/playwright/qa/oml-qa-063-saved-setups-desktop.png`, `output/playwright/qa/oml-qa-063-compare-setups-phone.png`, and `output/playwright/qa/oml-qa-063-compare-setups-desktop.png`.
+
 ## 2026-05-31 OML-QA-062 Dashboard And Analytics First Viewports
 
 Current state: `OML-QA-062` is complete. Phone dashboard and analytics openings now answer the next-action question before heavier account or methodology copy: `/dashboard` starts with a compact first-move panel, premium `/dashboard/analytics` starts with a next-step analytics preview, and free locked `/dashboard/analytics` is padded correctly and leads with the free sync state plus dashboard/pricing actions.

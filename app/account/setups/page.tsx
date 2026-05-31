@@ -61,10 +61,23 @@ export default async function AccountSavedSetupsPage({
 
         <div className="flex flex-wrap gap-3">
           <Link
-            href="/account/compare-setups"
+            href="/concepts"
+            className="inline-flex items-center rounded-full bg-ink-950 px-4 py-2 text-sm font-semibold transition hover:opacity-90"
+            style={{ color: "var(--paper-strong)" }}
+          >
+            {t("actions.findLiveBench")}
+          </Link>
+          <Link
+            href="/start"
             className="inline-flex items-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
           >
-            {t("actions.openCompareLibrary")}
+            {t("actions.startHere")}
+          </Link>
+          <Link
+            href="/search"
+            className="inline-flex items-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+          >
+            {t("actions.searchLibrary")}
           </Link>
         </div>
 

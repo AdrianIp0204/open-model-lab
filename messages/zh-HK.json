@@ -6427,7 +6427,9 @@
       "description": "已儲存設定仍然綁定在同一套標準概念路由、分享狀態格式與支持者方案學習工具層。"
     },
     "actions": {
-      "openCompareLibrary": "打開比較庫"
+      "findLiveBench": "尋找即時實驗台",
+      "startHere": "從這裡開始",
+      "searchLibrary": "搜尋概念庫"
     }
   },
   "AccountSavedCompareSetupsPage": {
@@ -6438,7 +6440,9 @@
       "description": "比較設定仍然綁定在同一套概念比較實驗台與支持者方案已儲存工具層。"
     },
     "actions": {
-      "openSavedSetups": "打開已儲存設定"
+      "findCompareBench": "尋找比較實驗台",
+      "startHere": "從這裡開始",
+      "searchLibrary": "搜尋概念庫"
     }
   },
   "AccountSavedStudyPlansPage": {
@@ -6463,6 +6467,7 @@
       "freeDescription": "免費帳戶仍可同步進度。支持者方案會在同一個帳戶基礎上再加入完整設定保存與更多學習工具。",
       "description": "如果你想保留完整實驗台狀態、之後重新打開，並在支援的已登入瀏覽器之間帶著這些學習狀態走，就需要支持者方案。",
       "actions": {
+        "startHere": "從這裡開始",
         "browseConcepts": "瀏覽概念",
         "searchLibrary": "搜尋概念庫"
       }
@@ -6537,8 +6542,8 @@
     "empty": {
       "label": "已儲存設定",
       "title": "暫時還沒有已儲存設定。",
-      "descriptionSynced": "從概念頁儲存一個完整實驗台狀態後，它就會在支援的已登入瀏覽器中出現。",
-      "descriptionLocal": "從概念頁儲存一個完整實驗台狀態後，它就會先保留在這部裝置上，直到你加入帳戶同步。",
+      "descriptionSynced": "打開概念實驗台，調整即時設定，然後在分享工具中使用「儲存設定」。這個完整狀態之後會在支援的已登入瀏覽器中出現在這裡。",
+      "descriptionLocal": "打開概念實驗台，調整即時設定，然後在分享工具中使用「儲存設定」。這個完整狀態會先保留在這部裝置上，直到你加入帳戶同步。",
       "actions": {
         "startHere": "從這裡開始",
         "browseConcepts": "瀏覽概念",
@@ -6636,7 +6641,7 @@
     "empty": {
       "label": "比較庫",
       "title": "暫時還沒有已儲存比較設定。",
-      "description": "從概念頁儲存一個 A/B 比較場景後，它就會在之後出現在這裡，便於重新打開。",
+      "description": "打開概念實驗台，進入比較模式，設定 A 與 B，然後儲存命名的比較場景。這個 A/B 設定之後會出現在這裡，方便重新打開。",
       "actions": {
         "startHere": "從這裡開始",
         "browseConcepts": "瀏覽概念",
