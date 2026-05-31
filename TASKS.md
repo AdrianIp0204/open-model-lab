@@ -713,3 +713,67 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Affected area: `tests/e2e/circuit-builder.spec.ts`, `scripts/run-playwright-qa-sweep.mjs`, possible new `tests/e2e/circuit-builder-visual-qa.spec.ts`, and artifact conventions under `output/playwright`.
   - Fix direction: add a lightweight visual QA matrix over `/circuit-builder` and `/zh-HK/circuit-builder` for signed-out, signed-in-free, and signed-in-premium states at phone/tablet/desktop/wide. Include preset load, empty search, invalid import, local save, account save, modern mode, environment controls, and draft recovery states.
   - Validation: the sweep should fail on horizontal overflow, obvious text clipping, sub-44px touch targets on touch layouts, off-canvas preset components, unreadable empty-state contrast, stale English leakage in zh-HK surfaces, hidden import errors, and browser-guard issues.
+
+## Chemistry Reaction Mind Map QA Pass 2026-05-31
+
+### P0 - Mobile First Use / Interaction Accessibility
+
+- [ ] **OML-QA-076: Rework the Chemistry Reaction Mind Map mobile first viewport so the map is actually visible before the tool chrome.**
+  - Evidence: manual screenshots and metrics under `output/chemistry-reaction-mind-map-qa-2026-05-31/` show `/tools/chemistry-reaction-mind-map` at `390x844` with the graph viewport starting at `top=1027`, route controls at `top=1546`, and the inspector at `top=1828`; the first viewport contains the hero, map header, status chips, zoom controls, keyboard shortcut help, flow legend, and map guidance, but not the actual reaction map. The zh-HK phone first viewport has the same shape with the graph viewport at `top=913`.
+  - UX problem: the page is meant to be a map-first organic chemistry tool, but a phone user sees mostly explanatory/control chrome before the graph. First-use clarity suffers because the primary object of interaction is below the fold.
+  - Affected area: `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`, `components/tools/chemistry/ChemistryReactionGraph.tsx`, mobile graph toolbar/status/legend layout, route-control placement, and `messages/en.json` / `messages/zh-HK.json` helper copy.
+  - Fix direction: make the phone first viewport show a compact title, one short instruction, and the graph viewport. Move keyboard shortcuts, detailed legend, flow-band explanation, and route explorer controls into compact disclosures or a post-map panel. Keep the selection summary visible, but avoid letting status chips and controls push the graph below the fold.
+  - Validation: at `390x844`, the graph viewport should begin inside the first viewport and the user should see at least part of the actual reaction map plus one clear next action; repeat for `/zh-HK/tools/chemistry-reaction-mind-map` with no horizontal overflow or clipped first-screen copy.
+
+- [ ] **OML-QA-077: Give Chemistry Reaction Mind Map touch interactions real hit areas without making the graph visually bulky.**
+  - Evidence: the manual sweep found visible clickable pathway labels around `73x16` on tablet, `46x10` after a no-route desktop state, and route-sequence node chips around `34px` high on mobile route results; the zoom slider itself is `24px` high on phone/tablet and `8px` high on desktop, while desktop zoom buttons are `38px` high. Existing E2E only guards a subset of controls and does not fail on pathway-label or route-chip touch targets.
+  - UX/accessibility problem: a reaction graph depends on node, edge, zoom, and route-chip interaction. Small hit areas make the tool harder to use on touch screens and make pathway selection feel fussy even when the visual label should remain compact.
+  - Affected area: edge-label buttons and invisible SVG/HTML hit boxes in `ChemistryReactionGraph.tsx`, route node chips in `ChemistryRouteExplorerDetails.tsx`, graph toolbar controls, focus rings, and touch-target QA helpers.
+  - Fix direction: keep the visual edge labels compact but add larger transparent hit regions or adjacent tap targets; raise route-chip and toolbar hit areas to a 44px floor on coarse-pointer layouts; preserve keyboard focus and screen-reader labels.
+  - Validation: a Playwright touch-target audit over phone/tablet and representative desktop states reports zero visible primary controls below 44px on touch layouts, with any graph-label visual exceptions backed by a larger measured hit target.
+
+### P1 - Route, Compare, And Overlay UX
+
+- [ ] **OML-QA-078: Make mobile route results readable as a route workflow rather than a long scrolled card.**
+  - Evidence: `phone-route-results-before-scroll.png` and `phone-route-results-panel-scrolled.png` show route results only after the user passes the graph and route controls; the route sequence wraps into multiple rows, step details are cut off by the viewport, route node chips are `34px` high, and there is no obvious in-context `back to map` / `clear route` control beside the results.
+  - UX problem: route exploration is one of the tool's main learning workflows, but on phone the result reads like a long document appended below a map instead of a focused route mode. The learner can lose the connection between the highlighted map, the selected route, and the step cards.
+  - Affected area: `ChemistryRouteExplorerDetails.tsx`, mobile route-results layout, route summary/chip sizing, `chem-route-clear` placement, graph/inspector scroll behavior, and route-result E2E coverage.
+  - Fix direction: on phone, switch into a compact route-results mode after `Show routes`: keep a sticky route summary and `Back to map` / `Clear route`, make route sequence chips readable/tappable, and collapse secondary step notes until requested. Consider keeping a small route-highlight preview or a "View highlighted map" jump near the results.
+  - Validation: phone screenshots for successful route and no-route states show the route summary, next action, and first route card without clipped step text; route chips meet the touch floor and the user can return to the highlighted map without hunting.
+
+- [ ] **OML-QA-079: Fix Chemistry comparison details so the side inspector never clips the family cards horizontally.**
+  - Evidence: `desktop-compare-hydration-groups.png` and `summary.json` show `chemistry-compare-panel` with `scrollWidth=412` against `clientWidth=378`, and `chemistry-inspector-scroll` with `scrollWidth=413` against `clientWidth=384`. The visible compare cards are squeezed inside the `24rem` desktop inspector rail.
+  - UX problem: compare mode is supposed to help learners compare two family profiles, but the current side-rail layout makes the comparison feel cramped and can cut content at the panel edge.
+  - Affected area: `ChemistryComparisonDetails.tsx`, `ChemistryReactionMindMapPage.tsx` split-panel sizing, compare-column grid breakpoints, and compare-state screenshot tests.
+  - Fix direction: make comparison use a layout appropriate to its content: single-column cards in the rail, a wider drawer/full-width below-map mode, or a responsive overlay that preserves the graph context without horizontal overflow. Avoid `xl:grid-cols-2` assumptions inside a narrow inspector.
+  - Validation: compare screenshots at desktop/wide/tablet show no horizontal overflow in `chemistry-compare-panel`, all family snapshot titles and open-node buttons remain readable, and compare-to-route actions remain visible.
+
+- [ ] **OML-QA-080: Stop the floating feedback button from covering Chemistry tool inspector content.**
+  - Evidence: manual screenshot review found the floating `Feedback` control overlapping lower-right inspector content in edge-details, compare, and no-route states, especially `desktop-edge-details-hydration.png`, `desktop-compare-hydration-groups.png`, and `desktop-no-route-ester-to-haloalkane.png`. The Chemistry tool uses a fixed-height split panel with a self-scrolling inspector, so the site-wide floating button sits on top of the active learning surface.
+  - UX problem: feedback should not obscure reaction details, conditions, no-route explanations, or comparison cards. On dense tools, the floating placement competes with the actual inspector.
+  - Affected area: `app/tools/chemistry-reaction-mind-map/page.tsx`, `components/layout/PageShell.tsx`, `components/feedback/FeedbackWidget.tsx`, and tool-page feedback placement rules.
+  - Fix direction: use inline feedback, suppress the floating widget on dense tool pages, or offset/dock it outside the active split panel. The solution should be reusable for other tool surfaces with fixed or self-scrolling right rails.
+  - Validation: screenshots for edge details, compare mode, route results, and no-route state show no overlap between the feedback trigger and meaningful inspector content at desktop/wide/tablet/phone.
+
+- [ ] **OML-QA-081: Replace clipped Chemistry helper copy with compact but complete instructions.**
+  - Evidence: screenshot review found desktop route helper text visibly truncated after `They are study routes, n...`, while phone and zh-HK first views line-clamp the hero/intro copy mid-sentence. `summary.json` also records the desktop graph toolbar status as clipped (`scrollWidth=1146`, `clientWidth=505`) in initial and selected states.
+  - UX problem: helper text that explains scope, route limits, or first-use behavior should not silently disappear behind ellipses. Ellipsis is acceptable for status metadata, but not for learning-critical guidance.
+  - Affected area: `messages/en.json`, `messages/zh-HK.json`, line-clamped helper elements in `ChemistryReactionMindMapPage.tsx`, graph toolbar status treatment in `ChemistryReactionGraph.tsx`, and copy/screenshot tests.
+  - Fix direction: shorten route and hero copy until it fits, move details into disclosure text, and reserve ellipsis only for non-critical live status. Add accessible full text where visual compaction remains necessary.
+  - Validation: screenshots at phone/tablet/desktop/wide show no mid-sentence clipped hero or route-helper copy; browser assertions catch line-clamped learning-critical text in the Chemistry tool.
+
+- [ ] **OML-QA-082: Polish zh-HK Chemistry tool control wording after the layout fixes.**
+  - Evidence: `/zh-HK/tools/chemistry-reaction-mind-map` is mostly localized, but manual review found awkward control wording such as `配合視圖` / `0 配合目前視圖` for `Fit to view`. The phone screenshot also shows the same mobile information-density problem as English, which makes localized control meaning harder to infer.
+  - UX/i18n problem: this is not a broad English-leakage failure, but chemistry-tool controls need natural Hong Kong Chinese action labels so a learner understands map camera actions quickly.
+  - Affected area: `messages/zh-HK.json`, generated i18n output, Chemistry graph navigation labels, route/compare copy, and zh-HK tool screenshot coverage.
+  - Fix direction: replace awkward literal camera-control phrases with natural zh-HK UI verbs after deciding the final compact layout; review route/compare/detail labels for control clarity rather than translating strings one by one.
+  - Validation: zh-HK phone and desktop screenshots show natural action labels for zoom, fit/reset view, route search/results, compare, and clear-route controls; i18n validation still passes.
+
+### P2 - Durable Chemistry Tool QA Coverage
+
+- [ ] **OML-QA-083: Add a durable Chemistry Reaction Mind Map visual QA sweep beyond the current functional E2E.**
+  - Evidence: `tests/e2e/chemistry-reaction-mind-map.spec.ts` passed `4/4` and `tests/app/chemistry-reaction-mind-map-page.test.tsx` passed `49/49`, but the manual sweep under `output/chemistry-reaction-mind-map-qa-2026-05-31/` still found issues with mobile first-viewport ordering, touch target sizing, route-result readability, compare-panel overflow, feedback overlay, and clipped helper copy.
+  - QA problem: existing tests are good at proving mechanics, camera state, graph clipping, route exploration, and locale rendering, but they do not fail on several visible product-quality regressions that matter to learners.
+  - Affected area: `tests/e2e/chemistry-reaction-mind-map.spec.ts`, possible new `tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts`, `scripts/run-playwright-qa-sweep.mjs`, screenshot artifact conventions, and touch/clipping audit helpers.
+  - Fix direction: add a lightweight visual/responsive matrix for `/tools/chemistry-reaction-mind-map` and `/zh-HK/tools/chemistry-reaction-mind-map` at phone/tablet/desktop/wide. Cover initial state, selected node, selected edge, compare, route results, no-route, zoom/focus, keyboard/touch affordances, and feedback-widget placement.
+  - Validation: the sweep should fail on horizontal overflow, meaningful text clipping, first-map-below-fold on phone, sub-44px touch targets without larger hit areas, compare-panel horizontal overflow, feedback overlap, stale English leakage or awkward critical control copy in zh-HK, and browser-guard issues.
