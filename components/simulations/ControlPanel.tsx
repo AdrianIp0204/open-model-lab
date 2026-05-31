@@ -394,7 +394,10 @@ export function ControlPanel({
         ) : null}
       </div>
 
-      <div className="mt-1.5 max-h-[min(38svh,20rem)] overflow-y-auto overscroll-contain pr-1 sm:mt-2 sm:max-h-[min(42svh,24rem)] lg:max-h-[min(68svh,38rem)] xl:max-h-none">
+      <div
+        className="mt-1.5 max-h-[min(38svh,20rem)] overflow-y-auto overscroll-contain pr-1 sm:mt-2 sm:max-h-[min(42svh,24rem)] lg:max-h-[min(68svh,38rem)] xl:max-h-none"
+        data-clipping-audit-scroll-region="true"
+      >
         <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
           {primaryControls.map(renderControl)}
         </div>

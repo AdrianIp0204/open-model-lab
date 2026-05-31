@@ -21,6 +21,126 @@
     "keyTakeaway": "Matter waves are tied to momentum through \\(\\lambda = h / p\\), so the key inverse relation is between wavelength and momentum, not between wavelength and distance traveled each second.",
     "whyItMatters": "This momentum-first view explains why electron-scale wavelengths can shape spectra and atomic models while everyday objects have matter waves too tiny to notice."
   },
+  "v2": {
+    "intuition": "Treat mass and speed as one momentum control, then watch that momentum set the spacing of the matter wave and the loop fit.",
+    "whyItMatters": "The page is a bridge from waves to quantum behavior, so the first move has to block the tempting but wrong idea that faster motion means a longer wavelength.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Momentum sets wavelength",
+      "note": "Keep $p = mv$ and $\\lambda = h / p$ visible while you compare the local spacing and the loop count.",
+      "equationIds": ["momentum", "de-broglie", "loop-fit"]
+    },
+    "startSetup": {
+      "presetId": "bohr-like-n1",
+      "graphId": "loop-fit",
+      "overlayIds": ["wavelengthGuide", "momentumLink", "wholeNumberFit"],
+      "interactionMode": "explore",
+      "note": "Begin near one loop fit so a smaller wavelength immediately shows up as a larger whole-number count."
+    },
+    "guidedSteps": [
+      {
+        "id": "predict-faster-shorter-wave",
+        "title": "Predict faster, shorter wave",
+        "goal": "Separate speed from wavelength by reading momentum first.",
+        "doThis": "Choose a prediction, start from Near one-fit electron, then raise Speed toward Near two-fit while the Wavelength guide and Loop fit graph stay visible.",
+        "notice": "The particle moves faster, momentum rises, local spacing tightens, and more wavelengths fit around the same loop.",
+        "explain": "de Broglie wavelength is inversely tied to momentum, so increasing speed at fixed mass shortens the wavelength instead of stretching it.",
+        "reveal": {
+          "controlIds": ["speedMms"],
+          "graphIds": ["wavelength-momentum", "loop-fit"],
+          "overlayIds": ["wavelengthGuide", "wholeNumberFit"],
+          "toolHints": ["graph-preview"]
+        },
+        "inlineCheck": {
+          "note": "Answer before applying the faster-electron preset.",
+          "predictionIds": ["dbmw-pred-faster-same-mass"],
+          "questionIds": ["dbmw-qt-faster-shorter"]
+        }
+      },
+      {
+        "id": "test-mass-through-momentum",
+        "title": "Test mass through momentum",
+        "goal": "Show that mass changes wavelength because it changes momentum too.",
+        "doThis": "Compare Near one-fit electron with Heavier same speed while the Momentum link is on.",
+        "notice": "The speed stays similar, but the larger mass raises momentum, shortens the wavelength, and increases the loop fit count.",
+        "explain": "The control variable behind the wavelength is $p$, so mass and speed both matter through the same product.",
+        "reveal": {
+          "controlIds": ["massMultiple", "speedMms"],
+          "graphIds": ["wavelength-momentum", "loop-fit"],
+          "overlayIds": ["momentumLink", "wholeNumberFit"]
+        },
+        "inlineCheck": {
+          "title": "Catch the speed-only mistake",
+          "questionIds": ["dbmw-qt-heavier-shorter"]
+        }
+      },
+      {
+        "id": "hold-momentum-fixed",
+        "title": "Hold momentum fixed",
+        "goal": "Use two different mass-speed pairs to prove that momentum is the shared variable.",
+        "doThis": "Compare Near one-fit electron with Same momentum swap, then read the wavelength point on the graph.",
+        "notice": "A heavier but slower particle can land near the same momentum and therefore near the same wavelength.",
+        "explain": "A wavelength claim from mass alone or speed alone is incomplete; the product $mv$ is what the de Broglie relation reads here.",
+        "reveal": {
+          "controlIds": ["massMultiple", "speedMms"],
+          "graphIds": ["wavelength-momentum"],
+          "overlayIds": ["momentumLink", "wavelengthGuide"],
+          "toolHints": ["compare"]
+        },
+        "inlineCheck": {
+          "questionIds": ["dbmw-qt-same-momentum"]
+        }
+      },
+      {
+        "id": "read-the-loop-fit",
+        "title": "Read the loop fit",
+        "goal": "Connect the local wavelength to the whole-number seam around the fixed loop.",
+        "doThis": "Move between Near one-fit and Near two-fit, then explain what $N = L / \\lambda$ is counting before trying the challenge.",
+        "notice": "Shorter local spacing raises the fit count because the loop length did not change.",
+        "explain": "The loop cue is a bounded quantization bridge: it counts how many wavelengths fit around one fixed path, not how often the particle travels around.",
+        "reveal": {
+          "controlIds": ["speedMms"],
+          "graphIds": ["loop-fit"],
+          "overlayIds": ["wholeNumberFit", "wavelengthGuide"],
+          "toolHints": ["challenge-mode"]
+        },
+        "inlineCheck": {
+          "questionIds": ["dbmw-qt-whole-number-fit"],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "In this bounded model, mass and speed combine into momentum with $p = mv$.",
+        "de Broglie wavelength gets shorter when momentum gets larger.",
+        "Different mass-speed pairs can share a wavelength when they share the same momentum.",
+        "A whole-number loop fit counts wavelengths around a fixed path."
+      ],
+      "misconception": "A faster particle does not get a longer de Broglie wavelength just because it travels farther each second; larger momentum means shorter wavelength.",
+      "workedExampleRefs": ["current-wavelength-from-momentum", "current-loop-fit"],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "bohr-model",
+          "title": "Bohr Model",
+          "reasonLabel": "Use whole-number fits in atomic structure"
+        },
+        {
+          "slug": "atomic-spectra",
+          "title": "Atomic Spectra",
+          "reasonLabel": "Connect quantized states to light"
+        },
+        {
+          "slug": "wave-interference",
+          "title": "Wave Interference",
+          "reasonLabel": "Strengthen the wave-spacing idea"
+        }
+      ],
+      "freePlayPrompt": "Build two setups with different mass and speed but similar momentum, then check whether the local wavelength and loop count stay close."
+    },
+    "referenceSections": ["explanation", "keyIdeas", "workedExamples", "commonMisconception", "quickTest", "accessibility"]
+  },
   "sections": {
     "explanation": {
       "paragraphs": [

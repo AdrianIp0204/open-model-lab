@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-30T12:18:52.550Z",
+  "generatedAt": "2026-05-31T04:26:42.221Z",
   "canonicalLocale": "en",
   "locales": [
     "zh-HK"
@@ -20,7 +20,7 @@
         "usable": 97,
         "invalid": 0,
         "stale": 0,
-        "withFallback": 0,
+        "withFallback": 2,
         "missing": 0
       }
     }
@@ -475,7 +475,7 @@
       "title": "Beats",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/beats.json",
-      "canonicalSourceHash": "518613ab9be5469ae49213faed178b269ef698b10116cd591444580290ba0690",
+      "canonicalSourceHash": "1036fc4e3226c6e18781138447974312eef8f60884a39d2ef08067f05e015fd7",
       "subject": "Physics",
       "topic": "Sound",
       "subtopic": "Sound superposition",
@@ -517,8 +517,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "518613ab9be5469ae49213faed178b269ef698b10116cd591444580290ba0690",
-          "currentSourceHash": "518613ab9be5469ae49213faed178b269ef698b10116cd591444580290ba0690"
+          "recordedSourceHash": "1036fc4e3226c6e18781138447974312eef8f60884a39d2ef08067f05e015fd7",
+          "currentSourceHash": "1036fc4e3226c6e18781138447974312eef8f60884a39d2ef08067f05e015fd7"
         },
         "provider": null,
         "translatedAt": null,
@@ -540,15 +540,15 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/beats.json",
-          "outputHash": "8cb17cc79441078fb7ed2f878a90a6e3258ea7697e288117a21451a4a2213d46",
+          "outputHash": "f2aae869544164cb27a57b3d9ca727906ab9c2af5938db9155c0d8fb10001a01",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "518613ab9be5469ae49213faed178b269ef698b10116cd591444580290ba0690",
-            "currentSourceHash": "518613ab9be5469ae49213faed178b269ef698b10116cd591444580290ba0690"
+            "recordedSourceHash": "1036fc4e3226c6e18781138447974312eef8f60884a39d2ef08067f05e015fd7",
+            "currentSourceHash": "1036fc4e3226c6e18781138447974312eef8f60884a39d2ef08067f05e015fd7"
           },
-          "provider": "external-google-bing-script",
-          "translatedAt": "2026-05-29T05:35:12.310802Z",
+          "provider": "external-google-bing-script+manual-oml-qa-056",
+          "translatedAt": "2026-05-31T04:26:12Z",
           "notes": [],
           "issues": [],
           "fallbackBaseVariant": "optimized",
@@ -838,7 +838,7 @@
       "title": "Resonance in Air Columns / Open and Closed Pipes",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/resonance-air-columns-open-closed-pipes.json",
-      "canonicalSourceHash": "e5a9472650375db85fee112c1ed61dc6a38cfab381b60d8cca08ed2c40cd6801",
+      "canonicalSourceHash": "7b49ca3d7e8b76ae594f7abe4c7a9424ad4c0238b65a153d29b4bca8fd571b81",
       "subject": "Physics",
       "topic": "Sound",
       "subtopic": "Air-column resonance",
@@ -880,8 +880,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "e5a9472650375db85fee112c1ed61dc6a38cfab381b60d8cca08ed2c40cd6801",
-          "currentSourceHash": "e5a9472650375db85fee112c1ed61dc6a38cfab381b60d8cca08ed2c40cd6801"
+          "recordedSourceHash": "7b49ca3d7e8b76ae594f7abe4c7a9424ad4c0238b65a153d29b4bca8fd571b81",
+          "currentSourceHash": "7b49ca3d7e8b76ae594f7abe4c7a9424ad4c0238b65a153d29b4bca8fd571b81"
         },
         "provider": null,
         "translatedAt": null,
@@ -903,15 +903,15 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/resonance-air-columns-open-closed-pipes.json",
-          "outputHash": "b305535606b27921fb54fc9c4d27f64622ac6c4c64ece81514512210aeef084d",
+          "outputHash": "2f1e4bdec51c82b4b5d07640266812a7866624f634a29e606fe95cfa522e0b59",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "e5a9472650375db85fee112c1ed61dc6a38cfab381b60d8cca08ed2c40cd6801",
-            "currentSourceHash": "e5a9472650375db85fee112c1ed61dc6a38cfab381b60d8cca08ed2c40cd6801"
+            "recordedSourceHash": "7b49ca3d7e8b76ae594f7abe4c7a9424ad4c0238b65a153d29b4bca8fd571b81",
+            "currentSourceHash": "7b49ca3d7e8b76ae594f7abe4c7a9424ad4c0238b65a153d29b4bca8fd571b81"
           },
-          "provider": "external-google-bing-script",
-          "translatedAt": "2026-05-29T05:35:12.310802Z",
+          "provider": "external-google-bing-script+manual-oml-qa-056",
+          "translatedAt": "2026-05-31T04:26:12Z",
           "notes": [],
           "issues": [],
           "fallbackBaseVariant": "optimized",
@@ -3414,7 +3414,7 @@
       "title": "Kirchhoff Loop and Junction Rules",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/kirchhoff-loop-and-junction-rules.json",
-      "canonicalSourceHash": "c979f072f75cab33efb7cefd0b7ecbd36d47bf2a06b80a72eec94e98ae12fe49",
+      "canonicalSourceHash": "21fdd7a7d35dc3aa7c33ee76847207d1064506dfc5ea5ec179a892e9a2653f79",
       "subject": "Physics",
       "topic": "Circuits",
       "subtopic": "Loop and junction balance",
@@ -3455,8 +3455,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "c979f072f75cab33efb7cefd0b7ecbd36d47bf2a06b80a72eec94e98ae12fe49",
-          "currentSourceHash": "c979f072f75cab33efb7cefd0b7ecbd36d47bf2a06b80a72eec94e98ae12fe49"
+          "recordedSourceHash": "21fdd7a7d35dc3aa7c33ee76847207d1064506dfc5ea5ec179a892e9a2653f79",
+          "currentSourceHash": "21fdd7a7d35dc3aa7c33ee76847207d1064506dfc5ea5ec179a892e9a2653f79"
         },
         "provider": null,
         "translatedAt": null,
@@ -3478,21 +3478,23 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/kirchhoff-loop-and-junction-rules.json",
-          "outputHash": "afb6673bf8edd3552cf75552aa04a1718534037eb341b52cf1142d60abcd6be1",
+          "outputHash": "abf73bc06f586305ca8b876029099bb68733efadb9cd9262efeb0d5a607196df",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "c979f072f75cab33efb7cefd0b7ecbd36d47bf2a06b80a72eec94e98ae12fe49",
-            "currentSourceHash": "c979f072f75cab33efb7cefd0b7ecbd36d47bf2a06b80a72eec94e98ae12fe49"
+            "recordedSourceHash": "21fdd7a7d35dc3aa7c33ee76847207d1064506dfc5ea5ec179a892e9a2653f79",
+            "currentSourceHash": "21fdd7a7d35dc3aa7c33ee76847207d1064506dfc5ea5ec179a892e9a2653f79"
           },
-          "provider": "external-google-bing-script",
-          "translatedAt": "2026-05-29T05:35:12.310802Z",
+          "provider": "external-google-bing-script+manual-oml-qa-056",
+          "translatedAt": "2026-05-31T04:26:12Z",
           "notes": [],
           "issues": [],
           "fallbackBaseVariant": "original",
-          "usesFallbackFields": false,
-          "fallbackFieldCount": 0,
-          "fallbackFieldPaths": []
+          "usesFallbackFields": true,
+          "fallbackFieldCount": 1,
+          "fallbackFieldPaths": [
+            "v2.startSetup.interactionMode"
+          ]
         }
       }
     },
@@ -5666,7 +5668,7 @@
       "title": "de Broglie Matter Waves",
       "canonicalLocale": "en",
       "canonicalSourcePath": "content/concepts/de-broglie-matter-waves.json",
-      "canonicalSourceHash": "2e90a8d5c5f85b0bf445081b9a8ac3dc916e112aeb87cd3063be874f5c56303f",
+      "canonicalSourceHash": "e9c84b20f68c20ca4b09f88f293e7906377a896b715ee0b946b8fc2cd97b62d4",
       "subject": "Physics",
       "topic": "Modern Physics",
       "subtopic": "Matter waves and quantum bridge",
@@ -5709,8 +5711,8 @@
         "derivedFrom": {
           "variant": "original",
           "locale": "en",
-          "recordedSourceHash": "2e90a8d5c5f85b0bf445081b9a8ac3dc916e112aeb87cd3063be874f5c56303f",
-          "currentSourceHash": "2e90a8d5c5f85b0bf445081b9a8ac3dc916e112aeb87cd3063be874f5c56303f"
+          "recordedSourceHash": "e9c84b20f68c20ca4b09f88f293e7906377a896b715ee0b946b8fc2cd97b62d4",
+          "currentSourceHash": "e9c84b20f68c20ca4b09f88f293e7906377a896b715ee0b946b8fc2cd97b62d4"
         },
         "provider": null,
         "translatedAt": null,
@@ -5732,21 +5734,25 @@
           "reviewStatus": "ai-generated",
           "qaStatus": "unknown",
           "sourcePath": "content/i18n/zh-HK/concepts/de-broglie-matter-waves.json",
-          "outputHash": "89fd51e060495b3e4be42f8764d69de14bce5746e5817cd6d50d424d9792ecf3",
+          "outputHash": "1bd31b62253f75d6434587aadb8ba17bbb39756559b658087c02b8c0d6d79ad0",
           "derivedFrom": {
             "variant": "original",
             "locale": "en",
-            "recordedSourceHash": "2e90a8d5c5f85b0bf445081b9a8ac3dc916e112aeb87cd3063be874f5c56303f",
-            "currentSourceHash": "2e90a8d5c5f85b0bf445081b9a8ac3dc916e112aeb87cd3063be874f5c56303f"
+            "recordedSourceHash": "e9c84b20f68c20ca4b09f88f293e7906377a896b715ee0b946b8fc2cd97b62d4",
+            "currentSourceHash": "e9c84b20f68c20ca4b09f88f293e7906377a896b715ee0b946b8fc2cd97b62d4"
           },
-          "provider": "external-google-bing-script",
-          "translatedAt": "2026-05-29T05:35:12.310802Z",
-          "notes": [],
+          "provider": "external-google-bing-script+manual-oml-qa-056",
+          "translatedAt": "2026-05-31T04:26:12Z",
+          "notes": [
+            "This locale overlay inherits missing fields from optimized English at runtime, but stale detection still follows canonical English because derivedFrom.variant is not set to optimized."
+          ],
           "issues": [],
           "fallbackBaseVariant": "optimized",
-          "usesFallbackFields": false,
-          "fallbackFieldCount": 0,
-          "fallbackFieldPaths": []
+          "usesFallbackFields": true,
+          "fallbackFieldCount": 1,
+          "fallbackFieldPaths": [
+            "v2.startSetup.interactionMode"
+          ]
         }
       }
     },

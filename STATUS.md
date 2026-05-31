@@ -1,5 +1,31 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-056 Per-Concept Drain Protocol
+
+Current state: `OML-QA-056` is complete. The SHM pilot has been turned into an explicit first batch of per-concept drain work: Kirchhoff rules and de Broglie matter waves now have authored concept-page V2 protocols, Beats and Air Columns start with focused inline checks, and the high-risk slug batch has a durable content assertion plus a focused concept quality matrix gate.
+
+### Files Changed
+
+- `content/concepts/kirchhoff-loop-and-junction-rules.json` and `content/concepts/de-broglie-matter-waves.json`: add authored V2 lesson paths, first-step checks, equation snapshots, wrap-up, and secondary reference paths.
+- `content/concepts/beats.json` and `content/concepts/resonance-air-columns-open-closed-pipes.json`: strengthen first-step inline checks.
+- `content/i18n/zh-HK/concepts/*`, `content/i18n/zh-HK/manifest.json`, and `content/i18n/generated/zh-HK.json`: update matching zh-HK overlays and generated i18n bundle.
+- `tests/content/concept-page-v2.test.ts`: adds the OML-QA-056 high-risk drain batch assertion.
+- `components/simulations/ControlPanel.tsx` and `tests/e2e/concept-quality-matrix.spec.ts`: mark the intentional controls scroller so the clipping audit does not classify expected scroll as visible clipping.
+- `content/_meta/generated/concept-variant-manifest.json`: refreshed generated content variant manifest.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm validate:content`: passed.
+- `pnpm exec vitest run tests/content/concept-page-v2.test.ts`: passed, 10/10.
+- `pnpm i18n:validate -- --locale zh-HK`: passed with `valid: true`.
+- `pnpm content:doctor`: passed with no findings.
+- Targeted `pnpm exec eslint` on touched TS/TSX test files: passed.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3566 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-056-orchestrator pnpm concepts:qa-matrix --slug=beats,resonance-air-columns-open-closed-pipes,kirchhoff-loop-and-junction-rules,de-broglie-matter-waves --fail-on-unpassed -- --project=chromium`: passed, 4/4 concepts.
+- Before/after evidence is in `output/oml-qa-056/`.
+
 ## 2026-05-31 OML-QA-055 Concept User Flow Coverage
 
 Current state: `OML-QA-055` is complete. A durable representative Playwright gate now covers concept-page header/menu/help/theme/language flows, signed-out and signed-in shell variants, guided step navigation, graph tab switching, compare setup editing/reset/exit, simulation reset, quick-check answering, route reload/loading fallback, and invalid concept slug not-found behavior across phone, tablet, and desktop. The patch also prevents guided graph auto-selection from overriding a learner's manual graph-tab choice.

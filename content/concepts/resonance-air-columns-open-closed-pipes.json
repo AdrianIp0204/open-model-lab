@@ -1245,15 +1245,24 @@
             "playback"
           ]
         },
-        "setup": {
-          "presetId": "open-open-fundamental",
-          "graphId": "shape",
-          "overlayIds": [
-            "boundaryRules",
-            "motionNodes"
-          ]
-        }
+      "setup": {
+        "presetId": "open-open-fundamental",
+        "graphId": "shape",
+        "overlayIds": [
+          "boundaryRules",
+          "motionNodes"
+        ]
       },
+      "inlineCheck": {
+        "title": "Check the open-end rule",
+        "predictionIds": [
+          "air-column-predict-close-end"
+        ],
+        "questionIds": [
+          "air-column-qt-open-end"
+        ]
+      }
+    },
       {
         "id": "read-the-harmonic-family",
         "title": "Read the harmonic family",

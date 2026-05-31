@@ -20,6 +20,126 @@
     "definition": "Use one small circuit to see the two Kirchhoff habits: currents balance at a split, and voltage rises and drops balance around every closed path.",
     "keyTakeaway": "Kirchhoff's rules are conservation checks: charge does not pile up at a junction, and each loop spends exactly the voltage the battery gives it."
   },
+  "v2": {
+    "intuition": "Read one bounded circuit twice: first as charge balance at a split node, then as energy-per-charge balance around a closed loop.",
+    "whyItMatters": "Kirchhoff work becomes much less mechanical when the equation is tied to the exact node or loop you can see on the bench.",
+    "estimatedMinutes": 25,
+    "equationSnapshot": {
+      "title": "Conservation checks",
+      "note": "Keep the node equation and loop equation side by side so current balance and voltage balance do not blur together.",
+      "equationIds": ["parallel-junction", "loop-rule", "resistor-drop"]
+    },
+    "startSetup": {
+      "presetId": "parallel-clean-split",
+      "graphId": "current-map",
+      "overlayIds": ["currentFlow", "nodeGuide", "voltageLabels", "loopGuide"],
+      "interactionMode": "explore",
+      "note": "Start from the clean split so the junction rule and one branch-loop rule are both visible before any slider changes."
+    },
+    "guidedSteps": [
+      {
+        "id": "separate-node-and-loop-balance",
+        "title": "Separate node and loop balance",
+        "goal": "Decide whether you are balancing charge at a point or voltage around a path before writing a rule.",
+        "doThis": "Choose a prediction, load Clean split, keep Node guide and Loop guide visible, then read I_total, I_2, and I_3 before tracing the lower loop.",
+        "notice": "The current equation lives at the split node; the voltage equation closes around a loop that includes the battery and resistor drops.",
+        "explain": "The junction rule conserves charge at a node, while the loop rule conserves energy per charge along a closed path.",
+        "reveal": {
+          "controlIds": ["groupParallel", "resistance3"],
+          "graphIds": ["current-map", "voltage-share"],
+          "overlayIds": ["currentFlow", "nodeGuide", "voltageLabels", "loopGuide"],
+          "toolHints": ["graph-preview"]
+        },
+        "inlineCheck": {
+          "note": "Answer before switching away from the clean split.",
+          "predictionIds": ["kjr-pred-switch-to-parallel"],
+          "questionIds": ["kjr-qt-junction"]
+        }
+      },
+      {
+        "id": "change-one-branch-current",
+        "title": "Change one branch current",
+        "goal": "See that unequal branch currents can still obey the same junction balance.",
+        "doThis": "Raise R3 in the clean split while the Current balance graph, Current flow, and Node guide stay visible.",
+        "notice": "The R3 branch current falls, the total current shifts, and the node cue still adds the outgoing currents back to the incoming current.",
+        "explain": "Kirchhoff's junction rule is a conservation statement, not a demand that branch currents match.",
+        "reveal": {
+          "controlIds": ["resistance2", "resistance3"],
+          "graphIds": ["current-map"],
+          "overlayIds": ["currentFlow", "nodeGuide"]
+        },
+        "inlineCheck": {
+          "title": "Use the split before answering",
+          "questionIds": ["kjr-qt-raise-r3"]
+        }
+      },
+      {
+        "id": "trace-one-voltage-loop",
+        "title": "Trace one voltage loop",
+        "goal": "Keep one sign convention through a complete path instead of mixing rises and drops.",
+        "doThis": "Turn on Voltage labels and Loop guide, then trace the lower branch loop once around while the Voltage-share graph is open.",
+        "notice": "The battery rise is balanced by the outer-resistor drop and the active branch drop when the signs are used consistently.",
+        "explain": "The loop rule is not about equal currents. It says the algebraic voltage changes around a closed path add to zero.",
+        "reveal": {
+          "controlIds": ["voltage", "resistance1", "resistance3"],
+          "graphIds": ["voltage-share"],
+          "overlayIds": ["voltageLabels", "loopGuide"]
+        },
+        "inlineCheck": {
+          "title": "Check the signs",
+          "questionIds": ["kjr-qt-loop-signs"]
+        }
+      },
+      {
+        "id": "compare-split-with-series",
+        "title": "Compare split with series",
+        "goal": "Explain what disappears when the split is removed and what conservation rule stays.",
+        "doThis": "Switch from Clean split to Clean series loop, then compare the node cue and full-loop voltage labels before trying the challenge.",
+        "notice": "The split-node equation collapses into one shared series current, but the closed-loop voltage balance still applies.",
+        "explain": "Kirchhoff reasoning starts from topology: changing the path structure changes the current statement while voltage conservation still holds around each closed loop.",
+        "reveal": {
+          "controlIds": ["groupParallel", "voltage"],
+          "graphIds": ["current-map", "voltage-share"],
+          "overlayIds": ["nodeGuide", "loopGuide", "voltageLabels"],
+          "toolHints": ["compare"]
+        },
+        "inlineCheck": {
+          "questionIds": ["kjr-qt-series-current"],
+          "includeMiniChallenge": true
+        }
+      }
+    ],
+    "wrapUp": {
+      "learned": [
+        "The junction rule balances incoming and outgoing currents at a node.",
+        "The loop rule balances voltage rises and drops around one closed path.",
+        "Unequal branch currents can still obey current conservation.",
+        "Changing series versus parallel topology changes the current story before it changes the algebra."
+      ],
+      "misconception": "Kirchhoff's rules are not detached formulas; each one is a conservation check attached to a specific node or closed path.",
+      "workedExampleRefs": ["junction-balance-current", "loop-balance-around-r3"],
+      "testCta": true,
+      "nextConcepts": [
+        {
+          "slug": "equivalent-resistance",
+          "title": "Equivalent Resistance",
+          "reasonLabel": "Collapse the same network"
+        },
+        {
+          "slug": "power-energy-circuits",
+          "title": "Power and Energy in Circuits",
+          "reasonLabel": "Turn voltage and current into transfer rates"
+        },
+        {
+          "slug": "series-parallel-circuits",
+          "title": "Series and Parallel Circuits",
+          "reasonLabel": "Read larger path structures"
+        }
+      ],
+      "freePlayPrompt": "Build one split case and one series case with the same battery, then name the node equation and one loop equation before checking the graphs."
+    },
+    "referenceSections": ["explanation", "keyIdeas", "workedExamples", "commonMisconception", "quickTest", "accessibility"]
+  },
   "sections": {
     "explanation": {
       "paragraphs": [

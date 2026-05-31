@@ -64,15 +64,21 @@
             "frequencyB"
           ]
         },
-        "setup": {
-          "presetId": "near-unison",
-          "graphId": "envelope",
-          "overlayIds": [
-            "envelopeGuide",
-            "loudnessCue"
-          ]
-        }
+      "setup": {
+        "presetId": "near-unison",
+        "graphId": "envelope",
+        "overlayIds": [
+          "envelopeGuide",
+          "loudnessCue"
+        ]
       },
+      "inlineCheck": {
+        "title": "Name the slow pattern",
+        "questionIds": [
+          "beats-qt-origin"
+        ]
+      }
+    },
       {
         "id": "tune-the-difference",
         "title": "Tune the difference",

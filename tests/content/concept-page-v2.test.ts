@@ -8,7 +8,26 @@ import {
   resolveConceptPageV2StepIdFromHash,
   resolveConceptPageV2StepIdFromLegacyPhase,
 } from "@/lib/content";
+import { resolveConceptContentBySlug } from "@/lib/i18n/concept-content";
 import { conceptShareAnchorIds, localizeShareHref } from "@/lib/share-links";
+
+const omlQa056HighRiskSlugs = [
+  "maxwells-equations-synthesis",
+  "beats",
+  "doppler-effect",
+  "sound-waves-longitudinal-motion",
+  "pitch-frequency-loudness-intensity",
+  "resonance-air-columns-open-closed-pipes",
+  "wave-speed-wavelength",
+  "lens-imaging",
+  "optical-resolution-imaging-limits",
+  "photoelectric-effect",
+  "radioactivity-half-life",
+  "equivalent-resistance",
+  "kirchhoff-loop-and-junction-rules",
+  "basic-circuits",
+  "de-broglie-matter-waves",
+] as const;
 
 function readPath(source: unknown, path: string) {
   return path.split(".").reduce<unknown>((current, segment) => {
@@ -128,6 +147,43 @@ describe("concept page v2 resolver", () => {
     expect(model.wrapUp.learned).toContain(
       "Bright and dark regions come from two waves overlapping at the same screen point, not from one wave disappearing.",
     );
+  });
+
+  it("keeps the OML-QA-056 high-risk drain batch on an explicit per-concept protocol", () => {
+    for (const slug of omlQa056HighRiskSlugs) {
+      const concept = getConceptBySlug(slug);
+      const model = resolveConceptPageV2(concept, {
+        locale: "en",
+        readNext: getReadNextRecommendations(concept.slug),
+      });
+      const firstStep = model.steps[0];
+      const firstRevealKinds = new Set(firstStep.revealItems.map((item) => item.kind));
+      const localizedConcept = resolveConceptContentBySlug(slug, "zh-HK").content;
+      const localizedFirstStep = localizedConcept.v2?.guidedSteps[0];
+
+      expect(model.source, `${slug} should not rely on fallback V2`).toBe("authored");
+      expect(model.steps.length, `${slug} should have a real lesson path`).toBeGreaterThanOrEqual(3);
+      expect(model.equationSnapshot.length, `${slug} should expose an equation snapshot`).toBeGreaterThanOrEqual(2);
+      expect(model.wrapUp.learned.length, `${slug} should have concrete wrap-up takeaways`).toBeGreaterThanOrEqual(3);
+      expect(model.wrapUp.nextConcepts.length, `${slug} should hand off to next concepts`).toBeGreaterThanOrEqual(2);
+      expect(model.referenceSections.map((section) => section.id), `${slug} should keep worked examples in the secondary path`).toContain("workedExamples");
+      expect(model.referenceSections.map((section) => section.id), `${slug} should keep the quick test in the secondary path`).toContain("quickTest");
+
+      expect(firstStep.label, `${slug} should not use the generated fallback opener`).not.toBe("See the setup");
+      expect(firstStep.goal.trim(), `${slug} needs a first-step goal`).not.toBe("");
+      expect(firstStep.doThis.trim(), `${slug} needs a first-step action`).not.toBe("");
+      expect(firstStep.notice.trim(), `${slug} needs an inspectable first-step signal`).not.toBe("");
+      expect(firstStep.explain.trim(), `${slug} needs the concept meaning behind the first step`).not.toBe("");
+      expect(firstStep.inlineCheck, `${slug} should start with a prediction or check, SHM-style`).toBeTruthy();
+      expect(firstRevealKinds.has("control"), `${slug} first step should reveal a live control`).toBe(true);
+      expect(firstRevealKinds.has("graph"), `${slug} first step should reveal a live graph`).toBe(true);
+      expect(firstRevealKinds.has("overlay"), `${slug} first step should reveal a visual overlay`).toBe(true);
+
+      expect(localizedConcept.v2?.guidedSteps.length, `${slug} should have zh-HK V2 step copy`).toBe(model.steps.length);
+      expect(localizedFirstStep?.id, `${slug} zh-HK first step should preserve the canonical id`).toBe(firstStep.id);
+      expect(localizedFirstStep?.title, `${slug} zh-HK first step should have localized copy`).not.toBe(firstStep.label);
+      expect(localizedFirstStep?.doThis, `${slug} zh-HK first action should have localized copy`).not.toBe(firstStep.doThis);
+    }
   });
 
   it("keeps fallback wrap-up ideas from repeating the start key takeaway", () => {

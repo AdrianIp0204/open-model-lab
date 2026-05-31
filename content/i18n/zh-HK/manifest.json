@@ -2,7 +2,7 @@
   "version": 1,
   "locale": "zh-HK",
   "createdAt": "2026-04-09T15:18:55.731320Z",
-  "updatedAt": "2026-05-30T12:18:47.642767Z",
+  "updatedAt": "2026-05-31T04:26:12Z",
   "entries": {
     "concept:simple-harmonic-motion": {
       "attempts": 10,
@@ -92,13 +92,13 @@
       "attempts": 6,
       "fieldCount": 340,
       "lastError": null,
-      "outputHash": "8cb17cc79441078fb7ed2f878a90a6e3258ea7697e288117a21451a4a2213d46",
+      "outputHash": "f2aae869544164cb27a57b3d9ca727906ab9c2af5938db9155c0d8fb10001a01",
       "outputPath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/i18n/zh-HK/concepts/beats.json",
-      "provider": "external-google-bing-script",
-      "sourceHash": "518613ab9be5469ae49213faed178b269ef698b10116cd591444580290ba0690",
+      "provider": "external-google-bing-script+manual-oml-qa-056",
+      "sourceHash": "1036fc4e3226c6e18781138447974312eef8f60884a39d2ef08067f05e015fd7",
       "sourcePath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/concepts/beats.json",
       "status": "done",
-      "translatedAt": "2026-05-29T05:35:12.310802Z"
+      "translatedAt": "2026-05-31T04:26:12Z"
     },
     "concept:bernoullis-principle": {
       "attempts": 7,
@@ -260,13 +260,13 @@
       "attempts": 6,
       "fieldCount": 268,
       "lastError": null,
-      "outputHash": "89fd51e060495b3e4be42f8764d69de14bce5746e5817cd6d50d424d9792ecf3",
+      "outputHash": "1bd31b62253f75d6434587aadb8ba17bbb39756559b658087c02b8c0d6d79ad0",
       "outputPath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/i18n/zh-HK/concepts/de-broglie-matter-waves.json",
-      "provider": "external-google-bing-script",
-      "sourceHash": "2e90a8d5c5f85b0bf445081b9a8ac3dc916e112aeb87cd3063be874f5c56303f",
+      "provider": "external-google-bing-script+manual-oml-qa-056",
+      "sourceHash": "e9c84b20f68c20ca4b09f88f293e7906377a896b715ee0b946b8fc2cd97b62d4",
       "sourcePath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/concepts/de-broglie-matter-waves.json",
       "status": "done",
-      "translatedAt": "2026-05-29T05:35:12.310802Z"
+      "translatedAt": "2026-05-31T04:26:12Z"
     },
     "concept:depth-first-search-and-backtracking-paths": {
       "attempts": 8,
@@ -884,13 +884,13 @@
       "attempts": 6,
       "fieldCount": 350,
       "lastError": null,
-      "outputHash": "b305535606b27921fb54fc9c4d27f64622ac6c4c64ece81514512210aeef084d",
+      "outputHash": "2f1e4bdec51c82b4b5d07640266812a7866624f634a29e606fe95cfa522e0b59",
       "outputPath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/i18n/zh-HK/concepts/resonance-air-columns-open-closed-pipes.json",
-      "provider": "external-google-bing-script",
-      "sourceHash": "e5a9472650375db85fee112c1ed61dc6a38cfab381b60d8cca08ed2c40cd6801",
+      "provider": "external-google-bing-script+manual-oml-qa-056",
+      "sourceHash": "7b49ca3d7e8b76ae594f7abe4c7a9424ad4c0238b65a153d29b4bca8fd571b81",
       "sourcePath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/concepts/resonance-air-columns-open-closed-pipes.json",
       "status": "done",
-      "translatedAt": "2026-05-29T05:35:12.310802Z"
+      "translatedAt": "2026-05-31T04:26:12Z"
     },
     "concept:rolling-motion": {
       "attempts": 6,
@@ -1208,13 +1208,13 @@
       "attempts": 4,
       "fieldCount": 297,
       "lastError": null,
-      "outputHash": "afb6673bf8edd3552cf75552aa04a1718534037eb341b52cf1142d60abcd6be1",
+      "outputHash": "abf73bc06f586305ca8b876029099bb68733efadb9cd9262efeb0d5a607196df",
       "outputPath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/i18n/zh-HK/concepts/kirchhoff-loop-and-junction-rules.json",
-      "provider": "external-google-bing-script",
-      "sourceHash": "c979f072f75cab33efb7cefd0b7ecbd36d47bf2a06b80a72eec94e98ae12fe49",
+      "provider": "external-google-bing-script+manual-oml-qa-056",
+      "sourceHash": "21fdd7a7d35dc3aa7c33ee76847207d1064506dfc5ea5ec179a892e9a2653f79",
       "sourcePath": "/Users/adrian/.openclaw/workspace/projects/open-model-lab/content/concepts/kirchhoff-loop-and-junction-rules.json",
       "status": "done",
-      "translatedAt": "2026-05-29T05:35:12.310802Z"
+      "translatedAt": "2026-05-31T04:26:12Z"
     },
     "concept:rc-charging-and-discharging": {
       "attempts": 4,

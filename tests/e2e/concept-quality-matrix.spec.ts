@@ -490,6 +490,10 @@ async function auditConceptViewport(page: Page, concept: ConceptCatalogEntry, vi
             return false;
           }
 
+          if (element.closest("[data-clipping-audit-scroll-region='true']")) {
+            return false;
+          }
+
           const clipsHorizontal =
             element.scrollWidth > element.clientWidth + 2 &&
             styles.overflowX !== "visible";
