@@ -3578,6 +3578,7 @@
     },
     "namedGroups": {
       "empty": "這一組目前還沒有可顯示的徽章。",
+      "noMatches": "沒有徽章符合目前的搜尋與篩選。",
       "groups": {
         "challenge-completions": {
           "title": "挑戰完成徽章",
@@ -3587,6 +3588,16 @@
           "title": "學習路線徽章",
           "description": "每完整完成一條入門學習路線，就會獲得一枚徽章。"
         }
+      },
+      "search": {
+        "label": "搜尋徽章",
+        "placeholder": "依徽章名稱搜尋"
+      },
+      "filters": {
+        "label": "徽章狀態篩選",
+        "all": "全部",
+        "earned": "已獲得",
+        "locked": "未解鎖"
       },
       "actions": {
         "showFewer": "顯示較少徽章",
@@ -4571,6 +4582,60 @@
             "resume": "這個已同步帳戶目前不需要額外的續學概念。",
             "track": "這個已同步帳戶目前尚未釘選任何入門路徑交接狀態。",
             "followUp": "如果目前不需要精簡的後續提示，這個已同步帳戶仍可回到概念庫。"
+          }
+        },
+        "achievementPreview": {
+          "ariaLabel": "成就預覽",
+          "label": "成就",
+          "title": "下一枚徽章、獎勵與已獲得數量",
+          "loading": {
+            "title": "正在載入下一枚徽章與獎勵。",
+            "description": "帳戶已登入；成就計數器正從伺服器載入。"
+          },
+          "error": {
+            "title": "成就預覽暫時無法使用。",
+            "description": "完整成就區塊可以重新嘗試載入帳戶後端的徽章與獎勵狀態。"
+          },
+          "units": {
+            "conceptVisits": "個概念",
+            "questionAnswers": "題",
+            "challengeCompletions": "個挑戰",
+            "trackCompletions": "條路線",
+            "activeStudyHours": "小時"
+          },
+          "nextBadge": {
+            "label": "下一枚徽章",
+            "title": "{target} {unit} 里程碑",
+            "progress": "{current} / {target} {unit}",
+            "allEarned": "所有里程碑徽章都已獲得",
+            "done": "每個里程碑層級都已完成。"
+          },
+          "reward": {
+            "label": "獎勵進度",
+            "progress": "{route} 路線朝入門獎勵推進",
+            "routes": {
+              "challengeModes": "挑戰模式",
+              "activeStudyHours": "主動學習時間"
+            },
+            "status": {
+              "locked": "未解鎖",
+              "unlocked": "已解鎖",
+              "claimed": "已領取",
+              "expired": "已過期",
+              "used": "已使用",
+              "premiumIneligible": "支持者方案已啟用",
+              "alreadyUsed": "不可用",
+              "unavailable": "不可用",
+              "temporarilyUnavailable": "暫時不可用"
+            }
+          },
+          "earned": {
+            "label": "已獲得徽章",
+            "count": "{count} 枚徽章",
+            "note": "此帳戶的里程碑與指定完成徽章。"
+          },
+          "actions": {
+            "viewAll": "查看所有徽章與獎勵"
           }
         },
         "free": {

@@ -36,8 +36,21 @@ import { AchievementsSection } from "./AchievementsSection";
 import { type AppLocale } from "@/i18n/routing";
 import { Link, useRouter } from "@/i18n/navigation";
 import { localizeShareHref } from "@/lib/share-links";
+import { useAccountAchievementOverview } from "@/lib/achievements/client";
+import type {
+  AccountAchievementOverview,
+  AchievementMilestoneGroupSummary,
+  AchievementRewardStatus,
+  AchievementStatKey,
+} from "@/lib/achievements";
+import {
+  ACHIEVEMENT_MIN_VISIBLE_HOURS_PROGRESS,
+  ACHIEVEMENT_REWARD_CHALLENGE_TARGET,
+  ACHIEVEMENT_REWARD_STUDY_HOURS_TARGET,
+} from "@/lib/achievements/constants";
 
 type TranslateFn = (key: string, values?: Record<string, unknown>) => string;
+type AccountAchievementOverviewState = ReturnType<typeof useAccountAchievementOverview>;
 
 function formatDate(value: string | null, locale: string) {
   if (!value) {
@@ -163,6 +176,295 @@ function getLastSyncStatusLabel(
         ? t("sync.status.lastConfirmed", { date: lastSyncedAtLabel })
         : t("sync.status.localFallback");
   }
+}
+
+function formatAchievementPreviewValue(
+  statKey: AchievementStatKey,
+  value: number,
+) {
+  if (statKey === "active-study-hours") {
+    if (value <= 0) {
+      return "0";
+    }
+
+    if (value < ACHIEVEMENT_MIN_VISIBLE_HOURS_PROGRESS) {
+      return "<0.1";
+    }
+
+    return value.toFixed(Number.isInteger(value) || value >= 10 ? 0 : 1);
+  }
+
+  return `${Math.floor(value)}`;
+}
+
+function getAchievementPreviewStatKey(statKey: AchievementStatKey) {
+  switch (statKey) {
+    case "concept-visits":
+      return "conceptVisits";
+    case "question-answers":
+      return "questionAnswers";
+    case "challenge-completions":
+      return "challengeCompletions";
+    case "track-completions":
+      return "trackCompletions";
+    case "active-study-hours":
+    default:
+      return "activeStudyHours";
+  }
+}
+
+function parseAchievementPreviewMilestoneTarget(key: string) {
+  const target = Number(key.split(":").at(-1));
+
+  return Number.isFinite(target) ? target : null;
+}
+
+function getAchievementPreviewGroupProgress(group: AchievementMilestoneGroupSummary) {
+  const target =
+    group.nextMilestone.nextTarget ??
+    parseAchievementPreviewMilestoneTarget(group.items.at(-1)?.key ?? "") ??
+    group.currentValue;
+  const value =
+    group.nextMilestone.nextTarget === null
+      ? target
+      : Math.min(group.currentValue, target);
+
+  return {
+    target,
+    value,
+    ratio: target > 0 ? Math.max(0, Math.min(value / target, 1)) : 1,
+  };
+}
+
+function resolveNextAchievementPreviewBadge(overview: AccountAchievementOverview) {
+  return (
+    overview.milestoneGroups
+      .filter((group) => group.nextMilestone.nextTarget !== null)
+      .sort(
+        (left, right) =>
+          right.nextMilestone.progressRatio - left.nextMilestone.progressRatio,
+      )[0] ?? null
+  );
+}
+
+function getAchievementPreviewEarnedCount(overview: AccountAchievementOverview) {
+  const milestoneCount = overview.milestoneGroups.reduce(
+    (count, group) => count + group.items.filter((item) => item.earned).length,
+    0,
+  );
+  const namedCount = overview.namedGroups.reduce(
+    (count, group) => count + group.items.filter((item) => item.earned).length,
+    0,
+  );
+
+  return milestoneCount + namedCount;
+}
+
+function getRewardStatusTranslationKey(status: AchievementRewardStatus) {
+  switch (status) {
+    case "premium-ineligible":
+      return "premiumIneligible";
+    case "already-used":
+      return "alreadyUsed";
+    case "temporarily-unavailable":
+      return "temporarilyUnavailable";
+    default:
+      return status;
+  }
+}
+
+function getRewardPreviewRoute(overview: AccountAchievementOverview, t: TranslateFn) {
+  const challengeProgress = {
+    label: t("signedIn.achievementPreview.reward.routes.challengeModes"),
+    ratio: Math.min(
+      overview.stats.distinctChallengeCompletionCount / ACHIEVEMENT_REWARD_CHALLENGE_TARGET,
+      1,
+    ),
+    formattedValue: `${overview.stats.distinctChallengeCompletionCount}`,
+    formattedTarget: `${ACHIEVEMENT_REWARD_CHALLENGE_TARGET}`,
+  };
+  const studyHours = overview.stats.activeStudySeconds / 3600;
+  const studyProgress = {
+    label: t("signedIn.achievementPreview.reward.routes.activeStudyHours"),
+    ratio: Math.min(studyHours / ACHIEVEMENT_REWARD_STUDY_HOURS_TARGET, 1),
+    formattedValue: formatAchievementPreviewValue("active-study-hours", studyHours),
+    formattedTarget: `${ACHIEVEMENT_REWARD_STUDY_HOURS_TARGET}`,
+  };
+
+  return studyProgress.ratio > challengeProgress.ratio ? studyProgress : challengeProgress;
+}
+
+function AchievementPreviewMetric({
+  label,
+  value,
+  note,
+}: {
+  label: string;
+  value: string;
+  note: string;
+}) {
+  return (
+    <div className="rounded-[20px] border border-line bg-paper px-4 py-3">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
+        {label}
+      </p>
+      <p className="mt-2 text-lg font-semibold text-ink-950">{value}</p>
+      <p className="mt-1 text-xs leading-5 text-ink-600">{note}</p>
+    </div>
+  );
+}
+
+function AchievementPreviewCard({
+  overviewState,
+  t,
+  className = "mt-5",
+}: {
+  overviewState: AccountAchievementOverviewState;
+  t: TranslateFn;
+  className?: string;
+}) {
+  const { initialized, loading, overview, errorMessage } = overviewState;
+
+  if (!initialized || (loading && !overview)) {
+    return (
+      <section
+        className={`${className} rounded-[24px] border border-line bg-paper-strong p-4`}
+        aria-label={t("signedIn.achievementPreview.ariaLabel")}
+      >
+        <p className="lab-label">{t("signedIn.achievementPreview.label")}</p>
+        <h3 className="mt-2 text-xl font-semibold text-ink-950">
+          {t("signedIn.achievementPreview.loading.title")}
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-ink-700">
+          {t("signedIn.achievementPreview.loading.description")}
+        </p>
+      </section>
+    );
+  }
+
+  if (errorMessage || !overview) {
+    return (
+      <section
+        className={`${className} rounded-[24px] border border-amber-500/25 bg-amber-500/10 p-4`}
+        aria-label={t("signedIn.achievementPreview.ariaLabel")}
+      >
+        <p className="lab-label">{t("signedIn.achievementPreview.label")}</p>
+        <h3 className="mt-2 text-xl font-semibold text-ink-950">
+          {t("signedIn.achievementPreview.error.title")}
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-ink-700">
+          {errorMessage ?? t("signedIn.achievementPreview.error.description")}
+        </p>
+        <a
+          href="#account-achievements"
+          className="mt-4 inline-flex items-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+        >
+          {t("signedIn.achievementPreview.actions.viewAll")}
+        </a>
+      </section>
+    );
+  }
+
+  const earnedCount = getAchievementPreviewEarnedCount(overview);
+  const nextGroup = resolveNextAchievementPreviewBadge(overview);
+  const nextProgress = nextGroup ? getAchievementPreviewGroupProgress(nextGroup) : null;
+  const nextStatKey = nextGroup ? getAchievementPreviewStatKey(nextGroup.statKey) : null;
+  const rewardRoute = getRewardPreviewRoute(overview, t);
+  const rewardStatusLabel = t(
+    `signedIn.achievementPreview.reward.status.${getRewardStatusTranslationKey(overview.reward.status)}`,
+  );
+
+  return (
+    <section
+      className={`${className} rounded-[24px] border border-teal-500/20 bg-teal-500/10 p-4`}
+      aria-label={t("signedIn.achievementPreview.ariaLabel")}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="lab-label">{t("signedIn.achievementPreview.label")}</p>
+          <h3 className="mt-2 text-xl font-semibold text-ink-950">
+            {t("signedIn.achievementPreview.title")}
+          </h3>
+        </div>
+        <a
+          href="#account-achievements"
+          className="inline-flex items-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+        >
+          {t("signedIn.achievementPreview.actions.viewAll")}
+        </a>
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-3">
+        <div className="rounded-[20px] border border-line bg-paper px-4 py-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
+            {t("signedIn.achievementPreview.nextBadge.label")}
+          </p>
+          <p className="mt-2 text-lg font-semibold text-ink-950">
+            {nextGroup && nextStatKey && nextGroup.nextMilestone.nextTarget !== null
+              ? t("signedIn.achievementPreview.nextBadge.title", {
+                  target: nextGroup.nextMilestone.nextTarget,
+                  unit: t(`signedIn.achievementPreview.units.${nextStatKey}`),
+                })
+              : t("signedIn.achievementPreview.nextBadge.allEarned")}
+          </p>
+          <p className="mt-1 text-xs leading-5 text-ink-600">
+            {nextGroup && nextStatKey && nextProgress
+              ? t("signedIn.achievementPreview.nextBadge.progress", {
+                  current: formatAchievementPreviewValue(
+                    nextGroup.statKey,
+                    nextProgress.value,
+                  ),
+                  target: formatAchievementPreviewValue(
+                    nextGroup.statKey,
+                    nextProgress.target,
+                  ),
+                  unit: t(`signedIn.achievementPreview.units.${nextStatKey}`),
+                })
+              : t("signedIn.achievementPreview.nextBadge.done")}
+          </p>
+          {nextProgress ? (
+            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/85">
+              <div
+                className="h-full rounded-full bg-teal-500"
+                style={{ width: `${Math.round(nextProgress.ratio * 100)}%` }}
+                aria-hidden="true"
+              />
+            </div>
+          ) : null}
+        </div>
+
+        <div className="rounded-[20px] border border-line bg-paper px-4 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
+              {t("signedIn.achievementPreview.reward.label")}
+            </p>
+            <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-teal-700">
+              {rewardStatusLabel}
+            </span>
+          </div>
+          <p className="mt-2 text-lg font-semibold text-ink-950">
+            {rewardRoute.formattedValue} / {rewardRoute.formattedTarget}
+          </p>
+          <p className="mt-1 text-xs leading-5 text-ink-600">
+            {t("signedIn.achievementPreview.reward.progress", { route: rewardRoute.label })}
+          </p>
+          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/85">
+            <div
+              className="h-full rounded-full bg-teal-500"
+              style={{ width: `${Math.round(rewardRoute.ratio * 100)}%` }}
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+
+        <AchievementPreviewMetric
+          label={t("signedIn.achievementPreview.earned.label")}
+          value={t("signedIn.achievementPreview.earned.count", { count: earnedCount })}
+          note={t("signedIn.achievementPreview.earned.note")}
+        />
+      </div>
+    </section>
+  );
 }
 
 function getMergeNote(
@@ -621,6 +923,9 @@ export function AccountPagePanel({
     session.errorCode === "account_session_failed" ? session.errorMessage : null;
   const continuePath = useMemo(() => resolveContinuePath(nextPath, locale), [locale, nextPath]);
   const passwordResetPath = useMemo(() => resolvePasswordResetPath(locale), [locale]);
+  const achievementOverviewState = useAccountAchievementOverview({
+    enabled: session.status === "signed-in" && Boolean(session.user),
+  });
 
   useEffect(() => {
     initializeAccountSession();
@@ -802,7 +1107,12 @@ export function AccountPagePanel({
             items: sectionNavItems,
           }}
         >
-        {leadIn ? <div className="mb-6 space-y-3 sm:mb-8">{leadIn}</div> : null}
+        {leadIn ? <div className="mb-4 space-y-3 sm:mb-6">{leadIn}</div> : null}
+        <AchievementPreviewCard
+          overviewState={achievementOverviewState}
+          t={translate}
+          className="mb-4"
+        />
         <div className="space-y-4">
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
             <PageSection id="account-overview" as="section" className="lab-panel p-6">
@@ -1089,7 +1399,7 @@ export function AccountPagePanel({
             </aside>
           </div>
           <PageSection id="account-achievements" as="div">
-            <AchievementsSection />
+            <AchievementsSection overviewState={achievementOverviewState} />
           </PageSection>
         </div>
         </PageSectionFrame>
@@ -1142,7 +1452,12 @@ export function AccountPagePanel({
           items: sectionNavItems,
         }}
       >
-        {leadIn ? <div className="mb-6 space-y-3 sm:mb-8">{leadIn}</div> : null}
+        {leadIn ? <div className="mb-4 space-y-3 sm:mb-6">{leadIn}</div> : null}
+        <AchievementPreviewCard
+          overviewState={achievementOverviewState}
+          t={translate}
+          className="mb-4"
+        />
         <div className="space-y-4">
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
             <PageSection id="account-overview" as="section" className="lab-panel p-6">
@@ -1408,7 +1723,7 @@ export function AccountPagePanel({
             </aside>
           </div>
           <PageSection id="account-achievements" as="div">
-            <AchievementsSection />
+            <AchievementsSection overviewState={achievementOverviewState} />
           </PageSection>
         </div>
       </PageSectionFrame>

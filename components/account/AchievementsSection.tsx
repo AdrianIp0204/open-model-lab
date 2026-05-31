@@ -22,6 +22,8 @@ import { startStripeHostedBillingAction } from "@/lib/billing/client";
 const REWARD_RELEVANT_MILESTONE_STAT_KEYS = new Set<
   AchievementMilestoneGroupSummary["statKey"]
 >(["challenge-completions", "active-study-hours"]);
+type AccountAchievementOverviewState = ReturnType<typeof useAccountAchievementOverview>;
+type NamedAchievementFilter = "all" | "earned" | "locked";
 
 function formatAchievementDate(value: string | null, locale: string) {
   if (!value) {
@@ -475,10 +477,26 @@ function NamedAchievementGroupCard({
   locale: AppLocale;
 }) {
   const titleId = `achievement-named-group-${sectionKey}`;
+  const searchInputId = useId();
   const [expanded, setExpanded] = useState(false);
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<NamedAchievementFilter>("all");
   const defaultVisibleCount = 6;
-  const visibleItems = expanded ? items : items.slice(0, defaultVisibleCount);
-  const hiddenCount = Math.max(0, items.length - defaultVisibleCount);
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredItems = items.filter((item) => {
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "earned" ? item.earned : !item.earned);
+    const matchesQuery =
+      !normalizedQuery ||
+      `${item.title} ${item.description}`.toLowerCase().includes(normalizedQuery);
+
+    return matchesFilter && matchesQuery;
+  });
+  const visibleItems = expanded
+    ? filteredItems
+    : filteredItems.slice(0, defaultVisibleCount);
+  const hiddenCount = Math.max(0, filteredItems.length - defaultVisibleCount);
 
   return (
     <section
@@ -490,17 +508,68 @@ function NamedAchievementGroupCard({
       </h3>
       <p className="mt-2 text-sm leading-6 text-ink-700">{description}</p>
       {items.length ? (
-        <div className="mt-4 grid gap-3 lg:grid-cols-2">
-          {visibleItems.map((item) => (
-            <AchievementBadgeCard key={item.key} item={item} t={t} locale={locale} />
-          ))}
+        <div className="mt-4 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+          <label className="block space-y-2" htmlFor={searchInputId}>
+            <span className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
+              {t("namedGroups.search.label")}
+            </span>
+            <input
+              id={searchInputId}
+              type="search"
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setExpanded(false);
+              }}
+              placeholder={t("namedGroups.search.placeholder")}
+              className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
+            />
+          </label>
+          <div
+            className="flex flex-wrap gap-2"
+            role="group"
+            aria-label={t("namedGroups.filters.label")}
+          >
+            {(["all", "earned", "locked"] as const).map((filterKey) => (
+              <button
+                key={filterKey}
+                type="button"
+                onClick={() => {
+                  setFilter(filterKey);
+                  setExpanded(false);
+                }}
+                className={[
+                  "rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition",
+                  filter === filterKey
+                    ? "border-ink-950 bg-ink-950 text-paper-strong"
+                    : "border-line bg-paper text-ink-700 hover:border-ink-950/20 hover:bg-white",
+                ].join(" ")}
+                aria-pressed={filter === filterKey}
+              >
+                {t(`namedGroups.filters.${filterKey}`)}
+              </button>
+            ))}
+          </div>
         </div>
+      ) : null}
+      {items.length ? (
+        visibleItems.length ? (
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            {visibleItems.map((item) => (
+              <AchievementBadgeCard key={item.key} item={item} t={t} locale={locale} />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 rounded-[18px] border border-line bg-paper px-4 py-3 text-sm leading-6 text-ink-700">
+            {t("namedGroups.noMatches")}
+          </p>
+        )
       ) : (
         <p className="mt-4 text-sm leading-6 text-ink-700">
           {t("namedGroups.empty")}
         </p>
       )}
-      {items.length > defaultVisibleCount ? (
+      {filteredItems.length > defaultVisibleCount ? (
         <button
           type="button"
           onClick={() => setExpanded((current) => !current)}
@@ -516,10 +585,16 @@ function NamedAchievementGroupCard({
   );
 }
 
-export function AchievementsSection() {
+export function AchievementsSection({
+  overviewState,
+}: {
+  overviewState?: AccountAchievementOverviewState;
+} = {}) {
   const locale = useLocale() as AppLocale;
   const t = useTranslations("AchievementsSection");
-  const { initialized, loading, overview, errorMessage } = useAccountAchievementOverview();
+  const localOverviewState = useAccountAchievementOverview({ enabled: !overviewState });
+  const { initialized, loading, overview, errorMessage } =
+    overviewState ?? localOverviewState;
 
   if (!initialized || (loading && !overview)) {
     return (

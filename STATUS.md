@@ -1,5 +1,30 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-065 Account Achievement Preview
+
+Current state: `OML-QA-065` is complete. Signed-in free and Supporter account pages now show a compact achievement preview before the longer account overview cards, with the next badge target, one-time reward-route progress, earned badge count, and a direct jump to the full badges/rewards section. The full named badge groups remain collapsed by default and now include badge search plus earned/locked filters.
+
+### Files Changed
+
+- `components/account/AccountPagePanel.tsx`: loads the achievement overview once for signed-in account pages and renders the compact preview near the top of the account surface.
+- `components/account/AchievementsSection.tsx`: accepts a shared achievement overview state, keeps long named badge lists collapsed, and adds search plus earned/locked/all filters.
+- `messages/en.json` and `messages/zh-HK.json`: localize the compact account achievement preview and badge-list search/filter controls.
+- `tests/components/account-page-panel.test.tsx` and `tests/components/achievements-section.test.tsx`: cover the overview preview, earned count, reward status, search, filtering, and collapsed long-list behavior.
+- `tests/e2e/account-achievements.spec.ts`: verifies preview visibility for free/Supporter account states, preserves reward-state coverage, checks named badge controls, and captures phone/desktop QA screenshots.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `pnpm exec vitest run tests/components/achievements-section.test.tsx tests/components/account-page-panel.test.tsx --reporter=dot`: passed, 42/42.
+- `pnpm exec playwright test tests/e2e/account-achievements.spec.ts --reporter=line`: passed, 11/11.
+- `pnpm lint -- components/account/AchievementsSection.tsx components/account/AccountPagePanel.tsx tests/components/achievements-section.test.tsx tests/components/account-page-panel.test.tsx tests/e2e/account-achievements.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `git diff --check`: passed.
+- Screenshot artifacts: `output/playwright/qa/oml-qa-065-signed-in-free-phone.png`, `output/playwright/qa/oml-qa-065-signed-in-free-desktop.png`, `output/playwright/qa/oml-qa-065-signed-in-premium-phone.png`, and `output/playwright/qa/oml-qa-065-signed-in-premium-desktop.png`.
+
+Residual risk: the compact preview picks the next milestone by the highest current progress ratio. That keeps the card useful with today’s milestone catalog, but a future product-specific badge priority order may need an explicit ranking if motivation goals change.
+
 ## 2026-05-31 OML-QA-064 Study Plan Picker
 
 Current state: `OML-QA-064` is complete. The Supporter `/account/study-plans` builder now uses a searchable catalog picker with type, subject, topic, and progress filters instead of the long native catalog select. Selected item and selected route previews make concept, track, guided collection, and goal-path entries understandable on phone and desktop, with keyboard-reachable choose, reorder, and remove controls.

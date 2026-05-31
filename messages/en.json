@@ -4049,6 +4049,7 @@
     },
     "namedGroups": {
       "empty": "No badges are available in this group yet.",
+      "noMatches": "No badges match this search and filter.",
       "groups": {
         "challenge-completions": {
           "title": "Challenge completion badges",
@@ -4058,6 +4059,16 @@
           "title": "Learning track badges",
           "description": "One badge for each starter track you fully complete."
         }
+      },
+      "search": {
+        "label": "Search badges",
+        "placeholder": "Search by badge name"
+      },
+      "filters": {
+        "label": "Badge status filter",
+        "all": "All",
+        "earned": "Earned",
+        "locked": "Locked"
       },
       "actions": {
         "showFewer": "Show fewer badges",
@@ -5039,6 +5050,60 @@
             "resume": "The synced account does not currently need a resume concept.",
             "track": "The synced account has not pinned a current starter-track handoff yet.",
             "followUp": "The synced account can still fall back to concepts when no compact follow-up is needed."
+          }
+        },
+        "achievementPreview": {
+          "ariaLabel": "Achievement preview",
+          "label": "Achievements",
+          "title": "Next badge, reward, and earned count",
+          "loading": {
+            "title": "Loading the next badge and reward.",
+            "description": "The account is signed in; achievement counters are loading from the server now."
+          },
+          "error": {
+            "title": "Achievement preview is temporarily unavailable.",
+            "description": "The full achievements section can retry the account-backed badge and reward state."
+          },
+          "units": {
+            "conceptVisits": "concepts",
+            "questionAnswers": "questions",
+            "challengeCompletions": "challenges",
+            "trackCompletions": "tracks",
+            "activeStudyHours": "hours"
+          },
+          "nextBadge": {
+            "label": "Next badge",
+            "title": "{target} {unit} milestone",
+            "progress": "{current} / {target} {unit}",
+            "allEarned": "All milestone badges earned",
+            "done": "Every milestone tier is already complete."
+          },
+          "reward": {
+            "label": "Reward progress",
+            "progress": "{route} route toward the starter reward",
+            "routes": {
+              "challengeModes": "Challenge modes",
+              "activeStudyHours": "Active study hours"
+            },
+            "status": {
+              "locked": "Locked",
+              "unlocked": "Unlocked",
+              "claimed": "Claimed",
+              "expired": "Expired",
+              "used": "Used",
+              "premiumIneligible": "Supporter active",
+              "alreadyUsed": "Unavailable",
+              "unavailable": "Unavailable",
+              "temporarilyUnavailable": "Temporarily unavailable"
+            }
+          },
+          "earned": {
+            "label": "Earned badges",
+            "count": "{count, plural, one {# badge} other {# badges}}",
+            "note": "Milestones and named completion badges on this account."
+          },
+          "actions": {
+            "viewAll": "View all badges and rewards"
           }
         },
         "free": {

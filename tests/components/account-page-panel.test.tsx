@@ -5,6 +5,7 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AccountPagePanel } from "@/components/account/AccountPagePanel";
 import { resolveAccountEntitlement } from "@/lib/account/entitlements";
+import type { AccountAchievementOverview } from "@/lib/achievements";
 
 const pushMock = vi.fn();
 const initializeAccountSessionMock = vi.fn();
@@ -18,6 +19,7 @@ const forceProgressSyncMock = vi.fn();
 const useProgressSnapshotMock = vi.fn();
 const useProgressSyncStateMock = vi.fn();
 const useSearchParamsMock = vi.fn();
+const useAccountAchievementOverviewMock = vi.fn();
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
@@ -42,6 +44,11 @@ vi.mock("@/lib/progress", () => ({
   useProgressSyncState: () => useProgressSyncStateMock(),
 }));
 
+vi.mock("@/lib/achievements/client", () => ({
+  useAccountAchievementOverview: (...args: unknown[]) =>
+    useAccountAchievementOverviewMock(...args),
+}));
+
 vi.mock("@/components/account/PremiumSubscriptionActions", () => ({
   PremiumSubscriptionActions: ({
     billingUnavailable,
@@ -53,6 +60,111 @@ vi.mock("@/components/account/PremiumSubscriptionActions", () => ({
 vi.mock("@/components/account/AchievementsSection", () => ({
   AchievementsSection: () => <div>Achievements section</div>,
 }));
+
+function buildAccountAchievementOverview(
+  rewardStatus: AccountAchievementOverview["reward"]["status"] = "locked",
+): AccountAchievementOverview {
+  return {
+    stats: {
+      conceptVisitCount: 12,
+      questionAnswerCount: 22,
+      distinctChallengeCompletionCount: 4,
+      distinctTrackCompletionCount: 1,
+      activeStudySeconds: 16_200,
+    },
+    milestoneGroups: [
+      {
+        statKey: "challenge-completions",
+        title: "Challenge modes completed",
+        description: "Distinct challenge-mode solves across the concept catalog.",
+        unitLabel: "challenges",
+        currentValue: 4,
+        nextMilestone: {
+          statKey: "challenge-completions",
+          currentValue: 4,
+          nextTarget: 5,
+          progressRatio: 0.8,
+        },
+        items: [
+          {
+            key: "milestone:challenge-completions:1",
+            kind: "milestone",
+            title: "1 challenge milestone",
+            description: "Reached the 1 mark for challenge modes completed.",
+            earned: true,
+            earnedAt: "2026-04-03T00:00:00.000Z",
+            categoryKey: "milestone:challenge-completions",
+          },
+          {
+            key: "milestone:challenge-completions:5",
+            kind: "milestone",
+            title: "5 challenges milestone",
+            description: "Reached the 5 mark for challenge modes completed.",
+            earned: false,
+            earnedAt: null,
+            categoryKey: "milestone:challenge-completions",
+          },
+        ],
+      },
+      {
+        statKey: "active-study-hours",
+        title: "Active study time",
+        description: "Visible, recently active study time.",
+        unitLabel: "hours",
+        currentValue: 4.5,
+        nextMilestone: {
+          statKey: "active-study-hours",
+          currentValue: 4.5,
+          nextTarget: 5,
+          progressRatio: 0.9,
+        },
+        items: [
+          {
+            key: "milestone:active-study-hours:1",
+            kind: "milestone",
+            title: "1 hour milestone",
+            description: "Study actively for 1 hour.",
+            earned: true,
+            earnedAt: "2026-04-03T00:00:00.000Z",
+            categoryKey: "milestone:active-study-hours",
+          },
+        ],
+      },
+    ],
+    namedGroups: [
+      {
+        key: "challenge-completions",
+        title: "Challenge completion badges",
+        description: "One badge for each distinct challenge mode you complete.",
+        items: [
+          {
+            key: "challenge:test",
+            kind: "challenge",
+            title: "Completed test challenge mode",
+            description: "Solved the test challenge.",
+            earned: true,
+            earnedAt: "2026-04-03T00:00:00.000Z",
+            categoryKey: "challenge-completions",
+          },
+        ],
+      },
+    ],
+    reward: {
+      key: "premium-first-month-25-off",
+      status: rewardStatus,
+      title: "25% off first Supporter month",
+      description: "Reward description",
+      reasonLabel: null,
+      unlockedAt: null,
+      expiresAt: null,
+      claimedAt: null,
+      usedAt: null,
+      claimable: false,
+      resumable: false,
+      checkoutReady: false,
+    },
+  };
+}
 
 describe("AccountPagePanel", () => {
   beforeEach(() => {
@@ -80,6 +192,12 @@ describe("AccountPagePanel", () => {
       lastMergeSummary: null,
       savedContinueLearningState: null,
       lastSyncedAt: null,
+      errorMessage: null,
+    });
+    useAccountAchievementOverviewMock.mockReturnValue({
+      initialized: true,
+      loading: false,
+      overview: buildAccountAchievementOverview(),
       errorMessage: null,
     });
     useAccountSessionMock.mockReturnValue({
@@ -115,6 +233,7 @@ describe("AccountPagePanel", () => {
     useProgressSnapshotMock.mockReset();
     useProgressSyncStateMock.mockReset();
     useSearchParamsMock.mockReset();
+    useAccountAchievementOverviewMock.mockReset();
     vi.useRealTimers();
   });
 
@@ -622,6 +741,9 @@ describe("AccountPagePanel", () => {
 
     render(<AccountPagePanel />);
     const nav = screen.getByRole("navigation", { name: "Account sections" });
+    const achievementPreview = screen.getByRole("region", {
+      name: "Achievement preview",
+    });
 
     expect(screen.getByText("Free tier")).toBeInTheDocument();
     expect(
@@ -630,6 +752,17 @@ describe("AccountPagePanel", () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sync now" })).toBeInTheDocument();
+    expect(within(achievementPreview).getByText("Next badge")).toBeInTheDocument();
+    expect(within(achievementPreview).getByText("5 hours milestone")).toBeInTheDocument();
+    expect(within(achievementPreview).getByText("4.5 / 5 hours")).toBeInTheDocument();
+    expect(within(achievementPreview).getByText("Reward progress")).toBeInTheDocument();
+    expect(within(achievementPreview).getByText("4.5 / 10")).toBeInTheDocument();
+    expect(within(achievementPreview).getByText("3 badges")).toBeInTheDocument();
+    expect(
+      within(achievementPreview).getByRole("link", {
+        name: "View all badges and rewards",
+      }),
+    ).toHaveAttribute("href", "#account-achievements");
     expect(screen.getByText("Sync status")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Open dashboard" })).toHaveAttribute(
       "href",
@@ -648,6 +781,12 @@ describe("AccountPagePanel", () => {
   });
 
   it("surfaces signed-in premium accounts with password management and sign-out", () => {
+    useAccountAchievementOverviewMock.mockReturnValue({
+      initialized: true,
+      loading: false,
+      overview: buildAccountAchievementOverview("premium-ineligible"),
+      errorMessage: null,
+    });
     useAccountSessionMock.mockReturnValue({
       initialized: true,
       status: "signed-in",
@@ -681,8 +820,13 @@ describe("AccountPagePanel", () => {
     });
 
     render(<AccountPagePanel />);
+    const achievementPreview = screen.getByRole("region", {
+      name: "Achievement preview",
+    });
 
     expect(screen.getByText("Supporter")).toBeInTheDocument();
+    expect(within(achievementPreview).getByText("Supporter active")).toBeInTheDocument();
+    expect(within(achievementPreview).getByText("3 badges")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Study plans" })).toHaveAttribute(
       "href",
       "/account/study-plans",

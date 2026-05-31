@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import {
   installBrowserGuards,
@@ -29,6 +31,7 @@ const trackSlugs = [
 const REWARD_STUDY_HOURS_TARGET = 10;
 const REWARD_REGION_NAME = "One-time Supporter starter reward";
 const ONBOARDING_STORAGE_KEY = "open-model-lab.onboarding.v1";
+const qaArtifactDir = path.join(process.cwd(), "output", "playwright", "qa");
 
 async function suppressOnboardingPrompt(page: Page) {
   await page.addInitScript((key) => {
@@ -49,9 +52,12 @@ async function openAccount(page: Page) {
   await page.goto("/account");
   await expect(
     page.getByRole("heading", {
-      name: "Signing in is optional. Supporter is a separate plan.",
+      name: /Signing in is optional|Signed in on the free tier|Supporter is active for this signed-in account/i,
     }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "Achievement preview" }),
+  ).toBeVisible({ timeout: 15_000 });
   await expect(
     page.getByRole("heading", { name: REWARD_REGION_NAME }),
   ).toBeVisible({ timeout: 15_000 });
@@ -66,6 +72,10 @@ function rewardCard(page: Page) {
 
 function milestoneGroup(page: Page, title: string) {
   return page.getByRole("region", { name: title });
+}
+
+function achievementPreview(page: Page) {
+  return page.getByRole("region", { name: "Achievement preview" });
 }
 
 let browserGuard: BrowserGuard;
@@ -91,6 +101,14 @@ test("renders the signed-in free locked state with milestone groups", async ({ p
   });
 
   await openAccount(page);
+
+  const preview = achievementPreview(page);
+  await expect(preview.getByText("Next badge", { exact: true })).toBeVisible();
+  await expect(preview.getByText("Reward progress")).toBeVisible();
+  await expect(preview.getByText("Earned badges")).toBeVisible();
+  await expect(
+    preview.getByRole("link", { name: "View all badges and rewards" }),
+  ).toHaveAttribute("href", /#account-achievements$/);
 
   const reward = rewardCard(page);
   await expect(reward.getByText("Locked", { exact: true })).toBeVisible();
@@ -224,6 +242,10 @@ test("keeps achievements visible for premium users while hiding the reward CTA",
 
   await openAccount(page);
 
+  const preview = achievementPreview(page);
+  await expect(preview.getByText("Supporter active")).toBeVisible();
+  await expect(preview.getByText("Earned badges")).toBeVisible();
+
   const reward = rewardCard(page);
   await expect(reward.getByText("Supporter active")).toBeVisible();
   await expect(milestoneGroup(page, "Questions answered")).toBeVisible();
@@ -244,6 +266,9 @@ test("keeps long named badge lists collapsed until the learner expands them", as
   await openAccount(page);
 
   const challengeGroup = page.getByRole("region", { name: "Challenge completion badges" });
+  await expect(challengeGroup.getByLabel("Search badges")).toBeVisible();
+  await expect(challengeGroup.getByRole("button", { name: "Earned" })).toBeVisible();
+  await expect(challengeGroup.getByRole("button", { name: "Locked" })).toBeVisible();
   const toggle = challengeGroup.getByRole("button", { name: /Show \d+ more badges/ }).first();
   const collapsedCount = await challengeGroup.locator("article").count();
 
@@ -257,6 +282,59 @@ test("keeps long named badge lists collapsed until the learner expands them", as
   const expandedCount = await challengeGroup.locator("article").count();
   expect(expandedCount).toBeGreaterThan(collapsedCount);
 });
+
+for (const accountState of [
+  {
+    name: "signed-in-free",
+    session: "signed-in-free" as const,
+    rewardState: "locked" as const,
+  },
+  {
+    name: "signed-in-premium",
+    session: "signed-in-premium" as const,
+    rewardState: "unlocked" as const,
+  },
+]) {
+  for (const viewport of [
+    { name: "phone", size: { width: 390, height: 844 } },
+    { name: "desktop", size: { width: 1440, height: 900 } },
+  ]) {
+    test(`captures OML-QA-065 ${accountState.name} ${viewport.name} achievement preview`, async ({
+      page,
+    }) => {
+      await page.setViewportSize(viewport.size);
+      await setHarnessSession(page, accountState.session);
+      await resetHarnessAchievements(page);
+      await seedHarnessAchievements(page, {
+        conceptVisitCount: 12,
+        questionAnswerCount: 40,
+        distinctChallengeCompletionCount: 4,
+        distinctTrackCompletionCount: accountState.session === "signed-in-premium" ? 3 : 1,
+        activeStudyHours: accountState.session === "signed-in-premium" ? 10 : 4.5,
+        rewardState: accountState.rewardState,
+      });
+
+      await openAccount(page);
+
+      const preview = achievementPreview(page);
+      await expect(preview.getByText("Next badge", { exact: true })).toBeVisible();
+      await expect(preview.getByText("Reward progress")).toBeVisible();
+      await expect(preview.getByText("Earned badges")).toBeVisible();
+      await expect(preview).toBeInViewport();
+
+      fs.mkdirSync(qaArtifactDir, { recursive: true });
+      await page.screenshot({
+        path: path.join(
+          qaArtifactDir,
+          `oml-qa-065-${accountState.name}-${viewport.name}.png`,
+        ),
+        fullPage: false,
+        animations: "disabled",
+        caret: "initial",
+      });
+    });
+  }
+}
 
 test("shows the achievement toast live region after a real signed-in question answer", async ({
   page,

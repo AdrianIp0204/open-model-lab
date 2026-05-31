@@ -397,6 +397,55 @@ describe("AchievementsSection", () => {
     expect(screen.getByRole("button", { name: "Show 1 more badges" })).toBeInTheDocument();
   });
 
+  it("filters and searches named badge lists without expanding the long list", async () => {
+    const user = userEvent.setup();
+    mocks.useAccountAchievementOverviewMock.mockReturnValue({
+      initialized: true,
+      loading: false,
+      overview: buildOverview({
+        key: "premium-first-month-25-off",
+        status: "locked",
+        title: "25% off first Supporter month",
+        description: "Reward description",
+        reasonLabel: null,
+        unlockedAt: null,
+        expiresAt: null,
+        claimedAt: null,
+        usedAt: null,
+        claimable: false,
+        resumable: false,
+        checkoutReady: false,
+      }),
+      errorMessage: null,
+    });
+
+    render(<AchievementsSection />);
+
+    const challengeGroup = screen.getByRole("region", {
+      name: "Challenge completion badges",
+    });
+
+    expect(within(challengeGroup).queryByText("Challenge badge 7")).not.toBeInTheDocument();
+    expect(
+      within(challengeGroup).getByRole("button", { name: "Show 1 more badges" }),
+    ).toBeInTheDocument();
+
+    await user.click(within(challengeGroup).getByRole("button", { name: "Locked" }));
+
+    expect(within(challengeGroup).queryByText("Challenge badge 1")).not.toBeInTheDocument();
+    expect(within(challengeGroup).getByText("Challenge badge 5")).toBeInTheDocument();
+    expect(within(challengeGroup).getByText("Challenge badge 7")).toBeInTheDocument();
+    expect(
+      within(challengeGroup).queryByRole("button", { name: /Show \d+ more badges/ }),
+    ).not.toBeInTheDocument();
+
+    await user.clear(within(challengeGroup).getByLabelText("Search badges"));
+    await user.type(within(challengeGroup).getByLabelText("Search badges"), "badge 7");
+
+    expect(within(challengeGroup).getByText("Challenge badge 7")).toBeInTheDocument();
+    expect(within(challengeGroup).queryByText("Challenge badge 5")).not.toBeInTheDocument();
+  });
+
   it("does not show a reward CTA when the account already has Supporter history", () => {
     mocks.useAccountAchievementOverviewMock.mockReturnValue({
       initialized: true,
