@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-055 Concept User Flow Coverage
+
+Current state: `OML-QA-055` is complete. A durable representative Playwright gate now covers concept-page header/menu/help/theme/language flows, signed-out and signed-in shell variants, guided step navigation, graph tab switching, compare setup editing/reset/exit, simulation reset, quick-check answering, route reload/loading fallback, and invalid concept slug not-found behavior across phone, tablet, and desktop. The patch also prevents guided graph auto-selection from overriding a learner's manual graph-tab choice.
+
+### Files Changed
+
+- `tests/e2e/concept-page-user-flow.spec.ts`: adds the representative OML-QA-055 concept-page user-flow coverage.
+- `components/simulations/ConceptSimulationRenderer.tsx`: keeps manual graph-tab selection stable after the guided graph is auto-selected once for the current step.
+- `playwright.concept-v2.config.ts` and `scripts/run-playwright-qa-sweep.mjs`: include the new spec in the concept V2 and QA sweep gates.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- Targeted `pnpm exec eslint` on touched TS/TSX/config/script files: passed.
+- `pnpm typecheck`: passed.
+- `PLAYWRIGHT_PORT=3555 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-055-orchestrator pnpm exec playwright test tests/e2e/concept-page-user-flow.spec.ts --config=playwright.config.ts --reporter=line`: passed, 3/3.
+- `pnpm test:e2e:qa-sweep -- tests/e2e/concept-page-user-flow.spec.ts --chunk-size=1 --port=3560`: passed with `ok: true`, no test failures, and no instability matches.
+- Independent QA logs are under `output/qa-oml-qa-055-orchestrator/`.
+
 ## 2026-05-31 OML-QA-054 Compact Concept-Machine Openings
 
 Current state: `OML-QA-054` is complete. Dense concept first views now keep the opening focused on the live model, current cue, and first control by suppressing secondary live-bench prose, keeping Step tools closed until requested, tightening current-step cue compaction, and moving Maxwell secondary notes to accessible-only text.
