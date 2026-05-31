@@ -1,5 +1,28 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-061 Section Navigation Labels And Targets
+
+Current state: `OML-QA-061` is complete. Account, dashboard, and analytics section navigation now uses the current surface label on mobile, has explicit 46px minimum visible nav controls, and the desktop rail no longer exposes the long `Jump within...` helper copy as cramped visible text. The analytics route now provides locale messages around the analytics panel so zh-HK section-nav copy resolves consistently.
+
+### Files Changed
+
+- `components/layout/PageSectionNavMobile.tsx`: uses `sectionNav.mobileLabel` for the closed mobile toggle and raises toggle/group/item targets above the 44px floor.
+- `components/layout/PageSectionNav.tsx`: shows the shorter surface label in the desktop rail, hides the long helper copy from the visual rail, stacks the collapse control below the label, and marks visible nav controls for DOM validation.
+- `app/dashboard/analytics/DashboardAnalyticsRoute.tsx` and `components/account/LearningAnalyticsPanel.tsx`: align analytics with the account/dashboard client-provider locale path so zh-HK analytics nav labels render correctly.
+- `messages/zh-HK.json`: changes the global page-section fallback from concept-specific copy to page-generic copy.
+- `tests/components/page-section-frame.test.tsx` and `tests/e2e/page-section-nav.spec.ts`: cover surface-specific mobile labels, desktop rail heading behavior, minimum visible control sizes, and account/dashboard/analytics screenshots across English and zh-HK.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `pnpm exec vitest run tests/components/page-section-frame.test.tsx tests/components/learning-analytics-panel.test.tsx tests/app/dashboard-analytics-page.test.tsx`: passed, 16/16.
+- `pnpm exec playwright test tests/e2e/page-section-nav.spec.ts --reporter=line`: passed, 1/1.
+- `pnpm lint -- app/dashboard/analytics/DashboardAnalyticsRoute.tsx components/account/LearningAnalyticsPanel.tsx components/layout/PageSectionNav.tsx components/layout/PageSectionNavMobile.tsx tests/components/page-section-frame.test.tsx tests/components/learning-analytics-panel.test.tsx tests/app/dashboard-analytics-page.test.tsx tests/e2e/page-section-nav.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `git diff --check`: passed.
+- Screenshot artifacts: `output/playwright/qa/oml-qa-061-{en,zh-HK}-{account,dashboard,analytics}-{phone,tablet,desktop,wide}.png`.
+
 ## 2026-05-31 OML-QA-060 Signed-Out Account First Viewport
 
 Current state: `OML-QA-060` is complete. The signed-out account page now starts with a compact account-task chooser and an immediately usable `Create account / email link` form, with password sign-in and reset as sibling task cards. Local-first sync and Supporter policy copy now sits below the forms instead of occupying the first viewport.

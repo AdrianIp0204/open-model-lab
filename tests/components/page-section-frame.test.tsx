@@ -125,14 +125,16 @@ describe("PageSectionFrame", () => {
 
     renderFrame();
 
-    const toggle = screen.getByRole("button", { name: /^Page sections/ });
+    const toggle = screen.getByRole("button", { name: "Example sections" });
 
     expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(toggle).toHaveClass("min-h-[46px]");
     expect(screen.queryByTestId("page-section-mobile-panel")).not.toBeInTheDocument();
 
     await user.click(toggle);
 
     expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(toggle).toHaveTextContent("Close section menu");
     expect(screen.getByTestId("page-section-mobile-panel")).toBeInTheDocument();
 
     const panelId = toggle.getAttribute("aria-controls");
@@ -140,6 +142,9 @@ describe("PageSectionFrame", () => {
 
     const panel = document.getElementById(panelId ?? "");
     expect(panel).not.toBeNull();
+    expect(within(panel as HTMLElement).getByRole("link", { name: "Beta" })).toHaveClass(
+      "min-h-[46px]",
+    );
 
     await user.click(within(panel as HTMLElement).getByRole("link", { name: "Beta" }));
 
@@ -156,7 +161,7 @@ describe("PageSectionFrame", () => {
     expect(nav.querySelector("[data-page-section-nav-group]")).toBeNull();
     expect(within(nav).queryByText("Explore")).not.toBeInTheDocument();
 
-    const toggle = screen.getByRole("button", { name: /^Page sections/ });
+    const toggle = screen.getByRole("button", { name: "Example sections" });
     await user.click(toggle);
 
     const panel = document.getElementById(toggle.getAttribute("aria-controls") ?? "");
@@ -183,6 +188,9 @@ describe("PageSectionFrame", () => {
     await waitFor(() => {
       expect(nav).toHaveAttribute("data-sidebar-state", "expanded");
     });
+    expect(nav.querySelector("[data-page-section-rail-heading]")).toHaveTextContent(
+      "Example sections",
+    );
     expect(routeShell).not.toBeNull();
     expect(pageBodyShell).not.toBeNull();
     expect(pageMain).not.toBeNull();
@@ -197,6 +205,7 @@ describe("PageSectionFrame", () => {
     const collapseButton = screen.getByRole("button", {
       name: "Collapse section navigation sidebar",
     });
+    expect(collapseButton).toHaveClass("min-h-[46px]");
     await user.click(collapseButton);
 
     expect(nav).toHaveAttribute("data-sidebar-state", "collapsed");

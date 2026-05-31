@@ -47,6 +47,8 @@ export function PageSectionNavMobile({
     groupedItems.groups.find((group) => group.id === activeGroupId) ??
     groupedItems.groups[0] ??
     null;
+  const mobileLabel = config.mobileLabel ?? t("mobileTitle");
+  const toggleLabel = menuOpen ? t("closeMenu") : mobileLabel;
   const visibleItems = activeGroup
     ? [...groupedItems.standaloneItems, ...activeGroup.items]
     : config.items;
@@ -66,7 +68,7 @@ export function PageSectionNavMobile({
       <div className="page-band px-3 py-2.5">
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
-            <p className="lab-label">{config.mobileLabel ?? t("mobileTitle")}</p>
+            <p className="lab-label">{mobileLabel}</p>
             <div className="mt-1 flex min-w-0 items-center gap-2">
               {activeGroup ? (
                 <span className="rounded-full border border-line bg-paper px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-600">
@@ -81,13 +83,14 @@ export function PageSectionNavMobile({
           <button
             type="button"
             data-testid="page-section-mobile-toggle"
+            data-page-section-nav-control=""
             aria-expanded={menuOpen}
             aria-controls={panelId}
-            aria-label={menuOpen ? t("closeMenu") : t("openButton")}
+            aria-label={toggleLabel}
             onClick={() => setMenuOpen((current) => !current)}
-            className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className="inline-flex min-h-[46px] shrink-0 items-center justify-center rounded-full border border-line bg-paper px-3.5 py-2 text-sm font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
-            {menuOpen ? t("closeButton") : t("openButton")}
+            {toggleLabel}
           </button>
         </div>
 
@@ -103,12 +106,13 @@ export function PageSectionNavMobile({
                     <a
                       key={group.id}
                       href={`#${targetId}`}
+                      data-page-section-nav-control=""
                       aria-current={active ? "step" : undefined}
                       onClick={(event) =>
                         targetId ? handleGroupNavigate(event, targetId) : undefined
                       }
                       className={[
-                        "whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition",
+                        "inline-flex min-h-[46px] items-center whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition",
                         active
                           ? "border-ink-950 bg-ink-950 text-paper-strong"
                           : "border-line bg-paper text-ink-700",
@@ -129,10 +133,11 @@ export function PageSectionNavMobile({
                   <a
                     key={item.id}
                     href={`#${item.id}`}
+                    data-page-section-nav-control=""
                     aria-current={active ? "location" : undefined}
                     onClick={(event) => handleItemNavigate(event, item.id)}
                     className={[
-                      "rounded-[16px] border px-3 py-2.5 text-sm font-medium transition",
+                      "flex min-h-[46px] items-center rounded-[16px] border px-3 py-2.5 text-sm font-medium transition",
                       active
                         ? "border-ink-950 bg-ink-950 text-paper-strong"
                         : "border-line bg-paper-strong text-ink-700",

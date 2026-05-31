@@ -48,6 +48,7 @@ export function PageSectionNav({
   const t = useTranslations("PageSectionNav");
   const panelId = useId();
   const isExpanded = mode === "expanded";
+  const navLabel = config.label ?? t("label");
   const groupedItems = useMemo(
     () =>
       getGroupedPageSectionNavItems({
@@ -66,7 +67,7 @@ export function PageSectionNav({
         className="sticky top-24 max-h-[calc(100svh-6rem)] overflow-y-auto"
       >
         <nav
-          aria-label={config.label ?? t("label")}
+          aria-label={navLabel}
           data-sidebar-state={isExpanded ? "expanded" : "collapsed"}
           className={[
             "flex min-h-full w-full flex-col",
@@ -82,18 +83,25 @@ export function PageSectionNav({
             <div
               className={[
                 "flex gap-3",
-                isExpanded ? "items-start justify-between" : "flex-col items-center",
+                isExpanded ? "flex-col items-stretch" : "flex-col items-center",
               ].join(" ")}
             >
               <div className={isExpanded ? "min-w-0" : "sr-only"}>
-                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-ink-500">
+                <p
+                  data-page-section-rail-heading=""
+                  className="text-sm font-semibold leading-5 text-ink-950"
+                >
+                  {navLabel}
+                </p>
+                <p className="sr-only">
                   {config.title ?? t("title")}
                 </p>
-                <p className="mt-2 max-w-[14rem] text-sm leading-6 text-ink-600">{t("description")}</p>
+                <p className="sr-only">{t("description")}</p>
               </div>
 
               <button
                 type="button"
+                data-page-section-nav-control=""
                 aria-expanded={isExpanded}
                 aria-controls={panelId}
                 aria-label={
@@ -101,10 +109,10 @@ export function PageSectionNav({
                 }
                 onClick={() => onModeChange(isExpanded ? "collapsed" : "expanded")}
                 className={[
-                  "inline-flex items-center justify-center border border-line bg-white/92 font-semibold text-ink-900 shadow-sm transition hover:border-ink-950/20 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  "inline-flex min-h-[46px] items-center justify-center border border-line bg-white/92 font-semibold text-ink-900 shadow-sm transition hover:border-ink-950/20 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                   isExpanded
-                    ? "rounded-[16px] px-3.5 py-2 text-[0.68rem] uppercase tracking-[0.18em]"
-                    : "h-11 w-11 rounded-[18px] text-base",
+                    ? "w-full rounded-[16px] px-3.5 py-2 text-[0.68rem] uppercase tracking-[0.18em]"
+                    : "h-[46px] w-[46px] rounded-[18px] text-base",
                 ].join(" ")}
               >
                 {isExpanded ? t("collapse") : <span aria-hidden="true">+</span>}
@@ -123,12 +131,13 @@ export function PageSectionNav({
                       <li key={item.id}>
                         <a
                           href={`#${item.id}`}
+                          data-page-section-nav-control=""
                           aria-label={item.label}
                           aria-current={isActive ? "location" : undefined}
                           onClick={(event) => handleNavigate(event, item.id)}
                           title={item.label}
                           className={[
-                            "group flex w-full items-start gap-3 rounded-[18px] px-3.5 py-2.5 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                            "group flex min-h-[46px] w-full items-start gap-3 rounded-[18px] px-3.5 py-2.5 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                             isActive
                               ? "border-ink-950 bg-ink-950 text-paper-strong shadow-sm"
                               : "border-transparent bg-white/42 text-ink-700 hover:bg-white/80 hover:text-ink-950",
@@ -168,10 +177,11 @@ export function PageSectionNav({
                     {group.targetId ? (
                       <a
                         href={`#${group.targetId}`}
+                        data-page-section-nav-control=""
                         aria-current={isActiveGroup ? "step" : undefined}
                         onClick={(event) => handleGroupNavigate(event, group.targetId!)}
                         className={[
-                          "inline-flex items-center rounded-full border px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                          "inline-flex min-h-[46px] items-center rounded-full border px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                           isActiveGroup
                             ? "border-ink-950 bg-ink-950 text-paper-strong"
                             : "border-line bg-paper-strong text-ink-700 hover:border-ink-950/20 hover:bg-white hover:text-ink-950",
@@ -193,12 +203,13 @@ export function PageSectionNav({
                           <li key={item.id}>
                             <a
                               href={`#${item.id}`}
+                              data-page-section-nav-control=""
                               aria-label={item.label}
                               aria-current={isActive ? "location" : undefined}
                               onClick={(event) => handleNavigate(event, item.id)}
                               title={item.label}
                               className={[
-                            "group flex w-full items-start gap-3 rounded-[16px] px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                                "group flex min-h-[46px] w-full items-start gap-3 rounded-[16px] px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
                                 isActive
                                   ? "border-ink-950 bg-ink-950 text-paper-strong shadow-sm"
                                   : "border-transparent bg-white/52 text-ink-700 hover:bg-white hover:text-ink-950",
@@ -236,6 +247,7 @@ export function PageSectionNav({
                   <li key={item.id} className="w-full">
                     <a
                       href={`#${item.id}`}
+                      data-page-section-nav-control=""
                       aria-label={item.label}
                       aria-current={isActive ? "location" : undefined}
                       onClick={(event) => handleNavigate(event, item.id)}

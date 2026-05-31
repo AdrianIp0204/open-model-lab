@@ -3218,7 +3218,7 @@
     }
   },
   "PageSectionNav": {
-    "label": "概念段落",
+    "label": "頁面段落",
     "title": "本頁內容",
     "description": "不需離開現在這個頁面，就能在各個段落之間移動。",
     "collapse": "收起",
@@ -3227,8 +3227,8 @@
     "mobileTitle": "段落",
     "currentSection": "目前段落",
     "closeMenu": "關閉段落選單",
-    "openButton": "概念段落",
-    "closeButton": "關閉概念段落",
+    "openButton": "頁面段落",
+    "closeButton": "關閉頁面段落",
     "currentCompact": "現在"
   },
   "ContactPage": {

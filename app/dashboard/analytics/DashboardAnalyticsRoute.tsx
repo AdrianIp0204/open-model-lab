@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { NextIntlClientProvider } from "next-intl";
 import { LearningAnalyticsPanel } from "@/components/account/LearningAnalyticsPanel";
 import { PremiumFeatureNotice } from "@/components/account/PremiumFeatureNotice";
 import { PremiumSubscriptionActions } from "@/components/account/PremiumSubscriptionActions";
@@ -82,7 +83,7 @@ export default async function DashboardAnalyticsPage({
   localeOverride?: AppLocale;
 } = {}) {
   const locale = localeOverride ?? (await resolveServerLocaleFallback());
-  await getLocaleMessages(locale);
+  const messages = await getLocaleMessages(locale);
   const t = await getScopedTranslator(locale, "DashboardAnalyticsPage");
   console.info("[dashboard/analytics] route render started");
 
@@ -100,52 +101,54 @@ export default async function DashboardAnalyticsPage({
 
     if (!session.entitlement.capabilities.canUseAdvancedStudyTools) {
       return (
-        <PageShell
-          layoutMode="section-shell"
-          feedbackContext={{
-            pageType: "other",
-            pagePath: "/dashboard/analytics",
-            pageTitle: t("feedbackContext.pageTitle"),
-          }}
-          showFeedbackWidget={false}
-        >
-          <section className="space-y-6 sm:space-y-8">
-            <SectionHeading
-              level={1}
-              eyebrow={t("premiumLocked.eyebrow")}
-              title={t("premiumLocked.title")}
-              description={t("premiumLocked.description")}
-            />
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <PageShell
+            layoutMode="section-shell"
+            feedbackContext={{
+              pageType: "other",
+              pagePath: "/dashboard/analytics",
+              pageTitle: t("feedbackContext.pageTitle"),
+            }}
+            showFeedbackWidget={false}
+          >
+            <section className="space-y-6 sm:space-y-8">
+              <SectionHeading
+                level={1}
+                eyebrow={t("premiumLocked.eyebrow")}
+                title={t("premiumLocked.title")}
+                description={t("premiumLocked.description")}
+              />
 
-            <section className="lab-panel p-6">
-              <p className="text-sm leading-6 text-ink-700">
-                {t("premiumLocked.body")}
-              </p>
-              <PremiumFeatureNotice
-                className="mt-5"
-                title={t("premiumLocked.notice.title")}
-                freeDescription={t("premiumLocked.notice.freeDescription")}
-                description={t("premiumLocked.notice.description")}
-                showSignInCta={false}
-              />
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link
-                  href="/dashboard"
-                  className="inline-flex items-center rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
-                >
-                  {t("premiumLocked.actions.backToDashboard")}
-                </Link>
-              </div>
-              <PremiumSubscriptionActions
-                className="mt-5"
-                context="account"
-                initialSession={session}
-                billingUnavailable={Boolean(session.warnings?.billingUnavailable)}
-                billingNotConfigured={Boolean(session.warnings?.billingNotConfigured)}
-              />
+              <section className="lab-panel p-6">
+                <p className="text-sm leading-6 text-ink-700">
+                  {t("premiumLocked.body")}
+                </p>
+                <PremiumFeatureNotice
+                  className="mt-5"
+                  title={t("premiumLocked.notice.title")}
+                  freeDescription={t("premiumLocked.notice.freeDescription")}
+                  description={t("premiumLocked.notice.description")}
+                  showSignInCta={false}
+                />
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <Link
+                    href="/dashboard"
+                    className="inline-flex items-center rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+                  >
+                    {t("premiumLocked.actions.backToDashboard")}
+                  </Link>
+                </div>
+                <PremiumSubscriptionActions
+                  className="mt-5"
+                  context="account"
+                  initialSession={session}
+                  billingUnavailable={Boolean(session.warnings?.billingUnavailable)}
+                  billingNotConfigured={Boolean(session.warnings?.billingNotConfigured)}
+                />
+              </section>
             </section>
-          </section>
-        </PageShell>
+          </PageShell>
+        </NextIntlClientProvider>
       );
     }
 
@@ -270,29 +273,31 @@ export default async function DashboardAnalyticsPage({
     });
 
     return (
-      <PageShell
-        layoutMode="section-shell"
-        feedbackContext={{
-          pageType: "other",
-          pagePath: "/dashboard/analytics",
-          pageTitle: t("feedbackContext.pageTitle"),
-        }}
-        showFeedbackWidget={false}
-      >
-        <LearningAnalyticsPanel
-          analytics={analytics}
-          syncedProgressUnavailable={syncedProgressUnavailable}
-          achievementsUnavailable={achievementsUnavailable}
-          leadIn={
-            <SectionHeading
-              level={1}
-              eyebrow={t("hero.eyebrow")}
-              title={t("hero.title")}
-              description={t("hero.description")}
-            />
-          }
-        />
-      </PageShell>
+      <NextIntlClientProvider locale={locale} messages={messages}>
+        <PageShell
+          layoutMode="section-shell"
+          feedbackContext={{
+            pageType: "other",
+            pagePath: "/dashboard/analytics",
+            pageTitle: t("feedbackContext.pageTitle"),
+          }}
+          showFeedbackWidget={false}
+        >
+          <LearningAnalyticsPanel
+            analytics={analytics}
+            syncedProgressUnavailable={syncedProgressUnavailable}
+            achievementsUnavailable={achievementsUnavailable}
+            leadIn={
+              <SectionHeading
+                level={1}
+                eyebrow={t("hero.eyebrow")}
+                title={t("hero.title")}
+                description={t("hero.description")}
+              />
+            }
+          />
+        </PageShell>
+      </NextIntlClientProvider>
     );
   } catch (error) {
     if (
