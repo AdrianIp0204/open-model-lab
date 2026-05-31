@@ -3316,6 +3316,9 @@
       "startedThenIdle": "The live lab was started here, then left idle for {days} days.",
       "lastActiveUnfinished": "Last active {days} days ago and still unfinished.",
       "workedExampleIdle": "A worked example was opened here, but the concept has been idle for {days} days before any stronger check.",
+      "predictionCompareIdle": "Prediction or compare work is saved here, but the concept has been idle for {days} days before any stronger check.",
+      "practiceIdle": "Practice is saved, but the concept has been idle for {days} days.",
+      "staleCompleted": "Completed confidently before, but it has been {days} days since the last saved activity.",
       "checkpointStartedNeedsFinish": "{title} is already started but still needs a clean finish.",
       "checkpointStillOpenLaterTrackStarted": "{title} is still open even though later {trackTitle} work has already started.",
       "checkpointReadyStillNextTrackHandoff": "{title} has been ready for {days} days and is still the next track handoff."

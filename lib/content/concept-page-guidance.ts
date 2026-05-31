@@ -1,3 +1,4 @@
+import type { AppLocale } from "@/i18n/routing";
 import type { SimulationKind } from "@/lib/physics";
 import type { ConceptContent } from "./schema";
 
@@ -98,7 +99,25 @@ function normalizeOptionalSentence(value: string | null | undefined) {
   return normalized ? normalized : null;
 }
 
-function makeActionVerb(kind: ConceptContent["noticePrompts"]["items"][number]["type"]) {
+function makeActionVerb(
+  kind: ConceptContent["noticePrompts"]["items"][number]["type"],
+  locale: AppLocale = "en",
+) {
+  if (locale === "zh-HK") {
+    switch (kind) {
+      case "compare":
+        return "比較";
+      case "graph-reading":
+        return "保留";
+      case "misconception":
+        return "檢查";
+      case "try-this":
+      case "observation":
+      default:
+        return "調整";
+    }
+  }
+
   switch (kind) {
     case "compare":
       return "Compare";
@@ -859,12 +878,13 @@ function collectOverrideHints(
 
 function buildGeneratedActionText(input: {
   concept: ConceptContent;
+  locale?: AppLocale;
   prompt: ConceptContent["noticePrompts"]["items"][number] | null;
   featuredSetup:
     | NonNullable<NonNullable<ConceptContent["pageFramework"]>["featuredSetups"]>[number]
     | null;
 }) {
-  const { concept, prompt, featuredSetup } = input;
+  const { concept, locale = "en", prompt, featuredSetup } = input;
   const relatedControls = (prompt?.relatedControls ?? [])
     .map((id) => buildControlHint(concept, id, 60))
     .filter(Boolean);
@@ -889,7 +909,30 @@ function buildGeneratedActionText(input: {
       ? buildGraphHint(concept, resolveInitialGraphId(concept)!, 56)
       : null);
   const fallbackOverlay = relatedOverlays[0] ?? null;
-  const verb = makeActionVerb(prompt?.type ?? "try-this");
+  const verb = makeActionVerb(prompt?.type ?? "try-this", locale);
+
+  if (locale === "zh-HK") {
+    if (fallbackControl && fallbackGraph) {
+      return `${verb}${fallbackControl.label}，並保持${fallbackGraph.label}開啟。`;
+    }
+
+    if (fallbackControl && fallbackOverlay) {
+      return `${verb}${fallbackControl.label}，並保持${fallbackOverlay.label}可見。`;
+    }
+
+    if (fallbackGraph) {
+      return `保持${fallbackGraph.label}開啟，並觀察即時實驗台。`;
+    }
+
+    if (featuredSetup?.setup.presetId) {
+      const preset = findPreset(concept, featuredSetup.setup.presetId);
+      if (preset) {
+        return `在「更多工具」開啟${preset.label}，然後觀察即時實驗台。`;
+      }
+    }
+
+    return null;
+  }
 
   if (fallbackControl && fallbackGraph) {
     return `${verb} ${fallbackControl.label.toLowerCase()} with ${fallbackGraph.label} open.`;
@@ -1040,6 +1083,7 @@ function finalizeHints(
 
 export function resolveConceptPageGuidance(
   concept: ConceptContent,
+  locale: AppLocale = "en",
 ): ResolvedConceptPageGuidance | null {
   const starterTask = normalizeOptionalSentence(
     concept.simulation.ui?.starterExploreTasks?.[0],
@@ -1075,6 +1119,7 @@ export function resolveConceptPageGuidance(
     const promptText = normalizeOptionalSentence(firstPrompt.text);
     const generatedAction = buildGeneratedActionText({
       concept,
+      locale,
       prompt: firstPrompt,
       featuredSetup: firstFeaturedSetup,
     });

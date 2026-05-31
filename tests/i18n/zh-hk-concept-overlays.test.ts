@@ -97,6 +97,8 @@ const ENGLISH_LEAK_FIELD_KEYS = new Set([
   "description",
   "shortDescription",
   "whyItMatters",
+  "template",
+  "interpretationTemplate",
   "reasonLabel",
   "changeLabel",
   "resultLabel",

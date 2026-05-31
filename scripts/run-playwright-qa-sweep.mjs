@@ -14,6 +14,8 @@ const defaultSpecs = [
   "tests/e2e/site-smoke.spec.ts",
   "tests/e2e/theme-contrast-sweep.spec.ts",
 ];
+const themeContrastSweepSpec = "tests/e2e/theme-contrast-sweep.spec.ts";
+const defaultThemeContrastSweepChunks = 6;
 const instabilityPatterns = [
   /Server is approaching the used memory threshold, restarting/i,
   /ERR_EMPTY_RESPONSE/i,
@@ -95,10 +97,26 @@ function parseArgs(argv) {
 
 function chunkSpecs(specs, chunkSize) {
   const chunks = [];
+  let pending = [];
 
-  for (let index = 0; index < specs.length; index += chunkSize) {
-    chunks.push(specs.slice(index, index + chunkSize));
+  function flushPending() {
+    for (let index = 0; index < pending.length; index += chunkSize) {
+      chunks.push(pending.slice(index, index + chunkSize));
+    }
+    pending = [];
   }
+
+  for (const spec of specs) {
+    if (spec === themeContrastSweepSpec) {
+      flushPending();
+      chunks.push([spec]);
+      continue;
+    }
+
+    pending.push(spec);
+  }
+
+  flushPending();
 
   return chunks;
 }
@@ -128,6 +146,63 @@ function runCommand(command, args, options) {
   });
 }
 
+async function runPlaywrightShard(specs, shardLabel, port, options) {
+  const args = [
+    "exec",
+    "playwright",
+    "test",
+    "--config=playwright.config.ts",
+    ...options.playwrightArgs,
+    ...specs,
+  ];
+
+  if (specs.length !== 1 || specs[0] !== themeContrastSweepSpec) {
+    return runCommand("pnpm", args, {
+      env: {
+        ...process.env,
+        OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX: `-${shardLabel}`,
+        PLAYWRIGHT_PORT: `${port}`,
+      },
+    });
+  }
+
+  const chunkCount = parsePositiveInteger(
+    process.env.OPEN_MODEL_LAB_THEME_SWEEP_CHUNKS ?? `${defaultThemeContrastSweepChunks}`,
+    defaultThemeContrastSweepChunks,
+    "OPEN_MODEL_LAB_THEME_SWEEP_CHUNKS",
+  );
+  let output = "";
+  let code = 0;
+  let signal = null;
+
+  for (let chunkIndex = 1; chunkIndex <= chunkCount; chunkIndex += 1) {
+    const themeShardLabel = `${shardLabel}-chunk-${chunkIndex}-of-${chunkCount}`;
+
+    console.log(
+      `[qa-sweep] theme contrast subchunk ${chunkIndex}/${chunkCount} on port ${port + chunkIndex - 1}`,
+    );
+    const result = await runCommand("pnpm", args, {
+      env: {
+        ...process.env,
+        OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX: `-${themeShardLabel}`,
+        OPEN_MODEL_LAB_THEME_SWEEP_CHUNKS: `${chunkCount}`,
+        OPEN_MODEL_LAB_THEME_SWEEP_CHUNK_INDEX: `${chunkIndex}`,
+        PLAYWRIGHT_PORT: `${port + chunkIndex - 1}`,
+      },
+    });
+
+    output += result.output;
+
+    if (result.code !== 0) {
+      code = result.code;
+      signal = result.signal;
+      break;
+    }
+  }
+
+  return { code, signal, output };
+}
+
 const options = parseArgs(process.argv.slice(2));
 const chunks = chunkSpecs(options.specs, options.chunkSize);
 const runId = new Date().toISOString().replace(/[:.]/g, "-");
@@ -142,23 +217,9 @@ for (const [index, specs] of chunks.entries()) {
   const shardNumber = index + 1;
   const port = options.basePort + index;
   const shardLabel = sanitizeLabel(`qa-sweep-${shardNumber}-${specs.map((spec) => path.basename(spec, ".ts")).join("-")}`);
-  const args = [
-    "exec",
-    "playwright",
-    "test",
-    "--config=playwright.config.ts",
-    ...options.playwrightArgs,
-    ...specs,
-  ];
 
   console.log(`\n[qa-sweep] shard ${shardNumber}/${chunks.length} on port ${port}: ${specs.join(" ")}`);
-  const result = await runCommand("pnpm", args, {
-    env: {
-      ...process.env,
-      OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX: `-${shardLabel}`,
-      PLAYWRIGHT_PORT: `${port}`,
-    },
-  });
+  const result = await runPlaywrightShard(specs, shardLabel, port, options);
   const instabilityMatches = instabilityPatterns
     .filter((pattern) => pattern.test(result.output))
     .map((pattern) => pattern.source);

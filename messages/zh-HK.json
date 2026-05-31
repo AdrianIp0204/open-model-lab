@@ -3171,6 +3171,9 @@
       "startedThenIdle": "這裡的即時實驗台已開始操作，但已閒置 {days} 天。",
       "lastActiveUnfinished": "最後活動距今已 {days} 天，而且仍未完成。",
       "workedExampleIdle": "這裡曾打開例題，但在做更強檢查之前已閒置 {days} 天。",
+      "predictionCompareIdle": "這裡已儲存預測或比較操作，但在做更強檢查之前已閒置 {days} 天。",
+      "practiceIdle": "已儲存練習，但這個概念已閒置 {days} 天。",
+      "staleCompleted": "先前已自信完成，但距離上次儲存活動已過了 {days} 天。",
       "checkpointStartedNeedsFinish": "「{title}」已經開始，但仍需要完整收尾。",
       "checkpointStillOpenLaterTrackStarted": "雖然「{trackTitle}」後面的學習已經開始，但「{title}」仍未完成。",
       "checkpointReadyStillNextTrackHandoff": "「{title}」已準備好 {days} 天，仍然是下一個路線銜接點。"

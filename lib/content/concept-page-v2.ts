@@ -642,7 +642,7 @@ function resolveFallbackSteps(
   sections: readonly ResolvedConceptPageSection[],
 ): ResolvedConceptPageV2Step[] {
   const copy = getV2Copy(locale).fallback;
-  const guidance = resolveConceptPageGuidance(concept);
+  const guidance = resolveConceptPageGuidance(concept, locale);
   const hints = guidance?.hints ?? [];
   const starterTasks = concept.simulation.ui?.starterExploreTasks ?? [];
   const quickTestQuestion = concept.quickTest.questions[0] ?? null;

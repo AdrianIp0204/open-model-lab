@@ -45,13 +45,6 @@ type SweepIssue = {
   detail: Record<string, unknown>;
 };
 
-const artifactDir = path.join(
-  process.cwd(),
-  "output",
-  "qa-oml-qa-035-theme-contrast-sweep",
-);
-const screenshotsDir = path.join(artifactDir, "screenshots");
-
 const themes: ThemeMode[] = ["paper-lab", "dark-lab"];
 
 const viewports: SweepViewport[] = [
@@ -238,6 +231,45 @@ const sweepCases = viewports.flatMap((viewport) =>
       .map((route) => ({ route, theme, viewport })),
   ),
 );
+
+function parsePositiveEnvInteger(name: string, fallback: number) {
+  const value = process.env[name];
+
+  if (!value) {
+    return fallback;
+  }
+
+  const parsed = Number(value);
+
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    throw new Error(`${name} must be a positive integer; received ${value}.`);
+  }
+
+  return parsed;
+}
+
+const requestedChunkCount = parsePositiveEnvInteger("OPEN_MODEL_LAB_THEME_SWEEP_CHUNKS", 1);
+const requestedChunkIndex = parsePositiveEnvInteger("OPEN_MODEL_LAB_THEME_SWEEP_CHUNK_INDEX", 1);
+
+if (requestedChunkIndex > requestedChunkCount) {
+  throw new Error(
+    `OPEN_MODEL_LAB_THEME_SWEEP_CHUNK_INDEX must be <= OPEN_MODEL_LAB_THEME_SWEEP_CHUNKS; received ` +
+      `${requestedChunkIndex} of ${requestedChunkCount}.`,
+  );
+}
+
+const activeSweepCases = sweepCases.filter(
+  (_case, index) => index % requestedChunkCount === requestedChunkIndex - 1,
+);
+const chunkArtifactSuffix =
+  requestedChunkCount > 1
+    ? `-chunk-${requestedChunkIndex}-of-${requestedChunkCount}`
+    : "";
+const artifactDir = path.join(
+  process.cwd(),
+  `output/qa-oml-qa-035-theme-contrast-sweep${chunkArtifactSuffix}`,
+);
+const screenshotsDir = path.join(artifactDir, "screenshots");
 
 function safeFileLabel(value: string) {
   return value.replace(/[^a-zA-Z0-9._-]/g, "-").replace(/-+/g, "-").slice(0, 120);
@@ -824,9 +856,9 @@ test("OML-QA-035 light and dark theme contrast sweep passes representative site 
 
   for (const viewport of viewports) {
     for (const theme of themes) {
-      const activeRoutes = routes.filter(
-        (route) => route.viewports.includes(viewport.name) && (route.themes ?? themes).includes(theme),
-      );
+      const activeRoutes = activeSweepCases
+        .filter((sweepCase) => sweepCase.viewport.name === viewport.name && sweepCase.theme === theme)
+        .map((sweepCase) => sweepCase.route);
 
       if (activeRoutes.length === 0) {
         continue;
@@ -885,7 +917,15 @@ test("OML-QA-035 light and dark theme contrast sweep passes representative site 
   const summary = {
     generatedAt: new Date().toISOString(),
     routeCount: routes.length,
-    caseCount: sweepCases.length,
+    caseCount: activeSweepCases.length,
+    totalCaseCount: sweepCases.length,
+    chunk:
+      requestedChunkCount > 1
+        ? {
+            index: requestedChunkIndex,
+            count: requestedChunkCount,
+          }
+        : null,
     themes,
     viewports: viewports.map(({ name, width, height }) => ({ name, width, height })),
     issueCount: allIssues.length,

@@ -276,7 +276,7 @@ function toOptionalNumber(value: ControlValue | undefined) {
   return typeof value === "number" ? value : undefined;
 }
 
-function resolveShmTokens(state: LiveWorkedExampleState) {
+function resolveShmTokens(state: LiveWorkedExampleState, locale?: AppLocale) {
   const amplitude = toNumber(state.params.amplitude, 1);
   const angularFrequency = toOptionalNumber(
     typeof state.params.omega === "number" ? state.params.omega : state.params.angularFrequency,
@@ -306,8 +306,28 @@ function resolveShmTokens(state: LiveWorkedExampleState) {
   );
   const phaseAngle = omega * time + phase;
   const period = TAU / Math.max(omega, 0.001);
+  const enDisplacementInterpretation =
+    Math.abs(snapshot.displacement) < 0.05
+      ? "The mass is near equilibrium right now, so the restoring pull is small and the velocity is near its largest magnitude."
+      : snapshot.displacement > 0
+        ? "The displacement is positive, so the oscillator is on the positive side of equilibrium and the restoring acceleration points back toward the center."
+        : "The displacement is negative, so the oscillator is on the negative side of equilibrium and the restoring acceleration points back toward the center.";
+  const zhHkDisplacementInterpretation =
+    Math.abs(snapshot.displacement) < 0.05
+      ? "質量目前接近平衡位置，所以回復拉力很小，而速度接近最大大小。"
+      : snapshot.displacement > 0
+        ? "位移為正，所以振子在平衡位置的正側，而回復加速度指回中心。"
+        : "位移為負，所以振子在平衡位置的負側，而回復加速度指回中心。";
+  const enPeriodInterpretation =
+    omega >= 2.4
+      ? "The period is short, so the stage and graph cycle quickly through repeated peaks."
+      : "The period is longer, so each oscillation takes more time before the pattern repeats.";
+  const zhHkPeriodInterpretation =
+    omega >= 2.4
+      ? "週期較短，所以舞台與圖表會快速穿過重複峯值。"
+      : "週期較長，所以每次振盪需要更多時間才會重複圖樣。";
 
-    return {
+  return {
     timeValue: formatNumber(time),
     amplitudeValue: formatNumber(amplitude),
     omegaValue: formatNumber(omega),
@@ -316,15 +336,8 @@ function resolveShmTokens(state: LiveWorkedExampleState) {
     displacementValue: formatNumber(snapshot.displacement),
     periodValue: formatNumber(period),
     displacementInterpretation:
-      Math.abs(snapshot.displacement) < 0.05
-        ? "The mass is near equilibrium right now, so the restoring pull is small and the velocity is near its largest magnitude."
-        : snapshot.displacement > 0
-          ? "The displacement is positive, so the oscillator is on the positive side of equilibrium and the restoring acceleration points back toward the center."
-          : "The displacement is negative, so the oscillator is on the negative side of equilibrium and the restoring acceleration points back toward the center.",
-    periodInterpretation:
-      omega >= 2.4
-        ? "The period is short, so the stage and graph cycle quickly through repeated peaks."
-        : "The period is longer, so each oscillation takes more time before the pattern repeats.",
+      locale === "zh-HK" ? zhHkDisplacementInterpretation : enDisplacementInterpretation,
+    periodInterpretation: locale === "zh-HK" ? zhHkPeriodInterpretation : enPeriodInterpretation,
   } satisfies WorkedExampleTokenMap;
 }
 
