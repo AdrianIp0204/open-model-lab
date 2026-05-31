@@ -120,6 +120,24 @@ describe("write-wrangler-config", () => {
     expect(written.vars.NEXT_PUBLIC_OPEN_MODEL_LAB_BUILT_AT).toBe("2026-05-30T12:22:59.000Z");
   });
 
+  it("derives deployment markers from git when marker env vars are absent", () => {
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "oml-wrangler-marker-git-"));
+    const outputPath = path.join(tempRoot, "wrangler.jsonc");
+    const currentCommit = spawnSync("git", ["rev-parse", "HEAD"], {
+      cwd: process.cwd(),
+      encoding: "utf8",
+    }).stdout.trim();
+
+    const result = runScript(["--output", outputPath], {
+      OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT: validWranglerJsonc,
+    });
+
+    expect(result.status).toBe(0);
+    const written = JSON.parse(fs.readFileSync(outputPath, "utf8"));
+    expect(written.vars.NEXT_PUBLIC_OPEN_MODEL_LAB_COMMIT_SHA).toBe(currentCommit);
+    expect(Date.parse(written.vars.NEXT_PUBLIC_OPEN_MODEL_LAB_BUILT_AT)).not.toBeNaN();
+  });
+
   it("rejects malformed deployment marker commit values", () => {
     const result = runScript(["--check"], {
       OPEN_MODEL_LAB_WRANGLER_JSONC_CONTENT: validWranglerJsonc,

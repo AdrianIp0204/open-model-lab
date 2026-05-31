@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -257,11 +258,11 @@ function readDeploymentMarkerOverrides(env = process.env) {
   const rawCommit =
     env.NEXT_PUBLIC_OPEN_MODEL_LAB_COMMIT_SHA?.trim() ||
     env.OPEN_MODEL_LAB_COMMIT_SHA?.trim() ||
-    "";
+    readCurrentGitCommitSha();
   const rawBuiltAt =
     env.NEXT_PUBLIC_OPEN_MODEL_LAB_BUILT_AT?.trim() ||
     env.OPEN_MODEL_LAB_BUILT_AT?.trim() ||
-    "";
+    (rawCommit ? new Date().toISOString() : "");
 
   if (rawCommit) {
     const normalizedCommit = rawCommit.toLowerCase();
@@ -282,6 +283,18 @@ function readDeploymentMarkerOverrides(env = process.env) {
   }
 
   return overrides;
+}
+
+function readCurrentGitCommitSha() {
+  try {
+    return execFileSync("git", ["rev-parse", "HEAD"], {
+      cwd: process.cwd(),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return "";
+  }
 }
 
 function applyDeploymentMarkerOverrides(content, env = process.env) {
