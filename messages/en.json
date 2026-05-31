@@ -5386,7 +5386,7 @@
           "compact": "Assign"
         },
         "checkpointHistory": {
-          "label": "Supporter checkpoint history",
+          "label": "Checkpoint history and mastery trends",
           "compact": "History"
         },
         "studyPlans": {
@@ -6648,7 +6648,7 @@
         "compact": "Usage"
       },
       "history": {
-        "label": "Checkpoint history",
+        "label": "Checkpoint history and mastery trends",
         "compact": "History"
       },
       "strengths": {
@@ -6753,15 +6753,14 @@
     "actions": {
       "reopen": "Reopen",
       "open": "Open",
-      "openFullView": "Open full analytics"
+      "openFullView": "Open full analytics view"
     },
     "labels": {
       "dashboard": "Dashboard history",
       "analytics": "Checkpoint history"
     },
     "titles": {
-      "dashboard": "Recent checkpoints and pressure shifts",
-      "analytics": "Checkpoint history and trend view"
+      "history": "Checkpoint history and mastery trends"
     },
     "descriptions": {
       "dashboard": "This dashboard slice keeps the latest checkpoint and mastery movement visible without forcing you into the full analytics page first."

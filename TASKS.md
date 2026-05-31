@@ -576,12 +576,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Fix direction: isolate whether the disabled-button failures are stale Playwright timing, hydration/state loss, cooldown leakage, or product state. Then repair the product or stabilize the test so password sign-in, email-link request, reset success, reset failure, long email mobile layout, pending state, and retry state are all asserted from user-visible UI.
   - Validation: rerun `pnpm exec playwright test tests/e2e/account-auth.spec.ts --reporter=line`; then rerun the focused account bundle from the evidence command and require all account auth cases to pass with no browser-guard issues.
 
-- [ ] **OML-QA-058: Reconcile premium checkpoint-history tests with the current dashboard and analytics IA.**
+- [x] **OML-QA-058: Reconcile premium checkpoint-history tests with the current dashboard and analytics IA.**
   - Evidence: `tests/e2e/premium-checkpoint-history.spec.ts` failed looking for `Cross-device checkpoint history and mastery`, while the actual dashboard now exposes `Recent checkpoints and pressure shifts`, `The latest checkpoint, challenge, and mastery moments`, `Saved momentum over time`, and analytics route sections with equivalent checkpoint data.
   - UX/test problem: either the old heading was intentionally replaced and the test is stale, or the current dashboard lost an expected stable accessible section name. A red account analytics gate should not be ignored.
   - Affected area: `components/account/AccountDashboardPanel.tsx`, `components/account/LearningAnalyticsPanel.tsx`, `messages/en.json`, `messages/zh-HK.json`, and `tests/e2e/premium-checkpoint-history.spec.ts`.
   - Fix direction: choose one stable user-facing/accessibility contract for checkpoint history across `/dashboard` and `/dashboard/analytics`. Update headings/landmarks and tests together so the premium path verifies real synced checkpoint history, mastery trends, and links without depending on stale copy.
   - Validation: rerun `pnpm exec playwright test tests/e2e/premium-checkpoint-history.spec.ts --reporter=line`; verify desktop and phone screenshots show a clear checkpoint-history section and an obvious route into the full analytics view.
+
+  - Completion note (2026-05-31 HKT): Reconciled the premium checkpoint-history surface around one stable visible/accessibility heading, `Checkpoint history and mastery trends`, aligned dashboard/analytics nav and CTA copy, added `aria-labelledby` section landmarks, and updated the component/E2E coverage to verify real synced checkpoint history, mastery trends, and the dashboard-to-analytics route.
+  - Validation: `node scripts/run-vitest.mjs run tests/components/premium-checkpoint-history-panel.test.tsx tests/components/learning-analytics-panel.test.tsx tests/components/account-dashboard-panel.test.tsx`; targeted `pnpm lint`; `pnpm typecheck`; `pnpm exec playwright test tests/e2e/premium-checkpoint-history.spec.ts --reporter=line`; `git diff --check`; screenshot inspection of `output/playwright/qa/oml-qa-058-dashboard-checkpoint-history-desktop.png` and `output/playwright/qa/oml-qa-058-dashboard-checkpoint-history-phone.png`.
 
 ### P1 - Account UX / IA Quality
 

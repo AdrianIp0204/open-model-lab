@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-058 Premium Checkpoint History IA
+
+Current state: `OML-QA-058` is complete. Premium checkpoint history now uses one stable visible/accessibility contract across dashboard and analytics: `Checkpoint history and mastery trends`. The dashboard slice links into the full analytics route with `Open full analytics view`, and the E2E gate now verifies synced checkpoint events, mastery timeline data, stable/pressure sections, and responsive screenshots instead of depending on stale copy.
+
+### Files Changed
+
+- `components/account/PremiumCheckpointHistoryPanel.tsx`: uses the stable checkpoint-history heading for dashboard and analytics variants and adds `aria-labelledby` landmarks for recent moves, timeline, subject trend, and concept pressure sections.
+- `messages/en.json` and `messages/zh-HK.json`: align account/dashboard/analytics navigation labels and CTA copy around the shared checkpoint-history contract.
+- `tests/components/account-dashboard-panel.test.tsx`, `tests/components/learning-analytics-panel.test.tsx`, and `tests/components/premium-checkpoint-history-panel.test.tsx`: update component assertions for the current IA.
+- `tests/e2e/premium-checkpoint-history.spec.ts`: verifies the synced dashboard slice, clicks through to `/dashboard/analytics#checkpoint-history`, checks analytics sections, and captures desktop/phone QA screenshots.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `node scripts/run-vitest.mjs run tests/components/premium-checkpoint-history-panel.test.tsx tests/components/learning-analytics-panel.test.tsx tests/components/account-dashboard-panel.test.tsx`: passed, 16/16.
+- `pnpm lint -- components/account/PremiumCheckpointHistoryPanel.tsx tests/e2e/premium-checkpoint-history.spec.ts tests/components/premium-checkpoint-history-panel.test.tsx tests/components/learning-analytics-panel.test.tsx tests/components/account-dashboard-panel.test.tsx`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/premium-checkpoint-history.spec.ts --reporter=line`: passed, 1/1.
+- `git diff --check`: passed.
+- Screenshot inspection passed for `output/playwright/qa/oml-qa-058-dashboard-checkpoint-history-desktop.png` and `output/playwright/qa/oml-qa-058-dashboard-checkpoint-history-phone.png`.
+
 ## 2026-05-31 OML-QA-057 Signed-Out Auth Regression Lane
 
 Current state: `OML-QA-057` is complete. Signed-out auth forms now submit from the form DOM instead of controlled input state, so early-filled email/password values survive hydration timing and the email-link/reset actions no longer appear inert after a valid email is entered. Wrong-password, failed request, and unreadable response failures now clear pending state and surface visible retryable errors.

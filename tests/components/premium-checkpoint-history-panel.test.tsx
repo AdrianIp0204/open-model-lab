@@ -112,7 +112,7 @@ describe("PremiumCheckpointHistoryPanel", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: "Checkpoint history and trend view",
+        name: "Checkpoint history and mastery trends",
       }),
     ).toBeInTheDocument();
     expect(screen.getByText("Checkpoint clears")).toBeInTheDocument();

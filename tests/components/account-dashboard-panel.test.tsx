@@ -63,7 +63,7 @@ vi.mock("@/components/account/PremiumFeatureNotice", () => ({
 }));
 
 vi.mock("@/components/account/PremiumCheckpointHistoryPanel", () => ({
-  PremiumCheckpointHistoryPanel: () => <div>Supporter checkpoint history surface</div>,
+  PremiumCheckpointHistoryPanel: () => <div>Checkpoint history surface</div>,
 }));
 
 import { AccountDashboardPanel } from "@/components/account/AccountDashboardPanel";
@@ -351,7 +351,7 @@ describe("AccountDashboardPanel", () => {
     expect(screen.getByText(/supporter status/i)).toBeInTheDocument();
     expect(screen.getByText("Billing controls")).toBeInTheDocument();
     expect(screen.getByText("Supporter adaptive review surface")).toBeInTheDocument();
-    expect(screen.getByText("Supporter checkpoint history surface")).toBeInTheDocument();
+    expect(screen.getByText("Checkpoint history surface")).toBeInTheDocument();
     expect(screen.getByText("Review queue surface")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Achievement snapshot" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Learning analytics" })).toBeInTheDocument();
@@ -360,10 +360,9 @@ describe("AccountDashboardPanel", () => {
       "/dashboard/analytics",
     );
     const nav = screen.getByRole("navigation", { name: "Dashboard sections" });
-    expect(within(nav).getByRole("link", { name: "Supporter checkpoint history" })).toHaveAttribute(
-      "href",
-      "#dashboard-checkpoint-history",
-    );
+    expect(
+      within(nav).getByRole("link", { name: "Checkpoint history and mastery trends" }),
+    ).toHaveAttribute("href", "#dashboard-checkpoint-history");
     expect(within(nav).getByRole("link", { name: "Saved study plans" })).toHaveAttribute(
       "href",
       "#dashboard-study-plans",

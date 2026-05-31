@@ -218,6 +218,15 @@ export function PremiumCheckpointHistoryPanel({
 }: PremiumCheckpointHistoryPanelProps) {
   const locale = useLocale();
   const t = useTranslations("PremiumCheckpointHistoryPanel");
+  const headingId = `${variant}-checkpoint-history-heading`;
+  const recentMovesHeadingId = `${variant}-checkpoint-history-recent-moves-heading`;
+  const timelineHeadingId = `${variant}-checkpoint-history-timeline-heading`;
+  const dashboardStableSubjectHeadingId = `${variant}-checkpoint-history-stable-subject-heading`;
+  const dashboardNeedsWorkHeadingId = `${variant}-checkpoint-history-needs-work-heading`;
+  const stableSubjectsHeadingId = `${variant}-checkpoint-history-stable-subjects-heading`;
+  const subjectPressureHeadingId = `${variant}-checkpoint-history-subject-pressure-heading`;
+  const stableConceptsHeadingId = `${variant}-checkpoint-history-stable-concepts-heading`;
+  const needsWorkConceptsHeadingId = `${variant}-checkpoint-history-needs-work-concepts-heading`;
   const recentEvents = variant === "dashboard" ? view.recentEvents.slice(0, 3) : view.recentEvents;
   const timeline = variant === "dashboard" ? view.timeline.slice(-3) : view.timeline;
   const stableSubjects =
@@ -239,7 +248,7 @@ export function PremiumCheckpointHistoryPanel({
             : undefined
       }
       className="space-y-4"
-      aria-labelledby={`${variant}-checkpoint-history-heading`}
+      aria-labelledby={headingId}
     >
       <section className="lab-panel p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -248,10 +257,10 @@ export function PremiumCheckpointHistoryPanel({
               {variant === "dashboard" ? t("labels.dashboard") : t("labels.analytics")}
             </p>
             <h2
-              id={`${variant}-checkpoint-history-heading`}
+              id={headingId}
               className="mt-2 text-2xl font-semibold text-ink-950"
             >
-              {variant === "dashboard" ? t("titles.dashboard") : t("titles.analytics")}
+              {t("titles.history")}
             </h2>
           </div>
           {variant === "dashboard" ? (
@@ -281,9 +290,9 @@ export function PremiumCheckpointHistoryPanel({
       </section>
 
       {recentEvents.length ? (
-        <section className="lab-panel p-5">
+        <section className="lab-panel p-5" aria-labelledby={recentMovesHeadingId}>
           <p className="lab-label">{t("recentMoves.label")}</p>
-          <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+          <h2 id={recentMovesHeadingId} className="mt-2 text-2xl font-semibold text-ink-950">
             {t("recentMoves.title")}
           </h2>
           <div className="mt-4 grid gap-3 xl:grid-cols-2">
@@ -295,9 +304,9 @@ export function PremiumCheckpointHistoryPanel({
       ) : null}
 
       {timeline.length ? (
-        <section className="lab-panel p-5">
+        <section className="lab-panel p-5" aria-labelledby={timelineHeadingId}>
           <p className="lab-label">{t("timeline.label")}</p>
-          <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+          <h2 id={timelineHeadingId} className="mt-2 text-2xl font-semibold text-ink-950">
             {t("timeline.title")}
           </h2>
           <div className="mt-4 grid gap-3 xl:grid-cols-3">
@@ -310,9 +319,12 @@ export function PremiumCheckpointHistoryPanel({
 
       {variant === "dashboard" ? (
         <section className="grid gap-4 xl:grid-cols-2">
-          <section className="lab-panel p-5">
+          <section className="lab-panel p-5" aria-labelledby={dashboardStableSubjectHeadingId}>
             <p className="lab-label">{t("dashboardStableSubject.label")}</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+            <h2
+              id={dashboardStableSubjectHeadingId}
+              className="mt-2 text-2xl font-semibold text-ink-950"
+            >
               {t("dashboardStableSubject.title")}
             </h2>
             <div className="mt-4 grid gap-3">
@@ -333,9 +345,12 @@ export function PremiumCheckpointHistoryPanel({
             </div>
           </section>
 
-          <section className="lab-panel p-5">
+          <section className="lab-panel p-5" aria-labelledby={dashboardNeedsWorkHeadingId}>
             <p className="lab-label">{t("dashboardNeedsWork.label")}</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+            <h2
+              id={dashboardNeedsWorkHeadingId}
+              className="mt-2 text-2xl font-semibold text-ink-950"
+            >
               {t("dashboardNeedsWork.title")}
             </h2>
             <div className="mt-4 grid gap-3">
@@ -353,9 +368,9 @@ export function PremiumCheckpointHistoryPanel({
         </section>
       ) : (
         <section className="grid gap-4 xl:grid-cols-2">
-          <section className="lab-panel p-5">
+          <section className="lab-panel p-5" aria-labelledby={stableSubjectsHeadingId}>
             <p className="lab-label">{t("stableSubjects.label")}</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+            <h2 id={stableSubjectsHeadingId} className="mt-2 text-2xl font-semibold text-ink-950">
               {t("stableSubjects.title")}
             </h2>
             <div className="mt-4 grid gap-3">
@@ -376,9 +391,9 @@ export function PremiumCheckpointHistoryPanel({
             </div>
           </section>
 
-          <section className="lab-panel p-5">
+          <section className="lab-panel p-5" aria-labelledby={subjectPressureHeadingId}>
             <p className="lab-label">{t("subjectPressure.label")}</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+            <h2 id={subjectPressureHeadingId} className="mt-2 text-2xl font-semibold text-ink-950">
               {t("subjectPressure.title")}
             </h2>
             <div className="mt-4 grid gap-3">
@@ -399,9 +414,9 @@ export function PremiumCheckpointHistoryPanel({
             </div>
           </section>
 
-          <section className="lab-panel p-5">
+          <section className="lab-panel p-5" aria-labelledby={stableConceptsHeadingId}>
             <p className="lab-label">{t("stableConcepts.label")}</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+            <h2 id={stableConceptsHeadingId} className="mt-2 text-2xl font-semibold text-ink-950">
               {t("stableConcepts.title")}
             </h2>
             <div className="mt-4 grid gap-3">
@@ -417,9 +432,12 @@ export function PremiumCheckpointHistoryPanel({
             </div>
           </section>
 
-          <section className="lab-panel p-5">
+          <section className="lab-panel p-5" aria-labelledby={needsWorkConceptsHeadingId}>
             <p className="lab-label">{t("needsWorkConcepts.label")}</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink-950">
+            <h2
+              id={needsWorkConceptsHeadingId}
+              className="mt-2 text-2xl font-semibold text-ink-950"
+            >
               {t("needsWorkConcepts.title")}
             </h2>
             <div className="mt-4 grid gap-3">

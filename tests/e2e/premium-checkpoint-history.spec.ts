@@ -1,4 +1,6 @@
-import { expect, test } from "@playwright/test";
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
+import { expect, test, type Locator } from "@playwright/test";
 import {
   baseURL,
   gotoAndExpectOk,
@@ -31,7 +33,14 @@ const premiumHistorySeedSnapshot = {
   },
 } as const;
 
+const qaArtifactDir = path.join(process.cwd(), "output", "playwright", "qa");
+
 let browserGuard: BrowserGuard;
+
+async function saveQaScreenshot(locator: Locator, fileName: string) {
+  await mkdir(qaArtifactDir, { recursive: true });
+  await locator.screenshot({ path: path.join(qaArtifactDir, fileName) });
+}
 
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
@@ -67,24 +76,80 @@ test("renders premium checkpoint history and mastery trends from synced progress
   expect(syncPayload.history?.masteryTimeline?.length ?? 0).toBeGreaterThan(0);
 
   await gotoAndExpectOk(page, "/dashboard");
+  const dashboardHistory = page.getByRole("region", {
+    name: "Checkpoint history and mastery trends",
+  });
+  await expect(dashboardHistory).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Cross-device checkpoint history and mastery" }),
+    page.getByRole("heading", { name: "Checkpoint history and mastery trends" }),
   ).toBeVisible();
-  await expect(page.getByText("Trajectory checkpoint")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Where saved mastery is holding" })).toBeVisible();
   await expect(
-    page.getByRole("link", { name: "Open full mastery view" }),
-  ).toHaveAttribute("href", "/dashboard/analytics#checkpoint-history");
+    dashboardHistory.getByText("Trajectory checkpoint", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "The latest checkpoint, challenge, and mastery moments",
+    }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Saved momentum over time" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "The strongest subject trend right now" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "The clearest concept that still needs another pass" }),
+  ).toBeVisible();
+  const fullAnalyticsLink = dashboardHistory.getByRole("link", {
+    name: "Open full analytics view",
+  });
+  await expect(fullAnalyticsLink).toBeVisible();
+  await expect(fullAnalyticsLink).toHaveAttribute(
+    "href",
+    /\/dashboard\/analytics#checkpoint-history$/,
+  );
+  await saveQaScreenshot(
+    dashboardHistory,
+    "oml-qa-058-dashboard-checkpoint-history-desktop.png",
+  );
 
-  await gotoAndExpectOk(page, "/dashboard/analytics");
-  await expect(page.getByRole("heading", { name: "Learning analytics" })).toBeVisible();
+  await fullAnalyticsLink.click();
+  await expect(page).toHaveURL(/\/dashboard\/analytics#checkpoint-history$/);
   await expect(
-    page.getByRole("heading", { name: "Cross-device checkpoint history and mastery" }),
+    page.getByRole("heading", {
+      name: "Review your saved learning signals without leaving the real product routes.",
+    }),
   ).toBeVisible();
-  await expect(page.getByText("Interference checkpoint")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Saved change points over time" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Where mastery looks stable" })).toBeVisible();
+  const analyticsHistory = page.getByRole("region", {
+    name: "Checkpoint history and mastery trends",
+  });
+  await expect(analyticsHistory).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Which concepts still need another pass" }),
+    page.getByRole("heading", { name: "Checkpoint history and mastery trends" }),
   ).toBeVisible();
+  await expect(
+    analyticsHistory.getByText("Interference checkpoint", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Saved momentum over time" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Subjects holding up well across recent work" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Concepts that are holding together well" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Concepts that still need another pass" }),
+  ).toBeVisible();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await gotoAndExpectOk(page, "/dashboard");
+  const phoneDashboardHistory = page.getByRole("region", {
+    name: "Checkpoint history and mastery trends",
+  });
+  await expect(phoneDashboardHistory).toBeVisible();
+  await expect(
+    phoneDashboardHistory.getByRole("link", { name: "Open full analytics view" }),
+  ).toBeVisible();
+  await saveQaScreenshot(
+    phoneDashboardHistory,
+    "oml-qa-058-dashboard-checkpoint-history-phone.png",
+  );
 });

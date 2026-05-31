@@ -4918,7 +4918,7 @@
           "compact": "作業"
         },
         "checkpointHistory": {
-          "label": "支持者方案檢查點紀錄",
+          "label": "檢查點歷史與熟練度趨勢",
           "compact": "紀錄"
         },
         "studyPlans": {
@@ -6180,7 +6180,7 @@
         "compact": "使用"
       },
       "history": {
-        "label": "檢查點歷史",
+        "label": "檢查點歷史與熟練度趨勢",
         "compact": "歷史"
       },
       "strengths": {
@@ -6285,15 +6285,14 @@
     "actions": {
       "reopen": "重新打開",
       "open": "打開",
-      "openFullView": "打開完整分析"
+      "openFullView": "打開完整分析檢視"
     },
     "labels": {
       "dashboard": "儀表板歷史",
       "analytics": "檢查點歷史"
     },
     "titles": {
-      "dashboard": "最近的檢查點與壓力變化",
-      "analytics": "檢查點歷史與趨勢檢視"
+      "history": "檢查點歷史與熟練度趨勢"
     },
     "descriptions": {
       "dashboard": "這個儀表板摘要會先把最近的檢查點與熟練度變化保持可見，不用一開始就跳到完整分析頁。"
