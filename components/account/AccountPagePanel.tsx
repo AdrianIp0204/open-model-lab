@@ -1422,14 +1422,14 @@ export function AccountPagePanel({
       compactLabel: t("sectionNav.signedOut.overview.compact"),
     },
     {
-      id: "account-password-sign-in",
-      label: t("sectionNav.signedOut.password.label"),
-      compactLabel: t("sectionNav.signedOut.password.compact"),
-    },
-    {
       id: "account-email-link-sign-in",
       label: t("sectionNav.signedOut.emailLink.label"),
       compactLabel: t("sectionNav.signedOut.emailLink.compact"),
+    },
+    {
+      id: "account-password-sign-in",
+      label: t("sectionNav.signedOut.password.label"),
+      compactLabel: t("sectionNav.signedOut.password.compact"),
     },
     {
       id: "account-password-reset",
@@ -1442,6 +1442,20 @@ export function AccountPagePanel({
       compactLabel: t("sectionNav.signedOut.premium.compact"),
     },
   ];
+  const signedOutTaskLinks = [
+    {
+      href: "#account-email-link-sign-in",
+      label: t("signedOut.taskChooser.createAccount"),
+    },
+    {
+      href: "#account-password-sign-in",
+      label: t("signedOut.taskChooser.password"),
+    },
+    {
+      href: "#account-password-reset",
+      label: t("signedOut.taskChooser.reset"),
+    },
+  ];
 
   return (
     <PageSectionFrame
@@ -1452,9 +1466,8 @@ export function AccountPagePanel({
         items: sectionNavItems,
       }}
     >
-    {leadIn ? <div className="mb-6 space-y-3 sm:mb-8">{leadIn}</div> : null}
     <div className="space-y-4">
-      <PageSection id="account-overview" as="section" className="lab-panel p-6">
+      <PageSection id="account-overview" as="section" className="lab-panel p-4 sm:p-5 lg:p-6">
         <div className="flex flex-wrap items-center gap-2">
           <span className="lab-label">{t("signedOut.label")}</span>
           <span className="rounded-full border border-line bg-paper-strong px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500">
@@ -1462,9 +1475,32 @@ export function AccountPagePanel({
           </span>
         </div>
 
-        <div className="mt-3 max-w-4xl space-y-3">
-          <h2 className="text-3xl font-semibold text-ink-950">{t("signedOut.title")}</h2>
-          <p className="text-sm leading-6 text-ink-700">{t("signedOut.description")}</p>
+        <div className="mt-3 grid gap-4 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-end">
+          <div className="max-w-3xl space-y-2">
+            <h1 className="text-2xl font-semibold text-ink-950 sm:text-3xl">
+              {t("signedOut.title")}
+            </h1>
+            <p className="text-sm leading-6 text-ink-700">{t("signedOut.description")}</p>
+          </div>
+          <nav
+            aria-label={t("signedOut.taskChooser.label")}
+            className="grid grid-cols-3 gap-2"
+          >
+            {signedOutTaskLinks.map((item, index) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className={[
+                  "inline-flex min-h-10 min-w-0 items-center justify-center rounded-full border px-2 py-2 text-center text-sm font-semibold transition sm:px-4",
+                  index === 0
+                    ? "border-ink-950 bg-ink-950 text-paper-strong hover:opacity-90"
+                    : "border-line bg-paper text-ink-800 hover:border-ink-950/20 hover:bg-white",
+                ].join(" ")}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
         </div>
         {authActionsDisabled ? (
           <div className="mt-5 rounded-[24px] border border-amber-500/25 bg-amber-500/10 p-4">
@@ -1497,44 +1533,95 @@ export function AccountPagePanel({
             />
           </div>
         ) : null}
-
-        <div className="mt-5 grid gap-3 md:grid-cols-3">
-          {[
-            {
-              label: t("signedOut.cards.localFirst.label"),
-              copy: t("signedOut.cards.localFirst.copy"),
-            },
-            {
-              label: t("signedOut.cards.emailLinks.label"),
-              copy: t("signedOut.cards.emailLinks.copy"),
-            },
-            {
-              label: t("signedOut.cards.sync.label"),
-              copy: t("signedOut.cards.sync.copy"),
-            },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="rounded-[20px] border border-line bg-paper-strong px-4 py-4"
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-500">
-                {item.label}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-ink-700">{item.copy}</p>
-            </div>
-          ))}
-        </div>
-
       </PageSection>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <PageSection
+            id="account-email-link-sign-in"
+            as="section"
+            className="flex h-full min-w-0 flex-col rounded-[24px] border border-line bg-paper-strong p-5"
+          >
+            <p className="lab-label">{t("emailLink.label")}</p>
+            <h2 className="mt-2 text-2xl font-semibold text-ink-950">{t("emailLink.title")}</h2>
+            <p className="mt-3 text-sm leading-6 text-ink-700">{t("emailLink.description")}</p>
+
+            <form className="mt-4 space-y-4" onSubmit={handleMagicLinkRequest} noValidate>
+              <div className="space-y-2">
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-ink-900">{t("emailLink.emailLabel")}</span>
+                  <input
+                    type="email"
+                    name="email"
+                    onChange={(event) => {
+                      setMagicLinkStatusMessage(null);
+                      if (emailLinkEmailError) {
+                        setEmailLinkEmailError(getEmailFieldError(event.target.value, translate));
+                      }
+                    }}
+                    disabled={authActionsDisabled}
+                    required
+                    autoComplete="email"
+                    aria-invalid={emailLinkEmailError ? true : undefined}
+                    className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
+                  />
+                </label>
+                {emailLinkEmailError ? (
+                  <p className="text-sm text-coral-700" role="alert">
+                    {emailLinkEmailError}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="submit"
+                  disabled={
+                    authActionsDisabled ||
+                    Boolean(session.pendingAction) ||
+                    isMagicLinkCooldownActive
+                  }
+                  className="inline-flex w-full items-center justify-center rounded-full bg-ink-950 px-5 py-3 text-sm font-semibold transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  style={{ color: "var(--paper-strong)" }}
+                >
+                  {session.pendingAction === "magic-link"
+                    ? t("emailLink.actions.sending")
+                    : isMagicLinkCooldownActive
+                      ? t("emailLink.actions.wait")
+                      : t("emailLink.actions.send")}
+                </button>
+              </div>
+            </form>
+
+            {session.pendingAction === "magic-link" ? (
+              <div className="mt-4">
+                <AuthStatusCallout
+                  tone="pending"
+                  title={t("emailLink.status.pendingTitle")}
+                  message={t("emailLink.status.pendingMessage")}
+                />
+              </div>
+            ) : null}
+            {magicLinkStatusMessage ? (
+              <div className="mt-4">
+                <AuthStatusCallout {...magicLinkStatusMessage} />
+              </div>
+            ) : null}
+            {isMagicLinkCooldownActive ? (
+              <p className="mt-3 text-xs font-medium uppercase tracking-[0.14em] text-ink-500">
+                {t("emailLink.cooldown", {
+                  countdown: formatCountdown(magicLinkCooldownRemainingMs),
+                })}
+              </p>
+            ) : null}
+          </PageSection>
+
           <PageSection
             id="account-password-sign-in"
             as="section"
             className="flex h-full min-w-0 flex-col rounded-[24px] border border-line bg-paper-strong p-5"
           >
             <p className="lab-label">{t("passwordSignIn.label")}</p>
-            <h3 className="mt-2 text-2xl font-semibold text-ink-950">{t("passwordSignIn.title")}</h3>
+            <h2 className="mt-2 text-2xl font-semibold text-ink-950">{t("passwordSignIn.title")}</h2>
             <p className="mt-3 text-sm leading-6 text-ink-700">{t("passwordSignIn.description")}</p>
 
             <form className="mt-4 space-y-4" onSubmit={handlePasswordSignIn} noValidate>
@@ -1629,90 +1716,12 @@ export function AccountPagePanel({
           </PageSection>
 
           <PageSection
-            id="account-email-link-sign-in"
-            as="section"
-            className="flex h-full min-w-0 flex-col rounded-[24px] border border-line bg-paper-strong p-5"
-          >
-            <p className="lab-label">{t("emailLink.label")}</p>
-            <h3 className="mt-2 text-2xl font-semibold text-ink-950">{t("emailLink.title")}</h3>
-            <p className="mt-3 text-sm leading-6 text-ink-700">{t("emailLink.description")}</p>
-
-            <form className="mt-4 space-y-4" onSubmit={handleMagicLinkRequest} noValidate>
-              <div className="space-y-2">
-                <label className="block space-y-2">
-                  <span className="text-sm font-medium text-ink-900">{t("emailLink.emailLabel")}</span>
-                  <input
-                    type="email"
-                    name="email"
-                    onChange={(event) => {
-                      setMagicLinkStatusMessage(null);
-                      if (emailLinkEmailError) {
-                        setEmailLinkEmailError(getEmailFieldError(event.target.value, translate));
-                      }
-                    }}
-                    disabled={authActionsDisabled}
-                    required
-                    autoComplete="email"
-                    aria-invalid={emailLinkEmailError ? true : undefined}
-                    className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
-                  />
-                </label>
-                {emailLinkEmailError ? (
-                  <p className="text-sm text-coral-700" role="alert">
-                    {emailLinkEmailError}
-                  </p>
-                ) : null}
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <button
-                  type="submit"
-                  disabled={
-                    authActionsDisabled ||
-                    Boolean(session.pendingAction) ||
-                    isMagicLinkCooldownActive
-                  }
-                  className="inline-flex w-full items-center justify-center rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-                >
-                  {session.pendingAction === "magic-link"
-                    ? t("emailLink.actions.sending")
-                    : isMagicLinkCooldownActive
-                      ? t("emailLink.actions.wait")
-                      : t("emailLink.actions.send")}
-                </button>
-              </div>
-            </form>
-
-            {session.pendingAction === "magic-link" ? (
-              <div className="mt-4">
-                <AuthStatusCallout
-                  tone="pending"
-                  title={t("emailLink.status.pendingTitle")}
-                  message={t("emailLink.status.pendingMessage")}
-                />
-              </div>
-            ) : null}
-            {magicLinkStatusMessage ? (
-              <div className="mt-4">
-                <AuthStatusCallout {...magicLinkStatusMessage} />
-              </div>
-            ) : null}
-            {isMagicLinkCooldownActive ? (
-              <p className="mt-3 text-xs font-medium uppercase tracking-[0.14em] text-ink-500">
-                {t("emailLink.cooldown", {
-                  countdown: formatCountdown(magicLinkCooldownRemainingMs),
-                })}
-              </p>
-            ) : null}
-          </PageSection>
-
-          <PageSection
             id="account-password-reset"
             as="section"
             className="flex h-full min-w-0 flex-col rounded-[24px] border border-line bg-paper-strong p-5 md:col-span-2 xl:col-span-1"
           >
             <p className="lab-label">{t("passwordReset.label")}</p>
-            <h3 className="mt-2 text-2xl font-semibold text-ink-950">{t("passwordReset.title")}</h3>
+            <h2 className="mt-2 text-2xl font-semibold text-ink-950">{t("passwordReset.title")}</h2>
             <p className="mt-3 text-sm leading-6 text-ink-700">{t("passwordReset.description")}</p>
 
             <form className="mt-4 space-y-4" onSubmit={handlePasswordResetRequest} noValidate>
@@ -1774,9 +1783,43 @@ export function AccountPagePanel({
           </PageSection>
       </div>
 
+      <PageSection id="account-local-first" as="section" className="lab-panel p-5">
+        <div className="max-w-3xl space-y-2">
+          <p className="lab-label">{t("signedOut.details.label")}</p>
+          <h2 className="text-2xl font-semibold text-ink-950">{t("signedOut.details.title")}</h2>
+          <p className="text-sm leading-6 text-ink-700">{t("signedOut.details.description")}</p>
+        </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          {[
+            {
+              label: t("signedOut.cards.localFirst.label"),
+              copy: t("signedOut.cards.localFirst.copy"),
+            },
+            {
+              label: t("signedOut.cards.emailLinks.label"),
+              copy: t("signedOut.cards.emailLinks.copy"),
+            },
+            {
+              label: t("signedOut.cards.sync.label"),
+              copy: t("signedOut.cards.sync.copy"),
+            },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="rounded-[20px] border border-line bg-paper-strong px-4 py-4"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-500">
+                {item.label}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-ink-700">{item.copy}</p>
+            </div>
+          ))}
+        </div>
+      </PageSection>
+
       <PageSection id="account-premium-billing" as="div" className="space-y-5">
         <PremiumFeatureNotice
-          className="mt-6"
           title={t("signedOut.premiumNotice.title")}
           freeDescription={t("signedOut.premiumNotice.freeDescription")}
           description={t("signedOut.premiumNotice.description")}

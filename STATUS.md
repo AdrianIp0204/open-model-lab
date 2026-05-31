@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-060 Signed-Out Account First Viewport
+
+Current state: `OML-QA-060` is complete. The signed-out account page now starts with a compact account-task chooser and an immediately usable `Create account / email link` form, with password sign-in and reset as sibling task cards. Local-first sync and Supporter policy copy now sits below the forms instead of occupying the first viewport.
+
+### Files Changed
+
+- `components/account/AccountPagePanel.tsx`: reorders the signed-out account surface around task-shaped auth cards and moves explanatory local-first content below the forms.
+- `messages/en.json` and `messages/zh-HK.json`: add concise task chooser, create-account/email-link, password sign-in, reset, and below-form explanation copy.
+- `tests/components/account-page-panel.test.tsx`: covers the signed-out task-first layout, zh-HK task copy, auth validation, pending, success, cooldown, and failure states.
+- `tests/e2e/account-auth.spec.ts`: asserts the phone first viewport contains the email-link field and primary action, verifies desktop shows all three auth paths, and captures QA screenshots.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `pnpm exec vitest run tests/components/account-page-panel.test.tsx --reporter=dot`: passed, 30/30.
+- `pnpm exec playwright test tests/e2e/account-auth.spec.ts --reporter=line`: passed, 9/9.
+- `pnpm lint -- components/account/AccountPagePanel.tsx tests/components/account-page-panel.test.tsx tests/e2e/account-auth.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `git diff --check`: passed.
+- Screenshot inspection passed for `output/playwright/qa/oml-qa-060-account-first-viewport-phone.png` and `output/playwright/qa/oml-qa-060-account-first-viewport-desktop.png`.
+
 ## 2026-05-31 OML-QA-059 Signed-In Account Hero
 
 Current state: `OML-QA-059` is complete. The account route now chooses signed-out, signed-in free, or signed-in Supporter lead-in copy from the preloaded account session, so signed-in learners no longer land on a hero that reads like a sign-in invitation.

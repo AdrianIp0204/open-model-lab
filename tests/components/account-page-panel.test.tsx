@@ -118,36 +118,57 @@ describe("AccountPagePanel", () => {
     vi.useRealTimers();
   });
 
-  it("shows distinct returning-user and first-time email-link sections", () => {
+  it("starts signed-out users with actionable account tasks before policy details", () => {
     render(<AccountPagePanel />);
     const nav = screen.getByRole("navigation", { name: "Account sections" });
+    const taskChooser = screen.getByRole("navigation", { name: "Account tasks" });
+    const createAccountHeading = screen.getByRole("heading", {
+      name: "Create account or use an email link",
+    });
+    const detailsHeading = screen.getByRole("heading", {
+      name: /local-first learning stays available/i,
+    });
 
     expect(
       screen.getByRole("heading", {
-        name: /returning users with a password can sign in directly/i,
+        level: 1,
+        name: "Create account or sign in",
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/email links stay available for first-time and passwordless accounts/i),
+      screen.getByText(/an email link creates or signs into an account/i),
     ).toBeInTheDocument();
+    expect(
+      within(taskChooser).getByRole("link", { name: "Create account" }),
+    ).toHaveAttribute("href", "#account-email-link-sign-in");
+    expect(
+      within(taskChooser).getByRole("link", { name: "Sign in" }),
+    ).toHaveAttribute("href", "#account-password-sign-in");
+    expect(
+      within(taskChooser).getByRole("link", { name: "Reset" }),
+    ).toHaveAttribute("href", "#account-password-reset");
     expect(screen.getByLabelText("Email for password sign-in")).toBeInTheDocument();
     expect(screen.getByLabelText("Email for sign-in link")).toBeInTheDocument();
     expect(screen.getByLabelText("Email for password reset")).toBeInTheDocument();
     expect(screen.getByText("Password must be at least 8 characters")).toBeInTheDocument();
     expect(
-      screen.getByText(/first-time or passwordless sign-in/i),
+      screen.getByText(/enter your email to create an account/i),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sign in with password" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Email me a sign-in link" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Create account or send link" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send password-reset email" })).toBeInTheDocument();
     expect(screen.getByText("Local-first")).toBeInTheDocument();
     expect(screen.getByText("Signed-in sync")).toBeInTheDocument();
     expect(screen.queryByText("What sync keeps")).not.toBeInTheDocument();
     expect(screen.queryByText("First sign-in")).not.toBeInTheDocument();
-    expect(screen.getByText(/reset a password for an existing account/i)).toBeInTheDocument();
+    expect(screen.getByText(/for an existing account that already used password sign-in/i)).toBeInTheDocument();
     expect(screen.getAllByText(/supporter/i).length).toBeGreaterThan(0);
     expect(
-      within(nav).getByRole("link", { name: "Password sign-in for returning users" }),
+      createAccountHeading.compareDocumentPosition(detailsHeading) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      within(nav).getByRole("link", { name: "Sign in with password" }),
     ).toHaveAttribute("href", "#account-password-sign-in");
     expect(
       within(nav).getByRole("link", { name: "Supporter and billing" }),
@@ -349,7 +370,7 @@ describe("AccountPagePanel", () => {
 
     await user.clear(screen.getByLabelText("Email for sign-in link"));
     await user.type(screen.getByLabelText("Email for sign-in link"), "first-timer@example.com");
-    await user.click(screen.getByRole("button", { name: "Email me a sign-in link" }));
+    await user.click(screen.getByRole("button", { name: "Create account or send link" }));
 
     expect(requestMagicLinkMock).toHaveBeenCalledWith(
       "first-timer@example.com",
@@ -387,13 +408,28 @@ describe("AccountPagePanel", () => {
     vi.useRealTimers();
   });
 
+  it("localizes the signed-out task chooser in zh-HK", () => {
+    globalThis.__TEST_LOCALE__ = "zh-HK";
+
+    render(<AccountPagePanel />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "建立帳戶或登入" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "建立帳戶或寄出連結" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("navigation", { name: "帳戶操作" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/輸入電郵即可建立帳戶/)).toBeInTheDocument();
+  });
+
   it("uses the first-time email-link field for passwordless sign-in", async () => {
     const user = userEvent.setup();
 
     render(<AccountPagePanel />);
 
     await user.type(screen.getByLabelText("Email for sign-in link"), "first-timer@example.com");
-    await user.click(screen.getByRole("button", { name: "Email me a sign-in link" }));
+    await user.click(screen.getByRole("button", { name: "Create account or send link" }));
 
     expect(requestMagicLinkMock).toHaveBeenCalledWith(
       "first-timer@example.com",
@@ -408,7 +444,7 @@ describe("AccountPagePanel", () => {
     render(<AccountPagePanel />);
 
     await user.type(screen.getByLabelText("Email for sign-in link"), "not-an-email");
-    await user.click(screen.getByRole("button", { name: "Email me a sign-in link" }));
+    await user.click(screen.getByRole("button", { name: "Create account or send link" }));
 
     expect(requestMagicLinkMock).not.toHaveBeenCalled();
     expect(screen.getByText("Enter a valid email address")).toBeInTheDocument();
@@ -464,8 +500,8 @@ describe("AccountPagePanel", () => {
 
     render(<AccountPagePanel />);
 
-    const [, magicLinkEmailInput, passwordResetEmailInput] = screen.getAllByRole("textbox");
-    const [, magicLinkSubmitButton, passwordResetSubmitButton] = Array.from(
+    const [magicLinkEmailInput, , passwordResetEmailInput] = screen.getAllByRole("textbox");
+    const [magicLinkSubmitButton, , passwordResetSubmitButton] = Array.from(
       document.querySelectorAll<HTMLButtonElement>('form button[type="submit"]'),
     );
 
@@ -724,7 +760,7 @@ describe("AccountPagePanel", () => {
       "/dev/account-harness",
     );
     expect(screen.getByRole("button", { name: "Sign in with password" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "Email me a sign-in link" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Create account or send link" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Send password-reset email" })).toBeDisabled();
   });
 

@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import {
   gotoAndExpectOk,
@@ -118,6 +120,7 @@ function createDeferred() {
 }
 
 let browserGuard: BrowserGuard;
+const qaArtifactDir = path.join(process.cwd(), "output", "playwright", "qa");
 
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
@@ -128,9 +131,10 @@ test.afterEach(() => {
   browserGuard.assertNoActionableIssues();
 });
 
-test("shows returning-user and first-time auth paths clearly on the signed-out account surface", async ({
+test("shows create-account, sign-in, and reset tasks in the signed-out first viewport", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await mockAccountSessionApi(page, ({ method }) => {
     if (method === "GET") {
       return {
@@ -152,22 +156,31 @@ test("shows returning-user and first-time auth paths clearly on the signed-out a
 
   await expect(
     page.getByRole("heading", {
-      name: "Returning users with a password can sign in directly. First-time users and passwordless users should start with an email link.",
+      name: "Create account or sign in",
     }),
   ).toBeVisible();
-  await expect(
-    page.getByText(
-      /stay signed out and keep progress local to this browser/i,
-    ),
-  ).toBeVisible();
+  await expect(page.getByText(/an email link creates or signs into an account/i)).toBeVisible();
+  await expect(page.getByRole("link", { name: "Create account" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Reset" })).toBeVisible();
+  await expect(page.getByLabel("Email for sign-in link")).toBeInViewport();
+  await expect(page.getByRole("button", { name: "Create account or send link" })).toBeInViewport();
   await expect(page.getByRole("button", { name: "Sign in with password" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Email me a sign-in link" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Send password-reset email" })).toBeVisible();
+
+  fs.mkdirSync(qaArtifactDir, { recursive: true });
+  await page.screenshot({
+    path: path.join(qaArtifactDir, "oml-qa-060-account-first-viewport-phone.png"),
+    fullPage: false,
+    animations: "disabled",
+    caret: "initial",
+  });
 });
 
 test("uses the full desktop width for the signed-out auth grid without the old placeholder column", async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await mockAccountSessionApi(page, ({ method }) => {
     if (method === "GET") {
       return {
@@ -190,16 +203,16 @@ test("uses the full desktop width for the signed-out auth grid without the old p
   await expect(page.getByText("What sync keeps")).toHaveCount(0);
   await expect(page.getByText("First sign-in")).toHaveCount(0);
 
-  const passwordCard = page
-    .getByRole("heading", { name: "Use a password only if this account already has one." })
-    .locator("xpath=ancestor::section[1]");
   const magicLinkCard = page
     .getByRole("heading", {
-      name: "Start with an email link if you do not already use a password here.",
+      name: "Create account or use an email link",
     })
     .locator("xpath=ancestor::section[1]");
+  const passwordCard = page
+    .getByRole("heading", { name: "Sign in with password" })
+    .locator("xpath=ancestor::section[1]");
   const resetCard = page
-    .getByRole("heading", { name: "Reset a password for an existing account." })
+    .getByRole("heading", { name: "Reset password" })
     .locator("xpath=ancestor::section[1]");
 
   const [passwordBox, magicLinkBox, resetBox] = await Promise.all([
@@ -211,6 +224,17 @@ test("uses the full desktop width for the signed-out auth grid without the old p
   expect(passwordBox?.width ?? 0).toBeGreaterThan(300);
   expect(magicLinkBox?.width ?? 0).toBeGreaterThan(300);
   expect(resetBox?.width ?? 0).toBeGreaterThan(260);
+  await expect(page.getByLabel("Email for sign-in link")).toBeInViewport();
+  await expect(page.getByLabel("Email for password sign-in")).toBeInViewport();
+  await expect(page.getByLabel("Email for password reset")).toBeInViewport();
+
+  fs.mkdirSync(qaArtifactDir, { recursive: true });
+  await page.screenshot({
+    path: path.join(qaArtifactDir, "oml-qa-060-account-first-viewport-desktop.png"),
+    fullPage: false,
+    animations: "disabled",
+    caret: "initial",
+  });
 });
 
 test("shows the bounded wrong-password UX for returning-user password sign-in", async ({
@@ -332,14 +356,14 @@ test("keeps long email inputs and the email-link success state readable on mobil
   const emailInput = page.getByLabel("Email for sign-in link");
 
   await emailInput.fill(longEmail);
-  const emailLinkButton = page.getByRole("button", { name: "Email me a sign-in link" });
+  const emailLinkButton = page.getByRole("button", { name: "Create account or send link" });
 
   await expect(emailLinkButton).toBeEnabled();
   await emailLinkButton.click();
   await expect(
     page.getByRole("status").filter({ hasText: "Requesting a fresh email link" }),
   ).toBeVisible();
-  await expect(page.getByRole("button", { name: "Sending sign-in link..." })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Sending account link..." })).toBeDisabled();
 
   magicLinkResponse.resolve();
 
@@ -511,6 +535,6 @@ test("disables live auth actions when the dev harness signed-out fixture is acti
 
   await expect(page.getByText(/dev harness override active/i)).toBeVisible();
   await expect(page.getByRole("button", { name: "Sign in with password" })).toBeDisabled();
-  await expect(page.getByRole("button", { name: "Email me a sign-in link" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Create account or send link" })).toBeDisabled();
   await expect(page.getByRole("button", { name: "Send password-reset email" })).toBeDisabled();
 });

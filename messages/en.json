@@ -4971,19 +4971,19 @@
         },
         "signedOut": {
           "overview": {
-            "label": "Account overview",
-            "compact": "Overview"
+            "label": "Choose an account task",
+            "compact": "Start"
           },
           "password": {
-            "label": "Password sign-in for returning users",
+            "label": "Sign in with password",
             "compact": "Password"
           },
           "emailLink": {
-            "label": "Email-link sign-in",
-            "compact": "Email"
+            "label": "Create account / email link",
+            "compact": "Create"
           },
           "passwordReset": {
-            "label": "Password reset help",
+            "label": "Reset password",
             "compact": "Reset"
           },
           "premium": {
@@ -5110,9 +5110,20 @@
       "signedOut": {
         "label": "Account",
         "badge": "Optional sync",
-        "title": "Returning users with a password can sign in directly. First-time users and passwordless users should start with an email link.",
-        "description": "Stay signed out and keep progress local to this browser, or sign in to sync the same core progress snapshot across devices. Password sign-in is only for returning users who already set one. Email links stay available for first-time and passwordless accounts, and Supporter stays separate from all three auth paths.",
+        "title": "Create account or sign in",
+        "description": "Choose the account path you need now. An email link creates or signs into an account; password sign-in is for accounts that already set one; reset sends a recovery email.",
         "devHarnessDescription": "This browser is currently pinned to a dev harness fixture, so real password sign-in, magic links, and reset emails are disabled until you Reset to real auth.",
+        "taskChooser": {
+          "label": "Account tasks",
+          "createAccount": "Create account",
+          "password": "Sign in",
+          "reset": "Reset"
+        },
+        "details": {
+          "label": "How accounts work",
+          "title": "Local-first learning stays available before and after sign-in.",
+          "description": "You can keep browsing signed out with browser-local progress. A confirmed account turns on progress sync for the same core learning snapshot, while Supporter remains a separate upgrade."
+        },
         "cards": {
           "localFirst": {
             "label": "Local-first",
@@ -5138,8 +5149,8 @@
       },
       "passwordSignIn": {
         "label": "Returning user sign-in",
-        "title": "Use a password only if this account already has one.",
-        "description": "Use this only if the account already has a password. First-time and passwordless accounts should use the email-link card instead.",
+        "title": "Sign in with password",
+        "description": "For returning accounts that already set a password.",
         "emailLabel": "Email for password sign-in",
         "passwordLabel": "Password",
         "actions": {
@@ -5151,23 +5162,23 @@
           "pendingMessage": "Checking the password for this returning-user account.",
           "errorTitle": "Sign-in error"
         },
-        "note": "If this account never set a password, do not force this form. Use the separate email-link or password-reset flow instead.",
+        "note": "No password yet? Use Create account / email link.",
         "errors": {
           "invalidCredentials": "Incorrect email or password",
-          "emailNotRegistered": "No account was found for that email. Use the email-link section below to create or confirm it first.",
+          "emailNotRegistered": "No account was found for that email. Use Create account / email link to create or confirm it first.",
           "emailNotConfirmed": "Confirm the account from the email link first, then sign in with a password.",
           "unavailable": "Sign-in is unavailable right now.",
           "failed": "Sign-in could not be completed right now. Try again."
         }
       },
       "emailLink": {
-        "label": "First-time or passwordless sign-in",
-        "title": "Start with an email link if you do not already use a password here.",
-        "description": "Use this for first-time account creation, passwordless sign-in, or any account that never set a password. Password setup stays optional after confirmation.",
+        "label": "Create account / email link",
+        "title": "Create account or use an email link",
+        "description": "Enter your email to create an account, confirm one, or sign in without a password.",
         "emailLabel": "Email for sign-in link",
         "actions": {
-          "send": "Email me a sign-in link",
-          "sending": "Sending sign-in link...",
+          "send": "Create account or send link",
+          "sending": "Sending account link...",
           "wait": "Wait to resend"
         },
         "status": {
@@ -5180,8 +5191,8 @@
       },
       "passwordReset": {
         "label": "Password reset",
-        "title": "Reset a password for an existing account.",
-        "description": "Use this only for an existing account that already used password sign-in. The reset email lands on the same in-browser new-password step used by the rest of the app.",
+        "title": "Reset password",
+        "description": "For an existing account that already used password sign-in.",
         "emailLabel": "Email for password reset",
         "actions": {
           "send": "Send password-reset email",
