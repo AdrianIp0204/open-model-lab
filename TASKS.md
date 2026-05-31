@@ -564,3 +564,81 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
   - Completion note (2026-05-31 HKT): Added the first explicit per-concept drain batch: authored V2 protocols for Kirchhoff and de Broglie, first-step checks for Beats and Air Columns, focused high-risk coverage, and a matrix audit exemption for the intentional controls scroller.
   - Validation: git diff --check; pnpm validate:content; pnpm exec vitest run tests/content/concept-page-v2.test.ts; pnpm i18n:validate -- --locale zh-HK; pnpm content:doctor; targeted eslint; pnpm typecheck; PLAYWRIGHT_PORT=3566 OPEN_MODEL_LAB_PLAYWRIGHT_ARTIFACT_SUFFIX=-oml-qa-056-orchestrator pnpm concepts:qa-matrix --slug=beats,resonance-air-columns-open-closed-pipes,kirchhoff-loop-and-junction-rules,de-broglie-matter-waves --fail-on-unpassed -- --project=chromium
+
+## Account Behaviour QA Pass 2026-05-31
+
+### P0 - Account Flow / Regression Gates
+
+- [ ] **OML-QA-057: Restore the signed-out auth action regression lane and wrong-password error UX.**
+  - Evidence: `pnpm exec playwright test tests/e2e/account-auth.spec.ts tests/e2e/account-achievements.spec.ts tests/e2e/account-mobile-shell.spec.ts tests/e2e/assessment-synced-progress.spec.ts tests/e2e/premium-checkpoint-history.spec.ts --reporter=line` passed `17/22` and failed four `tests/e2e/account-auth.spec.ts` cases. The wrong-password case did not expose the expected `Incorrect email or password` alert; the email-link and password-reset request cases timed out because their submit buttons stayed disabled in the failure artifact after the field was filled.
+  - UX problem: users must get an explicit, visible, accessible error for incorrect password sign-in, and first-time email-link / reset flows must not look inert after a valid email is entered.
+  - Affected area: `components/account/AccountPagePanel.tsx`, `lib/account/client.ts`, `tests/e2e/account-auth.spec.ts`, and `/api/account/session` request-state handling.
+  - Fix direction: isolate whether the disabled-button failures are stale Playwright timing, hydration/state loss, cooldown leakage, or product state. Then repair the product or stabilize the test so password sign-in, email-link request, reset success, reset failure, long email mobile layout, pending state, and retry state are all asserted from user-visible UI.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/account-auth.spec.ts --reporter=line`; then rerun the focused account bundle from the evidence command and require all account auth cases to pass with no browser-guard issues.
+
+- [ ] **OML-QA-058: Reconcile premium checkpoint-history tests with the current dashboard and analytics IA.**
+  - Evidence: `tests/e2e/premium-checkpoint-history.spec.ts` failed looking for `Cross-device checkpoint history and mastery`, while the actual dashboard now exposes `Recent checkpoints and pressure shifts`, `The latest checkpoint, challenge, and mastery moments`, `Saved momentum over time`, and analytics route sections with equivalent checkpoint data.
+  - UX/test problem: either the old heading was intentionally replaced and the test is stale, or the current dashboard lost an expected stable accessible section name. A red account analytics gate should not be ignored.
+  - Affected area: `components/account/AccountDashboardPanel.tsx`, `components/account/LearningAnalyticsPanel.tsx`, `messages/en.json`, `messages/zh-HK.json`, and `tests/e2e/premium-checkpoint-history.spec.ts`.
+  - Fix direction: choose one stable user-facing/accessibility contract for checkpoint history across `/dashboard` and `/dashboard/analytics`. Update headings/landmarks and tests together so the premium path verifies real synced checkpoint history, mastery trends, and links without depending on stale copy.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/premium-checkpoint-history.spec.ts --reporter=line`; verify desktop and phone screenshots show a clear checkpoint-history section and an obvious route into the full analytics view.
+
+### P1 - Account UX / IA Quality
+
+- [ ] **OML-QA-059: Give signed-in `/account` a signed-in-specific hero instead of the signed-out onboarding hero.**
+  - Evidence: local harness screenshots for signed-in free and signed-in Supporter states at `390x844`, `768x1024`, `1440x900`, and `1920x1080` still show the page hero `Signing in is optional. Supporter is a separate plan.` before the actual signed-in account card. Live zh-HK signed-out `/zh-HK/account` correctly localizes this copy, but the same hero is misleading once a user is already signed in.
+  - UX problem: a signed-in user lands on an account page that still reads like an invitation to sign in. The first viewport should confirm account state, sync state, tier, and the next useful action.
+  - Affected area: `app/account/AccountRoute.tsx`, `app/[locale]/account/page.tsx`, `components/account/AccountPagePanel.tsx`, and account page messages.
+  - Fix direction: render separate route lead-ins for signed-out, signed-in free, and signed-in Supporter states. Signed-in free should emphasize synced core progress plus optional Supporter upgrade; signed-in Supporter should emphasize saved study tools, ad-free state, billing/manage status, and sync.
+  - Validation: Playwright harness screenshots for `/account` in signed-out, signed-in-free, and signed-in-premium states at phone/tablet/desktop/wide must show state-appropriate H1/intro copy; zh-HK screenshots must use the corresponding localized state copy.
+
+- [ ] **OML-QA-060: Rework the signed-out account first viewport so sign up, sign in, and reset are immediately actionable.**
+  - Evidence: live `/zh-HK/account` phone screenshot and local `/account` phone screenshots spend the first viewport on a large explanatory hero and a very long `Returning users with a password...` card. The actual email fields and the first-time account path are below the fold; there is no explicit `Create account` wording even though the email-link path is also the sign-up path.
+  - UX problem: a learner who wants to sign up or sign in has to parse product policy text before seeing the concrete forms. The three auth paths are correct, but the page is too text-heavy and not task-shaped enough.
+  - Affected area: `components/account/AccountPagePanel.tsx`, `messages/en.json`, `messages/zh-HK.json`, auth form tests, and mobile screenshots.
+  - Fix direction: make the signed-out page start with a compact task chooser or tabs for `Create account / email link`, `Sign in with password`, and `Reset password`. Keep the local-first/supporter explanation, but move detailed policy text below the forms or into concise helper disclosures.
+  - Validation: at `390x844`, the user should see at least one usable email field and the primary auth action in the first viewport. Desktop should show all three auth paths without burying the forms below long explanatory cards. Wrong email, wrong password, pending, success, cooldown, and reset failure states must remain accessible.
+
+- [ ] **OML-QA-061: Fix shared account/dashboard section navigation labels, spacing, and touch targets.**
+  - Evidence: the live zh-HK `/zh-HK/account` mobile screenshot shows the section control as `概念段落` even though it is on the account page. The manual account sweep also found the mobile `Page sections` button at `131x42`, below the 44px touch floor, and desktop/wide side-rail labels such as `Jump within account`, `Jump within dashboard`, and `Jump within Supporter analytics` are visually cramped/clipped in the narrow rail.
+  - UX/accessibility problem: section navigation is useful, but on account pages it currently steals first-viewport space, has one locale label mismatch, and exposes sub-44px controls on touch layouts.
+  - Affected area: `components/layout/PageSectionFrame.tsx`, `components/layout/PageSectionNav.tsx`, `components/layout/PageSectionNavMobile.tsx`, account/dashboard route section-nav messages, and zh-HK translations.
+  - Fix direction: localize the mobile toggle to the current surface (`Account sections`, `Dashboard sections`, `Analytics sections`), raise touch targets to at least 44px, and redesign or hide the narrow desktop rail helper text so it does not clip. Consider a compact horizontal anchor bar on account/mobile where the current sticky pill consumes too much vertical space.
+  - Validation: account/dashboard/analytics screenshots in English and zh-HK at phone/tablet/desktop/wide show correct labels, no clipped rail helper text, and zero sub-44px visible section-nav controls.
+
+- [ ] **OML-QA-062: Make account dashboard and analytics first viewports more action-led on phone.**
+  - Evidence: phone `/dashboard` shows the title and account card but no primary action buttons before the fold. Phone `/dashboard/analytics` starts with a long hero (`Review your saved learning signals without leaving the real product routes.` for Supporter; `Supporter analytics are optional convenience features.` for free) before any meaningful signal card or next action. The free analytics screenshot also appears visually flush to the left edge.
+  - UX problem: account analytics should answer "what should I do next?" faster. The current first viewport reads like explanatory copy instead of a usable progress dashboard.
+  - Affected area: `components/account/AccountDashboardPanel.tsx`, `components/account/LearningAnalyticsPanel.tsx`, `components/progress/*`, account/dashboard messages, and responsive layout CSS.
+  - Fix direction: on phone, place the most useful state and action earlier: continue learning, review next weak area, sync now/status, open full analytics, or upgrade explanation depending on free vs Supporter. Shorten hero copy and show one concrete progress/analytics preview above the fold.
+  - Validation: phone screenshots for signed-in-free and signed-in-premium `/dashboard` and `/dashboard/analytics` show one primary action and one concrete signal before the fold, with no left-edge clipping and no horizontal overflow.
+
+- [ ] **OML-QA-063: Fix saved setup and compare library entry CTAs so each page points users toward creating the thing it stores.**
+  - Evidence: signed-in Supporter `/account/setups` first viewport uses `Open compare library` as the hero CTA even when there are no saved setups; `/account/compare-setups` similarly starts with `Open saved setups`. The actual useful empty-state actions (`Start here`, `Browse concepts`, `Search the library`) are lower on the page.
+  - UX problem: the top action takes users sideways to the sibling library, not forward to save an exact setup or compare scene. Empty account libraries should teach the shortest creation path.
+  - Affected area: `components/account/SavedSetupsLibraryPage.tsx`, `components/account/SavedCompareSetupsLibraryPage.tsx`, saved-library messages, and account library E2E/component tests.
+  - Fix direction: make the primary hero CTA create-oriented: browse setup-capable concepts, open a recommended setup-capable concept, open Compare on a representative concept, or jump to the empty-state creation guide. Keep sibling-library links as secondary utilities.
+  - Validation: signed-out/free/Supporter phone and desktop screenshots for `/account/setups` and `/account/compare-setups` show a clear create/open-next action before the fold, and empty states explain exactly how a saved item will appear.
+
+- [ ] **OML-QA-064: Improve the Supporter study-plan builder with search, filters, and selected-item previews.**
+  - Evidence: signed-in Supporter `/account/study-plans` exposes a native `Catalog item` select with many long concept/track/guided item labels. On phone the builder starts correctly, but the picker is not searchable or filterable, making the path builder hard to use as the catalog grows.
+  - UX problem: study-plan creation is supposed to be a productivity feature; a giant select makes users scan long labels instead of finding the next concept, track, guided collection, or goal path quickly.
+  - Affected area: `components/account/SavedStudyPlansPage.tsx`, study-plan model/display helpers, account messages, and component tests.
+  - Fix direction: replace or augment the native catalog select with a searchable picker that supports item type filters, subject/topic filtering, recent/recommended items from progress, and a compact selected-route preview with reorder/remove controls. Preserve keyboard accessibility and a non-JS fallback if needed.
+  - Validation: component and Playwright tests should add a plan with one concept, one track, and one guided/goal item using search/filter controls on desktop and phone, then verify the saved plan appears in the account/dashboard preview.
+
+- [ ] **OML-QA-065: Make achievements and badges easier to understand from the account overview before deep scrolling.**
+  - Evidence: account achievement/reward E2E coverage passed for locked/unlocked/claimed/expired states and long badge lists, but the account first viewport does not show a compact badge/reward preview. The meaningful `One-time Supporter starter reward` and `Badges and study milestones` regions are below the initial account state card, especially on phone.
+  - UX problem: achievements are valuable motivation only if users can see progress and the next badge without hunting. The reward card also needs to be discoverable without turning the whole account overview into a long policy page.
+  - Affected area: `components/account/AchievementsSection.tsx`, `components/account/AccountPagePanel.tsx`, `lib/achievements/*`, account messages, and account-achievement tests.
+  - Fix direction: add a compact achievement snapshot near the signed-in account overview: next badge, reward progress, earned badge count, and a link to the full achievement section. Keep long badge lists collapsed and searchable/filterable in the full section.
+  - Validation: signed-in-free and signed-in-premium phone/desktop screenshots show a compact next-badge/reward preview near the top, while existing reward-state tests still pass and long badge lists remain collapsed until expanded.
+
+### P2 - Durable Account QA Coverage
+
+- [ ] **OML-QA-066: Add a durable account-behaviour QA sweep over auth, sync, libraries, analytics, achievements, i18n, and responsive states.**
+  - Evidence: this manual pass used local artifacts under `output/account-behaviour-qa-2026-05-31/`, including `summary.json`, `library-pages-summary.json`, and screenshots for signed-out, signed-in-free, and signed-in-premium states across phone/tablet/desktop/wide. It found UX issues not covered by the current focused account tests: misleading signed-in hero copy, first-viewport auth density, section-nav label/touch issues, sideways saved-library CTAs, and study-plan picker friction.
+  - QA problem: existing account tests catch specific auth/progress/reward regressions, but there is no single account-behaviour matrix that checks the visible product shape across account states, locales, and responsive layouts.
+  - Affected area: new or existing Playwright account specs, `scripts/run-playwright-qa-sweep.mjs`, account harness helpers, and output artifact conventions.
+  - Fix direction: add a lightweight Playwright sweep that uses the dev harness to visit `/account`, `/dashboard`, `/dashboard/analytics`, `/account/setups`, `/account/compare-setups`, and `/account/study-plans` in signed-out/free/Supporter states where applicable. Cover English and zh-HK, phone/tablet/desktop, auth errors/pending/success, empty states, sync error/retry, unlocked/claimed/expired reward states, and library builder/search states.
+  - Validation: the sweep should fail on horizontal overflow, obvious text clipping, sub-44px primary touch targets, stale English leakage in zh-HK account surfaces, disabled valid auth buttons, missing primary next actions, and browser-guard issues; include it in `pnpm test:e2e:qa-sweep` or document it as a release-gate command.
