@@ -7103,72 +7103,76 @@ function GuidedBenchToolsDrawer({
         )}
       </summary>
 
-      {activeToolPanel}
+      {toolsOpen || activeFocus ? (
+        <>
+          {activeToolPanel}
 
-      <div className="mt-2 flex flex-wrap gap-1.5">
-        {revealItems.map((item) => {
-          const active = activeFocus?.kind === item.kind && activeFocus.id === item.id;
-          const label = `${copy.revealKinds[item.kind]}: ${item.label}`;
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {revealItems.map((item) => {
+              const active = activeFocus?.kind === item.kind && activeFocus.id === item.id;
+              const label = `${copy.revealKinds[item.kind]}: ${item.label}`;
 
-          return (
-            <button
-              key={`${item.kind}-${item.id}`}
-              type="button"
-              data-testid={`concept-v2-bench-tool-${item.kind}-${item.id}`}
-              aria-pressed={active}
-              aria-label={label}
-              onClick={() => onSelectReveal(item)}
-              className={[
-                "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
-                active
-                  ? "border-teal-500/35 bg-teal-500/12 text-teal-800"
-                  : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35 hover:bg-white",
-              ].join(" ")}
-            >
-              <RichMathText as="span" content={label} className="line-clamp-1 break-words" />
-            </button>
-          );
-        })}
+              return (
+                <button
+                  key={`${item.kind}-${item.id}`}
+                  type="button"
+                  data-testid={`concept-v2-bench-tool-${item.kind}-${item.id}`}
+                  aria-pressed={active}
+                  aria-label={label}
+                  onClick={() => onSelectReveal(item)}
+                  className={[
+                    "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                    active
+                      ? "border-teal-500/35 bg-teal-500/12 text-teal-800"
+                      : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35 hover:bg-white",
+                  ].join(" ")}
+                >
+                  <RichMathText as="span" content={label} className="line-clamp-1 break-words" />
+                </button>
+              );
+            })}
 
-        {equations.map((equation) => {
-          const active = activeFocus?.kind === "equation" && activeFocus.id === equation.id;
+            {equations.map((equation) => {
+              const active = activeFocus?.kind === "equation" && activeFocus.id === equation.id;
 
-          return (
-            <button
-              key={equation.id}
-              type="button"
-              data-testid={`concept-v2-bench-tool-equation-${equation.id}`}
-              aria-pressed={active}
-              onClick={() => onSelectEquation(equation.id)}
-              className={[
-                "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
-                active
-                  ? "border-teal-500/35 bg-teal-500/12 text-teal-800"
-                  : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35 hover:bg-white",
-              ].join(" ")}
-            >
-              {copy.equationLabel}: {equation.label}
-            </button>
-          );
-        })}
+              return (
+                <button
+                  key={equation.id}
+                  type="button"
+                  data-testid={`concept-v2-bench-tool-equation-${equation.id}`}
+                  aria-pressed={active}
+                  onClick={() => onSelectEquation(equation.id)}
+                  className={[
+                    "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                    active
+                      ? "border-teal-500/35 bg-teal-500/12 text-teal-800"
+                      : "border-line bg-paper-strong text-ink-700 hover:border-teal-500/35 hover:bg-white",
+                  ].join(" ")}
+                >
+                  {copy.equationLabel}: {equation.label}
+                </button>
+              );
+            })}
 
-        {predictionAvailable ? (
-          <button
-            type="button"
-            data-testid="concept-v2-bench-tool-prediction"
-            aria-pressed={activeFocus?.kind === "prediction"}
-            onClick={onOpenPrediction}
-            className={[
-              "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
-              activeFocus?.kind === "prediction"
-                ? "border-amber-500/35 bg-amber-500/12 text-amber-800"
-                : "border-line bg-paper-strong text-ink-700 hover:border-amber-500/35 hover:bg-white",
-            ].join(" ")}
-          >
-            {copy.predictionLabel}
-          </button>
-        ) : null}
-      </div>
+            {predictionAvailable ? (
+              <button
+                type="button"
+                data-testid="concept-v2-bench-tool-prediction"
+                aria-pressed={activeFocus?.kind === "prediction"}
+                onClick={onOpenPrediction}
+                className={[
+                  "min-h-11 max-w-full rounded-full border px-2.5 py-1 text-left text-xs font-semibold leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  activeFocus?.kind === "prediction"
+                    ? "border-amber-500/35 bg-amber-500/12 text-amber-800"
+                    : "border-line bg-paper-strong text-ink-700 hover:border-amber-500/35 hover:bg-white",
+                ].join(" ")}
+              >
+                {copy.predictionLabel}
+              </button>
+            ) : null}
+          </div>
+        </>
+      ) : null}
     </details>
   );
 }

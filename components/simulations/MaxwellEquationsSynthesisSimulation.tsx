@@ -269,10 +269,10 @@ function EquationCard({
     >
       <p className="lab-label">{eyebrow}</p>
       <h3 className="mt-0.5 text-[0.74rem] font-semibold leading-snug text-ink-950 sm:text-[0.8rem] lg:text-[1.02rem]">{title}</h3>
-      <p className="mt-1 hidden text-xs leading-5 text-ink-700 lg:block">{description}</p>
+      <p className="sr-only">{description}</p>
       <div className="mt-1.5 lg:mt-3">{children}</div>
       {guideVisible ? (
-        <p className="mt-3 hidden rounded-2xl bg-paper px-3 py-2 text-[11px] leading-5 text-ink-700 lg:block">
+        <p className="sr-only">
           {guide}
         </p>
       ) : null}
@@ -847,7 +847,7 @@ export function MaxwellEquationsSynthesisSimulation({
               <MetricLine label="∮ B · dl" value={formatMeasurement(primaryFrame.bCirculation, "arb.")} />
               <MetricLine label="∮ E · dl" value={formatMeasurement(primaryFrame.eCirculation, "arb.")} />
             </div>
-            <div className="mt-3 rounded-2xl bg-paper px-3 py-2 text-[11px] leading-5 text-ink-700">
+            <div className="sr-only">
               <p>
                 {t("readout.gaussBNote", {
                   value: formatMeasurement(primaryFrame.closedLoopStrength, "arb."),
@@ -902,7 +902,7 @@ export function MaxwellEquationsSynthesisSimulation({
           ) : (
             <section className="rounded-[22px] border border-line bg-white/92 px-3 py-3">
               <p className="lab-label">{t("synthesis.title")}</p>
-              <p className="mt-2 text-[11px] leading-5 text-ink-700">
+              <p className="sr-only">
                 {t("synthesis.periodNote", {
                   minimumPeriod: formatMeasurement(
                     1 / MAXWELL_EQUATIONS_SYNTHESIS_MAX_CYCLE_RATE,
@@ -911,7 +911,7 @@ export function MaxwellEquationsSynthesisSimulation({
                   period: formatMeasurement(primaryFrame.period, "s"),
                 })}
               </p>
-              <p className="mt-2 text-[11px] leading-5 text-ink-700">
+              <p className="sr-only">
                 {t("synthesis.layoutNote")}
               </p>
             </section>

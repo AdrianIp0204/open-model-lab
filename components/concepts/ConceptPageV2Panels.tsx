@@ -23,8 +23,12 @@ function countWords(text: string) {
 }
 
 function hasDanglingCueEnding(text: string) {
-  return /(?:\b(and|or|as|with|while|before|after|because|from|to|the|a|an|into|onto|than|if|when|which|that|this|then|using|use|compare|watch|keep|set|switch|start|load|turn|try)\b|[、，,:;])$/i.test(
-    text.trim(),
+  const trimmed = text.trim();
+
+  return (
+    /(?:\b(and|or|as|with|while|before|after|because|from|to|the|a|an|in|on|at|of|for|by|through|across|toward|towards|into|onto|than|if|when|which|that|this|then|using|use|compare|watch|keep|set|switch|start|load|turn|try|move|raise|lower|vs)\b|\bcompare\s+(?:the\s+)?[\w-]+|[+*/=≈−-]\s*|[、，,:;])$/i.test(
+      trimmed,
+    ) || /\bwith\s+[A-Z][\w-]*$/.test(trimmed)
   );
 }
 
@@ -96,8 +100,11 @@ function compactCurrentStepText(text: string, maxWords = 14, maxCjkUnits = 44) {
     " so ",
     " instead of ",
     " rather than ",
+    " and ",
+    " with ",
     ", then ",
     ", and ",
+    ", ",
   ];
   const candidates: string[] = [];
 
@@ -578,7 +585,7 @@ export function ConceptPageV2CurrentStepCue({
   const goalId = useId();
   const normalizedPosition = Math.max(1, activePosition);
   const normalizedCount = Math.max(1, stepCount);
-  const compactGoal = compactCurrentStepText(step.goal, 16, 42);
+  const compactGoal = compactCurrentStepText(step.goal, 12, 42);
   const compactAction = compactCurrentStepText(step.doThis, 10, 48);
 
   return (

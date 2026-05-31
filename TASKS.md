@@ -534,12 +534,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Completion note (2026-05-31 HKT): Added typed first-action metadata for every simulation kind, kept real playback controls for time-based concepts, and rendered compact in-scene affordances for non-time concepts that focus the matching direct manipulation target or primary control.
   - Validation: git diff --check passed; pnpm exec vitest run tests/physics/simulation-ui.test.ts tests/components/concept-simulation-renderer-compare.test.tsx passed 17/17; targeted pnpm lint passed; pnpm typecheck passed; pnpm exec playwright test tests/e2e/concept-page-v2-flow.spec.ts --grep "OML-QA-053" passed 1/1.
 
-- [ ] **OML-QA-054: Rewrite high-density concept first views into compact concept-machine openings before adding more support text.**
+- [x] **OML-QA-054: Rewrite high-density concept first views into compact concept-machine openings before adding more support text.**
   - Evidence: refined visual-density audit still found `42` dense cases after excluding screen-reader-only text. Top examples include `maxwells-equations-synthesis`, `rolling-motion`, `kirchhoff-loop-and-junction-rules`, `angular-momentum`, `gravitational-potential-energy`, `equivalent-resistance`, `rotational-inertia`, `percent-yield-and-reaction-extent`, `internal-resistance-and-terminal-voltage`, and `specific-heat-and-phase-change`.
   - UX problem: many pages technically have the live bench first, but the first viewport still reads like a dense technical dashboard instead of one clear experiment and one next move.
   - Affected area: per-concept simulation scene density, readout cards, graph summaries, current-step copy, control descriptions, and content `v2.guidedSteps`.
   - Fix direction: for each high-density slug, reduce first-view copy to one concept claim, one active variable, one current task, and one readable visual. Move secondary readouts, equation notes, and reference copy into Step Tools or post-bench reference. Use visual state, labels, and examples instead of adding prose.
   - Validation: after each page is fixed, the refined audit should put phone first-viewport visible words under roughly `180`, tablet under `260`, and desktop/wide under `300`, while screenshots still show the live model, cue, and first control.
+
+  - Completion note (2026-05-31 HKT): Compacted dense concept first views by hiding secondary live-bench prose, keeping Step tools closed until requested, tightening current-step cue compaction, and moving Maxwell secondary notes to accessible-only text.
+  - Validation: git diff --check; targeted eslint on touched TS/TSX files; pnpm exec vitest run tests/components/concept-page-v2-panels.test.tsx tests/components/maxwell-equations-synthesis-simulation.test.tsx; OML_QA_BASE_URL=http://127.0.0.1:3454 node output/qa-oml-qa-054-repair/audit-current-step-actions.mjs; pnpm typecheck; fresh screenshots inspected under output/qa-oml-qa-054-repair/orchestrator-independent-screenshots/
 
 ### P2 - Interaction, State, And Regression Coverage
 

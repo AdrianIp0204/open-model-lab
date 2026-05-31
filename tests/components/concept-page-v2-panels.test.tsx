@@ -195,6 +195,28 @@ const wrapUp: ConceptPageV2WrapUpViewModel = {
 };
 
 describe("ConceptPageV2CurrentStepCue", () => {
+  function renderCompactAction(doThis: string) {
+    render(
+      <ConceptPageV2CurrentStepCue
+        step={{
+          goal: "Use the compact current step.",
+          doThis,
+        }}
+        activePosition={1}
+        stepCount={4}
+        copy={{
+          currentStepLabel: copy.currentStepLabel,
+          actLabel: copy.actLabel,
+        }}
+      />,
+    );
+
+    return screen
+      .getByTestId("concept-v2-current-step-cue-action")
+      .textContent?.replace(/\s+/g, " ")
+      .trim();
+  }
+
   it("renders a compact current step count, goal, and action", () => {
     render(
       <ConceptPageV2CurrentStepCue
@@ -220,6 +242,82 @@ describe("ConceptPageV2CurrentStepCue", () => {
       "Change the second setup.",
     );
     expect(cue).not.toHaveTextContent("What to notice");
+  });
+
+  it.each([
+    {
+      name: "angular momentum map",
+      doThis:
+        "Stay on the lab-baseline rotor, keep the angular-momentum map visible, and raise Angular speed once while the radius stays fixed.",
+      expected:
+        "Do this: Stay on the lab-baseline rotor, keep the angular-momentum map visible",
+    },
+    {
+      name: "atomic spectra line labels",
+      doThis:
+        "Start from Hydrogen-like emission with transition pairs, line labels, and a visible photon-energy gap, then match the selected transition arrow to the graph line it creates.",
+      expected:
+        "Do this: Start from Hydrogen-like emission with transition pairs, line labels",
+    },
+    {
+      name: "bernoulli bridge",
+      doThis:
+        "Load Baseline venturi and keep the continuity bridge, speed arrows, pressure gauges, and energy bars in view.",
+      expected:
+        "Do this: Load Baseline venturi and keep the continuity bridge, speed arrows",
+    },
+    {
+      name: "heat-transfer bench",
+      doThis:
+        "Start from Metal on cool bench, keep the pathway-rates graph open, and compare the hot-block chip with the room chip.",
+      expected: "Do this: Start from Metal on cool bench",
+    },
+    {
+      name: "maxwell flux comparison",
+      doThis:
+        "Keep Flux laws open, move Enclosed charge toward zero, and compare the electric and magnetic flux cards.",
+      expected: "Do this: Keep Flux laws open, move Enclosed charge toward zero",
+    },
+  ])("keeps compact current-step actions complete for $name", ({ doThis, expected }) => {
+    expect(renderCompactAction(doThis)).toBe(expected);
+  });
+
+  it.each([
+    {
+      name: "Kirchhoff quantified current values",
+      doThis:
+        "Open the clean split preset and read the three current values before you write the junction equation.",
+      expected: "Do this: Open the clean split preset",
+      rejectedEndings: [/three current$/i, /\bcurrent$/i],
+    },
+    {
+      name: "limiting reagent recipe formula",
+      doThis:
+        "Use the A-limiting preset and keep the 2 A + 3 B recipe card beside both supply bins.",
+      expected: "Do this: Use the A-limiting preset",
+      rejectedEndings: [/\b2 A \+$/i],
+    },
+    {
+      name: "percent yield graph comparison",
+      doThis:
+        "Change reactant a packets with Actual and theoretical product vs percent yield open.",
+      expected: "Do this: Change reactant a packets",
+      rejectedEndings: [/Actual and theoretical product vs$/i, /\bvs$/i],
+    },
+    {
+      name: "internal resistance comparison",
+      doThis:
+        "Open the near-ideal-source preset and compare the emf with the terminal voltage before you touch the load.",
+      expected: "Do this: Open the near-ideal-source preset",
+      rejectedEndings: [/compare the emf$/i],
+    },
+  ])("does not emit known current-step fragment endings for $name", ({ doThis, expected, rejectedEndings }) => {
+    const action = renderCompactAction(doThis);
+
+    expect(action).toBe(expected);
+    for (const rejectedEnding of rejectedEndings) {
+      expect(action).not.toMatch(rejectedEnding);
+    }
   });
 });
 

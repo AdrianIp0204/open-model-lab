@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-054 Compact Concept-Machine Openings
+
+Current state: `OML-QA-054` is complete. Dense concept first views now keep the opening focused on the live model, current cue, and first control by suppressing secondary live-bench prose, keeping Step tools closed until requested, tightening current-step cue compaction, and moving Maxwell secondary notes to accessible-only text.
+
+### Files Changed
+
+- `app/globals.css`: hides secondary scene/graph prose in focus-stage openings and suppresses dense SVG scene text on touch/tablet first views.
+- `components/concepts/ConceptPageV2Panels.tsx`: tightens current-step cue compaction and avoids dangling phrase/operator fragments.
+- `components/simulations/ConceptSimulationRenderer.tsx`: keeps Step tools collapsed until opened or an active tool is selected.
+- `components/simulations/MaxwellEquationsSynthesisSimulation.tsx`: moves secondary explanatory notes out of visible first-view density while preserving accessible text.
+- `tests/components/concept-page-v2-panels.test.tsx`: adds current-step cue regression cases for dense/action-fragment examples.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- Targeted `pnpm exec eslint` on touched TS/TSX files: passed.
+- `pnpm exec vitest run tests/components/concept-page-v2-panels.test.tsx tests/components/maxwell-equations-synthesis-simulation.test.tsx`: passed, 38/38.
+- `OML_QA_BASE_URL=http://127.0.0.1:3454 node output/qa-oml-qa-054-repair/audit-current-step-actions.mjs`: passed with `42` cases, `0` density/surface/action failures, and max first-viewport words of `79` phone, `149` tablet, `225` desktop, `258` wide.
+- `pnpm typecheck`: passed.
+- Fresh screenshots inspected under `output/qa-oml-qa-054-repair/orchestrator-independent-screenshots/`.
+
 ## 2026-05-31 OML-QA-053 First Interaction Affordance
 
 Current state: `OML-QA-053` is complete. Every simulation kind now resolves to a typed first action (`playback`, `drag-probe`, `adjust-source`, `toggle-mode`, or `inspect-state`). Time-based concepts keep the real play/pause scene control, while non-time concepts render a compact in-scene affordance with stateful accessible labels that focuses the matching scene handle or primary control.
