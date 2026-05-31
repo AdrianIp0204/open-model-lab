@@ -2746,6 +2746,34 @@
       "label": "先做這步",
       "description": "先探索即時設定；比較可隨時切換，預測留在目前提示中。"
     },
+    "firstAction": {
+      "badge": "先試",
+      "stateFallback": "即時場景已就緒",
+      "drag-probe": {
+        "label": "拖動探針",
+        "aria": "第一個互動：在即時場景拖動已標示的探針或手柄"
+      },
+      "adjust-source": {
+        "label": "調整來源",
+        "aria": "第一個互動：調整已標示的來源控制"
+      },
+      "toggle-mode": {
+        "label": "切換設定",
+        "aria": "第一個互動：切換已標示的設定模式"
+      },
+      "inspect-state": {
+        "label": "檢視狀態",
+        "aria": "第一個互動：檢視已標示的即時狀態"
+      },
+      "states": {
+        "control": "{label}: {value}",
+        "graph": "圖表：{label}",
+        "overlay": "疊層：{label}",
+        "compare": "正在編輯 {target}",
+        "on": "開",
+        "off": "關"
+      }
+    },
     "predictionPrompt": {
       "label": "預測提示",
       "title": "預測提示",

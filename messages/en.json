@@ -2891,6 +2891,34 @@
       "label": "First action",
       "description": "Explore the live setup first. Compare stays one switch away; predictions sit with the current prompt."
     },
+    "firstAction": {
+      "badge": "Try first",
+      "stateFallback": "Live scene ready",
+      "drag-probe": {
+        "label": "Drag the probe",
+        "aria": "First interaction: drag the highlighted probe or handle in the live scene"
+      },
+      "adjust-source": {
+        "label": "Adjust a source",
+        "aria": "First interaction: adjust the highlighted source control"
+      },
+      "toggle-mode": {
+        "label": "Toggle the setup",
+        "aria": "First interaction: toggle the highlighted setup mode"
+      },
+      "inspect-state": {
+        "label": "Inspect the state",
+        "aria": "First interaction: inspect the highlighted live state"
+      },
+      "states": {
+        "control": "{label}: {value}",
+        "graph": "Graph: {label}",
+        "overlay": "Overlay: {label}",
+        "compare": "Editing {target}",
+        "on": "on",
+        "off": "off"
+      }
+    },
     "predictionPrompt": {
       "label": "Prediction prompt",
       "title": "Prediction prompt",

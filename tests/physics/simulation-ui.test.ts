@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { getConceptBySlug } from "@/lib/content";
+import { getAllConcepts, getConceptBySlug } from "@/lib/content";
 import { localizeConceptContent } from "@/lib/i18n/concept-content";
-import { resolveSimulationUiHints } from "@/lib/physics";
+import { resolveSimulationFirstAction, resolveSimulationUiHints } from "@/lib/physics";
 import { buildSimulationUiRolloutReport } from "../../scripts/report-simulation-ui-rollout.mjs";
 import {
   DISCLOSURE_REPRESENTATIVE_CASES,
@@ -105,6 +105,48 @@ describe("resolveSimulationUiHints", () => {
     expect(resolved.invalidPrimaryGraphIds).toEqual(["not-a-graph"]);
     expect(resolved.invalidPrimaryControlIds).toEqual(["not-a-control"]);
     expect(resolved.invalidPrimaryPresetIds).toEqual(["not-a-preset"]);
+  });
+
+  it("defines a first interaction affordance for every published concept kind", () => {
+    const concepts = getAllConcepts();
+
+    expect(concepts.length).toBeGreaterThan(0);
+
+    for (const concept of concepts) {
+      const resolved = resolveSimulationFirstAction(concept.simulation.kind);
+
+      expect(resolved.kind, concept.slug).toMatch(
+        /^(playback|drag-probe|adjust-source|toggle-mode|inspect-state)$/,
+      );
+    }
+  });
+
+  it("keeps playback as the scene action only for concepts with an active time surface", () => {
+    expect(
+      resolveSimulationFirstAction("shm", {
+        hasInteractiveTime: true,
+      }).kind,
+    ).toBe("playback");
+    expect(
+      resolveSimulationFirstAction("electric-fields", {
+        hasInteractiveTime: false,
+      }).kind,
+    ).toBe("drag-probe");
+    expect(
+      resolveSimulationFirstAction("acid-base-ph", {
+        hasInteractiveTime: false,
+      }).kind,
+    ).toBe("adjust-source");
+    expect(
+      resolveSimulationFirstAction("basic-circuits", {
+        hasInteractiveTime: false,
+      }).kind,
+    ).toBe("toggle-mode");
+    expect(
+      resolveSimulationFirstAction("rational-functions", {
+        hasInteractiveTime: false,
+      }).kind,
+    ).toBe("inspect-state");
   });
 
   it("keeps the simplified overlay defaults aligned with the authored first-load state", () => {

@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-053 First Interaction Affordance
+
+Current state: `OML-QA-053` is complete. Every simulation kind now resolves to a typed first action (`playback`, `drag-probe`, `adjust-source`, `toggle-mode`, or `inspect-state`). Time-based concepts keep the real play/pause scene control, while non-time concepts render a compact in-scene affordance with stateful accessible labels that focuses the matching scene handle or primary control.
+
+### Files Changed
+
+- `lib/physics/simulationUi.ts`: adds first-action metadata resolution for every published simulation kind.
+- `components/simulations/ConceptSimulationRenderer.tsx`: renders the non-playback first-action affordance, tracks current control/graph/overlay state in the accessible label, and focuses the best matching interaction target.
+- `messages/en.json` and `messages/zh-HK.json`: add localized first-action copy and state labels.
+- `tests/physics/simulation-ui.test.ts`, `tests/components/concept-simulation-renderer-compare.test.tsx`, and `tests/e2e/concept-page-v2-flow.spec.ts`: cover all-kind metadata, playback behavior, representative drag/toggle affordances, and aria-state changes.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec vitest run tests/physics/simulation-ui.test.ts tests/components/concept-simulation-renderer-compare.test.tsx`: passed, 17/17.
+- `pnpm typecheck`: passed.
+- `pnpm lint -- components/simulations/ConceptSimulationRenderer.tsx lib/physics/simulationUi.ts tests/physics/simulation-ui.test.ts tests/components/concept-simulation-renderer-compare.test.tsx tests/e2e/concept-page-v2-flow.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/concept-page-v2-flow.spec.ts --grep "OML-QA-053"`: passed, 1/1.
+
 ## 2026-05-31 OML-QA-052 Phone Lesson Path Overview
 
 Current state: `OML-QA-052` is complete. The phone lesson path is now a compact overview instead of a second dense lesson: it keeps progress, the active step title, one concise action line, previous/next controls, and numeric step-map navigation, while secondary guidance, reveal details, quick checks, and next-checkpoint copy stay out of the phone rail.

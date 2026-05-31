@@ -935,6 +935,63 @@ test.describe("concept page v2 flow", () => {
     }
   });
 
+  test("OML-QA-053 gives time and non-time live windows a clear first interaction", async ({
+    browser,
+  }) => {
+    test.setTimeout(120_000);
+    const context = await browser.newContext({ viewport: { width: 1366, height: 768 } });
+    const page = await newConceptFlowPage(context);
+    const browserGuard = await installBrowserGuards(page);
+
+    try {
+      await gotoAndExpectOk(page, "/en/concepts/simple-harmonic-motion");
+
+      const stageToggle = page.getByTestId("simulation-stage-playback-toggle");
+      await expect(stageToggle).toBeVisible();
+      await expect(stageToggle).toHaveAttribute("aria-label", /Play simulation|Pause simulation/);
+
+      const initialToggleLabel = await stageToggle.getAttribute("aria-label");
+      await stageToggle.dispatchEvent("pointerup", {
+        bubbles: true,
+        button: 0,
+        pointerType: "mouse",
+      });
+      await expect
+        .poll(() => stageToggle.getAttribute("aria-label"))
+        .not.toBe(initialToggleLabel);
+
+      await gotoAndExpectOk(page, "/en/concepts/electric-fields");
+
+      const dragAffordance = page.getByTestId("simulation-stage-first-action-affordance");
+      await expect(page.getByTestId("simulation-stage-playback-toggle")).toHaveCount(0);
+      await expect(dragAffordance).toBeVisible();
+      await expect(dragAffordance).toHaveAttribute("data-first-action-kind", "drag-probe");
+      await expect(dragAffordance).toHaveAttribute("aria-label", /First interaction: drag/i);
+
+      const probeHandle = page.getByRole("button", { name: /probe/i }).first();
+      await dragAffordance.click();
+      await expect(probeHandle).toBeFocused();
+
+      await gotoAndExpectOk(page, "/en/concepts/basic-circuits");
+
+      const toggleAffordance = page.getByTestId("simulation-stage-first-action-affordance");
+      await expect(toggleAffordance).toBeVisible();
+      await expect(toggleAffordance).toHaveAttribute("data-first-action-kind", "toggle-mode");
+      await expect(toggleAffordance).toHaveAttribute("aria-label", /Use parallel branches/i);
+
+      const branchToggle = page.getByRole("checkbox", { name: "Use parallel branches" });
+      const initialToggleChecked = await branchToggle.isChecked();
+      await toggleAffordance.click();
+      await expect(branchToggle).toBeFocused();
+      await branchToggle.press("Space");
+      await expect(branchToggle).toBeChecked({ checked: !initialToggleChecked });
+
+      browserGuard.assertNoActionableIssues();
+    } finally {
+      await context.close();
+    }
+  });
+
   test("OML-QA-052 keeps the phone lesson path as an overview, not a second dense lesson", async ({
     browser,
   }) => {

@@ -414,6 +414,7 @@ import {
   sampleProjectileState,
   sampleShmState,
   sampleVectorsComponentsState,
+  resolveSimulationFirstAction,
   resolveSimulationUiHints,
   buildAirColumnResonanceSeries,
   AIR_COLUMN_MAX_LENGTH,
@@ -424,6 +425,9 @@ import {
   SOUND_WAVES_LONGITUDINAL_MAX_AMPLITUDE,
   SOUND_WAVES_LONGITUDINAL_MIN_AMPLITUDE,
   type SimulationKind,
+  type SimulationControlSpec,
+  type SimulationFirstActionKind,
+  type SimulationFirstActionMetadata,
   DOT_PRODUCT_PROJECTION_RESPONSE_MAX_ANGLE,
   DOT_PRODUCT_PROJECTION_RESPONSE_MIN_ANGLE,
   MATRIX_TRANSFORMATIONS_BLEND_MAX,
@@ -867,6 +871,181 @@ type GraphBoundsConfig = {
   xTicks?: number;
   yTicks?: number;
 };
+
+type NonPlaybackFirstActionKind = Exclude<SimulationFirstActionKind, "playback">;
+
+type FirstInteractionAffordanceProps = {
+  metadata: SimulationFirstActionMetadata & { kind: NonPlaybackFirstActionKind };
+  controlsAnchorId: string;
+  activeGraphLabel?: string | null;
+  compareTargetLabel?: string | null;
+  focusedOverlayLabel?: string | null;
+  primaryControl?: SimulationControlSpec | null;
+  primaryControlValue?: ControlValue;
+  copy: {
+    badge: string;
+    label: string;
+    aria: string;
+    stateFallback: string;
+    controlState: (label: string, value: string) => string;
+    graphState: (label: string) => string;
+    overlayState: (label: string) => string;
+    compareState: (target: string) => string;
+    on: string;
+    off: string;
+  };
+};
+
+function formatFirstActionControlValue(
+  control: SimulationControlSpec | null | undefined,
+  value: ControlValue | undefined,
+  copy: Pick<FirstInteractionAffordanceProps["copy"], "on" | "off">,
+) {
+  if (!control || value === undefined) {
+    return null;
+  }
+
+  const displayValue = control.displayValueLabels?.find(
+    (entry) => String(entry.value) === String(value),
+  )?.label;
+
+  if (displayValue) {
+    return displayValue;
+  }
+
+  if (typeof value === "boolean") {
+    return value ? copy.on : copy.off;
+  }
+
+  if (typeof value === "number") {
+    return `${formatNumber(value)}${control.unit ? ` ${control.unit}` : ""}`;
+  }
+
+  return value;
+}
+
+function focusFirstInteractionTarget(
+  button: HTMLButtonElement,
+  metadata: FirstInteractionAffordanceProps["metadata"],
+  controlsAnchorId: string,
+  preferredControlLabel?: string,
+) {
+  const scene = button.closest<HTMLElement>("[data-testid='simulation-shell-scene']");
+
+  if (metadata.kind === "drag-probe" && scene) {
+    const candidates = Array.from(
+      scene.querySelectorAll<HTMLElement>(
+        "[data-first-interaction-target], button, [role='slider'], [tabindex]",
+      ),
+    ).filter((candidate) => {
+      if (candidate === button || button.contains(candidate)) {
+        return false;
+      }
+
+      if (candidate.getAttribute("aria-hidden") === "true") {
+        return false;
+      }
+
+      if (candidate instanceof HTMLButtonElement && candidate.disabled) {
+        return false;
+      }
+
+      return candidate.tabIndex >= 0 || candidate.hasAttribute("data-first-interaction-target");
+    });
+    const directManipulationTarget =
+      candidates.find((candidate) =>
+        /drag|probe|source|point|handle|mass|charge|object|vector/i.test(
+          `${candidate.getAttribute("aria-label") ?? ""} ${candidate.textContent ?? ""}`,
+        ),
+      ) ?? candidates[0];
+
+    if (directManipulationTarget) {
+      directManipulationTarget.focus({ preventScroll: true });
+      return;
+    }
+  }
+
+  const controls = document.getElementById(controlsAnchorId);
+  controls?.scrollIntoView?.({ block: "nearest" });
+  const controlCandidates = Array.from(
+    controls?.querySelectorAll<HTMLElement>(
+      "input:not([type='hidden']), button, [role='slider'], [role='checkbox'], [tabindex]:not([tabindex='-1'])",
+    ) ?? [],
+  );
+  const firstControl = preferredControlLabel
+    ? controlCandidates.find((candidate) =>
+        (candidate.getAttribute("aria-label") ?? candidate.textContent ?? "")
+          .toLowerCase()
+          .includes(preferredControlLabel.toLowerCase()),
+      ) ?? controlCandidates[0]
+    : controlCandidates[0];
+  (firstControl ?? controls)?.focus({ preventScroll: true });
+}
+
+function FirstInteractionAffordance({
+  metadata,
+  controlsAnchorId,
+  activeGraphLabel,
+  compareTargetLabel,
+  focusedOverlayLabel,
+  primaryControl,
+  primaryControlValue,
+  copy,
+}: FirstInteractionAffordanceProps) {
+  const controlValue = formatFirstActionControlValue(primaryControl, primaryControlValue, copy);
+  const primaryState = primaryControl && controlValue
+    ? copy.controlState(primaryControl.label, controlValue)
+    : activeGraphLabel
+      ? copy.graphState(activeGraphLabel)
+      : focusedOverlayLabel
+        ? copy.overlayState(focusedOverlayLabel)
+        : copy.stateFallback;
+  const stateLabel = compareTargetLabel
+    ? `${copy.compareState(compareTargetLabel)}. ${primaryState}`
+    : primaryState;
+
+  return (
+    <button
+      type="button"
+      data-testid="simulation-stage-first-action-affordance"
+      data-first-action-kind={metadata.kind}
+      aria-label={`${copy.aria}. ${stateLabel}`}
+      onClick={(event) =>
+        focusFirstInteractionTarget(
+          event.currentTarget,
+          metadata,
+          controlsAnchorId,
+          primaryControl?.ariaLabel ?? primaryControl?.label,
+        )
+      }
+      className="group inline-flex max-w-[13.5rem] items-center gap-2 rounded-full border border-white/18 bg-ink-950/84 px-2.5 py-2 text-left text-paper-strong shadow-lg shadow-ink-950/28 backdrop-blur transition hover:border-teal-300/42 hover:bg-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
+    >
+      <span
+        aria-hidden="true"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/18 bg-white/10 text-[0.8rem] font-black"
+      >
+        {metadata.kind === "drag-probe"
+          ? "<>"
+          : metadata.kind === "toggle-mode"
+            ? "T"
+            : metadata.kind === "inspect-state"
+              ? "i"
+              : "+"}
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[0.56rem] font-semibold uppercase tracking-[0.16em] text-paper-strong/70">
+          {copy.badge}
+        </span>
+        <span className="block truncate text-xs font-semibold leading-4 text-paper-strong">
+          {copy.label}
+        </span>
+        <span className="block truncate text-[0.66rem] leading-4 text-paper-strong/72">
+          {stateLabel}
+        </span>
+      </span>
+    </button>
+  );
+}
 
 const SCALE_BUCKETS = [0.5, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048];
 
@@ -7334,6 +7513,24 @@ export function ConceptSimulationRenderer({
     guidedReveal?.controlIds?.length ? guidedReveal.controlIds : simulationUiHints.primaryControlIds;
   const effectivePrimaryGraphIds =
     guidedReveal?.graphIds?.length ? guidedReveal.graphIds : simulationUiHints.primaryGraphIds;
+  const firstActionMetadata = resolveSimulationFirstAction(concept.simulation.kind, {
+    hasInteractiveTime,
+  });
+  const firstActionPrimaryControlIds =
+    effectivePrimaryControlIds ?? guidedReveal?.controlIds ?? [];
+  const firstActionPrimaryControl =
+    (firstActionMetadata.kind === "toggle-mode"
+      ? concept.simulation.controls.find(
+          (control) =>
+            control.kind === "toggle" && firstActionPrimaryControlIds.includes(control.id),
+        ) ?? concept.simulation.controls.find((control) => control.kind === "toggle")
+      : null) ??
+    concept.simulation.controls.find((control) => control.id === firstActionPrimaryControlIds[0]) ??
+    concept.simulation.controls[0] ??
+    null;
+  const firstActionPrimaryControlValue = firstActionPrimaryControl
+    ? controlValues[firstActionPrimaryControl.param]
+    : undefined;
   const guidedPrimaryGraphId = guidedReveal?.graphIds?.[0] ?? null;
   const guidedPrimaryOverlayId = guidedReveal?.overlayIds?.[0] ?? null;
 
@@ -9038,6 +9235,42 @@ export function ConceptSimulationRenderer({
     />
   ) : null;
   const stageTone = isGuidedConceptBench ? "focus" : "paper";
+  const nonPlaybackFirstActionMetadata =
+    firstActionMetadata.kind === "playback"
+      ? null
+      : ({ kind: firstActionMetadata.kind } satisfies SimulationFirstActionMetadata & {
+          kind: NonPlaybackFirstActionKind;
+        });
+  const sceneAction =
+    firstActionMetadata.kind === "playback" ? (
+      <TimeStagePlaybackButton
+        isPlaying={hasInteractiveTime && !isInspecting && isPlaying}
+        canPlay={hasInteractiveTime}
+        onTogglePlay={togglePlayback}
+      />
+    ) : nonPlaybackFirstActionMetadata ? (
+      <FirstInteractionAffordance
+        metadata={nonPlaybackFirstActionMetadata}
+        controlsAnchorId={controlsAnchorId}
+        activeGraphLabel={activeGraph?.label}
+        compareTargetLabel={compareTargetLabel}
+        focusedOverlayLabel={focusedOverlay?.label}
+        primaryControl={firstActionPrimaryControl}
+        primaryControlValue={firstActionPrimaryControlValue}
+        copy={{
+          badge: t("firstAction.badge"),
+          label: t(`firstAction.${firstActionMetadata.kind}.label`),
+          aria: t(`firstAction.${firstActionMetadata.kind}.aria`),
+          stateFallback: t("firstAction.stateFallback"),
+          controlState: (label, value) => t("firstAction.states.control", { label, value }),
+          graphState: (label) => t("firstAction.states.graph", { label }),
+          overlayState: (label) => t("firstAction.states.overlay", { label }),
+          compareState: (target) => t("firstAction.states.compare", { target }),
+          on: t("firstAction.states.on"),
+          off: t("firstAction.states.off"),
+        }}
+      />
+    ) : null;
 
   useEffect(() => {
     if (!isChallengeHashActive || typeof window === "undefined") {
@@ -9160,15 +9393,7 @@ export function ConceptSimulationRenderer({
             }}
           />
         }
-        sceneAction={
-          hasInteractiveTime ? (
-            <TimeStagePlaybackButton
-              isPlaying={hasInteractiveTime && !isInspecting && isPlaying}
-              canPlay={hasInteractiveTime}
-              onTogglePlay={togglePlayback}
-            />
-          ) : null
-        }
+        sceneAction={sceneAction}
         benchEquations={<EquationBenchStrip equations={benchEquations} />}
         controls={
           <div className="space-y-3">

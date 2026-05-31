@@ -324,6 +324,40 @@ describe("ConceptSimulationRenderer compare state", () => {
     ).toBeInTheDocument();
   });
 
+  it("exposes a stateful non-playback first interaction affordance in the live scene", () => {
+    render(<ConceptSimulationRenderer concept={buildSimulationSource("graph-transformations")} />);
+
+    const affordance = screen.getByTestId("simulation-stage-first-action-affordance");
+    const controls = screen.getByTestId("simulation-shell-controls");
+    const horizontalShift = within(controls).getByRole("slider", {
+      name: "Horizontal shift",
+    }) as HTMLInputElement;
+
+    expect(affordance).toHaveAttribute("data-first-action-kind", "drag-probe");
+    expect(affordance).toHaveAccessibleName(
+      /First interaction: drag the highlighted probe or handle in the live scene\. Horizontal shift: 0/i,
+    );
+    expect(screen.queryByTestId("simulation-stage-playback-toggle")).not.toBeInTheDocument();
+
+    fireEvent.change(horizontalShift, { target: { value: "2" } });
+
+    expect(affordance).toHaveAccessibleName(/Horizontal shift: 2/i);
+
+    fireEvent.click(affordance);
+
+    expect(horizontalShift).toHaveFocus();
+  });
+
+  it("uses the real playback scene action when the concept has a time surface", () => {
+    render(<ConceptSimulationRenderer concept={buildSimulationSource("simple-harmonic-motion")} />);
+
+    const playbackToggle = screen.getByTestId("simulation-stage-playback-toggle");
+
+    expect(playbackToggle).toHaveAccessibleName("Play simulation");
+    expect(playbackToggle).toHaveAttribute("aria-pressed", "false");
+    expect(screen.queryByTestId("simulation-stage-first-action-affordance")).not.toBeInTheDocument();
+  });
+
   it("closes secondary prediction workflow when compare mode starts", async () => {
     const user = userEvent.setup();
 
