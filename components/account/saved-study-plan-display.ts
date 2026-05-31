@@ -25,6 +25,17 @@ export type StudyPlanCatalogOption = {
   slug: string;
   label: string;
   detail: string;
+  subjectFacets: StudyPlanCatalogFacet[];
+  topicFacets: StudyPlanCatalogFacet[];
+  conceptSlugs: string[];
+  conceptCount: number;
+  estimatedStudyMinutes: number;
+  searchText: string;
+};
+
+export type StudyPlanCatalogFacet = {
+  key: string;
+  label: string;
 };
 
 export type StudyPlansTranslate = (
@@ -93,6 +104,92 @@ export function getStudyPlanStatusTone(
 
 export function buildStudyPlanEntryKey(entry: SavedStudyPlanEntryRecord) {
   return `${entry.kind}:${entry.slug}`;
+}
+
+function buildFacetKey(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function buildCatalogFacets(
+  concepts: Array<Pick<ConceptSummary, "subject" | "topic">>,
+  locale: AppLocale,
+) {
+  const subjectFacetByKey = new Map<string, StudyPlanCatalogFacet>();
+  const topicFacetByKey = new Map<string, StudyPlanCatalogFacet>();
+
+  for (const concept of concepts) {
+    const subjectKey = buildFacetKey(concept.subject);
+    const topicKey = buildFacetKey(concept.topic);
+
+    if (subjectKey && !subjectFacetByKey.has(subjectKey)) {
+      subjectFacetByKey.set(subjectKey, {
+        key: subjectKey,
+        label: getSubjectDisplayTitleFromValue(concept.subject, locale),
+      });
+    }
+
+    if (topicKey && !topicFacetByKey.has(topicKey)) {
+      topicFacetByKey.set(topicKey, {
+        key: topicKey,
+        label: getTopicDisplayTitleFromValue(concept.topic, locale),
+      });
+    }
+  }
+
+  const sortFacets = (facets: StudyPlanCatalogFacet[]) =>
+    facets.sort((left, right) =>
+      left.label.localeCompare(right.label, locale, { sensitivity: "base" }),
+    );
+
+  return {
+    subjectFacets: sortFacets(Array.from(subjectFacetByKey.values())),
+    topicFacets: sortFacets(Array.from(topicFacetByKey.values())),
+  };
+}
+
+function buildSearchText(parts: Array<string | null | undefined>) {
+  return parts.filter(Boolean).join(" ").toLowerCase();
+}
+
+function buildCatalogOption(input: {
+  kind: SavedStudyPlanEntryRecord["kind"];
+  slug: string;
+  label: string;
+  detail: string;
+  concepts: ConceptSummary[];
+  conceptCount: number;
+  estimatedStudyMinutes: number;
+  extraSearchParts?: Array<string | null | undefined>;
+  locale: AppLocale;
+  t: StudyPlansTranslate;
+}): StudyPlanCatalogOption {
+  const facets = buildCatalogFacets(input.concepts, input.locale);
+
+  return {
+    key: `${input.kind}:${input.slug}`,
+    kind: input.kind,
+    slug: input.slug,
+    label: input.label,
+    detail: input.detail,
+    subjectFacets: facets.subjectFacets,
+    topicFacets: facets.topicFacets,
+    conceptSlugs: input.concepts.map((concept) => concept.slug),
+    conceptCount: input.conceptCount,
+    estimatedStudyMinutes: input.estimatedStudyMinutes,
+    searchText: buildSearchText([
+      input.label,
+      input.detail,
+      input.slug,
+      getStudyPlanEntryKindLabel(input.kind, input.t),
+      ...facets.subjectFacets.map((facet) => facet.label),
+      ...facets.topicFacets.map((facet) => facet.label),
+      ...(input.extraSearchParts ?? []),
+    ]),
+  };
 }
 
 export async function readStudyPlansJsonResponse<T>(
@@ -193,45 +290,84 @@ export function buildStudyPlanCatalogOptions(input: {
     input;
 
   return [
-    ...concepts.map((concept) => ({
-      key: `concept:${concept.slug}`,
-      kind: "concept" as const,
-      slug: concept.slug,
-      label: getConceptDisplayTitle(concept, locale),
-      detail: t("catalog.details.concept", {
-        subject: getSubjectDisplayTitleFromValue(concept.subject, locale),
-        topic: getTopicDisplayTitleFromValue(concept.topic, locale),
+    ...concepts.map((concept) =>
+      buildCatalogOption({
+        kind: "concept",
+        slug: concept.slug,
+        label: getConceptDisplayTitle(concept, locale),
+        detail: t("catalog.details.concept", {
+          subject: getSubjectDisplayTitleFromValue(concept.subject, locale),
+          topic: getTopicDisplayTitleFromValue(concept.topic, locale),
+        }),
+        concepts: [concept],
+        conceptCount: 1,
+        estimatedStudyMinutes: concept.estimatedStudyMinutes ?? 0,
+        extraSearchParts: [concept.summary, concept.shortTitle, ...concept.highlights],
+        locale,
+        t,
       }),
-    })),
-    ...starterTracks.map((track) => ({
-      key: `track:${track.slug}`,
-      kind: "track" as const,
-      slug: track.slug,
-      label: getStarterTrackDisplayTitle(track, locale),
-      detail: t("catalog.details.track", {
-        count: track.concepts.length,
-        minutes: track.estimatedStudyMinutes,
+    ),
+    ...starterTracks.map((track) =>
+      buildCatalogOption({
+        kind: "track",
+        slug: track.slug,
+        label: getStarterTrackDisplayTitle(track, locale),
+        detail: t("catalog.details.track", {
+          count: track.concepts.length,
+          minutes: track.estimatedStudyMinutes,
+        }),
+        concepts: track.concepts,
+        conceptCount: track.concepts.length,
+        estimatedStudyMinutes: track.estimatedStudyMinutes,
+        extraSearchParts: [track.summary, ...track.highlights],
+        locale,
+        t,
       }),
-    })),
-    ...guidedCollections.map((collection) => ({
-      key: `guided-collection:${collection.slug}`,
-      kind: "guided-collection" as const,
-      slug: collection.slug,
-      label: getGuidedCollectionDisplayTitle(collection, locale),
-      detail: t("catalog.details.guidedCollection", {
-        count: collection.conceptCount,
-        minutes: collection.estimatedStudyMinutes,
+    ),
+    ...guidedCollections.map((collection) =>
+      buildCatalogOption({
+        kind: "guided-collection",
+        slug: collection.slug,
+        label: getGuidedCollectionDisplayTitle(collection, locale),
+        detail: t("catalog.details.guidedCollection", {
+          count: collection.conceptCount,
+          minutes: collection.estimatedStudyMinutes,
+        }),
+        concepts: collection.concepts,
+        conceptCount: collection.conceptCount,
+        estimatedStudyMinutes: collection.estimatedStudyMinutes,
+        extraSearchParts: [
+          collection.summary,
+          collection.format,
+          ...collection.highlights,
+          ...collection.topics.map((topic) => topic.title),
+        ],
+        locale,
+        t,
       }),
-    })),
-    ...recommendedGoalPaths.map((goalPath) => ({
-      key: `goal-path:${goalPath.slug}`,
-      kind: "goal-path" as const,
-      slug: goalPath.slug,
-      label: getGoalPathDisplayTitle(goalPath, locale),
-      detail: t("catalog.details.goalPath", {
-        count: goalPath.conceptCount,
-        minutes: goalPath.estimatedStudyMinutes,
+    ),
+    ...recommendedGoalPaths.map((goalPath) =>
+      buildCatalogOption({
+        kind: "goal-path",
+        slug: goalPath.slug,
+        label: getGoalPathDisplayTitle(goalPath, locale),
+        detail: t("catalog.details.goalPath", {
+          count: goalPath.conceptCount,
+          minutes: goalPath.estimatedStudyMinutes,
+        }),
+        concepts: goalPath.concepts,
+        conceptCount: goalPath.conceptCount,
+        estimatedStudyMinutes: goalPath.estimatedStudyMinutes,
+        extraSearchParts: [
+          goalPath.summary,
+          goalPath.objective,
+          goalPath.goalKind,
+          ...goalPath.highlights,
+          ...goalPath.topics.map((topic) => topic.title),
+        ],
+        locale,
+        t,
       }),
-    })),
+    ),
   ];
 }

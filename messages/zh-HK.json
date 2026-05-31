@@ -6675,7 +6675,22 @@
       "addEntry": {
         "title": "加入路線項目",
         "catalogItem": "目錄項目",
+        "description": "搜尋目錄，按類型、學科與主題篩選，然後將選定項目加入路線。",
+        "search": "搜尋目錄",
+        "searchPlaceholder": "試試「拋物運動」、「波」、「電路」...",
+        "itemType": "項目類型",
+        "subject": "學科",
+        "topic": "主題",
+        "progress": "進度",
         "empty": "至少加入一個概念、路徑、引導式合集或目標路線，才能儲存計劃。"
+      },
+      "selectedItem": {
+        "title": "已選項目預覽",
+        "empty": "先選擇一個目錄項目，即可預覽類型、範圍與進度訊號。"
+      },
+      "routePreview": {
+        "title": "已選路線預覽",
+        "summary": "{items, plural, one {# 個項目} other {# 個項目}}，涵蓋 {concepts, plural, one {# 個概念} other {# 個概念}} - {minutes} 分鐘"
       },
       "entry": {
         "step": "第 {step} 步"
@@ -6683,9 +6698,13 @@
       "actions": {
         "cancelEdit": "取消編輯",
         "addEntry": "加入項目",
+        "chooseEntry": "選擇 {title}",
         "up": "上移",
         "down": "下移",
         "remove": "移除",
+        "moveUpAria": "將 {title} 上移",
+        "moveDownAria": "將 {title} 下移",
+        "removeAria": "移除 {title}",
         "saving": "儲存中",
         "saveChanges": "儲存變更",
         "savePlan": "儲存計劃",
@@ -6699,6 +6718,27 @@
       "concept": "概念"
     },
     "catalog": {
+      "resultsLabel": "目錄結果",
+      "resultCount": "顯示 {shown} / {total}",
+      "noResults": "沒有目錄項目符合這組篩選。",
+      "filters": {
+        "allTypes": "全部類型",
+        "allSubjects": "全部學科",
+        "allTopics": "全部主題",
+        "allProgress": "全部進度",
+        "recent": "最近活動",
+        "recommended": "建議下一步"
+      },
+      "meta": {
+        "subjects": "學科：{subjects}",
+        "topics": "主題：{topics}",
+        "coverage": "已完成 {completed}/{total} 個概念",
+        "minutes": "{minutes} 分鐘"
+      },
+      "progress": {
+        "recent": "最近",
+        "recommended": "{count, plural, one {# 個下一步概念} other {# 個下一步概念}}"
+      },
       "details": {
         "concept": "{subject} - {topic}",
         "track": "{count, plural, one {# 個概念} other {# 個概念}} - {minutes} 分鐘",

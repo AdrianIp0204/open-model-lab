@@ -7143,7 +7143,22 @@
       "addEntry": {
         "title": "Add a route item",
         "catalogItem": "Catalog item",
+        "description": "Search the catalog, filter by type and subject/topic, then add the selected item to the route.",
+        "search": "Search catalog",
+        "searchPlaceholder": "Try projectile, waves, circuits...",
+        "itemType": "Item type",
+        "subject": "Subject",
+        "topic": "Topic",
+        "progress": "Progress",
         "empty": "Add at least one concept, track, guided collection, or goal path to save the plan."
+      },
+      "selectedItem": {
+        "title": "Selected item preview",
+        "empty": "Choose a catalog item to preview its type, scope, and progress signal."
+      },
+      "routePreview": {
+        "title": "Selected route preview",
+        "summary": "{items, plural, one {# item} other {# items}} covering {concepts, plural, one {# concept} other {# concepts}} - {minutes} min"
       },
       "entry": {
         "step": "Step {step}"
@@ -7151,9 +7166,13 @@
       "actions": {
         "cancelEdit": "Cancel edit",
         "addEntry": "Add item",
+        "chooseEntry": "Choose {title}",
         "up": "Up",
         "down": "Down",
         "remove": "Remove",
+        "moveUpAria": "Move {title} up",
+        "moveDownAria": "Move {title} down",
+        "removeAria": "Remove {title}",
         "saving": "Saving",
         "saveChanges": "Save changes",
         "savePlan": "Save plan",
@@ -7167,6 +7186,27 @@
       "concept": "Concept"
     },
     "catalog": {
+      "resultsLabel": "Catalog results",
+      "resultCount": "Showing {shown} of {total}",
+      "noResults": "No catalog items match those filters.",
+      "filters": {
+        "allTypes": "All types",
+        "allSubjects": "All subjects",
+        "allTopics": "All topics",
+        "allProgress": "All progress",
+        "recent": "Recent activity",
+        "recommended": "Recommended next"
+      },
+      "meta": {
+        "subjects": "Subjects: {subjects}",
+        "topics": "Topics: {topics}",
+        "coverage": "{completed}/{total} concepts complete",
+        "minutes": "{minutes} min"
+      },
+      "progress": {
+        "recent": "Recent",
+        "recommended": "{count, plural, one {# next concept} other {# next concepts}}"
+      },
       "details": {
         "concept": "{subject} - {topic}",
         "track": "{count, plural, one {# concept} other {# concepts}} - {minutes} min",

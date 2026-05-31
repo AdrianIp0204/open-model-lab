@@ -1,5 +1,30 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-064 Study Plan Picker
+
+Current state: `OML-QA-064` is complete. The Supporter `/account/study-plans` builder now uses a searchable catalog picker with type, subject, topic, and progress filters instead of the long native catalog select. Selected item and selected route previews make concept, track, guided collection, and goal-path entries understandable on phone and desktop, with keyboard-reachable choose, reorder, and remove controls.
+
+### Files Changed
+
+- `components/account/SavedStudyPlansPage.tsx`: adds searchable/filterable catalog controls, progress-aware recent/recommended filtering, selected-item preview, and compact selected-route preview with accessible move/remove controls.
+- `components/account/saved-study-plan-display.ts`: enriches catalog options with subject/topic facets, concept coverage, estimated minutes, and search text.
+- `messages/en.json` and `messages/zh-HK.json`: localize picker filters, result states, selected previews, route summaries, and accessible control labels.
+- `tests/components/saved-study-plans-page.test.tsx`: covers zh-HK rendering plus search/type/subject/topic/progress filters and route reorder/remove behavior.
+- `tests/e2e/account-study-plan-picker.spec.ts`: builds desktop and phone study plans through the picker, saves them, verifies the dashboard preview, and captures QA screenshots.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `pnpm exec vitest run tests/components/saved-study-plans-page.test.tsx tests/components/account-dashboard-panel.test.tsx tests/app/dashboard-page.test.tsx --reporter=dot`: passed, 24/24.
+- `pnpm exec eslint components/account/SavedStudyPlansPage.tsx components/account/saved-study-plan-display.ts tests/components/saved-study-plans-page.test.tsx tests/e2e/account-study-plan-picker.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/account-study-plan-picker.spec.ts --reporter=line`: passed, 1/1.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm typecheck`: passed.
+- `git diff --check`: passed.
+- Screenshot artifacts: `output/playwright/qa/oml-qa-064-study-plans-desktop-builder.png`, `output/playwright/qa/oml-qa-064-study-plans-desktop-dashboard.png`, `output/playwright/qa/oml-qa-064-study-plans-phone-builder.png`, and `output/playwright/qa/oml-qa-064-study-plans-phone-dashboard.png`.
+
+Residual risk: the picker infers subject/topic facets from each item's concept coverage. That is enough for current concepts, tracks, guided collections, and goal paths, but future non-concept catalog surfaces may need explicit facets if they should appear under subject/topic filters.
+
 ## 2026-05-31 OML-QA-063 Saved Library Creation CTAs
 
 Current state: `OML-QA-063` is complete. `/account/setups` no longer opens with `Open compare library`, and `/account/compare-setups` no longer opens with `Open saved setups`; both pages now put creation-path actions before the fold (`Find a live bench`, `Find a compare bench`, start, and search). Supporter empty states explain the exact source flow: save an adjusted concept bench setup, or enter Compare, set up A/B, and save the named compare scene.

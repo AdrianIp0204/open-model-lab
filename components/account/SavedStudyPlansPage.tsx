@@ -14,6 +14,7 @@ import {
   getStudyPlanStatusLabel,
   getStudyPlanStatusTone,
   readStudyPlansJsonResponse,
+  type StudyPlanCatalogFacet,
   type StudyPlanCatalogOption,
   type StudyPlansTranslate,
 } from "@/components/account/saved-study-plan-display";
@@ -32,6 +33,7 @@ import type {
 } from "@/lib/content";
 import {
   buildSavedStudyPlanProgressSummary,
+  getConceptProgressSummary,
   useProgressSnapshot,
 } from "@/lib/progress";
 
@@ -50,6 +52,56 @@ type StudyPlanSaveResponse = StudyPlansResponse & {
   replacedExisting: boolean;
   savedPlan: ResolvedSavedStudyPlan;
 };
+
+type CatalogKindFilter = "all" | SavedStudyPlanEntryRecord["kind"];
+type CatalogProgressFilter = "all" | "recent" | "recommended";
+
+type StudyPlanCatalogOptionProgress = {
+  lastActivityAt: string | null;
+  hasRecentActivity: boolean;
+  recommendedConceptCount: number;
+  completedConceptCount: number;
+  totalConceptCount: number;
+};
+
+type StudyPlanCatalogOptionWithProgress = StudyPlanCatalogOption & {
+  catalogIndex: number;
+  progress: StudyPlanCatalogOptionProgress;
+};
+
+function getLatestTimestamp(values: Array<string | null>) {
+  const timestamps = values.filter((value): value is string => Boolean(value));
+
+  if (!timestamps.length) {
+    return null;
+  }
+
+  return timestamps.reduce((latest, value) => (value > latest ? value : latest), timestamps[0]);
+}
+
+function getUniqueCatalogFacets(
+  options: StudyPlanCatalogOption[],
+  facetKey: "subjectFacets" | "topicFacets",
+  locale: AppLocale,
+) {
+  const facetByKey = new Map<string, StudyPlanCatalogFacet>();
+
+  for (const option of options) {
+    for (const facet of option[facetKey]) {
+      if (!facetByKey.has(facet.key)) {
+        facetByKey.set(facet.key, facet);
+      }
+    }
+  }
+
+  return Array.from(facetByKey.values()).sort((left, right) =>
+    left.label.localeCompare(right.label, locale, { sensitivity: "base" }),
+  );
+}
+
+function formatFacetLabels(facets: StudyPlanCatalogFacet[]) {
+  return facets.map((facet) => facet.label).join(", ");
+}
 
 export function SavedStudyPlansPage({
   concepts,
@@ -72,6 +124,12 @@ export function SavedStudyPlansPage({
   const [summaryDraft, setSummaryDraft] = useState("");
   const [entryDrafts, setEntryDrafts] = useState<SavedStudyPlanEntryRecord[]>([]);
   const [selectedEntryKey, setSelectedEntryKey] = useState("");
+  const [catalogSearchQuery, setCatalogSearchQuery] = useState("");
+  const [catalogKindFilter, setCatalogKindFilter] = useState<CatalogKindFilter>("all");
+  const [catalogSubjectFilter, setCatalogSubjectFilter] = useState("all");
+  const [catalogTopicFilter, setCatalogTopicFilter] = useState("all");
+  const [catalogProgressFilter, setCatalogProgressFilter] =
+    useState<CatalogProgressFilter>("all");
   const [pendingAction, setPendingAction] = useState<"save" | "delete" | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -99,6 +157,141 @@ export function SavedStudyPlansPage({
     () => new Map(catalogOptions.map((option) => [option.key, option])),
     [catalogOptions],
   );
+  const conceptBySlug = useMemo(
+    () => new Map(concepts.map((concept) => [concept.slug, concept])),
+    [concepts],
+  );
+  const catalogOptionsWithProgress = useMemo<StudyPlanCatalogOptionWithProgress[]>(
+    () =>
+      catalogOptions.map((option, catalogIndex) => {
+        const conceptProgress = option.conceptSlugs
+          .map((slug) => {
+            const concept = conceptBySlug.get(slug);
+
+            return concept ? getConceptProgressSummary(progressSnapshot, concept) : null;
+          })
+          .filter((summary): summary is NonNullable<typeof summary> => summary !== null);
+        const lastActivityAt = getLatestTimestamp(
+          conceptProgress.map((summary) => summary.lastActivityAt),
+        );
+        const recommendedConceptCount = conceptProgress.filter(
+          (summary) =>
+            summary.isUnfinished ||
+            summary.mastery.state === "shaky" ||
+            (summary.record?.quickTestLastIncorrectCount ?? 0) > 0,
+        ).length;
+
+        return {
+          ...option,
+          catalogIndex,
+          progress: {
+            lastActivityAt,
+            hasRecentActivity: Boolean(lastActivityAt),
+            recommendedConceptCount,
+            completedConceptCount: conceptProgress.filter(
+              (summary) => summary.status === "completed",
+            ).length,
+            totalConceptCount: conceptProgress.length || option.conceptCount,
+          },
+        };
+      }),
+    [catalogOptions, conceptBySlug, progressSnapshot],
+  );
+  const catalogSubjectOptions = useMemo(
+    () => getUniqueCatalogFacets(catalogOptions, "subjectFacets", locale),
+    [catalogOptions, locale],
+  );
+  const catalogTopicOptions = useMemo(
+    () => getUniqueCatalogFacets(catalogOptions, "topicFacets", locale),
+    [catalogOptions, locale],
+  );
+  const filteredCatalogOptions = useMemo(() => {
+    const queryTerms = catalogSearchQuery
+      .trim()
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    return catalogOptionsWithProgress
+      .filter((option) => {
+        if (catalogKindFilter !== "all" && option.kind !== catalogKindFilter) {
+          return false;
+        }
+
+        if (
+          catalogSubjectFilter !== "all" &&
+          !option.subjectFacets.some((facet) => facet.key === catalogSubjectFilter)
+        ) {
+          return false;
+        }
+
+        if (
+          catalogTopicFilter !== "all" &&
+          !option.topicFacets.some((facet) => facet.key === catalogTopicFilter)
+        ) {
+          return false;
+        }
+
+        if (catalogProgressFilter === "recent" && !option.progress.hasRecentActivity) {
+          return false;
+        }
+
+        if (
+          catalogProgressFilter === "recommended" &&
+          option.progress.recommendedConceptCount === 0
+        ) {
+          return false;
+        }
+
+        return queryTerms.every((term) => option.searchText.includes(term));
+      })
+      .sort((left, right) => {
+        if (catalogProgressFilter !== "all") {
+          const leftActivity = left.progress.lastActivityAt ?? "";
+          const rightActivity = right.progress.lastActivityAt ?? "";
+
+          if (leftActivity !== rightActivity) {
+            return rightActivity.localeCompare(leftActivity);
+          }
+
+          if (left.progress.recommendedConceptCount !== right.progress.recommendedConceptCount) {
+            return right.progress.recommendedConceptCount - left.progress.recommendedConceptCount;
+          }
+        }
+
+        return left.catalogIndex - right.catalogIndex;
+      });
+  }, [
+    catalogKindFilter,
+    catalogOptionsWithProgress,
+    catalogProgressFilter,
+    catalogSearchQuery,
+    catalogSubjectFilter,
+    catalogTopicFilter,
+  ]);
+  const selectedCatalogOption =
+    filteredCatalogOptions.find((option) => option.key === selectedEntryKey) ?? null;
+  const draftedCatalogOptions = useMemo(
+    () =>
+      entryDrafts
+        .map((entry) => catalogOptionByKey.get(buildStudyPlanEntryKey(entry)))
+        .filter((option): option is StudyPlanCatalogOption => Boolean(option)),
+    [catalogOptionByKey, entryDrafts],
+  );
+  const draftRouteSummary = useMemo(() => {
+    const conceptSlugs = new Set<string>();
+    let estimatedStudyMinutes = 0;
+
+    for (const option of draftedCatalogOptions) {
+      estimatedStudyMinutes += option.estimatedStudyMinutes;
+      option.conceptSlugs.forEach((slug) => conceptSlugs.add(slug));
+    }
+
+    return {
+      conceptCount: conceptSlugs.size,
+      estimatedStudyMinutes,
+    };
+  }, [draftedCatalogOptions]);
   const progressByPlanId = useMemo(
     () =>
       new Map(
@@ -111,12 +304,18 @@ export function SavedStudyPlansPage({
   );
 
   useEffect(() => {
-    if (!catalogOptions.length || selectedEntryKey) {
+    if (!filteredCatalogOptions.length) {
+      if (selectedEntryKey) {
+        setSelectedEntryKey("");
+      }
+
       return;
     }
 
-    setSelectedEntryKey(catalogOptions[0]?.key ?? "");
-  }, [catalogOptions, selectedEntryKey]);
+    if (!selectedEntryKey || !filteredCatalogOptions.some((option) => option.key === selectedEntryKey)) {
+      setSelectedEntryKey(filteredCatalogOptions[0]?.key ?? "");
+    }
+  }, [filteredCatalogOptions, selectedEntryKey]);
 
   useEffect(() => {
     if (!canUseStudyPlans) {
@@ -176,6 +375,25 @@ export function SavedStudyPlansPage({
     setEntryDrafts([]);
   }
 
+  function getCatalogProgressLabel(option: StudyPlanCatalogOptionWithProgress) {
+    if (option.progress.recommendedConceptCount > 0) {
+      return t("catalog.progress.recommended", {
+        count: option.progress.recommendedConceptCount,
+      });
+    }
+
+    if (option.progress.hasRecentActivity) {
+      return t("catalog.progress.recent");
+    }
+
+    return null;
+  }
+
+  function selectCatalogOption(optionKey: string) {
+    resetMessages();
+    setSelectedEntryKey(optionKey);
+  }
+
   function startEditingPlan(plan: ResolvedSavedStudyPlan) {
     resetMessages();
     setEditingPlanId(plan.id);
@@ -191,7 +409,7 @@ export function SavedStudyPlansPage({
 
   function addEntryToDraft() {
     resetMessages();
-    const selectedOption = catalogOptionByKey.get(selectedEntryKey);
+    const selectedOption = selectedCatalogOption;
 
     if (!selectedOption) {
       return;
@@ -211,6 +429,7 @@ export function SavedStudyPlansPage({
   }
 
   function moveDraftEntry(index: number, direction: -1 | 1) {
+    resetMessages();
     setEntryDrafts((current) => {
       const nextIndex = index + direction;
 
@@ -226,6 +445,13 @@ export function SavedStudyPlansPage({
 
       return nextEntries;
     });
+  }
+
+  function removeDraftEntry(index: number) {
+    resetMessages();
+    setEntryDrafts((current) =>
+      current.filter((_, currentIndex) => currentIndex !== index),
+    );
   }
 
   async function handleSavePlan(event: FormEvent<HTMLFormElement>) {
@@ -350,6 +576,8 @@ export function SavedStudyPlansPage({
     );
   }
 
+  const visibleCatalogResults = filteredCatalogOptions.slice(0, 10);
+
   return (
     <section className="space-y-5">
       <div className="grid gap-4 xl:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)]">
@@ -419,101 +647,347 @@ export function SavedStudyPlansPage({
               />
             </label>
 
-            <div className="rounded-[22px] border border-line bg-paper-strong p-4">
-              <p className="text-sm font-semibold text-ink-950">{t("builder.addEntry.title")}</p>
-              <div className="mt-3 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
-                <label className="block space-y-2">
-                  <span className="text-sm font-medium text-ink-900">
-                    {t("builder.addEntry.catalogItem")}
-                  </span>
-                  <select
-                    value={selectedEntryKey}
-                    onChange={(event) => setSelectedEntryKey(event.target.value)}
-                    className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
-                  >
-                    {catalogOptions.map((option) => (
-                      <option key={option.key} value={option.key}>
-                        [{getStudyPlanEntryKindLabel(option.kind, translate)}] {option.label} - {option.detail}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+            <div
+              className="rounded-[22px] border border-line bg-paper-strong p-4"
+              data-testid="study-plan-picker"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-ink-950">
+                    {t("builder.addEntry.title")}
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-ink-600">
+                    {t("builder.addEntry.description")}
+                  </p>
+                </div>
                 <button
                   type="button"
                   onClick={addEntryToDraft}
-                  className="inline-flex items-center justify-center self-end rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+                  disabled={!selectedCatalogOption}
+                  className="inline-flex items-center justify-center rounded-full border border-line bg-paper px-5 py-3 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {t("builder.actions.addEntry")}
                 </button>
               </div>
 
-              {entryDrafts.length ? (
-                <div className="mt-4 grid gap-3">
-                  {entryDrafts.map((entry, index) => {
-                    const option = catalogOptionByKey.get(buildStudyPlanEntryKey(entry));
-
-                    if (!option) {
-                      return null;
+              <div className="mt-4 grid gap-3 lg:grid-cols-[minmax(0,1.25fr)_repeat(4,minmax(0,0.8fr))]">
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-ink-900">
+                    {t("builder.addEntry.search")}
+                  </span>
+                  <input
+                    data-testid="study-plan-picker-search"
+                    type="search"
+                    value={catalogSearchQuery}
+                    onChange={(event) => setCatalogSearchQuery(event.target.value)}
+                    placeholder={t("builder.addEntry.searchPlaceholder")}
+                    className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
+                  />
+                </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-ink-900">
+                    {t("builder.addEntry.itemType")}
+                  </span>
+                  <select
+                    data-testid="study-plan-picker-kind-filter"
+                    value={catalogKindFilter}
+                    onChange={(event) =>
+                      setCatalogKindFilter(event.target.value as CatalogKindFilter)
                     }
+                    className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
+                  >
+                    <option value="all">{t("catalog.filters.allTypes")}</option>
+                    <option value="concept">{t("entryKinds.concept")}</option>
+                    <option value="track">{t("entryKinds.track")}</option>
+                    <option value="guided-collection">{t("entryKinds.guidedCollection")}</option>
+                    <option value="goal-path">{t("entryKinds.goalPath")}</option>
+                  </select>
+                </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-ink-900">
+                    {t("builder.addEntry.subject")}
+                  </span>
+                  <select
+                    data-testid="study-plan-picker-subject-filter"
+                    value={catalogSubjectFilter}
+                    onChange={(event) => setCatalogSubjectFilter(event.target.value)}
+                    className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
+                  >
+                    <option value="all">{t("catalog.filters.allSubjects")}</option>
+                    {catalogSubjectOptions.map((facet) => (
+                      <option key={facet.key} value={facet.key}>
+                        {facet.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-ink-900">
+                    {t("builder.addEntry.topic")}
+                  </span>
+                  <select
+                    data-testid="study-plan-picker-topic-filter"
+                    value={catalogTopicFilter}
+                    onChange={(event) => setCatalogTopicFilter(event.target.value)}
+                    className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
+                  >
+                    <option value="all">{t("catalog.filters.allTopics")}</option>
+                    {catalogTopicOptions.map((facet) => (
+                      <option key={facet.key} value={facet.key}>
+                        {facet.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block space-y-2">
+                  <span className="text-sm font-medium text-ink-900">
+                    {t("builder.addEntry.progress")}
+                  </span>
+                  <select
+                    data-testid="study-plan-picker-progress-filter"
+                    value={catalogProgressFilter}
+                    onChange={(event) =>
+                      setCatalogProgressFilter(event.target.value as CatalogProgressFilter)
+                    }
+                    className="w-full rounded-[18px] border border-line bg-paper px-4 py-3 text-sm text-ink-900 outline-none transition focus:border-teal-500"
+                  >
+                    <option value="all">{t("catalog.filters.allProgress")}</option>
+                    <option value="recent">{t("catalog.filters.recent")}</option>
+                    <option value="recommended">{t("catalog.filters.recommended")}</option>
+                  </select>
+                </label>
+              </div>
 
-                    return (
-                      <div
-                        key={option.key}
-                        className="rounded-[20px] border border-line bg-paper p-3"
-                      >
-                        <div className="flex flex-wrap items-start justify-between gap-3">
-                          <div className="space-y-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span className="rounded-full border border-line bg-paper-strong px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
-                                {t("builder.entry.step", { step: index + 1 })}
-                              </span>
-                              <span className="rounded-full border border-line bg-paper-strong px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
-                                {getStudyPlanEntryKindLabel(entry.kind, translate)}
-                              </span>
-                            </div>
-                            <p className="text-sm font-semibold text-ink-950">{option.label}</p>
-                            <p className="text-sm leading-6 text-ink-700">{option.detail}</p>
-                          </div>
+              <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(15rem,0.92fr)]">
+                <div>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
+                      {t("catalog.resultsLabel")}
+                    </p>
+                    <p className="text-xs text-ink-600" aria-live="polite">
+                      {t("catalog.resultCount", {
+                        shown: visibleCatalogResults.length,
+                        total: filteredCatalogOptions.length,
+                      })}
+                    </p>
+                  </div>
 
-                          <div className="flex flex-wrap gap-2">
-                            <button
-                              type="button"
-                              onClick={() => moveDraftEntry(index, -1)}
-                              disabled={index === 0}
-                              className="rounded-full border border-line bg-paper-strong px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-ink-950/20 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
-                            >
-                              {t("builder.actions.up")}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => moveDraftEntry(index, 1)}
-                              disabled={index === entryDrafts.length - 1}
-                              className="rounded-full border border-line bg-paper-strong px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-ink-950/20 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
-                            >
-                              {t("builder.actions.down")}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setEntryDrafts((current) =>
-                                  current.filter((_, currentIndex) => currentIndex !== index),
-                                )
-                              }
-                              className="rounded-full border border-line bg-paper-strong px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-coral-500/35 hover:bg-white"
-                            >
-                              {t("builder.actions.remove")}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                  {visibleCatalogResults.length ? (
+                    <div
+                      className="mt-2 grid max-h-[26rem] gap-2 overflow-y-auto pr-1"
+                      role="list"
+                      aria-label={t("catalog.resultsLabel")}
+                      data-testid="study-plan-picker-results"
+                    >
+                      {visibleCatalogResults.map((option) => {
+                        const isSelected = option.key === selectedEntryKey;
+                        const progressLabel = getCatalogProgressLabel(option);
+
+                        return (
+                          <button
+                            key={option.key}
+                            type="button"
+                            onClick={() => selectCatalogOption(option.key)}
+                            aria-pressed={isSelected}
+                            aria-label={t("builder.actions.chooseEntry", {
+                              title: option.label,
+                            })}
+                            data-testid={`study-plan-picker-option-${option.key}`}
+                            className={[
+                              "w-full rounded-[18px] border p-3 text-left transition focus:outline-none focus:ring-2 focus:ring-teal-500",
+                              isSelected
+                                ? "border-teal-500 bg-teal-500/10"
+                                : "border-line bg-paper hover:border-ink-950/20 hover:bg-white",
+                            ].join(" ")}
+                          >
+                            <span className="flex flex-wrap items-center gap-2">
+                              <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+                                {getStudyPlanEntryKindLabel(option.kind, translate)}
+                              </span>
+                              {progressLabel ? (
+                                <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-teal-700">
+                                  {progressLabel}
+                                </span>
+                              ) : null}
+                            </span>
+                            <span className="mt-2 block text-sm font-semibold text-ink-950">
+                              {option.label}
+                            </span>
+                            <span className="mt-1 block text-xs leading-5 text-ink-700">
+                              {option.detail}
+                            </span>
+                            <span className="mt-2 flex flex-wrap gap-2 text-[0.7rem] text-ink-600">
+                              {option.subjectFacets.length ? (
+                                <span>
+                                  {t("catalog.meta.subjects", {
+                                    subjects: formatFacetLabels(option.subjectFacets),
+                                  })}
+                                </span>
+                              ) : null}
+                              {option.topicFacets.length ? (
+                                <span>
+                                  {t("catalog.meta.topics", {
+                                    topics: formatFacetLabels(option.topicFacets),
+                                  })}
+                                </span>
+                              ) : null}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p
+                      className="mt-3 rounded-[18px] border border-line bg-paper px-3 py-3 text-sm leading-6 text-ink-700"
+                      data-testid="study-plan-picker-empty"
+                    >
+                      {t("catalog.noResults")}
+                    </p>
+                  )}
                 </div>
-              ) : (
-                <p className="mt-4 text-sm leading-6 text-ink-700">
-                  {t("builder.addEntry.empty")}
-                </p>
-              )}
+
+                <div
+                  className="rounded-[20px] border border-line bg-paper p-4"
+                  data-testid="study-plan-selected-item-preview"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">
+                    {t("builder.selectedItem.title")}
+                  </p>
+                  {selectedCatalogOption ? (
+                    <div className="mt-3 space-y-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full border border-line bg-paper-strong px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+                          {getStudyPlanEntryKindLabel(selectedCatalogOption.kind, translate)}
+                        </span>
+                        {getCatalogProgressLabel(selectedCatalogOption) ? (
+                          <span className="rounded-full border border-teal-500/25 bg-teal-500/10 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-teal-700">
+                            {getCatalogProgressLabel(selectedCatalogOption)}
+                          </span>
+                        ) : null}
+                      </div>
+                      <div>
+                        <p className="text-base font-semibold text-ink-950">
+                          {selectedCatalogOption.label}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-ink-700">
+                          {selectedCatalogOption.detail}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-2 text-xs text-ink-600">
+                        <span className="rounded-full border border-line bg-paper-strong px-3 py-1">
+                          {t("catalog.meta.coverage", {
+                            completed: selectedCatalogOption.progress.completedConceptCount,
+                            total: selectedCatalogOption.progress.totalConceptCount,
+                          })}
+                        </span>
+                        <span className="rounded-full border border-line bg-paper-strong px-3 py-1">
+                          {t("catalog.meta.minutes", {
+                            minutes: selectedCatalogOption.estimatedStudyMinutes,
+                          })}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="mt-3 text-sm leading-6 text-ink-700">
+                      {t("builder.selectedItem.empty")}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div
+                className="mt-4 rounded-[20px] border border-line bg-paper p-4"
+                data-testid="study-plan-selected-route-preview"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold text-ink-950">
+                      {t("builder.routePreview.title")}
+                    </p>
+                    <p className="mt-1 text-sm leading-6 text-ink-700">
+                      {entryDrafts.length
+                        ? t("builder.routePreview.summary", {
+                            items: entryDrafts.length,
+                            concepts: draftRouteSummary.conceptCount,
+                            minutes: draftRouteSummary.estimatedStudyMinutes,
+                          })
+                        : t("builder.addEntry.empty")}
+                    </p>
+                  </div>
+                </div>
+
+                {entryDrafts.length ? (
+                  <ol className="mt-4 grid gap-3" data-testid="study-plan-selected-route">
+                    {entryDrafts.map((entry, index) => {
+                      const option = catalogOptionByKey.get(buildStudyPlanEntryKey(entry));
+
+                      if (!option) {
+                        return null;
+                      }
+
+                      return (
+                        <li
+                          key={option.key}
+                          className="rounded-[18px] border border-line bg-paper-strong p-3"
+                          data-testid={`study-plan-route-entry-${option.key}`}
+                        >
+                          <div className="flex flex-wrap items-start justify-between gap-3">
+                            <div className="min-w-0 space-y-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="rounded-full border border-line bg-paper px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+                                  {t("builder.entry.step", { step: index + 1 })}
+                                </span>
+                                <span className="rounded-full border border-line bg-paper px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-500">
+                                  {getStudyPlanEntryKindLabel(entry.kind, translate)}
+                                </span>
+                              </div>
+                              <p className="break-words text-sm font-semibold text-ink-950">
+                                {option.label}
+                              </p>
+                              <p className="text-sm leading-6 text-ink-700">{option.detail}</p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-2">
+                              <button
+                                type="button"
+                                onClick={() => moveDraftEntry(index, -1)}
+                                disabled={index === 0}
+                                aria-label={t("builder.actions.moveUpAria", {
+                                  title: option.label,
+                                })}
+                                className="rounded-full border border-line bg-paper px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-ink-950/20 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+                              >
+                                {t("builder.actions.up")}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => moveDraftEntry(index, 1)}
+                                disabled={index === entryDrafts.length - 1}
+                                aria-label={t("builder.actions.moveDownAria", {
+                                  title: option.label,
+                                })}
+                                className="rounded-full border border-line bg-paper px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-ink-950/20 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+                              >
+                                {t("builder.actions.down")}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => removeDraftEntry(index)}
+                                aria-label={t("builder.actions.removeAria", {
+                                  title: option.label,
+                                })}
+                                className="rounded-full border border-line bg-paper px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-ink-700 transition hover:border-coral-500/35 hover:bg-white"
+                              >
+                                {t("builder.actions.remove")}
+                              </button>
+                            </div>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                ) : null}
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-3">
