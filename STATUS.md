@@ -1,5 +1,25 @@
 # Open Model Lab Status
 
+## 2026-05-31 OML-QA-059 Signed-In Account Hero
+
+Current state: `OML-QA-059` is complete. The account route now chooses signed-out, signed-in free, or signed-in Supporter lead-in copy from the preloaded account session, so signed-in learners no longer land on a hero that reads like a sign-in invitation.
+
+### Files Changed
+
+- `app/account/AccountRoute.tsx`: resolves the account lead-in state from the preloaded session and renders state-specific route copy.
+- `messages/en.json` and `messages/zh-HK.json`: add localized signed-in free and signed-in Supporter account hero copy.
+- `tests/app/account-page.test.tsx`: adds route coverage for signed-in free lead-in and zh-HK Supporter lead-in.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `pnpm exec vitest run tests/app/account-page.test.tsx --reporter=dot`: passed, 3/3.
+- `pnpm lint -- app/account/AccountRoute.tsx tests/app/account-page.test.tsx`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `git diff --check`: passed.
+- Screenshot artifact check passed for 24 account-hero images under `output/oml-qa-059/account-hero/`, including phone and wide signed-out/signed-in states.
+
 ## 2026-05-31 OML-QA-058 Premium Checkpoint History IA
 
 Current state: `OML-QA-058` is complete. Premium checkpoint history now uses one stable visible/accessibility contract across dashboard and analytics: `Checkpoint history and mastery trends`. The dashboard slice links into the full analytics route with `Open full analytics view`, and the E2E gate now verifies synced checkpoint events, mastery timeline data, stable/pressure sections, and responsive screenshots instead of depending on stale copy.

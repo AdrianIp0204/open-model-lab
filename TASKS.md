@@ -588,12 +588,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P1 - Account UX / IA Quality
 
-- [ ] **OML-QA-059: Give signed-in `/account` a signed-in-specific hero instead of the signed-out onboarding hero.**
+- [x] **OML-QA-059: Give signed-in `/account` a signed-in-specific hero instead of the signed-out onboarding hero.**
   - Evidence: local harness screenshots for signed-in free and signed-in Supporter states at `390x844`, `768x1024`, `1440x900`, and `1920x1080` still show the page hero `Signing in is optional. Supporter is a separate plan.` before the actual signed-in account card. Live zh-HK signed-out `/zh-HK/account` correctly localizes this copy, but the same hero is misleading once a user is already signed in.
   - UX problem: a signed-in user lands on an account page that still reads like an invitation to sign in. The first viewport should confirm account state, sync state, tier, and the next useful action.
   - Affected area: `app/account/AccountRoute.tsx`, `app/[locale]/account/page.tsx`, `components/account/AccountPagePanel.tsx`, and account page messages.
   - Fix direction: render separate route lead-ins for signed-out, signed-in free, and signed-in Supporter states. Signed-in free should emphasize synced core progress plus optional Supporter upgrade; signed-in Supporter should emphasize saved study tools, ad-free state, billing/manage status, and sync.
   - Validation: Playwright harness screenshots for `/account` in signed-out, signed-in-free, and signed-in-premium states at phone/tablet/desktop/wide must show state-appropriate H1/intro copy; zh-HK screenshots must use the corresponding localized state copy.
+
+  - Completion note (2026-05-31 HKT): Added signed-out, signed-in free, and signed-in Supporter account route lead-ins from the preloaded account session so signed-in users no longer see the signed-out onboarding hero. Localized the new state-specific copy in English and zh-HK and added route coverage for signed-in free plus zh-HK Supporter states.
+  - Validation: `pnpm exec vitest run tests/app/account-page.test.tsx --reporter=dot`; `pnpm lint -- app/account/AccountRoute.tsx tests/app/account-page.test.tsx`; `pnpm typecheck`; `pnpm i18n:check:zh-HK`; `git diff --check`; screenshot artifact check for 24 account-hero images under `output/oml-qa-059/account-hero/`.
 
 - [ ] **OML-QA-060: Rework the signed-out account first viewport so sign up, sign in, and reset are immediately actionable.**
   - Evidence: live `/zh-HK/account` phone screenshot and local `/account` phone screenshots spend the first viewport on a large explanatory hero and a very long `Returning users with a password...` card. The actual email fields and the first-time account path are below the fold; there is no explicit `Create account` wording even though the email-link path is also the sign-up path.
