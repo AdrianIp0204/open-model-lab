@@ -356,6 +356,60 @@ async function expectChemistryFeedbackClearOfInspector(
       intersection(activeTargetBox, visibleInspector ?? viewport),
       viewport,
     );
+    const activeTargetPointBlockers =
+      activeTarget instanceof HTMLElement && visibleActiveTarget
+        ? [
+            {
+              name: "lower-left",
+              x:
+                visibleActiveTarget.left +
+                Math.min(22, Math.max(1, visibleActiveTarget.width / 2)),
+              y:
+                visibleActiveTarget.bottom -
+                Math.min(36, Math.max(1, visibleActiveTarget.height / 2)),
+            },
+            {
+              name: "lower-right",
+              x:
+                visibleActiveTarget.right -
+                Math.min(22, Math.max(1, visibleActiveTarget.width / 2)),
+              y:
+                visibleActiveTarget.bottom -
+                Math.min(36, Math.max(1, visibleActiveTarget.height / 2)),
+            },
+            {
+              name: "center",
+              x: visibleActiveTarget.left + visibleActiveTarget.width / 2,
+              y: visibleActiveTarget.top + visibleActiveTarget.height / 2,
+            },
+          ].flatMap((point) => {
+            const blocker = document
+              .elementsFromPoint(point.x, point.y)
+              .find(
+                (element) =>
+                  element instanceof HTMLElement &&
+                  element.tagName !== "HTML" &&
+                  element.tagName !== "BODY" &&
+                  element !== activeTarget &&
+                  !activeTarget.contains(element) &&
+                  !element.contains(activeTarget),
+              );
+
+            if (!blocker) {
+              return [];
+            }
+
+            return [
+              {
+                point: point.name,
+                tagName: blocker.tagName.toLowerCase(),
+                testId: blocker.getAttribute("data-testid"),
+                ariaLabel: blocker.getAttribute("aria-label"),
+                id: blocker.id,
+              },
+            ];
+          })
+        : [];
 
     return {
       placement:
@@ -369,6 +423,7 @@ async function expectChemistryFeedbackClearOfInspector(
       visibleInspector,
       activeTarget: activeTargetBox,
       visibleActiveTarget,
+      activeTargetPointBlockers,
     };
   }, targetTestId);
 
@@ -387,6 +442,10 @@ async function expectChemistryFeedbackClearOfInspector(
     boxesOverlap(layout.trigger!, layout.visibleActiveTarget!),
     `${label} feedback trigger overlaps active inspector content`,
   ).toBe(false);
+  expect(
+    layout.activeTargetPointBlockers,
+    `${label} active inspector content has a visible overlay`,
+  ).toEqual([]);
 }
 
 async function expectNoChemistryEdgeLabelNodeTitleOverlap(page: Page) {
