@@ -1,5 +1,10 @@
+import { NextIntlClientProvider } from "next-intl";
 import type { AppLocale } from "@/i18n/routing";
-import { getScopedTranslator, resolveServerLocaleFallback } from "@/i18n/server";
+import {
+  getLocaleMessages,
+  getScopedTranslator,
+  resolveServerLocaleFallback,
+} from "@/i18n/server";
 import { buildPageMetadata } from "@/lib/metadata";
 import { PageShell } from "@/components/layout/PageShell";
 import { ChemistryReactionMindMapPage } from "@/components/tools/chemistry/ChemistryReactionMindMapPage";
@@ -35,19 +40,23 @@ export default async function ChemistryReactionMindMapRoute({
   localeOverride,
 }: ChemistryReactionMindMapRouteProps = {}) {
   const locale = localeOverride ?? (await resolveServerLocaleFallback());
+  const messages = await getLocaleMessages(locale);
   const t = await getScopedTranslator(locale, "ChemistryReactionMindMapPage");
 
   return (
-    <PageShell
-      feedbackContext={{
-        pageType: "other",
-        pagePath: chemistryReactionMindMapPath,
-        pageTitle: t("feedbackTitle"),
-      }}
-      feedbackWidgetPlacement="inline"
-      className="mx-auto w-full max-w-[96rem] px-4 pb-16 pt-4 sm:px-6 sm:pt-5 lg:px-8"
-    >
-      <ChemistryReactionMindMapPage key={locale} />
-    </PageShell>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <PageShell
+        locale={locale}
+        feedbackContext={{
+          pageType: "other",
+          pagePath: chemistryReactionMindMapPath,
+          pageTitle: t("feedbackTitle"),
+        }}
+        feedbackWidgetPlacement="inline"
+        className="mx-auto w-full max-w-[96rem] px-4 pb-16 pt-4 sm:px-6 sm:pt-5 lg:px-8"
+      >
+        <ChemistryReactionMindMapPage key={locale} />
+      </PageShell>
+    </NextIntlClientProvider>
   );
 }

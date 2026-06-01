@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-084 zh-HK Chemistry Footer Locale
+
+Current state: `OML-QA-084` is complete. The zh-HK Chemistry Reaction Mind Map no longer falls back to English shared-footer copy: the route now provides the resolved locale and messages to the page shell, the shared layout/footer can format layout messages from an explicit locale, and the regression checks phone and desktop footer text plus locale-prefixed footer links.
+
+Files changed:
+- `lib/i18n/layout-messages.ts`: adds explicit Layout message lookup/formatting with zh-HK messages merged over English defaults.
+- `components/layout/PageShell.tsx`: accepts an explicit locale for skip-link and footer layout copy when localized route wrappers provide one.
+- `components/layout/SiteFooter.tsx`: formats shared footer copy from the explicit locale and preserves rich support links.
+- `app/tools/chemistry-reaction-mind-map/page.tsx`: wraps the tool route in the resolved locale messages and passes the locale into `PageShell`.
+- `app/tools/ToolsDirectoryRoute.tsx` and `app/circuit-builder/CircuitBuilderRoute.tsx`: pass resolved route locale into `PageShell` for the localized tool surfaces using the same shared shell.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: adds the OML-QA-084 zh-HK footer regression for phone and desktop widths.
+
+Validation:
+- `git diff --check`: passed.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm exec eslint lib/i18n/layout-messages.ts components/layout/PageShell.tsx components/layout/SiteFooter.tsx app/tools/chemistry-reaction-mind-map/page.tsx app/tools/ToolsDirectoryRoute.tsx app/circuit-builder/CircuitBuilderRoute.tsx tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "OML-QA-084" --reporter=line`: passed.
+- `pnpm typecheck`: passed.
+
+Residual risk: this fixes the localized tool/shared-shell seam and adds a focused Chemistry footer regression; it is not a full renewed sweep of every localized route footer.
+
 ## 2026-06-02 OML-QA-083 Chemistry Visual QA Sweep
 
 Current state: `OML-QA-083` is complete. The Chemistry Reaction Mind Map now has a durable Playwright visual QA sweep for English and zh-HK across phone, tablet, desktop, and wide breakpoints. The sweep covers initial, selected node, selected edge, compare, route-results, no-route, zoom/focus, feedback placement, touch target, clipping, horizontal overflow, zh-HK critical-copy, and browser-guard regressions, and it is included in the local QA sweep runner.

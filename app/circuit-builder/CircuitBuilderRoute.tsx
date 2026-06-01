@@ -35,6 +35,7 @@ export async function CircuitBuilderRoute({
 
   return (
     <PageShell
+      locale={locale}
       feedbackContext={{
         pageType: "other",
         pagePath: "/circuit-builder",

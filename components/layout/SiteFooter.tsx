@@ -1,15 +1,71 @@
+import type { ReactNode } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
+import {
+  formatLayoutMessage,
+  getLayoutMessageTemplate,
+} from "@/lib/i18n/layout-messages";
 import { analyticsEnabled } from "@/lib/analytics";
 import { getConceptCatalogMetrics } from "@/lib/content";
 import { trustConfig } from "@/lib/trust";
 import { footerTrustNavItems, footerUtilityNavItems, primaryNavItems } from "./site-nav";
 
+function renderRichTemplate(
+  template: string,
+  replacements: Record<string, () => ReactNode>,
+) {
+  const nodes: ReactNode[] = [];
+  const tagPattern = /<([a-zA-Z][a-zA-Z0-9]*)><\/\1>/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = tagPattern.exec(template)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(template.slice(lastIndex, match.index));
+    }
+
+    const replacement = replacements[match[1]];
+    nodes.push(replacement ? replacement() : match[0]);
+    lastIndex = tagPattern.lastIndex;
+  }
+
+  if (lastIndex < template.length) {
+    nodes.push(template.slice(lastIndex));
+  }
+
+  return nodes;
+}
+
 export function SiteFooter({ locale: localeOverride }: { locale?: AppLocale } = {}) {
   const intlLocale = useLocale() as AppLocale;
   const locale = localeOverride ?? intlLocale;
-  const t = useTranslations("Layout");
+  const fallbackT = useTranslations("Layout");
+  const t = localeOverride
+    ? (key: string, values?: Record<string, unknown>) =>
+        formatLayoutMessage(locale, key, values)
+    : fallbackT;
+  const footerSupportReplacements = {
+    email: () => (
+      <a
+        key="footer-support-email"
+        href={`mailto:${trustConfig.billingSupportEmail}`}
+        className="font-medium text-ink-950 underline underline-offset-4"
+      >
+        {trustConfig.billingSupportEmail}
+      </a>
+    ),
+    contact: () => (
+      <Link
+        key="footer-support-contact"
+        href={trustConfig.supportPath}
+        locale={locale}
+        className="font-medium text-ink-950 underline underline-offset-4"
+      >
+        {t("nav.contact")}
+      </Link>
+    ),
+  };
   const catalogMetrics = getConceptCatalogMetrics();
   const productFacts = [
     {
@@ -130,27 +186,12 @@ export function SiteFooter({ locale: localeOverride }: { locale?: AppLocale } = 
             </div>
           </div>
           <p className="max-w-3xl wrap-anywhere text-sm leading-6 text-ink-700">
-            {t.rich("footer.support", {
-              email: () => (
-                <a
-                  key="footer-support-email"
-                  href={`mailto:${trustConfig.billingSupportEmail}`}
-                  className="font-medium text-ink-950 underline underline-offset-4"
-                >
-                  {trustConfig.billingSupportEmail}
-                </a>
-              ),
-              contact: () => (
-                <Link
-                  key="footer-support-contact"
-                  href={trustConfig.supportPath}
-                  locale={locale}
-                  className="font-medium text-ink-950 underline underline-offset-4"
-                >
-                  {t("nav.contact")}
-                </Link>
-              ),
-            })}
+            {localeOverride
+              ? renderRichTemplate(
+                  getLayoutMessageTemplate(locale, "footer.support") ?? "",
+                  footerSupportReplacements,
+                )
+              : fallbackT.rich("footer.support", footerSupportReplacements)}
           </p>
           <p className="max-w-3xl wrap-anywhere text-sm leading-6 text-ink-700">
             {t("footer.adsNote")}

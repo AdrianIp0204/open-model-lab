@@ -5,6 +5,7 @@ import type { AppLocale } from "@/i18n/routing";
 import { AnalyticsPageView } from "@/components/analytics/AnalyticsPageView";
 import { FeedbackWidget } from "@/components/feedback/FeedbackWidget";
 import { OnboardingExperience } from "@/components/onboarding/OnboardingExperience";
+import { formatLayoutMessage } from "@/lib/i18n/layout-messages";
 import { PageSectionFrame } from "./PageSectionFrame";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
@@ -37,7 +38,11 @@ export function PageShell({
   layoutMode = "contained",
   locale,
 }: PageShellProps) {
-  const t = useTranslations("Layout");
+  const fallbackT = useTranslations("Layout");
+  const t = locale
+    ? (key: string, values?: Record<string, unknown>) =>
+        formatLayoutMessage(locale, key, values)
+    : fallbackT;
   const usesSectionShell = layoutMode === "section-shell" || Boolean(sectionNav);
   const bottomSafeSpaceClass = "pb-16";
   const mainClassName = usesSectionShell

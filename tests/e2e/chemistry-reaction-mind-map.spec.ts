@@ -2391,6 +2391,58 @@ test("OML-QA-082 keeps zh-HK Chemistry controls natural across route and compare
   guard.assertNoActionableIssues();
 });
 
+test("OML-QA-084 keeps the zh-HK Chemistry footer on the active locale", async ({
+  page,
+}) => {
+  const viewports = [
+    { name: "phone", width: 390, height: 844 },
+    { name: "desktop", width: 1366, height: 768 },
+  ] as const;
+  const zhHkFooterDescription =
+    "以概念為先的互動學習網站，圍繞即時實驗台、圖表、讀值與小型因果實驗建立。";
+  const englishFooterDescription =
+    "An interactive learning site built around live models, graphs, worked examples, and small experiments you can change yourself.";
+
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({
+      width: viewport.width,
+      height: viewport.height,
+    });
+
+    await gotoAndExpectOk(page, "/zh-HK/tools/chemistry-reaction-mind-map");
+    const footer = page.locator("footer");
+    await footer.scrollIntoViewIfNeeded();
+
+    await expect(footer, `${viewport.name} zh-HK footer description`).toContainText(
+      zhHkFooterDescription,
+    );
+    await expect(footer, `${viewport.name} English footer fallback`).not.toContainText(
+      englishFooterDescription,
+    );
+    await expect(footer, `${viewport.name} localized footer navigation`).toContainText(
+      "導覽",
+    );
+
+    const footerHrefs = await footer.locator("a").evaluateAll((links) =>
+      links
+        .map((link) => link.getAttribute("href") ?? "")
+        .filter((href) => href && !href.startsWith("mailto:")),
+    );
+
+    expect(
+      footerHrefs.every(
+        (href) => href === "/zh-HK" || href.startsWith("/zh-HK/"),
+      ),
+      `${viewport.name} footer links should stay locale-prefixed: ${footerHrefs.join(", ")}`,
+    ).toBe(true);
+  }
+
+  guard.assertNoActionableIssues();
+});
+
 test("chemistry reaction mind map keeps the graph viewport clipped inside the split panel on widescreen layouts", async ({
   page,
 }) => {

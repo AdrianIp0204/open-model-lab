@@ -59,6 +59,7 @@ export default async function ToolsDirectoryRoute({
 
   return (
     <PageShell
+      locale={locale}
       feedbackContext={{
         pageType: "other",
         pagePath: learningToolsHubPath,
