@@ -6,6 +6,7 @@ const root = process.cwd();
 const defaultSpecs = [
   "tests/e2e/chemistry-reaction-mind-map.spec.ts",
   "tests/e2e/circuit-builder.spec.ts",
+  "tests/e2e/circuit-builder-visual-qa.spec.ts",
   "tests/e2e/account-behaviour-sweep.spec.ts",
   "tests/e2e/concept-page-user-flow.spec.ts",
   "tests/e2e/header-footer-shell.spec.ts",
