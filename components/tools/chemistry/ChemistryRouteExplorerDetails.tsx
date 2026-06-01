@@ -70,14 +70,14 @@ export function ChemistryRouteExplorerDetails({
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
-          className="rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          className="touch-target-coarse rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           onClick={() => onSelectNode(startNode.id)}
         >
           {t("routeExplorer.actions.openNode", { name: startNode.name })}
         </button>
         <button
           type="button"
-          className="rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          className="touch-target-coarse rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           onClick={() => onSelectNode(targetNode.id)}
         >
           {t("routeExplorer.actions.openNode", { name: targetNode.name })}
@@ -132,7 +132,7 @@ export function ChemistryRouteExplorerDetails({
                     <button
                       type="button"
                       data-testid={`chem-route-select-${route.id}`}
-                      className="text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                      className="block rounded-[12px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 [@media(any-pointer:coarse)]:px-2 [@media(any-pointer:coarse)]:py-2"
                       onClick={() => onSelectRoute(route.id)}
                     >
                       <p className="text-base font-semibold text-ink-950">
@@ -157,7 +157,7 @@ export function ChemistryRouteExplorerDetails({
                             <button
                               type="button"
                               data-testid={`chem-route-node-${route.id}-${nodeId}`}
-                              className="rounded-full border border-line bg-paper px-3 py-1.5 font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                              className="touch-target-coarse rounded-full border border-line bg-paper px-3 py-1.5 font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                               onClick={() => onSelectNode(nodeId)}
                             >
                               {node.name}
@@ -204,7 +204,7 @@ export function ChemistryRouteExplorerDetails({
                         >
                           <button
                             type="button"
-                            className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                            className="w-full rounded-[12px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 [@media(any-pointer:coarse)]:px-2 [@media(any-pointer:coarse)]:py-2"
                             onClick={() => onSelectEdge(edge.id)}
                           >
                             <div className="flex flex-wrap items-center gap-2">

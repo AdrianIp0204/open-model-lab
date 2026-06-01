@@ -772,6 +772,133 @@ async function expectChemistryActiveRouteLabelsOwned(
   expect(issues).toEqual([]);
 }
 
+type ChemistryTargetIssue = {
+  testId: string;
+  label: string;
+  width: number;
+  height: number;
+};
+
+type ChemistryEdgeHitTargetIssue = {
+  testId: string;
+  hitWidth: number;
+  hitHeight: number;
+  visualWidth: number;
+  visualHeight: number;
+};
+
+const CHEMISTRY_PRIMARY_TOUCH_TARGET_SELECTOR = [
+  '[data-testid="chem-zoom-slider-control"]',
+  '[data-testid="chem-zoom-slider"]',
+  '[data-testid="chem-zoom-out"]',
+  '[data-testid="chem-zoom-in"]',
+  '[data-testid="chem-fit-view"]',
+  '[data-testid="chem-route-search"]',
+  '[data-testid="chem-route-clear"]',
+  '[data-testid="chem-route-view-results"]',
+  'button[data-testid^="chem-route-select-"]',
+  'button[data-testid^="chem-route-node-"]',
+  'article[data-testid^="chem-route-step-"] > button',
+  'button[data-chem-hit-target="pathway-label"]',
+].join(",");
+
+async function collectSmallChemistryPrimaryTargets(page: Page) {
+  return page
+    .locator(CHEMISTRY_PRIMARY_TOUCH_TARGET_SELECTOR)
+    .evaluateAll((elements) => {
+      const isVisible = (element: Element) => {
+        const style = window.getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+
+        return (
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          Number(style.opacity) !== 0 &&
+          rect.width > 0 &&
+          rect.height > 0 &&
+          rect.bottom > 0 &&
+          rect.right > 0 &&
+          rect.top < window.innerHeight &&
+          rect.left < window.innerWidth
+        );
+      };
+
+      return elements.flatMap((element): ChemistryTargetIssue[] => {
+        if (!isVisible(element)) {
+          return [];
+        }
+
+        const rect = element.getBoundingClientRect();
+        if (rect.width >= 43.5 && rect.height >= 43.5) {
+          return [];
+        }
+
+        return [
+          {
+            testId: element.getAttribute("data-testid") ?? element.tagName.toLowerCase(),
+            label:
+              element.getAttribute("aria-label") ??
+              element.textContent?.replace(/\s+/g, " ").trim() ??
+              element.tagName.toLowerCase(),
+            width: Number(rect.width.toFixed(1)),
+            height: Number(rect.height.toFixed(1)),
+          },
+        ];
+      });
+    });
+}
+
+async function collectUnsupportedChemistryEdgeVisualExceptions(page: Page) {
+  return page
+    .locator('button[data-chem-hit-target="pathway-label"]')
+    .evaluateAll((elements) => {
+      const isVisible = (element: Element) => {
+        const style = window.getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+
+        return (
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          Number(style.opacity) !== 0 &&
+          rect.width > 0 &&
+          rect.height > 0 &&
+          rect.bottom > 0 &&
+          rect.right > 0 &&
+          rect.top < window.innerHeight &&
+          rect.left < window.innerWidth
+        );
+      };
+
+      return elements.flatMap((element): ChemistryEdgeHitTargetIssue[] => {
+        if (!isVisible(element)) {
+          return [];
+        }
+
+        const visual = element.querySelector('[data-chem-label-role="pathway-secondary"]');
+        if (!(visual instanceof HTMLElement) || !isVisible(visual)) {
+          return [];
+        }
+
+        const hitRect = element.getBoundingClientRect();
+        const visualRect = visual.getBoundingClientRect();
+        const visualIsSmall = visualRect.width < 43.5 || visualRect.height < 43.5;
+        const hitIsSmall = hitRect.width < 43.5 || hitRect.height < 43.5;
+
+        return visualIsSmall && hitIsSmall
+          ? [
+              {
+                testId: element.getAttribute("data-testid") ?? "pathway-label",
+                hitWidth: Number(hitRect.width.toFixed(1)),
+                hitHeight: Number(hitRect.height.toFixed(1)),
+                visualWidth: Number(visualRect.width.toFixed(1)),
+                visualHeight: Number(visualRect.height.toFixed(1)),
+              },
+            ]
+          : [];
+      });
+    });
+}
+
 test("chemistry reaction mind map is map-first on initial desktop load", async ({
   page,
 }) => {
@@ -1053,6 +1180,94 @@ test("chemistry reaction mind map is map-first on initial desktop load", async (
     page.getByTestId("chem-edge-haloalkane-to-amine-ammonia-substitution"),
   ).toHaveAttribute("data-chem-map-label", "Add NH3");
   await expectChemistryLeftSideClusterReadable(page);
+
+  guard.assertNoActionableIssues();
+});
+
+test.describe("chemistry reaction mind map touch-target audit", () => {
+  test.use({
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 2,
+  });
+
+  test("keeps primary graph, toolbar, and route-result targets at the 44px touch floor", async ({
+    page,
+  }) => {
+    test.setTimeout(75_000);
+    const guard = await installBrowserGuards(page);
+
+    for (const viewportSize of [
+      { label: "phone", width: 390, height: 844 },
+      { label: "tablet", width: 820, height: 1180 },
+    ] as const) {
+      await test.step(viewportSize.label, async () => {
+        await page.setViewportSize({
+          width: viewportSize.width,
+          height: viewportSize.height,
+        });
+        await disableOnboardingPrompt(page);
+        await gotoAndExpectOk(page, "/tools/chemistry-reaction-mind-map");
+        await waitForStableChemistryGraph(page);
+
+        await page.getByTestId("chem-route-start").selectOption("alkene");
+        await page.getByTestId("chem-route-target").selectOption("carboxylic-acid");
+        await page.getByTestId("chem-route-search").click();
+        await expect(page.getByTestId("chemistry-route-panel")).toBeVisible();
+        await waitForStableChemistryGraph(page);
+
+        const smallTargets = await collectSmallChemistryPrimaryTargets(page);
+        expect(
+          smallTargets,
+          `${viewportSize.label} chemistry primary controls below 44px:\n${JSON.stringify(
+            smallTargets,
+            null,
+            2,
+          )}`,
+        ).toEqual([]);
+
+        const unsupportedGraphLabels =
+          await collectUnsupportedChemistryEdgeVisualExceptions(page);
+        expect(
+          unsupportedGraphLabels,
+          `${viewportSize.label} compact graph labels without a 44px measured hit target:\n${JSON.stringify(
+            unsupportedGraphLabels,
+            null,
+            2,
+          )}`,
+        ).toEqual([]);
+      });
+    }
+
+    guard.assertNoActionableIssues();
+  });
+});
+
+test("chemistry reaction mind map keeps compact desktop pathway labels backed by real hit areas", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  await gotoAndExpectOk(page, "/tools/chemistry-reaction-mind-map");
+  await waitForStableChemistryGraph(page);
+  await page.getByTestId("chem-route-start").selectOption("amide");
+  await page.getByTestId("chem-route-target").selectOption("alkane");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-no-results")).toBeVisible();
+  await waitForStableChemistryGraph(page);
+
+  const unsupportedGraphLabels =
+    await collectUnsupportedChemistryEdgeVisualExceptions(page);
+  expect(
+    unsupportedGraphLabels,
+    `desktop compact graph labels without a 44px measured hit target:\n${JSON.stringify(
+      unsupportedGraphLabels,
+      null,
+      2,
+    )}`,
+  ).toEqual([]);
 
   guard.assertNoActionableIssues();
 });

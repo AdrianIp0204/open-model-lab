@@ -44,6 +44,9 @@ const EDGE_LABEL_TARGET_VISUAL_SCALE = 0.84;
 const EDGE_LABEL_DETAIL_SCALE = 1.05;
 const MIN_EDGE_LABEL_COUNTER_SCALE = 0.58;
 const MAX_EDGE_LABEL_COUNTER_SCALE = 1.72;
+const EDGE_LABEL_BASE_WIDTH = 132;
+const EDGE_LABEL_BASE_MIN_HEIGHT = 25;
+const EDGE_LABEL_TOUCH_TARGET = 44;
 const ZOOM_BOUNDARY_EPSILON = 0.001;
 const MINIMAP_NODE_LABEL_MAX_LENGTH = 12;
 const INITIAL_VIEW_STATE: GraphViewState = {
@@ -1885,7 +1888,7 @@ export function ChemistryReactionGraph({
       <div
         data-testid="chemistry-graph-toolbar"
         data-chem-toolbar-height="stable"
-        className="order-3 flex min-h-10 min-w-0 max-w-full flex-col items-stretch gap-2 overflow-visible rounded-[18px] border border-line/70 bg-paper/82 p-2 min-[1100px]:order-none min-[1100px]:max-h-10 min-[1100px]:flex-row min-[1100px]:items-start min-[1100px]:justify-between min-[1100px]:overflow-hidden min-[1100px]:rounded-none min-[1100px]:border-0 min-[1100px]:bg-transparent min-[1100px]:p-0"
+        className="order-3 flex min-h-10 min-w-0 max-w-full flex-col items-stretch gap-2 overflow-visible rounded-[18px] border border-line/70 bg-paper/82 p-2 [@media(any-pointer:coarse)]:!max-h-none min-[1100px]:order-none min-[1100px]:max-h-10 min-[1100px]:flex-row min-[1100px]:items-start min-[1100px]:justify-between min-[1100px]:overflow-hidden min-[1100px]:rounded-none min-[1100px]:border-0 min-[1100px]:bg-transparent min-[1100px]:p-0"
       >
         <div
           data-testid="chemistry-graph-toolbar-status"
@@ -1949,7 +1952,7 @@ export function ChemistryReactionGraph({
         <div className="flex min-w-0 max-w-full flex-wrap items-center gap-1.5 min-[1100px]:w-auto min-[1100px]:shrink-0">
           <label
             data-testid="chem-zoom-slider-control"
-            className="flex min-h-11 min-w-[10rem] max-w-full flex-1 items-center gap-2 rounded-full border border-line bg-paper px-3 py-2 text-xs text-ink-700 shadow-sm min-[1100px]:min-h-0 min-[1100px]:flex-none min-[1100px]:px-2.5 min-[1100px]:py-1.5"
+            className="flex min-h-11 min-w-[10rem] max-w-full flex-1 items-center gap-2 rounded-full border border-line bg-paper px-3 py-2 text-xs text-ink-700 shadow-sm [@media(any-pointer:coarse)]:!min-h-11 min-[1100px]:min-h-0 min-[1100px]:flex-none min-[1100px]:px-2.5 min-[1100px]:py-1.5"
           >
             <span className="sr-only">
               {t("navigation.zoom", { percent: zoomPercent })}
@@ -1963,7 +1966,7 @@ export function ChemistryReactionGraph({
               value={zoomPercent}
               aria-labelledby="chemistry-graph-zoom-status"
               aria-valuetext={`${zoomPercent}%`}
-              className="h-6 min-w-0 flex-1 touch-pan-x accent-teal-600 min-[1100px]:h-2 min-[1100px]:w-24 min-[1100px]:flex-none min-[1280px]:w-28"
+              className="h-11 min-w-0 flex-1 touch-pan-x accent-teal-600 [@media(any-pointer:coarse)]:!h-11 min-[1100px]:h-2 min-[1100px]:w-24 min-[1100px]:flex-none min-[1280px]:w-28"
               onChange={handleZoomSliderChange}
             />
           </label>
@@ -1973,7 +1976,7 @@ export function ChemistryReactionGraph({
             disabled={zoomBoundary === "min"}
             aria-disabled={zoomBoundary === "min"}
             className={joinClasses(
-              "min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0 min-[1100px]:py-1.5",
+              "min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 min-[1100px]:min-h-0 min-[1100px]:py-1.5",
               zoomBoundary === "min"
                 ? "cursor-not-allowed opacity-50"
                 : "hover:border-ink-950/20 hover:bg-paper-strong",
@@ -1988,7 +1991,7 @@ export function ChemistryReactionGraph({
             disabled={zoomBoundary === "max"}
             aria-disabled={zoomBoundary === "max"}
             className={joinClasses(
-              "min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0 min-[1100px]:py-1.5",
+              "min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 min-[1100px]:min-h-0 min-[1100px]:py-1.5",
               zoomBoundary === "max"
                 ? "cursor-not-allowed opacity-50"
                 : "hover:border-ink-950/20 hover:bg-paper-strong",
@@ -2000,7 +2003,7 @@ export function ChemistryReactionGraph({
           <button
             type="button"
             data-testid="chem-fit-view"
-            className="min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0 min-[1100px]:py-1.5"
+            className="min-h-11 rounded-full border border-line bg-paper px-2.5 py-2 text-xs font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 min-[1100px]:min-h-0 min-[1100px]:py-1.5"
             onClick={resetView}
           >
             {t("navigation.fitToView")}
@@ -3604,6 +3607,14 @@ export function ChemistryReactionGraph({
                   : context === "dimmed"
                     ? "background-annotation"
                     : "inline-annotation";
+            const edgeLabelHitWidth = Math.max(
+              EDGE_LABEL_TOUCH_TARGET / viewState.scale,
+              EDGE_LABEL_BASE_WIDTH * edgeLabelCounterScale,
+            );
+            const edgeLabelHitHeight = Math.max(
+              EDGE_LABEL_TOUCH_TARGET / viewState.scale,
+              EDGE_LABEL_BASE_MIN_HEIGHT * edgeLabelCounterScale,
+            );
 
             return (
               <button
@@ -3630,7 +3641,6 @@ export function ChemistryReactionGraph({
                 data-chem-flow-source={edgeFlowTransition?.source.id}
                 data-chem-flow-target={edgeFlowTransition?.target.id}
                 data-chem-layer-priority={edgeLayerPriority}
-                data-chem-label-role="pathway-secondary"
                 data-chem-label-weight="secondary"
                 data-chem-visual-kind="reaction-pathway"
                 data-chem-visual-weight={edgeVisualWeight}
@@ -3653,25 +3663,19 @@ export function ChemistryReactionGraph({
                 }
                 data-chem-interactive="true"
                 data-chem-label-scale={edgeLabelCounterScale.toFixed(2)}
+                data-chem-hit-target="pathway-label"
+                data-chem-hit-target-min={EDGE_LABEL_TOUCH_TARGET}
                 className={[
-                  "absolute z-10 inline-flex min-h-[1.55rem] w-[8.25rem] max-w-[8.25rem] items-center justify-center gap-1 overflow-hidden rounded-[5px] border px-1.5 py-[0.16rem] text-center text-[0.6rem] font-bold leading-tight transition focus-visible:rounded-[5px] focus-visible:bg-paper/92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
-                  selected
-                    ? "rounded-[6px] border-teal-700 bg-paper/90 text-teal-950 shadow-[0_3px_8px_rgba(15,118,110,0.12)] ring-1 ring-teal-600/35"
-                    : routeEdgeSet.has(edge.id)
-                      ? "rounded-[6px] border-amber-500/45 bg-paper/88 text-amber-950 shadow-[0_3px_8px_rgba(217,119,6,0.1)] ring-1 ring-amber-500/20"
-                      : context === "compared"
-                        ? "border-teal-500/20 bg-paper/72 text-teal-900"
-                        : context === "connected"
-                          ? "border-transparent bg-transparent text-teal-900"
-                          : context === "dimmed"
-                            ? "border-transparent bg-transparent text-ink-500 opacity-20"
-                            : "border-transparent bg-transparent text-ink-700 opacity-88 hover:bg-paper/76 hover:text-ink-950",
+                  "group absolute z-10 grid place-items-center overflow-visible rounded-[5px] border border-transparent bg-transparent text-center text-[0.6rem] font-bold leading-tight transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+                  context === "dimmed" ? "opacity-20" : "opacity-100",
                 ].join(" ")}
                 style={{
                   left: labelPoint.x + labelOffset.x,
                   top: labelPoint.y + labelOffset.y,
+                  width: edgeLabelHitWidth,
+                  height: edgeLabelHitHeight,
                   zIndex: GRAPH_EDGE_LABEL_Z_INDEX[edgeLayerPriority],
-                  transform: `translate(-50%, -50%) scale(${edgeLabelCounterScale})`,
+                  transform: "translate(-50%, -50%)",
                   transformOrigin: "center",
                 }}
                 onPointerEnter={(event) =>
@@ -3688,68 +3692,91 @@ export function ChemistryReactionGraph({
                 }
                 onClick={(event) => handleEdgeClick(edge.id, event)}
               >
-                {routeStep ? (
-                  <span
-                    aria-hidden="true"
-                    data-testid={`chem-edge-route-step-${edge.id}`}
-                    className="grid size-3 shrink-0 place-items-center rounded-[4px] bg-amber-500 text-[0.46rem] font-bold leading-none text-ink-950 shadow-sm"
-                  >
-                    {routeStep}
-                  </span>
-                ) : edgeFlowTransition ? (
-                  <span
-                    aria-hidden="true"
-                    data-testid={`chem-edge-flow-transition-${edge.id}`}
-                    data-chem-flow-transition={edgeFlowTransition.label}
-                    data-chem-flow-source={edgeFlowTransition.source.id}
-                    data-chem-flow-target={edgeFlowTransition.target.id}
-                    data-chem-crosses-flow-band={
-                      edgeFlowTransition.crossesBand ? "true" : "false"
-                    }
-                    className={joinClasses(
-                      "grid size-2.5 shrink-0 place-items-center rounded-[3px] border text-[0.4rem] font-black leading-none",
-                      edgeFlowTransition.crossesBand
-                        ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
-                        : "border-line bg-paper-strong text-ink-500",
-                    )}
-                  >
-                    {edgeFlowTransition.label}
-                  </span>
-                ) : null}
-                <span className="min-w-0 max-w-full space-y-0.5 overflow-hidden">
-                  <span
-                    data-testid={`chem-edge-map-label-${edge.id}`}
-                    data-chem-overflow-guard="pathway-map-label"
-                    data-chem-label-fit="wrapped"
-                    data-chem-edge-id={edge.id}
-                    data-chem-label-owner={edge.id}
-                    data-chem-label-attachment="leader-line"
-                    className="block max-w-full overflow-hidden whitespace-normal break-words leading-tight"
-                    title={edge.label}
-                  >
-                    {compactEdgeLabel}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    data-testid={`chem-edge-endpoints-${edge.id}`}
-                    className={joinClasses(
-                      "max-w-full truncate text-[0.58rem] font-medium leading-tight text-current opacity-70",
-                      showEdgeDetail ? "block" : "hidden",
-                    )}
-                    title={`${sourceName} -> ${targetName}`}
-                  >
-                    {sourceName} → {targetName}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    data-testid={`chem-edge-reaction-type-${edge.id}`}
-                    className={joinClasses(
-                      "mx-auto mt-1 max-w-full truncate rounded-[4px] border border-current/10 bg-paper/55 px-1 py-0.5 text-[0.46rem] font-bold uppercase tracking-[0.08em] opacity-60",
-                      showEdgeDetail ? "block" : "hidden",
-                    )}
-                    title={edge.reactionType}
-                  >
-                    {edge.reactionType}
+                <span
+                  data-testid={`chem-edge-visual-${edge.id}`}
+                  data-chem-label-role="pathway-secondary"
+                  className={[
+                    "pointer-events-none inline-flex min-h-[1.55rem] w-[8.25rem] max-w-[8.25rem] items-center justify-center gap-1 overflow-hidden rounded-[5px] border px-1.5 py-[0.16rem] transition group-focus-visible:rounded-[5px] group-focus-visible:bg-paper/92",
+                    selected
+                      ? "rounded-[6px] border-teal-700 bg-paper/90 text-teal-950 shadow-[0_3px_8px_rgba(15,118,110,0.12)] ring-1 ring-teal-600/35"
+                      : routeEdgeSet.has(edge.id)
+                        ? "rounded-[6px] border-amber-500/45 bg-paper/88 text-amber-950 shadow-[0_3px_8px_rgba(217,119,6,0.1)] ring-1 ring-amber-500/20"
+                        : context === "compared"
+                          ? "border-teal-500/20 bg-paper/72 text-teal-900"
+                          : context === "connected"
+                            ? "border-transparent bg-transparent text-teal-900"
+                            : context === "dimmed"
+                              ? "border-transparent bg-transparent text-ink-500"
+                              : "border-transparent bg-transparent text-ink-700 opacity-88 group-hover:bg-paper/76 group-hover:text-ink-950",
+                  ].join(" ")}
+                  style={{
+                    transform: `scale(${edgeLabelCounterScale})`,
+                    transformOrigin: "center",
+                  }}
+                >
+                  {routeStep ? (
+                    <span
+                      aria-hidden="true"
+                      data-testid={`chem-edge-route-step-${edge.id}`}
+                      className="grid size-3 shrink-0 place-items-center rounded-[4px] bg-amber-500 text-[0.46rem] font-bold leading-none text-ink-950 shadow-sm"
+                    >
+                      {routeStep}
+                    </span>
+                  ) : edgeFlowTransition ? (
+                    <span
+                      aria-hidden="true"
+                      data-testid={`chem-edge-flow-transition-${edge.id}`}
+                      data-chem-flow-transition={edgeFlowTransition.label}
+                      data-chem-flow-source={edgeFlowTransition.source.id}
+                      data-chem-flow-target={edgeFlowTransition.target.id}
+                      data-chem-crosses-flow-band={
+                        edgeFlowTransition.crossesBand ? "true" : "false"
+                      }
+                      className={joinClasses(
+                        "grid size-2.5 shrink-0 place-items-center rounded-[3px] border text-[0.4rem] font-black leading-none",
+                        edgeFlowTransition.crossesBand
+                          ? "border-teal-500/30 bg-teal-500/10 text-teal-900"
+                          : "border-line bg-paper-strong text-ink-500",
+                      )}
+                    >
+                      {edgeFlowTransition.label}
+                    </span>
+                  ) : null}
+                  <span className="min-w-0 max-w-full space-y-0.5 overflow-hidden">
+                    <span
+                      data-testid={`chem-edge-map-label-${edge.id}`}
+                      data-chem-overflow-guard="pathway-map-label"
+                      data-chem-label-fit="wrapped"
+                      data-chem-edge-id={edge.id}
+                      data-chem-label-owner={edge.id}
+                      data-chem-label-attachment="leader-line"
+                      className="block max-w-full overflow-hidden whitespace-normal break-words leading-tight"
+                      title={edge.label}
+                    >
+                      {compactEdgeLabel}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      data-testid={`chem-edge-endpoints-${edge.id}`}
+                      className={joinClasses(
+                        "max-w-full truncate text-[0.58rem] font-medium leading-tight text-current opacity-70",
+                        showEdgeDetail ? "block" : "hidden",
+                      )}
+                      title={`${sourceName} -> ${targetName}`}
+                    >
+                      {sourceName} → {targetName}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      data-testid={`chem-edge-reaction-type-${edge.id}`}
+                      className={joinClasses(
+                        "mx-auto mt-1 max-w-full truncate rounded-[4px] border border-current/10 bg-paper/55 px-1 py-0.5 text-[0.46rem] font-bold uppercase tracking-[0.08em] opacity-60",
+                        showEdgeDetail ? "block" : "hidden",
+                      )}
+                      title={edge.reactionType}
+                    >
+                      {edge.reactionType}
+                    </span>
                   </span>
                 </span>
               </button>
