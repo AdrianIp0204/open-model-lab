@@ -809,8 +809,8 @@ export const circuitBuilderCopyEn: CircuitBuilderCopy = {
     noAccountLoaded: "No account-backed save is currently loaded.",
   },
   mobile: {
-    paletteTitle: "Component library",
-    paletteSummary: "Add parts, switch to the wire tool, then return to the workspace without losing the current circuit.",
+    paletteTitle: "Add parts",
+    paletteSummary: "Open the component library, add parts, or switch to the wire tool before using save and export tools.",
     inspectorTitle: "Inspector",
     inspectorSummary: "Component details, live readouts, warnings, and graph panels move here on smaller screens.",
   },
@@ -1270,8 +1270,8 @@ export const circuitBuilderCopyZhHk: CircuitBuilderCopy = {
     noAccountLoaded: "目前未載入帳戶儲存。",
   },
   mobile: {
-    paletteTitle: "元件庫",
-    paletteSummary: "加入元件、切換到導線工具，再返回工作區而不會遺失目前電路。",
+    paletteTitle: "加入元件",
+    paletteSummary: "先開啟元件庫、加入元件或切換到導線工具，再使用儲存和匯出工具。",
     inspectorTitle: "檢視器",
     inspectorSummary: "元件詳情、即時讀數、警告和圖表面板會在較小螢幕移到這裏。",
   },

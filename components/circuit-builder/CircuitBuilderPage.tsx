@@ -2701,6 +2701,52 @@ export function CircuitBuilderPage({
       />
     </div>
   );
+  const mobileAddPartsPath = (
+    <div className="space-y-2 xl:hidden" data-circuit-mobile-add-parts-path="">
+      <DisclosurePanel
+        title={copy.mobile.paletteTitle}
+        summary={copy.mobile.paletteSummary}
+        defaultOpen={state.document.components.length === 0}
+        className="p-3.5 sm:p-4"
+        bodyClassName="mt-3"
+      >
+        <CircuitPalette
+          panelKind="mobile"
+          activeTool={state.activeTool}
+          renderMode={renderMode}
+          copy={copy}
+          onAddComponent={addComponent}
+          onSetTool={setCircuitTool}
+        />
+      </DisclosurePanel>
+
+      <DisclosurePanel
+        title={copy.mobile.inspectorTitle}
+        summary={copy.mobile.inspectorSummary}
+        defaultOpen={Boolean(state.selection)}
+        className="p-3.5 sm:p-4"
+        bodyClassName="mt-3"
+      >
+        <CircuitInspector
+          document={state.document}
+          solveResult={solveResult}
+          copy={copy}
+          selection={state.selection}
+          activeTool={state.activeTool}
+          pendingWireStart={state.pendingWireStart}
+          onUpdateProperty={(componentId, key, value) =>
+            dispatch({ type: "update-property", componentId, key, value })
+          }
+          onRotateComponent={rotateComponentById}
+          onDeleteComponent={deleteComponentById}
+          onDeleteWire={deleteWireById}
+          onResetFuse={(componentId) => dispatch({ type: "reset-fuse", componentId })}
+          onCancelWire={cancelPendingWire}
+          onMoveComponent={moveComponent}
+        />
+      </DisclosurePanel>
+    </div>
+  );
   const savedCircuitsPanel = (
     <DisclosurePanel
       title={copy.saves.panelTitle}
@@ -3244,6 +3290,7 @@ export function CircuitBuilderPage({
             clearWorkspaceArmed={clearWorkspaceArmed}
             canFitView={state.document.components.length > 0}
           />
+          {mobileAddPartsPath}
           {mobileEnvironmentControl}
 
           {state.document.wires.length ? (
@@ -3746,49 +3793,6 @@ export function CircuitBuilderPage({
             {keyboardShortcutSummary}
           </p>
         </div>
-      </div>
-
-      <div className="xl:hidden">
-        <DisclosurePanel
-          title={copy.mobile.paletteTitle}
-          summary={copy.mobile.paletteSummary}
-          defaultOpen={state.document.components.length === 0}
-        >
-          <CircuitPalette
-            panelKind="mobile"
-            activeTool={state.activeTool}
-            renderMode={renderMode}
-            copy={copy}
-            onAddComponent={addComponent}
-            onSetTool={setCircuitTool}
-          />
-        </DisclosurePanel>
-      </div>
-
-      <div className="xl:hidden">
-        <DisclosurePanel
-          title={copy.mobile.inspectorTitle}
-          summary={copy.mobile.inspectorSummary}
-          defaultOpen={Boolean(state.selection)}
-        >
-          <CircuitInspector
-            document={state.document}
-            solveResult={solveResult}
-            copy={copy}
-            selection={state.selection}
-            activeTool={state.activeTool}
-            pendingWireStart={state.pendingWireStart}
-            onUpdateProperty={(componentId, key, value) =>
-              dispatch({ type: "update-property", componentId, key, value })
-            }
-            onRotateComponent={rotateComponentById}
-            onDeleteComponent={deleteComponentById}
-            onDeleteWire={deleteWireById}
-            onResetFuse={(componentId) => dispatch({ type: "reset-fuse", componentId })}
-            onCancelWire={cancelPendingWire}
-            onMoveComponent={moveComponent}
-          />
-        </DisclosurePanel>
       </div>
 
       {savedCircuitsPanel}

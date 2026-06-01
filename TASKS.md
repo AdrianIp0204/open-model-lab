@@ -702,12 +702,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Completion note (2026-06-01 HKT): Raised Circuit Builder preset, render-mode, workspace-control, and toolbar menu/button hit areas to at least 44px, with focus-visible rings and a cross-locale viewport audit for the affected controls.
   - Validation: git diff --check 8e976d0^..8e976d0; git diff --check; targeted eslint; pnpm typecheck; Playwright Circuit Builder primary touch-target/toolbar compact gate
 
-- [ ] **OML-QA-070: Move the mobile add-parts path above the dense status/tools block.**
+- [x] **OML-QA-070: Move the mobile add-parts path above the dense status/tools block.**
   - Evidence: the phone empty state first viewport shows the workspace, then `Environment`, then the dense `Status and tools` panel; the `Component library` disclosure starts lower down. `output/circuit-builder-qa-2026-05-31/phone-empty-search.png` shows the user must scroll through history/save/export controls before reaching the part search/add flow.
   - UX problem: a new mobile user who ignores presets needs `Add parts` before save/export/history controls. The current order puts advanced tool chrome ahead of the core build action.
   - Affected area: mobile layout order in `CircuitBuilderPage.tsx`, `DisclosurePanel` placement, `CircuitPalette`, toolbar/status mobile treatment, and onboarding focus targets.
   - Fix direction: on phone, place a compact `Add parts` / `Inspect` switch or component-library disclosure directly under the workspace and before the status/tools toolbar. Move save/export/history into a secondary tools disclosure until the workspace has content.
   - Validation: at `390x844`, an empty workspace shows one clear add-parts control and the component search/open affordance before save/export/history controls; screenshots confirm the user can reach add, connect, inspect, and save in a sensible order.
+
+  - Completion note (2026-06-01 HKT): Moved the mobile Add parts and Inspector path directly under the workspace before Environment, status, save, and export tools.
+  - Validation: git diff --check; targeted eslint; component vitest; Playwright mobile component-library/order gate; pnpm typecheck; 390x844 screenshot inspection
 
 ### P1 - Product Quality / Learning Loop
 

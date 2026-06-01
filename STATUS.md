@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-070 Circuit Builder Mobile Add Parts Order
+
+Current state: `OML-QA-070` is complete. On mobile, the Circuit Builder now puts the `Add parts` and `Inspector` disclosures directly below the workspace and before Environment, status, save, and export tools, so a new learner can reach the component search/add path before dense tool chrome.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitBuilderPage.tsx`: moves the mobile palette and inspector path under the workspace and before Environment/status/tool panels.
+- `lib/circuit-builder/copy.ts`: renames the mobile component-library disclosure to `Add parts` in English and zh-HK and updates its summary copy.
+- `tests/e2e/circuit-builder.spec.ts`: asserts the mobile add/search path appears before Environment, status, and export controls while keeping inspector, save, and connection flows reachable.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitBuilderPage.tsx lib/circuit-builder/copy.ts tests/e2e/circuit-builder.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/circuit-builder-page.test.tsx --reporter=dot`: passed, 70/70.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "keeps the component library" --reporter=line`: passed, 1/1.
+- `pnpm typecheck`: passed.
+- Screenshot inspection: `output/playwright/qa/oml-qa-070-phone-empty-add-parts-order.png` shows the mobile workspace followed by the Add parts path before Environment/status tools.
+
+Residual risk: the component search itself can still sit just below the first 844px viewport after the workspace and empty-state card, but the ordering gate now prevents save/export/history controls from coming before the add-parts path.
+
 ## 2026-06-01 OML-QA-069 Circuit Builder Touch Targets
 
 Current state: `OML-QA-069` is complete. Circuit Builder starter presets, render-mode controls, workspace controls, and toolbar menu triggers/actions now present at least 44px visible targets across the audited phone, tablet, desktop, and wide viewports, with focus-visible rings on the compact controls.

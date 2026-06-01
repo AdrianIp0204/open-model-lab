@@ -1277,14 +1277,48 @@ test("keeps the component library, workspace, inspector, export actions, and con
   await page.setViewportSize({ width: 390, height: 844 });
   await openCircuitBuilder(page);
 
-  const libraryDisclosure = page.locator("summary").filter({ hasText: "Component library" }).first();
+  const libraryDisclosure = page.locator("summary").filter({ hasText: "Add parts" }).first();
   const inspectorDisclosure = page.locator("summary").filter({ hasText: "Inspector" }).first();
+  const mobilePalette = page.locator('[data-circuit-palette-panel="mobile"]');
+  const mobileEnvironmentSummary = page.locator(
+    '[data-circuit-environment-control="mobile"] summary',
+  );
+  const statusToolsPanel = page.locator("[data-circuit-toolbar-status]").first();
 
   await expect(libraryDisclosure).toBeVisible();
   await expect(page.getByRole("region", { name: "Circuit workspace" })).toBeVisible();
   await expect(inspectorDisclosure).toBeVisible();
+  await expect(mobilePalette.getByRole("heading", { name: "Add parts" })).toBeVisible();
+  await expect(mobilePalette.getByLabel("Search components")).toBeVisible();
+  await expect(mobilePalette.getByRole("button", { name: "Add Battery" })).toBeVisible();
+  await expect(mobileEnvironmentSummary).toBeVisible();
+  await expect(statusToolsPanel).toBeVisible();
   await expect(page.getByRole("button", { name: "Download SVG" })).toBeVisible();
-  const mobilePalette = page.locator('[data-circuit-palette-panel="mobile"]');
+  await expect
+    .poll(async () => {
+      const addPartsBox = await mobilePalette
+        .getByRole("heading", { name: "Add parts" })
+        .boundingBox();
+      const searchBox = await mobilePalette.getByLabel("Search components").boundingBox();
+      const environmentBox = await mobileEnvironmentSummary.boundingBox();
+      const statusToolsBox = await statusToolsPanel.boundingBox();
+      const downloadBox = await page.getByRole("button", { name: "Download SVG" }).boundingBox();
+
+      return {
+        addPartsBeforeEnvironment: Boolean(
+          addPartsBox && environmentBox && addPartsBox.y < environmentBox.y,
+        ),
+        searchBeforeStatusTools: Boolean(
+          searchBox && statusToolsBox && searchBox.y < statusToolsBox.y,
+        ),
+        searchBeforeExport: Boolean(searchBox && downloadBox && searchBox.y < downloadBox.y),
+      };
+    })
+    .toEqual({
+      addPartsBeforeEnvironment: true,
+      searchBeforeStatusTools: true,
+      searchBeforeExport: true,
+    });
   if (!(await mobilePalette.getByLabel("Search components").isVisible())) {
     await libraryDisclosure.click();
   }
@@ -1294,9 +1328,6 @@ test("keeps the component library, workspace, inspector, export actions, and con
   ).toBeVisible();
   await expect(mobilePalette.getByRole("button", { name: "Add Fuse", exact: true })).toHaveCount(0);
   await mobilePalette.getByRole("button", { name: "Clear" }).click();
-  const mobileEnvironmentSummary = page.locator(
-    '[data-circuit-environment-control="mobile"] summary',
-  );
   await expect(mobileEnvironmentSummary).toBeVisible();
   await mobileEnvironmentSummary.click();
   await expect(page.getByRole("slider", { name: "Ambient temperature" })).toBeVisible();
