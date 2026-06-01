@@ -166,6 +166,7 @@ export function ChemistryReactionMindMapPage() {
   const scrollMobileRouteResultsIntoView = () => {
     if (
       typeof window === "undefined" ||
+      typeof window.matchMedia !== "function" ||
       !window.matchMedia("(max-width: 1099px)").matches
     ) {
       return;
@@ -173,11 +174,13 @@ export function ChemistryReactionMindMapPage() {
 
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
+        const reduceMotion =
+          typeof window.matchMedia === "function" &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
         document.getElementById("chemistry-route-results")?.scrollIntoView({
           block: "start",
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "auto"
-            : "smooth",
+          behavior: reduceMotion ? "auto" : "smooth",
         });
       });
     });

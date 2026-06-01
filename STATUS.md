@@ -1,5 +1,32 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-080 Chemistry Feedback Overlap
+
+Current state: `OML-QA-080` is complete. The Chemistry Reaction Mind Map now routes dense-tool feedback through the inline `PageShell` placement instead of a floating trigger over the fixed-height/self-scrolling inspector. The OML-QA-080 regression covers edge details, comparison, route results, and no-route states across desktop, wide, tablet, and phone layouts.
+
+Implementation commits before the final tracking commit: `28b56ab`, `30db8dd`, and `e3173ad`.
+
+### Files Changed
+
+- `app/tools/chemistry-reaction-mind-map/page.tsx`: opts the dense Chemistry tool into inline feedback placement.
+- `components/layout/PageShell.tsx` and `components/feedback/FeedbackWidget.tsx`: add reusable feedback placement handling and expose placement metadata for regression checks.
+- `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`: guards mobile route-result scrolling for non-browser test environments.
+- `next.config.ts`: allows the OML-QA-080 screenshot corpus to be retained for inspector-state review.
+- `tests/app/chemistry-reaction-mind-map-page.test.tsx`: covers inline feedback placement and updates stale pathway-label assertions to the current hit-target/visual-label split.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: adds and stabilizes the OML-QA-080 feedback-overlap gate across inspector states and viewports.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint app/tools/chemistry-reaction-mind-map/page.tsx components/feedback/FeedbackWidget.tsx components/layout/PageShell.tsx components/tools/chemistry/ChemistryReactionMindMapPage.tsx tests/app/chemistry-reaction-mind-map-page.test.tsx tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed.
+- `pnpm exec vitest run tests/app/chemistry-reaction-mind-map-page.test.tsx --reporter=dot`: passed, 50/50.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "OML-QA-080" --reporter=line`: passed, 1/1.
+- `pnpm typecheck`: passed.
+- Screenshot inspection passed for edge details, compare mode, route results, and no-route states at desktop, wide, tablet, and phone breakpoints.
+
+Residual risk: the route-select UI can still be sensitive to very rapid controlled-select changes; the current regression waits for committed values, and a future task can harden the production control path if manual use exposes the same race.
+
 ## 2026-06-01 OML-QA-079 Chemistry Compare Inspector Overflow
 
 Current state: `OML-QA-079` is complete. Chemistry comparison details now stack family snapshots in a single inspector-safe column, keep nested cards/buttons constrained with `min-w-0`/wrapping guards, and cover desktop, wide, and tablet compare states with a focused overflow regression.

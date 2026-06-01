@@ -272,12 +272,13 @@ function boxesOverlap(
 }
 
 async function openHydrationEdgeDetails(page: Page) {
-  await page.getByTestId("chem-node-alcohol").click();
-  await expect(page.getByTestId("chem-node-details")).toBeVisible();
-  await page
-    .getByTestId("chem-node-pathway-incoming-alkene-to-alcohol-hydration")
-    .getByRole("button", { name: /hydration pathway/i })
-    .click();
+  await page.getByTestId("chem-edge-alkene-to-alcohol-hydration").evaluate((element) => {
+    if (!(element instanceof HTMLButtonElement)) {
+      throw new Error("Hydration edge trigger is not a button.");
+    }
+
+    element.click();
+  });
   await expect(page.getByTestId("chem-edge-details")).toBeVisible();
 }
 
@@ -1962,7 +1963,9 @@ test("OML-QA-080 keeps feedback inline and clear of dense chemistry inspector st
       targetTestId: "chemistry-route-panel",
       open: async () => {
         await page.getByTestId("chem-route-start").selectOption("alkene");
+        await expect(page.getByTestId("chem-route-start")).toHaveValue("alkene");
         await page.getByTestId("chem-route-target").selectOption("carboxylic-acid");
+        await expect(page.getByTestId("chem-route-target")).toHaveValue("carboxylic-acid");
         await page.getByTestId("chem-route-search").click();
         await expect(page.getByTestId("chemistry-route-panel")).toBeVisible();
       },
@@ -1972,7 +1975,9 @@ test("OML-QA-080 keeps feedback inline and clear of dense chemistry inspector st
       targetTestId: "chem-route-no-results",
       open: async () => {
         await page.getByTestId("chem-route-start").selectOption("ester");
+        await expect(page.getByTestId("chem-route-start")).toHaveValue("ester");
         await page.getByTestId("chem-route-target").selectOption("haloalkane");
+        await expect(page.getByTestId("chem-route-target")).toHaveValue("haloalkane");
         await page.getByTestId("chem-route-search").click();
         await expect(page.getByTestId("chem-route-no-results")).toBeVisible();
       },

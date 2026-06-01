@@ -104,7 +104,10 @@ describe("chemistry reaction mind map route", () => {
       alcoholNode.querySelector('[data-chem-label-role="family-primary"]'),
     ).toHaveAttribute("data-chem-label-weight", "primary");
     const hydrationEdge = screen.getByTestId("chem-edge-alkene-to-alcohol-hydration");
-    expect(hydrationEdge).toHaveAttribute(
+    const hydrationEdgeVisual = within(hydrationEdge).getByTestId(
+      "chem-edge-visual-alkene-to-alcohol-hydration",
+    );
+    expect(hydrationEdgeVisual).toHaveAttribute(
       "data-chem-label-role",
       "pathway-secondary",
     );
@@ -125,9 +128,8 @@ describe("chemistry reaction mind map route", () => {
     expect(hydrationEdge).toHaveAttribute("data-chem-label-radius", "low");
     expect(hydrationEdge).toHaveAttribute("data-chem-label-size", "small");
     expect(hydrationEdge).toHaveAttribute("data-chem-map-label", "Hydration");
-    expect(hydrationEdge).toHaveClass(
+    expect(hydrationEdgeVisual).toHaveClass(
       "bg-transparent",
-      "text-[0.6rem]",
       "rounded-[5px]",
       "max-w-[8.25rem]",
     );
@@ -207,7 +209,11 @@ describe("chemistry reaction mind map route", () => {
     expect(screen.getByTestId("chem-node-acyl-chloride")).toBeInTheDocument();
     expect(screen.getByTestId("chem-node-amide")).toBeInTheDocument();
     expect(
-      screen.getByTestId("chem-edge-haloalkane-to-nitrile-cyanide-substitution"),
+      within(
+        screen.getByTestId("chem-edge-haloalkane-to-nitrile-cyanide-substitution"),
+      ).getByTestId(
+        "chem-edge-visual-haloalkane-to-nitrile-cyanide-substitution",
+      ),
     ).toHaveAttribute("data-chem-label-role", "pathway-secondary");
 
     await user.click(screen.getByTestId("chem-node-nitrile"));
@@ -585,6 +591,9 @@ describe("chemistry reaction mind map route", () => {
     const edgeLabel = screen.getByTestId(
       "chem-edge-alcohol-to-aldehyde-oxidation",
     );
+    const edgeVisual = within(edgeLabel).getByTestId(
+      "chem-edge-visual-alcohol-to-aldehyde-oxidation",
+    );
 
     expect(
       Number(edgeLabel.getAttribute("data-chem-label-scale")),
@@ -628,7 +637,10 @@ describe("chemistry reaction mind map route", () => {
     ).toHaveAttribute("data-chem-label-attachment", "leader-line");
     expect(edgeLabel.getAttribute("style")).toContain("z-index: 10");
     expect(edgeLabel.getAttribute("style")).toContain(
-      "translate(-50%, -50%) scale(",
+      "translate(-50%, -50%)",
+    );
+    expect(edgeVisual.getAttribute("style")).toContain(
+      "scale(",
     );
   });
 
