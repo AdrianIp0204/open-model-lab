@@ -12,6 +12,19 @@ const draftStorageKey = "open-model-lab.circuit-builder.draft.v1";
 const localeHandoffStorageKey = "open-model-lab:circuit-builder-locale-handoff:v1";
 const onboardingStorageKey = "open-model-lab.onboarding.v1";
 const renderModeStorageKey = "open-model-lab:circuit-builder-render-mode:v1";
+const presetFitViewports = [
+  { name: "phone", width: 390, height: 844 },
+  { name: "tablet", width: 820, height: 1180 },
+  { name: "desktop", width: 1440, height: 980 },
+  { name: "wide", width: 1728, height: 1050 },
+] as const;
+const presetFitCases = [
+  { label: "Starter series loop", components: 5 },
+  { label: "Metered branch circuit", components: 6 },
+  { label: "Simple RC explorer", components: 5 },
+  { label: "Thermistor temperature explorer", components: 4 },
+  { label: "LDR light explorer", components: 4 },
+] as const;
 
 async function suppressOnboardingPrompt(page: Page) {
   await page.addInitScript((key) => {
@@ -153,6 +166,84 @@ async function getComponentPosition(page: Page, componentId: string) {
     x: Number(await component.getAttribute("data-circuit-component-x")),
     y: Number(await component.getAttribute("data-circuit-component-y")),
   };
+}
+
+async function getCircuitElementsOutsideWorkspace(page: Page) {
+  return page.evaluate(() => {
+    const canvas = document.querySelector<SVGSVGElement>("[data-circuit-workspace-canvas]");
+    if (!canvas) {
+      throw new Error("Circuit workspace canvas was not rendered.");
+    }
+
+    const canvasRect = canvas.getBoundingClientRect();
+    const tolerance = 1.5;
+    const trackedSelectors = [
+      {
+        selector: "[data-circuit-component-id]",
+        kind: "component",
+        nameAttribute: "data-circuit-component-label",
+      },
+      {
+        selector: "[data-circuit-wire-id]",
+        kind: "wire",
+        nameAttribute: "data-circuit-wire-id",
+      },
+      {
+        selector: "[data-circuit-readout-chip]",
+        kind: "readout",
+        nameAttribute: null,
+      },
+    ] as const;
+
+    return trackedSelectors.flatMap(({ selector, kind, nameAttribute }) =>
+      Array.from(document.querySelectorAll<SVGGraphicsElement>(selector)).flatMap(
+        (element, index) => {
+          const rect = element.getBoundingClientRect();
+          if (rect.width <= 0 || rect.height <= 0) {
+            return [];
+          }
+
+          const outside =
+            rect.left < canvasRect.left - tolerance ||
+            rect.right > canvasRect.right + tolerance ||
+            rect.top < canvasRect.top - tolerance ||
+            rect.bottom > canvasRect.bottom + tolerance;
+          if (!outside) {
+            return [];
+          }
+
+          return [
+            {
+              kind,
+              name: nameAttribute
+                ? (element.getAttribute(nameAttribute) ?? `${kind}-${index}`)
+                : `${kind}-${index}`,
+              rect: {
+                left: Math.round(rect.left),
+                right: Math.round(rect.right),
+                top: Math.round(rect.top),
+                bottom: Math.round(rect.bottom),
+              },
+              workspace: {
+                left: Math.round(canvasRect.left),
+                right: Math.round(canvasRect.right),
+                top: Math.round(canvasRect.top),
+                bottom: Math.round(canvasRect.bottom),
+              },
+            },
+          ];
+        },
+      ),
+    );
+  });
+}
+
+async function expectCircuitInsideWorkspace(page: Page, context: string) {
+  await expect
+    .poll(() => getCircuitElementsOutsideWorkspace(page), {
+      message: `${context} should fit inside the visible circuit workspace`,
+    })
+    .toEqual([]);
 }
 
 async function buildThermistorLoop(page: Page) {
@@ -1160,4 +1251,40 @@ test("keeps the component library, workspace, inspector, export actions, and con
   }
   await expect(selectedInspectorHeading).toBeVisible();
   await expect(page.getByRole("button", { name: "Download SVG" })).toBeEnabled();
+});
+
+test("fits starter presets inside the visible workspace across phone, tablet, desktop, and wide viewports", async ({
+  page,
+}, testInfo) => {
+  await setHarnessSession(page, "signed-out");
+
+  for (const viewport of presetFitViewports) {
+    await page.setViewportSize({
+      width: viewport.width,
+      height: viewport.height,
+    });
+    await openCircuitBuilder(page);
+
+    for (const preset of presetFitCases) {
+      await page.getByRole("button", { name: preset.label }).click();
+      await expect(page.locator("[data-circuit-component-id]")).toHaveCount(
+        preset.components,
+      );
+      await expectCircuitInsideWorkspace(
+        page,
+        `${preset.label} at ${viewport.name}`,
+      );
+
+      await page.screenshot({
+        path: testInfo.outputPath(
+          `circuit-builder-preset-fit-${viewport.name}-${preset.label
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "")}.png`,
+        ),
+        animations: "disabled",
+        fullPage: false,
+      });
+    }
+  }
 });

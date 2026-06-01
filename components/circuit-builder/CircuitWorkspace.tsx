@@ -15,11 +15,12 @@ import {
 import { formatMeasurement } from "@/lib/physics/math";
 import { useSvgPointerDrag } from "@/components/simulations/primitives/useSvgPointerDrag";
 import {
-  CIRCUIT_CANVAS_HEIGHT,
-  CIRCUIT_CANVAS_WIDTH,
   buildWirePathData,
   buildWirePathFromRefs,
   buildWirePreviewPoints,
+  CIRCUIT_COMPACT_CANVAS_FRAME,
+  CIRCUIT_COMPACT_CANVAS_MEDIA_QUERY,
+  CIRCUIT_DESKTOP_CANVAS_FRAME,
   circuitBuilderCopyEn,
   clampComponentPoint,
   convertViewPointToWorld,
@@ -33,6 +34,8 @@ import {
   getCircuitComponentById,
   getComponentTerminalDirection,
   getComponentTerminalPoint,
+  MAXIMUM_CIRCUIT_WORKSPACE_ZOOM,
+  MINIMUM_CIRCUIT_WORKSPACE_ZOOM,
   snapPointToGrid,
   type CircuitBuilderCopy,
   type CircuitComponentType,
@@ -59,18 +62,7 @@ const draggableComponentTypes = new Set<CircuitComponentType>([
   "thermistor",
   "voltmeter",
 ]);
-const minimumWorkspaceZoom = 0.45;
-const maximumWorkspaceZoom = 2.4;
 const componentDragThresholdPx = 5;
-const compactCanvasMediaQuery = "(max-width: 767px)";
-const desktopCanvasFrame = {
-  width: CIRCUIT_CANVAS_WIDTH,
-  height: CIRCUIT_CANVAS_HEIGHT,
-};
-const compactCanvasFrame = {
-  width: 720,
-  height: 640,
-};
 
 function isDraggableComponentType(value: string): value is CircuitComponentType {
   return draggableComponentTypes.has(value as CircuitComponentType);
@@ -193,7 +185,7 @@ function subscribeToCompactCanvasFrame(callback: () => void) {
     return () => {};
   }
 
-  const query = window.matchMedia(compactCanvasMediaQuery);
+  const query = window.matchMedia(CIRCUIT_COMPACT_CANVAS_MEDIA_QUERY);
   query.addEventListener("change", callback);
   return () => query.removeEventListener("change", callback);
 }
@@ -201,7 +193,7 @@ function subscribeToCompactCanvasFrame(callback: () => void) {
 function getCompactCanvasFrameSnapshot() {
   return typeof window !== "undefined" &&
     typeof window.matchMedia === "function" &&
-    window.matchMedia(compactCanvasMediaQuery).matches;
+    window.matchMedia(CIRCUIT_COMPACT_CANVAS_MEDIA_QUERY).matches;
 }
 
 function getCompactCanvasFrameServerSnapshot() {
@@ -215,7 +207,7 @@ function useCircuitCanvasFrame() {
     getCompactCanvasFrameServerSnapshot,
   );
 
-  return compact ? compactCanvasFrame : desktopCanvasFrame;
+  return compact ? CIRCUIT_COMPACT_CANVAS_FRAME : CIRCUIT_DESKTOP_CANVAS_FRAME;
 }
 
 function CircuitElectronFlowLayer({
@@ -695,8 +687,8 @@ export function CircuitWorkspace({
   const fitViewDescription = canFitView
     ? copy.workspace.fitViewDescriptionEnabled
     : copy.workspace.fitViewDescriptionDisabled;
-  const canZoomOut = document.view.zoom > minimumWorkspaceZoom;
-  const canZoomIn = document.view.zoom < maximumWorkspaceZoom;
+  const canZoomOut = document.view.zoom > MINIMUM_CIRCUIT_WORKSPACE_ZOOM;
+  const canZoomIn = document.view.zoom < MAXIMUM_CIRCUIT_WORKSPACE_ZOOM;
   const zoomOutDescription = canZoomOut
     ? copy.workspace.zoomOutDescriptionEnabled
     : copy.workspace.zoomOutDescriptionDisabled;
@@ -713,7 +705,10 @@ export function CircuitWorkspace({
     : copy.workspace.clearDescriptionDisabled;
 
   function zoomAround(nextZoom: number, focusPoint: CircuitPoint) {
-    const clampedZoom = Math.max(minimumWorkspaceZoom, Math.min(maximumWorkspaceZoom, nextZoom));
+    const clampedZoom = Math.max(
+      MINIMUM_CIRCUIT_WORKSPACE_ZOOM,
+      Math.min(MAXIMUM_CIRCUIT_WORKSPACE_ZOOM, nextZoom),
+    );
     if (clampedZoom === document.view.zoom) {
       onAnnounceViewChange(
         `${copy.workspace.zoomAlreadyAtPrefix} ${Math.round(clampedZoom * 100)}%.`,
@@ -1320,6 +1315,7 @@ export function CircuitWorkspace({
               return (
                 <g
                   key={wire.id}
+                  data-circuit-wire-id={wire.id}
                   data-circuit-modern-powered-wire={
                     electronFlow ? (electronFlow.active ? "true" : "false") : undefined
                   }

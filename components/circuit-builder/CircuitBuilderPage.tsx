@@ -7,6 +7,7 @@ import {
   useReducer,
   useRef,
   useState,
+  useSyncExternalStore,
   type ChangeEvent,
 } from "react";
 import { PremiumFeatureNotice } from "@/components/account/PremiumFeatureNotice";
@@ -20,8 +21,10 @@ import {
 } from "@/lib/circuit-builder/account-saves-client";
 import { DisclosurePanel } from "@/components/layout/DisclosurePanel";
 import {
-  CIRCUIT_CANVAS_HEIGHT,
-  CIRCUIT_CANVAS_WIDTH,
+  buildFittedCircuitView,
+  CIRCUIT_COMPACT_CANVAS_FRAME,
+  CIRCUIT_COMPACT_CANVAS_MEDIA_QUERY,
+  CIRCUIT_DESKTOP_CANVAS_FRAME,
   CIRCUIT_RENDER_MODE_STORAGE_KEY,
   buildCircuitJsonExport,
   buildCircuitSvgExport,
@@ -34,12 +37,12 @@ import {
   convertViewPointToWorld,
   createComponentInstance,
   createDefaultCircuitEnvironment,
+  createDefaultCircuitView,
   createEmptyCircuitDocument,
   downloadTextFile,
   formatCircuitDraftSavedAt,
   getCircuitComponentById,
   getCircuitComponentDefinition,
-  getVisibleWorldCenter,
   formatCircuitComponentDisplayLabel,
   formatCircuitWireDisplayLabel,
   getSavedCircuitsDiscardedCount,
@@ -56,6 +59,8 @@ import {
   deleteSavedCircuit,
   writeCircuitLocaleHandoffToStorage,
   writeCircuitDraftToStorage,
+  MAXIMUM_CIRCUIT_WORKSPACE_ZOOM,
+  MINIMUM_CIRCUIT_WORKSPACE_ZOOM,
   type CircuitComponentType,
   type CircuitBuilderCopy,
   type CircuitDocument,
@@ -155,24 +160,8 @@ const toolbarButtonClass =
   "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong disabled:cursor-not-allowed disabled:opacity-50";
 const toolbarGroupClass =
   "inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-[18px] border border-line bg-paper-strong/90 px-2 py-1.5";
-const defaultCircuitView = {
-  zoom: 0.78,
-  offsetX: 120,
-  offsetY: 82,
-} satisfies CircuitDocument["view"];
+const defaultCircuitView = createDefaultCircuitView();
 const defaultCircuitEnvironment = createDefaultCircuitEnvironment();
-const minimumWorkspaceZoom = 0.45;
-const maximumWorkspaceZoom = 2.4;
-const maximumFitWorkspaceZoom = 2.25;
-const circuitCanvasCenter = {
-  x: CIRCUIT_CANVAS_WIDTH / 2,
-  y: CIRCUIT_CANVAS_HEIGHT / 2,
-};
-const fitViewPadding = 80;
-const componentFitRadius = {
-  x: 128,
-  y: 112,
-};
 const circuitViewEqualityEpsilon = 0.0001;
 const circuitRenderModeOptions: CircuitRenderMode[] = ["schematic", "modern"];
 
@@ -279,48 +268,34 @@ function isDocumentReloadNavigation() {
   );
 }
 
-function buildFittedCircuitView(document: CircuitDocument) {
-  if (document.components.length === 0) {
-    return defaultCircuitView;
+function subscribeToCompactCircuitCanvasFrame(callback: () => void) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return () => {};
   }
 
-  const bounds = document.components.reduce(
-    (current, component) => ({
-      minX: Math.min(current.minX, component.x - componentFitRadius.x),
-      maxX: Math.max(current.maxX, component.x + componentFitRadius.x),
-      minY: Math.min(current.minY, component.y - componentFitRadius.y),
-      maxY: Math.max(current.maxY, component.y + componentFitRadius.y),
-    }),
-    {
-      minX: Number.POSITIVE_INFINITY,
-      maxX: Number.NEGATIVE_INFINITY,
-      minY: Number.POSITIVE_INFINITY,
-      maxY: Number.NEGATIVE_INFINITY,
-    },
+  const query = window.matchMedia(CIRCUIT_COMPACT_CANVAS_MEDIA_QUERY);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+
+function getCompactCircuitCanvasFrameSnapshot() {
+  return typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia(CIRCUIT_COMPACT_CANVAS_MEDIA_QUERY).matches;
+}
+
+function getCompactCircuitCanvasFrameServerSnapshot() {
+  return false;
+}
+
+function useCircuitCanvasFrame() {
+  const compact = useSyncExternalStore(
+    subscribeToCompactCircuitCanvasFrame,
+    getCompactCircuitCanvasFrameSnapshot,
+    getCompactCircuitCanvasFrameServerSnapshot,
   );
 
-  const boundsWidth = Math.max(bounds.maxX - bounds.minX, componentFitRadius.x * 2);
-  const boundsHeight = Math.max(bounds.maxY - bounds.minY, componentFitRadius.y * 2);
-  const zoom = Math.max(
-    minimumWorkspaceZoom,
-    Math.min(
-      maximumFitWorkspaceZoom,
-      Math.min(
-        (CIRCUIT_CANVAS_WIDTH - fitViewPadding * 2) / boundsWidth,
-        (CIRCUIT_CANVAS_HEIGHT - fitViewPadding * 2) / boundsHeight,
-      ),
-    ),
-  );
-  const center = {
-    x: (bounds.minX + bounds.maxX) / 2,
-    y: (bounds.minY + bounds.maxY) / 2,
-  };
-
-  return {
-    zoom,
-    offsetX: circuitCanvasCenter.x - center.x * zoom,
-    offsetY: circuitCanvasCenter.y - center.y * zoom,
-  } satisfies CircuitDocument["view"];
+  return compact ? CIRCUIT_COMPACT_CANVAS_FRAME : CIRCUIT_DESKTOP_CANVAS_FRAME;
 }
 
 function sameTerminal(a: CircuitTerminalRef | null, b: CircuitTerminalRef | null) {
@@ -854,6 +829,21 @@ export function CircuitBuilderPage({
   const [isInspectorCollapsed, setIsInspectorCollapsed] = useState(false);
   const savedCircuits = useSavedCircuits();
   const accountSession = useAccountSession();
+  const circuitCanvasFrame = useCircuitCanvasFrame();
+  const circuitCanvasCenter = useMemo(
+    () => ({
+      x: circuitCanvasFrame.width / 2,
+      y: circuitCanvasFrame.height / 2,
+    }),
+    [circuitCanvasFrame],
+  );
+  const fitLoadedCircuitDocument = useCallback(
+    (document: CircuitDocument): CircuitDocument => ({
+      ...document,
+      view: buildFittedCircuitView(document, circuitCanvasFrame),
+    }),
+    [circuitCanvasFrame],
+  );
 
   useEffect(() => {
     setHasHydrated(true);
@@ -1213,7 +1203,7 @@ export function CircuitBuilderPage({
   ]);
 
   function addComponent(componentType: CircuitComponentType, point?: CircuitPoint) {
-    const visibleCenter = getVisibleWorldCenter(state.document.view);
+    const visibleCenter = convertViewPointToWorld(circuitCanvasCenter, state.document.view);
     const offset = positionOffsets[state.document.components.length % positionOffsets.length];
     const wasWiring = state.activeTool === "wire" || Boolean(state.pendingWireStart);
     const nextPoint = snapPointToGrid(
@@ -1414,8 +1404,8 @@ export function CircuitBuilderPage({
 
   const zoomWorkspaceViewBy = useCallback((delta: number) => {
     const nextZoom = Math.max(
-      minimumWorkspaceZoom,
-      Math.min(maximumWorkspaceZoom, state.document.view.zoom + delta),
+      MINIMUM_CIRCUIT_WORKSPACE_ZOOM,
+      Math.min(MAXIMUM_CIRCUIT_WORKSPACE_ZOOM, state.document.view.zoom + delta),
     );
 
     if (nextZoom === state.document.view.zoom) {
@@ -1448,7 +1438,13 @@ export function CircuitBuilderPage({
         : `Workspace zoom ${Math.round(nextZoom * 100)}%. Press 0 to reset the view.`,
     );
     focusWorkspaceRegion();
-  }, [announceWorkspaceViewChange, copy.locale, focusWorkspaceRegion, state.document.view]);
+  }, [
+    announceWorkspaceViewChange,
+    circuitCanvasCenter,
+    copy.locale,
+    focusWorkspaceRegion,
+    state.document.view,
+  ]);
 
   const canResetWorkspaceView = !circuitViewsEqual(state.document.view, defaultCircuitView);
   const resetWorkspaceView = useCallback(() => {
@@ -1478,7 +1474,7 @@ export function CircuitBuilderPage({
       return;
     }
 
-    const nextView = buildFittedCircuitView(state.document);
+    const nextView = buildFittedCircuitView(state.document, circuitCanvasFrame);
     dispatch({ type: "update-view", view: nextView });
     announceWorkspaceViewChange(
       copy.locale === "zh-HK"
@@ -1486,7 +1482,13 @@ export function CircuitBuilderPage({
         : `Fitted view to ${state.document.components.length} part${state.document.components.length === 1 ? "" : "s"} at ${Math.round(nextView.zoom * 100)}% zoom.`,
     );
     focusWorkspaceRegion();
-  }, [announceWorkspaceViewChange, copy.locale, focusWorkspaceRegion, state.document]);
+  }, [
+    announceWorkspaceViewChange,
+    circuitCanvasFrame,
+    copy.locale,
+    focusWorkspaceRegion,
+    state.document,
+  ]);
 
   function openJsonDialog() {
     loadJsonInputRef.current?.click();
@@ -1501,7 +1503,7 @@ export function CircuitBuilderPage({
     const wiringStatusPrefix = getWiringResetStatusPrefix();
 
     try {
-      const document = parseCircuitDocumentJson(await file.text());
+      const document = fitLoadedCircuitDocument(parseCircuitDocumentJson(await file.text()));
       dispatch({ type: "load-document", document, label: "load JSON" });
       setActiveAccountSavedCircuitId(null);
       setExportStatus(
@@ -1863,7 +1865,7 @@ export function CircuitBuilderPage({
   }
 
   function loadPresetCircuit(preset: (typeof circuitBuilderPresets)[number]) {
-    const document = preset.buildDocument();
+    const document = fitLoadedCircuitDocument(preset.buildDocument());
     const partCount = document.components.length;
     const wiringStatusPrefix = getWiringResetStatusPrefix();
     const presetLabel = copy.presets.items[preset.id]?.label ?? preset.label;
