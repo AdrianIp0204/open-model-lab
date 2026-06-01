@@ -1,5 +1,29 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-069 Circuit Builder Touch Targets
+
+Current state: `OML-QA-069` is complete. Circuit Builder starter presets, render-mode controls, workspace controls, and toolbar menu triggers/actions now present at least 44px visible targets across the audited phone, tablet, desktop, and wide viewports, with focus-visible rings on the compact controls.
+
+Implementation commit: `8e976d0`.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitBuilderPage.tsx`: raises preset chips, render-mode options, and toolbar button styles to 44px targets with focus-visible rings.
+- `components/circuit-builder/CircuitWorkspace.tsx`: raises workspace zoom, fit, reset, and clear controls to 44px targets.
+- `components/circuit-builder/CircuitToolbarMenu.tsx`: raises toolbar menu triggers to 44px targets.
+- `tests/e2e/circuit-builder.spec.ts`: adds a cross-locale phone/tablet/desktop/wide primary target-size audit and keeps the narrower laptop toolbar compactness gate.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check 8e976d0^..8e976d0`: passed for implementation commit `8e976d0`.
+- `git diff --check`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitBuilderPage.tsx components/circuit-builder/CircuitWorkspace.tsx components/circuit-builder/CircuitToolbarMenu.tsx tests/e2e/circuit-builder.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "primary touch targets|toolbar groups compact" --reporter=line`: passed, 2/2.
+- `pnpm typecheck`: passed.
+
+Residual risk: the 44px toolbar targets intentionally make dense toolbar rows taller. The new 1180px compactness gate covers the current row, but future toolbar additions may need secondary grouping to avoid crowding.
+
 ## 2026-06-01 OML-QA-068 Circuit Builder Preset Fit
 
 Current state: `OML-QA-068` is complete. Circuit Builder preset loads and JSON imports now compute their initial view from the active workspace frame, so phone, tablet, desktop, and wide viewports open starter circuits fully inside the visible stage instead of clipping the loop or leaving it tiny.

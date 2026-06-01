@@ -692,12 +692,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
   - Completion note (2026-06-01 HKT): Fitted preset and JSON-loaded circuits against the active workspace frame so phone, tablet, desktop, and wide starter presets land fully visible while preserving manual pan/zoom controls.
   - Validation: git diff --check 4a159f7^..4a159f7; git diff --check; targeted eslint; pnpm typecheck; Playwright preset-fit gate; Playwright JSON/import readable-fit gate
-- [ ] **OML-QA-069: Raise Circuit Builder touch targets for starter presets, view mode controls, and workspace toolbar buttons.**
+- [x] **OML-QA-069: Raise Circuit Builder touch targets for starter presets, view mode controls, and workspace toolbar buttons.**
   - Evidence: the manual sweep in `output/circuit-builder-qa-2026-05-31/summary.json` found repeated visible interactive targets below the 44px floor: starter preset buttons at about `38px` high on phone/tablet/desktop/wide, and `Schematic` / `Modern` mode buttons around `24px` high on tablet. The issue repeats in English and zh-HK.
   - UX/accessibility problem: the page is a manipulation-heavy tool. Small touch targets make preset choice, mode switching, and workspace control harder on phones/tablets, and the same compact controls are too easy to miss even on desktop.
   - Affected area: preset button styling, `CircuitRenderModeSwitch`, workspace controls in `CircuitWorkspace.tsx`, toolbar menu trigger sizing, and responsive CSS.
   - Fix direction: use a 44px minimum hit area on coarse-pointer/touch layouts while preserving compact visual rhythm on desktop. For dense segmented controls, keep visual chips compact if needed but wrap them in larger hit targets and verify focus rings.
   - Validation: a Circuit Builder touch-target audit over phone/tablet/desktop/wide reports zero visible primary controls under 44px on touch layouts, with documented desktop-only exceptions if any.
+
+  - Completion note (2026-06-01 HKT): Raised Circuit Builder preset, render-mode, workspace-control, and toolbar menu/button hit areas to at least 44px, with focus-visible rings and a cross-locale viewport audit for the affected controls.
+  - Validation: git diff --check 8e976d0^..8e976d0; git diff --check; targeted eslint; pnpm typecheck; Playwright Circuit Builder primary touch-target/toolbar compact gate
 
 - [ ] **OML-QA-070: Move the mobile add-parts path above the dense status/tools block.**
   - Evidence: the phone empty state first viewport shows the workspace, then `Environment`, then the dense `Status and tools` panel; the `Component library` disclosure starts lower down. `output/circuit-builder-qa-2026-05-31/phone-empty-search.png` shows the user must scroll through history/save/export controls before reaching the part search/add flow.
