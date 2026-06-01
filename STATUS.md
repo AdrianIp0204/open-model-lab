@@ -1,5 +1,28 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-077 Chemistry Touch Target Repair
+
+Current state: `OML-QA-077` is complete. The Chemistry Reaction Mind Map now keeps pathway labels visually compact while backing them with measured transparent hit areas, and the touch layouts raise graph controls, route node chips, route cards, step buttons, and route actions to the 44px interaction floor.
+
+Implementation commit: `3d7021e`.
+
+### Files Changed
+
+- `components/tools/chemistry/ChemistryReactionGraph.tsx`: adds larger measured SVG/HTML hit regions for compact edge labels and enforces coarse-pointer toolbar hit areas without visually enlarging desktop graph labels.
+- `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`: adjusts route action touch sizing for the graph workflow shell.
+- `components/tools/chemistry/ChemistryRouteExplorerDetails.tsx`: raises mobile route node chips, route cards, and step controls to touch-safe hit areas.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: adds phone/tablet touch-target audits and a desktop compact-pathway-label gate that verifies larger hit-area backing.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git show --check HEAD`: passed.
+- `pnpm exec eslint components/tools/chemistry/ChemistryReactionGraph.tsx components/tools/chemistry/ChemistryRouteExplorerDetails.tsx components/tools/chemistry/ChemistryReactionMindMapPage.tsx tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "touch-target audit|compact desktop pathway labels"`: passed, 2/2.
+- `pnpm typecheck`: passed.
+
+Residual risk: mobile route-result workflow readability is still intentionally left to the queued `OML-QA-078` task.
+
 ## 2026-06-01 OML-QA-076 Chemistry Mobile Map-First Viewport
 
 Current state: `OML-QA-076` is complete. The Chemistry Reaction Mind Map phone layout now shows a compact title, selection summary, short map-first hint, and the actual reaction map inside the first 390x844 viewport before the toolbar, keyboard shortcut help, flow legend, and route explorer controls.

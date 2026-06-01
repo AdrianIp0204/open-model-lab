@@ -777,12 +777,14 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
   - Completion note (2026-06-01 HKT): Reworked the phone layout so the Chemistry map appears in the first viewport before toolbar, shortcut, legend, and route-control chrome in English and zh-HK.
   - Validation: git diff --check; targeted eslint; Playwright mobile horizontal/mobile first viewport chemistry gates; pnpm typecheck; phone screenshot/metrics spot-check
-- [ ] **OML-QA-077: Give Chemistry Reaction Mind Map touch interactions real hit areas without making the graph visually bulky.**
+- [x] **OML-QA-077: Give Chemistry Reaction Mind Map touch interactions real hit areas without making the graph visually bulky.**
   - Evidence: the manual sweep found visible clickable pathway labels around `73x16` on tablet, `46x10` after a no-route desktop state, and route-sequence node chips around `34px` high on mobile route results; the zoom slider itself is `24px` high on phone/tablet and `8px` high on desktop, while desktop zoom buttons are `38px` high. Existing E2E only guards a subset of controls and does not fail on pathway-label or route-chip touch targets.
   - UX/accessibility problem: a reaction graph depends on node, edge, zoom, and route-chip interaction. Small hit areas make the tool harder to use on touch screens and make pathway selection feel fussy even when the visual label should remain compact.
   - Affected area: edge-label buttons and invisible SVG/HTML hit boxes in `ChemistryReactionGraph.tsx`, route node chips in `ChemistryRouteExplorerDetails.tsx`, graph toolbar controls, focus rings, and touch-target QA helpers.
   - Fix direction: keep the visual edge labels compact but add larger transparent hit regions or adjacent tap targets; raise route-chip and toolbar hit areas to a 44px floor on coarse-pointer layouts; preserve keyboard focus and screen-reader labels.
   - Validation: a Playwright touch-target audit over phone/tablet and representative desktop states reports zero visible primary controls below 44px on touch layouts, with any graph-label visual exceptions backed by a larger measured hit target.
+  - Completion note (2026-06-01 HKT): Added real 44px touch hit areas for compact Chemistry pathway labels, toolbar controls, route node chips, route cards, step buttons, and route actions without visually bulking the graph.
+  - Validation: git show --check HEAD; targeted eslint; Playwright chemistry touch-target audit and compact desktop pathway-label hit-area gate; pnpm typecheck.
 
 ### P1 - Route, Compare, And Overlay UX
 
