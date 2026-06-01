@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-079 Chemistry Compare Inspector Overflow
+
+Current state: `OML-QA-079` is complete. Chemistry comparison details now stack family snapshots in a single inspector-safe column, keep nested cards/buttons constrained with `min-w-0`/wrapping guards, and cover desktop, wide, and tablet compare states with a focused overflow regression.
+
+### Files Changed
+
+- `components/tools/chemistry/ChemistryComparisonDetails.tsx`: removes the narrow-rail two-column family-card assumption and adds width/wrapping constraints to comparison cards, property blocks, direct conversion cards, titles, and open-node actions.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: adds the compare-inspector overflow gate across `1366x768`, `1900x930`, and `900x900`, including screenshots and checks for panel, inspector, card, title, button, and compare-to-route fit.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- `git diff --check`: passed.
+- `pnpm exec eslint components/tools/chemistry/ChemistryComparisonDetails.tsx tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "chemistry comparison details keep family cards inside the inspector" --reporter=line`: passed, 1/1.
+- `pnpm typecheck`: passed.
+- Screenshot inspection passed for desktop, wide, and tablet compare states.
+
+Residual risk: the floating Feedback trigger still overlaps lower-right Chemistry inspector content in these screenshots; that remains queued as `OML-QA-080`.
+
 ## 2026-06-01 OML-QA-078 Chemistry Mobile Route Workflow
 
 Current state: `OML-QA-078` is complete. On phone, Chemistry route results now become a focused workflow after `Show routes`, with the route panel brought into view, a sticky route summary, `Back to map` and `Clear routes` actions beside the result, touch-safe route chips, and secondary step notes collapsed behind a disclosure.

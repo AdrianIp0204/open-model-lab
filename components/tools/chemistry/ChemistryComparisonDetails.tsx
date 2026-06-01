@@ -35,7 +35,7 @@ function ComparisonPropertyBlock({
   representativeExampleLabel: string;
 }) {
   return (
-    <section className="rounded-[18px] border border-line bg-paper-strong p-4">
+    <section className="min-w-0 max-w-full rounded-[18px] border border-line bg-paper-strong p-4">
       <h4 className="text-sm font-semibold uppercase tracking-[0.16em] text-ink-700">{title}</h4>
       <p className="mt-3 text-sm leading-6 text-ink-900">{summary}</p>
       {details.length ? (
@@ -77,20 +77,20 @@ function ComparisonColumn({
   return (
     <article
       data-testid={`chem-compare-column-${node.id}`}
-      className="space-y-4 rounded-[22px] border border-line bg-paper p-4"
+      className="min-w-0 max-w-full space-y-4 rounded-[22px] border border-line bg-paper p-4"
     >
       <div className="space-y-2">
         <p className="lab-label">{t("compare.groupEyebrow")}</p>
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="space-y-2">
-            <h3 className="text-2xl font-semibold text-ink-950">{node.name}</h3>
+          <div className="min-w-0 space-y-2">
+            <h3 className="break-words text-2xl font-semibold text-ink-950">{node.name}</h3>
             {node.representativeStructureLabel ? (
               <p className="text-sm leading-6 text-ink-700">{node.representativeStructureLabel}</p>
             ) : null}
           </div>
           <button
             type="button"
-            className="rounded-full border border-line bg-paper-strong px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className="max-w-full whitespace-normal rounded-full border border-line bg-paper-strong px-3 py-2 text-left text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             onClick={() => onOpenNode(node.id)}
           >
             {t("compare.actions.openNode", { name: node.name })}
@@ -98,20 +98,20 @@ function ComparisonColumn({
         </div>
       </div>
 
-      <section className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-[18px] border border-line bg-paper-strong p-4">
+      <section className="grid min-w-0 max-w-full gap-3 sm:grid-cols-2">
+        <div className="min-w-0 rounded-[18px] border border-line bg-paper-strong p-4">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ink-700">
             {t("detail.fields.suffix")}
           </p>
           <p className="mt-2 text-sm leading-6 text-ink-900">{suffix ?? "-"}</p>
         </div>
-        <div className="rounded-[18px] border border-line bg-paper-strong p-4">
+        <div className="min-w-0 rounded-[18px] border border-line bg-paper-strong p-4">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ink-700">
             {t("detail.fields.prefix")}
           </p>
           <p className="mt-2 text-sm leading-6 text-ink-900">{prefix ?? "-"}</p>
         </div>
-        <div className="rounded-[18px] border border-line bg-paper-strong p-4">
+        <div className="min-w-0 rounded-[18px] border border-line bg-paper-strong p-4">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ink-700">
             {t("detail.fields.generalFormula")}
           </p>
@@ -119,7 +119,7 @@ function ComparisonColumn({
             <ChemistryInlineNotation value={node.generalFormula} />
           </div>
         </div>
-        <div className="rounded-[18px] border border-line bg-paper-strong p-4">
+        <div className="min-w-0 rounded-[18px] border border-line bg-paper-strong p-4">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ink-700">
             {t("detail.fields.functionalGroup")}
           </p>
@@ -151,7 +151,7 @@ function ComparisonColumn({
         representativeExampleLabel={t("detail.fields.representativeExample")}
       />
 
-      <section className="rounded-[18px] border border-line bg-paper-strong p-4">
+      <section className="min-w-0 max-w-full rounded-[18px] border border-line bg-paper-strong p-4">
         <h4 className="text-sm font-semibold uppercase tracking-[0.16em] text-ink-700">
           {t("detail.propertyCards.notableProperties")}
         </h4>
@@ -178,7 +178,7 @@ export function ChemistryComparisonDetails({
   const t = useTranslations("ChemistryReactionMindMapPage");
 
   return (
-    <section className="lab-panel space-y-5 p-5 sm:p-6" data-testid="chemistry-compare-panel">
+    <section className="lab-panel min-w-0 max-w-full space-y-5 p-5 sm:p-6" data-testid="chemistry-compare-panel">
       <div className="space-y-2">
         <p className="lab-label">{t("compare.eyebrow")}</p>
         <h2 className="text-2xl font-semibold text-ink-950">
@@ -214,12 +214,15 @@ export function ChemistryComparisonDetails({
         </button>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-2">
+      <div
+        className="grid min-w-0 max-w-full grid-cols-1 gap-4"
+        data-testid="chem-compare-family-grid"
+      >
         <ComparisonColumn node={leftNode} onOpenNode={onSelectNode} />
         <ComparisonColumn node={rightNode} onOpenNode={onSelectNode} />
       </div>
 
-      <section className="rounded-[22px] border border-line bg-paper-strong p-4">
+      <section className="min-w-0 max-w-full rounded-[22px] border border-line bg-paper-strong p-4">
         <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-ink-700">
           {t("compare.directConversionsTitle")}
         </h3>
@@ -229,11 +232,11 @@ export function ChemistryComparisonDetails({
               <article
                 key={edge.id}
                 data-testid={`chem-compare-direct-${edge.id}`}
-                className="rounded-[18px] border border-line bg-paper p-3"
+                className="min-w-0 max-w-full rounded-[18px] border border-line bg-paper p-3"
               >
                 <button
                   type="button"
-                  className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  className="w-full min-w-0 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                   onClick={() => onSelectEdge(edge.id)}
                 >
                   <div className="flex flex-wrap items-center gap-2">

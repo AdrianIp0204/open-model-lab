@@ -1583,6 +1583,163 @@ test("chemistry reaction mind map presents mobile route results as a workflow", 
   guard.assertNoActionableIssues();
 });
 
+test("chemistry comparison details keep family cards inside the inspector", async ({
+  page,
+}, testInfo) => {
+  const viewports = [
+    { name: "desktop", width: 1366, height: 768 },
+    { name: "wide", width: 1900, height: 930 },
+    { name: "tablet", width: 900, height: 900 },
+  ] as const;
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({
+      width: viewport.width,
+      height: viewport.height,
+    });
+
+    await gotoAndExpectOk(page, "/tools/chemistry-reaction-mind-map");
+    await page.getByTestId("chemistry-worksurface").scrollIntoViewIfNeeded();
+    await waitForStableChemistryGraph(page);
+    await page.getByTestId("chem-node-alcohol").focus();
+    await page.keyboard.press("Enter");
+    await page
+      .getByTestId("chem-node-compare-outgoing-alcohol-to-aldehyde-oxidation")
+      .click();
+    await expect(page.getByTestId("chemistry-compare-panel")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open Alcohol" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Open Aldehyde" })).toBeVisible();
+    await expect(page.getByTestId("chem-compare-show-routes")).toBeVisible();
+    await page.getByTestId("chemistry-compare-panel").scrollIntoViewIfNeeded();
+
+    const compareLayout = await page.evaluate(() => {
+      const viewportWidth = document.documentElement.clientWidth;
+      const getElementMetrics = (selector: string) => {
+        const element = document.querySelector(selector);
+
+        if (!(element instanceof HTMLElement)) {
+          return null;
+        }
+
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+
+        return {
+          selector,
+          left: Math.round(rect.left),
+          right: Math.round(rect.right),
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+          scrollWidth: element.scrollWidth,
+          scrollHeight: element.scrollHeight,
+          clientWidth: element.clientWidth,
+          clientHeight: element.clientHeight,
+          display: style.display,
+          gridTemplateColumns: style.gridTemplateColumns,
+          overflowX: style.overflowX,
+          text: element.textContent?.trim() ?? "",
+        };
+      };
+      const getAllElementMetrics = (selector: string) =>
+        Array.from(document.querySelectorAll(selector))
+          .filter((element): element is HTMLElement => element instanceof HTMLElement)
+          .map((element) => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+
+            return {
+              selector,
+              testId: element.getAttribute("data-testid"),
+              left: Math.round(rect.left),
+              right: Math.round(rect.right),
+              width: Math.round(rect.width),
+              height: Math.round(rect.height),
+              scrollWidth: element.scrollWidth,
+              scrollHeight: element.scrollHeight,
+              clientWidth: element.clientWidth,
+              clientHeight: element.clientHeight,
+              overflowX: style.overflowX,
+              text: element.textContent?.trim() ?? "",
+            };
+          });
+
+      return {
+        horizontalOverflow:
+          Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) -
+          viewportWidth,
+        panel: getElementMetrics('[data-testid="chemistry-compare-panel"]'),
+        inspector: getElementMetrics('[data-testid="chemistry-inspector-scroll"]'),
+        familyGrid: getElementMetrics('[data-testid="chem-compare-family-grid"]'),
+        columns: getAllElementMetrics('[data-testid^="chem-compare-column-"]'),
+        titles: getAllElementMetrics('[data-testid^="chem-compare-column-"] h3'),
+        openButtons: getAllElementMetrics('[data-testid^="chem-compare-column-"] button'),
+        showRoutesButton: getElementMetrics('[data-testid="chem-compare-show-routes"]'),
+      };
+    });
+
+    expect(
+      compareLayout.horizontalOverflow,
+      `${viewport.name} document horizontal overflow`,
+    ).toBeLessThanOrEqual(1);
+
+    for (const [label, metrics] of [
+      ["chemistry-compare-panel", compareLayout.panel],
+      ["chemistry-inspector-scroll", compareLayout.inspector],
+      ["chem-compare-family-grid", compareLayout.familyGrid],
+      ["chem-compare-show-routes", compareLayout.showRoutesButton],
+    ] as const) {
+      expect(metrics, `${viewport.name} ${label} metrics`).not.toBeNull();
+      expect(
+        metrics?.scrollWidth,
+        `${viewport.name} ${label} horizontal fit`,
+      ).toBeLessThanOrEqual((metrics?.clientWidth ?? 0) + 1);
+      expect(metrics?.left, `${viewport.name} ${label} left edge`).toBeGreaterThanOrEqual(
+        0,
+      );
+      expect(
+        metrics?.right,
+        `${viewport.name} ${label} right edge`,
+      ).toBeLessThanOrEqual(viewport.width + 1);
+    }
+
+    expect(
+      compareLayout.familyGrid?.gridTemplateColumns.split(" ").length,
+      `${viewport.name} compare family grid column count`,
+    ).toBe(1);
+    expect(compareLayout.columns).toHaveLength(2);
+    for (const metrics of [
+      ...compareLayout.columns,
+      ...compareLayout.titles,
+      ...compareLayout.openButtons,
+    ]) {
+      expect(
+        metrics.scrollWidth,
+        `${viewport.name} ${metrics.testId ?? metrics.text} horizontal fit`,
+      ).toBeLessThanOrEqual(metrics.clientWidth + 1);
+      expect(
+        metrics.scrollHeight,
+        `${viewport.name} ${metrics.testId ?? metrics.text} vertical fit`,
+      ).toBeLessThanOrEqual(metrics.clientHeight + 2);
+      expect(
+        metrics.right,
+        `${viewport.name} ${metrics.testId ?? metrics.text} right edge`,
+      ).toBeLessThanOrEqual(viewport.width + 1);
+    }
+
+    await page.screenshot({
+      path: testInfo.outputPath(
+        `oml-qa-079-${viewport.name}-compare-hydration-groups.png`,
+      ),
+      animations: "disabled",
+      fullPage: false,
+    });
+  }
+
+  guard.assertNoActionableIssues();
+});
+
 test("chemistry reaction mind map puts the map inside the mobile first viewport", async ({
   page,
 }) => {
