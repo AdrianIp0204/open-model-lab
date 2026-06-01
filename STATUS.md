@@ -1,5 +1,36 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-081 Chemistry Helper Copy Clipping
+
+Current state: `OML-QA-081` is complete. The Chemistry Reaction Mind Map now uses shorter hero and route-helper guidance in English and zh-HK, removes learning-critical line clamps from hero/route helper text, moves route limits into the route-results note, and keeps compact desktop toolbar status chips backed by full accessible labels/titles.
+
+Implementation commit before the tracking commit: `0b2f8d0`.
+
+During screenshot QA, the zh-HK phone route-helper artifact showed the shared footer description falling back to English while the Chemistry tool content was localized. That separate issue is now tracked as `OML-QA-084`.
+
+### Files Changed
+
+- `messages/en.json` and `messages/zh-HK.json`: shorten Chemistry hero and route-helper copy and move route-limit caveats into the route-results note.
+- `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`: removes learning-critical hero/route helper line clamps and marks those copy surfaces for browser fit assertions.
+- `components/tools/chemistry/ChemistryRouteExplorerDetails.tsx`: renders the route-results note visibly and receives the max-route count for the moved caveat copy.
+- `components/tools/chemistry/ChemistryReactionGraph.tsx`: keeps non-critical toolbar status compaction intentional with full accessible text for truncated chips.
+- `tests/app/chemistry-reaction-mind-map-page.test.tsx`: covers the new copy/attribute expectations.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: adds the OML-QA-081 English/zh-HK phone/tablet/desktop/wide copy-fit and screenshot gate.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- `git diff --check`: passed.
+- `pnpm exec eslint components/tools/chemistry/ChemistryReactionGraph.tsx components/tools/chemistry/ChemistryReactionMindMapPage.tsx components/tools/chemistry/ChemistryRouteExplorerDetails.tsx tests/app/chemistry-reaction-mind-map-page.test.tsx tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed.
+- `pnpm exec vitest run tests/app/chemistry-reaction-mind-map-page.test.tsx --reporter=dot`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts --grep OML-QA-081 --reporter=line`: passed.
+- `pnpm i18n:check:zh-HK`: passed.
+- `pnpm typecheck`: passed.
+- Screenshot inspection passed for generated OML-QA-081 English and zh-HK phone/tablet/desktop/wide artifacts; no hero or route-helper copy is mid-sentence clipped.
+
+Residual risk: the zh-HK control wording polish remains queued as `OML-QA-082`; the separate zh-HK shared-footer fallback found during this QA is queued as `OML-QA-084`.
+
 ## 2026-06-01 OML-QA-080 Chemistry Feedback Overlap
 
 Current state: `OML-QA-080` is complete. The Chemistry Reaction Mind Map now routes dense-tool feedback through the inline `PageShell` placement instead of a floating trigger over the fixed-height/self-scrolling inspector. The OML-QA-080 regression covers edge details, comparison, route results, and no-route states across desktop, wide, tablet, and phone layouts.
