@@ -320,6 +320,21 @@ export type CircuitBuilderCopy = {
     };
   };
   saves: {
+    saveState: {
+      localDraft: string;
+      localSave: string;
+      accountSaveAvailable: string;
+      accountSave: string;
+      localDraftHelp: string;
+      localSaveHelp: string;
+      accountAvailableHelp: string;
+      accountSaveHelp: string;
+      signedInFreeHelp: string;
+      signedOutHelp: string;
+      supporterEmptyHelp: string;
+      primaryLocalAria: string;
+      primaryAccountAria: string;
+    };
     panelTitle: string;
     panelSummary: string;
     intro: string;
@@ -764,6 +779,28 @@ export const circuitBuilderCopyEn: CircuitBuilderCopy = {
     },
   },
   saves: {
+    saveState: {
+      localDraft: "Local draft",
+      localSave: "Local save",
+      accountSaveAvailable: "Account save available",
+      accountSave: "Account save",
+      localDraftHelp:
+        "Current work is still a local draft in this browser until you create a named save.",
+      localSaveHelp:
+        "This circuit is loaded from a browser-local named save. Account saves stay separate.",
+      accountAvailableHelp:
+        "Your Supporter account can save this circuit across devices.",
+      accountSaveHelp:
+        "This circuit is loaded from your account saves and can be updated across devices.",
+      signedInFreeHelp:
+        "Local saves still work here. Cross-device account saves are a Supporter benefit.",
+      signedOutHelp:
+        "Local saves work without sign-in. Sign in and upgrade to Supporter for cross-device account saves.",
+      supporterEmptyHelp:
+        "Add a component and Save to account will appear for cross-device storage.",
+      primaryLocalAria: "Primary local save action",
+      primaryAccountAria: "Primary account save action",
+    },
     panelTitle: "Save and reopen circuits",
     panelSummary:
       "Named local saves live here. Autosave draft recovery stays separate and only protects against accidental loss.",
@@ -1231,6 +1268,21 @@ export const circuitBuilderCopyZhHk: CircuitBuilderCopy = {
   },
   saves: {
     ...circuitBuilderCopyEn.saves,
+    saveState: {
+      localDraft: "本機草稿",
+      localSave: "本機儲存",
+      accountSaveAvailable: "可用帳戶儲存",
+      accountSave: "帳戶儲存",
+      localDraftHelp: "目前工作仍是此瀏覽器的本機草稿，建立命名儲存前不會成為已儲存電路。",
+      localSaveHelp: "此電路來自瀏覽器本機命名儲存。帳戶儲存會分開處理。",
+      accountAvailableHelp: "你的支持者帳戶可把此電路跨裝置儲存。",
+      accountSaveHelp: "此電路來自你的帳戶儲存，可跨裝置更新。",
+      signedInFreeHelp: "本機儲存仍可在這裏使用。跨裝置帳戶儲存是支持者功能。",
+      signedOutHelp: "未登入也可使用本機儲存。登入並升級為支持者後可使用跨裝置帳戶儲存。",
+      supporterEmptyHelp: "加入元件後會出現「儲存到帳戶」作跨裝置儲存。",
+      primaryLocalAria: "主要本機儲存操作",
+      primaryAccountAria: "主要帳戶儲存操作",
+    },
     panelTitle: "已儲存電路",
     panelSummary: "命名的本機儲存會放在這裏。自動儲存草稿復原是獨立機制，只用於防止意外遺失。",
     intro:

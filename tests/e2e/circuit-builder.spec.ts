@@ -267,8 +267,7 @@ async function openDesktopEnvironmentControl(page: Page) {
 
 async function openInspectorContextDetails(page: Page) {
   const details = page
-    .getByLabel("Circuit inspector")
-    .first()
+    .locator('[data-circuit-inspector-panel]:visible')
     .locator("details")
     .filter({ hasText: "Symbol, model, and context" })
     .first();
@@ -277,6 +276,10 @@ async function openInspectorContextDetails(page: Page) {
   }
 
   await details.locator("summary").click();
+}
+
+function visibleCircuitInspector(page: Page) {
+  return page.locator('[data-circuit-inspector-panel]:visible').first();
 }
 
 async function openSaveActions(page: Page) {
@@ -598,7 +601,7 @@ test("keeps the builder row visible on desktop, scrolls the palette internally, 
   await page.getByRole("slider", { name: "Ambient temperature" }).press("End");
   await openInspectorContextDetails(page);
   await expect(
-    page.getByLabel("Circuit inspector").first().getByText(/current ambient temperature of 100\s*°?\s*C/i),
+    visibleCircuitInspector(page).getByText(/current ambient temperature of 100\s*°?\s*C/i),
   ).toBeVisible();
 });
 
@@ -961,7 +964,7 @@ test("resets the inspector scroll and keeps component context collapsed by defau
   await page.getByRole("button", { name: "Add Ammeter" }).click();
   await page.getByRole("button", { name: "Battery 1", exact: true }).click();
 
-  const inspector = page.getByLabel("Circuit inspector").first();
+  const inspector = visibleCircuitInspector(page);
   const details = inspector
     .locator("details")
     .filter({ hasText: "Symbol, model, and context" })
@@ -1002,7 +1005,7 @@ test("updates thermistor inspector values when ambient temperature changes throu
   await buildThermistorLoop(page);
   await openDesktopEnvironmentControl(page);
 
-  const inspector = page.getByLabel("Circuit inspector").first();
+  const inspector = visibleCircuitInspector(page);
   const effectiveResistanceCard = inspector.getByText("Effective resistance").first().locator("..");
   const beforeText = await effectiveResistanceCard.textContent();
 
@@ -1024,7 +1027,7 @@ test("updates LDR inspector values when ambient light intensity changes through 
   await loadLdrPreset(page);
   await openDesktopEnvironmentControl(page);
 
-  const inspector = page.getByLabel("Circuit inspector").first();
+  const inspector = visibleCircuitInspector(page);
   const effectiveResistanceCard = inspector.getByText("Effective resistance").first().locator("..");
   const beforeText = await effectiveResistanceCard.textContent();
 
@@ -1090,7 +1093,7 @@ test("round-trips a saved circuit json through download and import without losin
   await expect(page.getByRole("slider", { name: "Light intensity" })).toHaveValue("100");
 
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
-  const inspector = page.getByLabel("Circuit inspector").first();
+  const inspector = visibleCircuitInspector(page);
   await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 100%/i)).toBeVisible();
   await expect(inspector.getByText("Ambient-linked").first()).toBeVisible();
@@ -1126,7 +1129,7 @@ test("restores a local autosaved draft after reload without breaking ambient or 
   await openDesktopEnvironmentControl(page);
   await expect(page.getByRole("slider", { name: "Light intensity" })).toHaveValue("100");
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
-  const inspector = page.getByLabel("Circuit inspector").first();
+  const inspector = visibleCircuitInspector(page);
   await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 100%/i)).toBeVisible();
 
@@ -1164,7 +1167,7 @@ test("saves a named local circuit and reopens it after replacing the current doc
 
   await page.getByRole("button", { name: "Open saved circuit Browser save", exact: true }).click();
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
-  const inspector = page.getByLabel("Circuit inspector").first();
+  const inspector = visibleCircuitInspector(page);
   await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 21%/i)).toBeVisible();
 
@@ -1184,6 +1187,66 @@ test("saves a named local circuit and reopens it after replacing the current doc
   const svg = await fs.readFile(svgPath, "utf8");
 
   expect(svg).toContain("@ 21% light");
+});
+
+test("surfaces distinct save-state affordances for signed-out, free, and Supporter users", async ({
+  page,
+}, testInfo) => {
+  const accountStates = [
+    {
+      name: "signed-out",
+      session: "signed-out" as const,
+      pill: "Local draft",
+      primary: "local",
+      note: /Local saves work without sign-in/i,
+    },
+    {
+      name: "signed-in-free",
+      session: "signed-in-free" as const,
+      pill: "Local save",
+      primary: "local",
+      note: /Cross-device account saves are a Supporter benefit/i,
+    },
+    {
+      name: "signed-in-premium",
+      session: "signed-in-premium" as const,
+      pill: "Account save available",
+      primary: "account",
+      note: /Supporter account can save this circuit across devices/i,
+    },
+  ];
+  const viewports = [
+    { name: "phone", width: 390, height: 844 },
+    { name: "desktop", width: 1440, height: 980 },
+  ];
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+
+    for (const accountState of accountStates) {
+      await setHarnessSession(page, accountState.session);
+      await openCircuitBuilder(page);
+      await page.getByRole("button", { name: "LDR light explorer" }).click();
+
+      const saveAffordance = page.locator("[data-circuit-save-affordance]").first();
+      await expect(saveAffordance).toBeVisible();
+      await expect(
+        saveAffordance.locator("[data-circuit-save-state-pill]"),
+      ).toContainText(accountState.pill);
+      await expect(
+        saveAffordance.locator("[data-circuit-primary-save-action]"),
+      ).toHaveAttribute("data-circuit-primary-save-action", accountState.primary);
+      await expect(saveAffordance).toContainText(accountState.note);
+
+      await page.screenshot({
+        path: testInfo.outputPath(
+          `circuit-builder-save-state-${accountState.name}-${viewport.name}.png`,
+        ),
+        animations: "disabled",
+        fullPage: false,
+      });
+    }
+  }
 });
 
 test("saves and reopens an account-backed circuit for an eligible user", async ({
@@ -1215,7 +1278,7 @@ test("saves and reopens an account-backed circuit for an eligible user", async (
 
   await page.getByRole("button", { name: `Open account save ${saveTitle}`, exact: true }).click();
   await page.getByRole("button", { name: "Light-dependent resistor 1", exact: true }).click();
-  const inspector = page.getByLabel("Circuit inspector").first();
+  const inspector = visibleCircuitInspector(page);
   await openInspectorContextDetails(page);
   await expect(inspector.getByText(/current light intensity of 100%/i)).toBeVisible();
   await openDesktopEnvironmentControl(page);

@@ -931,6 +931,9 @@ export function CircuitBuilderPage({
     activeAccountSavedCircuitId
       ? accountSavedCircuits.find((item) => item.id === activeAccountSavedCircuitId) ?? null
       : null;
+  const canUseAccountSaves =
+    accountSession.status === "signed-in" &&
+    accountSession.entitlement.capabilities.canSaveCompareSetups;
   const activeSavedCircuitTitle =
     activeLocalSavedCircuit?.title ?? activeAccountSavedCircuit?.title ?? null;
   const activeSavedCircuitKind = activeLocalSavedCircuit
@@ -943,21 +946,6 @@ export function CircuitBuilderPage({
   const hasSavedCircuitChanges = activeSavedCircuitDocument
     ? !documentsEqual(state.document, activeSavedCircuitDocument)
     : false;
-  const saveStateSummary = activeSavedCircuitTitle
-    ? hasSavedCircuitChanges
-      ? circuitStatusText(
-          copy,
-          `Unsaved changes to ${activeSavedCircuitTitle}`,
-          `「${activeSavedCircuitTitle}」有未儲存變更`,
-        )
-      : circuitStatusText(
-          copy,
-          `${activeSavedCircuitTitle} is up to date`,
-          `「${activeSavedCircuitTitle}」已是最新`,
-        )
-    : canSaveCurrentCircuit
-      ? copy.toolbar.unsavedNewCircuit
-      : copy.toolbar.emptyWorkspace;
   const saveStateDetail = activeSavedCircuitTitle
     ? hasSavedCircuitChanges
       ? circuitStatusText(
@@ -981,6 +969,45 @@ export function CircuitBuilderPage({
           "Add a component to enable named saves. Autosave recovery stays idle for an empty workspace.",
           "加入元件後即可使用命名儲存。空白工作區不會啟動自動復原。",
         );
+  const saveStateKind = activeAccountSavedCircuit
+    ? "account-save"
+    : canUseAccountSaves && canSaveCurrentCircuit
+      ? "account-available"
+      : activeLocalSavedCircuit ||
+          (accountSession.status === "signed-in" &&
+            !canUseAccountSaves &&
+            canSaveCurrentCircuit)
+        ? "local-save"
+        : "local-draft";
+  const saveStateLabel =
+    saveStateKind === "account-save"
+      ? copy.saves.saveState.accountSave
+      : saveStateKind === "account-available"
+        ? copy.saves.saveState.accountSaveAvailable
+        : saveStateKind === "local-save"
+          ? copy.saves.saveState.localSave
+          : copy.saves.saveState.localDraft;
+  const saveStateHelp =
+    accountSession.status === "signed-in" && !canUseAccountSaves
+      ? copy.saves.saveState.signedInFreeHelp
+      : saveStateKind === "account-save"
+      ? copy.saves.saveState.accountSaveHelp
+      : saveStateKind === "account-available"
+        ? copy.saves.saveState.accountAvailableHelp
+        : saveStateKind === "local-save"
+          ? copy.saves.saveState.localSaveHelp
+          : accountSession.status === "signed-in"
+            ? canUseAccountSaves
+              ? copy.saves.saveState.supporterEmptyHelp
+              : copy.saves.saveState.signedInFreeHelp
+            : copy.saves.saveState.signedOutHelp;
+  const primarySaveActionLabel = canUseAccountSaves
+    ? activeAccountSavedCircuit
+      ? copy.toolbar.updateAccountSave
+      : copy.toolbar.saveToAccount
+    : activeLocalSavedCircuit
+      ? copy.toolbar.updateSaved
+      : copy.toolbar.saveLocally;
   const hasPendingHistoryChange = state.historySession
     ? !documentsEqual(state.historySession.document, state.document)
     : false;
@@ -1021,9 +1048,6 @@ export function CircuitBuilderPage({
           "Make a circuit change to enable undo history.",
           "變更電路後即可使用復原歷史。",
         );
-  const canUseAccountSaves =
-    accountSession.status === "signed-in" &&
-    accountSession.entitlement.capabilities.canSaveCompareSetups;
   const selectionActionsLocked = state.activeTool === "wire" || Boolean(state.pendingWireStart);
 
   useEffect(() => {
@@ -2074,6 +2098,7 @@ export function CircuitBuilderPage({
       });
       setAccountSavedCircuits(result.items);
       setActiveAccountSavedCircuitId(result.savedCircuit.id);
+      dispatch({ type: "set-active-saved-circuit-ref", savedCircuitRef: null });
       setAccountSavePanelOpen(false);
       setAccountSaveNameDraft("");
       setExportStatus(circuitStatusText(
@@ -2122,6 +2147,28 @@ export function CircuitBuilderPage({
             ),
       );
     }
+  }
+
+  function runPrimarySaveAction() {
+    if (!canSaveCurrentCircuit) {
+      return;
+    }
+
+    if (canUseAccountSaves) {
+      if (activeAccountSavedCircuit) {
+        void updateCurrentAccountSave();
+        return;
+      }
+      openAccountSavePanel();
+      return;
+    }
+
+    if (activeLocalSavedCircuit) {
+      updateCurrentSavedCircuit();
+      return;
+    }
+
+    openSavePanel();
   }
 
   function openAccountSavedCircuit(savedCircuit: AccountSavedCircuitRecord) {
@@ -2632,8 +2679,62 @@ export function CircuitBuilderPage({
       />
     </div>
   );
+  const saveAffordance = (
+    <div
+      role="group"
+      aria-label={copy.locale === "zh-HK" ? "儲存狀態操作" : "Save state actions"}
+      data-circuit-save-affordance=""
+      className={[
+        "inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full border border-line bg-paper-strong/90 px-2 py-1.5",
+        saveStateKind === "account-save" || saveStateKind === "account-available"
+          ? "border-teal-500/25 bg-teal-500/6"
+          : "",
+      ].join(" ")}
+    >
+      <span
+        className="rounded-full border border-line bg-paper px-3 py-1 text-xs font-semibold text-ink-800"
+        data-circuit-save-state-pill=""
+        data-circuit-save-state-kind={saveStateKind}
+        title={saveStateHelp}
+      >
+        {saveStateLabel}
+      </span>
+      {canSaveCurrentCircuit ? (
+        <button
+          type="button"
+          aria-label={
+            canUseAccountSaves
+              ? copy.saves.saveState.primaryAccountAria
+              : copy.saves.saveState.primaryLocalAria
+          }
+          className={[
+            toolbarButtonClass,
+            canUseAccountSaves
+              ? "border-teal-500/35 bg-teal-500 text-white hover:border-teal-600/40 hover:bg-teal-600"
+              : "",
+          ].join(" ")}
+          data-circuit-primary-save-action={canUseAccountSaves ? "account" : "local"}
+          onClick={runPrimarySaveAction}
+        >
+          {primarySaveActionLabel}
+        </button>
+      ) : null}
+      <span
+        className="max-w-[14rem] whitespace-normal text-xs leading-5 text-ink-600"
+        data-circuit-save-state-note=""
+        data-circuit-account-save-upgrade-note={
+          accountSession.status === "signed-in" && !canUseAccountSaves ? "" : undefined
+        }
+      >
+        {saveStateHelp}
+      </span>
+    </div>
+  );
   const workspaceControlsSlot = (
-    <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} copy={copy} />
+    <>
+      <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} copy={copy} />
+      {saveAffordance}
+    </>
   );
   const focusComponentLibrary = useCallback(() => {
     setIsLibraryCollapsed(false);
@@ -3457,13 +3558,17 @@ export function CircuitBuilderPage({
                   "rounded-full border px-3 py-1 text-xs font-medium",
                   hasSavedCircuitChanges
                     ? "border-amber-500/25 bg-amber-500/10 text-amber-800"
-                    : activeSavedCircuitTitle
+                    : saveStateKind === "account-save" ||
+                        saveStateKind === "account-available" ||
+                        saveStateKind === "local-save"
                       ? "border-teal-500/25 bg-teal-500/10 text-teal-700"
                       : "border-line bg-paper-strong text-ink-600",
                 ].join(" ")}
                 data-circuit-save-state=""
+                data-circuit-save-state-kind={saveStateKind}
+                title={saveStateHelp}
               >
-                {saveStateSummary}
+                {saveStateLabel}
               </span>
             </div>
             <div

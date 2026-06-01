@@ -48,6 +48,8 @@ describe("CircuitBuilderPage account saves", () => {
     render(<CircuitBuilderPage />);
 
     const user = userEvent.setup();
+    expect(screen.getAllByText("Local draft").length).toBeGreaterThan(0);
+    expect(screen.queryByText(/Cross-device account saves are a Supporter benefit/i)).not.toBeInTheDocument();
     await openSaveActions(user);
     expect(screen.getByRole("button", { name: "Save locally" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Save to account" })).toBeDisabled();
@@ -74,6 +76,14 @@ describe("CircuitBuilderPage account saves", () => {
     render(<CircuitBuilderPage />);
 
     const user = userEvent.setup();
+    expect(screen.getAllByText("Local draft").length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(/Cross-device account saves are a Supporter benefit/i),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "LDR light explorer" }));
+    expect(screen.getByRole("button", { name: "Primary local save action" })).toHaveTextContent(
+      "Save locally",
+    );
     await openSaveActions(user);
     expect(screen.getByRole("button", { name: "Save to account" })).toBeDisabled();
     expect(screen.getAllByRole("link", { name: "View Supporter plan" })[0]).toHaveAttribute(
@@ -187,6 +197,10 @@ describe("CircuitBuilderPage account saves", () => {
     });
 
     await user.click(screen.getByRole("button", { name: "LDR light explorer" }));
+    expect(screen.getAllByText("Account save available").length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: "Primary account save action" })).toHaveTextContent(
+      "Save to account",
+    );
     await openSaveActions(user);
     await user.click(screen.getByRole("button", { name: "Save to account" }));
     await user.clear(screen.getByRole("textbox", { name: "Account save name" }));
