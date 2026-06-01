@@ -824,12 +824,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
   - Completion note (2026-06-01 HKT): Shortened Chemistry hero and route-helper copy, moved route limits into the route-results note, removed learning-critical line clamps, and kept compact toolbar status ellipses backed by full accessible text.
   - Validation: git diff --check HEAD^..HEAD; git diff --check; targeted eslint; chemistry page Vitest suite; OML-QA-081 Playwright screenshot/assertion gate across English and zh-HK phone/tablet/desktop/wide; pnpm i18n:check:zh-HK; pnpm typecheck; screenshot inspection passed for generated OML-QA-081 artifacts.
-- [ ] **OML-QA-082: Polish zh-HK Chemistry tool control wording after the layout fixes.**
+- [x] **OML-QA-082: Polish zh-HK Chemistry tool control wording after the layout fixes.**
   - Evidence: `/zh-HK/tools/chemistry-reaction-mind-map` is mostly localized, but manual review found awkward control wording such as `配合視圖` / `0 配合目前視圖` for `Fit to view`. The phone screenshot also shows the same mobile information-density problem as English, which makes localized control meaning harder to infer.
   - UX/i18n problem: this is not a broad English-leakage failure, but chemistry-tool controls need natural Hong Kong Chinese action labels so a learner understands map camera actions quickly.
   - Affected area: `messages/zh-HK.json`, generated i18n output, Chemistry graph navigation labels, route/compare copy, and zh-HK tool screenshot coverage.
   - Fix direction: replace awkward literal camera-control phrases with natural zh-HK UI verbs after deciding the final compact layout; review route/compare/detail labels for control clarity rather than translating strings one by one.
   - Validation: zh-HK phone and desktop screenshots show natural action labels for zoom, fit/reset view, route search/results, compare, and clear-route controls; i18n validation still passes.
+
+  - Completion note (2026-06-01 HKT): Polished zh-HK Chemistry camera, route, and compare control wording so the map actions read naturally after the layout repairs.
+  - Validation: git diff --check HEAD^..HEAD; git diff --check; pnpm i18n:validate -- --locale zh-HK; pnpm i18n:check:zh-HK; pnpm exec eslint tests/e2e/chemistry-reaction-mind-map.spec.ts; pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g OML-QA-082 --reporter=line; pnpm typecheck; screenshot inspection passed for zh-HK phone/desktop route and compare artifacts, with footer fallback still tracked as OML-QA-084.
 
 ### P2 - Durable Chemistry Tool QA Coverage
 

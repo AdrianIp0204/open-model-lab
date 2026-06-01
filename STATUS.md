@@ -1,5 +1,30 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-082 Chemistry zh-HK Control Wording
+
+Current state: `OML-QA-082` is complete. The zh-HK Chemistry Reaction Mind Map now uses more natural Hong Kong Chinese wording for camera reset, route search/result actions, route endpoints, and compare controls instead of literal `配合視圖` phrasing.
+
+Implementation commit before the tracking commit: `cc815b0`.
+
+Screenshot QA still shows the already-queued shared footer fallback on the zh-HK Chemistry route; that remains tracked separately as `OML-QA-084`.
+
+### Files Changed
+
+- `messages/zh-HK.json`: polishes Chemistry navigation, camera status, route endpoint/action, and compare action labels.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: adds OML-QA-082 zh-HK phone/desktop route and compare assertions with screenshots.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- `git diff --check`: passed.
+- `pnpm i18n:validate -- --locale zh-HK`: passed with `valid: true`.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm exec eslint tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "OML-QA-082" --reporter=line`: passed, 1/1.
+- `pnpm typecheck`: passed.
+- Screenshot inspection passed for zh-HK phone and desktop route/compare artifacts.
+
 ## 2026-06-01 OML-QA-081 Chemistry Helper Copy Clipping
 
 Current state: `OML-QA-081` is complete. The Chemistry Reaction Mind Map now uses shorter hero and route-helper guidance in English and zh-HK, removes learning-critical line clamps from hero/route helper text, moves route limits into the route-results note, and keeps compact desktop toolbar status chips backed by full accessible labels/titles.
