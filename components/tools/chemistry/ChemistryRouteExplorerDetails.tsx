@@ -177,7 +177,7 @@ export function ChemistryRouteExplorerDetails({
                     <button
                       type="button"
                       data-testid={`chem-route-select-${route.id}`}
-                      className="block rounded-[12px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 [@media(any-pointer:coarse)]:px-2 [@media(any-pointer:coarse)]:py-2"
+                      className="block rounded-[12px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 [@media(any-pointer:coarse)]:min-w-11 [@media(any-pointer:coarse)]:px-2 [@media(any-pointer:coarse)]:py-2"
                       onClick={() => onSelectRoute(route.id)}
                     >
                       <p className="text-base font-semibold text-ink-950">
@@ -205,7 +205,7 @@ export function ChemistryRouteExplorerDetails({
                             <button
                               type="button"
                               data-testid={`chem-route-node-${route.id}-${nodeId}`}
-                              className="min-h-11 max-w-[13rem] rounded-full border border-line bg-paper px-3 py-2 text-left font-medium leading-5 text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:max-w-none"
+                              className="min-h-11 min-w-11 max-w-[13rem] rounded-full border border-line bg-paper px-3 py-2 text-left font-medium leading-5 text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:max-w-none"
                               onClick={() => onSelectNode(nodeId)}
                             >
                               {node.name}

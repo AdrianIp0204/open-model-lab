@@ -5,6 +5,7 @@ import { spawn } from "node:child_process";
 const root = process.cwd();
 const defaultSpecs = [
   "tests/e2e/chemistry-reaction-mind-map.spec.ts",
+  "tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts",
   "tests/e2e/circuit-builder.spec.ts",
   "tests/e2e/circuit-builder-visual-qa.spec.ts",
   "tests/e2e/account-behaviour-sweep.spec.ts",

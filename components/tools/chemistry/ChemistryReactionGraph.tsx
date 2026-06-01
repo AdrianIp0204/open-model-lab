@@ -1973,6 +1973,7 @@ export function ChemistryReactionGraph({
               aria-labelledby="chemistry-graph-zoom-status"
               aria-valuetext={`${zoomPercent}%`}
               className="h-11 min-w-0 flex-1 touch-pan-x accent-teal-600 [@media(any-pointer:coarse)]:!h-11 min-[1100px]:h-2 min-[1100px]:w-24 min-[1100px]:flex-none min-[1280px]:w-28"
+              style={{ caretColor: "transparent" }}
               onChange={handleZoomSliderChange}
             />
           </label>
