@@ -1212,6 +1212,118 @@ test("chemistry reaction mind map avoids mobile horizontal overflow and keeps co
   guard.assertNoActionableIssues();
 });
 
+test("chemistry reaction mind map puts the map inside the mobile first viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  for (const route of [
+    "/tools/chemistry-reaction-mind-map",
+    "/zh-HK/tools/chemistry-reaction-mind-map",
+  ]) {
+    await gotoAndExpectOk(page, route);
+    await waitForStableChemistryGraph(page);
+
+    const mobileFirstViewport = await page.evaluate(() => {
+      const viewportWidth = document.documentElement.clientWidth;
+      const scrollWidth = Math.max(
+        document.documentElement.scrollWidth,
+        document.body.scrollWidth,
+      );
+      const getElementMetrics = (selector: string) => {
+        const element = document.querySelector(selector);
+
+        if (!(element instanceof HTMLElement)) {
+          return null;
+        }
+
+        const rect = element.getBoundingClientRect();
+
+        return {
+          top: Math.round(rect.top),
+          bottom: Math.round(rect.bottom),
+          height: Math.round(rect.height),
+          scrollWidth: element.scrollWidth,
+          scrollHeight: element.scrollHeight,
+          clientWidth: element.clientWidth,
+          clientHeight: element.clientHeight,
+        };
+      };
+      const visibleMapNodeCount = Array.from(
+        document.querySelectorAll('[data-testid^="chem-node-"]'),
+      ).filter((element) => {
+        if (!(element instanceof HTMLElement)) {
+          return false;
+        }
+
+        const rect = element.getBoundingClientRect();
+
+        return (
+          rect.right > 0 &&
+          rect.left < window.innerWidth &&
+          rect.bottom > 0 &&
+          rect.top < window.innerHeight
+        );
+      }).length;
+
+      return {
+        horizontalOverflow: scrollWidth - viewportWidth,
+        heroTitle: getElementMetrics("h1"),
+        graphTitle: getElementMetrics('[data-onboarding-target="chemistry-graph"] h2'),
+        selectionSummary: getElementMetrics('[data-testid="chemistry-selection-summary"]'),
+        mapHint: getElementMetrics('[data-testid="chem-mobile-map-first-hint"]'),
+        graphViewport: getElementMetrics('[data-testid="chemistry-graph-viewport"]'),
+        toolbar: getElementMetrics('[data-testid="chemistry-graph-toolbar"]'),
+        routeControls: getElementMetrics('[data-testid="chemistry-route-controls"]'),
+        visibleMapNodeCount,
+      };
+    });
+
+    expect(mobileFirstViewport.horizontalOverflow, `${route} horizontal overflow`).toBeLessThanOrEqual(
+      1,
+    );
+    expect(mobileFirstViewport.graphViewport, `${route} graph viewport`).not.toBeNull();
+    expect(mobileFirstViewport.graphViewport?.top, `${route} graph viewport top`).toBeLessThan(
+      844,
+    );
+    expect(mobileFirstViewport.graphViewport?.height, `${route} graph viewport height`).toBeGreaterThanOrEqual(
+      320,
+    );
+    expect(mobileFirstViewport.visibleMapNodeCount, `${route} visible map content`).toBeGreaterThan(
+      0,
+    );
+    expect(mobileFirstViewport.mapHint, `${route} mobile hint`).not.toBeNull();
+    expect(mobileFirstViewport.mapHint?.bottom, `${route} mobile hint before map`).toBeLessThanOrEqual(
+      mobileFirstViewport.graphViewport?.top ?? 0,
+    );
+    expect(mobileFirstViewport.toolbar?.top, `${route} toolbar after map`).toBeGreaterThan(
+      mobileFirstViewport.graphViewport?.top ?? 0,
+    );
+    expect(mobileFirstViewport.routeControls?.top, `${route} route controls after map`).toBeGreaterThan(
+      mobileFirstViewport.graphViewport?.top ?? 0,
+    );
+
+    for (const [label, metrics] of [
+      ["hero title", mobileFirstViewport.heroTitle],
+      ["graph title", mobileFirstViewport.graphTitle],
+      ["selection summary", mobileFirstViewport.selectionSummary],
+      ["mobile hint", mobileFirstViewport.mapHint],
+    ] as const) {
+      expect(metrics, `${route} ${label}`).not.toBeNull();
+      expect(metrics?.scrollWidth, `${route} ${label} horizontal fit`).toBeLessThanOrEqual(
+        (metrics?.clientWidth ?? 0) + 1,
+      );
+      expect(metrics?.scrollHeight, `${route} ${label} vertical fit`).toBeLessThanOrEqual(
+        (metrics?.clientHeight ?? 0) + 2,
+      );
+    }
+  }
+
+  guard.assertNoActionableIssues();
+});
+
 test("chemistry reaction mind map keeps the graph viewport clipped inside the split panel on widescreen layouts", async ({
   page,
 }) => {

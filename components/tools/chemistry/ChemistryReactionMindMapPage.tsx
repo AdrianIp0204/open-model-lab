@@ -262,22 +262,22 @@ export function ChemistryReactionMindMapPage() {
   );
 
   return (
-    <section className="max-w-full space-y-3 overflow-x-clip sm:space-y-4">
-      <header className="page-band grid gap-3 p-3 sm:p-4 lg:grid-cols-[minmax(0,1fr)_6rem] lg:items-center">
-        <div className="space-y-2">
+    <section className="max-w-full space-y-2.5 overflow-x-clip sm:space-y-4">
+      <header className="page-band grid gap-2 p-2.5 sm:gap-3 sm:p-4 lg:grid-cols-[minmax(0,1fr)_6rem] lg:items-center">
+        <div className="space-y-1.5 sm:space-y-2">
           <div className="flex flex-wrap items-center gap-1.5">
             <span className="lab-label">{t("hero.eyebrow")}</span>
-            <span className="rounded-full border border-line bg-paper px-2.5 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-ink-600">
+            <span className="hidden rounded-full border border-line bg-paper px-2.5 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-ink-600 sm:inline-flex">
               {t("hero.familyCount", { count: nodes.length })}
             </span>
-            <span className="rounded-full border border-line bg-paper px-2.5 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-ink-600">
+            <span className="hidden rounded-full border border-line bg-paper px-2.5 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-ink-600 sm:inline-flex">
               {t("hero.pathwayCount", { count: edges.length })}
             </span>
           </div>
-          <h1 className="max-w-4xl text-[1.55rem] font-semibold leading-tight text-ink-950 sm:text-[2rem]">
+          <h1 className="max-w-4xl text-[1.28rem] font-semibold leading-snug text-ink-950 sm:text-[2rem] sm:leading-tight">
             {t("hero.title")}
           </h1>
-          <p className="line-clamp-2 max-w-3xl text-sm leading-6 text-ink-700">
+          <p className="hidden max-w-3xl text-sm leading-6 text-ink-700 sm:line-clamp-2 sm:block">
             {t("hero.description")}
           </p>
         </div>
@@ -299,12 +299,12 @@ export function ChemistryReactionMindMapPage() {
       >
         <article
           data-onboarding-target="chemistry-graph"
-          className="lab-panel min-w-0 max-w-full space-y-2.5 p-2.5 sm:p-3 min-[1100px]:grid min-[1100px]:min-h-0 min-[1100px]:grid-rows-[auto_1fr] min-[1100px]:gap-2 min-[1100px]:space-y-0 min-[1100px]:overflow-hidden"
+          className="lab-panel min-w-0 max-w-full space-y-2 p-2 sm:space-y-2.5 sm:p-3 min-[1100px]:grid min-[1100px]:min-h-0 min-[1100px]:grid-rows-[auto_1fr] min-[1100px]:gap-2 min-[1100px]:space-y-0 min-[1100px]:overflow-hidden"
         >
-          <div className="grid min-w-0 max-w-full gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-between">
-            <div className="flex min-w-0 flex-wrap items-center gap-2">
-              <p className="lab-label">{t("graph.eyebrow")}</p>
-              <h2 className="truncate text-sm font-semibold text-ink-950 sm:text-base">{t("graph.title")}</h2>
+          <div className="grid min-w-0 max-w-full gap-1.5 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:gap-2">
+            <div className="flex min-w-0 flex-wrap items-center gap-1.5 sm:gap-2">
+              <p className="lab-label max-[639px]:sr-only">{t("graph.eyebrow")}</p>
+              <h2 className="min-w-0 text-[0.95rem] font-semibold leading-snug text-ink-950 sm:truncate sm:text-base sm:leading-tight">{t("graph.title")}</h2>
               <p className="sr-only">{t("graph.description")}</p>
               <p
                 id="chemistry-interaction-guidance"

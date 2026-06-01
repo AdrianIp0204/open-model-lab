@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-076 Chemistry Mobile Map-First Viewport
+
+Current state: `OML-QA-076` is complete. The Chemistry Reaction Mind Map phone layout now shows a compact title, selection summary, short map-first hint, and the actual reaction map inside the first 390x844 viewport before the toolbar, keyboard shortcut help, flow legend, and route explorer controls.
+
+### Files Changed
+
+- `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`: compacts the mobile hero and graph shell so introductory copy and count chips do not push the map below the fold.
+- `components/tools/chemistry/ChemistryReactionGraph.tsx`: reorders the mobile graph internals so the map appears before the toolbar/status/shortcut/legend chrome while keeping the selection summary and a concise next-action hint visible.
+- `messages/en.json` and `messages/zh-HK.json`: add localized mobile map-first hint copy.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: adds a regression for English and zh-HK 390x844 first-viewport map visibility, no horizontal overflow, and fitted first-screen copy.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/tools/chemistry/ChemistryReactionMindMapPage.tsx components/tools/chemistry/ChemistryReactionGraph.tsx tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "mobile horizontal|mobile first viewport" --reporter=line`: passed, 2/2.
+- `pnpm typecheck`: passed.
+- Phone screenshot/metrics spot-check: English graph viewport starts at `top=344`, zh-HK at `top=324`, both with `horizontalOverflow: 0` and visible map nodes in the first viewport.
+
+Residual risk: route-result ergonomics and touch-hit areas are intentionally left to the following Chemistry tasks already queued as `OML-QA-077` and `OML-QA-078`.
+
 ## 2026-06-01 OML-QA-075 Circuit Builder Visual QA Sweep
 
 Current state: `OML-QA-075` is complete. Circuit Builder now has a dedicated visual/responsive Playwright QA sweep for English and zh-HK, signed-out/free/Supporter account states, phone/tablet/desktop/wide breakpoints, and the core interaction states that previously relied on manual review. The sweep is also included in the local QA sweep runner.

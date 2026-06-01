@@ -1872,14 +1872,20 @@ export function ChemistryReactionGraph({
   return (
     <div
       className={joinClasses(
-        "flex h-full min-h-0 max-w-full flex-col gap-2 overflow-hidden",
+        "flex h-full min-h-0 max-w-full flex-col gap-1.5 overflow-hidden sm:gap-2",
         className,
       )}
     >
+      <p
+        data-testid="chem-mobile-map-first-hint"
+        className="order-1 rounded-[14px] border border-teal-500/20 bg-teal-500/10 px-3 py-2 text-xs font-medium leading-5 text-teal-900 min-[1100px]:sr-only"
+      >
+        {t("navigation.mobileMapFirstHint")}
+      </p>
       <div
         data-testid="chemistry-graph-toolbar"
         data-chem-toolbar-height="stable"
-        className="flex min-h-10 min-w-0 max-w-full flex-col items-stretch gap-2 overflow-visible min-[1100px]:max-h-10 min-[1100px]:flex-row min-[1100px]:items-start min-[1100px]:justify-between min-[1100px]:overflow-hidden"
+        className="order-3 flex min-h-10 min-w-0 max-w-full flex-col items-stretch gap-2 overflow-visible rounded-[18px] border border-line/70 bg-paper/82 p-2 min-[1100px]:order-none min-[1100px]:max-h-10 min-[1100px]:flex-row min-[1100px]:items-start min-[1100px]:justify-between min-[1100px]:overflow-hidden min-[1100px]:rounded-none min-[1100px]:border-0 min-[1100px]:bg-transparent min-[1100px]:p-0"
       >
         <div
           data-testid="chemistry-graph-toolbar-status"
@@ -2003,7 +2009,7 @@ export function ChemistryReactionGraph({
       </div>
       <div
         data-testid="chem-keyboard-shortcuts"
-        className="flex flex-wrap items-center gap-2 text-xs text-ink-600 min-[1100px]:sr-only"
+        className="order-4 flex flex-wrap items-center gap-2 text-xs text-ink-600 min-[1100px]:sr-only"
       >
         <span className="font-semibold uppercase tracking-[0.16em] text-ink-500">
           {t("navigation.shortcutsLabel")}
@@ -2022,7 +2028,7 @@ export function ChemistryReactionGraph({
         data-testid="chem-graph-flow-rail"
         data-chem-active-flow-bands={activeGraphFlowBandIds.join(" ")}
         data-chem-active-flow-summary={activeGraphFlowSummary}
-        className="grid gap-2 rounded-[20px] border border-line/70 bg-paper/82 p-3 text-xs text-ink-600 shadow-sm min-[640px]:grid-cols-[auto_1fr] min-[640px]:items-center min-[1100px]:sr-only"
+        className="order-5 grid gap-2 rounded-[20px] border border-line/70 bg-paper/82 p-3 text-xs text-ink-600 shadow-sm min-[640px]:grid-cols-[auto_1fr] min-[640px]:items-center min-[1100px]:sr-only"
       >
         <span className="font-semibold uppercase tracking-[0.16em] text-ink-500">
           {t("graphStatus.flow.active", { stages: activeGraphFlowSummary })}
@@ -2108,7 +2114,7 @@ export function ChemistryReactionGraph({
         id="chemistry-graph-legend"
         data-testid="chem-graph-legend"
         data-chem-legend="direction focus route"
-        className="flex flex-wrap items-center gap-2 rounded-[18px] border border-line/70 bg-paper/80 px-3 py-2 text-xs text-ink-600 shadow-sm min-[1100px]:sr-only"
+        className="order-6 flex flex-wrap items-center gap-2 rounded-[18px] border border-line/70 bg-paper/80 px-3 py-2 text-xs text-ink-600 shadow-sm min-[1100px]:sr-only"
       >
         <span className="font-semibold uppercase tracking-[0.16em] text-ink-500">
           {t("graphStatus.legend.label")}
@@ -2183,7 +2189,7 @@ export function ChemistryReactionGraph({
         aria-describedby={graphDescriptionIds}
         aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight + - 0"
         className={joinClasses(
-          "relative min-h-[31rem] flex-1 overflow-hidden rounded-[22px] border border-line bg-paper-strong/70 select-none touch-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper min-[1100px]:min-h-0",
+          "order-2 relative min-h-[23.5rem] flex-1 overflow-hidden rounded-[22px] border border-line bg-paper-strong/70 select-none touch-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:min-h-[31rem] min-[1100px]:order-none min-[1100px]:min-h-0",
           isPanning ? "cursor-grabbing" : "cursor-grab",
         )}
         onWheel={handleWheel}

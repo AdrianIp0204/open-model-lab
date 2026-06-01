@@ -768,13 +768,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P0 - Mobile First Use / Interaction Accessibility
 
-- [ ] **OML-QA-076: Rework the Chemistry Reaction Mind Map mobile first viewport so the map is actually visible before the tool chrome.**
+- [x] **OML-QA-076: Rework the Chemistry Reaction Mind Map mobile first viewport so the map is actually visible before the tool chrome.**
   - Evidence: manual screenshots and metrics under `output/chemistry-reaction-mind-map-qa-2026-05-31/` show `/tools/chemistry-reaction-mind-map` at `390x844` with the graph viewport starting at `top=1027`, route controls at `top=1546`, and the inspector at `top=1828`; the first viewport contains the hero, map header, status chips, zoom controls, keyboard shortcut help, flow legend, and map guidance, but not the actual reaction map. The zh-HK phone first viewport has the same shape with the graph viewport at `top=913`.
   - UX problem: the page is meant to be a map-first organic chemistry tool, but a phone user sees mostly explanatory/control chrome before the graph. First-use clarity suffers because the primary object of interaction is below the fold.
   - Affected area: `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`, `components/tools/chemistry/ChemistryReactionGraph.tsx`, mobile graph toolbar/status/legend layout, route-control placement, and `messages/en.json` / `messages/zh-HK.json` helper copy.
   - Fix direction: make the phone first viewport show a compact title, one short instruction, and the graph viewport. Move keyboard shortcuts, detailed legend, flow-band explanation, and route explorer controls into compact disclosures or a post-map panel. Keep the selection summary visible, but avoid letting status chips and controls push the graph below the fold.
   - Validation: at `390x844`, the graph viewport should begin inside the first viewport and the user should see at least part of the actual reaction map plus one clear next action; repeat for `/zh-HK/tools/chemistry-reaction-mind-map` with no horizontal overflow or clipped first-screen copy.
 
+  - Completion note (2026-06-01 HKT): Reworked the phone layout so the Chemistry map appears in the first viewport before toolbar, shortcut, legend, and route-control chrome in English and zh-HK.
+  - Validation: git diff --check; targeted eslint; Playwright mobile horizontal/mobile first viewport chemistry gates; pnpm typecheck; phone screenshot/metrics spot-check
 - [ ] **OML-QA-077: Give Chemistry Reaction Mind Map touch interactions real hit areas without making the graph visually bulky.**
   - Evidence: the manual sweep found visible clickable pathway labels around `73x16` on tablet, `46x10` after a no-route desktop state, and route-sequence node chips around `34px` high on mobile route results; the zoom slider itself is `24px` high on phone/tablet and `8px` high on desktop, while desktop zoom buttons are `38px` high. Existing E2E only guards a subset of controls and does not fail on pathway-label or route-chip touch targets.
   - UX/accessibility problem: a reaction graph depends on node, edge, zoom, and route-chip interaction. Small hit areas make the tool harder to use on touch screens and make pathway selection feel fussy even when the visual label should remain compact.

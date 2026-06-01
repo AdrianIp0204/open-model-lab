@@ -270,6 +270,7 @@
       "zoomIn": "Zoom in",
       "zoomOut": "Zoom out",
       "fitToView": "Fit to view",
+      "mobileMapFirstHint": "Drag the map first. Tap a family or pathway when you want details.",
       "shortcutsLabel": "Keyboard shortcuts",
       "shortcutPan": "Arrow keys pan",
       "shortcutZoom": "+ / - zoom",
