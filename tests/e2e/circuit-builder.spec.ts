@@ -12,6 +12,7 @@ const draftStorageKey = "open-model-lab.circuit-builder.draft.v1";
 const localeHandoffStorageKey = "open-model-lab:circuit-builder-locale-handoff:v1";
 const onboardingStorageKey = "open-model-lab.onboarding.v1";
 const renderModeStorageKey = "open-model-lab:circuit-builder-render-mode:v1";
+const localSavedCircuitsStorageKey = "open-model-lab.circuit-builder.saved-circuits.v1";
 const presetFitViewports = [
   { name: "phone", width: 390, height: 844 },
   { name: "tablet", width: 820, height: 1180 },
@@ -1499,6 +1500,106 @@ test("saves and reopens an account-backed circuit for an eligible user", async (
   const svg = await fs.readFile(svgPath, "utf8");
 
   expect(svg).toContain("@ 0% light");
+});
+
+test("shows invalid JSON import recovery beside the File menu action", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+
+  await openFileActions(page);
+  await page
+    .locator('input[type="file"][aria-label="Load circuit JSON file"]')
+    .setInputFiles({
+      name: "broken-circuit.json",
+      mimeType: "application/json",
+      buffer: Buffer.from("{not valid json"),
+    });
+
+  await expect(page.getByRole("status")).toContainText("The selected file is not valid JSON.");
+  const fileRecovery = page.locator('[data-circuit-inline-recovery="file"]');
+  await expect(fileRecovery).toBeVisible();
+  await expect(fileRecovery).toContainText("The selected file is not valid JSON.");
+  await expect(fileRecovery.getByRole("button", { name: "Choose another file" })).toBeVisible();
+  await expect(fileRecovery.getByRole("button", { name: "Download current JSON" })).toBeVisible();
+});
+
+test("shows account-save failure recovery beside the account save form", async ({
+  page,
+}) => {
+  browserGuard.allowIssue(/Failed to load resource: the server responded with a status of 400 \(Bad Request\)/i);
+  await setHarnessSession(page, "signed-in-premium");
+  await page.route("**/api/account/circuit-saves", async (route) => {
+    const method = route.request().method();
+    if (method === "GET") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ items: [] }),
+      });
+      return;
+    }
+    if (method === "POST") {
+      await route.fulfill({
+        status: 400,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "Account save failed in test." }),
+      });
+      return;
+    }
+    await route.fallback();
+  });
+
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+  await loadLdrPreset(page);
+  await openSaveActions(page);
+  await page.getByRole("button", { name: "Save to account" }).click();
+  await page.getByRole("textbox", { name: "Account save name" }).fill("Cloud failure");
+  await page.getByRole("button", { name: "Save to account" }).click();
+
+  await expect(page.getByRole("status")).toContainText("Account save failed in test.");
+  const accountRecovery = page.locator('[data-circuit-inline-recovery="account-saves"]');
+  await expect(accountRecovery).toBeVisible();
+  await expect(accountRecovery).toContainText("Account save failed in test.");
+  await expect(accountRecovery.getByRole("button", { name: "Retry account save" })).toBeVisible();
+  await expect(accountRecovery.getByRole("button", { name: "Keep local save" })).toBeVisible();
+  await expect(accountRecovery.getByRole("button", { name: "Download current JSON" })).toBeVisible();
+});
+
+test("shows unreadable local-save recovery beside the Saves menu controls", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.addInitScript((key) => {
+    window.localStorage.setItem(
+      key,
+      JSON.stringify({
+        version: "v1",
+        items: [
+          {
+            id: "bad-local-save",
+            title: "Bad local save",
+            createdAt: "2026-05-31T00:00:00.000Z",
+            updatedAt: "2026-05-31T00:00:00.000Z",
+            document: { components: "not a circuit document" },
+          },
+        ],
+      }),
+    );
+  }, localSavedCircuitsStorageKey);
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+
+  await expect(page.getByRole("status")).toContainText("Removed 1 unreadable saved circuit");
+  await openSaveActions(page);
+  const localRecovery = page.locator('[data-circuit-toolbar-menu="saves"] [data-circuit-inline-recovery="local-saves"]');
+  await expect(localRecovery).toBeVisible();
+  await expect(localRecovery).toContainText("Removed 1 unreadable saved circuit");
+  await expect(localRecovery.getByRole("button", { name: "Keep local save" })).toBeVisible();
+  await expect(localRecovery.getByRole("button", { name: "Download current JSON" })).toBeVisible();
 });
 
 test("selects a wire through the actual workspace hit target and deletes it coherently", async ({

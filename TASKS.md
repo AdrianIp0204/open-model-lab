@@ -742,12 +742,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
   - Completion note (2026-06-01 HKT): Added intent category filters, grouped component sections, global search-aware counts, and hover/focus previews with terminal and behavior details; mobile category filters now meet the 44px touch floor.
   - Validation: git diff --check; targeted eslint; circuit-builder component vitest 72/72; Playwright category/search gate; Playwright palette visual audit with desktop/phone screenshots; pnpm typecheck
-- [ ] **OML-QA-074: Make Circuit Builder error and recovery states visible near the action that caused them.**
+- [x] **OML-QA-074: Make Circuit Builder error and recovery states visible near the action that caused them.**
   - Evidence: the manual invalid JSON interaction recorded the status `The selected file is not valid JSON.` in `summary.json`, but `output/circuit-builder-qa-2026-05-31/desktop-invalid-json-error.png` does not make that error visually obvious near the `File` / load action. The same risk applies to account-save load/save failures, unreadable local saves, and import validation failures.
   - UX/accessibility problem: a status-region-only error is easy to miss in a dense editor. File/account/save errors should appear next to the menu or form that triggered them and explain the next recovery step.
   - Affected area: file import handling in `CircuitBuilderPage.tsx`, `CircuitToolbarMenu`, account save panels, local save panels, status region styling, and error copy.
   - Fix direction: add inline error rows inside the open `File` or `Saves` menu, keep the global status for screen readers, and include next actions such as `Choose another file`, `Download current JSON`, `Retry account save`, or `Keep local save`.
   - Validation: Playwright tests for invalid JSON, account-save failure, and unreadable local save assert both the live-region status and a visible inline recovery message beside the relevant control.
+
+  - Completion note (2026-06-01 HKT): Added visible inline recovery rows near Circuit Builder File, Saves, and Account Saves actions for invalid JSON imports, unreadable local saves, and account-save failures while keeping the global status region updated.
+  - Validation: git diff --check; targeted eslint; Playwright recovery-state gate for invalid JSON, account-save failure, and unreadable local saves; pnpm typecheck
 
 ### P2 - Durable Circuit Builder QA Coverage
 

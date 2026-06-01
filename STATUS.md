@@ -1,5 +1,24 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-074 Circuit Builder Inline Recovery States
+
+Current state: `OML-QA-074` is complete. Circuit Builder now keeps global status-region updates for errors while also rendering inline recovery rows beside the File, local Saves, and Account Saves controls that caused the problem. Invalid JSON imports, unreadable local saves, local-save write failures, and account save/load/update/rename/delete failures now offer nearby recovery actions such as choosing another file, retrying account save, keeping work local, or downloading the current JSON.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitBuilderPage.tsx`: adds shared inline recovery rows and wires file import, local save, and account save failure states to visible action-adjacent recovery controls.
+- `tests/e2e/circuit-builder.spec.ts`: covers invalid JSON import recovery, account-save failure recovery, and unreadable local-save recovery with live-region plus inline visibility assertions.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitBuilderPage.tsx tests/e2e/circuit-builder.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "invalid JSON import recovery|account-save failure recovery|unreadable local-save recovery" --reporter=line`: passed, 3/3.
+- `pnpm typecheck`: passed.
+
+Residual risk: recovery rows currently reuse compact toolbar button styling inside dense menus. That keeps the error close to the action today, but future save/file menu growth may need a dedicated stacked action pattern for very narrow layouts.
+
 ## 2026-06-01 OML-QA-073 Circuit Builder Component Library Categories
 
 Current state: `OML-QA-073` is complete. The Circuit Builder component library now groups parts by learner intent, adds category filter chips with search-aware counts, keeps search global across categories, and shows a larger hover/focus preview with each selected part's terminal and behavior details. Mobile category filters meet the 44px touch target floor.

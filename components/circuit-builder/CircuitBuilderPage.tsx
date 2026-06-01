@@ -9,6 +9,7 @@ import {
   useState,
   useSyncExternalStore,
   type ChangeEvent,
+  type ReactNode,
 } from "react";
 import { PremiumFeatureNotice } from "@/components/account/PremiumFeatureNotice";
 import { useAccountSession } from "@/lib/account/client";
@@ -172,6 +173,29 @@ const circuitRenderModeOptions: CircuitRenderMode[] = ["schematic", "modern"];
 
 function circuitStatusText(copy: CircuitBuilderCopy, english: string, zhHk: string) {
   return copy.locale === "zh-HK" ? zhHk : english;
+}
+
+function InlineRecoveryMessage({
+  surface,
+  title,
+  message,
+  children,
+}: {
+  surface: "file" | "local-saves" | "account-saves";
+  title: string;
+  message: string;
+  children?: ReactNode;
+}) {
+  return (
+    <div
+      data-circuit-inline-recovery={surface}
+      className="rounded-2xl border border-red-500/25 bg-red-50 px-3 py-2 text-xs leading-5 text-red-950"
+    >
+      <p className="font-semibold text-red-800">{title}</p>
+      <p className="mt-1">{message}</p>
+      {children ? <div className="mt-2 flex flex-wrap gap-2">{children}</div> : null}
+    </div>
+  );
 }
 
 function CircuitRenderModeSwitch({
@@ -815,6 +839,15 @@ export function CircuitBuilderPage({
   const [hasHydrated, setHasHydrated] = useState(false);
   const [localeHandoffReady, setLocaleHandoffReady] = useState(false);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
+  const [fileRecoveryMessage, setFileRecoveryMessage] = useState<string | null>(null);
+  const [localSaveRecovery, setLocalSaveRecovery] = useState<{
+    kind: "unreadable" | "write";
+    message: string;
+  } | null>(null);
+  const [accountSaveRecovery, setAccountSaveRecovery] = useState<{
+    kind: "load" | "save" | "update" | "rename" | "delete";
+    message: string;
+  } | null>(null);
   const [renderMode, setRenderMode] = useState<CircuitRenderMode>("schematic");
   const [activeChallengeId, setActiveChallengeId] = useState<CircuitBuilderChallengeId>("battery-resistor-loop");
   const [guideCheckResult, setGuideCheckResult] = useState<CircuitBuilderChallengeCheck | null>(null);
@@ -1134,13 +1167,13 @@ export function CircuitBuilderPage({
   useEffect(() => {
     const discardedCount = getSavedCircuitsDiscardedCount();
     if (discardedCount > 0) {
-      setExportStatus(
-        circuitStatusText(
-          copy,
-          `Removed ${discardedCount} unreadable saved circuit${discardedCount === 1 ? "" : "s"} from local storage.`,
-          `已從本機儲存移除 ${discardedCount} 個無法讀取的已儲存電路。`,
-        ),
+      const message = circuitStatusText(
+        copy,
+        `Removed ${discardedCount} unreadable saved circuit${discardedCount === 1 ? "" : "s"} from local storage.`,
+        `已從本機儲存移除 ${discardedCount} 個無法讀取的已儲存電路。`,
       );
+      setExportStatus(message);
+      setLocalSaveRecovery({ kind: "unreadable", message });
     }
   }, [copy]);
 
@@ -1154,16 +1187,27 @@ export function CircuitBuilderPage({
     try {
       const payload = await listAccountCircuitSaves();
       setAccountSavedCircuits(payload.items);
+      setAccountSaveRecovery(null);
     } catch (error) {
-      setExportStatus(
+      const message =
         error instanceof Error
           ? error.message
-          : "Account-saved circuits could not be loaded right now.",
+          : circuitStatusText(
+              copy,
+              "Account-saved circuits could not be loaded right now.",
+              "目前無法載入帳戶已儲存電路。",
+            );
+      setExportStatus(message);
+      setAccountSaveRecovery(
+        {
+          kind: "load",
+          message,
+        },
       );
     } finally {
       setAccountSavedCircuitsLoading(false);
     }
-  }, [canUseAccountSaves]);
+  }, [canUseAccountSaves, copy]);
 
   useEffect(() => {
     if (!canUseAccountSaves) {
@@ -1538,6 +1582,7 @@ export function CircuitBuilderPage({
       const document = fitLoadedCircuitDocument(parseCircuitDocumentJson(await file.text()));
       dispatch({ type: "load-document", document, label: "load JSON" });
       setActiveAccountSavedCircuitId(null);
+      setFileRecoveryMessage(null);
       setExportStatus(
         `${wiringStatusPrefix}${circuitStatusText(
           copy,
@@ -1547,18 +1592,90 @@ export function CircuitBuilderPage({
       );
       focusWorkspaceRegion();
     } catch (error) {
-      setExportStatus(
+      const message =
         error instanceof Error
           ? error.message
           : circuitStatusText(
               copy,
               "The selected file could not be loaded as a circuit JSON document.",
               "無法把所選檔案載入為電路 JSON 文件。",
-            ),
-      );
+            );
+      setFileRecoveryMessage(message);
+      setExportStatus(message);
     } finally {
       event.target.value = "";
     }
+  }
+
+  function downloadJsonForFileRecovery() {
+    setFileRecoveryMessage(null);
+    downloadJsonDocument();
+  }
+
+  function keepLocalSaveRecovery() {
+    setLocalSaveRecovery(null);
+    setExportStatus(
+      circuitStatusText(
+        copy,
+        "Kept the current local circuit state. Download JSON if you want an extra backup.",
+        "已保留目前的本機電路狀態。如需額外備份，可下載 JSON。",
+      ),
+    );
+  }
+
+  function retryLocalSaveRecovery() {
+    if (activeLocalSavedCircuit) {
+      updateCurrentSavedCircuit();
+      return;
+    }
+    if (savePanelOpen) {
+      confirmSaveLocally();
+      return;
+    }
+    openSavePanel();
+  }
+
+  function downloadJsonForSaveRecovery() {
+    setLocalSaveRecovery(null);
+    setAccountSaveRecovery(null);
+    downloadJsonDocument();
+  }
+
+  function keepAccountWorkLocally() {
+    setAccountSaveRecovery(null);
+    setExportStatus(
+      circuitStatusText(
+        copy,
+        "Kept the circuit local. Use Save locally to keep a browser save, or Download JSON for a file backup.",
+        "已把電路保留在本機。可使用「本機儲存」保留瀏覽器儲存，或下載 JSON 作檔案備份。",
+      ),
+    );
+    if (activeLocalSavedCircuit) {
+      updateCurrentSavedCircuit();
+      return;
+    }
+    if (canSaveCurrentCircuit) {
+      openSavePanel();
+    }
+  }
+
+  function retryAccountSaveRecovery() {
+    if (!accountSaveRecovery) {
+      return;
+    }
+    if (accountSaveRecovery.kind === "load") {
+      void refreshAccountSavedCircuits();
+      return;
+    }
+    if (accountSaveRecovery.kind === "update" && activeAccountSavedCircuit) {
+      void updateCurrentAccountSave();
+      return;
+    }
+    if (accountSavePanelOpen) {
+      void confirmSaveToAccount();
+      return;
+    }
+    openAccountSavePanel();
   }
 
   function rotateSelectedComponent() {
@@ -2043,38 +2160,66 @@ export function CircuitBuilderPage({
   }
 
   function confirmSaveLocally() {
-    const result = saveSavedCircuit({
-      title: saveNameDraft,
-      document: state.document,
-    });
-    dispatch({
-      type: "set-active-saved-circuit-ref",
-      savedCircuitRef: { kind: "local", id: result.savedCircuit.id },
-    });
-    setActiveAccountSavedCircuitId(null);
-    setSavePanelOpen(false);
-    setSaveNameDraft("");
-    setExportStatus(circuitStatusText(
-      copy,
-      `${result.savedCircuit.title} is up to date`,
-      `「${result.savedCircuit.title}」已是最新`,
-    ));
+    try {
+      const result = saveSavedCircuit({
+        title: saveNameDraft,
+        document: state.document,
+      });
+      dispatch({
+        type: "set-active-saved-circuit-ref",
+        savedCircuitRef: { kind: "local", id: result.savedCircuit.id },
+      });
+      setActiveAccountSavedCircuitId(null);
+      setSavePanelOpen(false);
+      setSaveNameDraft("");
+      setLocalSaveRecovery(null);
+      setExportStatus(circuitStatusText(
+        copy,
+        `${result.savedCircuit.title} is up to date`,
+        `「${result.savedCircuit.title}」已是最新`,
+      ));
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : circuitStatusText(
+              copy,
+              "Local save could not be written right now.",
+              "目前無法寫入本機儲存。",
+            );
+      setLocalSaveRecovery({ kind: "write", message });
+      setExportStatus(message);
+    }
   }
 
   function updateCurrentSavedCircuit() {
     if (!activeLocalSavedCircuit) {
       return;
     }
-    const result = saveSavedCircuit({
-      title: activeLocalSavedCircuit.title,
-      document: state.document,
-      existingId: activeLocalSavedCircuit.id,
-    });
-    setExportStatus(circuitStatusText(
-      copy,
-      `${result.savedCircuit.title} is up to date`,
-      `「${result.savedCircuit.title}」已是最新`,
-    ));
+    try {
+      const result = saveSavedCircuit({
+        title: activeLocalSavedCircuit.title,
+        document: state.document,
+        existingId: activeLocalSavedCircuit.id,
+      });
+      setLocalSaveRecovery(null);
+      setExportStatus(circuitStatusText(
+        copy,
+        `${result.savedCircuit.title} is up to date`,
+        `「${result.savedCircuit.title}」已是最新`,
+      ));
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : circuitStatusText(
+              copy,
+              "Local save could not be updated right now.",
+              "目前無法更新本機儲存。",
+            );
+      setLocalSaveRecovery({ kind: "write", message });
+      setExportStatus(message);
+    }
   }
 
   function openSavedCircuit(savedCircuitId: string) {
@@ -2093,6 +2238,7 @@ export function CircuitBuilderPage({
     setActiveAccountSavedCircuitId(null);
     setEditingSavedCircuitId(null);
     setRenameDraft("");
+    setLocalSaveRecovery(null);
     setExportStatus(`${wiringStatusPrefix}${circuitStatusText(
       copy,
       `Opened ${savedCircuit.title}.`,
@@ -2169,21 +2315,23 @@ export function CircuitBuilderPage({
       dispatch({ type: "set-active-saved-circuit-ref", savedCircuitRef: null });
       setAccountSavePanelOpen(false);
       setAccountSaveNameDraft("");
+      setAccountSaveRecovery(null);
       setExportStatus(circuitStatusText(
         copy,
         `Saved to account as ${result.savedCircuit.title}.`,
         `已儲存到帳戶為「${result.savedCircuit.title}」。`,
       ));
     } catch (error) {
-      setExportStatus(
+      const message =
         error instanceof Error
           ? error.message
           : circuitStatusText(
               copy,
               "Account-backed save could not be created right now.",
               "目前無法建立帳戶儲存。",
-            ),
-      );
+            );
+      setAccountSaveRecovery({ kind: "save", message });
+      setExportStatus(message);
     }
   }
 
@@ -2199,21 +2347,23 @@ export function CircuitBuilderPage({
         document: state.document,
       });
       setAccountSavedCircuits(result.items);
+      setAccountSaveRecovery(null);
       setExportStatus(circuitStatusText(
         copy,
         `Updated account save ${result.savedCircuit.title}.`,
         `已更新帳戶儲存「${result.savedCircuit.title}」。`,
       ));
     } catch (error) {
-      setExportStatus(
+      const message =
         error instanceof Error
           ? error.message
           : circuitStatusText(
               copy,
               "Account-backed save could not be updated right now.",
               "目前無法更新帳戶儲存。",
-            ),
-      );
+            );
+      setAccountSaveRecovery({ kind: "update", message });
+      setExportStatus(message);
     }
   }
 
@@ -2250,6 +2400,7 @@ export function CircuitBuilderPage({
     setActiveAccountSavedCircuitId(savedCircuit.id);
     setEditingAccountSavedCircuitId(null);
     setAccountRenameDraft("");
+    setAccountSaveRecovery(null);
     setExportStatus(`${wiringStatusPrefix}${circuitStatusText(
       copy,
       `Opened account save ${savedCircuit.title}.`,
@@ -2277,17 +2428,19 @@ export function CircuitBuilderPage({
       setAccountSavedCircuits(result.items);
       setEditingAccountSavedCircuitId(null);
       setAccountRenameDraft("");
+      setAccountSaveRecovery(null);
       setExportStatus(circuitStatusText(
         copy,
         `Renamed account save to ${result.savedCircuit.title}.`,
         `已將帳戶儲存重新命名為「${result.savedCircuit.title}」。`,
       ));
     } catch (error) {
-      setExportStatus(
+      const message =
         error instanceof Error
           ? error.message
-          : circuitStatusText(copy, "Account save rename failed.", "重新命名帳戶儲存失敗。"),
-      );
+          : circuitStatusText(copy, "Account save rename failed.", "重新命名帳戶儲存失敗。");
+      setAccountSaveRecovery({ kind: "rename", message });
+      setExportStatus(message);
     }
   }
 
@@ -2302,13 +2455,15 @@ export function CircuitBuilderPage({
         setEditingAccountSavedCircuitId(null);
         setAccountRenameDraft("");
       }
+      setAccountSaveRecovery(null);
       setExportStatus(circuitStatusText(copy, "Deleted account-saved circuit.", "已刪除帳戶已儲存電路。"));
     } catch (error) {
-      setExportStatus(
+      const message =
         error instanceof Error
           ? error.message
-          : circuitStatusText(copy, "Account save deletion failed.", "刪除帳戶儲存失敗。"),
-      );
+          : circuitStatusText(copy, "Account save deletion failed.", "刪除帳戶儲存失敗。");
+      setAccountSaveRecovery({ kind: "delete", message });
+      setExportStatus(message);
     }
   }
 
@@ -2732,6 +2887,26 @@ export function CircuitBuilderPage({
         ? copy.toolbar.svgWarning
         : activeToolDetail
   );
+  const fileRecoveryTitle = circuitStatusText(
+    copy,
+    "File import needs attention",
+    "檔案匯入需要處理",
+  );
+  const localSaveRecoveryTitle = circuitStatusText(
+    copy,
+    "Local save needs attention",
+    "本機儲存需要處理",
+  );
+  const accountSaveRecoveryTitle = circuitStatusText(
+    copy,
+    "Account save needs attention",
+    "帳戶儲存需要處理",
+  );
+  const retryLocalSaveLabel = circuitStatusText(copy, "Retry local save", "重試本機儲存");
+  const keepLocalSaveLabel = circuitStatusText(copy, "Keep local save", "保留本機儲存");
+  const retryAccountSaveLabel = circuitStatusText(copy, "Retry account save", "重試帳戶儲存");
+  const downloadCurrentJsonLabel = circuitStatusText(copy, "Download current JSON", "下載目前 JSON");
+  const chooseAnotherFileLabel = circuitStatusText(copy, "Choose another file", "選擇另一個檔案");
   const desktopEnvironmentControl = (
     <div className="hidden xl:block">
       <CircuitEnvironmentControl
@@ -2937,6 +3112,38 @@ export function CircuitBuilderPage({
           </span>
         </div>
 
+        {localSaveRecovery ? (
+          <InlineRecoveryMessage
+            surface="local-saves"
+            title={localSaveRecoveryTitle}
+            message={localSaveRecovery.message}
+          >
+            {localSaveRecovery.kind === "write" ? (
+              <button
+                type="button"
+                className={toolbarButtonClass}
+                onClick={retryLocalSaveRecovery}
+              >
+                {retryLocalSaveLabel}
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className={toolbarButtonClass}
+              onClick={keepLocalSaveRecovery}
+            >
+              {keepLocalSaveLabel}
+            </button>
+            <button
+              type="button"
+              className={toolbarButtonClass}
+              onClick={downloadJsonForSaveRecovery}
+            >
+              {downloadCurrentJsonLabel}
+            </button>
+          </InlineRecoveryMessage>
+        ) : null}
+
         {savePanelOpen ? (
           <div className="rounded-[22px] border border-line bg-paper p-4">
             <label className="block">
@@ -2969,6 +3176,32 @@ export function CircuitBuilderPage({
                 {copy.saves.cancel}
               </button>
             </div>
+            {localSaveRecovery ? (
+              <div className="mt-3">
+                <InlineRecoveryMessage
+                  surface="local-saves"
+                  title={localSaveRecoveryTitle}
+                  message={localSaveRecovery.message}
+                >
+                  {localSaveRecovery.kind === "write" ? (
+                    <button
+                      type="button"
+                      className={toolbarButtonClass}
+                      onClick={retryLocalSaveRecovery}
+                    >
+                      {retryLocalSaveLabel}
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    className={toolbarButtonClass}
+                    onClick={downloadJsonForSaveRecovery}
+                  >
+                    {downloadCurrentJsonLabel}
+                  </button>
+                </InlineRecoveryMessage>
+              </div>
+            ) : null}
           </div>
         ) : null}
 
@@ -3106,6 +3339,36 @@ export function CircuitBuilderPage({
             </div>
           ) : (
             <div className="mt-4 space-y-4">
+              {accountSaveRecovery && !accountSavePanelOpen ? (
+                <InlineRecoveryMessage
+                  surface="account-saves"
+                  title={accountSaveRecoveryTitle}
+                  message={accountSaveRecovery.message}
+                >
+                  <button
+                    type="button"
+                    className={toolbarButtonClass}
+                    onClick={retryAccountSaveRecovery}
+                  >
+                    {retryAccountSaveLabel}
+                  </button>
+                  <button
+                    type="button"
+                    className={toolbarButtonClass}
+                    onClick={keepAccountWorkLocally}
+                  >
+                    {keepLocalSaveLabel}
+                  </button>
+                  <button
+                    type="button"
+                    className={toolbarButtonClass}
+                    onClick={downloadJsonForSaveRecovery}
+                  >
+                    {downloadCurrentJsonLabel}
+                  </button>
+                </InlineRecoveryMessage>
+              ) : null}
+
               {accountSavePanelOpen ? (
                 <div className="rounded-[20px] border border-line bg-paper-strong p-4">
                   <label className="block">
@@ -3138,6 +3401,37 @@ export function CircuitBuilderPage({
                       {copy.saves.cancel}
                     </button>
                   </div>
+                  {accountSaveRecovery ? (
+                    <div className="mt-3">
+                      <InlineRecoveryMessage
+                        surface="account-saves"
+                        title={accountSaveRecoveryTitle}
+                        message={accountSaveRecovery.message}
+                      >
+                        <button
+                          type="button"
+                          className={toolbarButtonClass}
+                          onClick={retryAccountSaveRecovery}
+                        >
+                          {retryAccountSaveLabel}
+                        </button>
+                        <button
+                          type="button"
+                          className={toolbarButtonClass}
+                          onClick={keepAccountWorkLocally}
+                        >
+                          {keepLocalSaveLabel}
+                        </button>
+                        <button
+                          type="button"
+                          className={toolbarButtonClass}
+                          onClick={downloadJsonForSaveRecovery}
+                        >
+                          {downloadCurrentJsonLabel}
+                        </button>
+                      </InlineRecoveryMessage>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
 
@@ -3811,6 +4105,37 @@ export function CircuitBuilderPage({
                           {copy.toolbar.updateSaved}
                         </button>
                       </div>
+                      {localSaveRecovery ? (
+                        <InlineRecoveryMessage
+                          surface="local-saves"
+                          title={localSaveRecoveryTitle}
+                          message={localSaveRecovery.message}
+                        >
+                          {localSaveRecovery.kind === "write" ? (
+                            <button
+                              type="button"
+                              className={toolbarButtonClass}
+                              onClick={retryLocalSaveRecovery}
+                            >
+                              {retryLocalSaveLabel}
+                            </button>
+                          ) : null}
+                          <button
+                            type="button"
+                            className={toolbarButtonClass}
+                            onClick={keepLocalSaveRecovery}
+                          >
+                            {keepLocalSaveLabel}
+                          </button>
+                          <button
+                            type="button"
+                            className={toolbarButtonClass}
+                            onClick={downloadJsonForSaveRecovery}
+                          >
+                            {downloadCurrentJsonLabel}
+                          </button>
+                        </InlineRecoveryMessage>
+                      ) : null}
                       <p className="text-xs leading-5 text-ink-600">
                         {activeLocalSavedCircuit
                           ? circuitStatusText(
@@ -3858,6 +4183,35 @@ export function CircuitBuilderPage({
                               {copy.toolbar.updateAccountSave}
                             </button>
                           </div>
+                          {accountSaveRecovery ? (
+                            <InlineRecoveryMessage
+                              surface="account-saves"
+                              title={accountSaveRecoveryTitle}
+                              message={accountSaveRecovery.message}
+                            >
+                              <button
+                                type="button"
+                                className={toolbarButtonClass}
+                                onClick={retryAccountSaveRecovery}
+                              >
+                                {retryAccountSaveLabel}
+                              </button>
+                              <button
+                                type="button"
+                                className={toolbarButtonClass}
+                                onClick={keepAccountWorkLocally}
+                              >
+                                {keepLocalSaveLabel}
+                              </button>
+                              <button
+                                type="button"
+                                className={toolbarButtonClass}
+                                onClick={downloadJsonForSaveRecovery}
+                              >
+                                {downloadCurrentJsonLabel}
+                              </button>
+                            </InlineRecoveryMessage>
+                          ) : null}
                           <p className="text-xs leading-5 text-ink-600">
                             {activeAccountSavedCircuit
                               ? circuitStatusText(
@@ -3941,7 +4295,6 @@ export function CircuitBuilderPage({
                           type="button"
                           className={toolbarButtonClass}
                           onClick={() => {
-                            closeMenu();
                             openJsonDialog();
                           }}
                         >
@@ -3958,6 +4311,28 @@ export function CircuitBuilderPage({
                           {copy.toolbar.copyJsonState}
                         </button>
                       </div>
+                      {fileRecoveryMessage ? (
+                        <InlineRecoveryMessage
+                          surface="file"
+                          title={fileRecoveryTitle}
+                          message={fileRecoveryMessage}
+                        >
+                          <button
+                            type="button"
+                            className={toolbarButtonClass}
+                            onClick={openJsonDialog}
+                          >
+                            {chooseAnotherFileLabel}
+                          </button>
+                          <button
+                            type="button"
+                            className={toolbarButtonClass}
+                            onClick={downloadJsonForFileRecovery}
+                          >
+                            {downloadCurrentJsonLabel}
+                          </button>
+                        </InlineRecoveryMessage>
+                      ) : null}
                       <p className="text-xs leading-5 text-ink-600">
                         {copy.saves.fileMenuHelp}
                       </p>
