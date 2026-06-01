@@ -265,36 +265,36 @@
       "description": "節點代表有機家族。有方向的邊代表從一個家族轉到另一個家族的路徑，而反應資訊會保留在邊上。"
     },
     "navigation": {
-      "dragHint": "拖曳地圖背景以平移。",
+      "dragHint": "拖曳地圖背景即可平移。",
       "zoom": "縮放：{percent}%",
       "zoomIn": "放大",
       "zoomOut": "縮小",
-      "fitToView": "配合視圖",
-      "mobileMapFirstHint": "先拖曳圖譜。想看詳情時，點一下家族或路徑。",
+      "fitToView": "重置視角",
+      "mobileMapFirstHint": "先拖曳圖譜；想看詳情，點一下家族或路徑。",
       "shortcutsLabel": "鍵盤快捷鍵",
       "shortcutPan": "方向鍵平移",
       "shortcutZoom": "+ / - 縮放",
-      "shortcutFit": "0 配合目前視圖",
-      "keyboardGuidance": "拖曳地圖背景以平移。可用方向鍵平移地圖，按加號或等號放大，按減號縮小，按 0 將目前圖譜情境重新配合視圖。"
+      "shortcutFit": "0 重置視角",
+      "keyboardGuidance": "拖曳地圖背景即可平移。可用方向鍵平移地圖，按加號或等號放大，按減號縮小，按 0 重置視角，將目前圖譜範圍放回畫面。"
     },
     "graphStatus": {
-      "activeView": "目前視圖有 {nodes, plural, one {# 個節點} other {# 個節點}} · {pathways, plural, one {# 條路徑} other {# 條路徑}}",
+      "activeView": "目前畫面有 {nodes, plural, one {# 個節點} other {# 個節點}} · {pathways, plural, one {# 條路徑} other {# 條路徑}}",
       "routeSummary": "路線：{start} → {target} · {steps, plural, one {# 步} other {# 步}}",
       "routeSummaryFallback": "路線：{steps, plural, one {# 步} other {# 步}}",
       "cameraModes": {
-        "full": "完整",
+        "full": "全圖",
         "route": "路線",
         "compare": "比較",
         "focus": "聚焦"
       },
       "camera": {
-        "graph": "視圖：完整反應圖譜",
-        "route": "視圖：{start} → {target} 路線",
-        "routeFallback": "視圖：路線",
-        "compare": "視圖：正在比較 {names}",
-        "compareFallback": "視圖：比較",
-        "node": "視圖：{name} 家族",
-        "edge": "視圖：{source} → {target} 路徑"
+        "graph": "視角：完整反應圖譜",
+        "route": "視角：{start} → {target} 路線",
+        "routeFallback": "視角：路線",
+        "compare": "視角：比較 {names}",
+        "compareFallback": "視角：比較",
+        "node": "視角：{name} 家族",
+        "edge": "視角：{source} → {target} 路徑"
       },
       "preview": {
         "idle": "預覽：聚焦或指向節點／路徑即可追蹤連接",
@@ -332,10 +332,10 @@
         "outgoingShort": "{count} 出",
         "pathwayBalance": "{incoming} 入 · {outgoing} 出",
         "routeStart": "路線起點。",
-        "routeTarget": "路線目標。",
+        "routeTarget": "路線終點。",
         "routeNode": "路線節點 {position}/{count}。",
         "stageStart": "起點",
-        "stageTarget": "目標",
+        "stageTarget": "終點",
         "stageStep": "步驟 {position}",
         "sourceSide": "{label} 路徑的反應物端。",
         "productSide": "{label} 路徑的產物端。",
@@ -359,14 +359,14 @@
       "node": "已選家族：{name}",
       "edge": "已選路徑：{name}",
       "compare": "正在比較 {left} 與 {right}",
-      "route": "路線：由 {start} 到 {target}（{steps, plural, one {# 步} other {# 步}}）",
-      "routeNone": "目前沒有顯示由 {start} 到 {target} 的短途路線",
+      "route": "路線：{start} 到 {target}（{steps, plural, one {# 步} other {# 步}}）",
+      "routeNone": "未顯示 {start} 到 {target} 的短途路線",
       "routeSame": "路線起點與終點同為 {name}",
       "clear": "清除選取"
     },
     "compare": {
       "eyebrow": "比較相關家族",
-      "title": "{left} vs {right}",
+      "title": "{left} 與 {right} 比較",
       "description": "把兩個家族層級的重點並排來看，並檢查它們之間任何直接轉換。",
       "groupEyebrow": "家族快照",
       "directConversionsTitle": "這兩個家族之間的直接轉換",
@@ -376,11 +376,11 @@
         "rightToLeft": "{right} -> {left}"
       },
       "actions": {
-        "exit": "離開比較",
-        "swap": "交換左右",
+        "exit": "退出比較",
+        "swap": "左右互換",
         "openNode": "開啟 {name}",
         "compareWith": "與 {name} 比較",
-        "compareConnectedGroups": "比較相連家族"
+        "compareConnectedGroups": "比較反應兩端"
       }
     },
     "routeExplorer": {
@@ -394,16 +394,16 @@
       "stepLabel": "步驟 {index}",
       "fields": {
         "start": "起點家族",
-        "target": "目標家族"
+        "target": "終點家族"
       },
       "actions": {
-        "showRoutes": "顯示路線",
+        "showRoutes": "搜尋路線",
         "clearRoutes": "清除路線",
-        "backToMap": "返回地圖",
-        "viewResults": "查看路線結果",
+        "backToMap": "返回圖譜",
+        "viewResults": "看路線結果",
         "openNode": "開啟 {name}",
-        "showRoutesForPair": "顯示這兩個家族之間的路線",
-        "showStepNotes": "顯示步驟註解"
+        "showRoutesForPair": "查看兩者路線",
+        "showStepNotes": "查看步驟註解"
       },
       "flags": {
         "subgroup": "含子類限制步驟",
@@ -413,7 +413,7 @@
       },
       "states": {
         "sameFamilyTitle": "{name} 已同時是目前選取的起點和終點家族。",
-        "sameFamilyBody": "若你想追蹤圖譜中的轉換路線，請改選另一個目標家族。",
+        "sameFamilyBody": "若你想追蹤圖譜中的轉換路線，請改選另一個終點家族。",
         "noRouteTitle": "找不到由 {start} 到 {target} 的路線。",
         "noRouteBody": "在目前的有向圖譜和 {maxEdges} 步上限內，這兩個家族之間沒有可用路線。"
       }

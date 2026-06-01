@@ -2302,6 +2302,95 @@ test("OML-QA-081 keeps Chemistry helper copy complete across core viewports", as
   guard.assertNoActionableIssues();
 });
 
+test("OML-QA-082 keeps zh-HK Chemistry controls natural across route and compare states", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(90_000);
+
+  const viewports = [
+    { name: "phone", width: 390, height: 844 },
+    { name: "desktop", width: 1366, height: 768 },
+  ] as const;
+
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({
+      width: viewport.width,
+      height: viewport.height,
+    });
+
+    await gotoAndExpectOk(page, "/zh-HK/tools/chemistry-reaction-mind-map");
+    await waitForStableChemistryGraph(page);
+
+    await expect(page.getByTestId("chem-fit-view")).toHaveText("重置視角");
+    await expect(page.getByTestId("chem-keyboard-shortcuts")).toContainText(
+      "0 重置視角",
+    );
+    await expect(page.getByTestId("chem-camera-status")).toContainText(
+      /視角：完整反應圖譜/,
+    );
+    await expect(page.getByTestId("chem-scope-status")).toContainText(
+      /目前畫面有/,
+    );
+    await expect(page.getByTestId("chemistry-worksurface")).not.toContainText(
+      /配合視圖|配合目前視圖|重新配合視圖/,
+    );
+    await expect(page.getByTestId("chem-route-search")).toHaveText("搜尋路線");
+    await expect(page.getByText("終點家族", { exact: true }).first()).toBeVisible();
+
+    await page.getByTestId("chem-route-start").selectOption("alcohol");
+    await page.getByTestId("chem-route-target").selectOption("ester");
+    await page.getByTestId("chem-route-search").click();
+    await expect(page.getByTestId("chemistry-route-panel")).toBeVisible();
+    await waitForStableChemistryGraph(page);
+    await expect(page.getByTestId("chem-route-progress")).toContainText(/路線路徑/);
+    await expect(page.getByTestId("chem-route-clear")).toHaveText("清除路線");
+    await expect(page.getByTestId("chem-route-back-to-map")).toHaveText("返回圖譜");
+    await expect(page.getByTestId("chem-route-panel-clear")).toHaveText("清除路線");
+    await expect(page.getByTestId("chemistry-selection-summary")).toContainText(
+      /路線：醇 到 酯/,
+    );
+
+    await page.getByTestId("chemistry-route-controls").scrollIntoViewIfNeeded();
+    await page.screenshot({
+      path: testInfo.outputPath(
+        `oml-qa-082-${viewport.name}-zhhk-route-controls.png`,
+      ),
+      animations: "disabled",
+      fullPage: false,
+    });
+
+    await page.getByTestId("chem-route-clear").click();
+    await openHydrationEdgeDetails(page);
+    await page.getByTestId("chem-edge-compare-groups").click();
+    await expect(page.getByTestId("chemistry-compare-panel")).toBeVisible();
+    await expect(page.getByTestId("chem-compare-exit")).toHaveText("退出比較");
+    await expect(page.getByTestId("chem-compare-swap")).toHaveText("左右互換");
+    await expect(page.getByTestId("chem-compare-show-routes")).toHaveText(
+      "查看兩者路線",
+    );
+    await expect(page.getByTestId("chemistry-selection-summary")).toContainText(
+      /正在比較 烯烴 與 醇/,
+    );
+    await expect(page.getByTestId("chem-camera-status")).toContainText(
+      /視角：比較 烯烴 ↔ 醇/,
+    );
+
+    await page.getByTestId("chemistry-compare-panel").scrollIntoViewIfNeeded();
+    await page.screenshot({
+      path: testInfo.outputPath(
+        `oml-qa-082-${viewport.name}-zhhk-compare-controls.png`,
+      ),
+      animations: "disabled",
+      fullPage: false,
+    });
+  }
+
+  guard.assertNoActionableIssues();
+});
+
 test("chemistry reaction mind map keeps the graph viewport clipped inside the split panel on widescreen layouts", async ({
   page,
 }) => {
@@ -3040,8 +3129,8 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await gotoAndExpectOk(page, "/zh-HK/tools/chemistry-reaction-mind-map");
   await page.getByTestId("chemistry-worksurface").scrollIntoViewIfNeeded();
   await expect(page.getByTestId("chem-graph-legend")).toContainText(/圖例/);
-  await expect(page.getByTestId("chem-camera-status")).toContainText(/視圖：完整反應圖譜/);
-  await expect(page.getByTestId("chem-scope-status")).toContainText(/目前視圖有/);
+  await expect(page.getByTestId("chem-camera-status")).toContainText(/視角：完整反應圖譜/);
+  await expect(page.getByTestId("chem-scope-status")).toContainText(/目前畫面有/);
   await expect(page.getByTestId("chem-preview-status")).toContainText(/預覽：/);
   await page.getByTestId("chem-node-alcohol").focus();
   await expect(page.getByTestId("chem-node-pathway-count-alcohol")).toHaveAttribute(
@@ -3057,7 +3146,7 @@ test("chemistry reaction mind map supports focused camera, route exploration, an
   await expect(page.getByTestId("chem-minimap-camera-mode-label")).toHaveText(/路線/);
   await expect(page.getByTestId("chemistry-route-panel")).toContainText(/路線 1/);
   await expect(page.getByTestId("chemistry-selection-summary")).toContainText(
-    /路線：由 醇 到 酯/,
+    /路線：醇 到 酯/,
   );
   await expect(page.getByTestId("chemistry-route-panel")).toContainText(
     /需要額外共反應物/,
