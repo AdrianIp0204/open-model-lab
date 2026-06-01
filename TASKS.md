@@ -683,13 +683,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Completion note (2026-06-01 HKT): Restyled the empty Circuit Builder workspace as a dark-stage instruction surface with readable contrast, larger copy, and an Open parts action that focuses the component library.
   - Validation: git diff --check HEAD^..HEAD; git diff --check; targeted eslint; pnpm typecheck; Playwright empty workspace instruction gate; phone/tablet/desktop/wide screenshot inspection
 
-- [ ] **OML-QA-068: Fit starter presets and newly loaded circuits into the visible workspace on phone and tablet.**
+- [x] **OML-QA-068: Fit starter presets and newly loaded circuits into the visible workspace on phone and tablet.**
   - Evidence: `output/circuit-builder-qa-2026-05-31/phone-starter-preset.png` shows `Starter series loop` loading with `5 parts · 5 wires`, but the circuit is partly off-canvas on the right and the learner cannot see the full loop before finding `Fit circuit`. Desktop starter screenshots also show the circuit much smaller than the available stage.
   - UX problem: presets are the fastest first-use path, so they should immediately produce an inspectable circuit. Loading a preset that is clipped or tiny makes the tool feel broken before the user touches it.
   - Affected area: preset loading in `CircuitBuilderPage.tsx`, `buildFittedCircuitView`, default view constants, mobile `CircuitWorkspace` frame sizing, and preset E2E coverage.
   - Fix direction: after loading a preset or JSON document, compute a responsive fitted view that keeps all components and readout labels inside the visible canvas. Preserve manual pan/zoom after the user starts editing, but make presets and imports land in a sensible initial view.
   - Validation: phone/tablet/desktop/wide screenshots for all five presets show every component and the main loop visible; a Playwright assertion should fail if any preset component bounding box is outside the workspace viewport after load.
 
+  - Completion note (2026-06-01 HKT): Fitted preset and JSON-loaded circuits against the active workspace frame so phone, tablet, desktop, and wide starter presets land fully visible while preserving manual pan/zoom controls.
+  - Validation: git diff --check 4a159f7^..4a159f7; git diff --check; targeted eslint; pnpm typecheck; Playwright preset-fit gate; Playwright JSON/import readable-fit gate
 - [ ] **OML-QA-069: Raise Circuit Builder touch targets for starter presets, view mode controls, and workspace toolbar buttons.**
   - Evidence: the manual sweep in `output/circuit-builder-qa-2026-05-31/summary.json` found repeated visible interactive targets below the 44px floor: starter preset buttons at about `38px` high on phone/tablet/desktop/wide, and `Schematic` / `Modern` mode buttons around `24px` high on tablet. The issue repeats in English and zh-HK.
   - UX/accessibility problem: the page is a manipulation-heavy tool. Small touch targets make preset choice, mode switching, and workspace control harder on phones/tablets, and the same compact controls are too easy to miss even on desktop.

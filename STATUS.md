@@ -1,5 +1,30 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-068 Circuit Builder Preset Fit
+
+Current state: `OML-QA-068` is complete. Circuit Builder preset loads and JSON imports now compute their initial view from the active workspace frame, so phone, tablet, desktop, and wide viewports open starter circuits fully inside the visible stage instead of clipping the loop or leaving it tiny.
+
+Implementation commit: `4a159f7`.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitBuilderPage.tsx`: applies responsive fitted views when loading presets, loading JSON documents, fitting the workspace, and centering zoom/add-component interactions.
+- `components/circuit-builder/CircuitWorkspace.tsx`: uses the active circuit canvas frame for SVG viewBox sizing and pointer/wheel coordinate mapping.
+- `lib/circuit-builder/view.ts` and `lib/circuit-builder/index.ts`: add shared workspace frame constants and fitted-view calculation.
+- `tests/e2e/circuit-builder.spec.ts`: adds starter-preset fit coverage across phone, tablet, desktop, and wide viewports.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check 4a159f7^..4a159f7`: passed for implementation commit `4a159f7`.
+- `git diff --check`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitBuilderPage.tsx components/circuit-builder/CircuitWorkspace.tsx lib/circuit-builder/view.ts tests/e2e/circuit-builder.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "fits starter presets inside the visible workspace" --reporter=line`: passed, 1/1.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "fits small circuits large enough" --reporter=line`: passed, 1/1.
+
+Residual risk: the fitted-view bounds use a shared component/readout padding estimate rather than per-component geometry. The new E2E gate covers the current starter presets across the target viewports; future unusually large component labels may still need a geometry-aware fit refinement.
+
 ## 2026-06-01 OML-QA-067 Circuit Builder Empty Workspace Instruction
 
 Current state: `OML-QA-067` is complete. The empty Circuit Builder workspace now uses a dark-stage-native instruction card with readable title/body/example copy and an `Open parts` action that focuses the component library, replacing the previous pale SVG card that was low-contrast on the dark canvas.
