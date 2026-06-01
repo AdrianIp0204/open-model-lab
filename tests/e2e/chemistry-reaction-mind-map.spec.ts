@@ -259,6 +259,136 @@ async function expectChemistryEdgeLabelsReadable(
   expect(issues).toEqual([]);
 }
 
+function boxesOverlap(
+  first: { left: number; right: number; top: number; bottom: number },
+  second: { left: number; right: number; top: number; bottom: number },
+) {
+  return !(
+    first.right <= second.left ||
+    second.right <= first.left ||
+    first.bottom <= second.top ||
+    second.bottom <= first.top
+  );
+}
+
+async function openHydrationEdgeDetails(page: Page) {
+  await page.getByTestId("chem-node-alcohol").click();
+  await expect(page.getByTestId("chem-node-details")).toBeVisible();
+  await page
+    .getByTestId("chem-node-pathway-incoming-alkene-to-alcohol-hydration")
+    .getByRole("button", { name: /hydration pathway/i })
+    .click();
+  await expect(page.getByTestId("chem-edge-details")).toBeVisible();
+}
+
+async function expectChemistryFeedbackClearOfInspector(
+  page: Page,
+  targetTestId: string,
+  label: string,
+) {
+  await expect(page.locator('[data-feedback-placement="inline"]')).toHaveCount(1);
+  await expect(page.locator('[data-feedback-placement="floating"]')).toHaveCount(0);
+  await expect(page.getByTestId("feedback-widget-trigger")).toHaveCount(1);
+
+  const layout = await page.evaluate((activeTargetTestId) => {
+    const widget = document.querySelector("[data-feedback-placement]");
+    const trigger = document.querySelector('[data-testid="feedback-widget-trigger"]');
+    const inspector = document.querySelector('[data-testid="chemistry-inspector-scroll"]');
+    const activeTarget = document.querySelector(
+      `[data-testid="${activeTargetTestId}"]`,
+    );
+
+    function box(element: Element | null) {
+      if (!(element instanceof HTMLElement)) {
+        return null;
+      }
+
+      const rect = element.getBoundingClientRect();
+      return {
+        left: Math.round(rect.left),
+        right: Math.round(rect.right),
+        top: Math.round(rect.top),
+        bottom: Math.round(rect.bottom),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+      };
+    }
+
+    function intersection(
+      first: ReturnType<typeof box>,
+      second: NonNullable<ReturnType<typeof box>>,
+    ) {
+      if (!first) {
+        return null;
+      }
+
+      const left = Math.max(first.left, second.left);
+      const right = Math.min(first.right, second.right);
+      const top = Math.max(first.top, second.top);
+      const bottom = Math.min(first.bottom, second.bottom);
+
+      if (right <= left || bottom <= top) {
+        return null;
+      }
+
+      return {
+        left,
+        right,
+        top,
+        bottom,
+        width: right - left,
+        height: bottom - top,
+      };
+    }
+
+    const viewport = {
+      left: 0,
+      right: window.innerWidth,
+      top: 0,
+      bottom: window.innerHeight,
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+    const inspectorBox = box(inspector);
+    const visibleInspector = intersection(inspectorBox, viewport);
+    const activeTargetBox = box(activeTarget);
+    const visibleActiveTarget = intersection(
+      intersection(activeTargetBox, visibleInspector ?? viewport),
+      viewport,
+    );
+
+    return {
+      placement:
+        widget instanceof HTMLElement
+          ? widget.getAttribute("data-feedback-placement")
+          : null,
+      widgetPosition:
+        widget instanceof HTMLElement ? getComputedStyle(widget).position : null,
+      trigger: box(trigger),
+      inspector: inspectorBox,
+      visibleInspector,
+      activeTarget: activeTargetBox,
+      visibleActiveTarget,
+    };
+  }, targetTestId);
+
+  expect(layout.placement, `${label} feedback placement`).toBe("inline");
+  expect(layout.widgetPosition, `${label} feedback widget position`).not.toBe("fixed");
+  expect(layout.trigger, `${label} feedback trigger`).not.toBeNull();
+  expect(layout.inspector, `${label} chemistry inspector`).not.toBeNull();
+  expect(layout.visibleInspector, `${label} visible chemistry inspector`).not.toBeNull();
+  expect(layout.activeTarget, `${label} active inspector content`).not.toBeNull();
+  expect(layout.visibleActiveTarget, `${label} visible active inspector content`).not.toBeNull();
+  expect(
+    boxesOverlap(layout.trigger!, layout.visibleInspector!),
+    `${label} feedback trigger overlaps the self-scrolling inspector`,
+  ).toBe(false);
+  expect(
+    boxesOverlap(layout.trigger!, layout.visibleActiveTarget!),
+    `${label} feedback trigger overlaps active inspector content`,
+  ).toBe(false);
+}
+
 async function expectNoChemistryEdgeLabelNodeTitleOverlap(page: Page) {
   const overlapIssues = await page.evaluate(() => {
     const getRect = (element: Element) => {
@@ -1735,6 +1865,95 @@ test("chemistry comparison details keep family cards inside the inspector", asyn
       animations: "disabled",
       fullPage: false,
     });
+  }
+
+  guard.assertNoActionableIssues();
+});
+
+test("OML-QA-080 keeps feedback inline and clear of dense chemistry inspector states", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(120_000);
+
+  const viewports = [
+    { name: "desktop", width: 1366, height: 768 },
+    { name: "wide", width: 1900, height: 930 },
+    { name: "tablet", width: 900, height: 900 },
+    { name: "phone", width: 390, height: 844 },
+  ] as const;
+  const states = [
+    {
+      name: "edge-details-hydration",
+      targetTestId: "chem-edge-details",
+      open: async () => {
+        await openHydrationEdgeDetails(page);
+      },
+    },
+    {
+      name: "compare-hydration-groups",
+      targetTestId: "chemistry-compare-panel",
+      open: async () => {
+        await openHydrationEdgeDetails(page);
+        await page.getByTestId("chem-edge-compare-groups").click();
+        await expect(page.getByTestId("chemistry-compare-panel")).toBeVisible();
+      },
+    },
+    {
+      name: "route-results",
+      targetTestId: "chemistry-route-panel",
+      open: async () => {
+        await page.getByTestId("chem-route-start").selectOption("alkene");
+        await page.getByTestId("chem-route-target").selectOption("carboxylic-acid");
+        await page.getByTestId("chem-route-search").click();
+        await expect(page.getByTestId("chemistry-route-panel")).toBeVisible();
+      },
+    },
+    {
+      name: "no-route-ester-to-haloalkane",
+      targetTestId: "chem-route-no-results",
+      open: async () => {
+        await page.getByTestId("chem-route-start").selectOption("ester");
+        await page.getByTestId("chem-route-target").selectOption("haloalkane");
+        await page.getByTestId("chem-route-search").click();
+        await expect(page.getByTestId("chem-route-no-results")).toBeVisible();
+      },
+    },
+  ] as const;
+
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({
+      width: viewport.width,
+      height: viewport.height,
+    });
+
+    for (const state of states) {
+      await gotoAndExpectOk(page, "/tools/chemistry-reaction-mind-map");
+      await page.evaluate(() => {
+        document.getElementById("chemistry-worksurface")?.scrollIntoView({
+          block: "start",
+          behavior: "auto",
+        });
+      });
+      await waitForStableChemistryGraph(page);
+      await state.open();
+      await page.getByTestId(state.targetTestId).evaluate((element) => {
+        element.scrollIntoView({ block: "nearest", behavior: "auto" });
+      });
+      await expectChemistryFeedbackClearOfInspector(
+        page,
+        state.targetTestId,
+        `${viewport.name} ${state.name}`,
+      );
+
+      await page.screenshot({
+        path: testInfo.outputPath(`oml-qa-080-${viewport.name}-${state.name}.png`),
+        animations: "disabled",
+        fullPage: false,
+      });
+    }
   }
 
   guard.assertNoActionableIssues();

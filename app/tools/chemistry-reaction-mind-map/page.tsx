@@ -44,6 +44,7 @@ export default async function ChemistryReactionMindMapRoute({
         pagePath: chemistryReactionMindMapPath,
         pageTitle: t("feedbackTitle"),
       }}
+      feedbackWidgetPlacement="inline"
       className="mx-auto w-full max-w-[96rem] px-4 pb-16 pt-4 sm:px-6 sm:pt-5 lg:px-8"
     >
       <ChemistryReactionMindMapPage key={locale} />

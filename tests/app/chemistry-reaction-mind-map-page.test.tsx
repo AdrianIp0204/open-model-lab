@@ -3,10 +3,28 @@
 import { isValidElement, type ReactNode } from "react";
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+declare global {
+  var __CHEM_PAGE_SHELL_PROPS__:
+    | Array<{ feedbackWidgetPlacement?: "floating" | "inline" }>
+    | undefined;
+}
 
 vi.mock("@/components/layout/PageShell", () => ({
-  PageShell: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  PageShell: ({
+    children,
+    feedbackWidgetPlacement,
+  }: {
+    children: ReactNode;
+    feedbackWidgetPlacement?: "floating" | "inline";
+  }) => {
+    globalThis.__CHEM_PAGE_SHELL_PROPS__?.push({ feedbackWidgetPlacement });
+
+    return (
+      <div data-feedback-widget-placement={feedbackWidgetPlacement}>{children}</div>
+    );
+  },
 }));
 
 import ChemistryReactionMindMapRoute from "@/app/tools/chemistry-reaction-mind-map/page";
@@ -32,6 +50,19 @@ function mockElementRect(
 }
 
 describe("chemistry reaction mind map route", () => {
+  beforeEach(() => {
+    globalThis.__CHEM_PAGE_SHELL_PROPS__ = [];
+  });
+
+  it("keeps dense chemistry feedback inline instead of floating over the inspector", async () => {
+    render(await ChemistryReactionMindMapRoute());
+
+    expect(globalThis.__CHEM_PAGE_SHELL_PROPS__).toContainEqual({
+      feedbackWidgetPlacement: "inline",
+    });
+    expect(screen.getByTestId("chemistry-worksurface")).toBeInTheDocument();
+  });
+
   it("shows a useful default inspector state before anything is selected", async () => {
     render(await ChemistryReactionMindMapRoute());
 

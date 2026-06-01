@@ -14,6 +14,7 @@ type PageShellProps = {
   children: ReactNode;
   className?: string;
   feedbackContext?: FeedbackContext;
+  feedbackWidgetPlacement?: "floating" | "inline";
   showFeedbackWidget?: boolean;
   sectionNav?: PageSectionNavConfig | null;
   layoutMode?: "contained" | "section-shell";
@@ -30,6 +31,7 @@ export function PageShell({
   children,
   className = "",
   feedbackContext = defaultFeedbackContext,
+  feedbackWidgetPlacement,
   showFeedbackWidget = true,
   sectionNav = null,
   layoutMode = "contained",
@@ -73,7 +75,10 @@ export function PageShell({
           context={feedbackContext}
           fallbackEmail={previewFeedbackEmail}
           mobileHidden={false}
-          placement={feedbackContext.pageType === "concept" ? "inline" : "floating"}
+          placement={
+            feedbackWidgetPlacement ??
+            (feedbackContext.pageType === "concept" ? "inline" : "floating")
+          }
         />
       ) : null}
       <SiteFooter locale={locale} />

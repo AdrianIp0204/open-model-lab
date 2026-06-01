@@ -74,6 +74,7 @@ export function FeedbackWidget({
 
   return (
     <div
+      data-feedback-placement={placement}
       className={[
         isInline
           ? "mx-auto flex w-full max-w-[88rem] flex-col items-end gap-3 px-4 pb-4 sm:px-6 lg:px-8"
