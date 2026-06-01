@@ -754,12 +754,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P2 - Durable Circuit Builder QA Coverage
 
-- [ ] **OML-QA-075: Add a visual/responsive Circuit Builder QA sweep for states, locales, and core interactions.**
+- [x] **OML-QA-075: Add a visual/responsive Circuit Builder QA sweep for states, locales, and core interactions.**
   - Evidence: the focused regression spec passed `18/18`, but the manual sweep under `output/circuit-builder-qa-2026-05-31/` still found issues in visual hierarchy, touch target sizing, mobile order, preset fitting, and empty/error state visibility. These are not fully covered by the current E2E assertions.
   - QA problem: the current `tests/e2e/circuit-builder.spec.ts` proves many mechanics work, but it does not fail on unreadable empty-state text, clipped/off-canvas preset loads, sub-44px touch targets, or identical signed-out/free/Supporter first-view account-save affordances.
   - Affected area: `tests/e2e/circuit-builder.spec.ts`, `scripts/run-playwright-qa-sweep.mjs`, possible new `tests/e2e/circuit-builder-visual-qa.spec.ts`, and artifact conventions under `output/playwright`.
   - Fix direction: add a lightweight visual QA matrix over `/circuit-builder` and `/zh-HK/circuit-builder` for signed-out, signed-in-free, and signed-in-premium states at phone/tablet/desktop/wide. Include preset load, empty search, invalid import, local save, account save, modern mode, environment controls, and draft recovery states.
   - Validation: the sweep should fail on horizontal overflow, obvious text clipping, sub-44px touch targets on touch layouts, off-canvas preset components, unreadable empty-state contrast, stale English leakage in zh-HK surfaces, hidden import errors, and browser-guard issues.
+
+  - Completion note (2026-06-01 HKT): Added a dedicated Circuit Builder visual QA sweep covering locales, signed-in states, responsive breakpoints, first-view layout, key interaction states, and QA-sweep runner integration.
+  - Validation: git diff --check HEAD^..HEAD; targeted eslint; Playwright circuit-builder visual QA spec; qa-sweep runner integration; pnpm typecheck; screenshot spot-check.
 
 ## Chemistry Reaction Mind Map QA Pass 2026-05-31
 

@@ -1,5 +1,29 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-075 Circuit Builder Visual QA Sweep
+
+Current state: `OML-QA-075` is complete. Circuit Builder now has a dedicated visual/responsive Playwright QA sweep for English and zh-HK, signed-out/free/Supporter account states, phone/tablet/desktop/wide breakpoints, and the core interaction states that previously relied on manual review. The sweep is also included in the local QA sweep runner.
+
+Implementation commit: `3bb0573`.
+
+### Files Changed
+
+- `tests/e2e/circuit-builder-visual-qa.spec.ts`: adds the Circuit Builder visual QA matrix and state checks for horizontal overflow, targeted text clipping, touch targets, empty-state contrast, zh-HK stale English, preset fit, save affordance state, empty search, invalid import recovery, local/account save panels, modern mode, environment controls, and draft recovery.
+- `scripts/run-playwright-qa-sweep.mjs`: includes the new Circuit Builder visual QA spec in the default local QA sweep list.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- `git diff --check`: passed.
+- `pnpm exec eslint tests/e2e/circuit-builder-visual-qa.spec.ts scripts/run-playwright-qa-sweep.mjs`: passed.
+- `pnpm exec playwright test --config=playwright.config.ts tests/e2e/circuit-builder-visual-qa.spec.ts --reporter=line`: passed, 2/2.
+- `pnpm test:e2e:qa-sweep -- --chunk-size=1 --port=3310 tests/e2e/circuit-builder-visual-qa.spec.ts`: passed with `ok: true`, `hasInstability: false`, and `hasTestFailures: false`.
+- `pnpm typecheck`: passed.
+- Screenshot spot-check: sampled generated phone/desktop English and zh-HK visual QA artifacts for nonblank rendered states.
+
+Residual risk: the sweep intentionally allows intentional horizontal chip scrollers, so it is a regression gate for layout breakage rather than a full replacement for periodic product-quality screenshot review.
+
 ## 2026-06-01 OML-QA-074 Circuit Builder Inline Recovery States
 
 Current state: `OML-QA-074` is complete. Circuit Builder now keeps global status-region updates for errors while also rendering inline recovery rows beside the File, local Saves, and Account Saves controls that caused the problem. Invalid JSON imports, unreadable local saves, local-save write failures, and account save/load/update/rename/delete failures now offer nearby recovery actions such as choosing another file, retrying account save, keeping work local, or downloading the current JSON.
