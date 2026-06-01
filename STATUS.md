@@ -1,5 +1,28 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-066 Account Behaviour Sweep
+
+Current state: `OML-QA-066` is complete. The repo now has a durable Playwright account-behaviour sweep covering account, dashboard, analytics, saved-library, compare-library, and study-plan account surfaces across signed-out, free, and Supporter states where applicable. The sweep runs in English and zh-HK over phone, tablet, and desktop viewports, checking horizontal overflow, obvious text clipping, usable 44px primary actions, stale zh-HK English leakage, browser-guard issues, auth pending/success/error states, sync retry behavior, reward variants, and study-plan search/empty states.
+
+### Files Changed
+
+- `tests/e2e/account-behaviour-sweep.spec.ts`: adds the durable account-behaviour matrix and focused auth/sync/reward/study-plan state checks.
+- `scripts/run-playwright-qa-sweep.mjs`: includes the account behaviour sweep in the local QA sweep runner.
+- `app/account/setups/page.tsx`, `app/account/compare-setups/page.tsx`, and `app/account/study-plans/page.tsx`: raise saved-library and study-plan hero CTA hit areas to the 44px floor surfaced by the new gate.
+- `components/progress/FreeTierProgressRecapPanel.tsx`: allows narrow recap headings to wrap cleanly instead of clipping.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `git diff --check HEAD^..HEAD`: passed for implementation commit `c712106`.
+- `pnpm exec eslint app/account/setups/page.tsx app/account/compare-setups/page.tsx app/account/study-plans/page.tsx components/progress/FreeTierProgressRecapPanel.tsx scripts/run-playwright-qa-sweep.mjs tests/e2e/account-behaviour-sweep.spec.ts`: passed.
+- `pnpm exec playwright test --config=playwright.config.ts tests/e2e/account-behaviour-sweep.spec.ts`: passed, 3/3.
+- `pnpm test:e2e:qa-sweep tests/e2e/account-behaviour-sweep.spec.ts --port=3200`: passed with `ok: true` and `hasInstability: false`.
+- `pnpm typecheck`: passed.
+
+Residual risk: the new sweep is intentionally lightweight and catches visible layout/state regressions rather than proving every account business rule. It should stay as a release-gate smoke layer above the more targeted account specs.
+
 ## 2026-05-31 OML-QA-065 Account Achievement Preview
 
 Current state: `OML-QA-065` is complete. Signed-in free and Supporter account pages now show a compact achievement preview before the longer account overview cards, with the next badge target, one-time reward-route progress, earned badge count, and a direct jump to the full badges/rewards section. The full named badge groups remain collapsed by default and now include badge search plus earned/locked filters.

@@ -660,12 +660,14 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P2 - Durable Account QA Coverage
 
-- [ ] **OML-QA-066: Add a durable account-behaviour QA sweep over auth, sync, libraries, analytics, achievements, i18n, and responsive states.**
+- [x] **OML-QA-066: Add a durable account-behaviour QA sweep over auth, sync, libraries, analytics, achievements, i18n, and responsive states.**
   - Evidence: this manual pass used local artifacts under `output/account-behaviour-qa-2026-05-31/`, including `summary.json`, `library-pages-summary.json`, and screenshots for signed-out, signed-in-free, and signed-in-premium states across phone/tablet/desktop/wide. It found UX issues not covered by the current focused account tests: misleading signed-in hero copy, first-viewport auth density, section-nav label/touch issues, sideways saved-library CTAs, and study-plan picker friction.
   - QA problem: existing account tests catch specific auth/progress/reward regressions, but there is no single account-behaviour matrix that checks the visible product shape across account states, locales, and responsive layouts.
   - Affected area: new or existing Playwright account specs, `scripts/run-playwright-qa-sweep.mjs`, account harness helpers, and output artifact conventions.
   - Fix direction: add a lightweight Playwright sweep that uses the dev harness to visit `/account`, `/dashboard`, `/dashboard/analytics`, `/account/setups`, `/account/compare-setups`, and `/account/study-plans` in signed-out/free/Supporter states where applicable. Cover English and zh-HK, phone/tablet/desktop, auth errors/pending/success, empty states, sync error/retry, unlocked/claimed/expired reward states, and library builder/search states.
   - Validation: the sweep should fail on horizontal overflow, obvious text clipping, sub-44px primary touch targets, stale English leakage in zh-HK account surfaces, disabled valid auth buttons, missing primary next actions, and browser-guard issues; include it in `pnpm test:e2e:qa-sweep` or document it as a release-gate command.
+  - Completion note (2026-06-01 HKT): Added a durable account-behaviour Playwright sweep across account, dashboard, analytics, saved-library, and study-plan routes for signed-out/free/Supporter states, English/zh-HK locales, and phone/tablet/desktop viewports; surfaced and fixed target-gate issues in saved-library CTA hit areas and narrow free-tier recap heading wrapping.
+  - Validation: git diff --check; git diff --check HEAD^..HEAD; pnpm exec eslint app/account/setups/page.tsx app/account/compare-setups/page.tsx app/account/study-plans/page.tsx components/progress/FreeTierProgressRecapPanel.tsx scripts/run-playwright-qa-sweep.mjs tests/e2e/account-behaviour-sweep.spec.ts; pnpm exec playwright test --config=playwright.config.ts tests/e2e/account-behaviour-sweep.spec.ts; pnpm test:e2e:qa-sweep tests/e2e/account-behaviour-sweep.spec.ts --port=3200; pnpm typecheck
 
 ## Circuit Builder QA Pass 2026-05-31
 
