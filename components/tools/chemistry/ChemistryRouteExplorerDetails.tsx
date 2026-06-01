@@ -19,6 +19,7 @@ type ChemistryRouteExplorerDetailsProps = {
   routes: readonly ChemistryRoute[];
   selectedRouteId: string | null;
   maxEdges: number;
+  maxRoutes: number;
   onSelectRoute: (routeId: string) => void;
   onSelectEdge: (edgeId: ChemistryEdge["id"]) => void;
   onSelectNode: (nodeId: ChemistryNode["id"]) => void;
@@ -40,6 +41,7 @@ export function ChemistryRouteExplorerDetails({
   routes,
   selectedRouteId,
   maxEdges,
+  maxRoutes,
   onSelectRoute,
   onSelectEdge,
   onSelectNode,
@@ -103,8 +105,11 @@ export function ChemistryRouteExplorerDetails({
       </div>
 
       <div className="min-w-0 max-w-full space-y-4 p-4 sm:space-y-5 sm:p-6">
-      <p className="hidden text-sm leading-7 text-ink-700 sm:block">
-        {t("routeExplorer.note", { maxEdges })}
+      <p
+        data-chem-learning-copy="route-note"
+        className="text-sm leading-7 text-ink-700"
+      >
+        {t("routeExplorer.note", { maxEdges, maxRoutes })}
       </p>
 
       <div className="hidden grid-cols-2 gap-2 sm:flex sm:flex-wrap">

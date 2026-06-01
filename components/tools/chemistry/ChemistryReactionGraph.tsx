@@ -1894,53 +1894,59 @@ export function ChemistryReactionGraph({
           data-testid="chemistry-graph-toolbar-status"
           data-chem-toolbar-overflow="stable-single-line"
           data-chem-toolbar-mobile-overflow="wrapped"
-          className="flex min-h-10 min-w-0 max-w-full flex-1 flex-wrap items-center gap-1.5 overflow-visible text-xs text-ink-700 min-[1100px]:h-10 min-[1100px]:flex-nowrap min-[1100px]:overflow-hidden [&>span]:max-w-full [&>span]:shrink-0"
+          className="flex min-h-10 min-w-0 max-w-full flex-1 flex-wrap items-center gap-1.5 overflow-visible text-xs text-ink-700 min-[1100px]:h-10 min-[1100px]:flex-nowrap min-[1100px]:overflow-hidden [&>span]:min-w-0 [&>span]:max-w-full"
         >
-          <span className="whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5">
+          <span className="shrink-0 whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5">
             {t("navigation.dragHint")}
           </span>
           <span
             id="chemistry-graph-zoom-status"
             aria-live="polite"
             data-testid="chem-zoom-status"
-            className="whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5"
+            className="shrink-0 whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5"
           >
             {t("navigation.zoom", { percent: zoomPercent })}
           </span>
           <span
             id="chemistry-graph-camera-status"
             aria-live="polite"
+            aria-label={activeCameraSummary}
             data-testid="chem-camera-status"
             title={activeCameraSummary}
-            className="max-w-full whitespace-normal break-words rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-1.5 font-medium text-teal-900 min-[1100px]:max-w-[18rem] min-[1100px]:truncate min-[1100px]:whitespace-nowrap"
+            className="min-w-0 max-w-full whitespace-normal break-words rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-1.5 font-medium text-teal-900 min-[1100px]:max-w-[18rem] min-[1100px]:truncate min-[1100px]:whitespace-nowrap"
           >
             {activeCameraSummary}
           </span>
           <span
             id="chemistry-graph-scope-status"
             aria-live="polite"
+            aria-label={activeScopeSummary}
             data-testid="chem-scope-status"
             data-chem-scope-summary={activeScopeSummary}
             title={activeScopeSummary}
-            className="max-w-[16rem] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
+            className="min-w-0 max-w-[16rem] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {activeScopeSummary}
           </span>
           <span
             id="chemistry-graph-flow-status"
             aria-live="polite"
+            aria-label={t("graphStatus.flow.active", {
+              stages: activeGraphFlowSummary,
+            })}
             data-testid="chem-flow-status"
             data-chem-active-flow-summary={activeGraphFlowSummary}
             title={t("graphStatus.flow.active", {
               stages: activeGraphFlowSummary,
             })}
-            className="max-w-[18rem] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
+            className="min-w-0 max-w-[18rem] truncate whitespace-nowrap rounded-full border border-line bg-paper px-2.5 py-1.5 font-medium text-ink-700 max-[1279px]:sr-only"
           >
             {t("graphStatus.flow.active", { stages: activeGraphFlowSummary })}
           </span>
           <span
             id="chemistry-graph-preview-status"
             aria-live="polite"
+            aria-label={interactionPreviewSummary}
             data-testid="chem-preview-status"
             data-chem-preview-layout="single-line"
             title={interactionPreviewSummary}

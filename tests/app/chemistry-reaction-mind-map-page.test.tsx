@@ -84,7 +84,7 @@ describe("chemistry reaction mind map route", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /see how core organic functional-group families connect/i,
+        name: /see how core organic families connect/i,
       }),
     ).toBeInTheDocument();
 
@@ -1860,6 +1860,40 @@ describe("chemistry reaction mind map route", () => {
       "data-scroll-mode",
       "self",
     );
+  });
+
+  it("keeps learning-critical hero and route helper copy complete instead of line-clamped", async () => {
+    const user = userEvent.setup();
+
+    render(await ChemistryReactionMindMapRoute());
+
+    const heroDescription = screen.getByText(
+      /tap nodes for properties or pathways for reagents/i,
+    );
+    const routeHelper = screen.getByText(
+      /shows short study routes from the encoded graph only/i,
+    );
+
+    expect(heroDescription).toHaveAttribute(
+      "data-chem-learning-copy",
+      "hero-description",
+    );
+    expect(heroDescription.className).not.toContain("line-clamp");
+    expect(routeHelper).toHaveAttribute("data-chem-learning-copy", "route-helper");
+    expect(routeHelper.className).not.toContain("line-clamp");
+
+    await user.selectOptions(screen.getByTestId("chem-route-start"), "alkene");
+    await user.selectOptions(
+      screen.getByTestId("chem-route-target"),
+      "carboxylic-acid",
+    );
+    await user.click(screen.getByTestId("chem-route-search"));
+
+    const routeNote = screen.getByText(
+      /limits: up to 3 steps and 5 routes\. these are not guaranteed best or exhaustive syntheses/i,
+    );
+    expect(routeNote).toHaveAttribute("data-chem-learning-copy", "route-note");
+    expect(routeNote.className).not.toContain("line-clamp");
   });
 
   it("supports zoom controls and fit-to-view with stable graph state markers", async () => {

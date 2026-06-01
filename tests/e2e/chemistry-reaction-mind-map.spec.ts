@@ -449,6 +449,110 @@ async function expectChemistryFeedbackClearOfInspector(
   ).toEqual([]);
 }
 
+async function expectChemistryLearningCopyComplete(page: Page, label: string) {
+  const issues = await page.evaluate(() => {
+    const copyElements = Array.from(
+      document.querySelectorAll("[data-chem-learning-copy]"),
+    ).filter((element): element is HTMLElement => element instanceof HTMLElement);
+
+    return copyElements.flatMap((element) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      const lineClamp =
+        style.getPropertyValue("-webkit-line-clamp") ||
+        style.getPropertyValue("line-clamp");
+      const issuePrefix = element.getAttribute("data-chem-learning-copy") ?? "copy";
+      const hidden =
+        style.display === "none" ||
+        style.visibility === "hidden" ||
+        rect.width <= 0 ||
+        rect.height <= 0;
+      const clipped =
+        element.scrollWidth > element.clientWidth + 2 ||
+        element.scrollHeight > element.clientHeight + 2;
+      const clamped =
+        lineClamp !== "" &&
+        lineClamp !== "none" &&
+        lineClamp !== "unset" &&
+        lineClamp !== "initial" &&
+        lineClamp !== "auto";
+      const ellipsized = style.textOverflow === "ellipsis";
+
+      return [
+        hidden ? `${issuePrefix}:hidden` : null,
+        clipped
+          ? `${issuePrefix}:clipped:${element.scrollWidth}x${element.scrollHeight}/${element.clientWidth}x${element.clientHeight}`
+          : null,
+        clamped ? `${issuePrefix}:line-clamp:${lineClamp}` : null,
+        ellipsized ? `${issuePrefix}:ellipsis` : null,
+      ].filter((issue): issue is string => Boolean(issue));
+    });
+  });
+
+  expect(issues, `${label} learning-critical copy fit`).toEqual([]);
+}
+
+async function expectChemistryToolbarStatusNotSilentlyClipped(
+  page: Page,
+  label: string,
+) {
+  const issues = await page.evaluate(() => {
+    const toolbar = document.querySelector(
+      '[data-testid="chemistry-graph-toolbar-status"]',
+    );
+
+    if (!(toolbar instanceof HTMLElement)) {
+      return ["toolbar-status:missing"];
+    }
+
+    const toolbarIssues =
+      toolbar.scrollWidth > toolbar.clientWidth + 2
+        ? [
+            `toolbar-status:clipped:${toolbar.scrollWidth}x${toolbar.scrollHeight}/${toolbar.clientWidth}x${toolbar.clientHeight}`,
+          ]
+        : [];
+    const chipIssues = Array.from(toolbar.children).flatMap((child) => {
+      if (!(child instanceof HTMLElement)) {
+        return [];
+      }
+
+      const style = getComputedStyle(child);
+      const rect = child.getBoundingClientRect();
+      const visuallyHidden =
+        style.position === "absolute" &&
+        rect.width <= 2 &&
+        rect.height <= 2;
+
+      if (visuallyHidden || style.display === "none") {
+        return [];
+      }
+
+      const childClipped =
+        child.scrollWidth > child.clientWidth + 2 ||
+        child.scrollHeight > child.clientHeight + 2;
+      if (!childClipped) {
+        return [];
+      }
+
+      const fullText = child.textContent?.replace(/\s+/g, " ").trim() ?? "";
+      const accessibleText =
+        child.getAttribute("aria-label") || child.getAttribute("title") || "";
+      const hasAccessibleFullText = accessibleText.trim() === fullText;
+      const allowsVisualCompaction = style.textOverflow === "ellipsis";
+
+      return hasAccessibleFullText && allowsVisualCompaction
+        ? []
+        : [
+            `${child.getAttribute("data-testid") ?? fullText}:clipped-without-full-accessible-text`,
+          ];
+    });
+
+    return [...toolbarIssues, ...chipIssues];
+  });
+
+  expect(issues, `${label} toolbar status fit`).toEqual([]);
+}
+
 async function expectNoChemistryEdgeLabelNodeTitleOverlap(page: Page) {
   const overlapIssues = await page.evaluate(() => {
     const getRect = (element: Element) => {
@@ -2129,6 +2233,69 @@ test("chemistry reaction mind map puts the map inside the mobile first viewport"
       expect(metrics?.scrollHeight, `${route} ${label} vertical fit`).toBeLessThanOrEqual(
         (metrics?.clientHeight ?? 0) + 2,
       );
+    }
+  }
+
+  guard.assertNoActionableIssues();
+});
+
+test("OML-QA-081 keeps Chemistry helper copy complete across core viewports", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(120_000);
+
+  const viewports = [
+    { name: "phone", width: 390, height: 844 },
+    { name: "tablet", width: 900, height: 900 },
+    { name: "desktop", width: 1366, height: 768 },
+    { name: "wide", width: 1900, height: 930 },
+  ] as const;
+  const routes = [
+    { name: "en", path: "/tools/chemistry-reaction-mind-map" },
+    { name: "zh-HK", path: "/zh-HK/tools/chemistry-reaction-mind-map" },
+  ] as const;
+
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  for (const route of routes) {
+    for (const viewport of viewports) {
+      const label = `${route.name} ${viewport.name}`;
+      await page.setViewportSize({
+        width: viewport.width,
+        height: viewport.height,
+      });
+
+      await gotoAndExpectOk(page, route.path);
+      await waitForStableChemistryGraph(page);
+      await expectChemistryLearningCopyComplete(page, `${label} initial`);
+      await expectChemistryToolbarStatusNotSilentlyClipped(page, `${label} initial`);
+
+      await page.screenshot({
+        path: testInfo.outputPath(`oml-qa-081-${route.name}-${viewport.name}-initial.png`),
+        animations: "disabled",
+        fullPage: false,
+      });
+
+      await page.getByTestId("chem-route-start").selectOption("alkene");
+      await page.getByTestId("chem-route-target").selectOption("carboxylic-acid");
+      await page.getByTestId("chem-route-search").click();
+      await expect(page.getByTestId("chemistry-route-panel")).toBeVisible();
+      await waitForStableChemistryGraph(page);
+      await expectChemistryLearningCopyComplete(page, `${label} route results`);
+      await expectChemistryToolbarStatusNotSilentlyClipped(
+        page,
+        `${label} route results`,
+      );
+
+      await page.getByTestId("chemistry-route-controls").scrollIntoViewIfNeeded();
+      await page.screenshot({
+        path: testInfo.outputPath(
+          `oml-qa-081-${route.name}-${viewport.name}-route-helper.png`,
+        ),
+        animations: "disabled",
+        fullPage: false,
+      });
     }
   }
 

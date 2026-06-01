@@ -256,8 +256,8 @@
       "eyebrow": "化學工具",
       "familyCount": "{count} 個家族節點",
       "pathwayCount": "{count} 條反應路徑",
-      "title": "從一張圖看清楚核心有機官能基家族如何互相連接。",
-      "description": "這個首版圖譜刻意保持有邊界：點選家族節點可以看性質趨勢，點選路徑邊則可以看試劑、條件、方程式與機構說明。"
+      "title": "看清核心有機家族如何連接。",
+      "description": "點節點看性質，點路徑看試劑、條件、方程式與機構。"
     },
     "graph": {
       "eyebrow": "反應圖",
@@ -386,8 +386,8 @@
     "routeExplorer": {
       "eyebrow": "路線探索",
       "title": "由 {start} 到 {target} 的路線",
-      "helper": "這裡只會使用目前已編碼的有向學習圖譜，最多顯示 {maxEdges} 步、最多 {maxRoutes} 條結果。它們是學習路線，不代表最佳或完整的合成方案。",
-      "note": "這些路線只來自目前的學習圖譜，用來幫你看清楚現有路徑如何串連。",
+      "helper": "只顯示目前圖譜中的短途學習路線。",
+      "note": "上限為 {maxEdges} 步、{maxRoutes} 條路線；不代表最佳或完整合成方案。",
       "routeCount": "{count, plural, one {找到 # 條路線} other {找到 # 條路線}}",
       "routeLabel": "路線 {index}",
       "stepCount": "{count, plural, one {# 步} other {# 步}}",

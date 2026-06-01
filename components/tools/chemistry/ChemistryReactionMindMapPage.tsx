@@ -297,7 +297,10 @@ export function ChemistryReactionMindMapPage() {
         >
           {t("routeExplorer.actions.showRoutes")}
         </button>
-        <p className="line-clamp-2 text-xs leading-5 text-ink-600 sm:col-span-2 min-[1100px]:col-span-1 min-[1500px]:col-span-2">
+        <p
+          data-chem-learning-copy="route-helper"
+          className="text-xs leading-5 text-ink-600 sm:col-span-2 min-[1100px]:col-span-1 min-[1500px]:col-span-2"
+        >
           {t("routeExplorer.helper", {
             maxEdges: CHEMISTRY_ROUTE_MAX_EDGES,
             maxRoutes: CHEMISTRY_ROUTE_MAX_RESULTS,
@@ -323,7 +326,10 @@ export function ChemistryReactionMindMapPage() {
           <h1 className="max-w-4xl text-[1.28rem] font-semibold leading-snug text-ink-950 sm:text-[2rem] sm:leading-tight">
             {t("hero.title")}
           </h1>
-          <p className="hidden max-w-3xl text-sm leading-6 text-ink-700 sm:line-clamp-2 sm:block">
+          <p
+            data-chem-learning-copy="hero-description"
+            className="max-w-3xl text-sm leading-6 text-ink-700"
+          >
             {t("hero.description")}
           </p>
         </div>
@@ -471,6 +477,7 @@ export function ChemistryReactionMindMapPage() {
                 routes={routeExplorer.routes}
                 selectedRouteId={routeExplorer.selectedRouteId}
                 maxEdges={CHEMISTRY_ROUTE_MAX_EDGES}
+                maxRoutes={CHEMISTRY_ROUTE_MAX_RESULTS}
                 onSelectRoute={(routeId) =>
                   setRouteExplorer((current) =>
                     current

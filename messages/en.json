@@ -256,8 +256,8 @@
       "eyebrow": "Chemistry tool",
       "familyCount": "{count} family nodes",
       "pathwayCount": "{count} reaction pathways",
-      "title": "See how core organic functional-group families connect.",
-      "description": "This first-version map stays intentionally bounded: click a family node for trend-level properties, or open a pathway edge for reagents, conditions, equations, and mechanism notes."
+      "title": "See how core organic families connect.",
+      "description": "Tap nodes for properties or pathways for reagents, conditions, equations, and mechanism notes."
     },
     "graph": {
       "eyebrow": "Reaction map",
@@ -386,8 +386,8 @@
     "routeExplorer": {
       "eyebrow": "Route explorer",
       "title": "Routes from {start} to {target}",
-      "helper": "Routes use only the currently encoded directed graph, with a maximum of {maxEdges} steps and up to {maxRoutes} results. They are study routes, not guaranteed best or exhaustive syntheses.",
-      "note": "These routes come only from the current learning graph and highlight what the encoded pathways already support.",
+      "helper": "Shows short study routes from the encoded graph only.",
+      "note": "Limits: up to {maxEdges} steps and {maxRoutes} routes. These are not guaranteed best or exhaustive syntheses.",
       "routeCount": "{count, plural, one {# route found} other {# routes found}}",
       "routeLabel": "Route {index}",
       "stepCount": "{count, plural, one {# step} other {# steps}}",
