@@ -230,10 +230,25 @@ export function ChemistryReactionMindMapPage() {
       data-chem-route-density="compact"
       className="min-w-0 max-w-full overflow-hidden rounded-[18px] border border-line bg-paper p-3"
     >
-      <div className="grid gap-2 sm:grid-cols-2 min-[1100px]:grid-cols-1 min-[1500px]:grid-cols-2">
+      <form
+        className="grid gap-2 sm:grid-cols-2 min-[1100px]:grid-cols-1 min-[1500px]:grid-cols-2"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const data = new FormData(event.currentTarget);
+          const startNodeId =
+            (data.get("chem-route-start") as ChemistryNode["id"] | null) ??
+            routeQuery.startNodeId;
+          const targetNodeId =
+            (data.get("chem-route-target") as ChemistryNode["id"] | null) ??
+            routeQuery.targetNodeId;
+
+          openRouteExplorer({ startNodeId, targetNodeId });
+        }}
+      >
         <label className="grid min-w-0 gap-1 text-sm text-ink-700">
           <span className="font-medium text-ink-900">{t("routeExplorer.fields.start")}</span>
           <select
+            name="chem-route-start"
             data-testid="chem-route-start"
             value={routeQuery.startNodeId}
             onChange={(event) =>
@@ -254,6 +269,7 @@ export function ChemistryReactionMindMapPage() {
         <label className="grid min-w-0 gap-1 text-sm text-ink-700">
           <span className="font-medium text-ink-900">{t("routeExplorer.fields.target")}</span>
           <select
+            name="chem-route-target"
             data-testid="chem-route-target"
             value={routeQuery.targetNodeId}
             onChange={(event) =>
@@ -272,9 +288,8 @@ export function ChemistryReactionMindMapPage() {
           </select>
         </label>
         <button
-          type="button"
+          type="submit"
           data-testid="chem-route-search"
-          onClick={() => openRouteExplorer(routeQuery)}
           className="min-h-11 rounded-full border border-line bg-paper-strong px-3.5 py-2 text-sm font-medium text-ink-900 transition hover:border-ink-950/20 hover:bg-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:col-span-2 min-[1100px]:col-span-1 min-[1500px]:col-span-2"
         >
           {t("routeExplorer.actions.showRoutes")}
@@ -285,7 +300,7 @@ export function ChemistryReactionMindMapPage() {
             maxRoutes: CHEMISTRY_ROUTE_MAX_RESULTS,
           })}
         </p>
-      </div>
+      </form>
     </section>
   );
 
