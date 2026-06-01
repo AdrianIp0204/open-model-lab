@@ -669,22 +669,34 @@ test("keeps the builder row visible on desktop, scrolls the palette internally, 
   await page.setViewportSize({ width: 1440, height: 900 });
   await openCircuitBuilder(page);
 
+  const guidePanel = page.locator("[data-circuit-builder-guide]");
   const builderRow = page.locator("[data-circuit-builder-row]");
   const workspacePanel = page.locator("[data-circuit-workspace-panel]");
   const palettePanel = page.locator('[data-circuit-palette-panel="desktop"]');
-  const inspectorPanel = page.locator('[data-circuit-inspector-panel]').first();
+  const inspectorPanel = visibleCircuitInspector(page);
   const paletteScroll = page.locator('[data-circuit-palette-scroll="desktop"]');
+  const guideBox = await guidePanel.boundingBox();
+  const builderRowBox = await builderRow.boundingBox();
   const workspaceBox = await workspacePanel.boundingBox();
   const paletteBox = await palettePanel.boundingBox();
   const inspectorBox = await inspectorPanel.boundingBox();
+  const viewportHeight = await page.evaluate(() => window.innerHeight);
+  const maxBuilderRowTop = viewportHeight * 0.48;
 
+  expect(guideBox).not.toBeNull();
+  expect(builderRowBox).not.toBeNull();
   expect(workspaceBox).not.toBeNull();
   expect(paletteBox).not.toBeNull();
   expect(inspectorBox).not.toBeNull();
-  expect(workspaceBox!.y).toBeLessThan(240);
-  expect(paletteBox!.y).toBeLessThan(240);
-  expect(inspectorBox!.y).toBeLessThan(240);
+  expect(builderRowBox!.y).toBeGreaterThanOrEqual(guideBox!.y + guideBox!.height - 1);
+  expect(workspaceBox!.y).toBeLessThan(maxBuilderRowTop);
+  expect(paletteBox!.y).toBeLessThan(maxBuilderRowTop);
+  expect(inspectorBox!.y).toBeLessThan(maxBuilderRowTop);
   expect(workspaceBox!.y + workspaceBox!.height).toBeGreaterThan(780);
+  expect(
+    Math.min(workspaceBox!.y + workspaceBox!.height, viewportHeight) -
+      Math.max(workspaceBox!.y, 0),
+  ).toBeGreaterThan(viewportHeight * 0.55);
   expect(Math.abs((workspaceBox?.height ?? 0) - (paletteBox?.height ?? 0))).toBeLessThan(48);
   await expect(builderRow).toBeVisible();
 
@@ -698,7 +710,7 @@ test("keeps the builder row visible on desktop, scrolls the palette internally, 
     element.scrollTop = element.scrollHeight;
   });
   await page.waitForFunction(() => {
-    const element = document.querySelector("[data-circuit-palette-scroll]");
+    const element = document.querySelector('[data-circuit-palette-scroll="desktop"]');
     return element instanceof HTMLElement && element.scrollTop > 0;
   });
   expect(await page.evaluate(() => window.scrollY)).toBe(initialWindowScrollY);
