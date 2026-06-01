@@ -1,5 +1,31 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-067 Circuit Builder Empty Workspace Instruction
+
+Current state: `OML-QA-067` is complete. The empty Circuit Builder workspace now uses a dark-stage-native instruction card with readable title/body/example copy and an `Open parts` action that focuses the component library, replacing the previous pale SVG card that was low-contrast on the dark canvas.
+
+Implementation commit: `33b53fe`.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitWorkspace.tsx`: renders the empty-state instruction as HTML over the workspace stage and wires the component-library action.
+- `components/circuit-builder/CircuitBuilderPage.tsx` and `components/circuit-builder/CircuitPalette.tsx`: open and focus the component library from the empty-state action.
+- `app/globals.css`: adds dark-stage empty-card contrast and action styling.
+- `lib/circuit-builder/copy.ts`: adds localized empty-state action copy.
+- `tests/e2e/circuit-builder.spec.ts`: adds phone/tablet/desktop/wide contrast, font-size, screenshot, and focus coverage.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed for implementation commit `33b53fe`.
+- `git diff --check`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitWorkspace.tsx components/circuit-builder/CircuitPalette.tsx components/circuit-builder/CircuitBuilderPage.tsx lib/circuit-builder/copy.ts tests/e2e/circuit-builder.spec.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "empty workspace instruction" --reporter=line`: passed, 1/1.
+- Screenshot inspection passed for phone, tablet, desktop, and wide artifacts under `output/playwright/test-results/circuit-builder-keeps-the--021c1-e-on-the-dark-circuit-stage-chromium/`.
+
+Residual risk: the new action focuses the first visible palette panel using DOM visibility checks. That matches the current desktop and mobile layouts, but future palette restructuring should keep the `data-circuit-palette-panel` and `data-circuit-palette-item` hooks stable.
+
 ## 2026-06-01 OML-QA-066 Account Behaviour Sweep
 
 Current state: `OML-QA-066` is complete. The repo now has a durable Playwright account-behaviour sweep covering account, dashboard, analytics, saved-library, compare-library, and study-plan account surfaces across signed-out, free, and Supporter states where applicable. The sweep runs in English and zh-HK over phone, tablet, and desktop viewports, checking horizontal overflow, obvious text clipping, usable 44px primary actions, stale zh-HK English leakage, browser-guard issues, auth pending/success/error states, sync retry behavior, reward variants, and study-plan search/empty states.

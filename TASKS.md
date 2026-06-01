@@ -673,12 +673,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P0 - First-Use Clarity / Accessibility
 
-- [ ] **OML-QA-067: Make the empty Circuit Builder workspace instruction readable on the dark stage.**
+- [x] **OML-QA-067: Make the empty Circuit Builder workspace instruction readable on the dark stage.**
   - Evidence: manual screenshots in `output/circuit-builder-qa-2026-05-31/phone-signed-out-en-viewport.png`, `tablet-signed-out-en-viewport.png`, `desktop-signed-out-en-viewport.png`, and `wide-signed-out-en-viewport.png` show the empty-state card as a pale white rectangle on the dark canvas with very low-contrast, tiny text. The primary first action, `Start with a source and one load`, is almost unreadable.
   - UX/accessibility problem: the empty workspace is the first instructional moment for a new learner. It currently fails the "what should I do next?" test and likely fails contrast/readability expectations on the dark lab theme.
   - Affected area: `components/circuit-builder/CircuitWorkspace.tsx`, empty-state card styling, dark-stage tokens in `app/globals.css`, and screenshot/contrast coverage for `/circuit-builder`.
   - Fix direction: restyle the empty card as a dark-stage-native instruction surface, raise text size/contrast, keep one clear action line, and consider an inline `Add battery` / `Open parts` affordance that moves focus to the component library.
   - Validation: phone/tablet/desktop/wide screenshots show the empty-state instruction readable without zooming; an automated contrast or screenshot assertion should catch the previous pale-card regression.
+
+  - Completion note (2026-06-01 HKT): Restyled the empty Circuit Builder workspace as a dark-stage instruction surface with readable contrast, larger copy, and an Open parts action that focuses the component library.
+  - Validation: git diff --check HEAD^..HEAD; git diff --check; targeted eslint; pnpm typecheck; Playwright empty workspace instruction gate; phone/tablet/desktop/wide screenshot inspection
 
 - [ ] **OML-QA-068: Fit starter presets and newly loaded circuits into the visible workspace on phone and tablet.**
   - Evidence: `output/circuit-builder-qa-2026-05-31/phone-starter-preset.png` shows `Starter series loop` loading with `5 parts · 5 wires`, but the circuit is partly off-canvas on the right and the learner cannot see the full loop before finding `Fit circuit`. Desktop starter screenshots also show the circuit much smaller than the available stage.
