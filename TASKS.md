@@ -724,13 +724,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Completion note (2026-06-01 HKT): Moved the Circuit Builder save-state affordance into the visible workspace control strip, wrapped it cleanly on phone, and made signed-out, free, and Supporter save states distinct before the fold.
   - Validation: git diff --check; targeted eslint; account-save component vitest; Playwright signed-out/free/Supporter save-state and account-save reopen gate; pnpm typecheck; phone/desktop screenshot inspection.
 
-- [ ] **OML-QA-072: Add a guided build/check mode so the builder can teach, not only edit circuits.**
+- [x] **OML-QA-072: Add a guided build/check mode so the builder can teach, not only edit circuits.**
   - Evidence: the current empty inspector gives three text steps, and presets load working circuits, but there is no integrated "build this loop", "check my circuit", or "explain what changed" flow. The page title promises `Build a live circuit and explain what it is doing`, while the active UI mostly provides editor controls and solver readouts.
   - UX/product problem: free-build is useful, but teen learners need a small task loop: choose a goal, build or load a preset, get a check, and explain the result. Without that, the builder is closer to an editor than a learning bench.
   - Affected area: `CircuitBuilderPage.tsx`, `CircuitInspector`, solver issue/readout surfaces, progress events, content links from circuit concepts, and possibly a small `CircuitBuilderChallenge` model.
   - Fix direction: add a compact guided mode with a few bounded goals: complete a battery-resistor loop, add an ammeter correctly, compare series vs branch current, test a fuse, and explain why a bulb changes brightness. Reuse the existing solver to validate circuit shape and show precise next hints.
   - Validation: component and Playwright tests cover at least three guided goals, including a success state, one incomplete-circuit hint, and one wrong-placement hint; screenshots show the guide does not crowd the free-build workspace.
 
+  - Completion note (2026-06-01 HKT): Added a compact guided mode with bounded circuit goals, solver-backed checks, success/incomplete/wrong-placement feedback, and non-crowding guide coverage for the workbench.
+  - Validation: git diff --check 63a154f..HEAD; targeted eslint; circuit-builder component vitest 71/71; Playwright guided build/check and builder-row gates 2/2; pnpm typecheck; desktop/mobile guided screenshots inspected
 - [ ] **OML-QA-073: Improve the component library for scale with categories, filters, and better selected-item previews.**
   - Evidence: desktop screenshots show the component library as a single scroll list with clipped card summaries; mobile relies on search plus a long disclosure. The library is still manageable at `12` items, but the UI will not scale well as junction dots, sensors, semiconductors, AC parts, or measurement tools are added.
   - UX problem: a builder tool needs quick part retrieval by intent: source, load, meter, sensor, protection, connection. Search helps, but a flat list makes beginners scan names before they know the vocabulary.

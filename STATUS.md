@@ -1,5 +1,31 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-072 Circuit Builder Guided Build Checks
+
+Current state: `OML-QA-072` is complete. Circuit Builder now includes a compact guided mode with bounded build/check goals, starter-load actions, solver-backed circuit checks, and success/incomplete/wrong-placement feedback so the tool teaches a small task loop instead of only exposing free-build editor controls.
+
+Implementation commits: `e4364a8` and `1726dea`.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitBuilderGuide.tsx`: adds the guided-mode panel with selectable goals, starter/check/explain actions, result feedback, and measurement/explanation details.
+- `components/circuit-builder/CircuitBuilderPage.tsx`: wires the active guided goal, starter circuit loads, check results, progress events, and the guide panel into the workbench layout.
+- `lib/circuit-builder/challenges.ts` and `lib/circuit-builder/index.ts`: add the guided challenge model and solver-backed checks for the bounded circuit goals.
+- `tests/components/circuit-builder-page.test.tsx`: covers guided goal success, incomplete-circuit hints, and wrong-placement feedback.
+- `tests/e2e/circuit-builder.spec.ts`: covers the guided build/check flow, desktop/mobile guide screenshots, and the repaired builder-row regression gate.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check 63a154f..HEAD`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitBuilderGuide.tsx components/circuit-builder/CircuitBuilderPage.tsx lib/circuit-builder/challenges.ts tests/components/circuit-builder-page.test.tsx tests/e2e/circuit-builder.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/circuit-builder-page.test.tsx --reporter=dot`: passed, 71/71.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts --grep "guides build checks|keeps the builder row visible" --reporter=line`: passed, 2/2.
+- `pnpm typecheck`: passed.
+- Screenshot inspection: desktop and phone guided-mode screenshots show the guide is compact enough to keep the workbench path visible while preserving the free-build workspace.
+
+Residual risk: the guided mode adds another first-viewport band on phone, so future Circuit Builder feature additions should keep the mobile guide concise and avoid pushing the workspace controls below the initial screen.
+
 ## 2026-06-01 OML-QA-071 Circuit Builder Account Save Discovery
 
 Current state: `OML-QA-071` is complete. Circuit Builder now surfaces a compact save-state affordance in the workspace controls, with distinct signed-out, signed-in free, and Supporter states visible in the first phone and desktop viewport after loading a circuit. Supporter users get a visible `Save to account` action, while signed-out and free users keep local save primary with account-save guidance.
