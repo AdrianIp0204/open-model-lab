@@ -714,12 +714,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P1 - Product Quality / Learning Loop
 
-- [ ] **OML-QA-071: Make Circuit Builder account saves discoverable and state-aware for signed-in users.**
+- [x] **OML-QA-071: Make Circuit Builder account saves discoverable and state-aware for signed-in users.**
   - Evidence: manual signed-out, signed-in-free, and signed-in-premium screenshots for `/circuit-builder` look effectively identical in the first viewport. The existing E2E spec proves account-backed saves work for eligible users, but the UI hides `Save to account` inside the `Saves` menu and does not explain the free-vs-Supporter difference until the menu is opened.
   - UX problem: cross-device saved circuits are an account/supporter benefit, but the tool does not surface that value when a signed-in learner is actively building. Free users also need a clear, non-annoying explanation of what local saves vs account saves mean.
   - Affected area: `CircuitBuilderPage.tsx`, `PremiumFeatureNotice`, `lib/account/entitlements.ts`, `lib/circuit-builder/account-saves-client.ts`, account-save copy, and account save tests.
   - Fix direction: show a compact save-state pill near the toolbar: `Local draft`, `Local save`, or `Account save available`. For signed-in Supporter users, expose `Save to account` as a visible primary save action after the first component is added. For signed-in free users, keep local save primary and show the account-save upgrade as a secondary explanation.
   - Validation: signed-out/free/Supporter phone and desktop screenshots show distinct save-state UI, and tests verify save-to-account remains gated correctly while local saves still work without sign-in.
+
+  - Completion note (2026-06-01 HKT): Moved the Circuit Builder save-state affordance into the visible workspace control strip, wrapped it cleanly on phone, and made signed-out, free, and Supporter save states distinct before the fold.
+  - Validation: git diff --check; targeted eslint; account-save component vitest; Playwright signed-out/free/Supporter save-state and account-save reopen gate; pnpm typecheck; phone/desktop screenshot inspection.
 
 - [ ] **OML-QA-072: Add a guided build/check mode so the builder can teach, not only edit circuits.**
   - Evidence: the current empty inspector gives three text steps, and presets load working circuits, but there is no integrated "build this loop", "check my circuit", or "explain what changed" flow. The page title promises `Build a live circuit and explain what it is doing`, while the active UI mostly provides editor controls and solver readouts.

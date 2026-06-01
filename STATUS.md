@@ -1,5 +1,27 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-071 Circuit Builder Account Save Discovery
+
+Current state: `OML-QA-071` is complete. Circuit Builder now surfaces a compact save-state affordance in the workspace controls, with distinct signed-out, signed-in free, and Supporter states visible in the first phone and desktop viewport after loading a circuit. Supporter users get a visible `Save to account` action, while signed-out and free users keep local save primary with account-save guidance.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitBuilderPage.tsx`: wraps the save-state affordance on phone and places it before render-mode controls.
+- `components/circuit-builder/CircuitWorkspace.tsx`: renders workspace control slots before the dense workspace status pill.
+- `tests/e2e/circuit-builder.spec.ts`: asserts the save-state affordance is measurable and fits inside the first viewport for signed-out, free, and Supporter states.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitBuilderPage.tsx components/circuit-builder/CircuitWorkspace.tsx tests/e2e/circuit-builder.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/circuit-builder-account-saves.test.tsx --reporter=dot`: passed, 3/3.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts --grep "surfaces distinct save-state affordances|saves and reopens an account-backed circuit" --reporter=line`: passed, 2/2.
+- `pnpm typecheck`: passed.
+- Screenshot inspection: signed-out, free, and Supporter phone/desktop screenshots show distinct save-state UI in the first viewport.
+
+Residual risk: the mobile preset strip can still open horizontally scrolled after choosing a later preset, clipping the preceding preset label. That is separate from save-state discovery and remains a candidate for a later Circuit Builder layout task.
+
 ## 2026-06-01 OML-QA-070 Circuit Builder Mobile Add Parts Order
 
 Current state: `OML-QA-070` is complete. On mobile, the Circuit Builder now puts the `Add parts` and `Inspector` disclosures directly below the workspace and before Environment, status, save, and export tools, so a new learner can reach the component search/add path before dense tool chrome.

@@ -999,6 +999,7 @@ export function CircuitWorkspace({
           <span id="circuit-clear-workspace-description" className="sr-only">
             {clearWorkspaceDescription}
           </span>
+          {controlsSlot}
           <div
             className="flex shrink-0 items-center justify-start gap-1.5 whitespace-nowrap rounded-full border border-line bg-paper-strong px-3 py-1.5 text-xs font-semibold text-ink-700 sm:min-w-[15rem] sm:justify-center"
             aria-label={`${copy.workspace.statusAriaPrefix} ${workspaceZoomPercent}% ${copy.workspace.zoom}, ${workspacePartLabel}, ${workspaceWireLabel}, ${pointerPositionLabel}, ${workspaceModeLabel}.`}
@@ -1015,7 +1016,6 @@ export function CircuitWorkspace({
             <span aria-hidden="true">·</span>
             <span>{workspaceModeLabel}</span>
           </div>
-          {controlsSlot}
           {renderMode === "modern" ? (
             <div
               className="shrink-0 rounded-full border border-teal-500/20 bg-teal-500/8 px-2.5 py-1.5 text-xs font-semibold text-teal-800"

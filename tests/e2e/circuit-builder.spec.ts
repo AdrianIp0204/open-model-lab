@@ -1237,6 +1237,19 @@ test("surfaces distinct save-state affordances for signed-out, free, and Support
         saveAffordance.locator("[data-circuit-primary-save-action]"),
       ).toHaveAttribute("data-circuit-primary-save-action", accountState.primary);
       await expect(saveAffordance).toContainText(accountState.note);
+      const saveAffordanceBox = await saveAffordance.boundingBox();
+      expect(
+        saveAffordanceBox,
+        `${accountState.name} ${viewport.name} save-state affordance should be measurable`,
+      ).not.toBeNull();
+      expect(
+        saveAffordanceBox!.y,
+        `${accountState.name} ${viewport.name} save-state affordance should start in the viewport`,
+      ).toBeGreaterThanOrEqual(0);
+      expect(
+        saveAffordanceBox!.y + saveAffordanceBox!.height,
+        `${accountState.name} ${viewport.name} save-state affordance should fit in the first viewport`,
+      ).toBeLessThanOrEqual(viewport.height);
 
       await page.screenshot({
         path: testInfo.outputPath(

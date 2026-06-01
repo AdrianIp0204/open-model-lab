@@ -2685,7 +2685,7 @@ export function CircuitBuilderPage({
       aria-label={copy.locale === "zh-HK" ? "儲存狀態操作" : "Save state actions"}
       data-circuit-save-affordance=""
       className={[
-        "inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full border border-line bg-paper-strong/90 px-2 py-1.5",
+        "flex min-h-[44px] w-[22rem] max-w-full shrink-0 flex-wrap items-center gap-1.5 rounded-[22px] border border-line bg-paper-strong/90 px-2 py-1.5 xl:inline-flex xl:w-auto xl:flex-nowrap xl:rounded-full",
         saveStateKind === "account-save" || saveStateKind === "account-available"
           ? "border-teal-500/25 bg-teal-500/6"
           : "",
@@ -2720,7 +2720,7 @@ export function CircuitBuilderPage({
         </button>
       ) : null}
       <span
-        className="max-w-[14rem] whitespace-normal text-xs leading-5 text-ink-600"
+        className="basis-full whitespace-normal text-xs leading-5 text-ink-600 xl:max-w-[14rem] xl:basis-auto"
         data-circuit-save-state-note=""
         data-circuit-account-save-upgrade-note={
           accountSession.status === "signed-in" && !canUseAccountSaves ? "" : undefined
@@ -2732,8 +2732,8 @@ export function CircuitBuilderPage({
   );
   const workspaceControlsSlot = (
     <>
-      <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} copy={copy} />
       {saveAffordance}
+      <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} copy={copy} />
     </>
   );
   const focusComponentLibrary = useCallback(() => {
