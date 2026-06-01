@@ -1,5 +1,33 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-083 Chemistry Visual QA Sweep
+
+Current state: `OML-QA-083` is complete. The Chemistry Reaction Mind Map now has a durable Playwright visual QA sweep for English and zh-HK across phone, tablet, desktop, and wide breakpoints. The sweep covers initial, selected node, selected edge, compare, route-results, no-route, zoom/focus, feedback placement, touch target, clipping, horizontal overflow, zh-HK critical-copy, and browser-guard regressions, and it is included in the local QA sweep runner.
+
+Implementation commit before the tracking commit: `47876e2`.
+
+### Files Changed
+
+- `tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts`: adds the Chemistry visual/responsive QA matrix and screenshot artifacts for the key learner states.
+- `scripts/run-playwright-qa-sweep.mjs`: includes the Chemistry visual QA spec in the default local QA sweep list.
+- `components/tools/chemistry/ChemistryComparisonDetails.tsx`: raises compare action buttons to the touch target floor.
+- `components/tools/chemistry/ChemistryRouteExplorerDetails.tsx`: keeps compact route selectors and route node chips touch-safe.
+- `components/tools/chemistry/ChemistryReactionGraph.tsx`: owns the zoom slider caret color to avoid browser guard noise.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check HEAD^..HEAD`: passed.
+- `git diff --check`: passed.
+- `pnpm exec eslint tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts components/tools/chemistry/ChemistryComparisonDetails.tsx components/tools/chemistry/ChemistryRouteExplorerDetails.tsx components/tools/chemistry/ChemistryReactionGraph.tsx scripts/run-playwright-qa-sweep.mjs`: passed.
+- `node scripts/run-vitest.mjs run tests/app/chemistry-reaction-mind-map-page.test.tsx --reporter=dot`: passed, 51/51.
+- `pnpm exec playwright test --config=playwright.config.ts tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts --reporter=line`: passed, 1/1.
+- `pnpm test:e2e:qa-sweep -- tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts --chunk-size=1 --port=3202`: passed with `ok: true`, `hasInstability: false`, and `hasTestFailures: false`.
+- `pnpm typecheck`: passed.
+- Screenshot inspection passed for sampled English and zh-HK phone, desktop, and wide visual QA artifacts under `output/playwright/test-results-qa-sweep-1-chemistry-reaction-mind-map-visual-qa.spec/`.
+
+Residual risk: this is a deterministic visual/regression gate, not a full human design review. The remaining zh-HK shared-footer fallback is still queued separately as `OML-QA-084`.
+
 ## 2026-06-01 OML-QA-082 Chemistry zh-HK Control Wording
 
 Current state: `OML-QA-082` is complete. The zh-HK Chemistry Reaction Mind Map now uses more natural Hong Kong Chinese wording for camera reset, route search/result actions, route endpoints, and compare controls instead of literal `配合視圖` phrasing.
