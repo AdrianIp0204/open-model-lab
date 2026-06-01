@@ -395,6 +395,45 @@ select {
       0 24px 64px rgba(0, 0, 0, 0.2);
   }
 
+  .circuit-workspace-empty-card {
+    color: rgba(248, 250, 252, 0.94);
+    border-color: rgba(153, 246, 228, 0.28);
+    background-color: rgb(7, 19, 28);
+    background-image:
+      radial-gradient(circle at 18% 0%, rgba(30, 166, 162, 0.18), transparent 36%),
+      linear-gradient(135deg, rgba(7, 19, 28, 0.96), rgba(15, 28, 36, 0.94));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 24px 80px rgba(0, 0, 0, 0.28);
+  }
+
+  .circuit-workspace-empty-card [data-circuit-workspace-empty-title] {
+    color: rgba(248, 250, 252, 0.96);
+  }
+
+  .circuit-workspace-empty-card [data-circuit-workspace-empty-subtitle] {
+    color: rgba(204, 251, 241, 0.9);
+  }
+
+  .circuit-workspace-empty-card [data-circuit-workspace-empty-example] {
+    color: rgba(203, 213, 225, 0.82);
+  }
+
+  .circuit-workspace-empty-card [data-circuit-workspace-empty-action] {
+    color: rgba(5, 16, 24, 0.94);
+    border-color: rgba(153, 246, 228, 0.48);
+    background-color: rgba(153, 246, 228, 0.94);
+    box-shadow: 0 10px 30px rgba(20, 184, 166, 0.22);
+  }
+
+  .circuit-workspace-empty-card [data-circuit-workspace-empty-action]:hover {
+    background-color: rgba(204, 251, 241, 0.98);
+  }
+
+  .circuit-workspace-empty-card [data-circuit-workspace-empty-action]:focus-visible {
+    --tw-ring-color: rgba(153, 246, 228, 0.52);
+  }
+
   .simulation-shell--focus-stage [data-focus-surface="bench-header"] > section,
   .simulation-shell--focus-stage [data-focus-surface="rail"] > section {
     color: rgba(248, 250, 252, 0.92);

@@ -230,6 +230,130 @@ test.afterEach(() => {
   browserGuard.assertNoActionableIssues();
 });
 
+test("keeps the empty workspace instruction readable on the dark circuit stage", async ({
+  page,
+}, testInfo) => {
+  await setHarnessSession(page, "signed-out");
+
+  const viewports = [
+    { name: "phone", width: 390, height: 844 },
+    { name: "tablet", width: 768, height: 1024 },
+    { name: "desktop", width: 1440, height: 900 },
+    { name: "wide", width: 1920, height: 1080 },
+  ];
+
+  for (const viewport of viewports) {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await openCircuitBuilder(page);
+
+    const card = page.locator("[data-circuit-workspace-empty-card]");
+    await expect(card).toBeVisible();
+    await expect(page.locator("[data-circuit-workspace-empty-title]")).toContainText(
+      "Start with a source and one load",
+    );
+    await expect(page.locator("[data-circuit-workspace-empty-action]")).toBeVisible();
+
+    const metrics = await card.evaluate((element) => {
+      function parseRgb(value: string) {
+        const match = value.match(/rgba?\(([^)]+)\)/);
+        if (!match) {
+          throw new Error(`Could not parse color: ${value}`);
+        }
+        const parts = match[1]!.split(",").map((part) => Number(part.trim()));
+        return {
+          r: parts[0] ?? 0,
+          g: parts[1] ?? 0,
+          b: parts[2] ?? 0,
+          a: parts[3] ?? 1,
+        };
+      }
+
+      function channel(value: number) {
+        const normalized = value / 255;
+        return normalized <= 0.03928
+          ? normalized / 12.92
+          : ((normalized + 0.055) / 1.055) ** 2.4;
+      }
+
+      function luminance(color: { r: number; g: number; b: number }) {
+        return 0.2126 * channel(color.r) + 0.7152 * channel(color.g) + 0.0722 * channel(color.b);
+      }
+
+      function composite(
+        foreground: { r: number; g: number; b: number; a: number },
+        background: { r: number; g: number; b: number; a: number },
+      ) {
+        const alpha = foreground.a + background.a * (1 - foreground.a);
+        return {
+          r: (foreground.r * foreground.a + background.r * background.a * (1 - foreground.a)) / alpha,
+          g: (foreground.g * foreground.a + background.g * background.a * (1 - foreground.a)) / alpha,
+          b: (foreground.b * foreground.a + background.b * background.a * (1 - foreground.a)) / alpha,
+          a: alpha,
+        };
+      }
+
+      function contrastRatio(
+        foreground: { r: number; g: number; b: number; a: number },
+        background: { r: number; g: number; b: number; a: number },
+      ) {
+        const resolvedForeground = foreground.a < 1 ? composite(foreground, background) : foreground;
+        const light = Math.max(luminance(resolvedForeground), luminance(background));
+        const dark = Math.min(luminance(resolvedForeground), luminance(background));
+        return (light + 0.05) / (dark + 0.05);
+      }
+
+      const background = parseRgb(window.getComputedStyle(element).backgroundColor);
+      const title = element.querySelector("[data-circuit-workspace-empty-title]");
+      const subtitle = element.querySelector("[data-circuit-workspace-empty-subtitle]");
+      const example = element.querySelector("[data-circuit-workspace-empty-example]");
+      const action = element.querySelector("[data-circuit-workspace-empty-action]");
+      if (!title || !subtitle || !example || !action) {
+        throw new Error("Missing empty workspace instruction element.");
+      }
+
+      const titleStyle = window.getComputedStyle(title);
+      const subtitleStyle = window.getComputedStyle(subtitle);
+      const exampleStyle = window.getComputedStyle(example);
+      const actionStyle = window.getComputedStyle(action);
+      const actionBackground = parseRgb(actionStyle.backgroundColor);
+
+      return {
+        cardBackgroundLuminance: luminance(background),
+        titleContrast: contrastRatio(parseRgb(titleStyle.color), background),
+        subtitleContrast: contrastRatio(parseRgb(subtitleStyle.color), background),
+        exampleContrast: contrastRatio(parseRgb(exampleStyle.color), background),
+        actionContrast: contrastRatio(parseRgb(actionStyle.color), actionBackground),
+        titleFontSize: Number.parseFloat(titleStyle.fontSize),
+        subtitleFontSize: Number.parseFloat(subtitleStyle.fontSize),
+        exampleFontSize: Number.parseFloat(exampleStyle.fontSize),
+        actionFontSize: Number.parseFloat(actionStyle.fontSize),
+      };
+    });
+
+    expect(metrics.cardBackgroundLuminance).toBeLessThan(0.04);
+    expect(metrics.titleContrast).toBeGreaterThanOrEqual(7);
+    expect(metrics.subtitleContrast).toBeGreaterThanOrEqual(4.5);
+    expect(metrics.exampleContrast).toBeGreaterThanOrEqual(4.5);
+    expect(metrics.actionContrast).toBeGreaterThanOrEqual(7);
+    expect(metrics.titleFontSize).toBeGreaterThanOrEqual(18);
+    expect(metrics.subtitleFontSize).toBeGreaterThanOrEqual(14);
+    expect(metrics.exampleFontSize).toBeGreaterThanOrEqual(12);
+    expect(metrics.actionFontSize).toBeGreaterThanOrEqual(14);
+
+    await page.screenshot({
+      path: testInfo.outputPath(`circuit-builder-empty-${viewport.name}.png`),
+      animations: "disabled",
+    });
+  }
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await openCircuitBuilder(page);
+  await page.locator("[data-circuit-workspace-empty-action]").click();
+  await expect(
+    page.locator('[data-circuit-palette-panel="desktop"] [data-circuit-palette-item="battery"]'),
+  ).toBeFocused();
+});
+
 test("supports pointer drag movement, toolbar rotation, and svg export from the live desktop workspace", async ({
   page,
 }, testInfo) => {

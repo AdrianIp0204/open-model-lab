@@ -102,6 +102,7 @@ type CircuitWorkspaceProps = {
   onFitView: () => void;
   onDropComponent: (type: CircuitComponentType, point: CircuitPoint) => void;
   onClearWorkspace: () => void;
+  onOpenComponentLibrary?: () => void;
   canClearWorkspace: boolean;
   clearWorkspaceArmed: boolean;
   canFitView: boolean;
@@ -444,6 +445,7 @@ export function CircuitWorkspace({
   onFitView,
   onDropComponent,
   onClearWorkspace,
+  onOpenComponentLibrary,
   canClearWorkspace,
   clearWorkspaceArmed,
   canFitView,
@@ -1118,6 +1120,44 @@ export function CircuitWorkspace({
           );
         }}
       >
+        {document.components.length === 0 ? (
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-4">
+            <div
+              className="circuit-workspace-empty-card pointer-events-auto w-[min(31rem,calc(100%-1rem))] rounded-[24px] border px-5 py-5 text-center shadow-[0_24px_80px_rgba(0,0,0,0.28)] sm:px-6 sm:py-5"
+              data-circuit-workspace-empty-card=""
+            >
+              <p
+                className="text-lg font-semibold leading-snug sm:text-2xl"
+                data-circuit-workspace-empty-title=""
+              >
+                {copy.workspace.emptyTitle}
+              </p>
+              <p
+                className="mx-auto mt-2 max-w-[26rem] text-sm leading-6 sm:text-base"
+                data-circuit-workspace-empty-subtitle=""
+              >
+                {copy.workspace.emptySubtitle}
+              </p>
+              <p
+                className="mx-auto mt-2 max-w-[26rem] text-xs font-medium leading-5 sm:text-sm"
+                data-circuit-workspace-empty-example=""
+              >
+                {copy.workspace.emptyExample}
+              </p>
+              {onOpenComponentLibrary ? (
+                <button
+                  type="button"
+                  className="mt-4 inline-flex min-h-11 items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2"
+                  onClick={onOpenComponentLibrary}
+                  data-circuit-workspace-empty-action=""
+                >
+                  {copy.workspace.emptyActionLabel}
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+
         <svg
           ref={svgRef}
           viewBox={`0 0 ${canvasFrame.width} ${canvasFrame.height}`}
@@ -1214,29 +1254,6 @@ export function CircuitWorkspace({
             data-circuit-workspace-background=""
             onPointerDown={handleBackgroundPointerDown}
           />
-
-          {document.components.length === 0 ? (
-            <g transform={`translate(${canvasFrame.width / 2} ${canvasFrame.height / 2})`} pointerEvents="none">
-              <rect
-                x="-196"
-                y="-78"
-                width="392"
-                height="156"
-                rx="28"
-                fill="rgba(255,253,248,0.95)"
-                stroke="rgba(15,28,36,0.1)"
-              />
-              <text x="0" y="-20" textAnchor="middle" fill="var(--ink-950)" className="text-[22px] font-semibold">
-                {copy.workspace.emptyTitle}
-              </text>
-              <text x="0" y="14" textAnchor="middle" fill="var(--ink-700)" className="text-[14px]">
-                {copy.workspace.emptySubtitle}
-              </text>
-              <text x="0" y="40" textAnchor="middle" fill="var(--ink-600)" className="text-[13px]">
-                {copy.workspace.emptyExample}
-              </text>
-            </g>
-          ) : null}
 
           <g
             transform={`translate(${document.view.offsetX} ${document.view.offsetY}) scale(${document.view.zoom})`}

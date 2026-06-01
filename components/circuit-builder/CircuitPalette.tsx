@@ -218,6 +218,7 @@ export function CircuitPalette({
 
                 onAddComponent(entry.type as CircuitComponentType);
               }}
+              data-circuit-palette-item={entry.type}
               className={[
                 "motion-card flex w-full items-center gap-2 rounded-[16px] border px-2.5 py-2 text-left shadow-sm transition",
                 isActive

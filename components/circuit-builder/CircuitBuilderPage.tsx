@@ -2633,6 +2633,43 @@ export function CircuitBuilderPage({
   const workspaceControlsSlot = (
     <CircuitRenderModeSwitch value={renderMode} onChange={updateCircuitRenderMode} copy={copy} />
   );
+  const focusComponentLibrary = useCallback(() => {
+    setIsLibraryCollapsed(false);
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        const panels = Array.from(
+          document.querySelectorAll<HTMLElement>("[data-circuit-palette-panel]"),
+        );
+        const panel =
+          panels.find((candidate) => {
+            const style = window.getComputedStyle(candidate);
+            const box = candidate.getBoundingClientRect();
+            return (
+              style.display !== "none" &&
+              style.visibility !== "hidden" &&
+              box.width > 0 &&
+              box.height > 0
+            );
+          }) ?? panels[0] ?? null;
+
+        if (!panel) {
+          return;
+        }
+
+        const containingDetails = panel.closest("details");
+        if (containingDetails instanceof HTMLDetailsElement) {
+          containingDetails.open = true;
+        }
+
+        panel.scrollIntoView({ block: "center", inline: "nearest" });
+        const batteryButton =
+          panel.querySelector<HTMLButtonElement>('[data-circuit-palette-item="battery"]') ??
+          panel.querySelector<HTMLButtonElement>("button");
+        batteryButton?.focus({ preventScroll: true });
+      });
+    });
+  }, []);
   const builderGridColumnClass = isLibraryCollapsed
     ? isInspectorCollapsed
       ? "xl:grid-cols-[3.25rem_minmax(0,1fr)_3.25rem]"
@@ -3199,6 +3236,7 @@ export function CircuitBuilderPage({
             onFitView={fitWorkspaceView}
             onDropComponent={addComponent}
             onClearWorkspace={clearWorkspace}
+            onOpenComponentLibrary={focusComponentLibrary}
             canClearWorkspace={canSaveCurrentCircuit}
             clearWorkspaceArmed={clearWorkspaceArmed}
             canFitView={state.document.components.length > 0}

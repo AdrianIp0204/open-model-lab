@@ -105,6 +105,7 @@ export type CircuitBuilderCopy = {
     emptyTitle: string;
     emptySubtitle: string;
     emptyExample: string;
+    emptyActionLabel: string;
     modernLegend: string;
     zoom: string;
     partSingular: string;
@@ -517,6 +518,7 @@ export const circuitBuilderCopyEn: CircuitBuilderCopy = {
     emptyTitle: "Start with a source and one load",
     emptySubtitle: "Click a palette item to add it here, then connect terminals with the wire tool.",
     emptyExample: "Example: battery -> resistor -> back to the battery for a complete loop.",
+    emptyActionLabel: "Open parts",
     modernLegend: "Modern: bulb glow follows power; e- dots show electron flow.",
     zoom: "zoom",
     partSingular: "part",
@@ -1006,6 +1008,7 @@ export const circuitBuilderCopyZhHk: CircuitBuilderCopy = {
     emptyTitle: "先加入一個電源和一個負載",
     emptySubtitle: "按元件庫項目把它加入這裏，再用導線工具連接端子。",
     emptyExample: "例子：電池 -> 電阻 -> 回到電池，形成完整迴路。",
+    emptyActionLabel: "開啟元件庫",
     modernLegend: "現代視覺：燈泡亮度跟隨功率；e− 點顯示電子流。",
     zoom: "縮放",
     partSingular: "個元件",
