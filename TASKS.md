@@ -733,13 +733,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
   - Completion note (2026-06-01 HKT): Added a compact guided mode with bounded circuit goals, solver-backed checks, success/incomplete/wrong-placement feedback, and non-crowding guide coverage for the workbench.
   - Validation: git diff --check 63a154f..HEAD; targeted eslint; circuit-builder component vitest 71/71; Playwright guided build/check and builder-row gates 2/2; pnpm typecheck; desktop/mobile guided screenshots inspected
-- [ ] **OML-QA-073: Improve the component library for scale with categories, filters, and better selected-item previews.**
+- [x] **OML-QA-073: Improve the component library for scale with categories, filters, and better selected-item previews.**
   - Evidence: desktop screenshots show the component library as a single scroll list with clipped card summaries; mobile relies on search plus a long disclosure. The library is still manageable at `12` items, but the UI will not scale well as junction dots, sensors, semiconductors, AC parts, or measurement tools are added.
   - UX problem: a builder tool needs quick part retrieval by intent: source, load, meter, sensor, protection, connection. Search helps, but a flat list makes beginners scan names before they know the vocabulary.
   - Affected area: `CircuitPalette.tsx`, `lib/circuit-builder/registry.ts`, copy/search terms, mobile palette layout, and palette tests.
   - Fix direction: add lightweight category chips or grouped headings (`Sources`, `Loads`, `Meters`, `Sensors`, `Protection`, `Connections`), keep search global, and show a larger selected/hover preview explaining terminals and behavior. Preserve keyboard navigation and the existing search empty state.
   - Validation: desktop and phone tests verify filtering by category plus search; screenshots show no clipped critical summaries and the selected/hover preview helps explain unfamiliar components.
 
+  - Completion note (2026-06-01 HKT): Added intent category filters, grouped component sections, global search-aware counts, and hover/focus previews with terminal and behavior details; mobile category filters now meet the 44px touch floor.
+  - Validation: git diff --check; targeted eslint; circuit-builder component vitest 72/72; Playwright category/search gate; Playwright palette visual audit with desktop/phone screenshots; pnpm typecheck
 - [ ] **OML-QA-074: Make Circuit Builder error and recovery states visible near the action that caused them.**
   - Evidence: the manual invalid JSON interaction recorded the status `The selected file is not valid JSON.` in `summary.json`, but `output/circuit-builder-qa-2026-05-31/desktop-invalid-json-error.png` does not make that error visually obvious near the `File` / load action. The same risk applies to account-save load/save failures, unreadable local saves, and import validation failures.
   - UX/accessibility problem: a status-region-only error is easy to miss in a dense editor. File/account/save errors should appear next to the menu or form that triggered them and explain the next recovery step.

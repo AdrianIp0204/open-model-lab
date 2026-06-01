@@ -3,9 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   circuitBuilderCopyEn,
+  circuitPaletteCategoryOrder,
   getLocalizedCircuitPaletteEntries,
   type CircuitBuilderCopy,
   type CircuitComponentType,
+  type CircuitPaletteCategory,
   type CircuitPaletteItemType,
   type CircuitRenderMode,
 } from "@/lib/circuit-builder";
@@ -32,6 +34,8 @@ export function CircuitPalette({
   panelKind = "desktop",
 }: CircuitPaletteProps) {
   const [query, setQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState<CircuitPaletteCategory | "all">("all");
+  const [previewType, setPreviewType] = useState<CircuitPaletteItemType | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,7 +44,7 @@ export function CircuitPalette({
   const searchResultId = `circuit-palette-search-result-${panelKind}`;
   const clearSearchDescriptionId = `circuit-palette-clear-search-description-${panelKind}`;
   const paletteEntries = useMemo(() => getLocalizedCircuitPaletteEntries(copy), [copy]);
-  const visibleEntries = useMemo(() => {
+  const searchMatchedEntries = useMemo(() => {
     if (!normalizedQuery) {
       return paletteEntries;
     }
@@ -57,6 +61,49 @@ export function CircuitPalette({
       return hasPhraseMatch || hasTokenMatch;
     });
   }, [normalizedQuery, paletteEntries]);
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<CircuitPaletteCategory, number>();
+
+    for (const category of circuitPaletteCategoryOrder) {
+      counts.set(category, 0);
+    }
+
+    for (const entry of searchMatchedEntries) {
+      counts.set(entry.category, (counts.get(entry.category) ?? 0) + 1);
+    }
+
+    return counts;
+  }, [searchMatchedEntries]);
+  const visibleEntries = useMemo(() => {
+    if (activeCategory === "all") {
+      return searchMatchedEntries;
+    }
+
+    return searchMatchedEntries.filter((entry) => entry.category === activeCategory);
+  }, [activeCategory, searchMatchedEntries]);
+  const groupedEntries = useMemo(() => {
+    const categories =
+      activeCategory === "all" ? circuitPaletteCategoryOrder : [activeCategory];
+
+    return categories
+      .map((category) => ({
+        category,
+        entries: visibleEntries.filter((entry) => entry.category === category),
+      }))
+      .filter((group) => group.entries.length > 0);
+  }, [activeCategory, visibleEntries]);
+  const orderedVisibleEntries = useMemo(
+    () => groupedEntries.flatMap((group) => group.entries),
+    [groupedEntries],
+  );
+  const previewEntry =
+    orderedVisibleEntries.find((entry) => entry.type === previewType) ??
+    orderedVisibleEntries[0] ??
+    null;
+  const categoryButtonBaseClass =
+    panelKind === "mobile"
+      ? "min-h-11 shrink-0 rounded-full border px-3 py-2.5 text-[11px] font-semibold transition"
+      : "shrink-0 rounded-full border px-2.5 py-1.5 text-[11px] font-semibold transition";
   const resultSummary = normalizedQuery
     ? copy.locale === "zh-HK"
       ? `${visibleEntries.length} ${
@@ -77,7 +124,7 @@ export function CircuitPalette({
     }
 
     scrollRef.current.scrollTop = 0;
-  }, [normalizedQuery]);
+  }, [activeCategory, normalizedQuery]);
 
   function handleDragStart(
     event: React.DragEvent<HTMLButtonElement>,
@@ -95,6 +142,22 @@ export function CircuitPalette({
   function clearSearchAndRefocus() {
     setQuery("");
     searchInputRef.current?.focus();
+  }
+
+  function getPreviewTerminalSummary(entry: typeof previewEntry) {
+    if (!entry) {
+      return "";
+    }
+
+    if (entry.type === "wire") {
+      return copy.palette.wireToolTerminalSummary;
+    }
+
+    if (!entry.terminalLabels) {
+      return "";
+    }
+
+    return `${entry.terminalLabels.a} ${copy.palette.previewTerminalConnector} ${entry.terminalLabels.b}`;
   }
 
   return (
@@ -167,6 +230,114 @@ export function CircuitPalette({
       </p>
 
       <div
+        className="mt-3 flex gap-1.5 overflow-x-auto pb-1"
+        role="group"
+        aria-label={copy.palette.categoryFilterLabel}
+        data-circuit-palette-categories={panelKind}
+      >
+        <button
+          type="button"
+          aria-label={copy.palette.allCategoriesLabel}
+          aria-pressed={activeCategory === "all"}
+          data-circuit-palette-category="all"
+          onClick={() => setActiveCategory("all")}
+          className={[
+            categoryButtonBaseClass,
+            activeCategory === "all"
+              ? "border-teal-600 bg-teal-500/10 text-teal-900"
+              : "border-line bg-paper text-ink-700 hover:border-ink-950/20",
+          ].join(" ")}
+        >
+          <span>{copy.palette.allCategoriesLabel}</span>
+          <span className="ml-1 text-ink-500" aria-hidden="true">
+            {searchMatchedEntries.length}
+          </span>
+        </button>
+        {circuitPaletteCategoryOrder.map((category) => (
+          <button
+            key={category}
+            type="button"
+            aria-label={copy.palette.categoryLabels[category]}
+            aria-pressed={activeCategory === category}
+            data-circuit-palette-category={category}
+            onClick={() => setActiveCategory(category)}
+            className={[
+              categoryButtonBaseClass,
+              activeCategory === category
+                ? "border-teal-600 bg-teal-500/10 text-teal-900"
+                : "border-line bg-paper text-ink-700 hover:border-ink-950/20",
+            ].join(" ")}
+          >
+            <span>{copy.palette.categoryLabels[category]}</span>
+            <span className="ml-1 text-ink-500" aria-hidden="true">
+              {categoryCounts.get(category) ?? 0}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <section
+        aria-label={copy.palette.previewLabel}
+        className="mt-2 rounded-[18px] border border-line bg-white p-3 shadow-sm"
+        data-circuit-palette-preview={panelKind}
+        data-circuit-palette-preview-type={previewEntry?.type ?? "none"}
+      >
+        {previewEntry ? (
+          <div className="grid gap-3 sm:grid-cols-[4.75rem_minmax(0,1fr)]">
+            <div className="flex h-20 items-center justify-center rounded-[16px] border border-line bg-paper">
+              {renderMode === "modern" ? (
+                <CircuitPartVisual
+                  type={previewEntry.type}
+                  className="h-16 w-20"
+                  active={previewEntry.type === "wire" && activeTool === "wire"}
+                  openSwitch={previewEntry.type === "switch" && activeTool !== "wire"}
+                />
+              ) : (
+                <CircuitSymbol
+                  type={previewEntry.type}
+                  className="h-14 w-20"
+                  active={previewEntry.type === "wire" && activeTool === "wire"}
+                  openSwitch={previewEntry.type === "switch" && activeTool !== "wire"}
+                />
+              )}
+            </div>
+            <div className="min-w-0 text-sm">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="font-semibold text-ink-950">{previewEntry.label}</h3>
+                <span className="rounded-full border border-line bg-paper px-2 py-0.5 text-[11px] font-semibold text-ink-600">
+                  {copy.palette.categoryLabels[previewEntry.category]}
+                </span>
+              </div>
+              <p className="mt-1 text-xs leading-5 text-ink-700">{previewEntry.summary}</p>
+              <dl className="mt-2 grid gap-1.5 text-[11px] leading-4 text-ink-700">
+                <div>
+                  <dt className="font-semibold uppercase tracking-[0.14em] text-ink-500">
+                    {copy.palette.previewTerminalsLabel}
+                  </dt>
+                  <dd data-circuit-palette-preview-terminals={panelKind}>
+                    {getPreviewTerminalSummary(previewEntry)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="font-semibold uppercase tracking-[0.14em] text-ink-500">
+                    {copy.palette.previewBehaviorLabel}
+                  </dt>
+                  <dd data-circuit-palette-preview-behavior={panelKind}>
+                    {previewEntry.behavior}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        ) : (
+          <div className="text-sm leading-6 text-ink-700">
+            <p className="font-semibold text-ink-950">{copy.palette.previewFallbackTitle}</p>
+            <p className="mt-1">{copy.palette.previewFallbackBody}</p>
+          </div>
+        )}
+      </section>
+
+      <div
         ref={scrollRef}
         className="mt-3 grid min-h-0 gap-2 overflow-y-auto pr-1"
         data-circuit-palette-scroll={panelKind}
@@ -187,81 +358,94 @@ export function CircuitPalette({
             </button>
           </div>
         ) : null}
-        {visibleEntries.map((entry) => {
-          const isWireTool = entry.type === "wire";
-          const isActive = isWireTool ? activeTool === "wire" : false;
-          const itemDescriptionId = `circuit-palette-${panelKind}-${entry.type}-description`;
-          const itemAccessibleDescription = isWireTool
-            ? isActive
-              ? copy.palette.wireToolActiveDescription
-              : copy.palette.wireToolInactiveDescription
-            : `${copy.palette.addComponentDescriptionPrefix} ${entry.label} ${copy.palette.addComponentDescriptionSuffix}`;
+        {groupedEntries.map((group) => (
+          <section
+            key={group.category}
+            className="grid gap-2"
+            data-circuit-palette-group={group.category}
+          >
+            <h3 className="px-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-500">
+              {copy.palette.categoryLabels[group.category]}
+            </h3>
+            {group.entries.map((entry) => {
+              const isWireTool = entry.type === "wire";
+              const isActive = isWireTool ? activeTool === "wire" : false;
+              const itemDescriptionId = `circuit-palette-${panelKind}-${entry.type}-description`;
+              const itemAccessibleDescription = isWireTool
+                ? isActive
+                  ? copy.palette.wireToolActiveDescription
+                  : copy.palette.wireToolInactiveDescription
+                : `${copy.palette.addComponentDescriptionPrefix} ${entry.label} ${copy.palette.addComponentDescriptionSuffix}`;
 
-          return (
-            <button
-              key={entry.type}
-              type="button"
-              draggable={!isWireTool}
-              aria-label={
-                isWireTool
-                  ? copy.palette.activateWireTool
-                  : `${copy.palette.addComponentAriaPrefix} ${entry.label}`
-              }
-              aria-describedby={itemDescriptionId}
-              aria-pressed={isWireTool ? isActive : undefined}
-              onDragStart={(event) => handleDragStart(event, entry.type)}
-              onClick={() => {
-                if (isWireTool) {
-                  onSetTool(activeTool === "wire" ? "select" : "wire");
-                  return;
-                }
+              return (
+                <button
+                  key={entry.type}
+                  type="button"
+                  draggable={!isWireTool}
+                  aria-label={
+                    isWireTool
+                      ? copy.palette.activateWireTool
+                      : `${copy.palette.addComponentAriaPrefix} ${entry.label}`
+                  }
+                  aria-describedby={itemDescriptionId}
+                  aria-pressed={isWireTool ? isActive : undefined}
+                  onFocus={() => setPreviewType(entry.type)}
+                  onPointerEnter={() => setPreviewType(entry.type)}
+                  onDragStart={(event) => handleDragStart(event, entry.type)}
+                  onClick={() => {
+                    if (isWireTool) {
+                      onSetTool(activeTool === "wire" ? "select" : "wire");
+                      return;
+                    }
 
-                onAddComponent(entry.type as CircuitComponentType);
-              }}
-              data-circuit-palette-item={entry.type}
-              className={[
-                "motion-card flex w-full items-center gap-2 rounded-[16px] border px-2.5 py-2 text-left shadow-sm transition",
-                isActive
-                  ? "border-teal-500 bg-teal-500/10 text-ink-950"
-                  : "border-line bg-paper-strong text-ink-950 hover:border-ink-950/20",
-              ].join(" ")}
-            >
-              <div className="flex h-11 w-14 shrink-0 items-center justify-center rounded-[14px] border border-line bg-paper">
-                {renderMode === "modern" ? (
-                  <CircuitPartVisual
-                    type={entry.type}
-                    className="h-9 w-12"
-                    active={isActive}
-                    openSwitch={entry.type === "switch" && !isActive}
-                  />
-                ) : (
-                  <CircuitSymbol
-                    type={entry.type}
-                    className="h-8 w-11"
-                    active={isActive}
-                    openSwitch={entry.type === "switch" && !isActive}
-                  />
-                )}
-              </div>
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-semibold">{entry.label}</span>
-                  {isWireTool ? (
-                    <span className="rounded-full border border-line bg-paper px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-600">
-                      {copy.palette.toolBadge}
+                    onAddComponent(entry.type as CircuitComponentType);
+                  }}
+                  data-circuit-palette-item={entry.type}
+                  className={[
+                    "motion-card flex w-full items-center gap-2 rounded-[16px] border px-2.5 py-2 text-left shadow-sm transition",
+                    isActive
+                      ? "border-teal-500 bg-teal-500/10 text-ink-950"
+                      : "border-line bg-paper-strong text-ink-950 hover:border-ink-950/20",
+                  ].join(" ")}
+                >
+                  <div className="flex h-11 w-14 shrink-0 items-center justify-center rounded-[14px] border border-line bg-paper">
+                    {renderMode === "modern" ? (
+                      <CircuitPartVisual
+                        type={entry.type}
+                        className="h-9 w-12"
+                        active={isActive}
+                        openSwitch={entry.type === "switch" && !isActive}
+                      />
+                    ) : (
+                      <CircuitSymbol
+                        type={entry.type}
+                        className="h-8 w-11"
+                        active={isActive}
+                        openSwitch={entry.type === "switch" && !isActive}
+                      />
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-semibold">{entry.label}</span>
+                      {isWireTool ? (
+                        <span className="rounded-full border border-line bg-paper px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-600">
+                          {copy.palette.toolBadge}
+                        </span>
+                      ) : null}
+                    </div>
+                    <p className="mt-0.5 text-[11px] leading-4 text-ink-600">
+                      {entry.summary}
+                    </p>
+                    <span id={itemDescriptionId} className="sr-only">
+                      {itemAccessibleDescription}
                     </span>
-                  ) : null}
-                </div>
-                <p className="mt-0.5 text-[11px] leading-4 text-ink-600 sm:line-clamp-2">
-                  {entry.summary}
-                </p>
-                <span id={itemDescriptionId} className="sr-only">
-                  {itemAccessibleDescription}
-                </span>
-              </div>
-            </button>
-          );
-        })}
+                  </div>
+                </button>
+              );
+            })}
+          </section>
+        ))}
       </div>
     </aside>
   );

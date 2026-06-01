@@ -10,6 +10,7 @@ import type {
   CircuitDocument,
   CircuitEditableField,
   CircuitIssue,
+  CircuitPaletteCategory,
   CircuitPaletteEntry,
   CircuitRenderMode,
   CircuitTerminalRef,
@@ -72,6 +73,9 @@ export type CircuitBuilderCopy = {
     searchHelp: string;
     clearSearch: string;
     clearSearchTitle: string;
+    categoryFilterLabel: string;
+    allCategoriesLabel: string;
+    categoryLabels: Record<CircuitPaletteCategory, string>;
     resultSummary: {
       available: string;
       match: string;
@@ -87,6 +91,13 @@ export type CircuitBuilderCopy = {
     addComponentAriaPrefix: string;
     addComponentDescriptionPrefix: string;
     addComponentDescriptionSuffix: string;
+    previewLabel: string;
+    previewFallbackTitle: string;
+    previewFallbackBody: string;
+    previewBehaviorLabel: string;
+    previewTerminalsLabel: string;
+    previewTerminalConnector: string;
+    wireToolTerminalSummary: string;
     collapsedAria: string;
     collapseAria: string;
     expandAria: string;
@@ -492,6 +503,16 @@ export const circuitBuilderCopyEn: CircuitBuilderCopy = {
       "Search by name or role: try battery, source, bulb, ldr, sensor, fuse, or connect. Press Esc while searching to clear.",
     clearSearch: "Clear component search",
     clearSearchTitle: "Clear component search and keep focus in the search field (Esc)",
+    categoryFilterLabel: "Filter components by intent",
+    allCategoriesLabel: "All",
+    categoryLabels: {
+      sources: "Sources",
+      loads: "Loads",
+      meters: "Meters",
+      sensors: "Sensors",
+      protection: "Protection",
+      connections: "Connections",
+    },
     resultSummary: {
       available: "tools and components available.",
       match: "match",
@@ -509,6 +530,13 @@ export const circuitBuilderCopyEn: CircuitBuilderCopy = {
     addComponentDescriptionPrefix: "Click to add",
     addComponentDescriptionSuffix:
       "near the current workspace center, or drag it directly onto the workspace.",
+    previewLabel: "Component preview",
+    previewFallbackTitle: "Choose a part to preview",
+    previewFallbackBody: "Hover or focus a library item to see its terminals and behavior.",
+    previewBehaviorLabel: "Behavior",
+    previewTerminalsLabel: "Terminals",
+    previewTerminalConnector: "to",
+    wireToolTerminalSummary: "Choose a start terminal, then choose the terminal it should connect to.",
     collapsedAria: "Collapsed component library",
     collapseAria: "Collapse component library",
     expandAria: "Expand component library",
@@ -1005,6 +1033,16 @@ export const circuitBuilderCopyZhHk: CircuitBuilderCopy = {
       "可用名稱或用途搜尋：試試 電池、battery、燈泡、bulb、ldr、感測器、保險絲或連接。搜尋時按 Esc 可清除。",
     clearSearch: "清除",
     clearSearchTitle: "清除元件搜尋 (Esc)",
+    categoryFilterLabel: "按用途篩選元件",
+    allCategoriesLabel: "全部",
+    categoryLabels: {
+      sources: "電源",
+      loads: "負載",
+      meters: "量度",
+      sensors: "感測",
+      protection: "保護",
+      connections: "連接",
+    },
     resultSummary: {
       available: "個工具和元件可用。",
       match: "個結果",
@@ -1020,6 +1058,13 @@ export const circuitBuilderCopyZhHk: CircuitBuilderCopy = {
     addComponentAriaPrefix: "加入",
     addComponentDescriptionPrefix: "按一下可加入",
     addComponentDescriptionSuffix: "到目前工作區中心附近，或直接拖放到工作區。",
+    previewLabel: "元件預覽",
+    previewFallbackTitle: "選擇元件預覽",
+    previewFallbackBody: "將游標移到元件上或用鍵盤聚焦，即可查看端子和行為。",
+    previewBehaviorLabel: "行為",
+    previewTerminalsLabel: "端子",
+    previewTerminalConnector: "至",
+    wireToolTerminalSummary: "先選起點端子，再選要連接的另一個端子。",
     collapsedAria: "已收合的元件庫",
     collapseAria: "收合元件庫",
     expandAria: "展開元件庫",
@@ -1652,12 +1697,15 @@ export function getLocalizedCircuitPaletteEntries(
       symbolLabel: itemCopy.symbolLabel,
       summary: itemCopy.summary,
       behavior: itemCopy.behavior,
+      terminalLabels:
+        entry.type === "wire" ? undefined : copy.components[entry.type].terminalLabels,
       searchTerms: Array.from(
         new Set([
           ...entry.searchTerms,
           itemCopy.label,
           itemCopy.shortLabel,
           itemCopy.summary,
+          copy.palette.categoryLabels[entry.category],
           ...itemCopy.searchTerms,
         ]),
       ),

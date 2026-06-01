@@ -401,6 +401,55 @@ describe("CircuitBuilderPage", () => {
     expect(searchInput).toHaveFocus();
   });
 
+  it("filters the component library by intent category while keeping search global and previewing terminals", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<CircuitBuilderPage />);
+    const desktopPaletteElement = container.querySelector(
+      '[data-circuit-palette-panel="desktop"]',
+    ) as HTMLElement;
+    const desktopPalette = within(desktopPaletteElement);
+    const searchInput = desktopPalette.getByLabelText("Search components");
+    const preview = desktopPaletteElement.querySelector(
+      '[data-circuit-palette-preview="desktop"]',
+    ) as HTMLElement;
+
+    expect(desktopPalette.getByRole("button", { name: "Sources" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+    expect(desktopPaletteElement.querySelector('[data-circuit-palette-group="sources"]')).not.toBeNull();
+    expect(preview).toHaveAttribute("data-circuit-palette-preview-type", "battery");
+    expect(within(preview).getByText(/positive terminal to negative terminal/i)).toBeVisible();
+
+    await user.click(desktopPalette.getByRole("button", { name: "Loads" }));
+    expect(desktopPalette.getByRole("button", { name: "Loads" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(desktopPalette.getByRole("button", { name: "Add Resistor" })).toBeVisible();
+    expect(desktopPalette.getByRole("button", { name: "Add Light bulb" })).toBeVisible();
+    expect(desktopPalette.queryByRole("button", { name: "Add Battery" })).not.toBeInTheDocument();
+
+    await user.hover(desktopPalette.getByRole("button", { name: "Add Light bulb" }));
+    expect(preview).toHaveAttribute("data-circuit-palette-preview-type", "lightBulb");
+    expect(within(preview).getByText(/resistive load derived from its rated voltage/i)).toBeVisible();
+
+    await user.type(searchInput, "light");
+    expect(desktopPalette.getByRole("button", { name: "Add Light bulb" })).toBeVisible();
+    expect(desktopPalette.queryByRole("button", { name: "Add Resistor" })).not.toBeInTheDocument();
+    expect(desktopPalette.queryByRole("button", { name: "Add Light-dependent resistor" })).not.toBeInTheDocument();
+
+    await user.click(desktopPalette.getByRole("button", { name: "Sensors" }));
+    expect(desktopPalette.getByRole("button", { name: "Add Light-dependent resistor" })).toBeVisible();
+    expect(desktopPalette.queryByRole("button", { name: "Add Light bulb" })).not.toBeInTheDocument();
+    expect(preview).toHaveAttribute("data-circuit-palette-preview-type", "ldr");
+
+    await user.clear(searchInput);
+    await user.click(desktopPalette.getByRole("button", { name: "Connections" }));
+    expect(desktopPalette.getByRole("button", { name: "Activate wire tool" })).toBeVisible();
+    expect(within(preview).getByText(/Choose a start terminal/i)).toBeVisible();
+  });
+
   it("renders a workspace-first builder row with an internally scrollable palette and compact environment controls", () => {
     const { container } = render(<CircuitBuilderPage />);
 

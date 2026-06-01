@@ -1,5 +1,29 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-073 Circuit Builder Component Library Categories
+
+Current state: `OML-QA-073` is complete. The Circuit Builder component library now groups parts by learner intent, adds category filter chips with search-aware counts, keeps search global across categories, and shows a larger hover/focus preview with each selected part's terminal and behavior details. Mobile category filters meet the 44px touch target floor.
+
+### Files Changed
+
+- `components/circuit-builder/CircuitPalette.tsx`: adds category filters, grouped component sections, selected/hover previews, and mobile category touch-target sizing.
+- `lib/circuit-builder/types.ts`, `lib/circuit-builder/registry.ts`, and `lib/circuit-builder/copy.ts`: add palette categories, localized labels, preview copy, terminal metadata, and category-aware search terms.
+- `tests/components/circuit-builder-page.test.tsx`: covers category filtering, global search behavior, preview terminal/behavior details, and wire-tool preview copy.
+- `tests/e2e/circuit-builder.spec.ts`: covers desktop and phone category-plus-search behavior and mobile category touch-target sizing.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitPalette.tsx lib/circuit-builder/copy.ts lib/circuit-builder/registry.ts tests/components/circuit-builder-page.test.tsx tests/e2e/circuit-builder.spec.ts`: passed.
+- `pnpm exec vitest run tests/components/circuit-builder-page.test.tsx --reporter=dot`: passed, 72/72.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "filters the component library by intent category plus search" --reporter=line`: passed, 1/1.
+- `pnpm exec playwright test tests/e2e/oml-qa-073-palette-visual-audit.temp.spec.ts --reporter=line`: passed, 1/1; scratch spec deleted afterward and screenshots kept under `output/qa-oml-qa-073-2026-06-01/orchestrator-qa/`.
+- `pnpm typecheck`: passed.
+- Screenshot inspection: desktop and phone palette screenshots show category filtering, unclipped component summaries, and preview terminal/behavior details.
+
+Residual risk: category chips use horizontal scrolling in narrow palette columns. That keeps the palette compact today, but a larger future part catalog may need a more structured menu or pinned category rail.
+
 ## 2026-06-01 OML-QA-072 Circuit Builder Guided Build Checks
 
 Current state: `OML-QA-072` is complete. Circuit Builder now includes a compact guided mode with bounded build/check goals, starter-load actions, solver-backed circuit checks, and success/incomplete/wrong-placement feedback so the tool teaches a small task loop instead of only exposing free-build editor controls.

@@ -1022,6 +1022,62 @@ test("searches the desktop component library, adds a lower component quickly, an
   await expect(page.getByRole("button", { name: "Fuse 1", exact: true })).toBeVisible();
 });
 
+test("filters the component library by intent category plus search on desktop and phone", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+
+  const desktopPalette = page.locator('[data-circuit-palette-panel="desktop"]');
+  await desktopPalette.getByRole("button", { name: "Loads" }).click();
+  await expect(desktopPalette.getByRole("button", { name: "Add Resistor" })).toBeVisible();
+  await expect(desktopPalette.getByRole("button", { name: "Add Battery", exact: true })).toHaveCount(0);
+
+  await desktopPalette.getByLabel("Search components").fill("light");
+  await expect(desktopPalette.getByRole("button", { name: "Add Light bulb" })).toBeVisible();
+  await expect(desktopPalette.getByRole("button", { name: "Add Resistor", exact: true })).toHaveCount(0);
+  await expect(desktopPalette.getByRole("button", { name: "Add Light-dependent resistor", exact: true })).toHaveCount(0);
+  await expect(desktopPalette.locator('[data-circuit-palette-preview-type="lightBulb"]')).toBeVisible();
+  await expect(
+    desktopPalette.locator('[data-circuit-palette-preview-behavior="desktop"]'),
+  ).toContainText("resistive load");
+  await expect(
+    desktopPalette.locator('[data-circuit-palette-item="lightBulb"] p').first(),
+  ).not.toHaveClass(/line-clamp/);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openCircuitBuilder(page);
+
+  const mobilePalette = page.locator('[data-circuit-palette-panel="mobile"]');
+  await expect(mobilePalette.getByLabel("Search components")).toBeVisible();
+  const undersizedMobileCategoryButtons = await mobilePalette
+    .locator("[data-circuit-palette-category]")
+    .evaluateAll((buttons) =>
+      buttons
+        .map((button) => {
+          const rect = button.getBoundingClientRect();
+
+          return {
+            label: button.getAttribute("aria-label") ?? button.textContent?.trim() ?? "",
+            width: Math.round(rect.width),
+            height: Math.round(rect.height),
+          };
+        })
+        .filter(({ width, height }) => width < 44 || height < 44),
+    );
+  expect(undersizedMobileCategoryButtons).toEqual([]);
+  await mobilePalette.getByRole("button", { name: "Sensors" }).click();
+  await mobilePalette.getByLabel("Search components").fill("light");
+  await expect(mobilePalette.getByRole("button", { name: "Add Light-dependent resistor" })).toBeVisible();
+  await expect(mobilePalette.getByRole("button", { name: "Add Thermistor", exact: true })).toHaveCount(0);
+  await expect(mobilePalette.getByRole("button", { name: "Add Light bulb", exact: true })).toHaveCount(0);
+  await expect(mobilePalette.locator('[data-circuit-palette-preview-type="ldr"]')).toBeVisible();
+  await expect(
+    mobilePalette.locator('[data-circuit-palette-preview-terminals="mobile"]'),
+  ).toContainText("terminal A to terminal B");
+});
+
 test("keeps toolbar groups compact and usable on a narrower laptop viewport", async ({
   page,
 }) => {

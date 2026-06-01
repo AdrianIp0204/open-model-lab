@@ -3,6 +3,7 @@ import type {
   CircuitComponentInstance,
   CircuitEditableField,
   CircuitComponentType,
+  CircuitPaletteCategory,
   CircuitPaletteEntry,
   CircuitPaletteItemType,
 } from "./types";
@@ -363,6 +364,30 @@ const paletteSearchKeywords: Record<CircuitPaletteItemType, string[]> = {
   wire: ["wire", "wire tool", "connect", "connection", "lead"],
 };
 
+export const circuitPaletteCategoryOrder: CircuitPaletteCategory[] = [
+  "sources",
+  "loads",
+  "meters",
+  "sensors",
+  "protection",
+  "connections",
+];
+
+const paletteCategories: Record<CircuitPaletteItemType, CircuitPaletteCategory> = {
+  ammeter: "meters",
+  battery: "sources",
+  capacitor: "loads",
+  diode: "protection",
+  fuse: "protection",
+  ldr: "sensors",
+  lightBulb: "loads",
+  resistor: "loads",
+  switch: "connections",
+  thermistor: "sensors",
+  voltmeter: "meters",
+  wire: "connections",
+};
+
 export const circuitPaletteEntries: CircuitPaletteEntry[] = [
   {
     type: "wire",
@@ -379,6 +404,7 @@ export const circuitPaletteEntries: CircuitPaletteEntry[] = [
       ...paletteSearchKeywords.wire,
     ],
     kind: "tool",
+    category: paletteCategories.wire,
   },
   ...(
     [
@@ -403,13 +429,16 @@ export const circuitPaletteEntries: CircuitPaletteEntry[] = [
         symbolLabel: definition.symbolLabel,
         summary: definition.summary,
         behavior: definition.behavior,
+        terminalLabels: definition.terminalLabels,
         searchTerms: [
           definition.label,
           definition.shortLabel,
           definition.summary,
+          paletteCategories[type],
           ...paletteSearchKeywords[type],
         ],
         kind: "component" as const,
+        category: paletteCategories[type],
       };
     }),
 ];

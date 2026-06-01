@@ -21,6 +21,13 @@ export type CircuitComponentType =
   | "voltmeter";
 
 export type CircuitPaletteItemType = CircuitComponentType | "wire";
+export type CircuitPaletteCategory =
+  | "sources"
+  | "loads"
+  | "meters"
+  | "sensors"
+  | "protection"
+  | "connections";
 export type CircuitRenderMode = "schematic" | "modern";
 
 export type CircuitScalar = boolean | number | string;
@@ -116,6 +123,11 @@ export type CircuitPaletteEntry = {
   behavior: string;
   searchTerms: string[];
   kind: "component" | "tool";
+  category: CircuitPaletteCategory;
+  terminalLabels?: {
+    a: string;
+    b: string;
+  };
 };
 
 export type CircuitIssueSeverity = "warning" | "error";
