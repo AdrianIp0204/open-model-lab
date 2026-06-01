@@ -799,6 +799,7 @@ const CHEMISTRY_PRIMARY_TOUCH_TARGET_SELECTOR = [
   'button[data-testid^="chem-route-select-"]',
   'button[data-testid^="chem-route-node-"]',
   'article[data-testid^="chem-route-step-"] > button',
+  'details[data-testid^="chem-route-step-notes-"] > summary',
   'button[data-chem-hit-target="pathway-label"]',
 ].join(",");
 
@@ -1423,6 +1424,161 @@ test("chemistry reaction mind map avoids mobile horizontal overflow and keeps co
   await expect
     .poll(() => page.getByTestId("chemistry-graph-viewport").getAttribute("data-chem-scale"))
     .not.toBe(scaleBeforeZoom);
+
+  guard.assertNoActionableIssues();
+});
+
+test("chemistry reaction mind map presents mobile route results as a workflow", async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await disableOnboardingPrompt(page);
+  const guard = await installBrowserGuards(page);
+
+  await gotoAndExpectOk(page, "/tools/chemistry-reaction-mind-map");
+  await waitForStableChemistryGraph(page);
+  await page.getByTestId("chem-route-start").selectOption("alkene");
+  await page.getByTestId("chem-route-target").selectOption("carboxylic-acid");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chemistry-route-panel")).toBeVisible();
+  await expect(page.getByTestId("chem-route-workflow-bar")).toContainText(
+    /routes from alkene to carboxylic acid/i,
+  );
+  await expect(page.getByTestId("chem-route-back-to-map")).toBeVisible();
+  await expect(page.getByTestId("chem-route-panel-clear")).toBeVisible();
+  await expect(page.locator('[data-testid^="chem-route-step-notes-"]').first()).toBeVisible();
+
+  await page.waitForFunction(() => {
+    const bar = document.querySelector('[data-testid="chem-route-workflow-bar"]');
+
+    if (!(bar instanceof HTMLElement)) {
+      return false;
+    }
+
+    const rect = bar.getBoundingClientRect();
+    return rect.top >= -1 && rect.top <= 240;
+  });
+
+  const successfulRouteLayout = await page.evaluate(() => {
+    const getElementMetrics = (selector: string) => {
+      const element = document.querySelector(selector);
+
+      if (!(element instanceof HTMLElement)) {
+        return null;
+      }
+
+      const rect = element.getBoundingClientRect();
+
+      return {
+        top: Math.round(rect.top),
+        bottom: Math.round(rect.bottom),
+        left: Math.round(rect.left),
+        right: Math.round(rect.right),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+        scrollWidth: element.scrollWidth,
+        scrollHeight: element.scrollHeight,
+        clientWidth: element.clientWidth,
+        clientHeight: element.clientHeight,
+      };
+    };
+    const routeNodeHeights = Array.from(
+      document.querySelectorAll('button[data-testid^="chem-route-node-"]'),
+    )
+      .filter((element): element is HTMLElement => element instanceof HTMLElement)
+      .map((element) => Math.round(element.getBoundingClientRect().height));
+    const stepNotes = document.querySelector(
+      '[data-testid^="chem-route-step-notes-"]',
+    );
+
+    return {
+      horizontalOverflow:
+        Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) -
+        document.documentElement.clientWidth,
+      workflowBar: getElementMetrics('[data-testid="chem-route-workflow-bar"]'),
+      backToMap: getElementMetrics('[data-testid="chem-route-back-to-map"]'),
+      clearRoute: getElementMetrics('[data-testid="chem-route-panel-clear"]'),
+      firstCard: getElementMetrics('[data-testid^="chem-route-card-"]'),
+      firstSequence: getElementMetrics('[data-testid^="chem-route-sequence-"]'),
+      firstStepButton: getElementMetrics(
+        'article[data-testid^="chem-route-step-"] > button',
+      ),
+      routeNodeHeights,
+      stepNotesOpen: stepNotes instanceof HTMLDetailsElement ? stepNotes.open : null,
+    };
+  });
+
+  expect(successfulRouteLayout.horizontalOverflow).toBeLessThanOrEqual(1);
+  expect(successfulRouteLayout.workflowBar?.top).toBeGreaterThanOrEqual(-1);
+  expect(successfulRouteLayout.workflowBar?.top).toBeLessThanOrEqual(240);
+  expect(successfulRouteLayout.workflowBar?.bottom).toBeLessThan(420);
+  expect(successfulRouteLayout.backToMap?.height).toBeGreaterThanOrEqual(44);
+  expect(successfulRouteLayout.backToMap?.right).toBeLessThanOrEqual(390);
+  expect(successfulRouteLayout.clearRoute?.height).toBeGreaterThanOrEqual(44);
+  expect(successfulRouteLayout.clearRoute?.right).toBeLessThanOrEqual(390);
+  expect(successfulRouteLayout.firstCard?.top).toBeLessThan(844);
+  expect(successfulRouteLayout.firstSequence?.height).toBeLessThanOrEqual(56);
+  expect(successfulRouteLayout.firstStepButton?.top).toBeLessThan(844);
+  expect(successfulRouteLayout.firstStepButton?.bottom).toBeLessThanOrEqual(844);
+  expect(successfulRouteLayout.firstStepButton?.scrollHeight).toBeLessThanOrEqual(
+    (successfulRouteLayout.firstStepButton?.clientHeight ?? 0) + 2,
+  );
+  expect(successfulRouteLayout.routeNodeHeights.length).toBeGreaterThan(0);
+  expect(successfulRouteLayout.routeNodeHeights.every((height) => height >= 44)).toBe(
+    true,
+  );
+  expect(successfulRouteLayout.stepNotesOpen).toBe(false);
+
+  await page.screenshot({
+    path: testInfo.outputPath("oml-qa-078-route-results-phone.png"),
+    animations: "disabled",
+    fullPage: false,
+  });
+
+  await page.getByTestId("chem-route-back-to-map").click();
+  await expect(page.getByTestId("chemistry-graph-viewport")).toBeInViewport();
+  await expect(page.getByTestId("chemistry-graph-viewport")).toHaveAttribute(
+    "data-chem-camera-mode",
+    "route",
+  );
+
+  await page.getByTestId("chem-route-start").selectOption("amide");
+  await page.getByTestId("chem-route-target").selectOption("alkane");
+  await page.getByTestId("chem-route-search").click();
+  await expect(page.getByTestId("chem-route-no-results")).toBeVisible();
+  await expect(page.getByTestId("chem-route-workflow-bar")).toContainText(
+    /routes from amide to alkane/i,
+  );
+  await expect(page.getByTestId("chem-route-back-to-map")).toBeVisible();
+  await expect(page.getByTestId("chem-route-panel-clear")).toBeVisible();
+  await page.waitForFunction(() => {
+    const bar = document.querySelector('[data-testid="chem-route-workflow-bar"]');
+
+    if (!(bar instanceof HTMLElement)) {
+      return false;
+    }
+
+    const rect = bar.getBoundingClientRect();
+    return rect.top >= -1 && rect.bottom <= 420;
+  });
+  await page.waitForFunction(() => {
+    const noRoute = document.querySelector('[data-testid="chem-route-no-results"]');
+
+    if (!(noRoute instanceof HTMLElement)) {
+      return false;
+    }
+
+    const rect = noRoute.getBoundingClientRect();
+    return rect.top >= 0 && rect.bottom <= window.innerHeight;
+  });
+  await page.screenshot({
+    path: testInfo.outputPath("oml-qa-078-no-route-phone.png"),
+    animations: "disabled",
+    fullPage: false,
+  });
+
+  await page.getByTestId("chem-route-panel-clear").click();
+  await expect(page.getByTestId("chemistry-route-panel")).toHaveCount(0);
 
   guard.assertNoActionableIssues();
 });

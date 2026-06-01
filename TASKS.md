@@ -788,13 +788,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P1 - Route, Compare, And Overlay UX
 
-- [ ] **OML-QA-078: Make mobile route results readable as a route workflow rather than a long scrolled card.**
+- [x] **OML-QA-078: Make mobile route results readable as a route workflow rather than a long scrolled card.**
   - Evidence: `phone-route-results-before-scroll.png` and `phone-route-results-panel-scrolled.png` show route results only after the user passes the graph and route controls; the route sequence wraps into multiple rows, step details are cut off by the viewport, route node chips are `34px` high, and there is no obvious in-context `back to map` / `clear route` control beside the results.
   - UX problem: route exploration is one of the tool's main learning workflows, but on phone the result reads like a long document appended below a map instead of a focused route mode. The learner can lose the connection between the highlighted map, the selected route, and the step cards.
   - Affected area: `ChemistryRouteExplorerDetails.tsx`, mobile route-results layout, route summary/chip sizing, `chem-route-clear` placement, graph/inspector scroll behavior, and route-result E2E coverage.
   - Fix direction: on phone, switch into a compact route-results mode after `Show routes`: keep a sticky route summary and `Back to map` / `Clear route`, make route sequence chips readable/tappable, and collapse secondary step notes until requested. Consider keeping a small route-highlight preview or a "View highlighted map" jump near the results.
   - Validation: phone screenshots for successful route and no-route states show the route summary, next action, and first route card without clipped step text; route chips meet the touch floor and the user can return to the highlighted map without hunting.
 
+  - Completion note (2026-06-01 HKT): Made mobile route results act like a focused route workflow with a sticky route summary, Back to map/Clear routes actions, touch-safe route chips, and collapsed secondary step notes.
+  - Validation: git diff --check; pnpm exec eslint components/tools/chemistry/ChemistryRouteExplorerDetails.tsx components/tools/chemistry/ChemistryReactionMindMapPage.tsx tests/e2e/chemistry-reaction-mind-map.spec.ts; pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "touch floor|mobile route results as a workflow|focused camera|mobile horizontal overflow" --reporter=line; pnpm i18n:check:zh-HK; pnpm typecheck; screenshot inspection passed for successful route and no-route phone states
 - [ ] **OML-QA-079: Fix Chemistry comparison details so the side inspector never clips the family cards horizontally.**
   - Evidence: `desktop-compare-hydration-groups.png` and `summary.json` show `chemistry-compare-panel` with `scrollWidth=412` against `clientWidth=378`, and `chemistry-inspector-scroll` with `scrollWidth=413` against `clientWidth=384`. The visible compare cards are squeezed inside the `24rem` desktop inspector rail.
   - UX problem: compare mode is supposed to help learners compare two family profiles, but the current side-rail layout makes the comparison feel cramped and can cut content at the panel edge.

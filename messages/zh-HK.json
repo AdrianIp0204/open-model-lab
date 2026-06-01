@@ -399,9 +399,11 @@
       "actions": {
         "showRoutes": "顯示路線",
         "clearRoutes": "清除路線",
+        "backToMap": "返回地圖",
         "viewResults": "查看路線結果",
         "openNode": "開啟 {name}",
-        "showRoutesForPair": "顯示這兩個家族之間的路線"
+        "showRoutesForPair": "顯示這兩個家族之間的路線",
+        "showStepNotes": "顯示步驟註解"
       },
       "flags": {
         "subgroup": "含子類限制步驟",

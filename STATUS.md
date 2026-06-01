@@ -1,5 +1,28 @@
 # Open Model Lab Status
 
+## 2026-06-01 OML-QA-078 Chemistry Mobile Route Workflow
+
+Current state: `OML-QA-078` is complete. On phone, Chemistry route results now become a focused workflow after `Show routes`, with the route panel brought into view, a sticky route summary, `Back to map` and `Clear routes` actions beside the result, touch-safe route chips, and secondary step notes collapsed behind a disclosure.
+
+### Files Changed
+
+- `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`: treats route results as the primary mobile inspector state, moves route controls below results on phone, adds the map anchor, and shares the clear-route handler with the route panel.
+- `components/tools/chemistry/ChemistryRouteExplorerDetails.tsx`: adds the sticky workflow bar, route-result anchors/actions, touch-safe horizontal route chips, constrained cards, and collapsed mobile step notes.
+- `messages/en.json` and `messages/zh-HK.json`: add localized labels for `Back to map` and `Show step notes`.
+- `tests/e2e/chemistry-reaction-mind-map.spec.ts`: adds mobile route-workflow coverage for successful and no-route states, plus step-note and target-size assertions.
+- Tracking: `TASKS.md`, `STATUS.md`.
+
+### Validation Run
+
+- `git diff --check`: passed.
+- `pnpm exec eslint components/tools/chemistry/ChemistryRouteExplorerDetails.tsx components/tools/chemistry/ChemistryReactionMindMapPage.tsx tests/e2e/chemistry-reaction-mind-map.spec.ts`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "touch floor|mobile route results as a workflow|focused camera|mobile horizontal overflow" --reporter=line`: passed, 4/4.
+- `pnpm i18n:check:zh-HK`: passed with `issueCount: 0`.
+- `pnpm typecheck`: passed.
+- Screenshot inspection passed for successful route and no-route phone states at `390x844`.
+
+Residual risk: the next queued Chemistry tasks still cover desktop comparison rail overflow, feedback overlap, helper-copy clipping, and zh-HK wording polish.
+
 ## 2026-06-01 OML-QA-077 Chemistry Touch Target Repair
 
 Current state: `OML-QA-077` is complete. The Chemistry Reaction Mind Map now keeps pathway labels visually compact while backing them with measured transparent hit areas, and the touch layouts raise graph controls, route node chips, route cards, step buttons, and route actions to the 44px interaction floor.

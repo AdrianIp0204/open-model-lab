@@ -126,6 +126,7 @@ export function ChemistryReactionMindMapPage() {
   const routeSummaryTargetNode = routeExplorer
     ? getChemistryNodeById(routeExplorer.query.targetNodeId, { nodes })
     : null;
+  const routeResultsArePrimary = routeExplorer?.inspectorMode === "results";
   const selectedRoute =
     routeExplorer?.routes.find((route) => route.id === routeExplorer.selectedRouteId) ??
     routeExplorer?.routes[0] ??
@@ -156,6 +157,32 @@ export function ChemistryReactionMindMapPage() {
     ? [selectedRoute.nodeIds[0], selectedRoute.nodeIds[selectedRoute.nodeIds.length - 1]]
     : [];
 
+  const clearRouteExplorer = () => {
+    setSelection(null);
+    setComparison(null);
+    setRouteExplorer(null);
+  };
+
+  const scrollMobileRouteResultsIntoView = () => {
+    if (
+      typeof window === "undefined" ||
+      !window.matchMedia("(max-width: 1099px)").matches
+    ) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.getElementById("chemistry-route-results")?.scrollIntoView({
+          block: "start",
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
+        });
+      });
+    });
+  };
+
   const openRouteExplorer = (query: ChemistryRouteQuery) => {
     const routes = getChemistryRoutesBetween(query.startNodeId, query.targetNodeId, {
       edges,
@@ -172,6 +199,7 @@ export function ChemistryReactionMindMapPage() {
       selectedRouteId: routes[0]?.id ?? null,
       inspectorMode: "results",
     });
+    scrollMobileRouteResultsIntoView();
   };
 
   const selectionSummary =
@@ -200,7 +228,7 @@ export function ChemistryReactionMindMapPage() {
       data-testid="chemistry-route-controls"
       data-onboarding-target="chemistry-route-controls"
       data-chem-route-density="compact"
-      className="min-w-0 max-w-full rounded-[18px] border border-line bg-paper p-3"
+      className="min-w-0 max-w-full overflow-hidden rounded-[18px] border border-line bg-paper p-3"
     >
       <div className="grid gap-2 sm:grid-cols-2 min-[1100px]:grid-cols-1 min-[1500px]:grid-cols-2">
         <label className="grid min-w-0 gap-1 text-sm text-ink-700">
@@ -298,6 +326,7 @@ export function ChemistryReactionMindMapPage() {
         className="grid max-w-full gap-3 min-[1100px]:grid-cols-[minmax(0,1fr)_24rem] min-[1100px]:items-stretch min-[1100px]:h-[calc(100svh-8.5rem)] min-[1100px]:min-h-[42rem] min-[1100px]:overflow-hidden"
       >
         <article
+          id="chemistry-route-map"
           data-onboarding-target="chemistry-graph"
           className="lab-panel min-w-0 max-w-full space-y-2 p-2 sm:space-y-2.5 sm:p-3 min-[1100px]:grid min-[1100px]:min-h-0 min-[1100px]:grid-rows-[auto_1fr] min-[1100px]:gap-2 min-[1100px]:space-y-0 min-[1100px]:overflow-hidden"
         >
@@ -371,11 +400,7 @@ export function ChemistryReactionMindMapPage() {
               <button
                 type="button"
                 data-testid="chem-route-clear"
-                onClick={() => {
-                  setSelection(null);
-                  setComparison(null);
-                  setRouteExplorer(null);
-                }}
+                onClick={clearRouteExplorer}
                 className="touch-target-coarse rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
               >
                 {t("routeExplorer.actions.clearRoutes")}
@@ -407,13 +432,18 @@ export function ChemistryReactionMindMapPage() {
           </div>
         </article>
 
-        <div className="space-y-3 min-[1100px]:grid min-[1100px]:min-h-0 min-[1100px]:grid-rows-[auto_1fr] min-[1100px]:gap-3 min-[1100px]:space-y-0">
-          {routeControls}
+        <div className="flex min-w-0 max-w-full flex-col gap-3 overflow-hidden min-[1100px]:grid min-[1100px]:min-h-0 min-[1100px]:grid-rows-[auto_1fr]">
+          <div className={routeResultsArePrimary ? "order-2 min-[1100px]:order-none" : ""}>
+            {routeControls}
+          </div>
           <div
             data-testid="chemistry-inspector-scroll"
             data-onboarding-target="chemistry-inspector"
             data-scroll-mode="self"
-            className="min-[1100px]:h-full min-[1100px]:min-h-0 min-[1100px]:overflow-y-auto min-[1100px]:pr-1"
+            className={[
+              "min-w-0 max-w-full overflow-hidden min-[1100px]:h-full min-[1100px]:min-h-0 min-[1100px]:overflow-y-auto min-[1100px]:pr-1",
+              routeResultsArePrimary ? "order-1 min-[1100px]:order-none" : "",
+            ].join(" ")}
           >
             {routeExplorer?.inspectorMode === "results" ? (
               <ChemistryRouteExplorerDetails
@@ -436,6 +466,7 @@ export function ChemistryReactionMindMapPage() {
                 }
                 onSelectEdge={handleSelectEdge}
                 onSelectNode={handleSelectNode}
+                onClearRoute={clearRouteExplorer}
               />
             ) : comparison && comparedLeftNode && comparedRightNode ? (
               <ChemistryComparisonDetails

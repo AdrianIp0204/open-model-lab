@@ -22,11 +22,12 @@ type ChemistryRouteExplorerDetailsProps = {
   onSelectRoute: (routeId: string) => void;
   onSelectEdge: (edgeId: ChemistryEdge["id"]) => void;
   onSelectNode: (nodeId: ChemistryNode["id"]) => void;
+  onClearRoute: () => void;
 };
 
 function RouteFlag({ label }: { label: string }) {
   return (
-    <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-600">
+    <span className="inline-flex min-h-8 shrink-0 items-center rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase leading-4 tracking-[0.16em] text-ink-600">
       {label}
     </span>
   );
@@ -42,6 +43,7 @@ export function ChemistryRouteExplorerDetails({
   onSelectRoute,
   onSelectEdge,
   onSelectNode,
+  onClearRoute,
 }: ChemistryRouteExplorerDetailsProps) {
   const t = useTranslations("ChemistryReactionMindMapPage");
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
@@ -56,28 +58,66 @@ export function ChemistryRouteExplorerDetails({
   }
 
   return (
-    <section className="lab-panel space-y-5 p-5 sm:p-6" data-testid="chemistry-route-panel">
-      <div className="space-y-2">
-        <p className="lab-label">{t("routeExplorer.eyebrow")}</p>
-        <h2 className="text-2xl font-semibold text-ink-950">
-          {t("routeExplorer.title", { start: startNode.name, target: targetNode.name })}
-        </h2>
-        <p className="text-sm leading-7 text-ink-700">
-          {t("routeExplorer.note", { maxEdges })}
-        </p>
+    <section
+      id="chemistry-route-results"
+      className="lab-panel min-w-0 max-w-full scroll-mt-24 overflow-hidden"
+      data-testid="chemistry-route-panel"
+      data-chem-route-results-mode="workflow"
+    >
+      <div
+        data-testid="chem-route-workflow-bar"
+        className="sticky top-0 z-20 min-w-0 max-w-full border-b border-line bg-paper/95 p-3 backdrop-blur min-[1100px]:static min-[1100px]:rounded-t-[22px] min-[1100px]:bg-paper min-[1100px]:p-5 min-[1100px]:backdrop-blur-0"
+      >
+        <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
+          <div className="min-w-0 space-y-1.5">
+            <p className="lab-label">{t("routeExplorer.eyebrow")}</p>
+            <h2 className="text-[1.08rem] font-semibold leading-snug text-ink-950 sm:text-2xl">
+              {t("routeExplorer.title", { start: startNode.name, target: targetNode.name })}
+            </h2>
+            <p className="text-sm leading-6 text-ink-700">
+              {selectedRoute
+                ? t("routeExplorer.stepCount", { count: selectedRoute.stepCount })
+                : query.startNodeId === query.targetNodeId
+                  ? t("routeExplorer.states.sameFamilyTitle", { name: startNode.name })
+                  : t("routeExplorer.routeCount", { count: routes.length })}
+            </p>
+          </div>
+          <div className="flex gap-2 sm:flex-wrap sm:justify-end">
+            <a
+              href="#chemistry-route-map"
+              data-testid="chem-route-back-to-map"
+              className="min-h-11 min-w-0 flex-1 rounded-full border border-line bg-paper-strong px-3 py-2 text-center text-sm font-medium leading-5 text-ink-900 transition hover:border-ink-950/20 hover:bg-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:flex-none"
+            >
+              {t("routeExplorer.actions.backToMap")}
+            </a>
+            <button
+              type="button"
+              data-testid="chem-route-panel-clear"
+              onClick={onClearRoute}
+              className="min-h-11 min-w-0 flex-1 rounded-full border border-line bg-paper-strong px-3 py-2 text-sm font-medium leading-5 text-ink-900 transition hover:border-ink-950/20 hover:bg-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:flex-none"
+            >
+              {t("routeExplorer.actions.clearRoutes")}
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="min-w-0 max-w-full space-y-4 p-4 sm:space-y-5 sm:p-6">
+      <p className="hidden text-sm leading-7 text-ink-700 sm:block">
+        {t("routeExplorer.note", { maxEdges })}
+      </p>
+
+      <div className="hidden grid-cols-2 gap-2 sm:flex sm:flex-wrap">
         <button
           type="button"
-          className="touch-target-coarse rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          className="min-h-11 rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           onClick={() => onSelectNode(startNode.id)}
         >
           {t("routeExplorer.actions.openNode", { name: startNode.name })}
         </button>
         <button
           type="button"
-          className="touch-target-coarse rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          className="min-h-11 rounded-full border border-line bg-paper px-3 py-2 text-sm font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           onClick={() => onSelectNode(targetNode.id)}
         >
           {t("routeExplorer.actions.openNode", { name: targetNode.name })}
@@ -121,14 +161,14 @@ export function ChemistryRouteExplorerDetails({
                 key={route.id}
                 data-testid={`chem-route-card-${route.id}`}
                 className={[
-                  "rounded-[22px] border p-4 transition",
+                  "min-w-0 max-w-full overflow-hidden rounded-[22px] border p-3 transition sm:p-4",
                   isSelected
                     ? "border-teal-600 bg-teal-500/10"
                     : "border-line bg-paper-strong",
                 ].join(" ")}
               >
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div className="space-y-3">
+                <div className="flex min-w-0 flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1 space-y-3">
                     <button
                       type="button"
                       data-testid={`chem-route-select-${route.id}`}
@@ -144,7 +184,7 @@ export function ChemistryRouteExplorerDetails({
                     </button>
                     <div
                       data-testid={`chem-route-sequence-${route.id}`}
-                      className="flex flex-wrap items-center gap-2 text-sm"
+                      className="-mx-1 flex min-w-0 max-w-full flex-nowrap items-center gap-2 overflow-x-auto px-1 pb-1 text-sm [scrollbar-width:thin] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
                     >
                       {route.nodeIds.map((nodeId, nodeIndex) => {
                         const node = nodeById.get(nodeId);
@@ -153,11 +193,14 @@ export function ChemistryRouteExplorerDetails({
                         }
 
                         return (
-                          <div key={`${route.id}-${nodeId}`} className="flex items-center gap-2">
+                          <div
+                            key={`${route.id}-${nodeId}`}
+                            className="flex shrink-0 items-center gap-2 sm:shrink"
+                          >
                             <button
                               type="button"
                               data-testid={`chem-route-node-${route.id}-${nodeId}`}
-                              className="touch-target-coarse rounded-full border border-line bg-paper px-3 py-1.5 font-medium text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                              className="min-h-11 max-w-[13rem] rounded-full border border-line bg-paper px-3 py-2 text-left font-medium leading-5 text-ink-800 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:max-w-none"
                               onClick={() => onSelectNode(nodeId)}
                             >
                               {node.name}
@@ -173,7 +216,7 @@ export function ChemistryRouteExplorerDetails({
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex min-w-0 max-w-full flex-wrap gap-2">
                     {route.includesSubgroupSpecificStep ? (
                       <RouteFlag label={t("routeExplorer.flags.subgroup")} />
                     ) : null}
@@ -200,18 +243,18 @@ export function ChemistryRouteExplorerDetails({
                         <article
                           key={`${route.id}-${edge.id}`}
                           data-testid={`chem-route-step-${route.id}-${edge.id}`}
-                          className="rounded-[18px] border border-line bg-paper p-3"
+                          className="min-w-0 max-w-full overflow-hidden rounded-[18px] border border-line bg-paper p-3"
                         >
                           <button
                             type="button"
-                            className="w-full rounded-[12px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 [@media(any-pointer:coarse)]:px-2 [@media(any-pointer:coarse)]:py-2"
+                            className="min-w-0 w-full rounded-[12px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 [@media(any-pointer:coarse)]:px-2 [@media(any-pointer:coarse)]:py-2"
                             onClick={() => onSelectEdge(edge.id)}
                           >
-                            <div className="flex flex-wrap items-center gap-2">
-                              <p className="text-sm font-semibold text-ink-950">
+                            <div className="flex min-w-0 flex-wrap items-center gap-2">
+                              <p className="min-w-0 text-sm font-semibold text-ink-950">
                                 {t("routeExplorer.stepLabel", { index: stepIndex + 1 })}: {edge.label}
                               </p>
-                              <span className="rounded-full border border-line bg-paper-strong px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink-600">
+                              <span className="min-w-0 max-w-[9.5rem] whitespace-normal break-words rounded-full border border-line bg-paper-strong px-2.5 py-1 text-left text-[0.68rem] font-semibold uppercase leading-4 tracking-[0.16em] text-ink-600 sm:max-w-full">
                                 {edge.reactionType}
                               </span>
                             </div>
@@ -219,25 +262,58 @@ export function ChemistryRouteExplorerDetails({
                               {fromNode.name} → {toNode.name}
                             </p>
                             {step.isSubgroupSpecific ? (
-                              <p className="mt-2 text-sm leading-6 text-ink-700">
-                                {edge.applicability.summary}
-                              </p>
+                              <>
+                                <p className="mt-2 hidden text-sm leading-6 text-ink-700 sm:block">
+                                  {edge.applicability.summary}
+                                </p>
+                              </>
                             ) : null}
                             {step.hasAdditionalOrganicReactant &&
                             "additionalOrganicReactants" in edge &&
                             edge.additionalOrganicReactants?.length ? (
-                              <p className="mt-2 text-sm leading-6 text-ink-700">
+                              <p className="mt-2 hidden text-sm leading-6 text-ink-700 sm:block">
                                 {t("detail.relationships.alsoNeeds", {
                                   items: edge.additionalOrganicReactants.join(", "),
                                 })}
                               </p>
                             ) : null}
                             {step.isRepresentativeOnly ? (
-                              <p className="mt-2 text-sm leading-6 text-ink-700">
+                              <p className="mt-2 hidden text-sm leading-6 text-ink-700 sm:block">
                                 {t("routeExplorer.flags.representativeOnlyNote")}
                               </p>
                             ) : null}
                           </button>
+                          {step.isSubgroupSpecific ||
+                          (step.hasAdditionalOrganicReactant &&
+                            "additionalOrganicReactants" in edge &&
+                            edge.additionalOrganicReactants?.length) ||
+                          step.isRepresentativeOnly ? (
+                            <details
+                              data-testid={`chem-route-step-notes-${route.id}-${edge.id}`}
+                              className="mt-2 rounded-[14px] border border-line bg-paper-strong px-3 py-2 text-sm text-ink-700 sm:hidden"
+                            >
+                              <summary className="min-h-11 cursor-pointer list-none rounded-[10px] py-2 font-medium text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper">
+                                {t("routeExplorer.actions.showStepNotes")}
+                              </summary>
+                              <div className="space-y-2 pb-2 leading-6">
+                                {step.isSubgroupSpecific ? (
+                                  <p>{edge.applicability.summary}</p>
+                                ) : null}
+                                {step.hasAdditionalOrganicReactant &&
+                                "additionalOrganicReactants" in edge &&
+                                edge.additionalOrganicReactants?.length ? (
+                                  <p>
+                                    {t("detail.relationships.alsoNeeds", {
+                                      items: edge.additionalOrganicReactants.join(", "),
+                                    })}
+                                  </p>
+                                ) : null}
+                                {step.isRepresentativeOnly ? (
+                                  <p>{t("routeExplorer.flags.representativeOnlyNote")}</p>
+                                ) : null}
+                              </div>
+                            </details>
+                          ) : null}
                         </article>
                       );
                     })}
@@ -248,6 +324,7 @@ export function ChemistryRouteExplorerDetails({
           })}
         </div>
       )}
+      </div>
     </section>
   );
 }
