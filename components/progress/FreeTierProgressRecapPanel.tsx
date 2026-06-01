@@ -429,7 +429,7 @@ export function FreeTierProgressRecapPanel({
         />
         <div className="space-y-2">
           <p className="lab-label">{resolvedEyebrow}</p>
-          <h2 className="text-2xl font-semibold text-ink-950">{resolvedTitle}</h2>
+          <h2 className="break-words text-2xl font-semibold text-ink-950">{resolvedTitle}</h2>
           <p className="max-w-3xl text-sm leading-6 text-ink-700">{resolvedDescription}</p>
         </div>
         <span className="rounded-full border border-line bg-paper-strong px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-500 lg:justify-self-end">

@@ -66,13 +66,13 @@ export default async function AccountSavedStudyPlansPage({
         <div className="flex flex-wrap gap-3">
           <Link
             href="/account/setups"
-            className="inline-flex items-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
           >
             {t("actions.openSavedSetups")}
           </Link>
           <Link
             href="/account/compare-setups"
-            className="inline-flex items-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-line bg-paper px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-ink-950/20 hover:bg-white"
           >
             {t("actions.openCompareLibrary")}
           </Link>
