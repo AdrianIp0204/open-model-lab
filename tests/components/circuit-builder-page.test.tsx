@@ -689,6 +689,112 @@ describe("CircuitBuilderPage", () => {
     expect(screen.getByRole("button", { name: "Delete selected" })).toBeEnabled();
   });
 
+  it("checks guided goals with success, incomplete, and wrong-placement feedback", async () => {
+    const user = userEvent.setup();
+
+    render(<CircuitBuilderPage />);
+
+    expect(screen.getByRole("heading", { name: "Complete a battery-resistor loop" })).toBeVisible();
+    await user.click(screen.getByRole("button", { name: "Check my circuit" }));
+    expect(screen.getAllByText("Add the two required parts").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Add one battery and one resistor/i).length).toBeGreaterThan(0);
+
+    await user.click(getPaletteButton("Add Battery"));
+    await user.click(getPaletteButton("Add Resistor"));
+    await user.click(getPaletteButton("Activate wire tool"));
+    fireEvent.click(screen.getByLabelText("Battery 1 positive terminal"));
+    fireEvent.click(screen.getByLabelText("Resistor 1 terminal A"));
+    fireEvent.click(screen.getByLabelText("Resistor 1 terminal B"));
+    fireEvent.click(screen.getByLabelText("Battery 1 negative terminal"));
+    await user.click(screen.getByRole("button", { name: "Check my circuit" }));
+
+    expect(screen.getAllByText("Goal met").length).toBeGreaterThan(0);
+    expect(screen.getByText("Resistor current")).toBeVisible();
+    expect(screen.getByText(/battery raises electric potential/i)).toBeVisible();
+
+    await user.click(screen.getByRole("tab", { name: "Test a fuse" }));
+    await user.click(screen.getByRole("button", { name: "Load fuse test" }));
+    await user.click(screen.getByRole("button", { name: "Check my circuit" }));
+
+    expect(screen.getByText("Fuse rating")).toBeVisible();
+    expect(
+      screen.getAllByText(/The fuse opened because the solved current exceeded its rating/i).length,
+    ).toBeGreaterThan(0);
+
+    await user.click(screen.getByRole("tab", { name: "Add an ammeter correctly" }));
+    await user.upload(
+      screen.getByLabelText("Load circuit JSON file"),
+      new File(
+        [
+          JSON.stringify({
+            version: 1,
+            environment: { temperatureC: 25, lightLevelPercent: 35 },
+            view: { zoom: 0.78, offsetX: 76, offsetY: 92 },
+            components: [
+              {
+                id: "battery-wrong-meter",
+                label: "Battery 1",
+                type: "battery",
+                x: 240,
+                y: 320,
+                rotation: 90,
+                properties: { voltage: 9 },
+              },
+              {
+                id: "resistor-wrong-meter",
+                label: "Resistor 1",
+                type: "resistor",
+                x: 560,
+                y: 224,
+                rotation: 0,
+                properties: { resistance: 12 },
+              },
+              {
+                id: "ammeter-wrong-meter",
+                label: "Ammeter 1",
+                type: "ammeter",
+                x: 560,
+                y: 416,
+                rotation: 0,
+                properties: {},
+              },
+            ],
+            wires: [
+              {
+                id: "w1",
+                from: { componentId: "battery-wrong-meter", terminal: "a" },
+                to: { componentId: "resistor-wrong-meter", terminal: "a" },
+              },
+              {
+                id: "w2",
+                from: { componentId: "resistor-wrong-meter", terminal: "b" },
+                to: { componentId: "battery-wrong-meter", terminal: "b" },
+              },
+              {
+                id: "w3",
+                from: { componentId: "battery-wrong-meter", terminal: "a" },
+                to: { componentId: "ammeter-wrong-meter", terminal: "a" },
+              },
+              {
+                id: "w4",
+                from: { componentId: "ammeter-wrong-meter", terminal: "b" },
+                to: { componentId: "battery-wrong-meter", terminal: "b" },
+              },
+            ],
+          }),
+        ],
+        "wrong-ammeter.json",
+        { type: "application/json" },
+      ),
+    );
+    await user.click(screen.getByRole("button", { name: "Check my circuit" }));
+
+    expect(screen.getAllByText("Check the placement").length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(/Move the ammeter into series with the load/i).length,
+    ).toBeGreaterThan(0);
+  });
+
   it("keeps direct workspace selection stable when switching between components", async () => {
     const user = userEvent.setup();
 

@@ -27,6 +27,7 @@ import {
   CIRCUIT_DESKTOP_CANVAS_FRAME,
   CIRCUIT_RENDER_MODE_STORAGE_KEY,
   buildCircuitJsonExport,
+  buildCircuitBuilderChallengeStarterDocument,
   buildCircuitSvgExport,
   circuitBuilderCopyEn,
   clampComponentPoint,
@@ -57,6 +58,7 @@ import {
   solveCircuitDocument,
   useSavedCircuits,
   deleteSavedCircuit,
+  evaluateCircuitBuilderChallenge,
   writeCircuitLocaleHandoffToStorage,
   writeCircuitDraftToStorage,
   MAXIMUM_CIRCUIT_WORKSPACE_ZOOM,
@@ -69,8 +71,11 @@ import {
   type CircuitScalar,
   type CircuitDraftSnapshot,
   type CircuitTerminalRef,
+  type CircuitBuilderChallengeCheck,
+  type CircuitBuilderChallengeId,
 } from "@/lib/circuit-builder";
 import { LearningVisual } from "@/components/visuals/LearningVisual";
+import { CircuitBuilderGuide } from "./CircuitBuilderGuide";
 import { CircuitInspector } from "./CircuitInspector";
 import { CircuitEnvironmentControl } from "./CircuitEnvironmentControl";
 import { CircuitPalette } from "./CircuitPalette";
@@ -811,6 +816,9 @@ export function CircuitBuilderPage({
   const [localeHandoffReady, setLocaleHandoffReady] = useState(false);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
   const [renderMode, setRenderMode] = useState<CircuitRenderMode>("schematic");
+  const [activeChallengeId, setActiveChallengeId] = useState<CircuitBuilderChallengeId>("battery-resistor-loop");
+  const [guideCheckResult, setGuideCheckResult] = useState<CircuitBuilderChallengeCheck | null>(null);
+  const [guideExplanationOpen, setGuideExplanationOpen] = useState(false);
   const [draftRecoveryState, setDraftRecoveryState] = useState<"checking" | "pending" | "dismissed" | "ready">("checking");
   const [pendingDraft, setPendingDraft] = useState<CircuitDraftSnapshot | null>(null);
   const [accountSavedCircuits, setAccountSavedCircuits] = useState<AccountSavedCircuitRecord[]>([]);
@@ -1908,6 +1916,66 @@ export function CircuitBuilderPage({
     focusWorkspaceRegion();
   }
 
+  function selectGuidedChallenge(challengeId: CircuitBuilderChallengeId) {
+    setActiveChallengeId(challengeId);
+    setGuideCheckResult(null);
+    setGuideExplanationOpen(false);
+    setExportStatus(
+      circuitStatusText(
+        copy,
+        "Guided goal selected. Load its starter or check the circuit already on the workspace.",
+        "已選引導目標。可載入起步電路，或檢查目前工作區電路。",
+      ),
+    );
+  }
+
+  function loadGuidedChallengeStarter() {
+    const document = fitLoadedCircuitDocument(
+      buildCircuitBuilderChallengeStarterDocument(activeChallengeId),
+    );
+    const wiringStatusPrefix = getWiringResetStatusPrefix();
+    setActiveAccountSavedCircuitId(null);
+    setGuideCheckResult(null);
+    setGuideExplanationOpen(false);
+    dispatch({
+      type: "load-document",
+      document,
+      label: copy.locale === "zh-HK" ? "載入引導起步電路" : "load guided starter",
+    });
+    setExportStatus(
+      `${wiringStatusPrefix}${circuitStatusText(
+        copy,
+        "Guided starter loaded. Build from here, then use Check my circuit.",
+        "已載入引導起步電路。由這裏開始搭建，然後使用「檢查我的電路」。",
+      )}`,
+    );
+    focusWorkspaceRegion();
+  }
+
+  function checkGuidedChallenge() {
+    const result = evaluateCircuitBuilderChallenge({
+      id: activeChallengeId,
+      document: state.document,
+      solveResult,
+      locale: copy.locale,
+    });
+    setGuideCheckResult(result);
+    setGuideExplanationOpen(result.status === "success");
+    setExportStatus(
+      result.status === "success"
+        ? circuitStatusText(
+            copy,
+            `Guided check passed: ${result.hint}`,
+            `引導檢查通過：${result.hint}`,
+          )
+        : circuitStatusText(
+            copy,
+            `Guided check: ${result.hint}`,
+            `引導檢查：${result.hint}`,
+          ),
+    );
+  }
+
   function restorePendingDraft() {
     if (!pendingDraft) {
       return;
@@ -1988,8 +2056,8 @@ export function CircuitBuilderPage({
     setSaveNameDraft("");
     setExportStatus(circuitStatusText(
       copy,
-      `Saved locally as ${result.savedCircuit.title}.`,
-      `已本機儲存為「${result.savedCircuit.title}」。`,
+      `${result.savedCircuit.title} is up to date`,
+      `「${result.savedCircuit.title}」已是最新`,
     ));
   }
 
@@ -2004,8 +2072,8 @@ export function CircuitBuilderPage({
     });
     setExportStatus(circuitStatusText(
       copy,
-      `Updated ${result.savedCircuit.title}.`,
-      `已更新「${result.savedCircuit.title}」。`,
+      `${result.savedCircuit.title} is up to date`,
+      `「${result.savedCircuit.title}」已是最新`,
     ));
   }
 
@@ -3298,6 +3366,17 @@ export function CircuitBuilderPage({
         </section>
       ) : null}
 
+      <CircuitBuilderGuide
+        locale={copy.locale}
+        activeChallengeId={activeChallengeId}
+        checkResult={guideCheckResult}
+        explanationOpen={guideExplanationOpen}
+        onSelectChallenge={selectGuidedChallenge}
+        onLoadStarter={loadGuidedChallengeStarter}
+        onCheck={checkGuidedChallenge}
+        onToggleExplanation={() => setGuideExplanationOpen((open) => !open)}
+      />
+
       <div
         className={[
           "grid gap-2.5 xl:items-stretch xl:h-[min(82svh,58rem)] xl:min-h-[40rem]",
@@ -3519,6 +3598,11 @@ export function CircuitBuilderPage({
               >
                 {selectionSummary}
               </span>
+              {state.document.components.length === 0 ? (
+                <span className="rounded-full border border-line bg-paper-strong px-3 py-1 text-xs font-medium text-ink-600">
+                  {copy.toolbar.emptyWorkspace}
+                </span>
+              ) : null}
               <span
                 className={[
                   "rounded-full border px-3 py-1 text-xs font-medium",
@@ -3570,6 +3654,15 @@ export function CircuitBuilderPage({
               >
                 {saveStateLabel}
               </span>
+              {hasSavedCircuitChanges && activeSavedCircuitTitle ? (
+                <span className="rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-800">
+                  {circuitStatusText(
+                    copy,
+                    `Unsaved changes to ${activeSavedCircuitTitle}`,
+                    `「${activeSavedCircuitTitle}」有未儲存變更`,
+                  )}
+                </span>
+              ) : null}
             </div>
             <div
               className="flex flex-wrap items-center gap-1.5 xl:justify-end"

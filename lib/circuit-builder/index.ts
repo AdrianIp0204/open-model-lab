@@ -9,6 +9,7 @@ export * from "./symbol-geometry";
 export * from "./visual-mode";
 export * from "./view";
 export * from "./copy";
+export * from "./challenges";
 export * from "./export-svg";
 export * from "./export-download";
 export * from "./draft-storage";

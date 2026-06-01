@@ -489,6 +489,122 @@ test("keeps the empty workspace instruction readable on the dark circuit stage",
   ).toBeFocused();
 });
 
+test("guides build checks without crowding the free-build workspace", async ({
+  page,
+}, testInfo) => {
+  await setHarnessSession(page, "signed-out");
+  await page.setViewportSize({ width: 1440, height: 980 });
+  await openCircuitBuilder(page);
+
+  const guide = page.locator("[data-circuit-builder-guide]");
+  const builderRow = page.locator("[data-circuit-builder-row]");
+  const workspace = page.locator("[data-circuit-workspace-panel]");
+  await expect(guide).toBeVisible();
+  await expect(workspace).toBeVisible();
+
+  const guideBox = await guide.boundingBox();
+  const rowBox = await builderRow.boundingBox();
+  const workspaceBox = await workspace.boundingBox();
+  expect(guideBox).not.toBeNull();
+  expect(rowBox).not.toBeNull();
+  expect(workspaceBox).not.toBeNull();
+  expect(guideBox!.height).toBeLessThan(190);
+  expect(rowBox!.y).toBeGreaterThan(guideBox!.y + guideBox!.height - 1);
+  expect(workspaceBox!.height).toBeGreaterThan(560);
+
+  await page.getByRole("button", { name: "Check my circuit" }).click();
+  await expect(page.locator('[data-circuit-guide-result="incomplete"]')).toContainText(
+    "Add one battery and one resistor",
+  );
+
+  await page.getByRole("tab", { name: "Test a fuse" }).click();
+  await page.getByRole("button", { name: "Load fuse test" }).click();
+  await page.getByRole("button", { name: "Check my circuit" }).click();
+  await expect(page.locator('[data-circuit-guide-result="success"]')).toContainText(
+    "The fuse opened",
+  );
+  await page.screenshot({
+    path: testInfo.outputPath("circuit-builder-guided-desktop.png"),
+    animations: "disabled",
+    fullPage: false,
+  });
+
+  await page.getByRole("tab", { name: "Add an ammeter correctly" }).click();
+  await loadCircuitDocument(page, "wrong-ammeter.json", {
+    version: 1,
+    environment: { temperatureC: 25, lightLevelPercent: 35 },
+    view: { zoom: 0.78, offsetX: 76, offsetY: 92 },
+    components: [
+      {
+        id: "battery-wrong-meter",
+        label: "Battery 1",
+        type: "battery",
+        x: 240,
+        y: 320,
+        rotation: 90,
+        properties: { voltage: 9 },
+      },
+      {
+        id: "resistor-wrong-meter",
+        label: "Resistor 1",
+        type: "resistor",
+        x: 560,
+        y: 224,
+        rotation: 0,
+        properties: { resistance: 12 },
+      },
+      {
+        id: "ammeter-wrong-meter",
+        label: "Ammeter 1",
+        type: "ammeter",
+        x: 560,
+        y: 416,
+        rotation: 0,
+        properties: {},
+      },
+    ],
+    wires: [
+      {
+        id: "w1",
+        from: { componentId: "battery-wrong-meter", terminal: "a" },
+        to: { componentId: "resistor-wrong-meter", terminal: "a" },
+      },
+      {
+        id: "w2",
+        from: { componentId: "resistor-wrong-meter", terminal: "b" },
+        to: { componentId: "battery-wrong-meter", terminal: "b" },
+      },
+      {
+        id: "w3",
+        from: { componentId: "battery-wrong-meter", terminal: "a" },
+        to: { componentId: "ammeter-wrong-meter", terminal: "a" },
+      },
+      {
+        id: "w4",
+        from: { componentId: "ammeter-wrong-meter", terminal: "b" },
+        to: { componentId: "battery-wrong-meter", terminal: "b" },
+      },
+    ],
+  });
+  await page.getByRole("button", { name: "Check my circuit" }).click();
+  await expect(page.locator('[data-circuit-guide-result="wrong-placement"]')).toContainText(
+    "Move the ammeter into series",
+  );
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openCircuitBuilder(page);
+  await expect(guide).toBeVisible();
+  await expect(page.getByRole("region", { name: "Circuit workspace" })).toBeVisible();
+  const mobileGuideBox = await guide.boundingBox();
+  expect(mobileGuideBox).not.toBeNull();
+  expect(mobileGuideBox!.height).toBeLessThan(310);
+  await page.screenshot({
+    path: testInfo.outputPath("circuit-builder-guided-mobile.png"),
+    animations: "disabled",
+    fullPage: false,
+  });
+});
+
 test("supports pointer drag movement, toolbar rotation, and svg export from the live desktop workspace", async ({
   page,
 }, testInfo) => {
