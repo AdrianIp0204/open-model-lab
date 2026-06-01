@@ -157,9 +157,9 @@ const positionOffsets: CircuitPoint[] = [
 ];
 const MAX_HISTORY_ENTRIES = 80;
 const toolbarButtonClass =
-  "rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-h-[44px] items-center justify-center rounded-full border border-line bg-paper px-3 py-2 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-50";
 const toolbarGroupClass =
-  "inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-[18px] border border-line bg-paper-strong/90 px-2 py-1.5";
+  "inline-flex max-w-full flex-wrap items-center gap-1.5 rounded-[20px] border border-line bg-paper-strong/90 px-2 py-1.5";
 const defaultCircuitView = createDefaultCircuitView();
 const defaultCircuitEnvironment = createDefaultCircuitEnvironment();
 const circuitViewEqualityEpsilon = 0.0001;
@@ -195,7 +195,7 @@ function CircuitRenderModeSwitch({
             type="button"
             aria-pressed={selected}
             className={[
-              "rounded-full px-2 py-1 transition",
+              "min-h-[44px] rounded-full px-3 py-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-strong",
               selected
                 ? "bg-ink-950 text-white"
                 : "text-ink-700 hover:bg-paper hover:text-ink-950",
@@ -3073,7 +3073,8 @@ export function CircuitBuilderPage({
             key={preset.id}
             type="button"
             title={presetCopy.description}
-            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong"
+            className="min-h-[44px] shrink-0 rounded-full border border-line bg-paper px-3 py-2 text-xs font-semibold text-ink-950 transition hover:border-ink-950/20 hover:bg-paper-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            data-circuit-preset-button={preset.id}
             onClick={() => loadPresetCircuit(preset)}
           >
             {presetCopy.label}

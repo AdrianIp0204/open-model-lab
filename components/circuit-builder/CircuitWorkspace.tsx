@@ -1027,7 +1027,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canZoomOut}
-            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-h-[44px] shrink-0 rounded-full border border-line bg-paper px-3 py-2 text-sm font-semibold text-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-zoom-out-description"
             aria-keyshortcuts="-"
             title={canZoomOut ? copy.workspace.zoomOutTitle : copy.workspace.minimumZoomTitle}
@@ -1038,7 +1038,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canZoomIn}
-            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-h-[44px] shrink-0 rounded-full border border-line bg-paper px-3 py-2 text-sm font-semibold text-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-zoom-in-description"
             aria-keyshortcuts="+"
             title={canZoomIn ? copy.workspace.zoomInTitle : copy.workspace.maximumZoomTitle}
@@ -1049,7 +1049,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canResetView}
-            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-h-[44px] shrink-0 rounded-full border border-line bg-paper px-3 py-2 text-sm font-semibold text-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-reset-view-description"
             aria-keyshortcuts="0"
             title={canResetView ? copy.workspace.resetViewTitle : copy.workspace.defaultViewTitle}
@@ -1060,7 +1060,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canFitView}
-            className="shrink-0 rounded-full border border-line bg-paper px-2.5 py-1.5 text-sm font-semibold text-ink-950 transition hover:border-ink-950/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-h-[44px] shrink-0 rounded-full border border-line bg-paper px-3 py-2 text-sm font-semibold text-ink-950 transition hover:border-ink-950/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-50"
             aria-describedby="circuit-fit-view-description"
             aria-keyshortcuts="F"
             title={fitViewDescription}
@@ -1071,7 +1071,7 @@ export function CircuitWorkspace({
           <button
             type="button"
             disabled={!canClearWorkspace}
-            className="shrink-0 rounded-full border border-coral-500/30 bg-coral-500/10 px-2.5 py-1.5 text-sm font-semibold text-coral-700 transition hover:bg-coral-500/15 disabled:cursor-not-allowed disabled:border-line disabled:bg-paper disabled:text-ink-500"
+            className="min-h-[44px] shrink-0 rounded-full border border-coral-500/30 bg-coral-500/10 px-3 py-2 text-sm font-semibold text-coral-700 transition hover:bg-coral-500/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500/25 focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:border-line disabled:bg-paper disabled:text-ink-500"
             aria-describedby="circuit-clear-workspace-description"
             aria-pressed={clearWorkspaceArmed ? "true" : undefined}
             title={clearWorkspaceDescription}

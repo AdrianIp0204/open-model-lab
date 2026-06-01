@@ -311,6 +311,47 @@ async function openFileActions(page: Page) {
   await expect(menu.getByRole("button", { name: "Download JSON", exact: true })).toBeVisible();
 }
 
+async function expectCircuitBuilderPrimaryTargetsAtLeast(page: Page, minSize = 44) {
+  const failures = await page.evaluate((minimum) => {
+    const selectors = [
+      "[data-circuit-preset-button]",
+      "[data-circuit-render-mode-option]",
+      "[data-circuit-workspace-controls] button",
+      "[data-circuit-toolbar] button",
+    ];
+
+    return Array.from(document.querySelectorAll<HTMLElement>(selectors.join(",")))
+      .filter((element) => {
+        const style = window.getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+
+        return (
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          rect.width > 0 &&
+          rect.height > 0
+        );
+      })
+      .map((element) => {
+        const rect = element.getBoundingClientRect();
+
+        return {
+          label:
+            element.getAttribute("aria-label") ||
+            element.getAttribute("title") ||
+            element.textContent?.replace(/\s+/g, " ").trim() ||
+            element.tagName.toLowerCase(),
+          width: Math.round(rect.width * 10) / 10,
+          height: Math.round(rect.height * 10) / 10,
+          selector: selectors.find((selector) => element.matches(selector)) ?? "",
+        };
+      })
+      .filter((entry) => entry.width < minimum || entry.height < minimum);
+  }, minSize);
+
+  expect(failures).toEqual([]);
+}
+
 test.beforeEach(async ({ page }) => {
   await page.context().clearCookies();
   await suppressOnboardingPrompt(page);
@@ -884,6 +925,29 @@ test("keeps toolbar groups compact and usable on a narrower laptop viewport", as
   await expect(fileMenu.getByRole("button", { name: "Download JSON", exact: true })).toBeVisible();
   await expect(fileMenu.getByRole("button", { name: "Load JSON", exact: true })).toBeVisible();
   await expect(fileMenu.getByRole("button", { name: "Copy JSON state", exact: true })).toBeVisible();
+});
+
+test("keeps Circuit Builder primary touch targets at least 44px across starter, view, workspace, and toolbar controls", async ({
+  page,
+}) => {
+  await setHarnessSession(page, "signed-out");
+
+  const routes = ["/circuit-builder", "/zh-HK/circuit-builder"];
+  const viewports = [
+    { name: "phone", width: 390, height: 844 },
+    { name: "tablet", width: 820, height: 1180 },
+    { name: "desktop", width: 1440, height: 980 },
+    { name: "wide", width: 1728, height: 1050 },
+  ];
+
+  for (const route of routes) {
+    for (const viewport of viewports) {
+      await page.setViewportSize({ width: viewport.width, height: viewport.height });
+      await gotoAndExpectOk(page, route);
+      await expect(page.locator("[data-circuit-builder-ready]")).toBeVisible();
+      await expectCircuitBuilderPrimaryTargetsAtLeast(page);
+    }
+  }
 });
 
 test("resets the inspector scroll and keeps component context collapsed by default", async ({

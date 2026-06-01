@@ -148,7 +148,7 @@ export function CircuitToolbarMenu({
         aria-controls={panelId}
         aria-label={ariaLabel}
         className={[
-          "inline-flex min-h-9 w-auto items-center justify-between gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+          "inline-flex min-h-[44px] w-auto items-center justify-between gap-2 rounded-full border px-3 py-2 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-950/20 focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
           open
             ? "border-ink-950/25 bg-paper-strong text-ink-950"
             : "border-line bg-paper text-ink-950 hover:border-ink-950/20 hover:bg-paper-strong",
