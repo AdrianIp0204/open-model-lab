@@ -1,5 +1,20 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-089 Chemistry zh-HK Route Selector Touch Target
+
+Current state: `OML-QA-089` is complete. The zh-HK phone route-results selector now has a real 44px-floor hit area without widening the route card beyond the viewport.
+
+Files changed:
+- `components/tools/chemistry/ChemistryRouteExplorerDetails.tsx`: changes the route selector wrapper/button from a narrow block label to an inline-flex touch target with `min-w-[4.5rem]`, `min-h-11`, padding, and `max-w-full`.
+- `TASKS.md`: marks `OML-QA-089` complete with validation notes.
+
+Validation:
+- `git diff --check`: passed.
+- `pnpm exec eslint components/tools/chemistry/ChemistryRouteExplorerDetails.tsx components/tools/chemistry/ChemistryReactionGraph.tsx`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts --reporter=line`: passed, 1/1.
+
+QA note: the first follow-up attempt also changed the Chemistry graph zoom slider caret handling, but the visual QA gate caught a React hydration mismatch. That unrelated edit was reverted before accepting the task.
+
 ## 2026-06-02 OML-QA-088 Chemistry Mobile Route Workflow Viewport
 
 Current state: `OML-QA-088` is complete. The successful Chemistry mobile route-results workflow now keeps the first route-step action fully inside the `390x844` phone viewport while preserving labels, route workflow structure, horizontal fit, and 44px touch targets.

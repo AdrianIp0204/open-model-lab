@@ -893,12 +893,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Completion note (2026-06-02 HKT): Tightened the mobile-only successful route-results rhythm in `ChemistryRouteExplorerDetails` by reducing the workflow bar padding/gap, route note line-height, route-count spacing, selected-card sequence gap, and selected-step stack spacing while preserving 44px route/action targets and the desktop spacing.
   - Validation: direct DOM metric at `390x844` measured first route-step button `top=692`, `bottom=794`, `horizontalOverflow=0`; `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "presents mobile route results as a workflow" --reporter=line` passed (1/1); `pnpm exec eslint components/tools/chemistry/ChemistryRouteExplorerDetails.tsx` passed; `pnpm typecheck` passed; `git diff --check` passed.
 
-- [ ] **OML-QA-089: Restore Chemistry zh-HK route-selection touch targets to the 44px floor.**
+- [x] **OML-QA-089: Restore Chemistry zh-HK route-selection touch targets to the 44px floor.**
   - Evidence: `tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts` failed in the zh-HK phone route-results state: route selector `chem-route-select-alkene-to-alcohol-hydration>>alcohol-to-aldehyde-oxidation>>aldehyde-to-carboxylic-acid-oxidation` labeled `路線 13 步` measured `19.4px` wide by `124px` high, below the 44px critical touch-target floor.
   - UX problem: the visual label is narrow enough that the actual hit target is effectively a sliver on phone, especially in zh-HK where compact route labels wrap differently.
   - Affected area: Chemistry route result selector/button layout, zh-HK compact route labels, and visual QA touch-target helpers.
   - Fix direction: give route selectors a real minimum inline hit area on mobile, possibly with an invisible hit wrapper or a wider compact pill, while keeping the route list readable and avoiding horizontal overflow.
   - Validation: rerun `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts --reporter=line`; zh-HK phone route-result touch-target audit reports no critical targets below 44px.
+
+  - Completion note (2026-06-02 HKT): Gave Chemistry route selector buttons a real `min-w-[4.5rem]` and `min-h-11` hit area with `max-w-full` and inline-flex layout, while keeping the route card constrained and avoiding horizontal overflow. Reverted the unrelated zoom-slider style cleanup after QA caught a hydration mismatch.
+  - Validation: git diff --check passed; targeted eslint passed for `ChemistryRouteExplorerDetails.tsx` and `ChemistryReactionGraph.tsx`; `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts --reporter=line` passed (1/1).
 
 ### P1 - Circuit Builder Interaction / Locale / Theme Regressions
 

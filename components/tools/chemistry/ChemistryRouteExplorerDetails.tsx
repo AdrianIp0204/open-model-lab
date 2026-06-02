@@ -173,11 +173,11 @@ export function ChemistryRouteExplorerDetails({
                 ].join(" ")}
               >
                 <div className="flex min-w-0 flex-wrap items-start justify-between gap-2 sm:gap-3">
-                  <div className="min-w-0 flex-1 space-y-2 sm:space-y-3">
+                  <div className="min-w-[4.5rem] flex-1 space-y-2 sm:space-y-3">
                     <button
                       type="button"
                       data-testid={`chem-route-select-${route.id}`}
-                      className="block rounded-[12px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper [@media(any-pointer:coarse)]:!min-h-11 [@media(any-pointer:coarse)]:min-w-11 [@media(any-pointer:coarse)]:px-2 [@media(any-pointer:coarse)]:py-2"
+                      className="inline-flex min-h-11 min-w-[4.5rem] max-w-full flex-col justify-center rounded-[12px] px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                       onClick={() => onSelectRoute(route.id)}
                     >
                       <p className="text-base font-semibold text-ink-950">
