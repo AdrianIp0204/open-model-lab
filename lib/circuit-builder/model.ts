@@ -349,7 +349,7 @@ export function normalizeCircuitDocument(input: unknown): CircuitDocument {
     components,
     wires,
     view: {
-      zoom: clamp(parsed.view?.zoom ?? viewDefaults.zoom, 0.45, 1.5),
+      zoom: clamp(parsed.view?.zoom ?? viewDefaults.zoom, 0.45, 2.4),
       offsetX: parsed.view?.offsetX ?? viewDefaults.offsetX,
       offsetY: parsed.view?.offsetY ?? viewDefaults.offsetY,
     },

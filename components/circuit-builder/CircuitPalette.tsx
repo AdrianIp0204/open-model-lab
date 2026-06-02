@@ -278,7 +278,10 @@ export function CircuitPalette({
 
       <section
         aria-label={copy.palette.previewLabel}
-        className="mt-2 rounded-[18px] border border-line bg-white p-3 shadow-sm"
+        className={[
+          "mt-2 rounded-[18px] border border-line bg-white p-3 shadow-sm",
+          normalizedQuery ? "order-last" : "",
+        ].join(" ")}
         data-circuit-palette-preview={panelKind}
         data-circuit-palette-preview-type={previewEntry?.type ?? "none"}
       >
@@ -339,7 +342,10 @@ export function CircuitPalette({
 
       <div
         ref={scrollRef}
-        className="mt-3 grid min-h-0 gap-2 overflow-y-auto pr-1"
+        className={[
+          "mt-3 grid min-h-0 gap-2 overflow-y-auto pr-1",
+          normalizedQuery ? "min-h-[8rem]" : "",
+        ].join(" ")}
         data-circuit-palette-scroll={panelKind}
       >
         {visibleEntries.length === 0 ? (

@@ -1,5 +1,22 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-090 Circuit Builder Drag/Add Stability
+
+Current state: `OML-QA-090` is complete. Circuit Builder now preserves the workspace zoom level during drag/move normalization and keeps desktop palette search results usable as quick-add targets without jumping the page.
+
+Files changed:
+- `components/circuit-builder/CircuitPalette.tsx`: when the palette is filtered by a search query, the preview moves after the search results and the result list gets enough height for lower matched components to remain visible/reachable.
+- `lib/circuit-builder/model.ts`: document normalization now preserves zoom values up to `2.4`, matching the UI control maximum instead of clamping manipulated workspaces back to `1.5`.
+- `TASKS.md`: marks `OML-QA-090` complete with validation notes.
+
+Validation:
+- `git diff --check`: passed.
+- `pnpm exec eslint components/circuit-builder/CircuitPalette.tsx lib/circuit-builder/model.ts`: passed.
+- `pnpm typecheck`: passed.
+- `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "clicking and dragging components|searches the desktop component library" --reporter=line`: passed, 2/2.
+
+Residual risk: the broader Circuit Builder queue still has separate open tasks for zh-HK display-mode targeting, selected-wire inspector visibility, and paper-lab dark-surface contrast.
+
 ## 2026-06-02 OML-QA-086 Launch Runtime Secrets Blocked
 
 Current state: `OML-QA-086` is blocked, not complete. The readiness gate is correctly failing because required private runtime secrets are not available locally, and remote secret-name verification is blocked by the `OML-QA-085` Cloudflare credential issue.

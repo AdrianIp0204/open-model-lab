@@ -909,12 +909,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P1 - Circuit Builder Interaction / Locale / Theme Regressions
 
-- [ ] **OML-QA-090: Keep Circuit Builder workspace zoom and scroll stable during component drag/add flows.**
+- [x] **OML-QA-090: Keep Circuit Builder workspace zoom and scroll stable during component drag/add flows.**
   - Evidence: `tests/e2e/circuit-builder.spec.ts` failed `clicking and dragging components does not unexpectedly change workspace view`: workspace zoom changed from `174` to `150` after dragging `battery-modern`. The same spec also failed `searches the desktop component library, adds a lower component quickly, and clears from the workspace controls with undo recovery`: window scroll moved by `610px`, expected `<= 100px`, after adding a lower component from search.
   - UX problem: component manipulation and quick library-add flows should not unexpectedly zoom out or jump the page. These shifts make the builder feel unstable and can hide the workspace controls the learner needs next.
   - Affected area: `components/circuit-builder/CircuitBuilderPage.tsx`, workspace auto-fit/zoom logic, drag handlers, component-library search/add behavior, and scroll management around workspace controls.
   - Fix direction: separate intentional fit-to-content from drag/add events, preserve current zoom/offset during direct manipulation, and keep quick-add actions from forcing document-level scroll unless the user explicitly requests focus.
   - Validation: rerun `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "clicking and dragging components|searches the desktop component library"`; zoom, offsets, and window scroll remain within the expected limits.
+
+  - Completion note (2026-06-02 HKT): Preserved normalized Circuit Builder workspace zoom up to the UI maximum of `2.4`, and reordered/expanded the desktop search-results area so lower component quick-add targets stay in view without document-level scroll jumps.
+  - Validation: `git diff --check` passed; targeted eslint passed for `components/circuit-builder/CircuitPalette.tsx` and `lib/circuit-builder/model.ts`; `pnpm typecheck` passed; `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "clicking and dragging components|searches the desktop component library" --reporter=line` passed (2/2).
 
 - [ ] **OML-QA-091: Scope the zh-HK Circuit Builder display-mode label so tests and users can target the real control.**
   - Evidence: `tests/e2e/circuit-builder.spec.ts` failed `localizes the zh-HK Circuit Builder surface and keeps modern visuals active`: `getByText("顯示")` matched three visible text nodes, including unrelated ad-policy/footer copy, causing a strict-mode violation.
