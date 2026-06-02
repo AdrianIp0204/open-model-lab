@@ -17,41 +17,31 @@ Validation:
 
 Residual risk: the broader Circuit Builder queue still has separate open tasks for zh-HK display-mode targeting, selected-wire inspector visibility, and paper-lab dark-surface contrast.
 
-## 2026-06-02 OML-QA-086 Launch Runtime Secrets Blocked
+## 2026-06-02 OML-QA-085 Cloudflare Deploy Auth Restored
 
-Current state: `OML-QA-086` is blocked, not complete. The readiness gate is correctly failing because required private runtime secrets are not available locally, and remote secret-name verification is blocked by the `OML-QA-085` Cloudflare credential issue.
+Current state: `OML-QA-085` is complete. Adrian provided a private Cloudflare account ID and API token through `/Users/adrian/.openclaw/secrets/cloudflare_secrets.txt`; the file permissions were tightened to `0600`, the token was used only through environment variables, and the OML Worker deploy now succeeds.
 
 What was verified:
-- `git status --short --branch`: clean, `## main...origin/main`.
-- `pnpm launch:doctor`: failed with required secret errors for `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, and `GEMINI_API_KEY`.
-- Safe presence checks found those names absent from ignored `.env.local`, ignored `.dev.vars`, `wrangler.jsonc` vars, and the process environment.
-- `wrangler.jsonc` exists and does not put required secret values in runtime vars, which is correct.
-- `.env.local`, `.dev.vars`, and `wrangler.jsonc` are ignored/untracked.
-- `pnpm exec wrangler secret list`: failed with Cloudflare auth error `10000`, so remote secret names cannot be verified until the Cloudflare account credential blocker is fixed.
-
-Required next action: restore Cloudflare account access and provide the missing private runtime secrets through ignored local/runtime secret channels. Do not paste secret values into chat or tracked files.
-
-## 2026-06-02 OML-QA-085 Cloudflare Deploy Auth Blocked
-
-Current state: `OML-QA-085` is blocked, not complete. The repo side is ready and pushed, but the available Cloudflare credential cannot access the configured OML account.
-
-What completed:
-- Pushed `main` to `origin/main`; local and remote now both point to `361d6cba759c1c25b6c14fb3dbe8a91df8b07d2b`.
-- Verified the repo is clean after the push.
+- `pnpm exec wrangler whoami`, with `CLOUDFLARE_API_TOKEN` loaded from the private local file, reports an account-scoped API token for the expected Cloudflare account.
+- `pnpm exec wrangler deployments list --name openmodellab`: passed.
 - `pnpm wrangler:check`: passed.
-- Production smoke against the current old deploy returned 200 for `/`, `/en/concepts`, `/zh-HK/concepts`, `/concepts/subjects`, `/zh-HK/concepts/subjects`, `/tools/chemistry-reaction-mind-map`, `/zh-HK/tools/chemistry-reaction-mind-map`, and `/api/deployment`.
+- `pnpm run deploy`: passed; Cloudflare uploaded assets, deployed Worker service `openmodellab`, and returned Worker version `bf0728a0-bb19-4348-ad12-89a3cfd8e1c3` for the first successful deploy after the auth repair.
+- `pnpm release:verify:deployed -- --base-url https://openmodellab.com --expected-commit af04516b3ca7536d26334b9769b8c0b545f5cadc`: passed; production reported the expected commit.
+- Production smoke returned 200 for `/`, `/en/concepts`, `/zh-HK/concepts`, `/concepts/subjects`, `/zh-HK/concepts/subjects`, `/tools/chemistry-reaction-mind-map`, `/zh-HK/tools/chemistry-reaction-mind-map`, `/circuit-builder`, `/zh-HK/circuit-builder`, and `/api/deployment`.
 
-Blocked validation:
-- `pnpm run deploy`: failed after OpenNext build during Cloudflare upload with auth error `10000` for account `c2e9045b08e13fcc54070b647193b40b`, service `openmodellab`.
-- `pnpm exec wrangler deployments list --name openmodellab`: failed with the same account auth error.
-- Direct `/accounts` probe using the active Wrangler OAuth credential returned zero accessible accounts.
-- No active shell `CLOUDFLARE_API_TOKEN`, `CF_API_TOKEN`, or `WRANGLER_API_TOKEN` was present.
-- Four historical local token candidates were tested without printing values; none had access to the target account.
-- `pnpm release:verify:deployed -- --base-url https://openmodellab.com --expected-commit 361d6cba759c1c25b6c14fb3dbe8a91df8b07d2b`: failed; production still reports `a2f9ee75cde81902ee1d5d7494f27bc4ab3af91b`.
-- `pnpm exec wrangler login --browser true`: opened OAuth but timed out waiting for authorization.
-- 2026-06-02 12:18 HKT follow-up: Adrian reported completing Cloudflare authorization but the browser ended on "This site can't be reached." Local checks showed the Wrangler config token file was still last modified at 10:50 HKT, so that newer OAuth callback did not save a token. `pnpm exec wrangler whoami --json` still reports `loggedIn: true`, `authType: "OAuth Token"`, and `accounts: []`. A fresh `pnpm exec wrangler login --browser true --callback-host 127.0.0.1 --callback-port 8976` attempt started a local listener on `127.0.0.1:8976`, but no callback arrived and Wrangler timed out waiting for the authorization code.
+Follow-up rule: after any tracking-only commit, rerun deploy/release verification so production and `origin/main` remain aligned.
 
-Required next action: complete Wrangler OAuth on the Mac as a Cloudflare user with access to the configured account, or provide a valid private deploy token through a local env channel. Do not paste token values into chat.
+## 2026-06-02 OML-QA-086 Remote Secrets Verified, Local Doctor Still Blocked
+
+Current state: `OML-QA-086` is still not complete. The Cloudflare credential blocker is fixed and remote secret names are now verified, but `pnpm launch:doctor` still fails because the private local/preview runtime mirror is missing required values in `.dev.vars` or local environment.
+
+What was verified:
+- `pnpm exec wrangler secret list`, with `CLOUDFLARE_API_TOKEN` loaded from the private local file, succeeded.
+- Remote Cloudflare Worker secret names present: `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, and `GEMINI_API_KEY`.
+- `pnpm launch:doctor` still exits 1 locally with missing runtime secret errors for the same required names, plus Supabase sync, Stripe checkout/portal/webhook, feedback delivery, AI Coach, and Cloudflare preview-parity readiness failures.
+- `wrangler.jsonc` still does not put secret values in tracked runtime vars, which is correct.
+
+Required next action: decide whether to create/update the ignored local `.dev.vars` runtime mirror for preview/doctor checks, or explicitly change launch-doctor expectations if some production features are intentionally not launch-ready. Do not put secret values into tracked files or chat.
 
 ## 2026-06-02 OML-QA-089 Chemistry zh-HK Route Selector Touch Target
 
