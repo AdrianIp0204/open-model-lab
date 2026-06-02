@@ -1,5 +1,24 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-086 Launch Runtime Secrets Ready
+
+Current state: `OML-QA-086` is complete. Adrian provided the old OML runtime material in `/Users/adrian/.openclaw/secrets/oml_secrets.md`; the ignored local runtime mirror files `.env.local` and `.dev.vars` were updated from that private handoff without printing secret values and were locked to `0600`.
+
+Files changed:
+- `.env.local` (ignored/private): now contains the local Next/runtime mirror required for Supabase sync, Stripe billing, Resend feedback delivery, Gemini AI Coach, and Cloudflare skew-protection build settings.
+- `.dev.vars` (ignored/private): now mirrors the required Cloudflare preview runtime secrets and non-secret runtime variables needed for preview parity.
+- `TASKS.md`: marks `OML-QA-086` complete with validation notes.
+- `STATUS.md`: records this completion.
+
+Validation:
+- `pnpm launch:doctor`: passed with only the intentional local warning that a live Stripe key is present outside `NODE_ENV=production`.
+- `NODE_ENV=production pnpm launch:doctor --fail-on-warnings`: passed with no findings.
+- `pnpm exec wrangler secret list`, with the private Cloudflare API token loaded from `/Users/adrian/.openclaw/secrets/cloudflare_secrets.txt`, confirmed remote secret names `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, and `GEMINI_API_KEY`.
+- `pnpm wrangler:check`: passed.
+- `pnpm exec vitest run tests/ops/launch-doctor.test.ts tests/feedback/route.test.ts tests/billing/checkout-route.test.ts tests/billing/portal-route.test.ts tests/billing/webhook-route.test.ts tests/billing/reconcile-route.test.ts tests/ai/coach.test.ts tests/account/supabase-session.test.ts`: passed, 8 files / 104 tests.
+
+Residual risk: the default local doctor still warns when run without `NODE_ENV=production` because the mirrored Stripe key is live. That is a useful local safety warning, not a launch-readiness blocker.
+
 ## 2026-06-02 OML-QA-090 Circuit Builder Drag/Add Stability
 
 Current state: `OML-QA-090` is complete. Circuit Builder now preserves the workspace zoom level during drag/move normalization and keeps desktop palette search results usable as quick-add targets without jumping the page.
