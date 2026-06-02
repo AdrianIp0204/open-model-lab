@@ -68,9 +68,9 @@ export function ChemistryRouteExplorerDetails({
     >
       <div
         data-testid="chem-route-workflow-bar"
-        className="sticky top-0 z-20 min-w-0 max-w-full border-b border-line bg-paper/95 p-3 backdrop-blur min-[1100px]:static min-[1100px]:rounded-t-[22px] min-[1100px]:bg-paper min-[1100px]:p-5 min-[1100px]:backdrop-blur-0"
+        className="sticky top-0 z-20 min-w-0 max-w-full border-b border-line bg-paper/95 px-3 py-2 backdrop-blur sm:p-3 min-[1100px]:static min-[1100px]:rounded-t-[22px] min-[1100px]:bg-paper min-[1100px]:p-5 min-[1100px]:backdrop-blur-0"
       >
-        <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
+        <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-3">
           <div className="min-w-0 space-y-1.5">
             <p className="lab-label">{t("routeExplorer.eyebrow")}</p>
             <h2 className="text-[1.08rem] font-semibold leading-snug text-ink-950 sm:text-2xl">
@@ -104,10 +104,10 @@ export function ChemistryRouteExplorerDetails({
         </div>
       </div>
 
-      <div className="min-w-0 max-w-full space-y-4 p-4 sm:space-y-5 sm:p-6">
+      <div className="min-w-0 max-w-full space-y-3 px-4 py-3 sm:space-y-5 sm:p-6">
       <p
         data-chem-learning-copy="route-note"
-        className="text-sm leading-7 text-ink-700"
+        className="text-sm leading-6 text-ink-700 sm:leading-7"
       >
         {t("routeExplorer.note", { maxEdges, maxRoutes })}
       </p>
@@ -155,8 +155,8 @@ export function ChemistryRouteExplorerDetails({
           </p>
         </section>
       ) : (
-        <div className="space-y-4">
-          <p className="text-sm leading-7 text-ink-700">
+        <div className="space-y-3 sm:space-y-4">
+          <p className="text-sm leading-6 text-ink-700 sm:leading-7">
             {t("routeExplorer.routeCount", { count: routes.length })}
           </p>
           {routes.map((route, routeIndex) => {
@@ -172,8 +172,8 @@ export function ChemistryRouteExplorerDetails({
                     : "border-line bg-paper-strong",
                 ].join(" ")}
               >
-                <div className="flex min-w-0 flex-wrap items-start justify-between gap-3">
-                  <div className="min-w-0 flex-1 space-y-3">
+                <div className="flex min-w-0 flex-wrap items-start justify-between gap-2 sm:gap-3">
+                  <div className="min-w-0 flex-1 space-y-2 sm:space-y-3">
                     <button
                       type="button"
                       data-testid={`chem-route-select-${route.id}`}
@@ -235,7 +235,7 @@ export function ChemistryRouteExplorerDetails({
                 </div>
 
                 {isSelected ? (
-                  <div className="mt-4 space-y-3">
+                  <div className="mt-3 space-y-2 sm:mt-4 sm:space-y-3">
                     {route.steps.map((step, stepIndex) => {
                       const edge = edgeById.get(step.edgeId);
                       const fromNode = nodeById.get(step.from);

@@ -883,12 +883,15 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Completion note (2026-06-02 HKT): Kept `Concept sections` as the canonical concept-page mobile section-nav accessible label and updated the stale component assertions that still expected the generic `Page sections` fallback.
   - Validation: git show --check HEAD passed; pnpm exec vitest run tests/components/concept-page-phased-sections.test.tsx passed (23/23); pnpm test passed (424 files / 2417 tests); git diff --check passed.
 
-- [ ] **OML-QA-088: Keep Chemistry mobile route workflow actions fully inside the first phone viewport.**
+- [x] **OML-QA-088: Keep Chemistry mobile route workflow actions fully inside the first phone viewport.**
   - Evidence: `pnpm test:e2e:qa-sweep --allow-test-failures` shard 1 failed `tests/e2e/chemistry-reaction-mind-map.spec.ts` at `chemistry reaction mind map presents mobile route results as a workflow`: the first route-step button bottom was `861px`, expected `<= 844px`, on the phone viewport.
   - UX problem: the mobile route-results layout is close but still pushes the first actionable route step just below the initial viewport. A learner sees the route summary before the next step is fully tappable.
   - Affected area: `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`, mobile route-results cards, workflow sequence row, and route step button spacing.
   - Fix direction: compact the mobile successful-route result header/sequence block or move the first route-step action higher without clipping labels or weakening the workflow structure.
   - Validation: rerun `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "presents mobile route results as a workflow"` and confirm the first step button top and bottom both fit within `390x844`.
+
+  - Completion note (2026-06-02 HKT): Tightened the mobile-only successful route-results rhythm in `ChemistryRouteExplorerDetails` by reducing the workflow bar padding/gap, route note line-height, route-count spacing, selected-card sequence gap, and selected-step stack spacing while preserving 44px route/action targets and the desktop spacing.
+  - Validation: direct DOM metric at `390x844` measured first route-step button `top=692`, `bottom=794`, `horizontalOverflow=0`; `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "presents mobile route results as a workflow" --reporter=line` passed (1/1); `pnpm exec eslint components/tools/chemistry/ChemistryRouteExplorerDetails.tsx` passed; `pnpm typecheck` passed; `git diff --check` passed.
 
 - [ ] **OML-QA-089: Restore Chemistry zh-HK route-selection touch targets to the 44px floor.**
   - Evidence: `tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts` failed in the zh-HK phone route-results state: route selector `chem-route-select-alkene-to-alcohol-hydration>>alcohol-to-aldehyde-oxidation>>aldehyde-to-carboxylic-acid-oxidation` labeled `路線 13 步` measured `19.4px` wide by `124px` high, below the 44px critical touch-target floor.
