@@ -854,3 +854,72 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
   - Completion note (2026-06-02 HKT): Routed the active locale through the Chemistry tool shell/footer, added explicit layout-message formatting for locale-overridden shared layout copy, and covered the zh-HK Chemistry footer at phone and desktop widths.
   - Validation: git diff --check passed; pnpm i18n:check:zh-HK passed with issueCount 0; targeted eslint passed; pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "OML-QA-084" --reporter=line passed; pnpm typecheck passed.
+
+## Push / Deploy / QA Pass 2026-06-02
+
+### P0 - Deploy And Release Readiness
+
+- [ ] **OML-QA-085: Restore Cloudflare deploy authentication and prove production is on the pushed commit.**
+  - Evidence: `git push origin main` succeeded and pushed `f401eec1fa348ee59c0f4f1c4ebc6c86285743a7`, but `pnpm run deploy` failed after a successful OpenNext build during Wrangler upload: Cloudflare API request to `/accounts/c2e9045b08e13fcc54070b647193b40b/workers/services/openmodellab` returned authentication error `10000`.
+  - Deployed-release verification then failed: `pnpm release:verify:deployed -- --base-url https://openmodellab.com --expected-commit f401eec1fa348ee59c0f4f1c4ebc6c86285743a7` reported live commit `a2f9ee75cde81902ee1d5d7494f27bc4ab3af91b`, not the pushed head.
+  - Affected area: Cloudflare Wrangler OAuth/API-token auth, account/service permissions for the `openmodellab` Worker, `pnpm run deploy`, and release verification.
+  - Fix direction: reauthenticate or replace the local Wrangler deployment token with one that can deploy the `openmodellab` Worker service in the configured Cloudflare account. Do not commit or print tokens. After auth repair, rerun the deploy from the clean pushed `main`.
+  - Validation: `pnpm run deploy` exits 0; `pnpm release:verify:deployed -- --base-url https://openmodellab.com --expected-commit $(git rev-parse HEAD)` exits 0 and reports the expected commit; production smoke routes load without deployment identity mismatch.
+
+- [ ] **OML-QA-086: Make launch/runtime secret readiness green before claiming deploy readiness.**
+  - Evidence: `pnpm launch:doctor` failed on 2026-06-02 because the checked runtime/preview environment is missing `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, and `GEMINI_API_KEY`. It also reported Supabase auth/sync not ready, Stripe checkout/portal/webhook not ready, feedback delivery fallback only, AI Coach not ready, and Cloudflare preview parity not ready.
+  - Affected area: private local runtime mirror, Cloudflare runtime secrets, Supabase account sync, Stripe billing, Resend feedback delivery, AI Coach quota/runtime config, and launch doctor.
+  - Fix direction: audit whether the missing values are absent only from local `.dev.vars` or also absent remotely. Configure the required secrets through private local/Cloudflare secret channels, never in tracked files. If any feature is intentionally disabled, update launch doctor expectations and public copy so readiness claims match reality.
+  - Validation: `pnpm launch:doctor` exits 0 or reports only intentional documented warnings; `pnpm exec wrangler secret list` confirms required secret names remotely without printing values; signed-in account sync, checkout start, billing portal, feedback fallback/direct mode, and AI Coach disabled/enabled states behave according to the final launch configuration.
+
+### P0 - Failing Gates From Full Local QA
+
+- [ ] **OML-QA-087: Repair the concept page mobile section-nav accessible-name contract.**
+  - Evidence: full `pnpm test` failed 2 tests in `tests/components/concept-page-phased-sections.test.tsx`: `renders grouped phase-aware navigation in the mobile sheet` and `mobile nav uses the same section intent seam for hidden lower-page targets`. The tests query a button named `/^Page sections/`, but the rendered accessible button is named `Concept sections`.
+  - Affected area: `components/concepts/ConceptPagePhasedSections.tsx` or the shared page-section navigation component, plus `tests/components/concept-page-phased-sections.test.tsx`.
+  - Fix direction: decide the canonical learner-facing/a11y label for the mobile section toggle. If `Concept sections` is intentional, update the tests and any shared copy assumptions; if the broader site contract should stay `Page sections`, restore that accessible name while preserving concept-specific visible context.
+  - Validation: `pnpm exec vitest run tests/components/concept-page-phased-sections.test.tsx` passes; full `pnpm test` passes without changing unrelated assertions.
+
+- [ ] **OML-QA-088: Keep Chemistry mobile route workflow actions fully inside the first phone viewport.**
+  - Evidence: `pnpm test:e2e:qa-sweep --allow-test-failures` shard 1 failed `tests/e2e/chemistry-reaction-mind-map.spec.ts` at `chemistry reaction mind map presents mobile route results as a workflow`: the first route-step button bottom was `861px`, expected `<= 844px`, on the phone viewport.
+  - UX problem: the mobile route-results layout is close but still pushes the first actionable route step just below the initial viewport. A learner sees the route summary before the next step is fully tappable.
+  - Affected area: `components/tools/chemistry/ChemistryReactionMindMapPage.tsx`, mobile route-results cards, workflow sequence row, and route step button spacing.
+  - Fix direction: compact the mobile successful-route result header/sequence block or move the first route-step action higher without clipping labels or weakening the workflow structure.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "presents mobile route results as a workflow"` and confirm the first step button top and bottom both fit within `390x844`.
+
+- [ ] **OML-QA-089: Restore Chemistry zh-HK route-selection touch targets to the 44px floor.**
+  - Evidence: `tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts` failed in the zh-HK phone route-results state: route selector `chem-route-select-alkene-to-alcohol-hydration>>alcohol-to-aldehyde-oxidation>>aldehyde-to-carboxylic-acid-oxidation` labeled `路線 13 步` measured `19.4px` wide by `124px` high, below the 44px critical touch-target floor.
+  - UX problem: the visual label is narrow enough that the actual hit target is effectively a sliver on phone, especially in zh-HK where compact route labels wrap differently.
+  - Affected area: Chemistry route result selector/button layout, zh-HK compact route labels, and visual QA touch-target helpers.
+  - Fix direction: give route selectors a real minimum inline hit area on mobile, possibly with an invisible hit wrapper or a wider compact pill, while keeping the route list readable and avoiding horizontal overflow.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map-visual-qa.spec.ts --reporter=line`; zh-HK phone route-result touch-target audit reports no critical targets below 44px.
+
+### P1 - Circuit Builder Interaction / Locale / Theme Regressions
+
+- [ ] **OML-QA-090: Keep Circuit Builder workspace zoom and scroll stable during component drag/add flows.**
+  - Evidence: `tests/e2e/circuit-builder.spec.ts` failed `clicking and dragging components does not unexpectedly change workspace view`: workspace zoom changed from `174` to `150` after dragging `battery-modern`. The same spec also failed `searches the desktop component library, adds a lower component quickly, and clears from the workspace controls with undo recovery`: window scroll moved by `610px`, expected `<= 100px`, after adding a lower component from search.
+  - UX problem: component manipulation and quick library-add flows should not unexpectedly zoom out or jump the page. These shifts make the builder feel unstable and can hide the workspace controls the learner needs next.
+  - Affected area: `components/circuit-builder/CircuitBuilderPage.tsx`, workspace auto-fit/zoom logic, drag handlers, component-library search/add behavior, and scroll management around workspace controls.
+  - Fix direction: separate intentional fit-to-content from drag/add events, preserve current zoom/offset during direct manipulation, and keep quick-add actions from forcing document-level scroll unless the user explicitly requests focus.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "clicking and dragging components|searches the desktop component library"`; zoom, offsets, and window scroll remain within the expected limits.
+
+- [ ] **OML-QA-091: Scope the zh-HK Circuit Builder display-mode label so tests and users can target the real control.**
+  - Evidence: `tests/e2e/circuit-builder.spec.ts` failed `localizes the zh-HK Circuit Builder surface and keeps modern visuals active`: `getByText("顯示")` matched three visible text nodes, including unrelated ad-policy/footer copy, causing a strict-mode violation.
+  - UX/a11y problem: the display-mode control label is not uniquely targetable in zh-HK. Even if the visible UI looks acceptable, automated and assistive flows need a scoped control name for the circuit display mode rather than relying on a generic word that appears elsewhere.
+  - Affected area: Circuit Builder display/render-mode control group, zh-HK messages for display mode, and `tests/e2e/circuit-builder.spec.ts`.
+  - Fix direction: give the render-mode group an explicit role/name such as `顯示模式` or a scoped test id/aria label, then update the test to target the control group instead of global text. Keep visible copy natural in zh-HK.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "localizes the zh-HK Circuit Builder"`; no strict-mode ambiguity remains and both `電路圖` and `現代視覺` remain visible/usable.
+
+- [ ] **OML-QA-092: Make selected Circuit Builder wire details visible after hit-target selection.**
+  - Evidence: `tests/e2e/circuit-builder.spec.ts` failed `selects a wire through the actual workspace hit target and deletes it coherently`: after selecting a connection, `Selected connection` was visible and `Delete selected` was enabled, but the `Ideal connection` detail text resolved to a hidden element and never became visible within 15s.
+  - UX problem: selecting a wire should surface the connection type/details in the active inspector, not only enable deletion. Hidden duplicate details can also make tests and assistive tech target stale content.
+  - Affected area: Circuit Builder connection selection state, inspector detail rendering, hidden/mobile/desktop duplicate panels, and wire deletion flow.
+  - Fix direction: ensure the active selected-connection inspector exposes the visible connection detail and hides/removes stale duplicates from accessible queries. Preserve coherent delete behavior and connection count updates.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/circuit-builder.spec.ts -g "selects a wire"`; `Selected connection`, visible `Ideal connection`, delete action, and final connection counts all pass.
+
+- [ ] **OML-QA-093: Resolve the Circuit Builder paper-lab dark-surface contrast violation.**
+  - Evidence: `tests/e2e/theme-contrast-sweep.spec.ts` failed `OML-QA-035 light and dark theme contrast sweep passes representative site surfaces` with `PAPER_MODE_DARK_SURFACE` on `/circuit-builder` in `paper-lab` at `desktop-1440x900`. The flagged element was `.circuit-workspace-empty-card` with background `rgb(7, 19, 28)`, luminance `0.006`, area `118544`, and sample text beginning `Start with a source and one load...`.
+  - UX/theme problem: paper-lab mode should not introduce a large unclassified dark surface unless it is deliberately treated as a dark lab stage with correct text/contrast allowances. The empty-workspace card currently violates the theme sweep contract.
+  - Affected area: Circuit Builder empty workspace card styling, theme tokens/classes, and `theme-contrast-sweep` dark-surface allowlist/semantics.
+  - Fix direction: either restyle the empty card for paper-lab so it reads as a paper surface, or explicitly mark the circuit workspace stage/empty card as an intentional dark lab surface with verified foreground contrast. Avoid broad allowlisting that hides real contrast regressions.
+  - Validation: rerun `pnpm exec playwright test tests/e2e/theme-contrast-sweep.spec.ts --reporter=line`; no `PAPER_MODE_DARK_SURFACE` issues remain for `/circuit-builder` in paper-lab.
