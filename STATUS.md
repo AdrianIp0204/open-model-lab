@@ -1,5 +1,19 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-086 Launch Runtime Secrets Blocked
+
+Current state: `OML-QA-086` is blocked, not complete. The readiness gate is correctly failing because required private runtime secrets are not available locally, and remote secret-name verification is blocked by the `OML-QA-085` Cloudflare credential issue.
+
+What was verified:
+- `git status --short --branch`: clean, `## main...origin/main`.
+- `pnpm launch:doctor`: failed with required secret errors for `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, and `GEMINI_API_KEY`.
+- Safe presence checks found those names absent from ignored `.env.local`, ignored `.dev.vars`, `wrangler.jsonc` vars, and the process environment.
+- `wrangler.jsonc` exists and does not put required secret values in runtime vars, which is correct.
+- `.env.local`, `.dev.vars`, and `wrangler.jsonc` are ignored/untracked.
+- `pnpm exec wrangler secret list`: failed with Cloudflare auth error `10000`, so remote secret names cannot be verified until the Cloudflare account credential blocker is fixed.
+
+Required next action: restore Cloudflare account access and provide the missing private runtime secrets through ignored local/runtime secret channels. Do not paste secret values into chat or tracked files.
+
 ## 2026-06-02 OML-QA-085 Cloudflare Deploy Auth Blocked
 
 Current state: `OML-QA-085` is blocked, not complete. The repo side is ready and pushed, but the available Cloudflare credential cannot access the configured OML account.

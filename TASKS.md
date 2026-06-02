@@ -874,6 +874,8 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
   - Fix direction: audit whether the missing values are absent only from local `.dev.vars` or also absent remotely. Configure the required secrets through private local/Cloudflare secret channels, never in tracked files. If any feature is intentionally disabled, update launch doctor expectations and public copy so readiness claims match reality.
   - Validation: `pnpm launch:doctor` exits 0 or reports only intentional documented warnings; `pnpm exec wrangler secret list` confirms required secret names remotely without printing values; signed-in account sync, checkout start, billing portal, feedback fallback/direct mode, and AI Coach disabled/enabled states behave according to the final launch configuration.
 
+  - Blocker note (2026-06-02 HKT): `pnpm launch:doctor` still exits 1. Required runtime secret names are absent from ignored local `.env.local`, ignored `.dev.vars`, `wrangler.jsonc` vars, and the current process environment: `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, and `GEMINI_API_KEY`. `wrangler.jsonc` correctly does not put those secret values in tracked/runtime vars. Remote secret-name confirmation cannot be completed because `pnpm exec wrangler secret list` fails with the same Cloudflare auth error `10000` from `OML-QA-085`. Required next action: provide the missing private runtime secrets through ignored local/runtime channels and restore Cloudflare account access before rerunning launch doctor and remote secret-name verification.
+
 ### P0 - Failing Gates From Full Local QA
 
 - [x] **OML-QA-087: Repair the concept page mobile section-nav accessible-name contract.**
