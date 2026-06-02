@@ -1,5 +1,24 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-088 Chemistry Mobile Route Workflow Viewport
+
+Current state: `OML-QA-088` is complete. The successful Chemistry mobile route-results workflow now keeps the first route-step action fully inside the `390x844` phone viewport while preserving labels, route workflow structure, horizontal fit, and 44px touch targets.
+
+Implementation commit before the tracking update: `a42ae4d`.
+
+Files changed:
+- `components/tools/chemistry/ChemistryRouteExplorerDetails.tsx`: tightens mobile-only route-results spacing for the workflow bar, route note, route count, selected route card, and selected-step stack.
+- `TASKS.md`: marks `OML-QA-088` complete with the worker's measured route-step metrics and validation.
+
+Validation:
+- `git show --check HEAD`: passed.
+- `pnpm exec playwright test tests/e2e/chemistry-reaction-mind-map.spec.ts -g "presents mobile route results as a workflow" --reporter=line`: passed, 1/1.
+- `pnpm exec eslint components/tools/chemistry/ChemistryRouteExplorerDetails.tsx`: passed.
+- `pnpm typecheck`: passed.
+- Direct worker DOM metric at `390x844`: first route-step button `top=692`, `bottom=794`, `horizontalOverflow=0`.
+
+Residual risk: local Playwright startup still reports the launch-runtime missing-secret warnings already tracked by `OML-QA-086`; they did not affect this Chemistry route workflow gate.
+
 ## 2026-06-02 OML-QA-087 Concept Mobile Section Nav Contract
 
 Current state: `OML-QA-087` is complete. Concept pages intentionally use the concept-specific mobile section label `Concept sections`; the stale component assertions now match that existing accessible-name contract instead of the generic `Page sections` fallback.
