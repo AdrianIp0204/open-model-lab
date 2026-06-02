@@ -1,5 +1,26 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-085 Cloudflare Deploy Auth Blocked
+
+Current state: `OML-QA-085` is blocked, not complete. The repo side is ready and pushed, but the available Cloudflare credential cannot access the configured OML account.
+
+What completed:
+- Pushed `main` to `origin/main`; local and remote now both point to `361d6cba759c1c25b6c14fb3dbe8a91df8b07d2b`.
+- Verified the repo is clean after the push.
+- `pnpm wrangler:check`: passed.
+- Production smoke against the current old deploy returned 200 for `/`, `/en/concepts`, `/zh-HK/concepts`, `/concepts/subjects`, `/zh-HK/concepts/subjects`, `/tools/chemistry-reaction-mind-map`, `/zh-HK/tools/chemistry-reaction-mind-map`, and `/api/deployment`.
+
+Blocked validation:
+- `pnpm run deploy`: failed after OpenNext build during Cloudflare upload with auth error `10000` for account `c2e9045b08e13fcc54070b647193b40b`, service `openmodellab`.
+- `pnpm exec wrangler deployments list --name openmodellab`: failed with the same account auth error.
+- Direct `/accounts` probe using the active Wrangler OAuth credential returned zero accessible accounts.
+- No active shell `CLOUDFLARE_API_TOKEN`, `CF_API_TOKEN`, or `WRANGLER_API_TOKEN` was present.
+- Four historical local token candidates were tested without printing values; none had access to the target account.
+- `pnpm release:verify:deployed -- --base-url https://openmodellab.com --expected-commit 361d6cba759c1c25b6c14fb3dbe8a91df8b07d2b`: failed; production still reports `a2f9ee75cde81902ee1d5d7494f27bc4ab3af91b`.
+- `pnpm exec wrangler login --browser true`: opened OAuth but timed out waiting for authorization.
+
+Required next action: complete Wrangler OAuth on the Mac as a Cloudflare user with access to the configured account, or provide a valid private deploy token through a local env channel. Do not paste token values into chat.
+
 ## 2026-06-02 OML-QA-089 Chemistry zh-HK Route Selector Touch Target
 
 Current state: `OML-QA-089` is complete. The zh-HK phone route-results selector now has a real 44px-floor hit area without widening the route card beyond the viewport.
