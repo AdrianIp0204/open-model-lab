@@ -870,7 +870,7 @@ describe("ConceptPagePhasedSections", () => {
 
     renderHarness({ concept });
 
-    const toggle = screen.getByRole("button", { name: /^Page sections/ });
+    const toggle = screen.getByRole("button", { name: /^Concept sections/ });
     fireEvent.click(toggle);
 
     const panel = document.getElementById(toggle.getAttribute("aria-controls") ?? "");
@@ -1096,7 +1096,7 @@ describe("ConceptPagePhasedSections", () => {
     );
     (HTMLElement.prototype.scrollIntoView as ReturnType<typeof vi.fn>).mockClear();
 
-    const toggle = screen.getByRole("button", { name: /^Page sections/ });
+    const toggle = screen.getByRole("button", { name: /^Concept sections/ });
     fireEvent.click(toggle);
 
     const panel = document.getElementById(toggle.getAttribute("aria-controls") ?? "");
