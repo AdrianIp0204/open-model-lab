@@ -32,6 +32,7 @@ Blocked validation:
 - Four historical local token candidates were tested without printing values; none had access to the target account.
 - `pnpm release:verify:deployed -- --base-url https://openmodellab.com --expected-commit 361d6cba759c1c25b6c14fb3dbe8a91df8b07d2b`: failed; production still reports `a2f9ee75cde81902ee1d5d7494f27bc4ab3af91b`.
 - `pnpm exec wrangler login --browser true`: opened OAuth but timed out waiting for authorization.
+- 2026-06-02 12:18 HKT follow-up: Adrian reported completing Cloudflare authorization but the browser ended on "This site can't be reached." Local checks showed the Wrangler config token file was still last modified at 10:50 HKT, so that newer OAuth callback did not save a token. `pnpm exec wrangler whoami --json` still reports `loggedIn: true`, `authType: "OAuth Token"`, and `accounts: []`. A fresh `pnpm exec wrangler login --browser true --callback-host 127.0.0.1 --callback-port 8976` attempt started a local listener on `127.0.0.1:8976`, but no callback arrived and Wrangler timed out waiting for the authorization code.
 
 Required next action: complete Wrangler OAuth on the Mac as a Cloudflare user with access to the configured account, or provide a valid private deploy token through a local env channel. Do not paste token values into chat.
 
