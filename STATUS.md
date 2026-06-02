@@ -1,5 +1,22 @@
 # Open Model Lab Status
 
+## 2026-06-02 OML-QA-087 Concept Mobile Section Nav Contract
+
+Current state: `OML-QA-087` is complete. Concept pages intentionally use the concept-specific mobile section label `Concept sections`; the stale component assertions now match that existing accessible-name contract instead of the generic `Page sections` fallback.
+
+Implementation commit before the tracking update: `8678aac`.
+
+Files changed:
+- `tests/components/concept-page-phased-sections.test.tsx`: updates the mobile sheet and hidden-target section-nav assertions to query the concept-specific toggle label.
+
+Validation:
+- `git show --check HEAD`: passed.
+- `pnpm exec vitest run tests/components/concept-page-phased-sections.test.tsx`: passed, 23/23.
+- `pnpm test`: passed, 424 files / 2417 tests.
+- `git diff --check`: passed.
+
+Residual risk: none found. The full suite still emits the existing jsdom `--localstorage-file` warnings, but they did not fail the run.
+
 ## 2026-06-02 OML-QA-084 zh-HK Chemistry Footer Locale
 
 Current state: `OML-QA-084` is complete. The zh-HK Chemistry Reaction Mind Map no longer falls back to English shared-footer copy: the route now provides the resolved locale and messages to the page shell, the shared layout/footer can format layout messages from an explicit locale, and the regression checks phone and desktop footer text plus locale-prefixed footer links.

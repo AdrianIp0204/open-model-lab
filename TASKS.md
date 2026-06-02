@@ -874,11 +874,14 @@ Scope covered `97` concept slugs. English was swept at phone `390x844`, tablet `
 
 ### P0 - Failing Gates From Full Local QA
 
-- [ ] **OML-QA-087: Repair the concept page mobile section-nav accessible-name contract.**
+- [x] **OML-QA-087: Repair the concept page mobile section-nav accessible-name contract.**
   - Evidence: full `pnpm test` failed 2 tests in `tests/components/concept-page-phased-sections.test.tsx`: `renders grouped phase-aware navigation in the mobile sheet` and `mobile nav uses the same section intent seam for hidden lower-page targets`. The tests query a button named `/^Page sections/`, but the rendered accessible button is named `Concept sections`.
   - Affected area: `components/concepts/ConceptPagePhasedSections.tsx` or the shared page-section navigation component, plus `tests/components/concept-page-phased-sections.test.tsx`.
   - Fix direction: decide the canonical learner-facing/a11y label for the mobile section toggle. If `Concept sections` is intentional, update the tests and any shared copy assumptions; if the broader site contract should stay `Page sections`, restore that accessible name while preserving concept-specific visible context.
   - Validation: `pnpm exec vitest run tests/components/concept-page-phased-sections.test.tsx` passes; full `pnpm test` passes without changing unrelated assertions.
+
+  - Completion note (2026-06-02 HKT): Kept `Concept sections` as the canonical concept-page mobile section-nav accessible label and updated the stale component assertions that still expected the generic `Page sections` fallback.
+  - Validation: git show --check HEAD passed; pnpm exec vitest run tests/components/concept-page-phased-sections.test.tsx passed (23/23); pnpm test passed (424 files / 2417 tests); git diff --check passed.
 
 - [ ] **OML-QA-088: Keep Chemistry mobile route workflow actions fully inside the first phone viewport.**
   - Evidence: `pnpm test:e2e:qa-sweep --allow-test-failures` shard 1 failed `tests/e2e/chemistry-reaction-mind-map.spec.ts` at `chemistry reaction mind map presents mobile route results as a workflow`: the first route-step button bottom was `861px`, expected `<= 844px`, on the phone viewport.
