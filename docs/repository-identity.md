@@ -1,28 +1,28 @@
 # Repository Identity
 
-Open Model Lab has two GitHub repositories with different purposes.
+## Current status — 7 October 2026
 
-## Active Public-Source Repository
+The owner confirmed that **Open Model Lab is no longer active and its website hosting has been removed**. This supersedes earlier descriptions of an active development repository or live hosted product.
 
-`AdrianIp0204/open-model-lab` is the active development repository and intended public-source home for Open Model Lab.
+**ExamLantern is a separate project.** Leftover Open Model Lab wording in ExamLantern is stale naming, not evidence of a rebrand, repository migration, or shared product policy. Do not move ExamLantern tasks into this repository.
 
-Use this repository for current issues, pull requests, documentation updates, CI changes, content fixes, and future public-facing development. The project may still have private deployment files and owner-only operator context on local machines, but those are deliberately excluded from the public source tree.
+## Retained public source
 
-This repository must not include old private development history, private operator artifacts, real deployment secrets, real `wrangler.jsonc`, real `public/ads.txt`, local database dumps, generated browser output, or private learner/support data.
+`AdrianIp0204/open-model-lab` retains the public source of the inactive Open Model Lab project. Its code, educational content, and brand retain the terms in `LICENSE`, `CONTENT_LICENSE.md`, and `BRAND.md`.
 
-## Private Historical Archive
+Earlier launch records, support links, roadmaps, and task lists describe the historical project. They do not establish current hosting, an active development commitment, or permission to restart the website. Existing runtime names, capability-based entitlements, and compatibility keys describe this preserved implementation; they are not ExamLantern product requirements.
 
-`AdrianIp0204/OpenModelLab` is a private historical/archive repository only. It contains old private history and operator context and must remain private unless the owner explicitly changes strategy later.
+The repository must not include old private development history, private operator artifacts, real deployment secrets, real `wrangler.jsonc`, real `public/ads.txt`, local database dumps, generated browser output, or private learner/support data.
 
-Do not use `AdrianIp0204/OpenModelLab` for new public-facing development. Branches there may be stale, private-history-based, or behind the active repository.
+## Private historical repository
 
-Do not push private branches, tags, history, ignored files, local QA output, deployment credentials, or private artifacts from `AdrianIp0204/OpenModelLab` into `AdrianIp0204/open-model-lab`.
+`AdrianIp0204/OpenModelLab` is a private historical/archive repository. Keep it private unless the owner explicitly changes that decision.
 
-Do not port private-history branches into the public repository unless the owner explicitly asks for a reviewed cherry-pick.
+Do not push private branches, tags, history, ignored files, local QA output, deployment credentials, or private artifacts into the public repository. Do not port private-history branches into the public repository without an explicitly requested, reviewed cherry-pick.
 
-## Agent And Contributor Guard
+## Repository guard
 
-Before editing, verify the current repository and state:
+Before explicitly requested maintenance, verify the repository and state:
 
 ```bash
 git remote -v
@@ -31,16 +31,8 @@ git status --short
 git rev-parse HEAD
 ```
 
-For agent/Codex sessions, report or record:
+Record the repository full name, remote URL, branch, HEAD SHA, and working-tree state. Use this repository's public `main` as the baseline for its own source maintenance; do not substitute a private archive branch.
 
-- repository full name
-- remote URL
-- branch
-- HEAD SHA
-- whether the working tree is clean
+If a task references public-source maintenance but the checkout points at `AdrianIp0204/OpenModelLab`, stop and switch to `AdrianIp0204/open-model-lab` before editing. If a task references private archive maintenance but the checkout points at `AdrianIp0204/open-model-lab`, stop and ask for direction.
 
-If a task references current repository state but the checkout points at `AdrianIp0204/OpenModelLab`, stop and switch to `AdrianIp0204/open-model-lab` before editing.
-
-If a task references private archive maintenance but the checkout points at `AdrianIp0204/open-model-lab`, stop and ask for direction.
-
-For active product work, use `AdrianIp0204/open-model-lab` `main` as the baseline. Do not use stale archive-repo HEADs as the basis for changes, and do not reference old private history or private artifacts.
+For ExamLantern work, verify its own repository and current product requirements. An unavailable public repository URL or an old provider-account label is not evidence that Open Model Lab has replaced it. Do not revive the historical Open Model Lab queue or hosting based on old docs.

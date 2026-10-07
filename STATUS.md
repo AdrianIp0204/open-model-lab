@@ -1,5 +1,13 @@
 # Open Model Lab Status
 
+## 2026-10-07 Project inactive; hosted website retired
+
+The owner confirmed that Open Model Lab is no longer active and its website hosting has been removed. The public source remains available as historical reference. ExamLantern is a separate project; leftover Open Model Lab names there are stale naming, not a repository migration.
+
+This status supersedes the live-service and launch-readiness descriptions below. The dated records remain historical evidence and do not authorize redeployment, secret restoration, or resumption of the old task queue. See [repository identity](docs/repository-identity.md).
+
+The cleanup updates the README, repository identity, agent guidance, contribution guide, task-list status, and issue chooser. Validation: `git diff --check`, `node scripts/public-release-final-check.mjs` (including the hygiene check), and verification that newly added relative Markdown links resolve. This was documentation-only maintenance; application tests and a website deployment were not run.
+
 ## 2026-06-02 OML-QA-086 Launch Runtime Secrets Ready
 
 Current state: `OML-QA-086` is complete. Adrian provided the old OML runtime material in `/Users/adrian/.openclaw/secrets/oml_secrets.md`; the ignored local runtime mirror files `.env.local` and `.dev.vars` were updated from that private handoff without printing secret values and were locked to `0600`.

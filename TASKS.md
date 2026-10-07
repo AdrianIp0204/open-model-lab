@@ -1,6 +1,8 @@
 # Open Model Lab Tasks
 
-This checklist is the working queue for follow-up agents. When completing an item:
+**7 October 2026:** Open Model Lab is inactive and the owner has removed its website hosting. This is a historical checklist, not an active work queue. Open checkboxes record unfinished historical work; they must not be treated as fresh instructions or marked complete because the project was retired. See [repository identity](docs/repository-identity.md).
+
+The former workflow for completing an item was:
 
 - Keep the checkbox state current.
 - Add a short completion note under the task.

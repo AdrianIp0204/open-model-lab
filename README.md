@@ -1,16 +1,18 @@
 # Open Model Lab
 
-Open Model Lab is a public-source, simulation-first STEM learning lab for students. It aims to be closer to an interactive science atlas than a generic notes wiki: concepts should be learned by predicting, changing, observing, explaining, and checking real models.
+**Status — 7 October 2026:** Open Model Lab is inactive. The owner has removed its website hosting. This repository preserves its public source; it is not the active development repository for ExamLantern. Earlier launch, roadmap, support, and task records describe the historical project. See [repository identity](./docs/repository-identity.md).
+
+Open Model Lab was a public-source, simulation-first STEM learning lab for students. Its preserved implementation explores concepts through predicting, changing, observing, explaining, and checking models.
 
 ## Public-source learning project, not an official deployment kit
 
-This is the active source repository for Open Model Lab. The code is published under AGPL-3.0-only, the educational content is shared under CC BY-NC-SA 4.0, and the official Open Model Lab name, logos, domains, and brand presentation are reserved under [BRAND.md](./BRAND.md).
+This is the retained public-source repository for the inactive Open Model Lab project. The code is published under AGPL-3.0-only, the educational content is shared under CC BY-NC-SA 4.0, and the official Open Model Lab name, logos, domains, and brand presentation are reserved under [BRAND.md](./BRAND.md).
 
 It is not a turnkey production deployment package for cloning the official Open Model Lab website. Real production configuration is intentionally absent: real `wrangler.jsonc`, real `public/ads.txt`, deployment secrets, vendor accounts, private Stripe/Resend/AdSense/Supabase setup, and private operator history are not included.
 
 Ordinary code, docs, content, test, accessibility, and localization work does not need production vendor setup. Anyone operating an independent fork must use their own name, branding, domains, vendor accounts, keys, legal policies, and deployment process.
 
-This repository is the active source of truth for future public-facing development. See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between this repository and the private historical/archive repository.
+This repository does not designate an active project or authorize resuming hosting. See [docs/repository-identity.md](./docs/repository-identity.md) for the distinction between the retained public source, the private historical repository, and ExamLantern.
 
 This repo is no longer the earlier static prototype. The current codebase already includes:
 
@@ -24,16 +26,16 @@ This repo is no longer the earlier static prototype. The current codebase alread
 - server-side feedback/contact delivery with a visible fallback path
 - public trust/compliance pages and launch-readiness docs
 
-## Current product scope
+## Preserved implementation scope
 
 - Physics-focused today, with broader STEM-friendly branding
 - A catalog spanning mechanics, oscillations and waves, optics, electricity, early magnetism/electromagnetism, plus math/chemistry/computer-science entry points
 - Simulation-first concept labs with supporting worked examples, review tools, progress cues, and share links
 - Signed-out usage stays local-first; signed-in usage can layer on account sync and optional Supporter convenience capabilities
 - Public-good contribution lanes are documented in [docs/public-good-contribution-lanes.md](./docs/public-good-contribution-lanes.md)
-- The public site includes a `/source` posture page for contribution lanes, protected boundaries, and how to send ideas before public issue intake opens.
+- The source includes a `/source` page describing the former contribution lanes and protected boundaries; the hosted website has been retired.
 
-## Sustainability model and current product boundaries
+## Historical sustainability model and implementation boundaries
 
 - The canonical entitlement seam lives in `lib/account/entitlements.ts`.
 - The current internal tier model is still `free` and `premium`.

@@ -1,5 +1,7 @@
 # Contributing To Open Model Lab
 
+**Project status — 7 October 2026:** Open Model Lab is inactive and its hosted website has been removed. The source and the setup guidance below remain available for reference. They do not imply an active roadmap, a running service, or a maintenance-response commitment. See [repository identity](docs/repository-identity.md).
+
 Open Model Lab is public source software. These guidelines describe the expected contribution path. They do not change the current product behavior, billing model, or entitlement values.
 
 ## Useful Contribution Scope
@@ -29,9 +31,9 @@ Please open a discussion or issue before working on:
 
 Use the issue templates under `.github/ISSUE_TEMPLATE/` and the pull request checklist at `.github/PULL_REQUEST_TEMPLATE.md`. Triage labels and maintainer routing guidance live in `docs/github-triage.md`, with label setup details in `docs/github-label-setup.md`.
 
-Do not open public issues for vulnerabilities, private account support, billing support, or user-data questions. Use `SECURITY.md` for suspected vulnerabilities and the live contact page for account or billing support.
+Do not open public issues for vulnerabilities, private account support, billing support, or user-data questions. Use `SECURITY.md` for suspected vulnerabilities. The former website contact page is no longer an available support route.
 
-Before opening larger changes, verify that you are working in `AdrianIp0204/open-model-lab`, the active public source of truth. The private `AdrianIp0204/OpenModelLab` repository is historical/archive-only and should not be used for new public-facing development. The repo identity guide lives in `docs/repository-identity.md`.
+For explicitly requested maintenance of this public source, verify that you are working in `AdrianIp0204/open-model-lab`. The private `AdrianIp0204/OpenModelLab` repository is historical/archive-only. Neither repository is the development home for ExamLantern. The repo identity guide lives in `docs/repository-identity.md`.
 
 ## Local Setup
 

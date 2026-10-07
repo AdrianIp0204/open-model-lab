@@ -1,7 +1,12 @@
 # AGENTS.md
 
+## Project Status — 7 October 2026
+- The owner confirmed that **Open Model Lab is inactive and its website hosting has been removed**. Earlier live-product, launch, roadmap, and working-queue descriptions below are historical implementation context.
+- This repository retains Open Model Lab's public source. It is not ExamLantern's development repository. Legacy Open Model Lab labels in ExamLantern do not make these projects interchangeable.
+- Read `docs/repository-identity.md` before acting on an old task. Do not resume the historical task queue or redeploy the retired website based on earlier instructions alone.
+
 ## Project Overview
-- Open Model Lab is the live product name. Do not introduce new `Physica` naming unless a legacy compatibility seam already uses it intentionally.
+- Open Model Lab is the name of the retired product preserved here. Do not introduce new `Physica` naming unless a legacy compatibility seam already uses it intentionally.
 - This repo is a real product, not a static prototype. The shipped app is a simulation-first science-learning site with a physics-heavy but genuinely multi-subject catalog, topic/track/guided/challenge/test surfaces, account/auth flows, a paid entitlement seam, billing, achievements/reward, ads, trust pages, server-side feedback delivery, and launch-readiness docs.
 - The current product shape is:
   - free core learning product
@@ -14,7 +19,7 @@
 
 ## Repository Source-Of-Truth Guard
 - Always confirm whether the checkout is `AdrianIp0204/open-model-lab` or `AdrianIp0204/OpenModelLab` before editing. See `docs/repository-identity.md`.
-- `AdrianIp0204/open-model-lab` is the active public development repository and current source of truth for code, docs, issues, PRs, CI, and future public-facing work.
+- `AdrianIp0204/open-model-lab` is the retained public-source repository for the inactive Open Model Lab project. It is the baseline for explicitly requested maintenance of this source, not active ExamLantern work.
 - `AdrianIp0204/OpenModelLab` is a private historical/archive repository only. It must remain private and should not be used for new development unless the owner explicitly says the task is private-archive maintenance.
 - For public repo work, operate only in `AdrianIp0204/open-model-lab`. Use public `main` as the current baseline.
 - Do not use private repo branches as the base for public work, and do not port private-history branches into the public repo unless the owner explicitly asks for a reviewed cherry-pick.
